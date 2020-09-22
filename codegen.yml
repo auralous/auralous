@@ -1,0 +1,17 @@
+schema: http://localhost:4000/graphql
+documents: './src/graphql/*.ts'
+generates:
+  ./src/graphql/gql.gen.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-urql
+    config:
+      withComponent: false
+      withHooks: true
+      noGraphQLTag: true
+  ./src/graphql/introspection.json:
+    plugins:
+        - introspection
+      config:
+        minify: true

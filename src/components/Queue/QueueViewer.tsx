@@ -1,0 +1,54 @@
+import React, { useMemo } from "react";
+import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+import useQueue from "./useQueue";
+import { TrackItem } from "../Track/TrackItem";
+import { QueueItem } from "~/graphql/gql.gen";
+
+const Row = React.memo<ListChildComponentProps>(function Row({
+  data: items,
+  index,
+  style,
+}) {
+  return (
+    <div className="p-2 mb-2" style={style} key={items[index].id}>
+      <TrackItem id={items[index].trackId} />
+    </div>
+  );
+},
+areEqual);
+
+const QueueViewer: React.FC<{
+  queueId: string;
+  reverse?: boolean;
+}> = ({ queueId, reverse }) => {
+  const [queue] = useQueue(queueId);
+
+  const queueItems = useMemo(() => {
+    if (!queue) return [];
+    if (!reverse) return queue.items;
+    const items: QueueItem[] = [];
+    for (let i = queue.items.length - 1; i >= 0; i--) {
+      items.push(queue.items[i]);
+    }
+    return items;
+  }, [queue, reverse]);
+
+  return (
+    <AutoSizer defaultHeight={1} defaultWidth={1}>
+      {({ height, width }) => (
+        <FixedSizeList
+          height={height}
+          width={width}
+          itemCount={queueItems.length}
+          itemSize={72}
+          itemData={queueItems}
+        >
+          {Row}
+        </FixedSizeList>
+      )}
+    </AutoSizer>
+  );
+};
+
+export default QueueViewer;
