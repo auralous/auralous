@@ -1,20 +1,18 @@
-import React, { useMemo } from "react";
+import React from "react";
 import Link from "next/link";
-import { Room, useNowPlayingQuery, Track } from "~/graphql/gql.gen";
+import { Room, useNowPlayingQuery, useTrackQuery } from "~/graphql/gql.gen";
 
 const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
   const [{ data: { nowPlaying } = { nowPlaying: null } }] = useNowPlayingQuery({
     variables: { id: `room:${room.id}` },
   });
 
-  const currentTrack = useMemo<Track | null>(() => {
-    if (!nowPlaying?.currentTrack) return null;
-    const { tracks } = nowPlaying.currentTrack;
-    // Find the original tracks among crossTracks
-    if (tracks.spotify?.id === tracks.originalId) return tracks.spotify || null;
-    if (tracks.youtube?.id === tracks.originalId) return tracks.youtube || null;
-    return null;
-  }, [nowPlaying]);
+  const [{ data: trackData }] = useTrackQuery({
+    variables: { id: nowPlaying?.currentTrack?.trackId },
+    pause: !nowPlaying?.currentTrack?.trackId,
+  });
+
+  const currentTrack = nowPlaying?.currentTrack ? trackData?.track : null;
 
   return (
     <Link href="/room/[roomId]" as={`/room/${room.id}`}>

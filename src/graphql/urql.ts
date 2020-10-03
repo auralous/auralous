@@ -48,7 +48,7 @@ const cacheExchange = createCacheExchange({
   schema: schemaIntrospection as any,
   keys: {
     QueueItem: () => null,
-    CrossTracksWrapper: () => null,
+    CrossTracks: (obj: any) => obj.originalId,
     UserAuthWrapper: () => null,
     UserAuthInfo: () => null,
   },

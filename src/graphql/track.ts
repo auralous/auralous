@@ -25,19 +25,6 @@ export const FRAGMENT_TRACK = /* GraphQL */ `
   ${FRAGMENT_ARTIST_DETAIL}
 `;
 
-export const FRAGMENT_CROSS_TRACK_WRAPPER = /* GraphQL */ `
-  fragment CrossTracksParts on CrossTracksWrapper {
-    originalId
-    youtube {
-      ...TrackParts
-    }
-    spotify {
-      ...TrackParts
-    }
-  }
-  ${FRAGMENT_TRACK}
-`;
-
 export const QUERY_TRACK = /* GraphQL */ `
   query track($uri: String, $id: ID) {
     track(uri: $uri, id: $id) {
@@ -45,6 +32,20 @@ export const QUERY_TRACK = /* GraphQL */ `
     }
   }
   ${FRAGMENT_TRACK}
+`;
+
+export const QUERY_CROSS_TRACKS = /* GraphQL */ `
+  query crossTracks($id: ID!) {
+    crossTracks(id: $id) {
+      originalId
+      youtube {
+        ...TrackParts
+      }
+      spotify {
+        ...TrackParts
+      }
+    }
+  }
 `;
 
 export const QUERY_SEARCH_TRACK = /* GraphQL */ `

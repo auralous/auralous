@@ -1,16 +1,9 @@
-import { FRAGMENT_CROSS_TRACK_WRAPPER } from "./track";
-
 export const FRAGMENT_NOW_PLAYING_QUEUE = /* GraphQL */ `
   fragment NowPlayingQueueParts on NowPlayingQueueItem {
     id
     trackId
-    tracks {
-      ...CrossTracksParts
-    }
     playedAt
   }
-
-  ${FRAGMENT_CROSS_TRACK_WRAPPER}
 `;
 
 export const QUERY_NOW_PLAYING = /* GraphQL */ `

@@ -7,10 +7,10 @@ import PlayerContext from "./PlayerContext";
 import { useNowPlaying } from "~/components/NowPlaying/index";
 import {
   useRoomQuery,
-  CrossTracksWrapper,
   useMeAuthQuery,
   PlatformName,
   Track,
+  useCrossTracksQuery,
 } from "~/graphql/gql.gen";
 import { PlayerError, PlayerPlaying } from "./types";
 
@@ -20,14 +20,11 @@ const SpotifyPlayer = dynamic(() => import("./Spotify"));
 const player = new Player();
 
 const PlayerProvider: React.FC = ({ children }) => {
-  const [crossTracks, setCrossTracks] = useState<CrossTracksWrapper | null>(
-    null
-  );
-
   const [{ data: { meAuth } = { meAuth: undefined } }] = useMeAuthQuery();
 
   const [fRPP, forceResetPlayingPlatform] = useState({});
 
+  // Preferred platform to use by user
   const playingPlatform = useMemo<PlatformName | null>(
     () =>
       meAuth?.playingPlatform ||
@@ -39,6 +36,21 @@ const PlayerProvider: React.FC = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [meAuth, fRPP]
   );
+
+  // Player Control: To play a room or a track
+  const [playerControl, setPlayerControl] = useState<string>("");
+
+  const [nowPlaying] = useNowPlaying(
+    playerControl.split(":")[0],
+    playerControl.split(":")[1]
+  );
+
+  const [
+    { data: { crossTracks } = { crossTracks: undefined } },
+  ] = useCrossTracksQuery({
+    variables: { id: nowPlaying?.currentTrack?.trackId || "" },
+    pause: !nowPlaying?.currentTrack,
+  });
 
   // Should only show platform chooser if there is an ongoing track and no playingPlatform can be determined
   const shouldShowPlatformChooser = useMemo<boolean>(
@@ -62,9 +74,6 @@ const PlayerProvider: React.FC = ({ children }) => {
     return null;
   }, [crossTracks]);
 
-  // Player Control: To play a room or a track
-  const [playerControl, setPlayerControl] = useState<string>("");
-
   const playRoom = useCallback(
     async (roomId: string) => {
       player.isPlaying = true;
@@ -76,12 +85,6 @@ const PlayerProvider: React.FC = ({ children }) => {
   const stopPlaying = useCallback(() => setPlayerControl(""), [
     setPlayerControl,
   ]);
-
-  // room
-  const [nowPlaying] = useNowPlaying(
-    playerControl.split(":")[0],
-    playerControl.split(":")[1]
-  );
 
   useEffect(() => {
     if (!playerControl.startsWith("room:") && !nowPlaying) return undefined;
@@ -118,12 +121,6 @@ const PlayerProvider: React.FC = ({ children }) => {
     variables: { id: playerControl.split(":")[1] },
     pause: !playerControl.startsWith("room:"),
   });
-
-  useEffect(() => {
-    if (playerControl.startsWith("room:") && nowPlaying?.currentTrack?.tracks)
-      setCrossTracks(nowPlaying.currentTrack.tracks);
-    else setCrossTracks(null);
-  }, [nowPlaying, setCrossTracks, playerControl]);
 
   const playerContext = useMemo(
     () => ({
