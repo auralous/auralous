@@ -17,6 +17,7 @@ export type Scalars = {
 };
 
 export type Query = {
+  __typename?: 'Query';
   _empty?: Maybe<Scalars['String']>;
   me?: Maybe<User>;
   user?: Maybe<User>;
@@ -31,7 +32,7 @@ export type Query = {
   searchTrack: Array<Track>;
   queue?: Maybe<Queue>;
   nowPlaying?: Maybe<NowPlaying>;
-  nowPlayingReaction?: Maybe<NowPlayingReaction>;
+  nowPlayingReactions?: Maybe<NowPlayingReaction>;
 };
 
 
@@ -89,11 +90,12 @@ export type QueryNowPlayingArgs = {
 };
 
 
-export type QueryNowPlayingReactionArgs = {
+export type QueryNowPlayingReactionsArgs = {
   id: Scalars['ID'];
 };
 
 export type Mutation = {
+  __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']>;
   me?: Maybe<User>;
   deleteMe: Scalars['Boolean'];
@@ -186,12 +188,13 @@ export type MutationReactNowPlayingArgs = {
 };
 
 export type Subscription = {
+  __typename?: 'Subscription';
   _empty?: Maybe<Scalars['String']>;
   roomStateUpdated?: Maybe<RoomState>;
   messageAdded: Message;
   queueUpdated: Queue;
   nowPlayingUpdated?: Maybe<NowPlaying>;
-  nowPlayingReactionUpdated?: Maybe<NowPlayingReaction>;
+  nowPlayingReactionsUpdated?: Maybe<NowPlayingReaction>;
 };
 
 
@@ -215,7 +218,7 @@ export type SubscriptionNowPlayingUpdatedArgs = {
 };
 
 
-export type SubscriptionNowPlayingReactionUpdatedArgs = {
+export type SubscriptionNowPlayingReactionsUpdatedArgs = {
   id: Scalars['ID'];
 };
 
@@ -229,6 +232,7 @@ export enum OAuthProviderName {
 }
 
 export type User = {
+  __typename?: 'User';
   id: Scalars['ID'];
   username: Scalars['String'];
   bio?: Maybe<Scalars['String']>;
@@ -236,6 +240,7 @@ export type User = {
 };
 
 export type UserAuthWrapper = {
+  __typename?: 'UserAuthWrapper';
   playingPlatform: PlatformName;
   youtube: UserAuthInfo;
   twitter: UserAuthInfo;
@@ -244,6 +249,7 @@ export type UserAuthWrapper = {
 };
 
 export type UserAuthInfo = {
+  __typename?: 'UserAuthInfo';
   auth: Scalars['Boolean'];
   token?: Maybe<Scalars['String']>;
 };
@@ -254,6 +260,7 @@ export enum RoomMembership {
 }
 
 export type Room = {
+  __typename?: 'Room';
   id: Scalars['ID'];
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
@@ -263,6 +270,7 @@ export type Room = {
 };
 
 export type RoomState = {
+  __typename?: 'RoomState';
   id: Scalars['ID'];
   userIds: Array<Scalars['String']>;
   /** Settings */
@@ -272,6 +280,7 @@ export type RoomState = {
 };
 
 export type Playlist = {
+  __typename?: 'Playlist';
   id: Scalars['ID'];
   title: Scalars['String'];
   image: Scalars['String'];
@@ -286,6 +295,7 @@ export enum PlatformName {
 }
 
 export type Track = {
+  __typename?: 'Track';
   id: Scalars['ID'];
   platform: PlatformName;
   externalId: Scalars['ID'];
@@ -297,12 +307,14 @@ export type Track = {
 };
 
 export type CrossTracksWrapper = {
+  __typename?: 'CrossTracksWrapper';
   originalId: Scalars['ID'];
   youtube?: Maybe<Track>;
   spotify?: Maybe<Track>;
 };
 
 export type Artist = {
+  __typename?: 'Artist';
   id: Scalars['ID'];
   platform: PlatformName;
   externalId: Scalars['ID'];
@@ -312,6 +324,7 @@ export type Artist = {
 };
 
 export type Message = {
+  __typename?: 'Message';
   id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   message: Scalars['String'];
@@ -319,6 +332,7 @@ export type Message = {
 };
 
 export type MessageParticipant = {
+  __typename?: 'MessageParticipant';
   type: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -334,12 +348,14 @@ export enum QueueAction {
 }
 
 export type QueueItem = {
+  __typename?: 'QueueItem';
   id: Scalars['ID'];
   trackId: Scalars['String'];
   creatorId: Scalars['String'];
 };
 
 export type Queue = {
+  __typename?: 'Queue';
   id: Scalars['ID'];
   items: Array<QueueItem>;
 };
@@ -352,6 +368,7 @@ export enum NowPlayingReactionType {
 }
 
 export type NowPlayingQueueItem = {
+  __typename?: 'NowPlayingQueueItem';
   id: Scalars['ID'];
   trackId: Scalars['ID'];
   tracks: CrossTracksWrapper;
@@ -359,17 +376,15 @@ export type NowPlayingQueueItem = {
 };
 
 export type NowPlaying = {
+  __typename?: 'NowPlaying';
   id: Scalars['ID'];
   currentTrack?: Maybe<NowPlayingQueueItem>;
 };
 
 export type NowPlayingReaction = {
+  __typename?: 'NowPlayingReaction';
   id: Scalars['ID'];
-  reactions: NowPlayingReactionCount;
-  mine?: Maybe<NowPlayingReactionType>;
-};
-
-export type NowPlayingReactionCount = {
+  mine: Array<NowPlayingReactionType>;
   heart: Scalars['Int'];
   crying: Scalars['Int'];
   tear_joy: Scalars['Int'];
@@ -377,8 +392,12 @@ export type NowPlayingReactionCount = {
 };
 
 export type MessagePartsFragment = (
-  Pick<Message, 'id' | 'createdAt' | 'message'>
-  & { from: Pick<MessageParticipant, 'type' | 'id' | 'name' | 'photo' | 'uri'> }
+  { __typename?: 'Message' }
+  & Pick<Message, 'id' | 'createdAt' | 'message'>
+  & { from: (
+    { __typename?: 'MessageParticipant' }
+    & Pick<MessageParticipant, 'type' | 'id' | 'name' | 'photo' | 'uri'>
+  ) }
 );
 
 export type SendMessageMutationVariables = Exact<{
@@ -387,18 +406,31 @@ export type SendMessageMutationVariables = Exact<{
 }>;
 
 
-export type SendMessageMutation = Pick<Mutation, 'addMessage'>;
+export type SendMessageMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'addMessage'>
+);
 
 export type OnMessageAddedSubscriptionVariables = Exact<{
   roomId: Scalars['ID'];
 }>;
 
 
-export type OnMessageAddedSubscription = { messageAdded: MessagePartsFragment };
+export type OnMessageAddedSubscription = (
+  { __typename?: 'Subscription' }
+  & { messageAdded: (
+    { __typename?: 'Message' }
+    & MessagePartsFragment
+  ) }
+);
 
 export type NowPlayingQueuePartsFragment = (
-  Pick<NowPlayingQueueItem, 'id' | 'trackId' | 'playedAt'>
-  & { tracks: CrossTracksPartsFragment }
+  { __typename?: 'NowPlayingQueueItem' }
+  & Pick<NowPlayingQueueItem, 'id' | 'trackId' | 'playedAt'>
+  & { tracks: (
+    { __typename?: 'CrossTracksWrapper' }
+    & CrossTracksPartsFragment
+  ) }
 );
 
 export type NowPlayingQueryVariables = Exact<{
@@ -406,39 +438,65 @@ export type NowPlayingQueryVariables = Exact<{
 }>;
 
 
-export type NowPlayingQuery = { nowPlaying?: Maybe<(
-    Pick<NowPlaying, 'id'>
-    & { currentTrack?: Maybe<NowPlayingQueuePartsFragment> }
-  )> };
+export type NowPlayingQuery = (
+  { __typename?: 'Query' }
+  & { nowPlaying?: Maybe<(
+    { __typename?: 'NowPlaying' }
+    & Pick<NowPlaying, 'id'>
+    & { currentTrack?: Maybe<(
+      { __typename?: 'NowPlayingQueueItem' }
+      & NowPlayingQueuePartsFragment
+    )> }
+  )> }
+);
 
 export type OnNowPlayingUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnNowPlayingUpdatedSubscription = { nowPlayingUpdated?: Maybe<(
-    Pick<NowPlaying, 'id'>
-    & { currentTrack?: Maybe<NowPlayingQueuePartsFragment> }
-  )> };
-
-export type NowPlayingReactionPartsFragment = (
-  Pick<NowPlayingReaction, 'id' | 'mine'>
-  & { reactions: Pick<NowPlayingReactionCount, 'heart' | 'crying' | 'tear_joy' | 'fire'> }
+export type OnNowPlayingUpdatedSubscription = (
+  { __typename?: 'Subscription' }
+  & { nowPlayingUpdated?: Maybe<(
+    { __typename?: 'NowPlaying' }
+    & Pick<NowPlaying, 'id'>
+    & { currentTrack?: Maybe<(
+      { __typename?: 'NowPlayingQueueItem' }
+      & NowPlayingQueuePartsFragment
+    )> }
+  )> }
 );
 
-export type NowPlayingReactionQueryVariables = Exact<{
+export type NowPlayingReactionPartsFragment = (
+  { __typename?: 'NowPlayingReaction' }
+  & Pick<NowPlayingReaction, 'id' | 'heart' | 'crying' | 'tear_joy' | 'fire' | 'mine'>
+);
+
+export type NowPlayingReactionsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type NowPlayingReactionQuery = { nowPlayingReaction?: Maybe<NowPlayingReactionPartsFragment> };
+export type NowPlayingReactionsQuery = (
+  { __typename?: 'Query' }
+  & { nowPlayingReactions?: Maybe<(
+    { __typename?: 'NowPlayingReaction' }
+    & NowPlayingReactionPartsFragment
+  )> }
+);
 
-export type OnNowPlayingReactionUpdatedSubscriptionVariables = Exact<{
+export type OnNowPlayingReactionsUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnNowPlayingReactionUpdatedSubscription = { nowPlayingReactionUpdated?: Maybe<NowPlayingReactionPartsFragment> };
+export type OnNowPlayingReactionsUpdatedSubscription = (
+  { __typename?: 'Subscription' }
+  & { nowPlayingReactionsUpdated?: Maybe<(
+    { __typename?: 'NowPlayingReaction' }
+    & NowPlayingReactionPartsFragment
+  )> }
+);
 
 export type ReactNowPlayingMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -446,17 +504,27 @@ export type ReactNowPlayingMutationVariables = Exact<{
 }>;
 
 
-export type ReactNowPlayingMutation = Pick<Mutation, 'reactNowPlaying'>;
+export type ReactNowPlayingMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reactNowPlaying'>
+);
 
-export type PlaylistDetailPartsFragment = Pick<Playlist, 'title' | 'image' | 'platform' | 'externalId'>;
+export type PlaylistDetailPartsFragment = (
+  { __typename?: 'Playlist' }
+  & Pick<Playlist, 'title' | 'image' | 'platform' | 'externalId'>
+);
 
 export type MyPlaylistsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyPlaylistsQuery = { myPlaylists?: Maybe<Array<(
-    Pick<Playlist, 'id' | 'tracks'>
+export type MyPlaylistsQuery = (
+  { __typename?: 'Query' }
+  & { myPlaylists?: Maybe<Array<(
+    { __typename?: 'Playlist' }
+    & Pick<Playlist, 'id' | 'tracks'>
     & PlaylistDetailPartsFragment
-  )>> };
+  )>> }
+);
 
 export type CreatePlaylistMutationVariables = Exact<{
   title: Scalars['String'];
@@ -465,10 +533,14 @@ export type CreatePlaylistMutationVariables = Exact<{
 }>;
 
 
-export type CreatePlaylistMutation = { createPlaylist: (
-    Pick<Playlist, 'id' | 'tracks'>
+export type CreatePlaylistMutation = (
+  { __typename?: 'Mutation' }
+  & { createPlaylist: (
+    { __typename?: 'Playlist' }
+    & Pick<Playlist, 'id' | 'tracks'>
     & PlaylistDetailPartsFragment
-  ) };
+  ) }
+);
 
 export type InsertPlaylistTracksMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -476,12 +548,19 @@ export type InsertPlaylistTracksMutationVariables = Exact<{
 }>;
 
 
-export type InsertPlaylistTracksMutation = { insertPlaylistTracks: (
-    Pick<Playlist, 'id' | 'tracks'>
+export type InsertPlaylistTracksMutation = (
+  { __typename?: 'Mutation' }
+  & { insertPlaylistTracks: (
+    { __typename?: 'Playlist' }
+    & Pick<Playlist, 'id' | 'tracks'>
     & PlaylistDetailPartsFragment
-  ) };
+  ) }
+);
 
-export type QueueItemPartsFragment = Pick<QueueItem, 'id' | 'trackId' | 'creatorId'>;
+export type QueueItemPartsFragment = (
+  { __typename?: 'QueueItem' }
+  & Pick<QueueItem, 'id' | 'trackId' | 'creatorId'>
+);
 
 export type UpdateQueueMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -492,66 +571,107 @@ export type UpdateQueueMutationVariables = Exact<{
 }>;
 
 
-export type UpdateQueueMutation = Pick<Mutation, 'updateQueue'>;
+export type UpdateQueueMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updateQueue'>
+);
 
 export type QueueQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type QueueQuery = { queue?: Maybe<(
-    Pick<Queue, 'id'>
-    & { items: Array<QueueItemPartsFragment> }
-  )> };
+export type QueueQuery = (
+  { __typename?: 'Query' }
+  & { queue?: Maybe<(
+    { __typename?: 'Queue' }
+    & Pick<Queue, 'id'>
+    & { items: Array<(
+      { __typename?: 'QueueItem' }
+      & QueueItemPartsFragment
+    )> }
+  )> }
+);
 
 export type OnQueueUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnQueueUpdatedSubscription = { queueUpdated: (
-    Pick<Queue, 'id'>
-    & { items: Array<QueueItemPartsFragment> }
-  ) };
+export type OnQueueUpdatedSubscription = (
+  { __typename?: 'Subscription' }
+  & { queueUpdated: (
+    { __typename?: 'Queue' }
+    & Pick<Queue, 'id'>
+    & { items: Array<(
+      { __typename?: 'QueueItem' }
+      & QueueItemPartsFragment
+    )> }
+  ) }
+);
 
-export type RoomDetailPartsFragment = Pick<Room, 'title' | 'description' | 'image' | 'createdAt'>;
+export type RoomDetailPartsFragment = (
+  { __typename?: 'Room' }
+  & Pick<Room, 'title' | 'description' | 'image' | 'createdAt'>
+);
 
-export type RoomCreatorPartFragment = { creator: UserPublicPartsFragment };
+export type RoomCreatorPartFragment = (
+  { __typename?: 'Room' }
+  & { creator: (
+    { __typename?: 'User' }
+    & UserPublicPartsFragment
+  ) }
+);
 
-export type RoomRulesPartsFragment = Pick<RoomState, 'anyoneCanAdd' | 'collabs' | 'queueMax'>;
+export type RoomRulesPartsFragment = (
+  { __typename?: 'RoomState' }
+  & Pick<RoomState, 'anyoneCanAdd' | 'collabs' | 'queueMax'>
+);
 
 export type RoomQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type RoomQuery = { room?: Maybe<(
-    Pick<Room, 'id'>
+export type RoomQuery = (
+  { __typename?: 'Query' }
+  & { room?: Maybe<(
+    { __typename?: 'Room' }
+    & Pick<Room, 'id'>
     & RoomDetailPartsFragment
     & RoomCreatorPartFragment
-  )> };
+  )> }
+);
 
 export type RoomsQueryVariables = Exact<{
   creatorId?: Maybe<Scalars['String']>;
 }>;
 
 
-export type RoomsQuery = { rooms?: Maybe<Array<(
-    Pick<Room, 'id'>
+export type RoomsQuery = (
+  { __typename?: 'Query' }
+  & { rooms?: Maybe<Array<(
+    { __typename?: 'Room' }
+    & Pick<Room, 'id'>
     & RoomDetailPartsFragment
     & RoomCreatorPartFragment
-  )>> };
+  )>> }
+);
 
 export type ExploreRoomsQueryVariables = Exact<{
   by: Scalars['String'];
 }>;
 
 
-export type ExploreRoomsQuery = { exploreRooms: Array<(
-    Pick<Room, 'id'>
+export type ExploreRoomsQuery = (
+  { __typename?: 'Query' }
+  & { exploreRooms: Array<(
+    { __typename?: 'Room' }
+    & Pick<Room, 'id'>
     & RoomDetailPartsFragment
     & RoomCreatorPartFragment
-  )> };
+  )> }
+);
 
 export type SearchRoomsQueryVariables = Exact<{
   query: Scalars['String'];
@@ -559,11 +679,15 @@ export type SearchRoomsQueryVariables = Exact<{
 }>;
 
 
-export type SearchRoomsQuery = { searchRooms: Array<(
-    Pick<Room, 'id'>
+export type SearchRoomsQuery = (
+  { __typename?: 'Query' }
+  & { searchRooms: Array<(
+    { __typename?: 'Room' }
+    & Pick<Room, 'id'>
     & RoomDetailPartsFragment
     & RoomCreatorPartFragment
-  )> };
+  )> }
+);
 
 export type CreateRoomMutationVariables = Exact<{
   title: Scalars['String'];
@@ -571,11 +695,15 @@ export type CreateRoomMutationVariables = Exact<{
 }>;
 
 
-export type CreateRoomMutation = { createRoom: (
-    Pick<Room, 'id'>
+export type CreateRoomMutation = (
+  { __typename?: 'Mutation' }
+  & { createRoom: (
+    { __typename?: 'Room' }
+    & Pick<Room, 'id'>
     & RoomDetailPartsFragment
     & RoomCreatorPartFragment
-  ) };
+  ) }
+);
 
 export type UpdateRoomMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -587,11 +715,15 @@ export type UpdateRoomMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRoomMutation = { updateRoom: (
-    Pick<Room, 'id'>
+export type UpdateRoomMutation = (
+  { __typename?: 'Mutation' }
+  & { updateRoom: (
+    { __typename?: 'Room' }
+    & Pick<Room, 'id'>
     & RoomDetailPartsFragment
     & RoomCreatorPartFragment
-  ) };
+  ) }
+);
 
 export type UpdateRoomMembershipMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -601,45 +733,73 @@ export type UpdateRoomMembershipMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRoomMembershipMutation = Pick<Mutation, 'updateRoomMembership'>;
+export type UpdateRoomMembershipMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updateRoomMembership'>
+);
 
 export type DeleteRoomMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type DeleteRoomMutation = Pick<Mutation, 'deleteRoom'>;
+export type DeleteRoomMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteRoom'>
+);
 
 export type RoomStateQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type RoomStateQuery = { roomState?: Maybe<(
-    Pick<RoomState, 'id' | 'userIds'>
+export type RoomStateQuery = (
+  { __typename?: 'Query' }
+  & { roomState?: Maybe<(
+    { __typename?: 'RoomState' }
+    & Pick<RoomState, 'id' | 'userIds'>
     & RoomRulesPartsFragment
-  )> };
+  )> }
+);
 
 export type OnRoomStateUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnRoomStateUpdatedSubscription = { roomStateUpdated?: Maybe<(
-    Pick<RoomState, 'id' | 'userIds'>
+export type OnRoomStateUpdatedSubscription = (
+  { __typename?: 'Subscription' }
+  & { roomStateUpdated?: Maybe<(
+    { __typename?: 'RoomState' }
+    & Pick<RoomState, 'id' | 'userIds'>
     & RoomRulesPartsFragment
-  )> };
+  )> }
+);
 
-export type ArtistPartsFragment = Pick<Artist, 'id' | 'platform' | 'externalId' | 'name' | 'image' | 'url'>;
+export type ArtistPartsFragment = (
+  { __typename?: 'Artist' }
+  & Pick<Artist, 'id' | 'platform' | 'externalId' | 'name' | 'image' | 'url'>
+);
 
 export type TrackPartsFragment = (
-  Pick<Track, 'id' | 'platform' | 'externalId' | 'title' | 'duration' | 'image' | 'url'>
-  & { artists: Array<ArtistPartsFragment> }
+  { __typename?: 'Track' }
+  & Pick<Track, 'id' | 'platform' | 'externalId' | 'title' | 'duration' | 'image' | 'url'>
+  & { artists: Array<(
+    { __typename?: 'Artist' }
+    & ArtistPartsFragment
+  )> }
 );
 
 export type CrossTracksPartsFragment = (
-  Pick<CrossTracksWrapper, 'originalId'>
-  & { youtube?: Maybe<TrackPartsFragment>, spotify?: Maybe<TrackPartsFragment> }
+  { __typename?: 'CrossTracksWrapper' }
+  & Pick<CrossTracksWrapper, 'originalId'>
+  & { youtube?: Maybe<(
+    { __typename?: 'Track' }
+    & TrackPartsFragment
+  )>, spotify?: Maybe<(
+    { __typename?: 'Track' }
+    & TrackPartsFragment
+  )> }
 );
 
 export type TrackQueryVariables = Exact<{
@@ -648,7 +808,13 @@ export type TrackQueryVariables = Exact<{
 }>;
 
 
-export type TrackQuery = { track?: Maybe<TrackPartsFragment> };
+export type TrackQuery = (
+  { __typename?: 'Query' }
+  & { track?: Maybe<(
+    { __typename?: 'Track' }
+    & TrackPartsFragment
+  )> }
+);
 
 export type SearchTrackQueryVariables = Exact<{
   platform: PlatformName;
@@ -656,14 +822,29 @@ export type SearchTrackQueryVariables = Exact<{
 }>;
 
 
-export type SearchTrackQuery = { searchTrack: Array<TrackPartsFragment> };
+export type SearchTrackQuery = (
+  { __typename?: 'Query' }
+  & { searchTrack: Array<(
+    { __typename?: 'Track' }
+    & TrackPartsFragment
+  )> }
+);
 
-export type UserPublicPartsFragment = Pick<User, 'id' | 'username' | 'bio' | 'profilePicture'>;
+export type UserPublicPartsFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'username' | 'bio' | 'profilePicture'>
+);
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { me?: Maybe<UserPublicPartsFragment> };
+export type CurrentUserQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & UserPublicPartsFragment
+  )> }
+);
 
 export type UserQueryVariables = Exact<{
   username?: Maybe<Scalars['String']>;
@@ -671,7 +852,13 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { user?: Maybe<UserPublicPartsFragment> };
+export type UserQuery = (
+  { __typename?: 'Query' }
+  & { user?: Maybe<(
+    { __typename?: 'User' }
+    & UserPublicPartsFragment
+  )> }
+);
 
 export type UpdateCurrentUserMutationVariables = Exact<{
   name?: Maybe<Scalars['String']>;
@@ -680,34 +867,62 @@ export type UpdateCurrentUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCurrentUserMutation = { me?: Maybe<UserPublicPartsFragment> };
+export type UpdateCurrentUserMutation = (
+  { __typename?: 'Mutation' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & UserPublicPartsFragment
+  )> }
+);
 
 export type DisconnectOAuthProviderMutationVariables = Exact<{
   provider: OAuthProviderName;
 }>;
 
 
-export type DisconnectOAuthProviderMutation = Pick<Mutation, 'deleteMeOauth'>;
+export type DisconnectOAuthProviderMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteMeOauth'>
+);
 
 export type DeleteCurrentUserMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DeleteCurrentUserMutation = Pick<Mutation, 'deleteMe'>;
+export type DeleteCurrentUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteMe'>
+);
 
 export type MeAuthQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeAuthQuery = { meAuth?: Maybe<(
-    Pick<UserAuthWrapper, 'playingPlatform'>
-    & { youtube: Pick<UserAuthInfo, 'auth' | 'token'>, twitter: Pick<UserAuthInfo, 'auth'>, facebook: Pick<UserAuthInfo, 'auth'>, spotify: Pick<UserAuthInfo, 'auth' | 'token'> }
-  )> };
+export type MeAuthQuery = (
+  { __typename?: 'Query' }
+  & { meAuth?: Maybe<(
+    { __typename?: 'UserAuthWrapper' }
+    & Pick<UserAuthWrapper, 'playingPlatform'>
+    & { youtube: (
+      { __typename?: 'UserAuthInfo' }
+      & Pick<UserAuthInfo, 'auth' | 'token'>
+    ), twitter: (
+      { __typename?: 'UserAuthInfo' }
+      & Pick<UserAuthInfo, 'auth'>
+    ), facebook: (
+      { __typename?: 'UserAuthInfo' }
+      & Pick<UserAuthInfo, 'auth'>
+    ), spotify: (
+      { __typename?: 'UserAuthInfo' }
+      & Pick<UserAuthInfo, 'auth' | 'token'>
+    ) }
+  )> }
+);
 
 export const MessagePartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MessageParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Message"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"createdAt"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"message"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"from"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"name"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"photo"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"uri"},"arguments":[],"directives":[]}]}}]}}]};
 export const ArtistPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"name"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"url"},"arguments":[],"directives":[]}]}}]};
 export const TrackPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"duration"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"url"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"artists"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"},"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"name"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"url"},"arguments":[],"directives":[]}]}}]};
 export const CrossTracksPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CrossTracksParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CrossTracksWrapper"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"originalId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"youtube"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"},"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"spotify"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"},"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"name"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"url"},"arguments":[],"directives":[]}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"duration"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"url"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"artists"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"},"directives":[]}]}}]}}]};
 export const NowPlayingQueuePartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"trackId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tracks"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CrossTracksParts"},"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"},"arguments":[],"directives":[]}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"name"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"url"},"arguments":[],"directives":[]}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"duration"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"url"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"artists"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"},"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CrossTracksParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CrossTracksWrapper"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"originalId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"youtube"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"},"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"spotify"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"},"directives":[]}]}}]}}]};
-export const NowPlayingReactionPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingReactionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingReaction"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"reactions"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heart"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"crying"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tear_joy"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"fire"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"mine"},"arguments":[],"directives":[]}]}}]};
+export const NowPlayingReactionPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingReactionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingReaction"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"heart"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"crying"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tear_joy"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"fire"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"mine"},"arguments":[],"directives":[]}]}}]};
 export const PlaylistDetailPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]}]}}]};
 export const QueueItemPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"trackId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"creatorId"},"arguments":[],"directives":[]}]}}]};
 export const RoomDetailPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoomDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Room"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"description"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"createdAt"},"arguments":[],"directives":[]}]}}]};
@@ -734,15 +949,15 @@ export const OnNowPlayingUpdatedDocument: DocumentNode = {"kind":"Document","def
 export function useOnNowPlayingUpdatedSubscription<TData = OnNowPlayingUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnNowPlayingUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnNowPlayingUpdatedSubscription, TData>) {
   return Urql.useSubscription<OnNowPlayingUpdatedSubscription, TData, OnNowPlayingUpdatedSubscriptionVariables>({ query: OnNowPlayingUpdatedDocument, ...options }, handler);
 };
-export const NowPlayingReactionDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"nowPlayingReaction"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlayingReaction"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NowPlayingReactionParts"},"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingReactionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingReaction"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"reactions"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heart"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"crying"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tear_joy"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"fire"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"mine"},"arguments":[],"directives":[]}]}}]};
+export const NowPlayingReactionsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"nowPlayingReactions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlayingReactions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NowPlayingReactionParts"},"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingReactionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingReaction"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"heart"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"crying"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tear_joy"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"fire"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"mine"},"arguments":[],"directives":[]}]}}]};
 
-export function useNowPlayingReactionQuery(options: Omit<Urql.UseQueryArgs<NowPlayingReactionQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<NowPlayingReactionQuery>({ query: NowPlayingReactionDocument, ...options });
+export function useNowPlayingReactionsQuery(options: Omit<Urql.UseQueryArgs<NowPlayingReactionsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<NowPlayingReactionsQuery>({ query: NowPlayingReactionsDocument, ...options });
 };
-export const OnNowPlayingReactionUpdatedDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"onNowPlayingReactionUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlayingReactionUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NowPlayingReactionParts"},"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingReactionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingReaction"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"reactions"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heart"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"crying"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tear_joy"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"fire"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"mine"},"arguments":[],"directives":[]}]}}]};
+export const OnNowPlayingReactionsUpdatedDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"onNowPlayingReactionsUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlayingReactionsUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NowPlayingReactionParts"},"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingReactionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingReaction"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"heart"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"crying"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tear_joy"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"fire"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"mine"},"arguments":[],"directives":[]}]}}]};
 
-export function useOnNowPlayingReactionUpdatedSubscription<TData = OnNowPlayingReactionUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnNowPlayingReactionUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnNowPlayingReactionUpdatedSubscription, TData>) {
-  return Urql.useSubscription<OnNowPlayingReactionUpdatedSubscription, TData, OnNowPlayingReactionUpdatedSubscriptionVariables>({ query: OnNowPlayingReactionUpdatedDocument, ...options }, handler);
+export function useOnNowPlayingReactionsUpdatedSubscription<TData = OnNowPlayingReactionsUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnNowPlayingReactionsUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnNowPlayingReactionsUpdatedSubscription, TData>) {
+  return Urql.useSubscription<OnNowPlayingReactionsUpdatedSubscription, TData, OnNowPlayingReactionsUpdatedSubscriptionVariables>({ query: OnNowPlayingReactionsUpdatedDocument, ...options }, handler);
 };
 export const ReactNowPlayingDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"reactNowPlaying"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"reaction"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingReactionType"}}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"reactNowPlaying"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"reaction"},"value":{"kind":"Variable","name":{"kind":"Name","value":"reaction"}}}],"directives":[]}]}}]};
 

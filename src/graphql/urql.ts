@@ -48,7 +48,6 @@ const cacheExchange = createCacheExchange({
   schema: schemaIntrospection as any,
   keys: {
     QueueItem: () => null,
-    NowPlayingReactionCount: () => null,
     CrossTracksWrapper: () => null,
     UserAuthWrapper: () => null,
     UserAuthInfo: () => null,

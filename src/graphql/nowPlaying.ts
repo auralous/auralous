@@ -40,19 +40,17 @@ export const SUBSCRIPTION_NOW_PLAYING = /* GraphQL */ `
 const FRAGMENT_NOW_PLAYING_REACTION = /* GraphQL */ `
   fragment NowPlayingReactionParts on NowPlayingReaction {
     id
-    reactions {
-      heart
-      crying
-      tear_joy
-      fire
-    }
+    heart
+    crying
+    tear_joy
+    fire
     mine
   }
 `;
 
 export const QUERY_NOW_PLAYING_REACTION = /* GraphQL */ `
-  query nowPlayingReaction($id: ID!) {
-    nowPlayingReaction(id: $id) {
+  query nowPlayingReactions($id: ID!) {
+    nowPlayingReactions(id: $id) {
       ...NowPlayingReactionParts
     }
   }
@@ -60,8 +58,8 @@ export const QUERY_NOW_PLAYING_REACTION = /* GraphQL */ `
 `;
 
 export const SUBSCRIPTION_NOW_PLAYING_REACTION = /* GraphQL */ `
-  subscription onNowPlayingReactionUpdated($id: ID!) {
-    nowPlayingReactionUpdated(id: $id) {
+  subscription onNowPlayingReactionsUpdated($id: ID!) {
+    nowPlayingReactionsUpdated(id: $id) {
       ...NowPlayingReactionParts
     }
   }
