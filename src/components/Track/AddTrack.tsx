@@ -87,7 +87,7 @@ const SearchResults: React.FC<{
 }> = ({ callback, results, addedTracks }) => {
   // TODO: a11y
   return (
-    <div role="listbox" className="h-128 overflow-hidden">
+    <div role="listbox" className="overflow-hidden flex-1 h-0 flex flex-col">
       <AutoSizer defaultHeight={1} defaultWidth={1}>
         {({ height, width }) => (
           <FixedSizeList
@@ -210,7 +210,7 @@ const AddByPlaylist: React.FC<{
           results={queryResults || []}
         />
       ) : (
-        <div className="overflow-y-scroll h-128">
+        <div className="overflow-auto">
           {myPlaylists?.map((playlist) => (
             // TODO: react-window
             <PlaylistItem
@@ -349,8 +349,8 @@ export default function AddNewTrack({
     [callback]
   );
   return (
-    <div>
-      <div className="flex mb-2" role="tablist">
+    <div className="flex flex-col" style={{ height: "75vh" }}>
+      <div role="tablist" className="flex mb-2 flex-none">
         <button
           role="tab"
           className={`flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
@@ -379,6 +379,7 @@ export default function AddNewTrack({
         role="tabpanel"
         aria-hidden={tab !== "track"}
         hidden={tab !== "track"}
+        className={`${tab === "track" ? "flex" : "hidden"} flex-col flex-1 h-0`}
       >
         <AddBySearch
           addedTracks={addedTracks}
@@ -390,7 +391,9 @@ export default function AddNewTrack({
         aria-labelledby="tabpanel_playlists"
         role="tabpanel"
         aria-hidden={tab !== "playlist"}
-        hidden={tab !== "playlist"}
+        className={`${
+          tab === "playlist" ? "flex" : "hidden"
+        } flex-col flex-1 h-0`}
       >
         <AddByPlaylist addedTracks={addedTracks} callback={proxyCallback} />
       </div>

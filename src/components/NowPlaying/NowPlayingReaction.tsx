@@ -3,11 +3,11 @@ import { useToasts } from "~/components/Toast/index";
 import { usePlayer } from "~/components/Player/index";
 import { useCurrentUser } from "~/hooks/user";
 import {
-  useNowPlayingReactionQuery,
-  useOnNowPlayingReactionUpdatedSubscription,
   useReactNowPlayingMutation,
   NowPlayingReactionType,
   NowPlayingReactionPartsFragment,
+  useNowPlayingReactionsQuery,
+  useOnNowPlayingReactionsUpdatedSubscription,
 } from "~/graphql/gql.gen";
 
 const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
@@ -22,17 +22,16 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
   const btnTearJoy = useRef<HTMLButtonElement>(null);
   const prevNowPlayingReaction = useRef<NowPlayingReactionPartsFragment>({
     id,
-    reactions: {
-      crying: 0,
-      heart: 0,
-      fire: 0,
-      tear_joy: 0,
-    },
-    mine: null,
+    mine: [],
+    crying: 0,
+    heart: 0,
+    fire: 0,
+    tear_joy: 0,
   }).current;
-  const [{ data }] = useNowPlayingReactionQuery({ variables: { id } });
-  const nowPlayingReaction = playerPlaying ? data?.nowPlayingReaction : null;
-  useOnNowPlayingReactionUpdatedSubscription({ variables: { id } });
+  const [{ data }] = useNowPlayingReactionsQuery({ variables: { id } });
+  useOnNowPlayingReactionsUpdatedSubscription({ variables: { id } });
+  const nowPlayingReaction = data?.nowPlayingReactions;
+
   const [, reactNowPlaying] = useReactNowPlayingMutation();
 
   const react = useCallback(
@@ -44,31 +43,20 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
   );
 
   useEffect(() => {
-    if (!nowPlayingReaction?.reactions) return;
-    if (
-      nowPlayingReaction.reactions.fire > prevNowPlayingReaction.reactions.fire
-    ) {
+    if (!nowPlayingReaction) return;
+    if (nowPlayingReaction.fire > prevNowPlayingReaction.fire) {
       btnFire.current?.classList.add("scale-75");
       setTimeout(() => btnFire.current?.classList.remove("scale-75"), 200);
     }
-    if (
-      nowPlayingReaction.reactions.crying >
-      prevNowPlayingReaction.reactions.crying
-    ) {
+    if (nowPlayingReaction.crying > prevNowPlayingReaction.crying) {
       btnCrying.current?.classList.add("scale-75");
       setTimeout(() => btnCrying.current?.classList.remove("scale-75"), 200);
     }
-    if (
-      nowPlayingReaction.reactions.heart >
-      prevNowPlayingReaction.reactions.heart
-    ) {
+    if (nowPlayingReaction.heart > prevNowPlayingReaction.heart) {
       btnHeart.current?.classList.add("scale-75");
       setTimeout(() => btnHeart.current?.classList.remove("scale-75"), 200);
     }
-    if (
-      nowPlayingReaction.reactions.tear_joy >
-      prevNowPlayingReaction.reactions.tear_joy
-    ) {
+    if (nowPlayingReaction.tear_joy > prevNowPlayingReaction.tear_joy) {
       btnTearJoy.current?.classList.add("scale-75");
       setTimeout(() => btnTearJoy.current?.classList.remove("scale-75"), 200);
     }
@@ -87,56 +75,68 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
         ref={btnHeart}
         onClick={() => react(NowPlayingReactionType.Heart)}
         className={`flex-1 button rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine === NowPlayingReactionType.Heart
+          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Heart)
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
         }`}
-        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
+        disabled={
+          !playerPlaying ||
+          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Heart)
+        }
       >
         <span role="img" aria-label="Heart">
-          {nowPlayingReaction?.reactions.heart || 0} ❤️
+          {nowPlayingReaction?.heart || 0} ❤️
         </span>
       </button>
       <button
         ref={btnFire}
         className={`flex-1 button rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine === NowPlayingReactionType.Fire
+          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Fire)
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
         }`}
         onClick={() => react(NowPlayingReactionType.Fire)}
-        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
+        disabled={
+          !playerPlaying ||
+          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Fire)
+        }
       >
         <span role="img" aria-label="Fire">
-          {nowPlayingReaction?.reactions.fire || 0} 🔥
+          {nowPlayingReaction?.fire || 0} 🔥
         </span>
       </button>
       <button
         ref={btnTearJoy}
         className={`flex-1 button rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine === NowPlayingReactionType.TearJoy
+          nowPlayingReaction?.mine.includes(NowPlayingReactionType.TearJoy)
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
         }`}
         onClick={() => react(NowPlayingReactionType.TearJoy)}
-        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
+        disabled={
+          !playerPlaying ||
+          nowPlayingReaction?.mine.includes(NowPlayingReactionType.TearJoy)
+        }
       >
         <span role="img" aria-label="Face with Tears of Joy">
-          {nowPlayingReaction?.reactions.tear_joy || 0} 😂
+          {nowPlayingReaction?.tear_joy || 0} 😂
         </span>
       </button>
       <button
         ref={btnCrying}
         className={`flex-1 button rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine === NowPlayingReactionType.Crying
+          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Crying)
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
         }`}
         onClick={() => react(NowPlayingReactionType.Crying)}
-        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
+        disabled={
+          !playerPlaying ||
+          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Crying)
+        }
       >
         <span role="img" aria-label="Fire">
-          {nowPlayingReaction?.reactions.crying || 0} 😢
+          {nowPlayingReaction?.crying || 0} 😢
         </span>
       </button>
     </div>

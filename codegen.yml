@@ -12,6 +12,6 @@ generates:
       noGraphQLTag: true
   ./src/graphql/introspection.json:
     plugins:
-        - introspection
-      config:
-        minify: true
+      - introspection
+    config:
+      minify: true
