@@ -3,24 +3,37 @@ import axios from "redaxios";
 import { PlatformName, useMeAuthQuery } from "~/graphql/gql.gen";
 import { Playlist } from "../types";
 import { defaultAvatar } from "~/lib/util";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useToasts } from "~/components/Toast";
 /// <reference path="spotify-api" />
 
 class YoutubePlaylist {
-  static async getAll(token: string): Promise<null | Playlist[]> {
+  auth: { token: string; authId: string } | null = null;
+
+  async getAll(): Promise<null | Playlist[]> {
     return null;
   }
-  async create({ name }: { name?: string }): Promise<string> {
-    return "";
+
+  async create(name?: string): Promise<Playlist | null> {
+    return null;
+  }
+
+  async addToPlaylist(
+    externalId: string,
+    externalTrackIds: string[]
+  ): Promise<boolean> {
+    return false;
   }
 }
 
 class SpotifyPlaylist {
-  static baseURL = "https://api.spotify.com/v1";
-  static async getAll(token: string): Promise<null | Playlist[]> {
+  private baseURL = "https://api.spotify.com/v1";
+  auth: { token: string; authId: string } | null = null;
+
+  async getAll(): Promise<null | Playlist[]> {
+    if (!this.auth) return null;
     const instance: typeof axios = axios.create({
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${this.auth.token}` },
     });
     const playlists: Playlist[] = [];
     let json = await instance
@@ -66,16 +79,13 @@ class SpotifyPlaylist {
     return playlists;
   }
 
-  static async create(
-    authId: string,
-    token: string,
-    { name }: { name?: string }
-  ): Promise<Playlist> {
+  async create(name?: string): Promise<Playlist | null> {
+    if (!this.auth) return null;
     const json: SpotifyApi.CreatePlaylistResponse = await axios
       .post(
-        `${this.baseURL}/users/${authId}/playlists`,
-        { name },
-        { headers: { Authorization: `Bearer ${token}` } }
+        `${this.baseURL}/users/${this.auth.authId}/playlists`,
+        { name: name || "Untitled playlist" },
+        { headers: { Authorization: `Bearer ${this.auth.token}` } }
       )
       .then((res) => res.data);
     return {
@@ -88,11 +98,11 @@ class SpotifyPlaylist {
     };
   }
 
-  static async addToPlaylist(
-    token: string,
+  async addToPlaylist(
     externalId: string,
     externalTrackIds: string[]
   ): Promise<boolean> {
+    if (!this.auth) return false;
     return axios
       .post(
         `${this.baseURL}/playlists/${externalId}/tracks`,
@@ -101,23 +111,40 @@ class SpotifyPlaylist {
             (externalTrackId) => `spotify:track:${externalTrackId}`
           ),
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${this.auth.token}` } }
       )
       .then((res) => res.data && true);
   }
 }
 
+const playlistService = {
+  youtube: new YoutubePlaylist(),
+  spotify: new SpotifyPlaylist(),
+};
+
 const MY_PLAYLIST_CACHEKEY = "my-playlists";
 
 export const useMyPlaylistsQuery = () => {
   const [{ data: dataMeAuth }] = useMeAuthQuery();
+  const [{ data: { meAuth } = { meAuth: undefined } }] = useMeAuthQuery();
+
+  useEffect(() => {
+    playlistService.youtube.auth = null;
+    playlistService.spotify.auth = null;
+    if (meAuth?.playingPlatform) {
+      const authProvider = meAuth[meAuth.playingPlatform];
+      playlistService[meAuth.playingPlatform].auth = {
+        token: authProvider.token!,
+        authId: authProvider.authId!,
+      };
+    }
+  }, [meAuth]);
+
   return useQuery<Playlist[] | null>(
     MY_PLAYLIST_CACHEKEY,
     () => {
       if (!dataMeAuth?.meAuth?.playingPlatform) return null;
-      if (dataMeAuth.meAuth.playingPlatform === PlatformName.Youtube)
-        return YoutubePlaylist.getAll(dataMeAuth.meAuth.youtube.token!);
-      return SpotifyPlaylist.getAll(dataMeAuth.meAuth.spotify.token!);
+      return playlistService[dataMeAuth.meAuth.playingPlatform].getAll();
     },
     {
       enabled: !!dataMeAuth?.meAuth?.playingPlatform,
@@ -131,6 +158,7 @@ export const useMyPlaylistsQuery = () => {
 
 export const useInsertPlaylistTracksMutation = () => {
   const [{ data: { meAuth } = { meAuth: undefined } }] = useMeAuthQuery();
+
   const toasts = useToasts();
 
   const queryCache = useQueryCache();
@@ -145,19 +173,18 @@ export const useInsertPlaylistTracksMutation = () => {
       name?: string;
       tracks: string[];
     }): Promise<boolean> => {
-      if (!meAuth) return false;
-      const token = meAuth[meAuth.playingPlatform]!.token!;
-      const authId = meAuth[meAuth.playingPlatform]!.authId!;
+      if (!meAuth?.playingPlatform) return false;
       if (!id) {
         // If no id is provided, create new playlist
         try {
-          const playlist = await SpotifyPlaylist.create(authId, token, {
-            name,
-          });
-          queryCache.setQueryData<Playlist[] | null>(
-            MY_PLAYLIST_CACHEKEY,
-            (playlists) => [...(playlists || []), playlist]
-          );
+          const createdPlaylist = await playlistService[
+            meAuth.playingPlatform
+          ].create(name);
+          if (createdPlaylist)
+            queryCache.setQueryData<Playlist[] | null>(
+              MY_PLAYLIST_CACHEKEY,
+              (playlists) => [...(playlists || []), createdPlaylist]
+            );
         } catch (e) {
           /* noop */
         }
@@ -166,8 +193,7 @@ export const useInsertPlaylistTracksMutation = () => {
         toasts.error("Could not add to playlist");
         return false;
       }
-      const ok = await SpotifyPlaylist.addToPlaylist(
-        token,
+      const ok = await playlistService[meAuth.playingPlatform].addToPlaylist(
         id.split(":")[1],
         tracks.map((trackId) => trackId.split(":")[1])
       );
