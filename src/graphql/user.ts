@@ -56,6 +56,12 @@ export const QUERY_CURRENT_USER_AUTH = /* GraphQL */ `
       playingPlatform
       youtube {
         auth
+        authId
+        token
+      }
+      spotify {
+        auth
+        authId
         token
       }
       twitter {
@@ -63,10 +69,6 @@ export const QUERY_CURRENT_USER_AUTH = /* GraphQL */ `
       }
       facebook {
         auth
-      }
-      spotify {
-        auth
-        token
       }
     }
   }

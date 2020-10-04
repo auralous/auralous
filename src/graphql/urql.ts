@@ -11,7 +11,6 @@ import { pipe, onPush } from "wonka";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { devtoolsExchange } from "@urql/devtools";
 import { default as schemaIntrospection } from "./introspection.json";
-import { QUERY_MY_PLAYLISTS } from "~/graphql/playlist";
 import { QUERY_ROOM } from "~/graphql/room";
 
 const subscriptionClient =
@@ -68,12 +67,6 @@ const cacheExchange = createCacheExchange({
   },
   updates: {
     Mutation: {
-      createPlaylist: (result, args, cache) => {
-        // @ts-ignore
-        cache.updateQuery({ query: QUERY_MY_PLAYLISTS }, (data) => ({
-          myPlaylists: [...(data?.myPlaylists || []), result.createPlaylist],
-        }));
-      },
       createRoom: (result, args, cache) => {
         if (result.createRoom) {
           cache.updateQuery(

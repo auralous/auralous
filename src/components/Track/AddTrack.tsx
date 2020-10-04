@@ -4,21 +4,10 @@ import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "./TrackItem";
 import { QUERY_SEARCH_TRACK, QUERY_TRACK } from "~/graphql/track";
-import {
-  useMyPlaylistsQuery,
-  Playlist,
-  Track,
-  PlatformName,
-  useMeAuthQuery,
-} from "~/graphql/gql.gen";
-import {
-  SvgX,
-  SvgPlus,
-  SvgCheck,
-  SvgSpotify,
-  SvgYoutube,
-  SvgChevronLeft,
-} from "~/assets/svg";
+import { Track, PlatformName, useMeAuthQuery } from "~/graphql/gql.gen";
+import { useMyPlaylistsQuery } from "~/hooks/playlist";
+import { Playlist } from "~/types/index";
+import { SvgX, SvgPlus, SvgCheck, SvgChevronLeft } from "~/assets/svg";
 
 const PLATFORM_FULL_NAME: Record<PlatformName, "YouTube" | "Spotify"> = {
   youtube: "YouTube",
@@ -124,29 +113,7 @@ const PlaylistItem: React.FC<{
         alt={playlist.title}
       />
       <div className="ml-2 text-left">
-        <p>
-          {playlist.platform === PlatformName.Youtube && (
-            <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
-              <SvgYoutube
-                className="inline"
-                fill="currentColor"
-                width="18"
-                stroke="0"
-              />
-            </span>
-          )}
-          {playlist.platform === PlatformName.Spotify && (
-            <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
-              <SvgSpotify
-                className="inline"
-                fill="currentColor"
-                width="18"
-                stroke="0"
-              />
-            </span>
-          )}
-          {playlist.title}
-        </p>
+        <p>{playlist.title}</p>
         <p className="text-foreground-secondary text-sm">
           {playlist.tracks.length} tracks
         </p>
@@ -161,9 +128,7 @@ const AddByPlaylist: React.FC<{
 }> = ({ addedTracks, callback }) => {
   const [queryResults, setQueryResults] = useState<string[] | null>(null);
 
-  const [
-    { data: { myPlaylists } = { myPlaylists: [] } },
-  ] = useMyPlaylistsQuery();
+  const { data: myPlaylists = [] } = useMyPlaylistsQuery();
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<null | Playlist>(
     null
