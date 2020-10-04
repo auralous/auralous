@@ -36,6 +36,11 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
           let message = error.message;
           const code = error.extensions?.code;
           if (code === "PERSISTED_QUERY_NOT_FOUND") return;
+          if (message.startsWith("Internal error:")) {
+            // We log this error to console so dev can look into it
+            console.error(error);
+            message = "An internal error has occurred.";
+          }
           if (code === "UNAUTHENTICATED") message = "Please log in again.";
           (window as any).toasts.error(message);
         });
@@ -49,7 +54,7 @@ const cacheExchange = createCacheExchange({
     QueueItem: () => null,
     CrossTracks: (obj: any) => obj.originalId,
     UserAuthWrapper: () => null,
-    UserAuthInfo: () => null,
+    UserOauthProvider: () => null,
   },
   resolvers: {
     Message: {
