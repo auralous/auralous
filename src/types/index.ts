@@ -12,5 +12,6 @@ export interface Playlist {
 export interface MAuth {
   platform: PlatformName;
   accessToken: string;
+  expiredAt?: Date;
   id: string;
 }
