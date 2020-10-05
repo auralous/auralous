@@ -6,7 +6,7 @@ import { useCurrentUser } from "~/hooks/user";
 import {
   useMyPlaylistsQuery,
   useInsertPlaylistTracksMutation,
-} from "~/hooks/playlist";
+} from "~/hooks/playlist/index";
 import { Track, PlatformName } from "~/graphql/gql.gen";
 import { Playlist } from "~/types/index";
 import { SvgSpotify, SvgYoutube, SvgCheck, SvgPlus } from "~/assets/svg";

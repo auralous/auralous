@@ -5,7 +5,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "./TrackItem";
 import { QUERY_SEARCH_TRACK, QUERY_TRACK } from "~/graphql/track";
 import { Track, PlatformName } from "~/graphql/gql.gen";
-import { useMyPlaylistsQuery } from "~/hooks/playlist";
+import { useMyPlaylistsQuery } from "~/hooks/playlist/index";
 import { Playlist } from "~/types/index";
 import { SvgX, SvgPlus, SvgCheck, SvgChevronLeft } from "~/assets/svg";
 import { useMAuth } from "~/hooks/user";
