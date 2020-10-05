@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryCache } from "react-query";
 import axios from "redaxios";
-import { PlatformName, useMeAuthQuery } from "~/graphql/gql.gen";
+import { PlatformName } from "~/graphql/gql.gen";
 import { Playlist } from "../types";
 import { defaultAvatar } from "~/lib/util";
 import { useCallback, useEffect } from "react";
 import { useToasts } from "~/components/Toast";
+import { useMAuth } from "./user";
 /// <reference path="spotify-api" />
 
 class YoutubePlaylist {
@@ -125,29 +126,24 @@ const playlistService = {
 const MY_PLAYLIST_CACHEKEY = "my-playlists";
 
 export const useMyPlaylistsQuery = () => {
-  const [{ data: dataMeAuth }] = useMeAuthQuery();
-  const [{ data: { meAuth } = { meAuth: undefined } }] = useMeAuthQuery();
+  const { data: mAuth } = useMAuth();
 
   useEffect(() => {
     playlistService.youtube.auth = null;
     playlistService.spotify.auth = null;
-    if (meAuth?.playingPlatform) {
-      const authProvider = meAuth[meAuth.playingPlatform];
-      playlistService[meAuth.playingPlatform].auth = {
-        token: authProvider.token!,
-        authId: authProvider.authId!,
+    if (mAuth) {
+      playlistService[mAuth.platform].auth = {
+        token: mAuth.accessToken,
+        authId: mAuth.id,
       };
     }
-  }, [meAuth]);
+  }, [mAuth]);
 
   return useQuery<Playlist[] | null>(
     MY_PLAYLIST_CACHEKEY,
-    () => {
-      if (!dataMeAuth?.meAuth?.playingPlatform) return null;
-      return playlistService[dataMeAuth.meAuth.playingPlatform].getAll();
-    },
+    () => (mAuth ? playlistService[mAuth.platform].getAll() : null),
     {
-      enabled: !!dataMeAuth?.meAuth?.playingPlatform,
+      enabled: !!mAuth,
       refetchOnMount: false,
       staleTime: Infinity,
       refetchOnReconnect: false,
@@ -157,7 +153,7 @@ export const useMyPlaylistsQuery = () => {
 };
 
 export const useInsertPlaylistTracksMutation = () => {
-  const [{ data: { meAuth } = { meAuth: undefined } }] = useMeAuthQuery();
+  const { data: mAuth } = useMAuth();
 
   const toasts = useToasts();
 
@@ -173,13 +169,13 @@ export const useInsertPlaylistTracksMutation = () => {
       name?: string;
       tracks: string[];
     }): Promise<boolean> => {
-      if (!meAuth?.playingPlatform) return false;
+      if (!mAuth) return false;
       if (!id) {
         // If no id is provided, create new playlist
         try {
-          const createdPlaylist = await playlistService[
-            meAuth.playingPlatform
-          ].create(name);
+          const createdPlaylist = await playlistService[mAuth.platform].create(
+            name
+          );
           if (createdPlaylist)
             queryCache.setQueryData<Playlist[] | null>(
               MY_PLAYLIST_CACHEKEY,
@@ -193,7 +189,7 @@ export const useInsertPlaylistTracksMutation = () => {
         toasts.error("Could not add to playlist");
         return false;
       }
-      const ok = await playlistService[meAuth.playingPlatform].addToPlaylist(
+      const ok = await playlistService[mAuth.platform].addToPlaylist(
         id.split(":")[1],
         tracks.map((trackId) => trackId.split(":")[1])
       );
@@ -209,7 +205,7 @@ export const useInsertPlaylistTracksMutation = () => {
       }
       return ok;
     },
-    [meAuth, toasts, queryCache]
+    [mAuth, toasts, queryCache]
   );
 
   return useMutation(insertPlaylistTracks);

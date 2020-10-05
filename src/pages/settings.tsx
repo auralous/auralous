@@ -188,7 +188,7 @@ const MusicConnection: React.FC<{
   provider: OAuthProviderName;
 }> = ({ name, provider }) => {
   const [{ data }] = useMeAuthQuery();
-  if (!data?.meAuth?.[provider]?.auth) return null;
+  if (!data?.meAuth?.[provider]) return null;
   return (
     <div className={`brand-${provider} p-4 rounded-lg flex items-center`}>
       {provider === "youtube" && (
@@ -231,7 +231,7 @@ const SocialConnection: React.FC<{
     closeDisconnect();
   }
 
-  const isConnected = data?.meAuth?.[provider]?.auth;
+  const isConnected = !!data?.meAuth?.[provider];
 
   return (
     <>

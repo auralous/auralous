@@ -7,11 +7,11 @@ import PlayerContext from "./PlayerContext";
 import { useNowPlaying } from "~/components/NowPlaying/index";
 import {
   useRoomQuery,
-  useMeAuthQuery,
   PlatformName,
   Track,
   useCrossTracksQuery,
 } from "~/graphql/gql.gen";
+import { useMAuth } from "~/hooks/user";
 import { PlayerError, PlayerPlaying } from "./types";
 
 const YouTubePlayer = dynamic(() => import("./Youtube"));
@@ -20,21 +20,21 @@ const SpotifyPlayer = dynamic(() => import("./Spotify"));
 const player = new Player();
 
 const PlayerProvider: React.FC = ({ children }) => {
-  const [{ data: { meAuth } = { meAuth: undefined } }] = useMeAuthQuery();
+  const { data: mAuth } = useMAuth();
 
   const [fRPP, forceResetPlayingPlatform] = useState({});
 
   // Preferred platform to use by user
   const playingPlatform = useMemo<PlatformName | null>(
     () =>
-      meAuth?.playingPlatform ||
+      mAuth?.platform ||
       (typeof window !== "undefined"
         ? (window.sessionStorage.getItem(
             "playingPlatform"
           ) as PlatformName | null)
         : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [meAuth, fRPP]
+    [mAuth, fRPP]
   );
 
   // Player Control: To play a room or a track

@@ -1,27 +1,15 @@
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Client as UrqlClient, useClient } from "urql";
 import { useToasts } from "~/components/Toast/index";
 import { Modal } from "~/components/Modal/index";
 import usePlayer from "./usePlayer";
 import { sleep } from "~/lib/util";
 import { verifyScript } from "~/lib/script-utils";
-import { QUERY_CURRENT_USER_AUTH } from "~/graphql/user";
-import { MeAuthQuery } from "~/graphql/gql.gen";
 import { SvgSpotify } from "~/assets/svg";
+import { useMAuth } from "~/hooks/user";
 
 const BASE_URL = "https://api.spotify.com/v1";
-
-async function authViaAccount(urql: UrqlClient): Promise<null | string> {
-  const result = await urql
-    .query<MeAuthQuery>(QUERY_CURRENT_USER_AUTH, undefined, {
-      requestPolicy: "cache-and-network",
-    })
-    .toPromise();
-  return result.data?.meAuth?.spotify?.token || null;
-}
-
 const SS_STORE_KEY = "spotify-token";
 
 function authViaSessionStorage(): null | string {
@@ -99,8 +87,7 @@ export default function SpotifyPlayer() {
     player,
   } = usePlayer();
   const toasts = useToasts();
-
-  const urqlClient = useClient();
+  const { data: mAuth } = useMAuth();
 
   const [status, setStatus] = useState<SpotifyPlayerStatus>("AUTH_WAIT");
   const [init, forceInit] = useState({});
@@ -113,10 +100,7 @@ export default function SpotifyPlayer() {
     let durationInterval: number; // ID of setInterval
 
     async function getOAuthToken(callback: (token: string) => void) {
-      if (
-        (accessToken =
-          authViaSessionStorage() || (await authViaAccount(urqlClient)))
-      )
+      if ((accessToken = authViaSessionStorage() || mAuth?.accessToken || null))
         callback(accessToken);
       else setStatus((s) => (s !== "NO_SUPPORT" ? "AUTH_ASK" : s));
     }
@@ -235,7 +219,7 @@ export default function SpotifyPlayer() {
       spotifyPlayer.removeListener("playback_error");
       spotifyPlayer.disconnect();
     };
-  }, [init, toasts, urqlClient, player]);
+  }, [init, toasts, mAuth, player]);
 
   return (
     <Modal.Modal active={status !== "OK"}>

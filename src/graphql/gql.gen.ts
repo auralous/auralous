@@ -231,18 +231,16 @@ export type User = {
 
 export type UserAuthWrapper = {
   __typename?: 'UserAuthWrapper';
-  playingPlatform: PlatformName;
-  youtube: UserAuthInfo;
-  twitter: UserAuthInfo;
-  facebook: UserAuthInfo;
-  spotify: UserAuthInfo;
+  youtube?: Maybe<UserOauthProvider>;
+  twitter?: Maybe<UserOauthProvider>;
+  facebook?: Maybe<UserOauthProvider>;
+  spotify?: Maybe<UserOauthProvider>;
 };
 
-export type UserAuthInfo = {
-  __typename?: 'UserAuthInfo';
-  auth: Scalars['Boolean'];
-  authId?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
+export type UserOauthProvider = {
+  __typename?: 'UserOauthProvider';
+  provider: OAuthProviderName;
+  id: Scalars['ID'];
 };
 
 export enum RoomMembership {
@@ -837,20 +835,19 @@ export type MeAuthQuery = (
   { __typename?: 'Query' }
   & { meAuth?: Maybe<(
     { __typename?: 'UserAuthWrapper' }
-    & Pick<UserAuthWrapper, 'playingPlatform'>
-    & { youtube: (
-      { __typename?: 'UserAuthInfo' }
-      & Pick<UserAuthInfo, 'auth' | 'authId' | 'token'>
-    ), spotify: (
-      { __typename?: 'UserAuthInfo' }
-      & Pick<UserAuthInfo, 'auth' | 'authId' | 'token'>
-    ), twitter: (
-      { __typename?: 'UserAuthInfo' }
-      & Pick<UserAuthInfo, 'auth'>
-    ), facebook: (
-      { __typename?: 'UserAuthInfo' }
-      & Pick<UserAuthInfo, 'auth'>
-    ) }
+    & { youtube?: Maybe<(
+      { __typename?: 'UserOauthProvider' }
+      & Pick<UserOauthProvider, 'id'>
+    )>, spotify?: Maybe<(
+      { __typename?: 'UserOauthProvider' }
+      & Pick<UserOauthProvider, 'id'>
+    )>, twitter?: Maybe<(
+      { __typename?: 'UserOauthProvider' }
+      & Pick<UserOauthProvider, 'id'>
+    )>, facebook?: Maybe<(
+      { __typename?: 'UserOauthProvider' }
+      & Pick<UserOauthProvider, 'id'>
+    )> }
   )> }
 );
 
@@ -1004,7 +1001,7 @@ export const DeleteCurrentUserDocument: DocumentNode = {"kind":"Document","defin
 export function useDeleteCurrentUserMutation() {
   return Urql.useMutation<DeleteCurrentUserMutation, DeleteCurrentUserMutationVariables>(DeleteCurrentUserDocument);
 };
-export const MeAuthDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"meAuth"},"variableDefinitions":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meAuth"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playingPlatform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"youtube"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"auth"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"authId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"token"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"spotify"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"auth"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"authId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"token"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"twitter"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"auth"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"facebook"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"auth"},"arguments":[],"directives":[]}]}}]}}]}}]};
+export const MeAuthDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"meAuth"},"variableDefinitions":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meAuth"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"youtube"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"spotify"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"twitter"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"facebook"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]}]}}]}}]}}]};
 
 export function useMeAuthQuery(options: Omit<Urql.UseQueryArgs<MeAuthQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeAuthQuery>({ query: MeAuthDocument, ...options });

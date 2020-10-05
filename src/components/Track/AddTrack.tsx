@@ -4,10 +4,11 @@ import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "./TrackItem";
 import { QUERY_SEARCH_TRACK, QUERY_TRACK } from "~/graphql/track";
-import { Track, PlatformName, useMeAuthQuery } from "~/graphql/gql.gen";
+import { Track, PlatformName } from "~/graphql/gql.gen";
 import { useMyPlaylistsQuery } from "~/hooks/playlist";
 import { Playlist } from "~/types/index";
 import { SvgX, SvgPlus, SvgCheck, SvgChevronLeft } from "~/assets/svg";
+import { useMAuth } from "~/hooks/user";
 
 const PLATFORM_FULL_NAME: Record<PlatformName, "YouTube" | "Spotify"> = {
   youtube: "YouTube",
@@ -273,11 +274,9 @@ const AddBySearch: React.FC<{
   addedTracks: string[];
   platform?: PlatformName;
 }> = ({ addedTracks, callback }) => {
-  const [{ data: { meAuth } = { meAuth: undefined } }] = useMeAuthQuery();
+  const { data: mAuth } = useMAuth();
 
-  const platform = meAuth?.spotify?.auth
-    ? PlatformName.Spotify
-    : PlatformName.Youtube;
+  const platform = mAuth?.platform || PlatformName.Youtube;
 
   const [queryResults, setQueryResults] = useState<Track[]>([]);
 

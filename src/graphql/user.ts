@@ -53,22 +53,17 @@ export const MUTATION_DELETE_CURRENT_USER = /* GraphQL */ `
 export const QUERY_CURRENT_USER_AUTH = /* GraphQL */ `
   query meAuth {
     meAuth {
-      playingPlatform
       youtube {
-        auth
-        authId
-        token
+        id
       }
       spotify {
-        auth
-        authId
-        token
+        id
       }
       twitter {
-        auth
+        id
       }
       facebook {
-        auth
+        id
       }
     }
   }
