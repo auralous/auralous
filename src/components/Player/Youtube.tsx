@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import usePlayer from "./usePlayer";
 import { verifyScript } from "~/lib/script-utils";
+/// <reference path="youtube" />
 
 const YT_PLAYER_VARS = {
   playsinline: 1,
@@ -17,11 +18,11 @@ export default function YouTubePlayer() {
   } = usePlayer();
 
   useEffect(() => {
-    let ytPlayer: any;
+    let ytPlayer: YT.Player;
     let durationInterval: number; // setInterval
 
     function playById(externalId: string) {
-      if (externalId === ytPlayer.getVideoData()?.video_id) return;
+      if (externalId === (ytPlayer as any).getVideoData()?.video_id) return;
       ytPlayer.loadVideoById(externalId);
     }
 
@@ -29,14 +30,10 @@ export default function YouTubePlayer() {
       if (!hadLoaded) {
         // wait for iframe api to load
         await new Promise((resolve) => {
-          // @ts-ignore
-          window.onYouTubeIframeAPIReady = resolve;
+          (window as any).onYouTubeIframeAPIReady = resolve;
         });
       }
-
-      // @ts-ignore
       if (!(ytPlayer instanceof window.YT.Player)) {
-        // @ts-ignore
         ytPlayer = new window.YT.Player("ytPlayer", {
           playerVars: YT_PLAYER_VARS,
           events: {
@@ -44,7 +41,7 @@ export default function YouTubePlayer() {
               player.registerPlayer({
                 play: () => ytPlayer.playVideo(),
                 seek: (ms) => {
-                  ytPlayer.seekTo(ms / 1000);
+                  ytPlayer.seekTo(ms / 1000, true);
                   player.emit("seeked");
                 },
                 pause: () => ytPlayer.pauseVideo(),

@@ -58,6 +58,8 @@
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/react-window": "^1.8.2",
     "@types/spotify-api": "^0.0.4",
+    "@types/spotify-web-playback-sdk": "^0.1.7",
+    "@types/youtube": "^0.0.39",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "cssnano": "^4.1.10",
