@@ -16,20 +16,20 @@ export default class SpotifyPlaylist {
       headers: { Authorization: `Bearer ${this.auth.token}` },
     });
     const tracks: string[] = [];
-    let trackJson = await instance
+    let trackData = await instance
       .get<SpotifyApi.PlaylistTrackResponse>(
         `${this.baseURL}/playlists/${playlistId}/tracks`
       )
       .then((res) => res.data);
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      trackJson.items.forEach(
+      trackData.items.forEach(
         (trackItem) =>
           !trackItem.is_local && tracks.push(`spotify:${trackItem.track.id}`)
       );
-      if (trackJson.next)
-        trackJson = await instance
-          .get<SpotifyApi.PlaylistTrackResponse>(trackJson.next)
+      if (trackData.next)
+        trackData = await instance
+          .get<SpotifyApi.PlaylistTrackResponse>(trackData.next)
           .then((res) => res.data);
       else break;
     }
@@ -42,26 +42,30 @@ export default class SpotifyPlaylist {
       headers: { Authorization: `Bearer ${this.auth.token}` },
     });
     const playlists: Playlist[] = [];
-    let json = await instance
+    let data = await instance
       .get<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
         `${this.baseURL}/me/playlists`
       )
       .then((res) => res.data);
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      for (const item of json.items) {
-        playlists.push({
-          id: `spotify:${item.id}`,
-          externalId: item.id,
-          platform: PlatformName.Spotify,
-          title: item.name,
-          tracks: (await this.getPlaylistTracks(item.id)) || [],
-          image: item.images[0]?.url || defaultAvatar(item.id),
-        });
-      }
-      if (json.next)
-        json = await instance
-          .get<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(json.next)
+      playlists.push(
+        ...(await Promise.all<Playlist>(
+          data.items.map(async (item) => {
+            return {
+              id: `spotify:${item.id}`,
+              externalId: item.id,
+              platform: PlatformName.Spotify,
+              title: item.name,
+              tracks: (await this.getPlaylistTracks(item.id)) || [],
+              image: item.images[0]?.url || defaultAvatar(item.id),
+            };
+          })
+        ))
+      );
+      if (data.next)
+        data = await instance
+          .get<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(data.next)
           .then((res) => res.data);
       else break;
     }
@@ -70,7 +74,7 @@ export default class SpotifyPlaylist {
 
   async create(name?: string): Promise<Playlist | null> {
     if (!this.auth) return null;
-    const json: SpotifyApi.CreatePlaylistResponse = await axios
+    const data: SpotifyApi.CreatePlaylistResponse = await axios
       .post(
         `${this.baseURL}/users/${this.auth.authId}/playlists`,
         { name: name || "Untitled playlist" },
@@ -78,12 +82,12 @@ export default class SpotifyPlaylist {
       )
       .then((res) => res.data);
     return {
-      id: `spotify:${json.id}`,
-      externalId: json.id,
+      id: `spotify:${data.id}`,
+      externalId: data.id,
       platform: PlatformName.Spotify,
-      title: json.name,
+      title: data.name,
       tracks: [],
-      image: json.images[0]?.url || defaultAvatar(json.id),
+      image: data.images[0]?.url || defaultAvatar(data.id),
     };
   }
 

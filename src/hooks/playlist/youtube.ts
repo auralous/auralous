@@ -18,7 +18,7 @@ export default class YoutubePlaylist {
       params: { key: this.apiKey },
     });
     const tracks: string[] = [];
-    let trackJson = await instance
+    let trackData = await instance
       .get("/youtube/v3/playlistItems", {
         params: {
           playlistId,
@@ -29,17 +29,17 @@ export default class YoutubePlaylist {
       .then((res) => res.data);
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      trackJson.items.forEach((trackItem: any) =>
+      trackData.items.forEach((trackItem: any) =>
         tracks.push(`youtube:${trackItem.contentDetails.videoId}`)
       );
-      if (trackJson.nextPageToken)
-        trackJson = await instance
+      if (trackData.nextPageToken)
+        trackData = await instance
           .get("/youtube/v3/playlistItems", {
             params: {
               playlistId,
               part: "contentDetails",
               fields: "nextPageToken,items/contentDetails/videoId",
-              pageToken: trackJson.nextPageToken,
+              pageToken: trackData.nextPageToken,
             },
           })
           .then((res) => res.data);
@@ -67,16 +67,21 @@ export default class YoutubePlaylist {
       .then((res) => res.data);
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      for (const item of data.items) {
-        playlists.push({
-          id: `youtube:${item.id}`,
-          externalId: item.id,
-          platform: PlatformName.Youtube,
-          title: item.snippet.title,
-          tracks: (await this.getPlaylistTracks(item.id)) || [],
-          image: item.snippet.thumbnails.high.url || defaultAvatar(item.id),
-        });
-      }
+      playlists.push(
+        ...(await Promise.all<Playlist>(
+          data.items.map(async (item: any) => {
+            return {
+              id: `youtube:${item.id}`,
+              externalId: item.id,
+              platform: PlatformName.Youtube,
+              title: item.snippet.title,
+              tracks: (await this.getPlaylistTracks(item.id)) || [],
+              image: item.snippet.thumbnails.high.url || defaultAvatar(item.id),
+            };
+          })
+        ))
+      );
+
       if (data.nextPageToken)
         data = await instance
           .get(`/youtube/v3/playlists`, {
