@@ -11,7 +11,6 @@ import { pipe, onPush } from "wonka";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { devtoolsExchange } from "@urql/devtools";
 import { default as schemaIntrospection } from "./introspection.json";
-import { QUERY_MY_PLAYLISTS } from "~/graphql/playlist";
 import { QUERY_ROOM } from "~/graphql/room";
 
 const subscriptionClient =
@@ -37,6 +36,11 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
           let message = error.message;
           const code = error.extensions?.code;
           if (code === "PERSISTED_QUERY_NOT_FOUND") return;
+          if (message.startsWith("Internal error:")) {
+            // We log this error to console so dev can look into it
+            console.error(error);
+            message = "An internal error has occurred.";
+          }
           if (code === "UNAUTHENTICATED") message = "Please log in again.";
           (window as any).toasts.error(message);
         });
@@ -50,7 +54,7 @@ const cacheExchange = createCacheExchange({
     QueueItem: () => null,
     CrossTracks: (obj: any) => obj.originalId,
     UserAuthWrapper: () => null,
-    UserAuthInfo: () => null,
+    UserOauthProvider: () => null,
   },
   resolvers: {
     Message: {
@@ -68,12 +72,6 @@ const cacheExchange = createCacheExchange({
   },
   updates: {
     Mutation: {
-      createPlaylist: (result, args, cache) => {
-        // @ts-ignore
-        cache.updateQuery({ query: QUERY_MY_PLAYLISTS }, (data) => ({
-          myPlaylists: [...(data?.myPlaylists || []), result.createPlaylist],
-        }));
-      },
       createRoom: (result, args, cache) => {
         if (result.createRoom) {
           cache.updateQuery(

@@ -4,21 +4,11 @@ import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "./TrackItem";
 import { QUERY_SEARCH_TRACK, QUERY_TRACK } from "~/graphql/track";
-import {
-  useMyPlaylistsQuery,
-  Playlist,
-  Track,
-  PlatformName,
-  useMeAuthQuery,
-} from "~/graphql/gql.gen";
-import {
-  SvgX,
-  SvgPlus,
-  SvgCheck,
-  SvgSpotify,
-  SvgYoutube,
-  SvgChevronLeft,
-} from "~/assets/svg";
+import { Track, PlatformName } from "~/graphql/gql.gen";
+import { useMyPlaylistsQuery } from "~/hooks/playlist/index";
+import { Playlist } from "~/types/index";
+import { SvgX, SvgPlus, SvgCheck, SvgChevronLeft } from "~/assets/svg";
+import { useMAuth } from "~/hooks/user";
 
 const PLATFORM_FULL_NAME: Record<PlatformName, "YouTube" | "Spotify"> = {
   youtube: "YouTube",
@@ -124,29 +114,7 @@ const PlaylistItem: React.FC<{
         alt={playlist.title}
       />
       <div className="ml-2 text-left">
-        <p>
-          {playlist.platform === PlatformName.Youtube && (
-            <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
-              <SvgYoutube
-                className="inline"
-                fill="currentColor"
-                width="18"
-                stroke="0"
-              />
-            </span>
-          )}
-          {playlist.platform === PlatformName.Spotify && (
-            <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
-              <SvgSpotify
-                className="inline"
-                fill="currentColor"
-                width="18"
-                stroke="0"
-              />
-            </span>
-          )}
-          {playlist.title}
-        </p>
+        <p>{playlist.title}</p>
         <p className="text-foreground-secondary text-sm">
           {playlist.tracks.length} tracks
         </p>
@@ -159,11 +127,7 @@ const AddByPlaylist: React.FC<{
   addedTracks: string[];
   callback: (cbTrack: string | string[]) => Promise<void>;
 }> = ({ addedTracks, callback }) => {
-  const [queryResults, setQueryResults] = useState<string[] | null>(null);
-
-  const [
-    { data: { myPlaylists } = { myPlaylists: [] } },
-  ] = useMyPlaylistsQuery();
+  const { data: myPlaylists, isLoading } = useMyPlaylistsQuery();
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<null | Playlist>(
     null
@@ -171,17 +135,18 @@ const AddByPlaylist: React.FC<{
 
   async function handleSelect(playlist: Playlist) {
     setSelectedPlaylist(playlist);
-    setQueryResults(playlist.tracks.map((trackId) => trackId));
   }
+
+  const queryResults = useMemo(
+    () => selectedPlaylist?.tracks.map((trackId) => trackId) || null,
+    [selectedPlaylist]
+  );
 
   return (
     <>
       <div className="border-background-tertiary px-2 h-10 flex items-center font-bold text-lg">
         <button
-          onClick={() => {
-            setSelectedPlaylist(null);
-            setQueryResults(null);
-          }}
+          onClick={() => setSelectedPlaylist(null)}
           title="Select another playlist"
           className="button p-1 bg-transparent inline mr-2"
           disabled={!selectedPlaylist}
@@ -211,6 +176,11 @@ const AddByPlaylist: React.FC<{
         />
       ) : (
         <div className="overflow-auto">
+          {isLoading && (
+            <p className="px-2 py-6 text-center font-bold text-foreground-tertiary animate-pulse">
+              Loading playlist
+            </p>
+          )}
           {myPlaylists?.map((playlist) => (
             // TODO: react-window
             <PlaylistItem
@@ -241,13 +211,14 @@ function SearchForm({
   platform: PlatformName;
 }) {
   const urqlClient = useClient();
-
+  const [isSearching, setIsSearching] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   async function submitSearch(searchQuery = "") {
     const query = searchQuery.trim();
-    if (!searchQuery) return;
+    if (!searchQuery || isSearching) return;
+    setIsSearching(true);
     if (isValidUrl(searchQuery)) {
       const response = await urqlClient
         .query(QUERY_TRACK, {
@@ -264,42 +235,50 @@ function SearchForm({
         .toPromise();
       setQueryResults(response.data.searchTrack || []);
     }
+    setIsSearching(false);
   }
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={(event) => {
-        event.preventDefault();
-        if (!inputRef.current) return;
-        submitSearch(inputRef.current.value);
-      }}
-      className=""
-      autoComplete="off"
-    >
-      <div className="relative w-full">
-        <input
-          ref={inputRef}
-          className="input w-full h-10"
-          type="text"
-          aria-label="Search"
-          placeholder={`Search for music on ${PLATFORM_FULL_NAME[platform]} or enter a link`}
-          required
-        />
-        <button
-          title="Remove search results"
-          type="button"
-          className="absolute right-0 transform -translate-x-1/2 -translate-y-1/2 top-1/2"
-          onClick={() => {
-            if (!inputRef.current) return;
-            inputRef.current.value = "";
-            setQueryResults([]);
-          }}
-        >
-          <SvgX />
-        </button>
-      </div>
-    </form>
+    <>
+      <form
+        ref={formRef}
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!inputRef.current) return;
+          submitSearch(inputRef.current.value);
+        }}
+        className=""
+        autoComplete="off"
+      >
+        <div className="relative w-full">
+          <input
+            ref={inputRef}
+            className="input w-full h-10"
+            type="text"
+            aria-label="Search"
+            placeholder={`Search for music on ${PLATFORM_FULL_NAME[platform]} or enter a link`}
+            required
+          />
+          <button
+            title="Remove search results"
+            type="button"
+            className="absolute right-0 transform -translate-x-1/2 -translate-y-1/2 top-1/2"
+            onClick={() => {
+              if (!inputRef.current) return;
+              inputRef.current.value = "";
+              setQueryResults([]);
+            }}
+          >
+            <SvgX />
+          </button>
+        </div>
+      </form>
+      {isSearching && (
+        <p className="px-2 py-6 text-center font-bold text-foreground-tertiary animate-pulse">
+          Searching...
+        </p>
+      )}
+    </>
   );
 }
 
@@ -308,11 +287,9 @@ const AddBySearch: React.FC<{
   addedTracks: string[];
   platform?: PlatformName;
 }> = ({ addedTracks, callback }) => {
-  const [{ data: { meAuth } = { meAuth: undefined } }] = useMeAuthQuery();
+  const { data: mAuth } = useMAuth();
 
-  const platform = meAuth?.spotify?.auth
-    ? PlatformName.Spotify
-    : PlatformName.Youtube;
+  const platform = mAuth?.platform || PlatformName.Youtube;
 
   const [queryResults, setQueryResults] = useState<Track[]>([]);
 

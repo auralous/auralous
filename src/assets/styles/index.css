@@ -137,7 +137,7 @@ button:focus {
     width: theme('maxWidth.5xl');
     max-width: calc(100vw - 1rem);
     max-height: calc(100vh - 1rem);
-    @apply rounded-lg text-foreground overflow-hidden m-0 p-0;
+    @apply rounded-lg text-foreground overflow-hidden m-0 p-0 border-2 border-background-secondary;
     @apply relative flex flex-col;
     @apply transition ease-in-out duration-200;
   }

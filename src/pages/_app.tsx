@@ -4,6 +4,7 @@ import Router from "next/router";
 import * as Fathom from "fathom-client";
 import { DefaultSeo } from "next-seo";
 import { Provider as UrqlProvider } from "urql";
+import { QueryCache, ReactQueryCacheProvider } from "react-query";
 import { MainLayout } from "~/components/Layout/index";
 import { PlayerProvider } from "~/components/Player/index";
 import { ToastProvider } from "~/components/Toast/index";
@@ -11,6 +12,8 @@ import { LogInProvider } from "~/components/Auth/index";
 import { createUrqlClient } from "~/graphql/urql";
 import "~/assets/styles/index.css";
 import "nprogress/nprogress.css";
+
+const queryCache = new QueryCache();
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [urqlClient, setUrqlClient] = useState(createUrqlClient());
@@ -33,28 +36,30 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       Router.events.off("routeChangeComplete", onRouteChangeComplete);
   }, []);
   return (
-    <UrqlProvider value={urqlClient}>
-      <ToastProvider>
-        <LogInProvider>
-          <PlayerProvider>
-            <MainLayout>
-              <DefaultSeo
-                title=" "
-                titleTemplate="%s · Stereo"
-                facebook={{
-                  appId: process.env.FACEBOOK_APP_ID as string,
-                }}
-                openGraph={{
-                  type: "website",
-                  locale: "en_US",
-                  site_name: "Stereo",
-                }}
-              />
-              <Component {...pageProps} />
-            </MainLayout>
-          </PlayerProvider>
-        </LogInProvider>
-      </ToastProvider>
-    </UrqlProvider>
+    <ReactQueryCacheProvider queryCache={queryCache}>
+      <UrqlProvider value={urqlClient}>
+        <ToastProvider>
+          <LogInProvider>
+            <PlayerProvider>
+              <MainLayout>
+                <DefaultSeo
+                  title=" "
+                  titleTemplate="%s · Stereo"
+                  facebook={{
+                    appId: process.env.FACEBOOK_APP_ID as string,
+                  }}
+                  openGraph={{
+                    type: "website",
+                    locale: "en_US",
+                    site_name: "Stereo",
+                  }}
+                />
+                <Component {...pageProps} />
+              </MainLayout>
+            </PlayerProvider>
+          </LogInProvider>
+        </ToastProvider>
+      </UrqlProvider>
+    </ReactQueryCacheProvider>
   );
 }

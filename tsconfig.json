@@ -7,7 +7,8 @@
       "~/content/*": ["content/*"],
       "~/graphql/*": ["graphql/*"],
       "~/lib/*": ["lib/*"],
-      "~/hooks/*": ["hooks/*"]
+      "~/hooks/*": ["hooks/*"],
+      "~/types/*": ["types/*"]
     },
     "target": "es5",
     "lib": [

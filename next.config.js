@@ -12,6 +12,7 @@ module.exports = withBundleAnalyzer({
     APP_URI: process.env.APP_URI,
     API_URI: process.env.API_URI,
     FACEBOOK_APP_ID: process.env.FACEBOOK_APP_ID,
+    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
     SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
     WEBSOCKET_URI: process.env.WEBSOCKET_URI,
     FATHOM_SITE_ID: process.env.FATHOM_SITE_ID,

@@ -1,27 +1,16 @@
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Client as UrqlClient, useClient } from "urql";
 import { useToasts } from "~/components/Toast/index";
 import { Modal } from "~/components/Modal/index";
 import usePlayer from "./usePlayer";
 import { sleep } from "~/lib/util";
 import { verifyScript } from "~/lib/script-utils";
-import { QUERY_CURRENT_USER_AUTH } from "~/graphql/user";
-import { MeAuthQuery } from "~/graphql/gql.gen";
 import { SvgSpotify } from "~/assets/svg";
+import { useMAuth } from "~/hooks/user";
+/// <reference path="spotify-web-playback-sdk" />
 
 const BASE_URL = "https://api.spotify.com/v1";
-
-async function authViaAccount(urql: UrqlClient): Promise<null | string> {
-  const result = await urql
-    .query<MeAuthQuery>(QUERY_CURRENT_USER_AUTH, undefined, {
-      requestPolicy: "cache-and-network",
-    })
-    .toPromise();
-  return result.data?.meAuth?.spotify?.token || null;
-}
-
 const SS_STORE_KEY = "spotify-token";
 
 function authViaSessionStorage(): null | string {
@@ -99,24 +88,24 @@ export default function SpotifyPlayer() {
     player,
   } = usePlayer();
   const toasts = useToasts();
-
-  const urqlClient = useClient();
+  const { data: mAuth } = useMAuth();
 
   const [status, setStatus] = useState<SpotifyPlayerStatus>("AUTH_WAIT");
-  const [init, forceInit] = useState({});
+  const [_init, forceInit] = useState({});
 
   useEffect(() => {
-    let spotifyPlayer: any;
-    const spotifyData: any = {};
+    let spotifyPlayer: Spotify.SpotifyPlayer;
+    const spotifyData: {
+      currentTrackId?: string;
+      device_id?: string;
+      state?: Spotify.PlaybackState;
+    } = {};
     let accessToken: string | null;
 
     let durationInterval: number; // ID of setInterval
 
     async function getOAuthToken(callback: (token: string) => void) {
-      if (
-        (accessToken =
-          authViaSessionStorage() || (await authViaAccount(urqlClient)))
-      )
+      if ((accessToken = authViaSessionStorage() || mAuth?.accessToken || null))
         callback(accessToken);
       else setStatus((s) => (s !== "NO_SUPPORT" ? "AUTH_ASK" : s));
     }
@@ -147,19 +136,11 @@ export default function SpotifyPlayer() {
       spotifyPlayer.resume();
     }
 
-    function errorHandle({ message }: { message: string }, extra: string) {
-      toasts.error(`${message}${extra ? `: ${extra}` : ""}`);
-    }
-
     async function init() {
-      spotifyPlayer =
-        "Spotify" in window
-          ? new (window as any).Spotify.Player({
-              name: "Stereo - withstereo.com",
-              getOAuthToken,
-            })
-          : null;
-      if (!spotifyPlayer) return;
+      spotifyPlayer = new window.Spotify.Player({
+        name: "Stereo - withstereo.com",
+        getOAuthToken,
+      });
       // readiness
       spotifyPlayer.addListener(
         "ready",
@@ -185,25 +166,22 @@ export default function SpotifyPlayer() {
         }
       );
       // state handling
-      spotifyPlayer.addListener(
-        "player_state_changed",
-        (state: any | undefined) => {
-          if (!state) return;
-          state.paused ? player.emit("paused") : player.emit("playing");
-          // FIXME: Temporary workaround only https://github.com/spotify/web-playback-sdk/issues/35#issuecomment-509159445
-          if (
-            spotifyData.state &&
-            state.track_window.previous_tracks[0]?.id ===
-              state.track_window.current_track.id &&
-            !spotifyData.state.paused &&
-            state.paused
-          ) {
-            // track end
-            player.emit("ended");
-          }
-          spotifyData.state = state;
+      spotifyPlayer.addListener("player_state_changed", (state) => {
+        if (!state) return;
+        state.paused ? player.emit("paused") : player.emit("playing");
+        // FIXME: Temporary workaround only https://github.com/spotify/web-playback-sdk/issues/35#issuecomment-509159445
+        if (
+          spotifyData.state &&
+          state.track_window.previous_tracks[0]?.id ===
+            state.track_window.current_track.id &&
+          !spotifyData.state.paused &&
+          state.paused
+        ) {
+          // track end
+          player.emit("ended");
         }
-      );
+        spotifyData.state = state;
+      });
       // error handling
       spotifyPlayer.addListener("authentication_error", () =>
         setStatus((s) => (s !== "NO_SUPPORT" ? "AUTH_ERROR" : s))
@@ -212,12 +190,13 @@ export default function SpotifyPlayer() {
         setStatus("NO_SUPPORT");
       });
       spotifyPlayer.addListener("account_error", () => setStatus("NO_PREMIUM"));
-      spotifyPlayer.addListener("playback_error", errorHandle);
+      spotifyPlayer.addListener("playback_error", ({ message }) =>
+        toasts.error(message)
+      );
       // connect
       spotifyPlayer.connect();
     }
 
-    // @ts-ignore
     window.onSpotifyWebPlaybackSDKReady = init;
     verifyScript("https://sdk.scdn.co/spotify-player.js").then((hadLoaded) => {
       hadLoaded && init();
@@ -235,7 +214,7 @@ export default function SpotifyPlayer() {
       spotifyPlayer.removeListener("playback_error");
       spotifyPlayer.disconnect();
     };
-  }, [init, toasts, urqlClient, player]);
+  }, [_init, toasts, mAuth, player]);
 
   return (
     <Modal.Modal active={status !== "OK"}>

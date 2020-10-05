@@ -27,7 +27,6 @@ export type Query = {
   rooms?: Maybe<Array<Room>>;
   exploreRooms: Array<Room>;
   searchRooms: Array<Room>;
-  myPlaylists?: Maybe<Array<Playlist>>;
   track?: Maybe<Track>;
   crossTracks?: Maybe<CrossTracks>;
   searchTrack: Array<Track>;
@@ -110,8 +109,6 @@ export type Mutation = {
   updateRoom: Room;
   updateRoomMembership: Scalars['Boolean'];
   deleteRoom: Scalars['ID'];
-  createPlaylist: Playlist;
-  insertPlaylistTracks: Playlist;
   addMessage: Scalars['Boolean'];
   updateQueue: Scalars['Boolean'];
   reactNowPlaying?: Maybe<Scalars['Boolean']>;
@@ -157,19 +154,6 @@ export type MutationUpdateRoomMembershipArgs = {
 
 export type MutationDeleteRoomArgs = {
   id: Scalars['ID'];
-};
-
-
-export type MutationCreatePlaylistArgs = {
-  title: Scalars['String'];
-  platform: PlatformName;
-  tracks?: Maybe<Array<Scalars['String']>>;
-};
-
-
-export type MutationInsertPlaylistTracksArgs = {
-  id: Scalars['ID'];
-  tracks: Array<Scalars['String']>;
 };
 
 
@@ -247,17 +231,16 @@ export type User = {
 
 export type UserAuthWrapper = {
   __typename?: 'UserAuthWrapper';
-  playingPlatform: PlatformName;
-  youtube: UserAuthInfo;
-  twitter: UserAuthInfo;
-  facebook: UserAuthInfo;
-  spotify: UserAuthInfo;
+  youtube?: Maybe<UserOauthProvider>;
+  twitter?: Maybe<UserOauthProvider>;
+  facebook?: Maybe<UserOauthProvider>;
+  spotify?: Maybe<UserOauthProvider>;
 };
 
-export type UserAuthInfo = {
-  __typename?: 'UserAuthInfo';
-  auth: Scalars['Boolean'];
-  token?: Maybe<Scalars['String']>;
+export type UserOauthProvider = {
+  __typename?: 'UserOauthProvider';
+  provider: OAuthProviderName;
+  id: Scalars['ID'];
 };
 
 export enum RoomMembership {
@@ -283,16 +266,6 @@ export type RoomState = {
   anyoneCanAdd: Scalars['Boolean'];
   collabs: Array<Scalars['String']>;
   queueMax: Scalars['Int'];
-};
-
-export type Playlist = {
-  __typename?: 'Playlist';
-  id: Scalars['ID'];
-  title: Scalars['String'];
-  image: Scalars['String'];
-  tracks: Array<Scalars['String']>;
-  platform: PlatformName;
-  externalId: Scalars['String'];
 };
 
 export enum PlatformName {
@@ -509,54 +482,6 @@ export type ReactNowPlayingMutationVariables = Exact<{
 export type ReactNowPlayingMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'reactNowPlaying'>
-);
-
-export type PlaylistDetailPartsFragment = (
-  { __typename?: 'Playlist' }
-  & Pick<Playlist, 'title' | 'image' | 'platform' | 'externalId'>
-);
-
-export type MyPlaylistsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MyPlaylistsQuery = (
-  { __typename?: 'Query' }
-  & { myPlaylists?: Maybe<Array<(
-    { __typename?: 'Playlist' }
-    & Pick<Playlist, 'id' | 'tracks'>
-    & PlaylistDetailPartsFragment
-  )>> }
-);
-
-export type CreatePlaylistMutationVariables = Exact<{
-  title: Scalars['String'];
-  platform: PlatformName;
-  tracks?: Maybe<Array<Scalars['String']>>;
-}>;
-
-
-export type CreatePlaylistMutation = (
-  { __typename?: 'Mutation' }
-  & { createPlaylist: (
-    { __typename?: 'Playlist' }
-    & Pick<Playlist, 'id' | 'tracks'>
-    & PlaylistDetailPartsFragment
-  ) }
-);
-
-export type InsertPlaylistTracksMutationVariables = Exact<{
-  id: Scalars['ID'];
-  tracks: Array<Scalars['String']>;
-}>;
-
-
-export type InsertPlaylistTracksMutation = (
-  { __typename?: 'Mutation' }
-  & { insertPlaylistTracks: (
-    { __typename?: 'Playlist' }
-    & Pick<Playlist, 'id' | 'tracks'>
-    & PlaylistDetailPartsFragment
-  ) }
 );
 
 export type QueueItemPartsFragment = (
@@ -910,27 +835,25 @@ export type MeAuthQuery = (
   { __typename?: 'Query' }
   & { meAuth?: Maybe<(
     { __typename?: 'UserAuthWrapper' }
-    & Pick<UserAuthWrapper, 'playingPlatform'>
-    & { youtube: (
-      { __typename?: 'UserAuthInfo' }
-      & Pick<UserAuthInfo, 'auth' | 'token'>
-    ), twitter: (
-      { __typename?: 'UserAuthInfo' }
-      & Pick<UserAuthInfo, 'auth'>
-    ), facebook: (
-      { __typename?: 'UserAuthInfo' }
-      & Pick<UserAuthInfo, 'auth'>
-    ), spotify: (
-      { __typename?: 'UserAuthInfo' }
-      & Pick<UserAuthInfo, 'auth' | 'token'>
-    ) }
+    & { youtube?: Maybe<(
+      { __typename?: 'UserOauthProvider' }
+      & Pick<UserOauthProvider, 'id'>
+    )>, spotify?: Maybe<(
+      { __typename?: 'UserOauthProvider' }
+      & Pick<UserOauthProvider, 'id'>
+    )>, twitter?: Maybe<(
+      { __typename?: 'UserOauthProvider' }
+      & Pick<UserOauthProvider, 'id'>
+    )>, facebook?: Maybe<(
+      { __typename?: 'UserOauthProvider' }
+      & Pick<UserOauthProvider, 'id'>
+    )> }
   )> }
 );
 
 export const MessagePartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MessageParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Message"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"createdAt"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"message"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"from"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"name"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"photo"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"uri"},"arguments":[],"directives":[]}]}}]}}]};
 export const NowPlayingQueuePartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"trackId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"playedAt"},"arguments":[],"directives":[]}]}}]};
 export const NowPlayingReactionPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingReactionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingReaction"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"heart"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"crying"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tear_joy"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"fire"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"mine"},"arguments":[],"directives":[]}]}}]};
-export const PlaylistDetailPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]}]}}]};
 export const QueueItemPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"trackId"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"creatorId"},"arguments":[],"directives":[]}]}}]};
 export const RoomDetailPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoomDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Room"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"description"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"createdAt"},"arguments":[],"directives":[]}]}}]};
 export const UserPublicPartsFragmentDoc: DocumentNode = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"username"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"bio"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"},"arguments":[],"directives":[]}]}}]};
@@ -972,21 +895,6 @@ export const ReactNowPlayingDocument: DocumentNode = {"kind":"Document","definit
 
 export function useReactNowPlayingMutation() {
   return Urql.useMutation<ReactNowPlayingMutation, ReactNowPlayingMutationVariables>(ReactNowPlayingDocument);
-};
-export const MyPlaylistsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"myPlaylists"},"variableDefinitions":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myPlaylists"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistDetailParts"},"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tracks"},"arguments":[],"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]}]}}]};
-
-export function useMyPlaylistsQuery(options: Omit<Urql.UseQueryArgs<MyPlaylistsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<MyPlaylistsQuery>({ query: MyPlaylistsDocument, ...options });
-};
-export const CreatePlaylistDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createPlaylist"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},"directives":[]},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"platform"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PlatformName"}}},"directives":[]},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createPlaylist"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}},{"kind":"Argument","name":{"kind":"Name","value":"platform"},"value":{"kind":"Variable","name":{"kind":"Name","value":"platform"}}},{"kind":"Argument","name":{"kind":"Name","value":"tracks"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}}}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistDetailParts"},"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tracks"},"arguments":[],"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]}]}}]};
-
-export function useCreatePlaylistMutation() {
-  return Urql.useMutation<CreatePlaylistMutation, CreatePlaylistMutationVariables>(CreatePlaylistDocument);
-};
-export const InsertPlaylistTracksDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"insertPlaylistTracks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insertPlaylistTracks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"tracks"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}}}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]},{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistDetailParts"},"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"tracks"},"arguments":[],"directives":[]}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"image"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"platform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"externalId"},"arguments":[],"directives":[]}]}}]};
-
-export function useInsertPlaylistTracksMutation() {
-  return Urql.useMutation<InsertPlaylistTracksMutation, InsertPlaylistTracksMutationVariables>(InsertPlaylistTracksDocument);
 };
 export const UpdateQueueDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateQueue"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},"directives":[]},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"action"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"QueueAction"}}},"directives":[]},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},"directives":[]},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"position"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"directives":[]},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"insertPosition"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}},"directives":[]}],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateQueue"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"action"},"value":{"kind":"Variable","name":{"kind":"Name","value":"action"}}},{"kind":"Argument","name":{"kind":"Name","value":"tracks"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}}},{"kind":"Argument","name":{"kind":"Name","value":"position"},"value":{"kind":"Variable","name":{"kind":"Name","value":"position"}}},{"kind":"Argument","name":{"kind":"Name","value":"insertPosition"},"value":{"kind":"Variable","name":{"kind":"Name","value":"insertPosition"}}}],"directives":[]}]}}]};
 
@@ -1093,7 +1001,7 @@ export const DeleteCurrentUserDocument: DocumentNode = {"kind":"Document","defin
 export function useDeleteCurrentUserMutation() {
   return Urql.useMutation<DeleteCurrentUserMutation, DeleteCurrentUserMutationVariables>(DeleteCurrentUserDocument);
 };
-export const MeAuthDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"meAuth"},"variableDefinitions":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meAuth"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playingPlatform"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"youtube"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"auth"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"token"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"twitter"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"auth"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"facebook"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"auth"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"spotify"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"auth"},"arguments":[],"directives":[]},{"kind":"Field","name":{"kind":"Name","value":"token"},"arguments":[],"directives":[]}]}}]}}]}}]};
+export const MeAuthDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"meAuth"},"variableDefinitions":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meAuth"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"youtube"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"spotify"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"twitter"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]}]}},{"kind":"Field","name":{"kind":"Name","value":"facebook"},"arguments":[],"directives":[],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"},"arguments":[],"directives":[]}]}}]}}]}}]};
 
 export function useMeAuthQuery(options: Omit<Urql.UseQueryArgs<MeAuthQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeAuthQuery>({ query: MeAuthDocument, ...options });

@@ -6,11 +6,9 @@ import { useCurrentUser } from "~/hooks/user";
 import {
   useMyPlaylistsQuery,
   useInsertPlaylistTracksMutation,
-  useCreatePlaylistMutation,
-  Playlist,
-  Track,
-  PlatformName,
-} from "~/graphql/gql.gen";
+} from "~/hooks/playlist/index";
+import { Track, PlatformName } from "~/graphql/gql.gen";
+import { Playlist } from "~/types/index";
 import { SvgSpotify, SvgYoutube, SvgCheck, SvgPlus } from "~/assets/svg";
 
 const PlaylistItem: React.FC<{
@@ -71,11 +69,15 @@ const CreatePlaylist: React.FC<{
   track: Track;
   done: () => void;
 }> = ({ track, done }) => {
-  const [{ fetching }, createPlaylist] = useCreatePlaylistMutation();
   const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
   const toasts = useToasts();
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const [
+    insertPlaylistTracks,
+    { isLoading: fetching },
+  ] = useInsertPlaylistTracksMutation();
 
   const handleCreatePlaylistAndAdd = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -88,20 +90,20 @@ const CreatePlaylist: React.FC<{
       if (!playlistTitle)
         return toasts.error("Enter a playlist name to continue");
 
-      const { data } = await createPlaylist({
-        title: playlistTitle,
-        platform: track.platform,
+      const ok = await insertPlaylistTracks({
+        name: playlistTitle,
         tracks: [track.id],
       });
-      if (!data?.createPlaylist) {
+
+      if (!ok) {
         toasts.error("Cannot create new playlist");
         return;
       }
 
-      toasts.success(`Create playlist ${data.createPlaylist.title}`);
+      toasts.success(`Create playlist ${playlistTitle}`);
       done();
     },
-    [fetching, createPlaylist, done, toasts, track]
+    [fetching, done, toasts, track, insertPlaylistTracks]
   );
 
   return isCreatingPlaylist ? (
@@ -149,23 +151,21 @@ const AddToExistingPlaylist: React.FC<{
 }> = ({ track, done }) => {
   const toasts = useToasts();
 
-  const [
-    { data: { myPlaylists } = { myPlaylists: null } },
-  ] = useMyPlaylistsQuery();
+  const { data: myPlaylists } = useMyPlaylistsQuery();
 
   const [
-    { fetching },
     insertPlaylistTracks,
+    { isLoading: fetching },
   ] = useInsertPlaylistTracksMutation();
 
   const handleAdd = useCallback(
     async (playlist: Playlist) => {
       if (fetching) return;
-      const result = await insertPlaylistTracks({
+      const ok = await insertPlaylistTracks({
         id: playlist.id,
         tracks: [track.id],
       });
-      if (!result.error) {
+      if (ok) {
         toasts.success(`Added ${track.title} to ${playlist.title}`);
         done();
       }

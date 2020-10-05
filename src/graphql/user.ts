@@ -8,7 +8,7 @@ export const FRAGMENT_USER_PUBLIC = /* GraphQL */ `
 `;
 
 export const QUERY_CURRENT_USER = /* GraphQL */ `
-  query currentUser {
+  query me {
     me {
       ...UserPublicParts
     }
@@ -26,11 +26,7 @@ export const QUERY_USER = /* GraphQL */ `
 `;
 
 export const MUTATION_UPDATE_CURRENT_USER = /* GraphQL */ `
-  mutation updateCurrentUser(
-    $name: String
-    $username: String
-    $profilePicture: Upload
-  ) {
+  mutation me($name: String, $username: String, $profilePicture: Upload) {
     me(name: $name, username: $username, profilePicture: $profilePicture) {
       ...UserPublicParts
     }
@@ -39,13 +35,13 @@ export const MUTATION_UPDATE_CURRENT_USER = /* GraphQL */ `
 `;
 
 export const MUTATION_DISCONNECT_OAUTH = /* GraphQL */ `
-  mutation disconnectOAuthProvider($provider: OAuthProviderName!) {
+  mutation deleteMeOauth($provider: OAuthProviderName!) {
     deleteMeOauth(provider: $provider)
   }
 `;
 
 export const MUTATION_DELETE_CURRENT_USER = /* GraphQL */ `
-  mutation deleteCurrentUser {
+  mutation deleteMe {
     deleteMe
   }
 `;
@@ -53,20 +49,17 @@ export const MUTATION_DELETE_CURRENT_USER = /* GraphQL */ `
 export const QUERY_CURRENT_USER_AUTH = /* GraphQL */ `
   query meAuth {
     meAuth {
-      playingPlatform
       youtube {
-        auth
-        token
-      }
-      twitter {
-        auth
-      }
-      facebook {
-        auth
+        id
       }
       spotify {
-        auth
-        token
+        id
+      }
+      twitter {
+        id
+      }
+      facebook {
+        id
       }
     }
   }
