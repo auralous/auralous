@@ -84,7 +84,7 @@ const TrackAdderPlaylist: React.FC<{
           results={queryResults || []}
         />
       ) : (
-        <div className="flex-1 h-0">
+        <div className="flex-1 h-0 overflow-auto">
           {isLoading && (
             <p className="px-2 py-6 text-center font-bold text-foreground-tertiary animate-pulse">
               Loading playlist

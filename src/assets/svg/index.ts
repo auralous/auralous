@@ -2,6 +2,7 @@ export { default as SvgAlertCircle } from "./alert-circle.svg";
 export { default as SvgCheck } from "./check.svg";
 export { default as SvgChevronDown } from "./chevron-down.svg";
 export { default as SvgChevronLeft } from "./chevron-left.svg";
+export { default as SvgChevronUp } from "./chevron-up.svg";
 export { default as SvgChevronsLeft } from "./chevrons-left.svg";
 export { default as SvgChevronRight } from "./chevron-right.svg";
 export { default as SvgChevronsRight } from "./chevrons-right.svg";

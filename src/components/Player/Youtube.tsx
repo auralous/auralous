@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
 import { verifyScript } from "~/lib/script-utils";
+import { SvgChevronDown, SvgChevronUp } from "~/assets/svg";
 /// <reference path="youtube" />
 
 const YT_PLAYER_VARS = {
@@ -88,12 +89,34 @@ export default function YouTubePlayer() {
     return () => bodyDom?.classList.remove("pt-youtube");
   }, []);
 
+  const [posIsTop, setPosIsTop] = useState(true);
+
   return (
     <>
       <div
-        className={`absolute top-0 left-0 z-20 w-screen md:top-2 md:left-auto md:right-2 md:w-72 md:rounded-lg h-48 overflow-hidden shadow-lg`}
+        className={`absolute top-0 right-0 z-30 w-screen ${
+          posIsTop ? "" : "md:bottom-0 md:top-auto"
+        } md:w-72 md:rounded-lg h-48 overflow-hidden shadow-lg`}
       >
-        <div className="absolute inset-0 w-full h-full" id="ytPlayer" />
+        <div className="absolute md:p-2 inset-0 w-full h-full" id="ytPlayer" />
+        <div className="absolute z-20 bottom-0 left-0 p-3 hidden md:block">
+          <button
+            className="button rounded-r-none p-1"
+            onClick={() => setPosIsTop(true)}
+            disabled={posIsTop}
+            title="Move to top"
+          >
+            <SvgChevronUp width="14" height="14" />
+          </button>
+          <button
+            className="button rounded-l-none p-1"
+            onClick={() => setPosIsTop(false)}
+            disabled={!posIsTop}
+            title="Move to bottom"
+          >
+            <SvgChevronDown width="14" height="14" />
+          </button>
+        </div>
       </div>
     </>
   );
