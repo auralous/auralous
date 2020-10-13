@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -6,7 +6,6 @@ import { NextSeo } from "next-seo";
 import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
 import { ShareDialog } from "~/components/Social/Share";
 import { useModal, Modal } from "~/components/Modal/index";
-import { QueuePermission } from "~/components/Queue";
 import { useCurrentUser } from "~/hooks/user";
 import NotFoundPage from "../../404";
 import { forwardSSRHeaders } from "~/lib/ssr-utils";
@@ -25,14 +24,9 @@ import {
   SvgSettings,
   SvgUser,
   SvgPlay,
-  SvgMaximize2,
 } from "~/assets/svg";
-import { useLogin } from "~/components/Auth";
-import { useQueue } from "~/components/Queue/index";
 import { QUERY_ROOM } from "~/graphql/room";
 import { CONFIG } from "~/lib/constants";
-import { TrackItem } from "~/components/Track/TrackItem";
-import { QueueRules } from "~/components/Queue/types";
 
 // FIXME: types: should be inferred
 const RoomSettingsModal = dynamic<{
@@ -44,20 +38,9 @@ const RoomSettingsModal = dynamic<{
   import("~/components/Room/index").then((mod) => mod.RoomSettingsModal)
 );
 
-const QueueManager = dynamic<{
-  queueId: string;
-  permission: QueuePermission;
-  rules: QueueRules;
-}>(() => import("~/components/Queue/index").then((mod) => mod.QueueManager), {
-  ssr: false,
-});
-
-const QueueViewer = dynamic<{
-  queueId: string;
-  reverse?: boolean | undefined;
-}>(() => import("~/components/Queue/index").then((mod) => mod.QueueViewer), {
-  ssr: false,
-});
+const RoomQueue = dynamic<{ room: Room; roomState?: RoomState }>(() =>
+  import("~/components/Room/index").then((mod) => mod.RoomQueue)
+);
 
 const Chatbox = dynamic<{ roomId: string }>(() =>
   import("~/components/Chat/index").then((mod) => mod.Chatbox)
@@ -138,105 +121,6 @@ const CurrentUserButton: React.FC<{ room: Room }> = ({ room }) => {
         </Modal.Content>
       </Modal.Modal>
     </>
-  );
-};
-
-const RoomQueue: React.FC<{ room: Room }> = ({ room }) => {
-  const [
-    { data: { roomState } = { roomState: undefined } },
-  ] = useRoomStateQuery({ variables: { id: room.id } });
-  const user = useCurrentUser();
-  const [, logIn] = useLogin();
-  const permission = useMemo(
-    () => ({
-      canEditOthers: user?.id === room.creator.id,
-      canAdd:
-        !!user &&
-        Boolean(
-          room.creator.id === user.id ||
-            roomState?.anyoneCanAdd ||
-            roomState?.collabs.includes(user.id)
-        ),
-    }),
-    [user, room, roomState]
-  );
-
-  return (
-    <>
-      {!user && (
-        <div className="p-2">
-          <button
-            onClick={logIn}
-            className="button button-foreground text-xs flex-none w-full"
-          >
-            Sign in to add songs
-          </button>
-        </div>
-      )}
-      <QueueManager
-        queueId={`room:${room.id}`}
-        permission={permission}
-        rules={{ maxSongs: roomState?.queueMax ?? 0 }}
-      />
-    </>
-  );
-};
-
-const TrackListModal: React.FC<{
-  room: Room;
-  active: boolean;
-  close: () => void;
-}> = ({ room, active, close }) => {
-  const [tab, setTab] = useState<"played" | "next">("next");
-  return (
-    <Modal.Modal active={active} onOutsideClick={close}>
-      <Modal.Header>
-        <div role="tablist">
-          <button
-            role="tab"
-            className={`font-bold text-xl leading-tight ${
-              tab === "next" ? "opacity-100" : "opacity-25"
-            } transition-opacity duration-200 mr-4`}
-            aria-controls="tabpanel_next"
-            onClick={() => setTab("next")}
-            aria-selected={tab === "next"}
-          >
-            Up Next
-          </button>
-          <button
-            role="tab"
-            className={`font-bold text-xl leading-tight ${
-              tab === "played" ? "opacity-100" : "opacity-25"
-            } transition-opacity duration-200 mr-2`}
-            aria-controls="tabpanel_played"
-            onClick={() => setTab("played")}
-            aria-selected={tab === "played"}
-          >
-            Recently Played
-          </button>
-        </div>
-      </Modal.Header>
-      <div className="flex-1 overflow-hidden">
-        <div
-          style={{ height: "85vh" }}
-          aria-labelledby="tabpanel_next"
-          role="tabpanel"
-          aria-hidden={tab !== "next"}
-          hidden={tab !== "next"}
-        >
-          <RoomQueue room={room} />
-        </div>
-        <div
-          style={{ height: "85vh" }}
-          aria-labelledby="tabpanel_played"
-          role="tabpanel"
-          aria-hidden={tab !== "played"}
-          hidden={tab !== "played"}
-        >
-          <QueueViewer reverse queueId={`room:${room.id}:played`} />
-        </div>
-      </div>
-    </Modal.Modal>
   );
 };
 
@@ -327,46 +211,6 @@ const RoomRulesButton: React.FC<{ room: Room }> = ({ room }) => {
   );
 };
 
-const QueueSection: React.FC<{ room: Room }> = ({ room }) => {
-  const [activeList, openList, closeList] = useModal();
-
-  const [queue] = useQueue(`room:${room.id}`);
-
-  return (
-    <>
-      <div className="w-full flex-none p-2 overflow-hidden">
-        <div
-          role="button"
-          onClick={openList}
-          className="rounded-lg relative p-2 outline-none bg-background-secondary focus:bg-background-tertiary hover:bg-background-tertiary transition-colors duration-200"
-          tabIndex={0}
-          onKeyDown={(ev) =>
-            (ev.key === "Enter" || ev.key === " ") && openList()
-          }
-        >
-          <span className="absolute top-2 right-2">
-            <SvgMaximize2 width="14" />
-          </span>
-          <div className="text-xs font-bold mb-1">Up Next</div>
-          {queue?.items[0] ? (
-            <TrackItem id={queue.items[0].trackId} />
-          ) : (
-            <div className="h-12 p-1 px-2">
-              <p className="text-sm leading-noney text-foreground-secondary font-semibold">
-                No upcoming track
-              </p>
-              <span className="text-success-light text-sm font-bold">
-                Add a song
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-      <TrackListModal room={room} active={activeList} close={closeList} />
-    </>
-  );
-};
-
 const RoomMain: React.FC<{
   room: Room;
 }> = ({ room }) => {
@@ -392,15 +236,14 @@ const RoomMain: React.FC<{
           <PlayerEmbeddedControl nowPlayingReactionId={`room:${room.id}`} />
         )}
       </div>
-      <QueueSection room={room} />
     </div>
   );
 };
 
 const Navbar: React.FC<{
   room: Room;
-  tab: "main" | "chat";
-  setTab: React.Dispatch<React.SetStateAction<"main" | "chat">>;
+  tab: "main" | "chat" | "queue";
+  setTab: React.Dispatch<React.SetStateAction<"main" | "chat" | "queue">>;
 }> = ({ room, tab, setTab }) => {
   const [activeShare, openShare, closeShare] = useModal();
   return (
@@ -432,7 +275,7 @@ const Navbar: React.FC<{
               className={`text-lg font-bold mx-1 p-1 ${
                 tab === "main" ? "opacity-100" : "opacity-25"
               } transition-opacity duration-200`}
-              aria-controls="tabpanel_next"
+              aria-controls="tabpanel_main"
               onClick={() => setTab("main")}
               aria-selected={tab === "main"}
             >
@@ -441,9 +284,20 @@ const Navbar: React.FC<{
             <button
               role="tab"
               className={`text-lg font-bold mx-1 p-1 ${
+                tab === "queue" ? "opacity-100" : "opacity-25"
+              } transition-opacity duration-200`}
+              aria-controls="tabpanel_queue"
+              onClick={() => setTab("queue")}
+              aria-selected={tab === "queue"}
+            >
+              Queue
+            </button>
+            <button
+              role="tab"
+              className={`text-lg font-bold mx-1 p-1 ${
                 tab === "chat" ? "opacity-100" : "opacity-25"
               } transition-opacity duration-200`}
-              aria-controls="tabpanel_played"
+              aria-controls="tabpanel_chat"
               onClick={() => setTab("chat")}
               aria-selected={tab === "chat"}
             >
@@ -480,8 +334,14 @@ const RoomPage: NextPage<{
     if (room?.id) playRoom(room?.id);
   }, [room, playRoom]);
 
-  const [tab, setTab] = useState<"main" | "chat">("main");
+  const [tab, setTab] = useState<"main" | "chat" | "queue">("main");
   const user = useCurrentUser();
+  const [
+    { data: { roomState } = { roomState: undefined } },
+  ] = useRoomStateQuery({
+    variables: { id: room?.id as string },
+    pause: !room,
+  });
   useOnRoomStateUpdatedSubscription(
     { variables: { id: room?.id as string }, pause: !room },
     (prevResposne, response) => response
@@ -517,9 +377,17 @@ const RoomPage: NextPage<{
             }}
           />
           <div
+            className={`w-full ${
+              tab === "queue" ? "" : "hidden"
+            } md:block flex-1`}
+            style={{ background: "linear-gradient(0deg, black, transparent)" }}
+          >
+            <RoomQueue room={room} roomState={roomState || undefined} />
+          </div>
+          <div
             className={`w-full relative ${
               tab === "main" ? "" : "hidden"
-            } md:block md:w-1/2 lg:w-3/4`}
+            } md:block md:w-1/3 lg:w-1/2`}
           >
             <RoomMain room={room} />
             {room.creator && room.creator.id === user?.id && (

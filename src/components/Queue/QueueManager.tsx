@@ -14,130 +14,20 @@ import {
 } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "~/components/Track/TrackItem";
-import AddNewTrack from "~/components/Track/AddTrack";
 import { useToasts } from "~/components/Toast/index";
-import { useModal, Modal } from "~/components/Modal/index";
 import useQueue from "./useQueue";
 import QueueItemUser from "./QueueItemUser";
 import { useCurrentUser } from "~/hooks/user";
 import {
   useUpdateQueueMutation,
   QueueAction,
-  Track,
   TrackQueryVariables,
   TrackQuery,
-  QueryTrackArgs,
   Queue,
 } from "~/graphql/gql.gen";
 import { QUERY_TRACK } from "~/graphql/track";
 import { QueuePermission, QueueRules } from "./types";
 import { SvgChevronsLeft, SvgChevronsRight } from "~/assets/svg";
-
-const QueueMenu: React.FC<{
-  queue: Queue;
-  permission: QueuePermission;
-}> = ({ queue, permission }) => {
-  const [activeAdd, openAdd, closeAdd] = useModal();
-  const [activeClear, openClear, closeClear] = useModal();
-  const toasts = useToasts();
-  const [, updateQueue] = useUpdateQueueMutation();
-  const urqlClient = useClient();
-
-  const addTrackCb = useCallback(
-    async (newTrackArray: string[]) => {
-      if (!queue) return;
-      const { error } = await updateQueue({
-        id: queue.id,
-        tracks: newTrackArray,
-        action: QueueAction.Add,
-      });
-      let firstTrack: Track | undefined | null;
-      if (newTrackArray.length === 1) {
-        // We can load the first track as representation
-        firstTrack = (
-          await urqlClient
-            .query<TrackQuery, QueryTrackArgs>(QUERY_TRACK, {
-              id: newTrackArray[0],
-            })
-            .toPromise()
-        ).data?.track;
-      }
-      if (!error)
-        toasts.success(
-          `Added ${
-            firstTrack ? firstTrack.title : `${newTrackArray.length} tracks`
-          }`
-        );
-    },
-    [queue, toasts, updateQueue, urqlClient]
-  );
-
-  return (
-    <>
-      <div className="flex items-center my-1">
-        <span className="mx-2 text-sm opacity-75 font-bold">Actions</span>
-        <button
-          type="button"
-          className="button button-success rounded-full px-2 py-0 mr-1 font-semibold text-xs"
-          onClick={openAdd}
-          disabled={!permission.canAdd}
-        >
-          Add songs
-        </button>
-        {permission.canEditOthers && (
-          <button
-            onClick={openClear}
-            className="button button-light rounded-full px-2 py-0 mr-1 font-semibold text-xs"
-          >
-            Clear
-          </button>
-        )}
-      </div>
-      <Modal.Modal
-        title="Clear queue"
-        active={activeClear}
-        onOutsideClick={closeClear}
-      >
-        <Modal.Content>
-          Are you sure you want to remove <b>{queue.items.length} tracks</b>{" "}
-          from the queue?
-        </Modal.Content>
-        <Modal.Footer>
-          <button
-            className="button button-danger"
-            onClick={() =>
-              updateQueue({
-                id: queue.id,
-                action: QueueAction.Clear,
-              }).then((result) => {
-                if (result.error) return;
-                toasts.success("Queue cleared");
-                closeClear();
-              })
-            }
-          >
-            Clear Queue
-          </button>
-        </Modal.Footer>
-      </Modal.Modal>
-      <Modal.Modal
-        title="Select songs to add"
-        active={activeAdd}
-        onOutsideClick={closeAdd}
-      >
-        <Modal.Header>
-          <Modal.Title>Select songs</Modal.Title>
-        </Modal.Header>
-        <Modal.Content>
-          <AddNewTrack
-            addedTracks={queue.items.map(({ trackId }) => trackId)}
-            callback={addTrackCb}
-          />
-        </Modal.Content>
-      </Modal.Modal>
-    </>
-  );
-};
 
 const QueueDraggableItem: React.FC<{
   permission: QueuePermission;
@@ -312,7 +202,6 @@ const QueueManager: React.FC<{
 
   return (
     <div className="h-full w-full flex flex-col justify-between">
-      <QueueMenu permission={permission} queue={queue} />
       <div className="w-full h-full">
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable
