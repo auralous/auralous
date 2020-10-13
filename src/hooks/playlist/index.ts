@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useMutation, useQuery, useQueryCache } from "react-query";
 import SpotifyPlaylist from "./spotify";
 import YoutubePlaylist from "./youtube";
@@ -15,20 +15,20 @@ const MY_PLAYLIST_CACHEKEY = "my-playlists";
 
 export const useMyPlaylistsQuery = () => {
   const { data: mAuth } = useMAuth();
-  useEffect(() => {
-    playlistService.youtube.auth = null;
-    playlistService.spotify.auth = null;
-    if (mAuth) {
-      playlistService[mAuth.platform].auth = {
-        token: mAuth.accessToken,
-        authId: mAuth.id,
-      };
-    }
-  }, [mAuth]);
 
   return useQuery<Playlist[] | null>(
-    MY_PLAYLIST_CACHEKEY,
-    () => (mAuth ? playlistService[mAuth.platform].getAll() : null),
+    MY_PLAYLIST_CACHEKEY + mAuth?.id,
+    () => {
+      playlistService.youtube.auth = null;
+      playlistService.spotify.auth = null;
+      if (mAuth) {
+        playlistService[mAuth.platform].auth = {
+          token: mAuth.accessToken,
+          authId: mAuth.id,
+        };
+      }
+      return mAuth ? playlistService[mAuth.platform].getAll() : null;
+    },
     {
       enabled: !!mAuth,
       refetchOnMount: false,

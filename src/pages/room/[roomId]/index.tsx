@@ -269,7 +269,7 @@ const Navbar: React.FC<{
           <CurrentUserButton room={room} />
         </div>
         <div className="flex items justify-end">
-          <div className="flex-none md:hidden flex  " role="tablist">
+          <div className="flex-none lg:hidden flex" role="tablist">
             <button
               role="tab"
               className={`text-lg font-bold mx-1 p-1 ${
@@ -379,7 +379,7 @@ const RoomPage: NextPage<{
           <div
             className={`w-full ${
               tab === "queue" ? "" : "hidden"
-            } md:block flex-1`}
+            } lg:block flex-1`}
             style={{ background: "linear-gradient(0deg, black, transparent)" }}
           >
             <RoomQueue room={room} roomState={roomState || undefined} />
@@ -387,7 +387,7 @@ const RoomPage: NextPage<{
           <div
             className={`w-full relative ${
               tab === "main" ? "" : "hidden"
-            } md:block md:w-1/3 lg:w-1/2`}
+            } lg:block lg:w-1/2`}
           >
             <RoomMain room={room} />
             {room.creator && room.creator.id === user?.id && (
@@ -398,7 +398,7 @@ const RoomPage: NextPage<{
           <div
             className={`w-full ${
               tab === "chat" ? "" : "hidden"
-            } md:block flex-1`}
+            } lg:block flex-1`}
             style={{ background: "linear-gradient(0deg, black, transparent)" }}
           >
             <Chatbox roomId={`room:${room.id}`} />

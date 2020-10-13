@@ -53,14 +53,14 @@ const TrackAdderPlaylist: React.FC<{
 
   return (
     <>
-      <div className="border-background-tertiary px-2 h-10 flex items-center font-bold text-lg">
+      <div className="text-sm px-2 h-10 flex items-center font-bold">
         <button
           onClick={() => setSelectedPlaylist(null)}
           title="Select another playlist"
           className="button p-1 bg-transparent inline mr-2"
           disabled={!selectedPlaylist}
         >
-          <SvgChevronLeft width="28" height="28" />
+          <SvgChevronLeft width="24" height="24" />
         </button>
         {selectedPlaylist ? (
           <>
@@ -84,7 +84,7 @@ const TrackAdderPlaylist: React.FC<{
           results={queryResults || []}
         />
       ) : (
-        <div className="overflow-auto">
+        <div className="flex-1 h-0">
           {isLoading && (
             <p className="px-2 py-6 text-center font-bold text-foreground-tertiary animate-pulse">
               Loading playlist

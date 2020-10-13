@@ -64,7 +64,7 @@ const TrackAdderSearch: React.FC<{
           if (!inputRef.current) return;
           submitSearch(inputRef.current.value);
         }}
-        className=""
+        className="p-2"
         autoComplete="off"
       >
         <div className="relative w-full">

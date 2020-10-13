@@ -74,7 +74,7 @@ const QueueDraggableItem: React.FC<{
         ...provided.draggableProps.style,
         ...style,
       }}
-      className={`select-none rounded-lg flex p-2 mb-2 items-center justify-between ${
+      className={`select-none flex p-2 border-b-2 border-opacity-25 border-background-secondary items-center justify-between ${
         isDragging ? "opacity-75" : ""
       }`}
     >

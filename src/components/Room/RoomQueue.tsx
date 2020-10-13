@@ -6,7 +6,7 @@ import {
   useUpdateQueueMutation,
 } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
-import { QueueManager } from "../Queue";
+import { QueueManager, useQueue } from "../Queue";
 import { TrackAdderPlaylist, TrackAdderSearch } from "../Track/TrackAdder";
 
 const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
@@ -16,6 +16,13 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
   const [tab, setTab] = useState<"queue" | "song" | "playlist">("queue");
   const user = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
+
+  const [queue] = useQueue(`room:${room.id}`);
+
+  const addedTracks = useMemo(() => {
+    if (!queue) return [];
+    return queue.items.map(({ trackId }) => trackId);
+  }, [queue]);
 
   const permission = useMemo(
     () => ({
@@ -85,18 +92,27 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
           Playlist
         </button>
       </div>
-      <div hidden={tab !== "queue"}>
+      <div
+        aria-hidden={tab !== "queue"}
+        className={`${tab !== "queue" ? "hidden" : "flex"} flex-col h-full`}
+      >
         <QueueManager
           permission={permission}
           rules={{ maxSongs: roomState?.queueMax ?? 0 }}
           queueId={`room:${room.id}`}
         />
       </div>
-      <div hidden={tab !== "song"} className="p-2">
-        <TrackAdderSearch callback={onAddTracks} addedTracks={[]} />
+      <div
+        aria-hidden={tab !== "song"}
+        className={`${tab !== "song" ? "hidden" : "flex"} flex-col h-full`}
+      >
+        <TrackAdderSearch callback={onAddTracks} addedTracks={addedTracks} />
       </div>
-      <div hidden={tab !== "playlist"}>
-        <TrackAdderPlaylist callback={onAddTracks} addedTracks={[]} />
+      <div
+        aria-hidden={tab !== "playlist"}
+        className={`${tab !== "playlist" ? "hidden" : "flex"} flex-col h-full`}
+      >
+        <TrackAdderPlaylist callback={onAddTracks} addedTracks={addedTracks} />
       </div>
     </div>
   );
