@@ -1,15 +1,14 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useModal, Modal } from "~/components/Modal/index";
+import React from "react";
+import { SvgX, SvgPlus } from "~/assets/svg";
+import { useModal, Modal } from "~/components/Modal";
 import { useToasts } from "~/components/Toast";
 import {
-  Room,
   useUserQuery,
-  useUpdateRoomMutation,
   useUpdateRoomMembershipMutation,
-  RoomMembership,
+  Room,
   RoomState,
+  RoomMembership,
 } from "~/graphql/gql.gen";
-import { SvgPlus, SvgX } from "~/assets/svg";
 
 const RoomMember: React.FC<{ userId: string; roomId: string }> = ({
   userId,
@@ -121,83 +120,12 @@ const RoomMemberSection: React.FC<{
   );
 };
 
-const RoomSettingsQueue: React.FC<{
-  room: Room;
-  roomState: RoomState;
-}> = ({ room, roomState }) => {
-  const anyoneCanAddRef = useRef<HTMLSelectElement>(null);
-  const queueMaxRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (!roomState) return;
-    anyoneCanAddRef.current!.value = roomState.anyoneCanAdd ? "1" : "0";
-    queueMaxRef.current!.value = String(roomState.queueMax || 0);
-  }, [roomState]);
-
-  const [{ fetching }, updateRoom] = useUpdateRoomMutation();
-  const [isChanged, setIsChanged] = useState(false);
-
-  const handleSaveRules = async () => {
-    const update = {
-      id: room.id,
-      anyoneCanAdd: anyoneCanAddRef.current!.value === "1",
-      queueMax: parseInt(queueMaxRef.current!.value, 10),
-    };
-    if (
-      update.anyoneCanAdd === roomState.anyoneCanAdd &&
-      update.queueMax === roomState.queueMax
-    ) {
-      return setIsChanged(false);
-    }
-    const result = await updateRoom(update);
-    if (!result.error) setIsChanged(false);
-  };
-
+const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
+  room,
+  roomState,
+}) => {
   return (
     <>
-      <h4 className="text-2xl font-bold bg-background-secondary rounded-lg py-1 px-2 mb-4">
-        Room Rules
-      </h4>
-      <div className="mb-4">
-        <h5 className="text-lg font-bold">Allow guests to add songs</h5>
-        <p className="text-foreground-secondary mb-1">
-          If disabled, only <b>room members</b> (not <b>Guest</b>) can add
-          songs.
-        </p>
-        <select
-          ref={anyoneCanAddRef}
-          className="input"
-          onChange={() => setIsChanged(true)}
-        >
-          <option value={1}>Yes</option>
-          <option value={0}>No</option>
-        </select>
-      </div>
-      <div className="mb-4">
-        <h5 className="text-lg font-bold">Max songs</h5>
-        <p className="text-foreground-secondary mb-1">
-          Highest numbers of songs that one can add to the queue at a time. (0
-          means Unlimited)
-        </p>
-        <input
-          ref={queueMaxRef}
-          className="input w-24"
-          type="number"
-          min="0"
-          max="50"
-          onChange={() => setIsChanged(true)}
-        />
-      </div>
-      <button
-        className="button  mb-6"
-        onClick={handleSaveRules}
-        disabled={!isChanged || fetching}
-      >
-        {isChanged ? "Save" : "Saved"}
-      </button>
-      <h4 className="text-2xl font-bold bg-background-secondary rounded-lg py-1 px-2 mb-4">
-        Room Members
-      </h4>
       <div className="mb-4">
         <h5 className="text-lg font-bold">Host</h5>
         <p className="text-foreground-secondary mb-1">
@@ -224,12 +152,10 @@ const RoomSettingsQueue: React.FC<{
         <p className="text-foreground-secondary mb-1">
           Can <b>only</b> react to songs -- that&apos;s it.
         </p>
-        <p>
-          <i>(everyone else)</i>
-        </p>
+        <p className="opacity-75 text-sm">(everyone else)</p>
       </div>
     </>
   );
 };
 
-export default RoomSettingsQueue;
+export default RoomSettingsMember;
