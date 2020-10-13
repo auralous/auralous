@@ -23,41 +23,22 @@ const MessageItem: React.FC<{
   const dateDiff = Date.now() - message.createdAt;
   const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
   return (
-    <div className="pb-2" style={style}>
-      <div
-        className="p-2 text-sm rounded-lg flex w-full"
-        style={
-          isCurrentUser
-            ? {
-                background:
-                  "linear-gradient(134deg, rgba(0, 112, 243, 0.38), transparent 60%)",
-              }
-            : undefined
-        }
-      >
-        {!isCurrentUser && (
-          <span className="flex-shrink-0 mr-2">
-            <img
-              src={message.from.photo}
-              alt={message.from.name}
-              className="w-10 h-10 rounded-full object-cover"
-            />
+    <div className="text-sm rounded-lg flex w-full" style={style}>
+      <div>
+        <div className="opacity-75 text-xs">
+          <span
+            className={`${
+              isCurrentUser ? "bg-success-light rounded-lg px-1" : ""
+            } text-white font-bold`}
+          >
+            {message.from.name}
           </span>
-        )}
-        <div>
-          <div className="opacity-75 text-xs">
-            {!isCurrentUser && (
-              <>
-                <span className="text-white font-bold">
-                  {message.from.name}
-                </span>
-                {" • "}
-              </>
-            )}
-            <span className="text-white opacity-75">{dateDiffTxt}</span>
-          </div>
-          <p className="text-white text-opacity-75">{message.message}</p>
+          {" • "}
+          <span className="text-white opacity-75">{dateDiffTxt}</span>
         </div>
+        <p className="text-white text-sm leading-tight text-opacity-75">
+          {message.message}
+        </p>
       </div>
     </div>
   );
@@ -135,7 +116,7 @@ const ChatBox: React.FC<{ roomId: string }> = ({ roomId }) => {
             height={height}
             width={width}
             itemCount={messages.length}
-            itemSize={60}
+            itemSize={48}
             itemData={messages}
           >
             {ChatRow}

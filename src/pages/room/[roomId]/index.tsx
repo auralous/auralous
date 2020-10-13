@@ -12,19 +12,11 @@ import { forwardSSRHeaders } from "~/lib/ssr-utils";
 import {
   Room,
   useRoomQuery,
-  useUserQuery,
   useRoomStateQuery,
   useOnRoomStateUpdatedSubscription,
-  RoomMembership,
   RoomState,
 } from "~/graphql/gql.gen";
-import {
-  SvgChevronLeft,
-  SvgShare,
-  SvgSettings,
-  SvgUser,
-  SvgPlay,
-} from "~/assets/svg";
+import { SvgChevronLeft, SvgShare, SvgSettings, SvgPlay } from "~/assets/svg";
 import { QUERY_ROOM } from "~/graphql/room";
 import { CONFIG } from "~/lib/constants";
 
@@ -34,95 +26,20 @@ const RoomSettingsModal = dynamic<{
   roomState: RoomState;
   active: boolean;
   close: () => void;
-}>(() =>
-  import("~/components/Room/index").then((mod) => mod.RoomSettingsModal)
+}>(
+  () => import("~/components/Room/index").then((mod) => mod.RoomSettingsModal),
+  { ssr: false }
 );
 
-const RoomQueue = dynamic<{ room: Room; roomState?: RoomState }>(() =>
-  import("~/components/Room/index").then((mod) => mod.RoomQueue)
+const RoomQueue = dynamic<{ room: Room; roomState?: RoomState }>(
+  () => import("~/components/Room/index").then((mod) => mod.RoomQueue),
+  { ssr: false }
 );
 
-const Chatbox = dynamic<{ roomId: string }>(() =>
-  import("~/components/Chat/index").then((mod) => mod.Chatbox)
+const RoomChat = dynamic<{ room: Room; roomState?: RoomState }>(
+  () => import("~/components/Room/index").then((mod) => mod.RoomChat),
+  { ssr: false }
 );
-
-const CurrentUser: React.FC<{
-  userId: string;
-  role: RoomMembership | null;
-}> = ({ userId, role }) => {
-  const [{ data }] = useUserQuery({ variables: { id: userId } });
-  return (
-    <div className="flex items-start w-56 p-2 hover:bg-background-secondary rounded-lg mb-2 mr-2">
-      {data?.user ? (
-        <img
-          className="rounded-full w-12 h-12 object-cover"
-          src={data.user.profilePicture}
-          alt={data.user.username}
-        />
-      ) : (
-        <div className="rounded-full w-12 h-12 bg-background-secondary animate-pulse" />
-      )}
-      <div className="ml-2 overflow-hidden">
-        <h5 className="font-bold truncate leading-tight">
-          {data?.user?.username || (
-            <div className="bg-background-secondary animate-pulse h-6 w-32 rounded" />
-          )}
-        </h5>
-        {role === RoomMembership.Host && (
-          <span className="px-1 rounded-lg text-xs bg-pink font-semibold">
-            Host
-          </span>
-        )}
-        {role === RoomMembership.Collab && (
-          <span className="px-1 rounded-lg text-xs bg-white text-black font-semibold">
-            Collab
-          </span>
-        )}
-      </div>
-    </div>
-  );
-};
-
-const CurrentUserButton: React.FC<{ room: Room }> = ({ room }) => {
-  const [
-    { data: { roomState } = { roomState: undefined } },
-  ] = useRoomStateQuery({ variables: { id: room.id } });
-  const [active, show, close] = useModal();
-  if (!roomState) return null;
-  return (
-    <>
-      <button
-        className="button text-xs px-1 py-0 h-6 mx-1"
-        onClick={show}
-        aria-label="Show current listeners"
-      >
-        <SvgUser width="14" height="14" className="mr-1" />{" "}
-        {roomState.userIds.length || "0"}
-      </button>
-      <Modal.Modal active={active} onOutsideClick={close}>
-        <Modal.Header>
-          <Modal.Title>In this room</Modal.Title>
-        </Modal.Header>
-        <Modal.Content className="flex flex-wrap">
-          {roomState.userIds.map((userId) => (
-            // TODO: react-window
-            <CurrentUser
-              key={userId}
-              userId={userId}
-              role={
-                roomState.collabs.includes(userId)
-                  ? RoomMembership.Collab
-                  : room.creator.id === userId
-                  ? RoomMembership.Host
-                  : null
-              }
-            />
-          ))}
-        </Modal.Content>
-      </Modal.Modal>
-    </>
-  );
-};
 
 const RoomSettingsButton: React.FC<{ room: Room }> = ({ room }) => {
   const [active, open, close] = useModal();
@@ -266,7 +183,6 @@ const Navbar: React.FC<{
           <button onClick={openShare} className="button p-1 mx-1" title="Share">
             <SvgShare width="14" height="14" />
           </button>
-          <CurrentUserButton room={room} />
         </div>
         <div className="flex items justify-end">
           <div className="flex-none lg:hidden flex" role="tablist">
@@ -380,7 +296,9 @@ const RoomPage: NextPage<{
             className={`w-full ${
               tab === "queue" ? "" : "hidden"
             } lg:block flex-1`}
-            style={{ background: "linear-gradient(0deg, black, transparent)" }}
+            style={{
+              background: "linear-gradient(0deg, rgba(0,0,0,.1), transparent)",
+            }}
           >
             <RoomQueue room={room} roomState={roomState || undefined} />
           </div>
@@ -399,9 +317,11 @@ const RoomPage: NextPage<{
             className={`w-full ${
               tab === "chat" ? "" : "hidden"
             } lg:block flex-1`}
-            style={{ background: "linear-gradient(0deg, black, transparent)" }}
+            style={{
+              background: "linear-gradient(0deg, rgba(0,0,0,.1), transparent)",
+            }}
           >
-            <Chatbox roomId={`room:${room.id}`} />
+            <RoomChat room={room} roomState={roomState || undefined} />
           </div>
         </div>
       </div>
