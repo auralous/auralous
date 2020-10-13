@@ -25,7 +25,7 @@ import {
   TrackQuery,
   Queue,
 } from "~/graphql/gql.gen";
-import { QUERY_TRACK } from "~/graphql/track";
+import { TrackDocument } from "~/graphql/gql.gen";
 import { QueuePermission, QueueRules } from "./types";
 
 const QueueDraggableItem: React.FC<{
@@ -46,7 +46,7 @@ const QueueDraggableItem: React.FC<{
       // This should read from cache
       const deletingTrackName = (
         await urqlClient
-          .query<TrackQuery, TrackQueryVariables>(QUERY_TRACK, {
+          .query<TrackQuery, TrackQueryVariables>(TrackDocument, {
             id: queue.items[index].trackId,
           })
           .toPromise()

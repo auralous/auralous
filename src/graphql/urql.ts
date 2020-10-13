@@ -10,8 +10,8 @@ import { SubscriptionClient } from "benzene-ws-client";
 import { pipe, onPush } from "wonka";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { devtoolsExchange } from "@urql/devtools";
-import { default as schemaIntrospection } from "./introspection.json";
-import { QUERY_ROOM } from "~/graphql/room";
+// import { default as schemaIntrospection } from "./introspection.json";
+import { RoomDocument } from "~/graphql/gql.gen";
 
 const subscriptionClient =
   typeof window !== "undefined"
@@ -49,7 +49,7 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
   );
 
 const cacheExchange = createCacheExchange({
-  schema: schemaIntrospection as any,
+  // schema: schemaIntrospection as any,
   keys: {
     QueueItem: () => null,
     CrossTracks: (obj: any) => obj.originalId,
@@ -76,7 +76,7 @@ const cacheExchange = createCacheExchange({
         if (result.createRoom) {
           cache.updateQuery(
             {
-              query: QUERY_ROOM,
+              query: RoomDocument,
               // @ts-ignore
               variables: { creatorId: result.createRoom.creator.id },
             },

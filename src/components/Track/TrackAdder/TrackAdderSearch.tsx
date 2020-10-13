@@ -4,7 +4,7 @@ import { useMAuth } from "~/hooks/user";
 import { default as TrackAdderResults } from "./TrackAdderResults";
 import { SvgX } from "~/assets/svg";
 import { PlatformName, Track } from "~/graphql/gql.gen";
-import { QUERY_TRACK, QUERY_SEARCH_TRACK } from "~/graphql/track";
+import { TrackDocument, SearchTrackDocument } from "~/graphql/gql.gen";
 
 const PLATFORM_FULL_NAME: Record<PlatformName, "YouTube" | "Spotify"> = {
   youtube: "YouTube",
@@ -38,14 +38,14 @@ const TrackAdderSearch: React.FC<{
     setIsSearching(true);
     if (isValidUrl(searchQuery)) {
       const response = await urqlClient
-        .query(QUERY_TRACK, {
+        .query(TrackDocument, {
           uri: query,
         })
         .toPromise();
       setQueryResults(response.data.track ? [response.data.track] : []);
     } else {
       const response = await urqlClient
-        .query(QUERY_SEARCH_TRACK, {
+        .query(SearchTrackDocument, {
           platform,
           query,
         })

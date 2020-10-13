@@ -332,17 +332,13 @@ const RoomPage: NextPage<{
 export const getServerSideProps: GetServerSideProps<{
   room: Room | null;
 }> = async ({ params, req, res }) => {
-  const result = await fetch(`${process.env.API_URI}/graphql`, {
-    method: "POST",
-    headers: {
-      ...forwardSSRHeaders(req),
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      query: QUERY_ROOM,
-      variables: { id: params?.roomId },
-    }),
-  }).then((res) => res.json());
+  const result = await fetch(
+    `${process.env.API_URI}/graphql?query=${QUERY_ROOM.replace(
+      /([\s,]|#[^\n\r]+)+/g,
+      " "
+    ).trim()}&variables=${JSON.stringify({ id: params?.roomId })}`,
+    { headers: forwardSSRHeaders(req) }
+  ).then((res) => res.json());
   const room = result.data?.room || null;
   if (!room) res.statusCode = 404;
   else {
