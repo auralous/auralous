@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -27,7 +27,6 @@ import {
 } from "~/graphql/gql.gen";
 import { QUERY_TRACK } from "~/graphql/track";
 import { QueuePermission, QueueRules } from "./types";
-import { SvgChevronsLeft, SvgChevronsRight } from "~/assets/svg";
 
 const QueueDraggableItem: React.FC<{
   permission: QueuePermission;
@@ -41,7 +40,6 @@ const QueueDraggableItem: React.FC<{
   const urqlClient = useClient();
   const user = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
-  const [openSide, setOpenSide] = useState(false);
   const removeItem = useCallback(
     async (index: number) => {
       if (!queue) return;
@@ -79,54 +77,35 @@ const QueueDraggableItem: React.FC<{
       }`}
     >
       <div
-        className={`overflow-hidden h-full ${openSide ? "w-16" : "w-0"}`}
-        style={{ transition: "width 0.3s ease" }}
-      >
-        <button
-          type="button"
-          title="Remove track"
-          className="button button-light rounded-none flex-col h-full w-16"
-          disabled={!openSide || !canRemove}
-          onClick={() => canRemove && removeItem(index)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={8}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-          <span className="text-xs">Remove</span>
-        </button>
-      </div>
-      <button
-        aria-label="Open queu item menu"
-        onClick={() => setOpenSide(!openSide)}
-        className={`button p-0 rounded-none h-full ${
-          isDragging ? "opacity-0" : ""
-        }`}
-      >
-        {openSide ? (
-          <SvgChevronsLeft width="14" height="14" />
-        ) : (
-          <SvgChevronsRight width="14" height="14" />
-        )}
-      </button>
-      <div
         className="overflow-hidden h-full flex flex-col justify-center pl-2 flex-1 relative"
         {...provided.dragHandleProps}
       >
         <TrackItem id={queue.items[index].trackId} />
       </div>
       <QueueItemUser userId={queue.items[index].creatorId} />
+      <button
+        type="button"
+        title="Remove track"
+        className="absolute top-1 right-1 bg-transparent p-1 opacity-50 hover:opacity-100 transition-opacity duration-200"
+        disabled={!canRemove}
+        onClick={() => canRemove && removeItem(index)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={8}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
     </div>
   );
 };
