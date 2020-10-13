@@ -79,7 +79,7 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   const playRoom = useCallback(
     async (roomId: string) => {
-      player.isPlaying = true;
+      player.wasPlaying = true;
       setPlayerControl(`room:${roomId}`);
     },
     [setPlayerControl]
@@ -158,7 +158,7 @@ const PlayerProvider: React.FC = ({ children }) => {
       }
     };
     // If the user pause the track before playerPlaying change, delay the switch until they press play again
-    if (player.isPlaying) {
+    if (player.wasPlaying) {
       handlePlayerChange();
     } else {
       player.on("playing", handlePlayerChange);

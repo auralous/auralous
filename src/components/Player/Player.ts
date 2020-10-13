@@ -6,6 +6,7 @@ type HandlerFn = Function;
 interface PlayerHandle {
   play: () => void;
   seek: (ms: number) => void;
+  isPlaying: () => boolean;
   pause: () => void;
   loadById: (externalId: string) => void;
   setVolume: (p: number) => void;
@@ -31,7 +32,7 @@ class Player {
   _lastPlatform: PlatformName | undefined;
   currentMs: number;
   playerFn: PlayerHandle | null;
-  isPlaying: boolean;
+  wasPlaying = false;
 
   constructor() {
     // developit/mitt
@@ -41,18 +42,6 @@ class Player {
     this.on("time", (ms: number) => {
       this.currentMs = ms;
     });
-    this.isPlaying = false;
-
-    let timeout: number;
-    // FIXME: Delay to fix end state trigger pause. Need alternative
-    this.on("playing", () => {
-      window.clearTimeout(timeout);
-      this.isPlaying = true;
-    });
-    this.on(
-      "paused",
-      () => (timeout = window.setTimeout(() => (this.isPlaying = false), 2000))
-    );
   }
 
   on(state: string, handler: HandlerFn) {
@@ -84,11 +73,17 @@ class Player {
     this.playerFn?.seek(ms);
   }
 
+  get isPlaying() {
+    return this.playerFn?.isPlaying();
+  }
+
   play() {
+    this.wasPlaying = true;
     this.playerFn?.play();
   }
 
   pause() {
+    this.wasPlaying = false;
     this.playerFn?.pause();
   }
 

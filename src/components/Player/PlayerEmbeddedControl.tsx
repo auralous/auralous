@@ -15,7 +15,7 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
     state: { playingPlatform, playerPlaying, originalTrack, error },
   } = usePlayer();
 
-  const [isPlaying, setIsPlaying] = useState(player.isPlaying);
+  const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
 
   useEffect(() => {
     const onPlaying = () => setIsPlaying(true);

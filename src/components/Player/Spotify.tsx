@@ -153,6 +153,8 @@ export default function SpotifyPlayer() {
             pause: () => spotifyPlayer.pause(),
             loadById: playById,
             setVolume: (p) => spotifyPlayer.setVolume(p),
+            // Note: It is impossible to determine spotify without a promise
+            isPlaying: () => !spotifyData.state?.paused,
           });
           if (playerPlaying) playById(playerPlaying.externalId);
           // get duration

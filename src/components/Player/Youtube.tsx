@@ -47,6 +47,9 @@ export default function YouTubePlayer() {
                 pause: () => ytPlayer.pauseVideo(),
                 loadById: playById,
                 setVolume: (p) => ytPlayer.setVolume(p * 100),
+                isPlaying: () =>
+                  // @ts-ignore
+                  ytPlayer.getPlayerState() === window.YT.PlayerState.PLAYING,
               });
               durationInterval = window.setInterval(() => {
                 player.emit("time", ytPlayer.getCurrentTime() * 1000);

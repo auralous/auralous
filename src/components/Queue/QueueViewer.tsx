@@ -11,7 +11,11 @@ const Row = React.memo<ListChildComponentProps>(function Row({
   style,
 }) {
   return (
-    <div className="p-2 mb-2" style={style} key={items[index].id}>
+    <div
+      className="p-2 border-b-2 border-opacity-25 border-background-secondary"
+      style={style}
+      key={items[index].id}
+    >
       <TrackItem id={items[index].trackId} />
     </div>
   );

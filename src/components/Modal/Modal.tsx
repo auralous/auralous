@@ -19,11 +19,16 @@ const ModalTitle: React.FC = ({ children }) => (
   <h4 className="text-lg font-bold flex items-center">{children}</h4>
 );
 
-const ModalContent: React.FC<{ className?: string }> = ({
+const ModalContent: React.FC<{ className?: string; noPadding?: boolean }> = ({
   children,
   className,
+  noPadding,
 }) => (
-  <div className={`px-4 py-8 flex-1 overflow-auto ${className || ""}`}>
+  <div
+    className={`${noPadding ? "" : "px-4 py-8"} flex-1 overflow-auto ${
+      className || ""
+    }`}
+  >
     {children}
   </div>
 );
