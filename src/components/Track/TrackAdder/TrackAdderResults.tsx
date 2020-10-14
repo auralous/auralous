@@ -3,6 +3,7 @@ import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "~/components/Track/TrackItem";
 import { SvgCheck, SvgPlus } from "~/assets/svg";
+import { TrackAdderCallbackFn } from "./types";
 
 const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
   data,
@@ -59,7 +60,7 @@ areEqual);
 
 const TrackAdderResults: React.FC<{
   results: string[];
-  callback: (cbTrack: string[]) => Promise<void>;
+  callback: TrackAdderCallbackFn;
   addedTracks: string[];
 }> = ({ callback, results, addedTracks }) => {
   // TODO: a11y

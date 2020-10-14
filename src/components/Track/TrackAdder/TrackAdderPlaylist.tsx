@@ -3,6 +3,7 @@ import { SvgChevronLeft } from "~/assets/svg";
 import { default as TrackAdderResults } from "./TrackAdderResults";
 import { useMyPlaylistsQuery } from "~/hooks/playlist";
 import { Playlist } from "~/types/index";
+import { TrackAdderCallbackFn } from "./types";
 
 const PlaylistItem: React.FC<{
   playlist: Playlist;
@@ -34,7 +35,7 @@ const PlaylistItem: React.FC<{
 
 const TrackAdderPlaylist: React.FC<{
   addedTracks: string[];
-  callback: (cbTrack: string[]) => any;
+  callback: TrackAdderCallbackFn;
 }> = ({ addedTracks, callback }) => {
   const { data: myPlaylists, isLoading } = useMyPlaylistsQuery();
 

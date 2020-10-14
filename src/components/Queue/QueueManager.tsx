@@ -27,6 +27,7 @@ import {
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
 import { QueuePermission, QueueRules } from "./types";
+import { useLogin } from "~/components/Auth/index";
 
 const QueueDraggableItem: React.FC<{
   permission: QueuePermission;
@@ -85,9 +86,9 @@ const QueueDraggableItem: React.FC<{
       <QueueItemUser userId={queue.items[index].creatorId} />
       <button
         type="button"
-        title="Remove track"
+        title="Remove Track"
         className="absolute top-1 right-1 bg-transparent p-1 opacity-50 hover:opacity-100 transition-opacity duration-200"
-        disabled={!canRemove}
+        hidden={!canRemove}
         onClick={() => canRemove && removeItem(index)}
       >
         <svg
@@ -177,10 +178,22 @@ const QueueManager: React.FC<{
     return count;
   }, [user, queue]);
 
+  const [, showLogin] = useLogin();
+
   if (!queue) return null;
 
   return (
     <div className="h-full w-full flex flex-col justify-between">
+      {!user && (
+        <div className="p-1 flex-none">
+          <button
+            onClick={showLogin}
+            className="button w-full button-success text-xs p-2"
+          >
+            Sign in to add songs and listen together
+          </button>
+        </div>
+      )}
       <div className="w-full h-full">
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable

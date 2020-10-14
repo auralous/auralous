@@ -47,6 +47,10 @@ button:focus {
   @apply outline-none border-none;
 }
 
+[role=button]:disabled, button:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
 .input {
   @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
   &:disabled {
