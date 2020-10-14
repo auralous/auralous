@@ -103,19 +103,6 @@ const RoomRulesButton: React.FC<{ room: Room }> = ({ room }) => {
                 </span>
               )}
             </li>
-            <li className="px-4 py-2 mb-2 rounded-lg">
-              {roomState?.queueMax ? (
-                <span>
-                  One can only add{" "}
-                  <b className="text-warning-light">
-                    {roomState?.queueMax} songs
-                  </b>{" "}
-                  at a time
-                </span>
-              ) : (
-                `One can add as many songs as they wish. Be considerate, though!`
-              )}
-            </li>
           </ul>
         </Modal.Content>
         <Modal.Footer>

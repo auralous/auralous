@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -146,7 +146,7 @@ const QueueManager: React.FC<{
   queueId: string;
   permission: QueuePermission;
   rules: QueueRules;
-}> = ({ queueId, permission, rules }) => {
+}> = ({ queueId, permission }) => {
   const user = useCurrentUser();
   const [queue] = useQueue(queueId);
   const [, updateQueue] = useUpdateQueueMutation();
@@ -170,13 +170,6 @@ const QueueManager: React.FC<{
     },
     [queue, updateQueue]
   );
-
-  const addedByMe = useMemo(() => {
-    let count = 0;
-    if (!user || !queue) return count;
-    for (const item of queue.items) item.creatorId === user.id && count++;
-    return count;
-  }, [user, queue]);
 
   const [, showLogin] = useLogin();
 
@@ -232,25 +225,7 @@ const QueueManager: React.FC<{
         </DragDropContext>
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
-        {permission.canAdd ? (
-          <>
-            {rules.maxSongs > 0 && (
-              <p>
-                <b
-                  className={
-                    addedByMe >= rules.maxSongs
-                      ? "text-danger-dark"
-                      : "text-foreground-secondary"
-                  }
-                >
-                  {addedByMe}
-                </b>{" "}
-                / <b className="text-foreground-secondary">{rules.maxSongs}</b>{" "}
-                songs added by me
-              </p>
-            )}
-          </>
-        ) : (
+        {permission.canAdd ? null : (
           <p>
             You are not allowed to contribute. See <i>Room Rules</i> to learn
             more.

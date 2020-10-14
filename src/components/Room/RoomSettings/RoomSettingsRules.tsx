@@ -6,12 +6,10 @@ const RoomSettingsRules: React.FC<{
   roomState: RoomState;
 }> = ({ room, roomState }) => {
   const anyoneCanAddRef = useRef<HTMLSelectElement>(null);
-  const queueMaxRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!roomState) return;
     anyoneCanAddRef.current!.value = roomState.anyoneCanAdd ? "1" : "0";
-    queueMaxRef.current!.value = String(roomState.queueMax || 0);
   }, [roomState]);
 
   const [{ fetching }, updateRoom] = useUpdateRoomMutation();
@@ -21,12 +19,8 @@ const RoomSettingsRules: React.FC<{
     const update = {
       id: room.id,
       anyoneCanAdd: anyoneCanAddRef.current!.value === "1",
-      queueMax: parseInt(queueMaxRef.current!.value, 10),
     };
-    if (
-      update.anyoneCanAdd === roomState.anyoneCanAdd &&
-      update.queueMax === roomState.queueMax
-    ) {
+    if (update.anyoneCanAdd === roomState.anyoneCanAdd) {
       return setIsChanged(false);
     }
     const result = await updateRoom(update);
@@ -49,21 +43,6 @@ const RoomSettingsRules: React.FC<{
           <option value={1}>Yes</option>
           <option value={0}>No</option>
         </select>
-      </div>
-      <div className="mb-4">
-        <h5 className="text-lg font-bold">Max songs</h5>
-        <p className="text-foreground-secondary mb-1">
-          Highest numbers of songs that one can add to the queue at a time. (0
-          means Unlimited)
-        </p>
-        <input
-          ref={queueMaxRef}
-          className="input w-24"
-          type="number"
-          min="0"
-          max="50"
-          onChange={() => setIsChanged(true)}
-        />
       </div>
       <button
         className="button  mb-6"

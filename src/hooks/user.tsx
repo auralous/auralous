@@ -1,11 +1,11 @@
 import { useQuery } from "react-query";
-import { useCurrentUserQuery, User } from "~/graphql/gql.gen";
+import { useMeQuery, User } from "~/graphql/gql.gen";
 import axios from "redaxios";
 import { MAuth } from "../types";
 import { useEffect } from "react";
 
 export function useCurrentUser(): User | null | undefined {
-  const [{ data, fetching }] = useCurrentUserQuery();
+  const [{ data, fetching }] = useMeQuery();
   if (fetching) return undefined;
   return data?.me;
 }

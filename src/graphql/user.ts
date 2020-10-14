@@ -26,7 +26,7 @@ export const QUERY_USER = /* GraphQL */ `
 `;
 
 export const MUTATION_UPDATE_CURRENT_USER = /* GraphQL */ `
-  mutation me($name: String, $username: String, $profilePicture: Upload) {
+  mutation updateMe($name: String, $username: String, $profilePicture: Upload) {
     me(name: $name, username: $username, profilePicture: $profilePicture) {
       ...UserPublicParts
     }

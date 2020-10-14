@@ -109,7 +109,7 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
         >
           <QueueManager
             permission={permission}
-            rules={{ maxSongs: roomState?.queueMax ?? 0 }}
+            rules={{}}
             queueId={`room:${room.id}`}
           />
           <button
