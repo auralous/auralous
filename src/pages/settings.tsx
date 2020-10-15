@@ -7,9 +7,9 @@ import { Modal, useModal } from "~/components/Modal/index";
 import { useLogin } from "~/components/Auth/index";
 import { useCurrentUser } from "~/hooks/user";
 import {
-  useDisconnectOAuthProviderMutation,
-  useUpdateCurrentUserMutation,
-  useDeleteCurrentUserMutation,
+  useDeleteMeOauthMutation,
+  useUpdateMeMutation,
+  useDeleteMeMutation,
   OAuthProviderName,
   useMeAuthQuery,
   User,
@@ -21,7 +21,7 @@ import { PLATFORM_FULLNAMES } from "~/lib/constants";
 
 const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
   const toasts = useToasts();
-  const [, deleteUser] = useDeleteCurrentUserMutation();
+  const [, deleteUser] = useDeleteMeMutation();
   const [confirmUsername, setConfirmUsername] = useState("");
   const [activeDelete, openDelete, close] = useModal();
   function closeDelete() {
@@ -92,7 +92,7 @@ const LeftSection: React.FC = () => {
   const toasts = useToasts();
   const user = useCurrentUser();
 
-  const [, updateUser] = useUpdateCurrentUserMutation();
+  const [, updateUser] = useUpdateMeMutation();
 
   const formRef = useRef<HTMLFormElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -223,7 +223,7 @@ const SocialConnection: React.FC<{
 
   const [{ data }] = useMeAuthQuery();
 
-  const [, disconnectOAuth] = useDisconnectOAuthProviderMutation();
+  const [, disconnectOAuth] = useDeleteMeOauthMutation();
 
   async function disconnect() {
     await disconnectOAuth({ provider });

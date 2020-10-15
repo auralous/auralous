@@ -116,16 +116,12 @@ const Row = React.memo<ListChildComponentProps>(function Row({
   index,
   style,
 }) {
-  const user = useCurrentUser();
-  const canDrag =
-    data.permission.canEditOthers ||
-    data.queue.items[index].creatorId === user?.id;
   return (
     <Draggable
       key={data.queue.items[index].id}
       draggableId={data.queue.items[index].id}
       index={index}
-      isDragDisabled={!canDrag}
+      isDragDisabled={!data.permission.canEditOthers}
     >
       {(provided1) => (
         <QueueDraggableItem

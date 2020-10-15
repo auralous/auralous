@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { NextSeo } from "next-seo";
 import { useCurrentUser } from "~/hooks/user";
-import { useUpdateCurrentUserMutation } from "~/graphql/gql.gen";
+import { useUpdateMeMutation } from "~/graphql/gql.gen";
 import { useToasts } from "~/components/Toast";
 import {
   SvgChevronRight,
@@ -61,7 +61,7 @@ const StepUsername: React.FC<{
   >;
 }> = ({ onNextFn }) => {
   const user = useCurrentUser();
-  const [, updateUser] = useUpdateCurrentUserMutation();
+  const [, updateUser] = useUpdateMeMutation();
   const toasts = useToasts();
 
   const onSubmit = useCallback(async () => {

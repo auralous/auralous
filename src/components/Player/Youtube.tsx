@@ -93,12 +93,12 @@ export default function YouTubePlayer() {
 
   return (
     <div
-      className={`fixed top-0 right-0 z-30 w-screen ${
+      className={`absolute md:fixed top-0 right-0 z-30 w-screen ${
         posIsTop ? "" : "md:bottom-0 md:top-auto"
       } md:w-72 h-48 overflow-hidden`}
     >
       <div
-        className="absolute md:rounded-lg md:shadow-lg top-2 right-2 w-full h-full"
+        className="absolute overflow-hidden md:rounded-lg md:shadow-lg top-2 right-2 w-full h-full"
         id="ytPlayer"
       />
       <div className="absolute z-20 bottom-0 left-0 p-3 hidden md:block">
