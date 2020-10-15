@@ -22,7 +22,6 @@ export const FRAGMENT_ROOM_RULES = /* GraphQL */ `
   fragment RoomRulesParts on RoomState {
     anyoneCanAdd
     collabs
-    queueMax
   }
 `;
 
@@ -93,7 +92,6 @@ export const MUTATION_UPDATE_ROOM = /* GraphQL */ `
     $description: String
     $image: Upload
     $anyoneCanAdd: Boolean
-    $queueMax: Int
   ) {
     updateRoom(
       id: $id
@@ -101,7 +99,6 @@ export const MUTATION_UPDATE_ROOM = /* GraphQL */ `
       description: $description
       image: $image
       anyoneCanAdd: $anyoneCanAdd
-      queueMax: $queueMax
     ) {
       id
       ...RoomDetailParts

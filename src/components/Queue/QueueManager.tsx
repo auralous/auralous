@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -13,7 +13,7 @@ import {
   areEqual,
 } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { TrackItem } from "~/components/Track/TrackItem";
+import { TrackItem } from "~/components/Track/index";
 import { useToasts } from "~/components/Toast/index";
 import useQueue from "./useQueue";
 import QueueItemUser from "./QueueItemUser";
@@ -27,6 +27,7 @@ import {
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
 import { QueuePermission, QueueRules } from "./types";
+import { useLogin } from "~/components/Auth/index";
 
 const QueueDraggableItem: React.FC<{
   permission: QueuePermission;
@@ -85,9 +86,9 @@ const QueueDraggableItem: React.FC<{
       <QueueItemUser userId={queue.items[index].creatorId} />
       <button
         type="button"
-        title="Remove track"
+        title="Remove Track"
         className="absolute top-1 right-1 bg-transparent p-1 opacity-50 hover:opacity-100 transition-opacity duration-200"
-        disabled={!canRemove}
+        hidden={!canRemove}
         onClick={() => canRemove && removeItem(index)}
       >
         <svg
@@ -145,7 +146,7 @@ const QueueManager: React.FC<{
   queueId: string;
   permission: QueuePermission;
   rules: QueueRules;
-}> = ({ queueId, permission, rules }) => {
+}> = ({ queueId, permission }) => {
   const user = useCurrentUser();
   const [queue] = useQueue(queueId);
   const [, updateQueue] = useUpdateQueueMutation();
@@ -170,17 +171,22 @@ const QueueManager: React.FC<{
     [queue, updateQueue]
   );
 
-  const addedByMe = useMemo(() => {
-    let count = 0;
-    if (!user || !queue) return count;
-    for (const item of queue.items) item.creatorId === user.id && count++;
-    return count;
-  }, [user, queue]);
+  const [, showLogin] = useLogin();
 
   if (!queue) return null;
 
   return (
     <div className="h-full w-full flex flex-col justify-between">
+      {!user && (
+        <div className="p-1 flex-none">
+          <button
+            onClick={showLogin}
+            className="button w-full button-success text-xs p-2"
+          >
+            Sign in to add songs and listen together
+          </button>
+        </div>
+      )}
       <div className="w-full h-full">
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable
@@ -219,25 +225,7 @@ const QueueManager: React.FC<{
         </DragDropContext>
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
-        {permission.canAdd ? (
-          <>
-            {rules.maxSongs > 0 && (
-              <p>
-                <b
-                  className={
-                    addedByMe >= rules.maxSongs
-                      ? "text-danger-dark"
-                      : "text-foreground-secondary"
-                  }
-                >
-                  {addedByMe}
-                </b>{" "}
-                / <b className="text-foreground-secondary">{rules.maxSongs}</b>{" "}
-                songs added by me
-              </p>
-            )}
-          </>
-        ) : (
+        {permission.canAdd ? null : (
           <p>
             You are not allowed to contribute. See <i>Room Rules</i> to learn
             more.

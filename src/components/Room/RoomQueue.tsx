@@ -44,11 +44,11 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
 
   const onAddTracks = useCallback(
     (newTrackArray: string[]) => {
-      updateQueue({
+      return updateQueue({
         id: `room:${room.id}`,
         tracks: newTrackArray,
         action: QueueAction.Add,
-      });
+      }).then((result) => !!result.data?.updateQueue);
     },
     [updateQueue, room]
   );
@@ -82,12 +82,13 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
             aria-controls="tabpanel_song"
             onClick={() => setTab("song")}
             aria-selected={tab === "song"}
+            disabled={!permission.canAdd}
           >
             Search
           </button>
           <button
             role="tab"
-            className={`flex-1 mx-1 p-1 text-sm rounded-lg font-bold  ${
+            className={`flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
               tab === "playlist"
                 ? "bg-foreground bg-opacity-25 text-white"
                 : "opacity-75"
@@ -95,6 +96,7 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
             aria-controls="tabpanel_playlist"
             onClick={() => setTab("playlist")}
             aria-selected={tab === "playlist"}
+            disabled={!permission.canAdd}
           >
             Playlist
           </button>
@@ -107,7 +109,7 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
         >
           <QueueManager
             permission={permission}
-            rules={{ maxSongs: roomState?.queueMax ?? 0 }}
+            rules={{}}
             queueId={`room:${room.id}`}
           />
           <button
@@ -127,7 +129,7 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
           aria-hidden={tab !== "playlist"}
           className={`${
             tab !== "playlist" ? "hidden" : "flex"
-          } flex-col h-full`}
+          } flex-col h-full overflow-hidden`}
         >
           <TrackAdderPlaylist
             callback={onAddTracks}

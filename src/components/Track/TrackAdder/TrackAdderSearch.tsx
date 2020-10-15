@@ -5,6 +5,7 @@ import { default as TrackAdderResults } from "./TrackAdderResults";
 import { SvgX } from "~/assets/svg";
 import { PlatformName, Track } from "~/graphql/gql.gen";
 import { TrackDocument, SearchTrackDocument } from "~/graphql/gql.gen";
+import { TrackAdderCallbackFn } from "./types";
 
 const PLATFORM_FULL_NAME: Record<PlatformName, "YouTube" | "Spotify"> = {
   youtube: "YouTube",
@@ -20,7 +21,7 @@ const isValidUrl = (string: string) => {
 };
 
 const TrackAdderSearch: React.FC<{
-  callback: (cbTrack: string[]) => any;
+  callback: TrackAdderCallbackFn;
   addedTracks: string[];
   platform?: PlatformName;
 }> = ({ addedTracks, callback }) => {

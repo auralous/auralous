@@ -18,6 +18,12 @@ export const QUERY_NOW_PLAYING = /* GraphQL */ `
   ${FRAGMENT_NOW_PLAYING_QUEUE}
 `;
 
+export const MUTATION_SKIP_NOW_PLAYING = /* GraphQL */ `
+  mutation skipNowPlaying($id: ID!) {
+    skipNowPlaying(id: $id)
+  }
+`;
+
 export const SUBSCRIPTION_NOW_PLAYING = /* GraphQL */ `
   subscription onNowPlayingUpdated($id: ID!) {
     nowPlayingUpdated(id: $id) {

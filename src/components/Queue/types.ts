@@ -4,5 +4,5 @@ export interface QueuePermission {
 }
 
 export interface QueueRules {
-  maxSongs: number;
+  [key: string]: string | number;
 }
