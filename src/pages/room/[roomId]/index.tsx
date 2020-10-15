@@ -15,6 +15,7 @@ import {
   useRoomStateQuery,
   useOnRoomStateUpdatedSubscription,
   RoomState,
+  useSkipNowPlayingMutation,
 } from "~/graphql/gql.gen";
 import { SvgChevronLeft, SvgShare, SvgSettings, SvgPlay } from "~/assets/svg";
 import { QUERY_ROOM } from "~/graphql/room";
@@ -119,9 +120,11 @@ const RoomMain: React.FC<{
   room: Room;
 }> = ({ room }) => {
   const {
-    state: { playerControl },
+    state: { playerControl, playerPlaying },
     playRoom,
   } = usePlayer();
+  const user = useCurrentUser();
+  const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
 
   return (
     <div className="w-full h-full flex flex-col relative overflow-hidden">
@@ -137,7 +140,20 @@ const RoomMain: React.FC<{
             </button>
           </div>
         ) : (
-          <PlayerEmbeddedControl nowPlayingReactionId={`room:${room.id}`} />
+          <>
+            <PlayerEmbeddedControl nowPlayingReactionId={`room:${room.id}`} />
+            {user?.id === room.creator.id && (
+              <div className="flex justify-center">
+                <button
+                  className="mt-4 text-xs py-1 px-2 text-white font-bold text-opacity-50 hover:text-opacity-75 transition-colors duration-300"
+                  onClick={() => skipNowPlaying({ id: `room:${room.id}` })}
+                  disabled={!playerPlaying || fetching}
+                >
+                  Skip song
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -112,6 +112,7 @@ export type Mutation = {
   addMessage: Scalars['Boolean'];
   updateQueue: Scalars['Boolean'];
   reactNowPlaying?: Maybe<Scalars['Boolean']>;
+  skipNowPlaying?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -174,6 +175,11 @@ export type MutationUpdateQueueArgs = {
 export type MutationReactNowPlayingArgs = {
   id: Scalars['ID'];
   reaction: NowPlayingReactionType;
+};
+
+
+export type MutationSkipNowPlayingArgs = {
+  id: Scalars['ID'];
 };
 
 export type Subscription = {
@@ -421,6 +427,16 @@ export type NowPlayingQuery = (
       & NowPlayingQueuePartsFragment
     )> }
   )> }
+);
+
+export type SkipNowPlayingMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type SkipNowPlayingMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'skipNowPlaying'>
 );
 
 export type OnNowPlayingUpdatedSubscriptionVariables = Exact<{
@@ -972,6 +988,15 @@ export const NowPlayingDocument = gql`
 
 export function useNowPlayingQuery(options: Omit<Urql.UseQueryArgs<NowPlayingQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<NowPlayingQuery>({ query: NowPlayingDocument, ...options });
+};
+export const SkipNowPlayingDocument = gql`
+    mutation skipNowPlaying($id: ID!) {
+  skipNowPlaying(id: $id)
+}
+    `;
+
+export function useSkipNowPlayingMutation() {
+  return Urql.useMutation<SkipNowPlayingMutation, SkipNowPlayingMutationVariables>(SkipNowPlayingDocument);
 };
 export const OnNowPlayingUpdatedDocument = gql`
     subscription onNowPlayingUpdated($id: ID!) {
