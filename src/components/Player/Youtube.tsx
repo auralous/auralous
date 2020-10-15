@@ -92,35 +92,33 @@ export default function YouTubePlayer() {
   const [posIsTop, setPosIsTop] = useState(false);
 
   return (
-    <>
+    <div
+      className={`fixed top-0 right-0 z-30 w-screen ${
+        posIsTop ? "" : "md:bottom-0 md:top-auto"
+      } md:w-72 h-48 overflow-hidden`}
+    >
       <div
-        className={`absolute top-0 right-0 z-30 w-screen ${
-          posIsTop ? "" : "md:bottom-0 md:top-auto"
-        } md:w-72 h-48 overflow-hidden`}
-      >
-        <div
-          className="absolute md:rounded-lg md:shadow-lg top-2 right-2 w-full h-full"
-          id="ytPlayer"
-        />
-        <div className="absolute z-20 bottom-0 left-0 p-3 hidden md:block">
-          <button
-            className="button rounded-r-none p-1"
-            onClick={() => setPosIsTop(true)}
-            disabled={posIsTop}
-            title="Move to top"
-          >
-            <SvgChevronUp width="14" height="14" />
-          </button>
-          <button
-            className="button rounded-l-none p-1"
-            onClick={() => setPosIsTop(false)}
-            disabled={!posIsTop}
-            title="Move to bottom"
-          >
-            <SvgChevronDown width="14" height="14" />
-          </button>
-        </div>
+        className="absolute md:rounded-lg md:shadow-lg top-2 right-2 w-full h-full"
+        id="ytPlayer"
+      />
+      <div className="absolute z-20 bottom-0 left-0 p-3 hidden md:block">
+        <button
+          className="button rounded-r-none p-1"
+          onClick={() => setPosIsTop(true)}
+          disabled={posIsTop}
+          title="Move to top"
+        >
+          <SvgChevronUp width="14" height="14" />
+        </button>
+        <button
+          className="button rounded-l-none p-1"
+          onClick={() => setPosIsTop(false)}
+          disabled={!posIsTop}
+          title="Move to bottom"
+        >
+          <SvgChevronDown width="14" height="14" />
+        </button>
       </div>
-    </>
+    </div>
   );
 }
