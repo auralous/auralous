@@ -89,7 +89,7 @@ export default function YouTubePlayer() {
     return () => bodyDom?.classList.remove("pt-youtube");
   }, []);
 
-  const [posIsTop, setPosIsTop] = useState(true);
+  const [posIsTop, setPosIsTop] = useState(false);
 
   return (
     <>
