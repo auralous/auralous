@@ -255,7 +255,6 @@ export type Room = {
   image: Scalars['String'];
   creator: User;
   createdAt: Scalars['DateTime'];
-  mode: RoomMode;
 };
 
 export type RoomState = {
@@ -266,11 +265,6 @@ export type RoomState = {
   anyoneCanAdd: Scalars['Boolean'];
   collabs: Array<Scalars['String']>;
 };
-
-export enum RoomMode {
-  Collab = 'collab',
-  Dj = 'dj'
-}
 
 export enum PlatformName {
   Youtube = 'youtube',
@@ -543,7 +537,7 @@ export type OnQueueUpdatedSubscription = (
 
 export type RoomDetailPartsFragment = (
   { __typename?: 'Room' }
-  & Pick<Room, 'title' | 'description' | 'image' | 'createdAt' | 'mode'>
+  & Pick<Room, 'title' | 'description' | 'image' | 'createdAt'>
 );
 
 export type RoomCreatorPartFragment = (
@@ -898,7 +892,6 @@ export const RoomDetailPartsFragmentDoc = gql`
   description
   image
   createdAt
-  mode
 }
     `;
 export const UserPublicPartsFragmentDoc = gql`
