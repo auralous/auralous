@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { TrackItem } from "~/components/Track/TrackItem";
+import { TrackItem } from "~/components/Track/index";
 import { SvgCheck, SvgPlus } from "~/assets/svg";
 import { TrackAdderCallbackFn } from "./types";
 

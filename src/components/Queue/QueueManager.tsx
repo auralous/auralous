@@ -13,7 +13,7 @@ import {
   areEqual,
 } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { TrackItem } from "~/components/Track/TrackItem";
+import { TrackItem } from "~/components/Track/index";
 import { useToasts } from "~/components/Toast/index";
 import useQueue from "./useQueue";
 import QueueItemUser from "./QueueItemUser";

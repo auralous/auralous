@@ -6,6 +6,7 @@ export const FRAGMENT_ROOM_DETAIL = /* GraphQL */ `
     description
     image
     createdAt
+    mode
   }
 `;
 

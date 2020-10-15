@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import usePlayer from "./usePlayer";
 import { useModal } from "~/components/Modal";
 import { SvgPlay, SvgPause, SvgAlertCircle } from "~/assets/svg";
-import TrackMenu from "~/components/Track/TrackMenu";
+import { TrackMenu } from "~/components/Track/index";
 import { NowPlayingReaction } from "~/components/NowPlaying/index";
 import { PlayerError } from "./types";
 import { PLATFORM_FULLNAMES } from "~/lib/constants";

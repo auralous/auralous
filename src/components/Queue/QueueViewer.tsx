@@ -2,8 +2,9 @@ import React, { useMemo } from "react";
 import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import useQueue from "./useQueue";
-import { TrackItem } from "../Track/TrackItem";
+import { TrackItem } from "~/components/Track/index";
 import { QueueItem } from "~/graphql/gql.gen";
+import QueueItemUser from "./QueueItemUser";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
   data: items,
@@ -11,13 +12,16 @@ const Row = React.memo<ListChildComponentProps>(function Row({
   style,
 }) {
   return (
-    <div
-      className="p-2 border-b-2 border-opacity-25 border-background-secondary"
-      style={style}
-      key={items[index].id}
-    >
-      <TrackItem id={items[index].trackId} />
-    </div>
+    <>
+      <div
+        className="p-2 border-b-2 border-opacity-25 border-background-secondary"
+        style={style}
+        key={items[index].id}
+      >
+        <TrackItem id={items[index].trackId} />
+        <QueueItemUser userId={items[index].creatorId} />
+      </div>
+    </>
   );
 },
 areEqual);
