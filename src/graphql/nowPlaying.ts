@@ -3,6 +3,7 @@ export const FRAGMENT_NOW_PLAYING_QUEUE = /* GraphQL */ `
     id
     trackId
     playedAt
+    creatorId
   }
 `;
 

@@ -356,6 +356,7 @@ export type NowPlayingQueueItem = {
   trackId: Scalars['ID'];
   playedAt: Scalars['DateTime'];
   endedAt: Scalars['DateTime'];
+  creatorId: Scalars['ID'];
 };
 
 export type NowPlaying = {
@@ -409,7 +410,7 @@ export type OnMessageAddedSubscription = (
 
 export type NowPlayingQueuePartsFragment = (
   { __typename?: 'NowPlayingQueueItem' }
-  & Pick<NowPlayingQueueItem, 'id' | 'trackId' | 'playedAt'>
+  & Pick<NowPlayingQueueItem, 'id' | 'trackId' | 'playedAt' | 'creatorId'>
 );
 
 export type NowPlayingQueryVariables = Exact<{
@@ -883,6 +884,7 @@ export const NowPlayingQueuePartsFragmentDoc = gql`
   id
   trackId
   playedAt
+  creatorId
 }
     `;
 export const NowPlayingReactionPartsFragmentDoc = gql`

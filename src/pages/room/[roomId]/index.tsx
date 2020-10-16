@@ -20,6 +20,7 @@ import {
 import { SvgChevronLeft, SvgShare, SvgSettings, SvgPlay } from "~/assets/svg";
 import { QUERY_ROOM } from "~/graphql/room";
 import { CONFIG } from "~/lib/constants";
+import { useNowPlaying } from "~/components/NowPlaying";
 
 // FIXME: types: should be inferred
 const RoomSettingsModal = dynamic<{
@@ -116,15 +117,37 @@ const RoomRulesButton: React.FC<{ room: Room }> = ({ room }) => {
   );
 };
 
+const RoomSkipNowPlaying: React.FC<{ room: Room }> = ({ room }) => {
+  const user = useCurrentUser();
+  const [nowPlaying] = useNowPlaying("room", room.id);
+  const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
+
+  if (!nowPlaying?.currentTrack || !user) return null;
+  if (
+    user.id !== room.creator.id &&
+    nowPlaying.currentTrack.creatorId !== user.id
+  )
+    return null;
+  return (
+    <div className="flex justify-center">
+      <button
+        className="mt-4 text-xs py-1 px-2 text-white font-bold text-opacity-50 hover:text-opacity-75 transition-colors duration-300"
+        onClick={() => skipNowPlaying({ id: `room:${room.id}` })}
+        disabled={fetching}
+      >
+        Skip song
+      </button>
+    </div>
+  );
+};
+
 const RoomMain: React.FC<{
   room: Room;
 }> = ({ room }) => {
   const {
-    state: { playerControl, playerPlaying },
+    state: { playerControl },
     playRoom,
   } = usePlayer();
-  const user = useCurrentUser();
-  const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
 
   return (
     <div className="w-full h-full flex flex-col relative overflow-hidden">
@@ -142,17 +165,7 @@ const RoomMain: React.FC<{
         ) : (
           <>
             <PlayerEmbeddedControl nowPlayingReactionId={`room:${room.id}`} />
-            {user?.id === room.creator.id && (
-              <div className="flex justify-center">
-                <button
-                  className="mt-4 text-xs py-1 px-2 text-white font-bold text-opacity-50 hover:text-opacity-75 transition-colors duration-300"
-                  onClick={() => skipNowPlaying({ id: `room:${room.id}` })}
-                  disabled={!playerPlaying || fetching}
-                >
-                  Skip song
-                </button>
-              </div>
-            )}
+            <RoomSkipNowPlaying room={room} />
           </>
         )}
       </div>
