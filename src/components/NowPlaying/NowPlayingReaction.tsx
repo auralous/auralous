@@ -42,6 +42,8 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
     [toasts, id, reactNowPlaying, user]
   );
 
+  const canReact = playerPlaying && !nowPlayingReaction?.mine;
+
   useEffect(() => {
     if (!nowPlayingReaction) return;
     if (nowPlayingReaction.fire > prevNowPlayingReaction.fire) {
@@ -79,7 +81,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
         }`}
-        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
+        disabled={!canReact}
       >
         <span role="img" aria-label="Heart">
           {nowPlayingReaction?.heart || 0} ❤️
@@ -93,7 +95,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
             : "bg-opacity-25"
         }`}
         onClick={() => react(NowPlayingReactionType.Fire)}
-        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
+        disabled={!canReact}
       >
         <span role="img" aria-label="Fire">
           {nowPlayingReaction?.fire || 0} 🔥
@@ -107,7 +109,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
             : "bg-opacity-25"
         }`}
         onClick={() => react(NowPlayingReactionType.Joy)}
-        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
+        disabled={!canReact}
       >
         <span role="img" aria-label="Face with Tears of Joy">
           {nowPlayingReaction?.joy || 0} 😂
@@ -121,7 +123,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
             : "bg-opacity-25"
         }`}
         onClick={() => react(NowPlayingReactionType.Cry)}
-        disabled={!playerPlaying || !!nowPlayingReaction?.cry}
+        disabled={!canReact}
       >
         <span role="img" aria-label="Fire">
           {nowPlayingReaction?.cry || 0} 😢
