@@ -264,7 +264,7 @@ export type Room = {
   isPublic: Scalars['Boolean'];
   description?: Maybe<Scalars['String']>;
   image: Scalars['String'];
-  creator: User;
+  creatorId: Scalars['ID'];
   createdAt: Scalars['DateTime'];
 };
 
@@ -559,15 +559,7 @@ export type OnQueueUpdatedSubscription = (
 
 export type RoomDetailPartsFragment = (
   { __typename?: 'Room' }
-  & Pick<Room, 'title' | 'description' | 'image' | 'createdAt' | 'isPublic'>
-);
-
-export type RoomCreatorPartFragment = (
-  { __typename?: 'Room' }
-  & { creator: (
-    { __typename?: 'User' }
-    & UserPublicPartsFragment
-  ) }
+  & Pick<Room, 'title' | 'description' | 'image' | 'createdAt' | 'isPublic' | 'creatorId'>
 );
 
 export type RoomRulesPartsFragment = (
@@ -586,7 +578,6 @@ export type RoomQuery = (
     { __typename?: 'Room' }
     & Pick<Room, 'id'>
     & RoomDetailPartsFragment
-    & RoomCreatorPartFragment
   )> }
 );
 
@@ -601,7 +592,6 @@ export type RoomsQuery = (
     { __typename?: 'Room' }
     & Pick<Room, 'id'>
     & RoomDetailPartsFragment
-    & RoomCreatorPartFragment
   )>> }
 );
 
@@ -616,7 +606,6 @@ export type ExploreRoomsQuery = (
     { __typename?: 'Room' }
     & Pick<Room, 'id'>
     & RoomDetailPartsFragment
-    & RoomCreatorPartFragment
   )> }
 );
 
@@ -632,7 +621,6 @@ export type SearchRoomsQuery = (
     { __typename?: 'Room' }
     & Pick<Room, 'id'>
     & RoomDetailPartsFragment
-    & RoomCreatorPartFragment
   )> }
 );
 
@@ -651,7 +639,6 @@ export type CreateRoomMutation = (
     { __typename?: 'Room' }
     & Pick<Room, 'id'>
     & RoomDetailPartsFragment
-    & RoomCreatorPartFragment
   ) }
 );
 
@@ -671,7 +658,6 @@ export type UpdateRoomMutation = (
     { __typename?: 'Room' }
     & Pick<Room, 'id'>
     & RoomDetailPartsFragment
-    & RoomCreatorPartFragment
   ) }
 );
 
@@ -920,23 +906,9 @@ export const RoomDetailPartsFragmentDoc = gql`
   image
   createdAt
   isPublic
+  creatorId
 }
     `;
-export const UserPublicPartsFragmentDoc = gql`
-    fragment UserPublicParts on User {
-  id
-  username
-  bio
-  profilePicture
-}
-    `;
-export const RoomCreatorPartFragmentDoc = gql`
-    fragment RoomCreatorPart on Room {
-  creator {
-    ...UserPublicParts
-  }
-}
-    ${UserPublicPartsFragmentDoc}`;
 export const RoomRulesPartsFragmentDoc = gql`
     fragment RoomRulesParts on RoomState {
   anyoneCanAdd
@@ -967,6 +939,14 @@ export const TrackPartsFragmentDoc = gql`
   }
 }
     ${ArtistPartsFragmentDoc}`;
+export const UserPublicPartsFragmentDoc = gql`
+    fragment UserPublicParts on User {
+  id
+  username
+  bio
+  profilePicture
+}
+    `;
 export const SendMessageDocument = gql`
     mutation sendMessage($roomId: ID!, $message: String!) {
   addMessage(roomId: $roomId, message: $message)
@@ -1097,11 +1077,9 @@ export const RoomDocument = gql`
   room(id: $id) {
     id
     ...RoomDetailParts
-    ...RoomCreatorPart
   }
 }
-    ${RoomDetailPartsFragmentDoc}
-${RoomCreatorPartFragmentDoc}`;
+    ${RoomDetailPartsFragmentDoc}`;
 
 export function useRoomQuery(options: Omit<Urql.UseQueryArgs<RoomQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RoomQuery>({ query: RoomDocument, ...options });
@@ -1111,11 +1089,9 @@ export const RoomsDocument = gql`
   rooms(creatorId: $creatorId) {
     id
     ...RoomDetailParts
-    ...RoomCreatorPart
   }
 }
-    ${RoomDetailPartsFragmentDoc}
-${RoomCreatorPartFragmentDoc}`;
+    ${RoomDetailPartsFragmentDoc}`;
 
 export function useRoomsQuery(options: Omit<Urql.UseQueryArgs<RoomsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RoomsQuery>({ query: RoomsDocument, ...options });
@@ -1125,11 +1101,9 @@ export const ExploreRoomsDocument = gql`
   exploreRooms(by: $by) {
     id
     ...RoomDetailParts
-    ...RoomCreatorPart
   }
 }
-    ${RoomDetailPartsFragmentDoc}
-${RoomCreatorPartFragmentDoc}`;
+    ${RoomDetailPartsFragmentDoc}`;
 
 export function useExploreRoomsQuery(options: Omit<Urql.UseQueryArgs<ExploreRoomsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ExploreRoomsQuery>({ query: ExploreRoomsDocument, ...options });
@@ -1139,11 +1113,9 @@ export const SearchRoomsDocument = gql`
   searchRooms(query: $query, limit: $limit) {
     id
     ...RoomDetailParts
-    ...RoomCreatorPart
   }
 }
-    ${RoomDetailPartsFragmentDoc}
-${RoomCreatorPartFragmentDoc}`;
+    ${RoomDetailPartsFragmentDoc}`;
 
 export function useSearchRoomsQuery(options: Omit<Urql.UseQueryArgs<SearchRoomsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SearchRoomsQuery>({ query: SearchRoomsDocument, ...options });
@@ -1153,11 +1125,9 @@ export const CreateRoomDocument = gql`
   createRoom(title: $title, description: $description, isPublic: $isPublic, anyoneCanAdd: $anyoneCanAdd, password: $password) {
     id
     ...RoomDetailParts
-    ...RoomCreatorPart
   }
 }
-    ${RoomDetailPartsFragmentDoc}
-${RoomCreatorPartFragmentDoc}`;
+    ${RoomDetailPartsFragmentDoc}`;
 
 export function useCreateRoomMutation() {
   return Urql.useMutation<CreateRoomMutation, CreateRoomMutationVariables>(CreateRoomDocument);
@@ -1167,11 +1137,9 @@ export const UpdateRoomDocument = gql`
   updateRoom(id: $id, title: $title, description: $description, image: $image, anyoneCanAdd: $anyoneCanAdd, password: $password) {
     id
     ...RoomDetailParts
-    ...RoomCreatorPart
   }
 }
-    ${RoomDetailPartsFragmentDoc}
-${RoomCreatorPartFragmentDoc}`;
+    ${RoomDetailPartsFragmentDoc}`;
 
 export function useUpdateRoomMutation() {
   return Urql.useMutation<UpdateRoomMutation, UpdateRoomMutationVariables>(UpdateRoomDocument);

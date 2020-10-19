@@ -1,5 +1,3 @@
-import { FRAGMENT_USER_PUBLIC } from "./user";
-
 export const FRAGMENT_ROOM_DETAIL = /* GraphQL */ `
   fragment RoomDetailParts on Room {
     title
@@ -7,16 +5,8 @@ export const FRAGMENT_ROOM_DETAIL = /* GraphQL */ `
     image
     createdAt
     isPublic
+    creatorId
   }
-`;
-
-export const FRAGMENT_ROOM_CREATOR = /* GraphQL */ `
-  fragment RoomCreatorPart on Room {
-    creator {
-      ...UserPublicParts
-    }
-  }
-  ${FRAGMENT_USER_PUBLIC}
 `;
 
 export const FRAGMENT_ROOM_RULES = /* GraphQL */ `
@@ -31,11 +21,9 @@ export const QUERY_ROOM = /* GraphQL */ `
     room(id: $id) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const QUERY_ROOMS = /* GraphQL */ `
@@ -43,11 +31,9 @@ export const QUERY_ROOMS = /* GraphQL */ `
     rooms(creatorId: $creatorId) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const QUERY_EXPLORE_ROOMS_BY = /* GraphQL */ `
@@ -55,11 +41,9 @@ export const QUERY_EXPLORE_ROOMS_BY = /* GraphQL */ `
     exploreRooms(by: $by) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const QUERY_SEARCH_ROOMS = /* GraphQL */ `
@@ -67,11 +51,9 @@ export const QUERY_SEARCH_ROOMS = /* GraphQL */ `
     searchRooms(query: $query, limit: $limit) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const MUTATION_CREATE_ROOM = /* GraphQL */ `
@@ -91,11 +73,9 @@ export const MUTATION_CREATE_ROOM = /* GraphQL */ `
     ) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const MUTATION_UPDATE_ROOM = /* GraphQL */ `
@@ -117,11 +97,9 @@ export const MUTATION_UPDATE_ROOM = /* GraphQL */ `
     ) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const MUTATION_UPDATE_ROOM_MEMBERSHIP = /* GraphQL */ `

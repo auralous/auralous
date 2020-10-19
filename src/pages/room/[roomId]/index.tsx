@@ -124,7 +124,7 @@ const RoomSkipNowPlaying: React.FC<{ room: Room }> = ({ room }) => {
 
   if (!nowPlaying?.currentTrack || !user) return null;
   if (
-    user.id !== room.creator.id &&
+    user.id !== room.creatorId &&
     nowPlaying.currentTrack.creatorId !== user.id
   )
     return null;
@@ -324,9 +324,7 @@ const RoomPage: NextPage<{
             } lg:block lg:w-1/2`}
           >
             <RoomMain room={room} />
-            {room.creator && room.creator.id === user?.id && (
-              <RoomSettingsButton room={room} />
-            )}
+            {room.creatorId === user?.id && <RoomSettingsButton room={room} />}
             <RoomRulesButton room={room} />
           </div>
           <div
