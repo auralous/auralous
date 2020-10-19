@@ -42,7 +42,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   // Fathom
   useEffect(() => {
-    Fathom.load(process.env.FATHOM_SITE_ID!, {
+    if (!process.env.FATHOM_SITE_ID) return;
+    Fathom.load(process.env.FATHOM_SITE_ID, {
       includedDomains: ["withstereo.com"],
       honorDNT: true,
       url: "https://prairiedog.withstereo.com/script.js",
@@ -67,7 +68,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   title=" "
                   titleTemplate="%s · Stereo"
                   facebook={{
-                    appId: process.env.FACEBOOK_APP_ID as string,
+                    appId: process.env.FACEBOOK_APP_ID!,
                   }}
                   openGraph={{
                     type: "website",

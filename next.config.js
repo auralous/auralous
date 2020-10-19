@@ -29,22 +29,22 @@ module.exports = withBundleAnalyzer({
     }
     if (process.env.NODE_ENV === "production") {
       config.devtool = "hidden-source-map";
-      if (
-        process.env.SENTRY_AUTH_TOKEN &&
-        process.env.SENTRY_ORG &&
-        process.env.SENTRY_PROJECT
-      )
+      if (process.env.SENTRY_AUTH_TOKEN)
         config.plugins.push(
           new SentryWebpackPlugin({
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            org: "hoangvvo",
+            project: "stereo-web",
             include: ".next",
             ignore: ["node_modules"],
+            stripPrefix: ["webpack://_N_E/"],
             urlPrefix: "~/_next",
             release: `${name}@${version}`,
           })
         );
       else
         console.warn(
-          "Missing Sentry environment variables: Source Maps will not be uploaded."
+          "Missing SENTRY_AUTH_TOKEN environment variables: Source Maps will not be uploaded."
         );
     }
     config.module.rules.push({
