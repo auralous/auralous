@@ -41,8 +41,8 @@ const FRAGMENT_NOW_PLAYING_REACTION = /* GraphQL */ `
   fragment NowPlayingReactionParts on NowPlayingReaction {
     id
     heart
-    crying
-    tear_joy
+    cry
+    joy
     fire
     mine
   }

@@ -22,11 +22,11 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
   const btnTearJoy = useRef<HTMLButtonElement>(null);
   const prevNowPlayingReaction = useRef<NowPlayingReactionPartsFragment>({
     id,
-    mine: [],
-    crying: 0,
+    mine: null,
+    cry: 0,
     heart: 0,
     fire: 0,
-    tear_joy: 0,
+    joy: 0,
   }).current;
   const [{ data }] = useNowPlayingReactionsQuery({ variables: { id } });
   useOnNowPlayingReactionsUpdatedSubscription({ variables: { id } });
@@ -48,7 +48,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       btnFire.current?.classList.add("scale-75");
       setTimeout(() => btnFire.current?.classList.remove("scale-75"), 200);
     }
-    if (nowPlayingReaction.crying > prevNowPlayingReaction.crying) {
+    if (nowPlayingReaction.cry > prevNowPlayingReaction.cry) {
       btnCrying.current?.classList.add("scale-75");
       setTimeout(() => btnCrying.current?.classList.remove("scale-75"), 200);
     }
@@ -56,7 +56,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       btnHeart.current?.classList.add("scale-75");
       setTimeout(() => btnHeart.current?.classList.remove("scale-75"), 200);
     }
-    if (nowPlayingReaction.tear_joy > prevNowPlayingReaction.tear_joy) {
+    if (nowPlayingReaction.joy > prevNowPlayingReaction.joy) {
       btnTearJoy.current?.classList.add("scale-75");
       setTimeout(() => btnTearJoy.current?.classList.remove("scale-75"), 200);
     }
@@ -75,14 +75,11 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
         ref={btnHeart}
         onClick={() => react(NowPlayingReactionType.Heart)}
         className={`flex-1 button rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Heart)
+          nowPlayingReaction?.mine === NowPlayingReactionType.Heart
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
         }`}
-        disabled={
-          !playerPlaying ||
-          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Heart)
-        }
+        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
       >
         <span role="img" aria-label="Heart">
           {nowPlayingReaction?.heart || 0} ❤️
@@ -91,15 +88,12 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       <button
         ref={btnFire}
         className={`flex-1 button rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Fire)
+          nowPlayingReaction?.mine === NowPlayingReactionType.Fire
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
         }`}
         onClick={() => react(NowPlayingReactionType.Fire)}
-        disabled={
-          !playerPlaying ||
-          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Fire)
-        }
+        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
       >
         <span role="img" aria-label="Fire">
           {nowPlayingReaction?.fire || 0} 🔥
@@ -108,35 +102,29 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       <button
         ref={btnTearJoy}
         className={`flex-1 button rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine.includes(NowPlayingReactionType.TearJoy)
+          nowPlayingReaction?.mine === NowPlayingReactionType.Joy
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
         }`}
-        onClick={() => react(NowPlayingReactionType.TearJoy)}
-        disabled={
-          !playerPlaying ||
-          nowPlayingReaction?.mine.includes(NowPlayingReactionType.TearJoy)
-        }
+        onClick={() => react(NowPlayingReactionType.Joy)}
+        disabled={!playerPlaying || !!nowPlayingReaction?.mine}
       >
         <span role="img" aria-label="Face with Tears of Joy">
-          {nowPlayingReaction?.tear_joy || 0} 😂
+          {nowPlayingReaction?.joy || 0} 😂
         </span>
       </button>
       <button
         ref={btnCrying}
         className={`flex-1 button rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Crying)
+          nowPlayingReaction?.mine === NowPlayingReactionType.Cry
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
         }`}
-        onClick={() => react(NowPlayingReactionType.Crying)}
-        disabled={
-          !playerPlaying ||
-          nowPlayingReaction?.mine.includes(NowPlayingReactionType.Crying)
-        }
+        onClick={() => react(NowPlayingReactionType.Cry)}
+        disabled={!playerPlaying || !!nowPlayingReaction?.cry}
       >
         <span role="img" aria-label="Fire">
-          {nowPlayingReaction?.crying || 0} 😢
+          {nowPlayingReaction?.cry || 0} 😢
         </span>
       </button>
     </div>
