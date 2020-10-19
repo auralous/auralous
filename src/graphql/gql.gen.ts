@@ -107,6 +107,7 @@ export type Mutation = {
   deleteMeOauth: Scalars['Boolean'];
   createRoom: Room;
   updateRoom: Room;
+  joinPrivateRoom: Scalars['Boolean'];
   updateRoomMembership: Scalars['Boolean'];
   deleteRoom: Scalars['ID'];
   addMessage: Scalars['Boolean'];
@@ -145,6 +146,12 @@ export type MutationUpdateRoomArgs = {
   image?: Maybe<Scalars['Upload']>;
   anyoneCanAdd?: Maybe<Scalars['Boolean']>;
   password?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationJoinPrivateRoomArgs = {
+  id: Scalars['ID'];
+  password: Scalars['String'];
 };
 
 
@@ -674,6 +681,17 @@ export type UpdateRoomMembershipMutation = (
   & Pick<Mutation, 'updateRoomMembership'>
 );
 
+export type JoinPrivateRoomMutationVariables = Exact<{
+  id: Scalars['ID'];
+  password: Scalars['String'];
+}>;
+
+
+export type JoinPrivateRoomMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'joinPrivateRoom'>
+);
+
 export type DeleteRoomMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1152,6 +1170,15 @@ export const UpdateRoomMembershipDocument = gql`
 
 export function useUpdateRoomMembershipMutation() {
   return Urql.useMutation<UpdateRoomMembershipMutation, UpdateRoomMembershipMutationVariables>(UpdateRoomMembershipDocument);
+};
+export const JoinPrivateRoomDocument = gql`
+    mutation joinPrivateRoom($id: ID!, $password: String!) {
+  joinPrivateRoom(id: $id, password: $password)
+}
+    `;
+
+export function useJoinPrivateRoomMutation() {
+  return Urql.useMutation<JoinPrivateRoomMutation, JoinPrivateRoomMutationVariables>(JoinPrivateRoomDocument);
 };
 export const DeleteRoomDocument = gql`
     mutation deleteRoom($id: ID!) {
