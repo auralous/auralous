@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -47,7 +47,9 @@ const RoomChat = dynamic<{ room: Room; roomState?: RoomState }>(
   { ssr: false }
 );
 
-const RoomPasswordPrompter: React.FC<{ room: Room }> = ({ room }) => {
+const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
+  const isInit = useRef<boolean>(false);
+  const [shouldPromptPassword, setShouldPromptPassword] = useState(false);
   const [
     { data: { roomState } = { roomState: undefined } },
     fetchRoomState,
@@ -57,28 +59,40 @@ const RoomPasswordPrompter: React.FC<{ room: Room }> = ({ room }) => {
   const [, fetchQueue] = useQueueQuery({
     variables: { id: `room:${room.id}` },
   });
-  const { stopPlaying, playRoom } = usePlayer();
+  const { playRoom } = usePlayer();
   const user = useCurrentUser();
   const passwordRef = useRef<HTMLInputElement>(null);
   const [{ fetching }, joinPrivateRoom] = useJoinPrivateRoomMutation();
 
-  const handleJoin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!passwordRef.current || fetching) return;
-    const result = await joinPrivateRoom({
-      id: room.id,
-      password: passwordRef.current.value,
-    }).then((response) => response.data?.joinPrivateRoom);
-    if (result) {
-      // Joined, invalidate certain queries
-      fetchRoomState({ requestPolicy: "cache-and-network" });
-      fetchQueue({ requestPolicy: "cache-and-network" });
-      playRoom(room.id);
-    } else {
-      // Bad password
-      toasts.error("Incorrect room password");
-    }
-  };
+  const handleJoinPrivateRoom = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (!passwordRef.current || fetching) return;
+      const result = await joinPrivateRoom({
+        id: room.id,
+        password: passwordRef.current.value,
+      }).then((response) => response.data?.joinPrivateRoom);
+      if (result) {
+        // Joined, invalidate certain queries
+        fetchRoomState({ requestPolicy: "cache-and-network" });
+        fetchQueue({ requestPolicy: "cache-and-network" });
+        playRoom(room.id);
+      } else {
+        // Bad password
+        toasts.error("Incorrect room password");
+      }
+    },
+    [
+      toasts,
+      fetchRoomState,
+      room,
+      joinPrivateRoom,
+      passwordRef,
+      fetching,
+      fetchQueue,
+      playRoom,
+    ]
+  );
 
   // If room is not public and user is not a collab or creator
   const shouldPrompt =
@@ -88,13 +102,29 @@ const RoomPasswordPrompter: React.FC<{ room: Room }> = ({ room }) => {
     !roomState.collabs.includes(user?.id || "");
 
   useEffect(() => {
-    if (shouldPrompt) stopPlaying();
-  }, [shouldPrompt, stopPlaying]);
+    if (isInit.current) return;
+    if (!roomState) return;
+
+    const should: boolean = (() => {
+      if (room.isPublic) return false;
+      if (
+        room.creatorId === user?.id ||
+        roomState.collabs.includes(user?.id || "")
+      )
+        return false;
+      return true;
+    })();
+
+    if (should) setShouldPromptPassword(should);
+    else playRoom(room.id);
+
+    isInit.current = true;
+  }, [isInit, room, playRoom, roomState, user]);
 
   if (!shouldPrompt) return null;
 
   return (
-    <Modal.Modal active={shouldPrompt}>
+    <Modal.Modal active={shouldPromptPassword}>
       <Modal.Header>
         <Modal.Title>Join {room.title}</Modal.Title>
       </Modal.Header>
@@ -105,7 +135,7 @@ const RoomPasswordPrompter: React.FC<{ room: Room }> = ({ room }) => {
               Enter room password to join <b>{room.title}</b>. Leave empty if it
               has no password.
             </p>
-            <form className="flex my-1" onSubmit={handleJoin}>
+            <form className="flex my-1" onSubmit={handleJoinPrivateRoom}>
               <input
                 ref={passwordRef}
                 className="input w-full mr-1"
@@ -347,7 +377,6 @@ const RoomPage: NextPage<{
   room: Room | null;
 }> = ({ room: initialRoom }) => {
   const {
-    playRoom,
     state: { playerPlaying },
   } = usePlayer();
   // initialRoom is the same as room, only might be a outdated version
@@ -356,10 +385,6 @@ const RoomPage: NextPage<{
     variables: { id: initialRoom?.id as string },
     pause: !initialRoom,
   });
-
-  useEffect(() => {
-    if (room?.id) playRoom(room?.id);
-  }, [room, playRoom]);
 
   const [tab, setTab] = useState<"live" | "chat" | "queue">("live");
   const user = useCurrentUser();
@@ -435,7 +460,7 @@ const RoomPage: NextPage<{
           </div>
         </div>
       </div>
-      <RoomPasswordPrompter room={room} />
+      <RoomInit room={room} />
     </>
   );
 };

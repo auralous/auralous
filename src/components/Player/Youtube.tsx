@@ -98,7 +98,7 @@ export default function YouTubePlayer() {
       } md:w-72 h-48 overflow-hidden`}
     >
       <div
-        className="absolute overflow-hidden md:rounded-lg md:shadow-lg top-2 right-2 w-full h-full"
+        className="absolute overflow-hidden md:rounded-lg md:shadow-lg top-0 right-0 md:top-2 md:right-2 w-full h-full"
         id="ytPlayer"
       />
       <div className="absolute z-20 bottom-0 left-0 p-3 hidden md:block">
