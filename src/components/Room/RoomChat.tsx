@@ -58,7 +58,7 @@ const RoomUsers: React.FC<{ roomState: RoomState; room: Room }> = ({
           role={
             roomState.collabs.includes(userId)
               ? RoomMembership.Collab
-              : room.creator.id === userId
+              : room.creatorId === userId
               ? RoomMembership.Host
               : null
           }

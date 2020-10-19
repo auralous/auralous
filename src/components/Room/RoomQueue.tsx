@@ -30,11 +30,11 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
 
   const permission = useMemo(
     () => ({
-      canEditOthers: user?.id === room.creator.id,
+      canEditOthers: user?.id === room.creatorId,
       canAdd:
         !!user &&
         Boolean(
-          room.creator.id === user.id ||
+          room.creatorId === user.id ||
             roomState?.anyoneCanAdd ||
             roomState?.collabs.includes(user.id)
         ),

@@ -48,9 +48,10 @@ const ImageEditSection: React.FC<{
 };
 
 const InfoEditSection: React.FC<{
+  room: Room;
   titleRef: React.RefObject<HTMLInputElement>;
   descriptionRef: React.RefObject<HTMLTextAreaElement>;
-}> = ({ titleRef, descriptionRef }) => (
+}> = ({ room, titleRef, descriptionRef }) => (
   <>
     <div className="mb-4">
       <label className="label" htmlFor="roomTitle">
@@ -63,11 +64,24 @@ const InfoEditSection: React.FC<{
         ref={titleRef}
       />
     </div>
-    <div className="mb-4">
+    <div className="mb-4 hidden">
       <label className="label" htmlFor="roomDesc">
         Description
       </label>
       <textarea id="roomDesc" className="input w-full" ref={descriptionRef} />
+    </div>
+    {/* TODO: Not yet implemented */}
+    <div className="mb-4">
+      <label className="label" htmlFor="roomHandle">
+        Handle
+      </label>
+      <input
+        id="roomHandle"
+        disabled
+        className="input w-full"
+        type="text"
+        value={room.id}
+      />
     </div>
   </>
 );
@@ -122,6 +136,7 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
         </div>
         <div className="flex-1 pt-4">
           <InfoEditSection
+            room={room}
             titleRef={titleRef}
             descriptionRef={descriptionRef}
           />

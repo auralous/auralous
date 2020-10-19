@@ -78,7 +78,7 @@ const cacheExchange = createCacheExchange({
             {
               query: RoomDocument,
               // @ts-ignore
-              variables: { creatorId: result.createRoom.creator.id },
+              variables: { creatorId: result.createRoom.creatorId },
             },
             // @ts-ignore
             () => ({ room: result.createRoom })

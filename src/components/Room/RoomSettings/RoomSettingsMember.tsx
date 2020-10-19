@@ -128,9 +128,6 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
     <>
       <div className="mb-4">
         <h5 className="text-lg font-bold">Host</h5>
-        <p className="text-foreground-secondary mb-1">
-          PHENOMENAL COSMIC POWERS!
-        </p>
         <a
           href="https://giphy.com/explore/its-you"
           className="text-success-light hover:text-success-dark font-bold"
@@ -147,13 +144,14 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
         </p>
         <RoomMemberSection room={room} roomState={roomState} />
       </div>
-      <div className="mb-4">
-        <h5 className="text-lg font-bold">Guest</h5>
-        <p className="text-foreground-secondary mb-1">
-          Can <b>only</b> react to songs -- that&apos;s it.
-        </p>
-        <p className="opacity-75 text-sm">(everyone else)</p>
-      </div>
+      {room.isPublic && (
+        <div className="mb-4">
+          <h5 className="text-lg font-bold">Guest</h5>
+          <p className="text-foreground-secondary mb-1">
+            Can <b>only</b> react to songs -- that&apos;s it.
+          </p>
+        </div>
+      )}
     </>
   );
 };

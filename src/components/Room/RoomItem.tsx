@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Room, useNowPlayingQuery, useTrackQuery } from "~/graphql/gql.gen";
+import { SvgLock } from "~/assets/svg";
 
 const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
   const [{ data: { nowPlaying } = { nowPlaying: null } }] = useNowPlayingQuery({
@@ -25,6 +26,14 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
         />
         <div className="absolute inset-0 py-2 justify-center flex flex-col">
           <h3 className="flex-none mb-2 text-xl font-bold truncate text-center">
+            {room.isPublic === false && (
+              <SvgLock
+                className="inline mr-1 p-1 rounded-lg bg-white text-black"
+                width="20"
+                height="20"
+                title="Private Room"
+              />
+            )}
             {room.title}
           </h3>
           <h4 className="text-white flex-none text-center text-opacity-50 font-semibold text-xs mb-1">

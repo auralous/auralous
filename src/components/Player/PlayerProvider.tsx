@@ -51,8 +51,11 @@ const PlayerProvider: React.FC = ({ children }) => {
   });
 
   const crossTracks = useMemo(
-    () => (nowPlaying?.currentTrack ? dataCrossTracks?.crossTracks : null),
-    [dataCrossTracks, nowPlaying]
+    () =>
+      playerControl && nowPlaying?.currentTrack
+        ? dataCrossTracks?.crossTracks
+        : null,
+    [dataCrossTracks, playerControl, nowPlaying]
   );
 
   // Should only show platform chooser if there is an ongoing track and no playingPlatform can be determined

@@ -1,21 +1,12 @@
-import { FRAGMENT_USER_PUBLIC } from "./user";
-
 export const FRAGMENT_ROOM_DETAIL = /* GraphQL */ `
   fragment RoomDetailParts on Room {
     title
     description
     image
     createdAt
+    isPublic
+    creatorId
   }
-`;
-
-export const FRAGMENT_ROOM_CREATOR = /* GraphQL */ `
-  fragment RoomCreatorPart on Room {
-    creator {
-      ...UserPublicParts
-    }
-  }
-  ${FRAGMENT_USER_PUBLIC}
 `;
 
 export const FRAGMENT_ROOM_RULES = /* GraphQL */ `
@@ -30,11 +21,9 @@ export const QUERY_ROOM = /* GraphQL */ `
     room(id: $id) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const QUERY_ROOMS = /* GraphQL */ `
@@ -42,11 +31,9 @@ export const QUERY_ROOMS = /* GraphQL */ `
     rooms(creatorId: $creatorId) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const QUERY_EXPLORE_ROOMS_BY = /* GraphQL */ `
@@ -54,11 +41,9 @@ export const QUERY_EXPLORE_ROOMS_BY = /* GraphQL */ `
     exploreRooms(by: $by) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const QUERY_SEARCH_ROOMS = /* GraphQL */ `
@@ -66,23 +51,31 @@ export const QUERY_SEARCH_ROOMS = /* GraphQL */ `
     searchRooms(query: $query, limit: $limit) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const MUTATION_CREATE_ROOM = /* GraphQL */ `
-  mutation createRoom($title: String!, $description: String) {
-    createRoom(title: $title, description: $description) {
+  mutation createRoom(
+    $title: String!
+    $description: String
+    $isPublic: Boolean!
+    $anyoneCanAdd: Boolean
+    $password: String
+  ) {
+    createRoom(
+      title: $title
+      description: $description
+      isPublic: $isPublic
+      anyoneCanAdd: $anyoneCanAdd
+      password: $password
+    ) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const MUTATION_UPDATE_ROOM = /* GraphQL */ `
@@ -92,6 +85,7 @@ export const MUTATION_UPDATE_ROOM = /* GraphQL */ `
     $description: String
     $image: Upload
     $anyoneCanAdd: Boolean
+    $password: String
   ) {
     updateRoom(
       id: $id
@@ -99,14 +93,13 @@ export const MUTATION_UPDATE_ROOM = /* GraphQL */ `
       description: $description
       image: $image
       anyoneCanAdd: $anyoneCanAdd
+      password: $password
     ) {
       id
       ...RoomDetailParts
-      ...RoomCreatorPart
     }
   }
   ${FRAGMENT_ROOM_DETAIL}
-  ${FRAGMENT_ROOM_CREATOR}
 `;
 
 export const MUTATION_UPDATE_ROOM_MEMBERSHIP = /* GraphQL */ `
@@ -122,6 +115,12 @@ export const MUTATION_UPDATE_ROOM_MEMBERSHIP = /* GraphQL */ `
       userId: $userId
       role: $role
     )
+  }
+`;
+
+export const MUTATION_JOIN_PRIVATE_ROOM = /* GraphQL */ `
+  mutation joinPrivateRoom($id: ID!, $password: String!) {
+    joinPrivateRoom(id: $id, password: $password)
   }
 `;
 
