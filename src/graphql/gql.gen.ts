@@ -345,9 +345,9 @@ export type Queue = {
 
 export enum NowPlayingReactionType {
   Heart = 'heart',
-  TearJoy = 'tear_joy',
+  Joy = 'joy',
   Fire = 'fire',
-  Crying = 'crying'
+  Cry = 'cry'
 }
 
 export type NowPlayingQueueItem = {
@@ -368,10 +368,10 @@ export type NowPlaying = {
 export type NowPlayingReaction = {
   __typename?: 'NowPlayingReaction';
   id: Scalars['ID'];
-  mine: Array<NowPlayingReactionType>;
+  mine?: Maybe<NowPlayingReactionType>;
   heart: Scalars['Int'];
-  crying: Scalars['Int'];
-  tear_joy: Scalars['Int'];
+  cry: Scalars['Int'];
+  joy: Scalars['Int'];
   fire: Scalars['Int'];
 };
 
@@ -459,7 +459,7 @@ export type OnNowPlayingUpdatedSubscription = (
 
 export type NowPlayingReactionPartsFragment = (
   { __typename?: 'NowPlayingReaction' }
-  & Pick<NowPlayingReaction, 'id' | 'heart' | 'crying' | 'tear_joy' | 'fire' | 'mine'>
+  & Pick<NowPlayingReaction, 'id' | 'heart' | 'cry' | 'joy' | 'fire' | 'mine'>
 );
 
 export type NowPlayingReactionsQueryVariables = Exact<{
@@ -891,8 +891,8 @@ export const NowPlayingReactionPartsFragmentDoc = gql`
     fragment NowPlayingReactionParts on NowPlayingReaction {
   id
   heart
-  crying
-  tear_joy
+  cry
+  joy
   fire
   mine
 }
