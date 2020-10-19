@@ -132,6 +132,9 @@ export type MutationDeleteMeOauthArgs = {
 export type MutationCreateRoomArgs = {
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
+  isPublic: Scalars['Boolean'];
+  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
+  password?: Maybe<Scalars['String']>;
 };
 
 
@@ -141,6 +144,7 @@ export type MutationUpdateRoomArgs = {
   description?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['Upload']>;
   anyoneCanAdd?: Maybe<Scalars['Boolean']>;
+  password?: Maybe<Scalars['String']>;
 };
 
 
@@ -257,6 +261,7 @@ export type Room = {
   __typename?: 'Room';
   id: Scalars['ID'];
   title: Scalars['String'];
+  isPublic: Scalars['Boolean'];
   description?: Maybe<Scalars['String']>;
   image: Scalars['String'];
   creator: User;
@@ -554,7 +559,7 @@ export type OnQueueUpdatedSubscription = (
 
 export type RoomDetailPartsFragment = (
   { __typename?: 'Room' }
-  & Pick<Room, 'title' | 'description' | 'image' | 'createdAt'>
+  & Pick<Room, 'title' | 'description' | 'image' | 'createdAt' | 'isPublic'>
 );
 
 export type RoomCreatorPartFragment = (
@@ -634,6 +639,9 @@ export type SearchRoomsQuery = (
 export type CreateRoomMutationVariables = Exact<{
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
+  isPublic: Scalars['Boolean'];
+  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
+  password?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -653,6 +661,7 @@ export type UpdateRoomMutationVariables = Exact<{
   description?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['Upload']>;
   anyoneCanAdd?: Maybe<Scalars['Boolean']>;
+  password?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -910,6 +919,7 @@ export const RoomDetailPartsFragmentDoc = gql`
   description
   image
   createdAt
+  isPublic
 }
     `;
 export const UserPublicPartsFragmentDoc = gql`
@@ -1139,8 +1149,8 @@ export function useSearchRoomsQuery(options: Omit<Urql.UseQueryArgs<SearchRoomsQ
   return Urql.useQuery<SearchRoomsQuery>({ query: SearchRoomsDocument, ...options });
 };
 export const CreateRoomDocument = gql`
-    mutation createRoom($title: String!, $description: String) {
-  createRoom(title: $title, description: $description) {
+    mutation createRoom($title: String!, $description: String, $isPublic: Boolean!, $anyoneCanAdd: Boolean, $password: String) {
+  createRoom(title: $title, description: $description, isPublic: $isPublic, anyoneCanAdd: $anyoneCanAdd, password: $password) {
     id
     ...RoomDetailParts
     ...RoomCreatorPart
@@ -1153,8 +1163,8 @@ export function useCreateRoomMutation() {
   return Urql.useMutation<CreateRoomMutation, CreateRoomMutationVariables>(CreateRoomDocument);
 };
 export const UpdateRoomDocument = gql`
-    mutation updateRoom($id: ID!, $title: String, $description: String, $image: Upload, $anyoneCanAdd: Boolean) {
-  updateRoom(id: $id, title: $title, description: $description, image: $image, anyoneCanAdd: $anyoneCanAdd) {
+    mutation updateRoom($id: ID!, $title: String, $description: String, $image: Upload, $anyoneCanAdd: Boolean, $password: String) {
+  updateRoom(id: $id, title: $title, description: $description, image: $image, anyoneCanAdd: $anyoneCanAdd, password: $password) {
     id
     ...RoomDetailParts
     ...RoomCreatorPart

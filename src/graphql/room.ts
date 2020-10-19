@@ -6,6 +6,7 @@ export const FRAGMENT_ROOM_DETAIL = /* GraphQL */ `
     description
     image
     createdAt
+    isPublic
   }
 `;
 
@@ -74,8 +75,20 @@ export const QUERY_SEARCH_ROOMS = /* GraphQL */ `
 `;
 
 export const MUTATION_CREATE_ROOM = /* GraphQL */ `
-  mutation createRoom($title: String!, $description: String) {
-    createRoom(title: $title, description: $description) {
+  mutation createRoom(
+    $title: String!
+    $description: String
+    $isPublic: Boolean!
+    $anyoneCanAdd: Boolean
+    $password: String
+  ) {
+    createRoom(
+      title: $title
+      description: $description
+      isPublic: $isPublic
+      anyoneCanAdd: $anyoneCanAdd
+      password: $password
+    ) {
       id
       ...RoomDetailParts
       ...RoomCreatorPart
@@ -92,6 +105,7 @@ export const MUTATION_UPDATE_ROOM = /* GraphQL */ `
     $description: String
     $image: Upload
     $anyoneCanAdd: Boolean
+    $password: String
   ) {
     updateRoom(
       id: $id
@@ -99,6 +113,7 @@ export const MUTATION_UPDATE_ROOM = /* GraphQL */ `
       description: $description
       image: $image
       anyoneCanAdd: $anyoneCanAdd
+      password: $password
     ) {
       id
       ...RoomDetailParts
