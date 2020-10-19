@@ -61,6 +61,7 @@ const RoomSettingsModal: React.FC<{
         <div
           aria-labelledby="tabpanel_basic"
           role="tabpanel"
+          style={{ height: "calc(100vh - 12rem)" }}
           aria-hidden={tab !== "basic"}
           hidden={tab !== "basic"}
         >
@@ -69,6 +70,7 @@ const RoomSettingsModal: React.FC<{
         <div
           aria-labelledby="tabpanel_rules"
           role="tabpanel"
+          style={{ height: "calc(100vh - 12rem)" }}
           aria-hidden={tab !== "rules"}
           hidden={tab !== "rules"}
         >
@@ -77,6 +79,7 @@ const RoomSettingsModal: React.FC<{
         <div
           aria-labelledby="tabpanel_member"
           role="tabpanel"
+          style={{ height: "calc(100vh - 12rem)" }}
           aria-hidden={tab !== "member"}
           hidden={tab !== "member"}
         >
