@@ -118,6 +118,12 @@ export const MUTATION_UPDATE_ROOM_MEMBERSHIP = /* GraphQL */ `
   }
 `;
 
+export const MUTATION_JOIN_PRIVATE_ROOM = /* GraphQL */ `
+  mutation joinPrivateRoom($id: ID!, $password: String!) {
+    joinPrivateRoom(id: $id, password: $password)
+  }
+`;
+
 export const MUTATION_DELETE_ROOM = /* GraphQL */ `
   mutation deleteRoom($id: ID!) {
     deleteRoom(id: $id)

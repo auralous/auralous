@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -6,6 +6,9 @@ import { NextSeo } from "next-seo";
 import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
 import { ShareDialog } from "~/components/Social/Share";
 import { useModal, Modal } from "~/components/Modal/index";
+import { useNowPlaying } from "~/components/NowPlaying";
+import { useToasts } from "~/components/Toast";
+import { useLogin } from "~/components/Auth/index";
 import { useCurrentUser } from "~/hooks/user";
 import NotFoundPage from "../../404";
 import { forwardSSRHeaders } from "~/lib/ssr-utils";
@@ -16,11 +19,12 @@ import {
   useOnRoomStateUpdatedSubscription,
   RoomState,
   useSkipNowPlayingMutation,
+  useJoinPrivateRoomMutation,
+  useQueueQuery,
 } from "~/graphql/gql.gen";
 import { SvgChevronLeft, SvgShare, SvgSettings, SvgPlay } from "~/assets/svg";
 import { QUERY_ROOM } from "~/graphql/room";
 import { CONFIG } from "~/lib/constants";
-import { useNowPlaying } from "~/components/NowPlaying";
 
 // FIXME: types: should be inferred
 const RoomSettingsModal = dynamic<{
@@ -42,6 +46,95 @@ const RoomChat = dynamic<{ room: Room; roomState?: RoomState }>(
   () => import("~/components/Room/index").then((mod) => mod.RoomChat),
   { ssr: false }
 );
+
+const RoomPasswordPrompter: React.FC<{ room: Room }> = ({ room }) => {
+  const [
+    { data: { roomState } = { roomState: undefined } },
+    fetchRoomState,
+  ] = useRoomStateQuery({ variables: { id: room.id } });
+  const toasts = useToasts();
+  const [, openLogin] = useLogin();
+  const [, fetchQueue] = useQueueQuery({
+    variables: { id: `room:${room.id}` },
+  });
+  const { stopPlaying } = usePlayer();
+  const user = useCurrentUser();
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const [{ fetching }, joinPrivateRoom] = useJoinPrivateRoomMutation();
+
+  const handleJoin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!passwordRef.current || fetching) return;
+    const result = await joinPrivateRoom({
+      id: room.id,
+      password: passwordRef.current.value,
+    }).then((response) => response.data?.joinPrivateRoom);
+    if (result) {
+      // Joined, invalidate certain queries
+      fetchRoomState({ requestPolicy: "cache-and-network" });
+      fetchQueue({ requestPolicy: "cache-and-network" });
+    } else {
+      // Bad password
+      toasts.error("Incorrect room password");
+    }
+  };
+
+  // If room is not public and user is not a collab or creator
+  const shouldPrompt =
+    roomState &&
+    !room.isPublic &&
+    room.creatorId !== user?.id &&
+    !roomState.collabs.includes(user?.id || "");
+
+  useEffect(() => {
+    if (shouldPrompt) stopPlaying();
+  }, [shouldPrompt, stopPlaying]);
+
+  if (!shouldPrompt) return null;
+
+  return (
+    <Modal.Modal active={shouldPrompt}>
+      <Modal.Header>
+        <Modal.Title>Join {room.title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Content>
+        {user ? (
+          <>
+            <p>
+              Enter room password to join <b>{room.title}</b>
+            </p>
+            <form className="flex my-1" onSubmit={handleJoin}>
+              <input
+                ref={passwordRef}
+                className="input w-full mr-1"
+                placeholder="Room Password"
+              />
+              <button type="submit" className="button" disabled={fetching}>
+                Join
+              </button>
+            </form>
+            <p className="text-foreground-secondary text-xs mt-2">
+              You can also ask the host to add you as a collaborator
+            </p>
+          </>
+        ) : (
+          <div>
+            <p className="font-bold mb-2">Sign in to join a private room</p>
+            <button onClick={openLogin} className="button button-foreground">
+              Sign in
+            </button>
+          </div>
+        )}
+
+        <Link href="/explore">
+          <button className="text-sm text-foreground-secondary hover:text-foreground-tertiary mt-2 p-1">
+            ← Leave
+          </button>
+        </Link>
+      </Modal.Content>
+    </Modal.Modal>
+  );
+};
 
 const RoomSettingsButton: React.FC<{ room: Room }> = ({ room }) => {
   const [active, open, close] = useModal();
@@ -340,6 +433,7 @@ const RoomPage: NextPage<{
           </div>
         </div>
       </div>
+      <RoomPasswordPrompter room={room} />
     </>
   );
 };

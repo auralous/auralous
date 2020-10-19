@@ -71,6 +71,9 @@ const RoomSettingsRules: React.FC<{
               maxLength={16}
               onChange={() => setIsChanged(true)}
             />
+            <p className="text-foreground-tertiary text-xs mt-1">
+              Current members are not required to enter new password
+            </p>
           </div>
         </>
       )}
