@@ -57,7 +57,7 @@ const RoomPasswordPrompter: React.FC<{ room: Room }> = ({ room }) => {
   const [, fetchQueue] = useQueueQuery({
     variables: { id: `room:${room.id}` },
   });
-  const { stopPlaying } = usePlayer();
+  const { stopPlaying, playRoom } = usePlayer();
   const user = useCurrentUser();
   const passwordRef = useRef<HTMLInputElement>(null);
   const [{ fetching }, joinPrivateRoom] = useJoinPrivateRoomMutation();
@@ -73,6 +73,7 @@ const RoomPasswordPrompter: React.FC<{ room: Room }> = ({ room }) => {
       // Joined, invalidate certain queries
       fetchRoomState({ requestPolicy: "cache-and-network" });
       fetchQueue({ requestPolicy: "cache-and-network" });
+      playRoom(room.id);
     } else {
       // Bad password
       toasts.error("Incorrect room password");
