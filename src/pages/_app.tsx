@@ -12,16 +12,35 @@ import { LogInProvider } from "~/components/Auth/index";
 import { createUrqlClient } from "~/graphql/urql";
 import "~/assets/styles/index.css";
 import "nprogress/nprogress.css";
+import { useMAuth } from "~/hooks/user";
 
 const queryCache = new QueryCache();
 
+const MAuthRefresher: React.FC = () => {
+  // MAuth - Refetch on token expiry
+  const mAuthResp = useMAuth();
+  useEffect(() => {
+    let t: number | undefined;
+    if (mAuthResp.data?.expiredAt) {
+      const tm = mAuthResp.data.expiredAt.getTime() - Date.now();
+      // TODO: This indicates an error, report it
+      if (tm < 0) return;
+      t = window.setTimeout(mAuthResp.refetch, tm);
+    }
+    return () => window.clearTimeout(t);
+  }, [mAuthResp.data, mAuthResp.refetch]);
+  return null;
+};
+
 export default function MyApp({ Component, pageProps }: AppProps) {
+  // URQL
   const [urqlClient, setUrqlClient] = useState(createUrqlClient());
   useEffect(() => {
     // FIXME: Find alternative to reset urql
     (window as any).resetUrqlClient = () => setUrqlClient(createUrqlClient());
   }, []);
 
+  // Fathom
   useEffect(() => {
     Fathom.load(process.env.FATHOM_SITE_ID!, {
       includedDomains: ["withstereo.com"],
@@ -35,11 +54,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     return () =>
       Router.events.off("routeChangeComplete", onRouteChangeComplete);
   }, []);
+
   return (
     <ReactQueryCacheProvider queryCache={queryCache}>
       <UrqlProvider value={urqlClient}>
         <ToastProvider>
           <LogInProvider>
+            <MAuthRefresher />
             <PlayerProvider>
               <MainLayout>
                 <DefaultSeo

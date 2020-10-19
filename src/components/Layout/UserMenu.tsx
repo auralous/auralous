@@ -32,8 +32,8 @@ export const UserMenu: React.FC = () => {
   }, [ref]);
 
   const signOut = useCallback(async () => {
-    await fetch(`${process.env.API_URI}/auth`, {
-      method: "DELETE",
+    await fetch(`${process.env.API_URI}/auth/logout`, {
+      method: "POST",
       credentials: "include",
     });
     (window as any).resetUrqlClient();
