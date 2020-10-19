@@ -11,6 +11,7 @@ export { default as SvgFacebook } from "./facebook.svg";
 export { default as SvgHeadphones } from "./headphones.svg";
 export { default as SvgGoogleColor } from "./google-color.svg";
 export { default as SvgLogo } from "./logo.svg";
+export { default as SvgLock } from "./lock.svg";
 export { default as SvgMail } from "./mail.svg";
 export { default as SvgMaximize2 } from "./maximize-2.svg";
 export { default as SvgMenu } from "./menu.svg";

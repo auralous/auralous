@@ -141,7 +141,7 @@ const RoomSkipNowPlaying: React.FC<{ room: Room }> = ({ room }) => {
   );
 };
 
-const RoomMain: React.FC<{
+const RoomLive: React.FC<{
   room: Room;
 }> = ({ room }) => {
   const {
@@ -175,8 +175,8 @@ const RoomMain: React.FC<{
 
 const Navbar: React.FC<{
   room: Room;
-  tab: "main" | "chat" | "queue";
-  setTab: React.Dispatch<React.SetStateAction<"main" | "chat" | "queue">>;
+  tab: "live" | "chat" | "queue";
+  setTab: React.Dispatch<React.SetStateAction<"live" | "chat" | "queue">>;
 }> = ({ room, tab, setTab }) => {
   const [activeShare, openShare, closeShare] = useModal();
   return (
@@ -205,11 +205,11 @@ const Navbar: React.FC<{
             <button
               role="tab"
               className={`text-lg font-bold mx-1 p-1 ${
-                tab === "main" ? "opacity-100" : "opacity-25"
+                tab === "live" ? "opacity-100" : "opacity-25"
               } transition-opacity duration-200`}
               aria-controls="tabpanel_main"
-              onClick={() => setTab("main")}
-              aria-selected={tab === "main"}
+              onClick={() => setTab("live")}
+              aria-selected={tab === "live"}
             >
               Live
             </button>
@@ -266,7 +266,7 @@ const RoomPage: NextPage<{
     if (room?.id) playRoom(room?.id);
   }, [room, playRoom]);
 
-  const [tab, setTab] = useState<"main" | "chat" | "queue">("main");
+  const [tab, setTab] = useState<"live" | "chat" | "queue">("live");
   const user = useCurrentUser();
   const [
     { data: { roomState } = { roomState: undefined } },
@@ -296,6 +296,7 @@ const RoomPage: NextPage<{
             },
           ],
         }}
+        noindex={!room.isPublic}
       />
       <div className="h-screen relative pt-12 overflow-hidden">
         <Navbar room={room} tab={tab} setTab={setTab} />
@@ -320,10 +321,10 @@ const RoomPage: NextPage<{
           </div>
           <div
             className={`w-full relative ${
-              tab === "main" ? "" : "hidden"
+              tab === "live" ? "" : "hidden"
             } lg:block lg:w-1/2`}
           >
-            <RoomMain room={room} />
+            <RoomLive room={room} />
             {room.creatorId === user?.id && <RoomSettingsButton room={room} />}
             <RoomRulesButton room={room} />
           </div>
