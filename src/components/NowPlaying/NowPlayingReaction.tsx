@@ -45,6 +45,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
   const canReact = playerPlaying && !nowPlayingReaction?.mine;
 
   useEffect(() => {
+    // Add animation to buttons
     if (!nowPlayingReaction) return;
     if (nowPlayingReaction.fire > prevNowPlayingReaction.fire) {
       btnFire.current?.classList.add("scale-75");
@@ -71,12 +72,13 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
     btnHeart,
     btnFire,
   ]);
+
   return (
     <div className="flex max-w-sm mx-auto overflow-x-auto text-sm">
       <button
         ref={btnHeart}
         onClick={() => react(NowPlayingReactionType.Heart)}
-        className={`flex-1 button rounded-full p-2 mx-1 ${
+        className={`flex-1 button transform transition rounded-full p-2 mx-1 ${
           nowPlayingReaction?.mine === NowPlayingReactionType.Heart
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
@@ -89,7 +91,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       </button>
       <button
         ref={btnFire}
-        className={`flex-1 button rounded-full p-2 mx-1 ${
+        className={`flex-1 button transform transition rounded-full p-2 mx-1 ${
           nowPlayingReaction?.mine === NowPlayingReactionType.Fire
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
@@ -103,7 +105,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       </button>
       <button
         ref={btnTearJoy}
-        className={`flex-1 button rounded-full p-2 mx-1 ${
+        className={`flex-1 button transform transition rounded-full p-2 mx-1 ${
           nowPlayingReaction?.mine === NowPlayingReactionType.Joy
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
@@ -117,7 +119,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       </button>
       <button
         ref={btnCrying}
-        className={`flex-1 button rounded-full p-2 mx-1 ${
+        className={`flex-1 button transform transition rounded-full p-2 mx-1 ${
           nowPlayingReaction?.mine === NowPlayingReactionType.Cry
             ? "bg-pink opacity-100"
             : "bg-opacity-25"
