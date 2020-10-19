@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
       <div className="container flex items-center justify-between">
         <div className="flex items-center content-start overflow-hidden">
           <Link href="/explore">
-            <a className="ml-2 mr-6">
+            <a className="ml-2 mr-6" aria-label="Back to Explore">
               <SvgLogo
                 className="mx-auto"
                 fill="currentColor"

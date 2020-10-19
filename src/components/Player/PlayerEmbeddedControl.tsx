@@ -59,10 +59,11 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
             onKeyDown={({ key }) => key === "Enter" && openMenu()}
           >
             <h2 className="font-bold text-lg leading-tight truncate">
-              {track?.title}
+              {track?.title || "Nothing is playing"}
             </h2>
             <div className="truncate text-foreground-secondary text-sm">
-              {track?.artists.map(({ name }) => name).join(", ")}
+              {track?.artists.map(({ name }) => name).join(", ") ||
+                "Add a song to listen together"}
             </div>
           </div>
           <button

@@ -22,7 +22,13 @@ import {
   useJoinPrivateRoomMutation,
   useQueueQuery,
 } from "~/graphql/gql.gen";
-import { SvgChevronLeft, SvgShare, SvgSettings, SvgPlay } from "~/assets/svg";
+import {
+  SvgChevronLeft,
+  SvgShare,
+  SvgSettings,
+  SvgPlay,
+  SvgBookOpen,
+} from "~/assets/svg";
 import { QUERY_ROOM } from "~/graphql/room";
 import { CONFIG } from "~/lib/constants";
 
@@ -177,9 +183,9 @@ const RoomSettingsButton: React.FC<{ room: Room }> = ({ room }) => {
   return (
     <>
       <button
-        aria-label="Room Settings"
+        title="Room Settings"
         onClick={open}
-        className="button bg-white bg-opacity-25 absolute top-2 left-2"
+        className="button button-light absolute top-2 left-2"
       >
         <SvgSettings />
       </button>
@@ -208,11 +214,12 @@ const RoomRulesButton: React.FC<{ room: Room }> = ({ room }) => {
           setIsViewed(true);
         }}
         className="button button-light absolute top-2 right-2"
+        title="Room Rules"
       >
         {!isViewed && (
           <span className="animate-ping absolute top-0 right-0 -m-1 w-3 h-3 rounded-full bg-pink" />
         )}
-        Rules
+        <SvgBookOpen />
       </button>
       <Modal.Modal active={active} onOutsideClick={close}>
         <Modal.Header>
@@ -246,22 +253,19 @@ const RoomSkipNowPlaying: React.FC<{ room: Room }> = ({ room }) => {
   const user = useCurrentUser();
   const [nowPlaying] = useNowPlaying("room", room.id);
   const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
-
-  if (!nowPlaying?.currentTrack || !user) return null;
-  if (
-    user.id !== room.creatorId &&
-    nowPlaying.currentTrack.creatorId !== user.id
-  )
-    return null;
   return (
-    <div className="flex justify-center">
-      <button
-        className="mt-4 text-xs py-1 px-2 text-white font-bold text-opacity-50 hover:text-opacity-75 transition-colors duration-300"
-        onClick={() => skipNowPlaying({ id: `room:${room.id}` })}
-        disabled={fetching}
-      >
-        Skip song
-      </button>
+    <div className="flex justify-center h-6 mt-4">
+      {!!user &&
+        (user.id === room.creatorId ||
+          nowPlaying?.currentTrack?.creatorId === user.id) && (
+          <button
+            className="text-xs py-1 px-2 text-white font-bold text-opacity-50 hover:text-opacity-75 transition-colors duration-300"
+            onClick={() => skipNowPlaying({ id: `room:${room.id}` })}
+            disabled={fetching}
+          >
+            Skip song
+          </button>
+        )}
     </div>
   );
 };
@@ -306,18 +310,13 @@ const Navbar: React.FC<{
   const [activeShare, openShare, closeShare] = useModal();
   return (
     <>
-      <div className="nav px-2">
-        <div className="flex flex-1 items-center justify-start h-full">
+      <div className="nav px-2 overflow-hidden">
+        <div className="flex flex-1 w-0 items-center justify-start h-full">
           <Link href="/explore">
             <button className="p-1 mr-2" title="Go back">
               <SvgChevronLeft />
             </button>
           </Link>
-          <img
-            alt={room.title}
-            src={room.image}
-            className="w-8 h-8 rounded-full object-cover mr-2"
-          />
           <h4 className="text-md font-bold leading-tight truncate mr-2">
             {room.title}
           </h4>
@@ -373,19 +372,34 @@ const Navbar: React.FC<{
   );
 };
 
-const RoomPage: NextPage<{
-  room: Room | null;
-}> = ({ room: initialRoom }) => {
+const RoomBg: React.FC<{
+  room: Room;
+}> = ({ room }) => {
   const {
     state: { playerPlaying },
   } = usePlayer();
+  const imgSrc = playerPlaying?.image || room.image;
+  return (
+    <div
+      className="w-full h-full transform scale-125 absolute inset-0 bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${imgSrc})`,
+        filter: "blur(40px) brightness(0.3)",
+        zIndex: -1,
+      }}
+    />
+  );
+};
+
+const RoomPage: NextPage<{
+  room: Room | null;
+}> = ({ room: initialRoom }) => {
   // initialRoom is the same as room, only might be a outdated version
   // so it can be used as backup
   const [{ data: { room } = { room: initialRoom } }] = useRoomQuery({
     variables: { id: initialRoom?.id as string },
     pause: !initialRoom,
   });
-
   const [tab, setTab] = useState<"live" | "chat" | "queue">("live");
   const user = useCurrentUser();
   const [
@@ -398,6 +412,7 @@ const RoomPage: NextPage<{
     { variables: { id: room?.id as string }, pause: !room },
     (prevResposne, response) => response
   );
+
   if (!room) return <NotFoundPage />;
   return (
     <>
@@ -421,14 +436,7 @@ const RoomPage: NextPage<{
       <div className="h-screen relative pt-12 overflow-hidden">
         <Navbar room={room} tab={tab} setTab={setTab} />
         <div className="flex h-full overflow-hidden">
-          <div
-            className="w-full h-full transform scale-105 absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${playerPlaying?.image || room.image})`,
-              filter: "blur(14px) brightness(0.3)",
-              zIndex: -1,
-            }}
-          />
+          <RoomBg room={room} />
           <div
             className={`w-full ${
               tab === "queue" ? "" : "hidden"

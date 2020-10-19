@@ -76,6 +76,9 @@ module.exports = {
       opacity: {
         10: "0.1",
       },
+      animation: {
+        "spin-slow": "spin 9s linear infinite",
+      },
       fontFamily: {
         sans: [
           "-apple-system",
