@@ -101,7 +101,8 @@ const RoomPasswordPrompter: React.FC<{ room: Room }> = ({ room }) => {
         {user ? (
           <>
             <p>
-              Enter room password to join <b>{room.title}</b>
+              Enter room password to join <b>{room.title}</b>. Leave empty if it
+              has no password.
             </p>
             <form className="flex my-1" onSubmit={handleJoin}>
               <input
@@ -114,7 +115,7 @@ const RoomPasswordPrompter: React.FC<{ room: Room }> = ({ room }) => {
               </button>
             </form>
             <p className="text-foreground-secondary text-xs mt-2">
-              You can also ask the host to add you as a collaborator
+              You can also join by asking the host to add you as a collaborator
             </p>
           </>
         ) : (
