@@ -12,7 +12,7 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
 }) => {
   const {
     player,
-    state: { playingPlatform, playerPlaying, originalTrack, error },
+    state: { playingPlatform, playerPlaying, originalTrack, fetching, error },
   } = usePlayer();
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
@@ -52,18 +52,29 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
         <div className="mt-2 mb-4 max-w-lg px-2 mx-auto text-center flex flex-col items-center justify-start">
           <div
             aria-label="Track name and artists"
-            onClick={openMenu}
+            onClick={() => playerPlaying && openMenu()}
             role="button"
             tabIndex={0}
-            className="max-w-full"
-            onKeyDown={({ key }) => key === "Enter" && openMenu()}
+            className="max-w-full h-12"
+            onKeyDown={({ key }) =>
+              key === "Enter" && playerPlaying && openMenu()
+            }
           >
             <h2 className="font-bold text-lg leading-tight truncate">
-              {track?.title || "Nothing is playing"}
+              {track?.title ||
+                (fetching ? (
+                  <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
+                ) : (
+                  "Nothing is playing"
+                ))}
             </h2>
             <div className="truncate text-foreground-secondary text-sm">
               {track?.artists.map(({ name }) => name).join(", ") ||
-                "Add a song to listen together"}
+                (fetching ? (
+                  <span className="block h-4 w-32 mx-auto bg-foreground-tertiary rounded-full animate-pulse" />
+                ) : (
+                  "Add a song to listen together"
+                ))}
             </div>
           </div>
           <button

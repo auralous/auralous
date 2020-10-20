@@ -303,9 +303,9 @@ export type Track = {
 
 export type CrossTracks = {
   __typename?: 'CrossTracks';
-  originalId: Scalars['ID'];
-  youtube?: Maybe<Track>;
-  spotify?: Maybe<Track>;
+  id: Scalars['ID'];
+  youtube?: Maybe<Scalars['ID']>;
+  spotify?: Maybe<Scalars['ID']>;
 };
 
 export type Artist = {
@@ -767,14 +767,7 @@ export type CrossTracksQuery = (
   { __typename?: 'Query' }
   & { crossTracks?: Maybe<(
     { __typename?: 'CrossTracks' }
-    & Pick<CrossTracks, 'originalId'>
-    & { youtube?: Maybe<(
-      { __typename?: 'Track' }
-      & TrackPartsFragment
-    )>, spotify?: Maybe<(
-      { __typename?: 'Track' }
-      & TrackPartsFragment
-    )> }
+    & Pick<CrossTracks, 'id' | 'youtube' | 'spotify'>
   )> }
 );
 
@@ -1229,16 +1222,12 @@ export function useTrackQuery(options: Omit<Urql.UseQueryArgs<TrackQueryVariable
 export const CrossTracksDocument = gql`
     query crossTracks($id: ID!) {
   crossTracks(id: $id) {
-    originalId
-    youtube {
-      ...TrackParts
-    }
-    spotify {
-      ...TrackParts
-    }
+    id
+    youtube
+    spotify
   }
 }
-    ${TrackPartsFragmentDoc}`;
+    `;
 
 export function useCrossTracksQuery(options: Omit<Urql.UseQueryArgs<CrossTracksQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<CrossTracksQuery>({ query: CrossTracksDocument, ...options });
