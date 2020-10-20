@@ -37,13 +37,9 @@ export const QUERY_TRACK = /* GraphQL */ `
 export const QUERY_CROSS_TRACKS = /* GraphQL */ `
   query crossTracks($id: ID!) {
     crossTracks(id: $id) {
-      originalId
-      youtube {
-        ...TrackParts
-      }
-      spotify {
-        ...TrackParts
-      }
+      id
+      youtube
+      spotify
     }
   }
 `;

@@ -5,13 +5,9 @@ import PlayerPlatformChooser from "./PlayerPlatformChooser";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
 import { useNowPlaying } from "~/components/NowPlaying/index";
-import {
-  useRoomQuery,
-  PlatformName,
-  Track,
-  useCrossTracksQuery,
-} from "~/graphql/gql.gen";
+import { useRoomQuery, PlatformName } from "~/graphql/gql.gen";
 import { useMAuth } from "~/hooks/user";
+import { useCrossTracks } from "~/hooks/track";
 import { PlayerError, PlayerPlaying } from "./types";
 
 const YouTubePlayer = dynamic(() => import("./Youtube"));
@@ -20,7 +16,7 @@ const SpotifyPlayer = dynamic(() => import("./Spotify"));
 const player = new Player();
 
 const PlayerProvider: React.FC = ({ children }) => {
-  const { data: mAuth } = useMAuth();
+  const { data: mAuth, isLoading: fetchingMAuth } = useMAuth();
 
   const [fRPP, forceResetPlayingPlatform] = useState({});
 
@@ -40,22 +36,14 @@ const PlayerProvider: React.FC = ({ children }) => {
   // Player Control: To play a room or a track
   const [playerControl, setPlayerControl] = useState<string>("");
 
-  const [nowPlaying] = useNowPlaying(
+  const [nowPlaying, { fetching: fetchingNP }] = useNowPlaying(
     playerControl.split(":")[0],
     playerControl.split(":")[1]
   );
 
-  const [{ data: dataCrossTracks }] = useCrossTracksQuery({
-    variables: { id: nowPlaying?.currentTrack?.trackId || "" },
-    pause: !nowPlaying?.currentTrack,
-  });
-
-  const crossTracks = useMemo(
-    () =>
-      playerControl && nowPlaying?.currentTrack
-        ? dataCrossTracks?.crossTracks
-        : null,
-    [dataCrossTracks, playerControl, nowPlaying]
+  const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
+    nowPlaying?.currentTrack?.trackId,
+    !nowPlaying?.currentTrack
   );
 
   // Should only show platform chooser if there is an ongoing track and no playingPlatform can be determined
@@ -69,16 +57,6 @@ const PlayerProvider: React.FC = ({ children }) => {
     if (!crossTracks || !playingPlatform) return null;
     return crossTracks[playingPlatform] || null;
   }, [crossTracks, playingPlatform]);
-
-  const originalTrack = useMemo<Track | null>(() => {
-    if (!crossTracks) return null;
-    // Find the original tracks among crossTracks
-    if (crossTracks.spotify?.id === crossTracks.originalId)
-      return crossTracks.spotify || null;
-    if (crossTracks.youtube?.id === crossTracks.originalId)
-      return crossTracks.youtube || null;
-    return null;
-  }, [crossTracks]);
 
   const playRoom = useCallback(
     async (roomId: string) => {
@@ -169,6 +147,8 @@ const PlayerProvider: React.FC = ({ children }) => {
     }
   }, [playerPlaying]);
 
+  const fetching = fetchingMAuth || fetchingCrossTracks || fetchingNP;
+
   const playerContextValue = useMemo(() => {
     let error: PlayerError | undefined;
     if (!!playingPlatform && !!crossTracks && !playerPlaying)
@@ -178,8 +158,9 @@ const PlayerProvider: React.FC = ({ children }) => {
         playerPlaying,
         playerContext,
         playerControl,
-        originalTrack,
+        originalTrack: crossTracks?.original,
         playingPlatform,
+        fetching,
         error,
       },
       playRoom,
@@ -188,13 +169,13 @@ const PlayerProvider: React.FC = ({ children }) => {
       forceResetPlayingPlatform,
     };
   }, [
+    fetching,
     playerPlaying,
     playerContext,
     playerControl,
     playRoom,
     stopPlaying,
     forceResetPlayingPlatform,
-    originalTrack,
     crossTracks,
     playingPlatform,
   ]);

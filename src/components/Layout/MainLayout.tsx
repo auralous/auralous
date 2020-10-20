@@ -22,11 +22,14 @@ const Navbar: React.FC = () => {
   );
   if (shouldHideNavFoot) return null;
   return (
-    <nav className="nav fixed overflow-visible bg-background">
+    <nav
+      className="nav fixed overflow-visible bg-background bg-opacity-25"
+      style={{ backdropFilter: "blur(9px)" }}
+    >
       <div className="container flex items-center justify-between">
         <div className="flex items-center content-start overflow-hidden">
           <Link href="/explore">
-            <a className="ml-2 mr-6">
+            <a className="ml-2 mr-6" aria-label="Back to Explore">
               <SvgLogo
                 className="mx-auto"
                 fill="currentColor"

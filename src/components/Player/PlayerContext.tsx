@@ -8,8 +8,9 @@ const PlayerContext = React.createContext<{
     playerPlaying: PlayerPlaying;
     playerContext: IPlayerContext;
     playerControl: string;
-    originalTrack: Track | null;
+    originalTrack: Track | null | undefined;
     playingPlatform: PlatformName | null;
+    fetching: boolean;
     error?: PlayerError | null;
   };
   playRoom: (roomId: string) => void;
