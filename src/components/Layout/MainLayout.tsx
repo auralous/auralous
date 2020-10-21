@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
   if (shouldHideNavFoot) return null;
   return (
     <nav
-      className="nav fixed overflow-visible bg-background bg-opacity-25"
+      className="nav fixed overflow-visible"
       style={{ backdropFilter: "blur(9px)" }}
     >
       <div className="container flex items-center justify-between">
