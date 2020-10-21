@@ -145,32 +145,20 @@ const LayoutBg: React.FC = () => {
   const {
     state: { playerPlaying },
   } = usePlayer();
-  const bgRef = useRef<HTMLDivElement>(null);
   const colorThief = useRef<any>();
   useEffect(() => {
     if (!playerPlaying) return;
     colorThief.current = colorThief.current || new ColorThief();
     const img = new Image();
     img.addEventListener("load", async () => {
-      bgRef.current!.style.backgroundColor = `rgb(${colorThief
+      document.body.style.backgroundColor = `rgb(${colorThief
         .current!.getColor(img)
         .join(", ")}`;
     });
     img.crossOrigin = "Anonymous";
     img.src = playerPlaying.image;
   }, [playerPlaying]);
-  return (
-    <div
-      ref={bgRef}
-      className="fixed w-full h-full top-0 left-0 transition duration-1000"
-      style={{ zIndex: -1 }}
-    >
-      <div
-        className="absolute inset-0"
-        style={{ background: "linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.8))" }}
-      />
-    </div>
-  );
+  return null;
 };
 
 export const MainLayout: React.FC = ({ children }) => {

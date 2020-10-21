@@ -10,6 +10,12 @@
 body {
   @apply text-foreground bg-background font-sans;
 }
+body::before {
+  content: '\A';
+  @apply fixed w-full h-full inset-0;
+  z-index: -1;
+  background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.8));
+}
 
 html {
   box-sizing: border-box;
