@@ -18,6 +18,7 @@ import {
 import { SvgYoutube, SvgFacebook, SvgTwitter, SvgSpotify } from "~/assets/svg";
 import { usePlayer } from "~/components/Player";
 import { PLATFORM_FULLNAMES } from "~/lib/constants";
+import { useCallback } from "react";
 
 const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
   const toasts = useToasts();
@@ -77,6 +78,12 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           </button>
         </Modal.Footer>
       </Modal.Modal>
+      <p className="text-sm text-foreground-secondary">
+        You can delete your account at any time.{" "}
+        <Link href="/privacy#when-you-delete-data-in-your-accounts">
+          <a className="underline">About your data on deactivation</a>
+        </Link>
+      </p>
       <button
         type="button"
         className="button button-danger mt-2"
@@ -115,6 +122,15 @@ const LeftSection: React.FC = () => {
       (usernameRef.current as HTMLInputElement).value = user.username;
     }
   }, [user]);
+
+  const signOut = useCallback(async () => {
+    await fetch(`${process.env.API_URI}/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+    (window as any).resetUrqlClient();
+    toasts.message("You have been signed out");
+  }, [toasts]);
 
   return (
     <>
@@ -156,13 +172,14 @@ const LeftSection: React.FC = () => {
                 />
               </div>
             </div>
-            <button type="submit" className="button button-success mt-8 w-full">
+            <button type="submit" className="button button-success mt-2 w-full">
               Save
             </button>
           </form>
-          <div className="mt-8">
-            <h4 className="text-md font-bold">Danger zone</h4>
-            <DeleteAccount user={user} />
+          <div className="mt-8 border-t-2 py-4 border-background-secondary">
+            <button className="button button-light w-full" onClick={signOut}>
+              Sign Out
+            </button>
           </div>
         </>
       ) : (
@@ -421,13 +438,22 @@ const LinkSettings: React.FC = () => {
   );
 };
 
-const RightSection: React.FC = () => (
-  <>
-    <div>
-      <LinkSettings />
-    </div>
-  </>
-);
+const RightSection: React.FC = () => {
+  const user = useCurrentUser();
+  return (
+    <>
+      <div>
+        <LinkSettings />
+        {user && (
+          <div className="mt-8">
+            <h4 className="text-md font-bold">Danger zone</h4>
+            <DeleteAccount user={user} />
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
 
 const SettingsPage: NextPage = () => (
   <>
