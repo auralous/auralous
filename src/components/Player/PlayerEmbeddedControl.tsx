@@ -39,7 +39,7 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
     <>
       <div>
         <div className="w-3/5 mx-auto max-w-64">
-          <div className="pb-full h-0 relative mx-auto bg-background-secondary rounded overflow-hidden flex place-center">
+          <div className="pb-full h-0 relative mx-auto bg-background-secondary rounded overflow-hidden flex place-center shadow-2xl">
             {track && (
               <img
                 className="absolute inset-0 w-full h-full object-cover"

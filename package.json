@@ -24,6 +24,7 @@
     "@urql/exchange-multipart-fetch": "^0.1.9",
     "@urql/exchange-persisted-fetch": "^1.2.1",
     "benzene-ws-client": "^0.0.1",
+    "colorthief": "^2.3.2",
     "fathom-client": "^3.0.0",
     "graphql": "^15.3.0",
     "ms": "^2.1.2",

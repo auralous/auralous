@@ -372,25 +372,6 @@ const Navbar: React.FC<{
   );
 };
 
-const RoomBg: React.FC<{
-  room: Room;
-}> = ({ room }) => {
-  const {
-    state: { playerPlaying },
-  } = usePlayer();
-  const imgSrc = playerPlaying?.image || room.image;
-  return (
-    <div
-      className="w-full h-full transform scale-125 absolute inset-0 bg-cover bg-center"
-      style={{
-        backgroundImage: `url(${imgSrc})`,
-        filter: "blur(40px) brightness(0.3)",
-        zIndex: -1,
-      }}
-    />
-  );
-};
-
 const RoomPage: NextPage<{
   room: Room | null;
 }> = ({ room: initialRoom }) => {
@@ -436,7 +417,6 @@ const RoomPage: NextPage<{
       <div className="h-screen relative pt-12 overflow-hidden">
         <Navbar room={room} tab={tab} setTab={setTab} />
         <div className="flex h-full overflow-hidden">
-          <RoomBg room={room} />
           <div
             className={`w-full ${
               tab === "queue" ? "" : "hidden"

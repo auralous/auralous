@@ -1,10 +1,13 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import Router, { useRouter } from "next/router";
 import Link from "next/link";
 import NProgress from "nprogress";
+// @ts-ignore
+import ColorThief from "colorthief";
 import { UserMenu } from "./UserMenu";
 import AddNewMenu from "./AddNewMenu";
 import NowPlayingPill from "./NowPlayingPill";
+import { usePlayer } from "~/components/Player/index";
 import { SvgLogo } from "~/assets/svg";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -138,10 +141,43 @@ const Footer: React.FC = () => {
   );
 };
 
+const LayoutBg: React.FC = () => {
+  const {
+    state: { playerPlaying },
+  } = usePlayer();
+  const bgRef = useRef<HTMLDivElement>(null);
+  const colorThief = useRef<any>();
+  useEffect(() => {
+    if (!playerPlaying) return;
+    colorThief.current = colorThief.current || new ColorThief();
+    const img = new Image();
+    img.addEventListener("load", async () => {
+      bgRef.current!.style.backgroundColor = `rgb(${colorThief
+        .current!.getColor(img)
+        .join(", ")}`;
+    });
+    img.crossOrigin = "Anonymous";
+    img.src = playerPlaying.image;
+  }, [playerPlaying]);
+  return (
+    <div
+      ref={bgRef}
+      className="fixed w-full h-full top-0 left-0 transition duration-1000"
+      style={{ zIndex: -1 }}
+    >
+      <div
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.8))" }}
+      />
+    </div>
+  );
+};
+
 export const MainLayout: React.FC = ({ children }) => {
   return (
     <>
       <Navbar />
+      <LayoutBg />
       <main>{children}</main>
       <Footer />
     </>
