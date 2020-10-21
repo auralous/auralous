@@ -33,7 +33,7 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
           <h4 className="text-white flex-none text-center text-opacity-50 font-semibold text-xs mb-1">
             NOW PLAYING
           </h4>
-          <div className="relative w-32 h-32 mx-auto mb-2 rounded-full overflow-hidden">
+          <div className="relative w-32 h-32 mx-auto mb-2 rounded-full shadow-lg overflow-hidden">
             <img
               className={`absolute inset-0 w-full h-full object-cover ${
                 currentTrack ? "animate-spin-slow" : ""
@@ -41,7 +41,6 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
               alt={`Now Playing on ${room.title}`}
               src={currentTrack?.image || room.image}
             />
-            <span className="absolute w-6 h-6 bg-background border-4 border-white rounded-full left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2" />
           </div>
 
           <div className="px-2 h-12 text-center">
