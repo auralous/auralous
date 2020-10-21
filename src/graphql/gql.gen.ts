@@ -69,8 +69,7 @@ export type QuerySearchRoomsArgs = {
 
 
 export type QueryTrackArgs = {
-  id?: Maybe<Scalars['ID']>;
-  uri?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
 };
 
 
@@ -745,8 +744,7 @@ export type TrackPartsFragment = (
 );
 
 export type TrackQueryVariables = Exact<{
-  uri?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
 }>;
 
 
@@ -1209,8 +1207,8 @@ export function useOnRoomStateUpdatedSubscription<TData = OnRoomStateUpdatedSubs
   return Urql.useSubscription<OnRoomStateUpdatedSubscription, TData, OnRoomStateUpdatedSubscriptionVariables>({ query: OnRoomStateUpdatedDocument, ...options }, handler);
 };
 export const TrackDocument = gql`
-    query track($uri: String, $id: ID) {
-  track(uri: $uri, id: $id) {
+    query track($id: ID!) {
+  track(id: $id) {
     ...TrackParts
   }
 }
