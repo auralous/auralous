@@ -79,30 +79,18 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
   }, [isAuth, close]);
 
   return (
-    <Dialog aria-label="Sign in to Stereo" isOpen={active} onDismiss={close}>
+    <Dialog
+      aria-label="Sign in to Stereo"
+      isOpen={active}
+      onDismiss={close}
+      className="h-full w-full p-2"
+    >
       <div className="container">
         <div className="text-center flex flex-col items-center px-2 py-24">
           <h1 className="text-3xl font-bold">Hellooo!</h1>
-          <p
-            className={`mb-4 ${
-              isAuth === AuthState.CONNECTING ? "animate-pulse" : ""
-            }`}
-          >
-            {isAuth === AuthState.CONNECTING &&
-              "Connecting ~ Looking forward to seeing you soon ❤️"}
-            {isAuth === AuthState.WAITING &&
-              "Let's get you in with one of the methods below."}
-            {isAuth === AuthState.FAIL && (
-              <>
-                <span className="bg-pink text-xs px-1 rounded-full">FAIL</span>{" "}
-                Aww, things did not work out between us... That&apos;s okay,
-                let&apos;s try again!
-              </>
-            )}
-          </p>
           <div className="flex flex-wrap place-center">
-            <div className="m-1 p-2 bg-white rounded-lg flex flex-col">
-              <span className="text-black text-opacity-50 mb-1 text-xs">
+            <div className="m-1 p-2 flex flex-col">
+              <span className="text-foreground-secondary mb-1 text-xs">
                 Listen on <b>YouTube</b>
               </span>
               <button
@@ -118,8 +106,8 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 <span className="ml-4 text-sm">Continue with Google</span>
               </button>
             </div>
-            <div className="m-1 p-2 brand-spotify rounded-lg flex flex-col">
-              <span className="text-white mb-1 text-xs">
+            <div className="m-1 p-2 flex flex-col">
+              <span className="text-foreground-secondary  mb-1 text-xs">
                 Listen on <b>Spotify</b>
               </span>
               <button
@@ -132,12 +120,12 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               </button>
             </div>
           </div>
-          <div className="mt-4 text-sm text-foreground-tertiary">
+          <div className="mt-4 text-xs text-foreground-secondary">
             <p>
               YouTube Premium lets you enjoy ad-free and background play. See{" "}
               <a
                 style={{ color: "#ff0022" }}
-                className="opacity-75 hover:opacity-100"
+                className="opacity-50 hover:opacity-75"
                 href="https://www.youtube.com/premium"
               >
                 youtube.com/premium
@@ -149,7 +137,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               to{" "}
               <a
                 style={{ color: "#1db954" }}
-                className="opacity-75 hover:opacity-100"
+                className="opacity-50 hover:opacity-75"
                 href="https://www.spotify.com/premium"
               >
                 spotify.com/premium
@@ -161,7 +149,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             Go back
           </button>
         </div>
-        <p className="mx-auto w-128 max-w-full p-4 text-foreground-secondary text-xs text-center">
+        <p className="mx-auto w-128 max-w-full p-4 text-foreground-tertiary text-xs text-center">
           By continuing, you agree to our{" "}
           <Link href="/privacy">
             <button className="underline" onClick={close}>
@@ -186,7 +174,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
           >
             Spotify Privacy Policy
           </a>{" "}
-          where applicable. Woa, you are a privacy-conscious person!
+          where applicable.
         </p>
       </div>
     </Dialog>

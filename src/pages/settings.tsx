@@ -231,6 +231,7 @@ const MusicConnection: React.FC<{
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SocialConnection: React.FC<{
   name: string;
   provider: OAuthProviderName;
@@ -392,7 +393,7 @@ const LocalPlatformSettings: React.FC = () => {
 
 const LinkSettings: React.FC = () => {
   const user = useCurrentUser();
-  const [, logIn] = useLogin();
+  // const [, logIn] = useLogin();
   return (
     <>
       <h3 className="text-lg font-bold mb-1">Connections</h3>
@@ -407,7 +408,7 @@ const LinkSettings: React.FC = () => {
             name="Spotify"
             provider={OAuthProviderName.Spotify}
           />
-          <h4 className="font-bold my-2">Social</h4>
+          {/* <h4 className="font-bold my-2">Social</h4>
           <SocialConnection
             name="Facebook"
             provider={OAuthProviderName.Facebook}
@@ -415,13 +416,13 @@ const LinkSettings: React.FC = () => {
           <SocialConnection
             name="Twitter"
             provider={OAuthProviderName.Twitter}
-          />
+          /> */}
         </>
       ) : (
         <>
           <h4 className="font-bold mb-2">Music</h4>
           <LocalPlatformSettings />
-          <h4 className="font-bold my-2">Social</h4>
+          {/* <h4 className="font-bold my-2">Social</h4>
           <p className="text-foreground-secondary ">
             Sign in to your Stereo account to connect with friends and families.
           </p>
@@ -431,7 +432,7 @@ const LinkSettings: React.FC = () => {
             className="button items-center mt-2"
           >
             Sign in
-          </button>
+          </button> */}
         </>
       )}
     </>
