@@ -176,7 +176,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
                   type="password"
                   id="password"
                   ref={passwordRef}
-                  className="input"
+                  className="input flex-1 w-0"
                   maxLength={16}
                 />
               </div>
@@ -309,7 +309,7 @@ const NewPage: NextPage = () => {
     <>
       <NextSeo title="Start listening together" />
       <div className="container mx-auto pt-20">
-        <div className="py-6 px-3 h-40">
+        <div className="py-6 px-3 min-h-40">
           <form
             onSubmit={(event) => {
               event.preventDefault();

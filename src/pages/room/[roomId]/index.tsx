@@ -143,6 +143,7 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
             </p>
             <form className="flex my-1" onSubmit={handleJoinPrivateRoom}>
               <input
+                type="password"
                 ref={passwordRef}
                 className="input w-full mr-1"
                 placeholder="Room Password"
