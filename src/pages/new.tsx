@@ -188,7 +188,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
         )}
       </div>
       <button
-        className="button button-success mt-8"
+        className="button mt-8"
         type="submit"
         title="Start listening"
         disabled={fetching}
@@ -237,20 +237,14 @@ const AddExistedRoom: React.FC<{ initTracks?: Track[]; user: User }> = ({
             Select a room to start listening
           </p>
           <div className="flex px-4 py-2">
-            <select
-              ref={selectRef}
-              className="flex-1 w-0 p-2 font-bold bg-white text-pink rounded-lg mr-1"
-            >
+            <select ref={selectRef} className="input w-full rounded-r-none">
               {rooms?.map((room) => (
                 <option key={room.id} value={room.id}>
                   {room.title}
                 </option>
               ))}
             </select>
-            <button
-              onClick={onAdd}
-              className="button bg-white text-pink hover:bg-pink hover:text-white"
-            >
+            <button onClick={onAdd} className="button rounded-l-none">
               <SvgCheck />
             </button>
           </div>
@@ -314,10 +308,8 @@ const NewPage: NextPage = () => {
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              inputRef.current!.value &&
-                router.replace(
-                  `/new?search=${encodeURIComponent(inputRef.current!.value)}`
-                );
+              const s = inputRef.current!.value.trim();
+              s && router.replace(`/new?search=${encodeURIComponent(s)}`);
             }}
             className="p-4"
           >
