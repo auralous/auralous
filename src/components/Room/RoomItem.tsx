@@ -9,7 +9,7 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
   });
 
   const [{ data: trackData }] = useTrackQuery({
-    variables: { id: nowPlaying?.currentTrack?.trackId },
+    variables: { id: nowPlaying?.currentTrack?.trackId || "" },
     pause: !nowPlaying?.currentTrack?.trackId,
   });
 
