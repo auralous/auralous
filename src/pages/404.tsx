@@ -8,7 +8,7 @@ const NotFoundPage: NextPage = () => (
     <p className="text-xl text-center text-foreground-tertiary py-2">
       You hear music in the distance, but nothing can be seen here.
     </p>
-    <Link href="/explore">
+    <Link href="/browse">
       <a
         type="button"
         className="inline-block mt-4 font-bold text-sm text-success hover:text-success-dark"

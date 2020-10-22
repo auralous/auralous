@@ -164,7 +164,7 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
           </div>
         )}
 
-        <Link href="/explore">
+        <Link href="/browse">
           <button className="text-sm text-foreground-secondary hover:text-foreground-tertiary mt-2 p-1">
             ← Leave
           </button>
@@ -312,7 +312,7 @@ const Navbar: React.FC<{
     <>
       <div className="nav px-2 overflow-hidden">
         <div className="flex flex-1 w-0 items-center justify-start h-full">
-          <Link href="/explore">
+          <Link href="/browse">
             <button className="p-1 mr-2" title="Go back">
               <SvgChevronLeft />
             </button>

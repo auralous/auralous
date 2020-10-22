@@ -24,7 +24,7 @@ const IndexIntro = () => {
 const AppLinks = () => {
   return (
     <div className="flex flex-col">
-      <Link href="/explore">
+      <Link href="/browse">
         <a className="button text-center px-12 py-4 rounded-full mb-2 bg-pink">
           Use Web App
         </a>

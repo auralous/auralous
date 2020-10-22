@@ -116,10 +116,10 @@ const RoomSection: React.FC = () => {
   );
 };
 
-const ExplorePage: NextPage = () => {
+const BrowsePage: NextPage = () => {
   return (
     <>
-      <NextSeo title="Explore" />
+      <NextSeo title="Browse" />
       <div className="container mx-auto">
         <RoomSection />
       </div>
@@ -127,4 +127,4 @@ const ExplorePage: NextPage = () => {
   );
 };
 
-export default ExplorePage;
+export default BrowsePage;

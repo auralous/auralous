@@ -56,7 +56,7 @@ const ContactPage: NextPage = () => {
           or encounter any nasty bugs.
         </p>
         <p className="text-center">
-          <Link href="/explore">
+          <Link href="/browse">
             <a className="text-sm button bg-transparent hover:text-foreground-secondary">
               ← Back to home
             </a>

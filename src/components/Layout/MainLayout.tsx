@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
     <nav className="nav fixed" style={{ backdropFilter: "blur(9px)" }}>
       <div className="container flex items-center justify-between">
         <div className="flex items-center content-start overflow-hidden">
-          <Link href="/explore">
+          <Link href="/browse">
             <a className="ml-2 mr-6" aria-label="Back to Explore">
               <SvgLogo
                 className="mx-auto"

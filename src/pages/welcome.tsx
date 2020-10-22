@@ -175,7 +175,7 @@ const WelcomePage: NextPage = () => {
       return setIsDisabled(false);
     setIsDisabled(false);
     if (step < 2) setStep(step + 1);
-    else router.replace("/explore");
+    else router.replace("/browse");
   };
   return (
     <>
