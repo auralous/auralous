@@ -2,11 +2,21 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
-import { useCreateRoomMutation } from "~/graphql/gql.gen";
-import { useCurrentUser } from "~/hooks/user";
+import {
+  PlatformName,
+  QueueAction,
+  Track,
+  useCreateRoomMutation,
+  User,
+  useRoomsQuery,
+  useSearchTrackQuery,
+  useUpdateQueueMutation,
+} from "~/graphql/gql.gen";
+import { useCurrentUser, useMAuth } from "~/hooks/user";
 import { useLogin } from "~/components/Auth";
+import { SvgCheck, SvgX } from "~/assets/svg";
 
-const CreateRoomContent: React.FC = () => {
+const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -15,6 +25,7 @@ const CreateRoomContent: React.FC = () => {
   const anyoneCanAddRef = useRef<HTMLSelectElement>(null);
 
   const [{ fetching }, createRoom] = useCreateRoomMutation();
+  const [, updateQueue] = useUpdateQueueMutation();
 
   const handleRoomCreation = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,11 +48,19 @@ const CreateRoomContent: React.FC = () => {
         anyoneCanAdd: isPublic ? anyoneCanAddRef.current?.value === "1" : false,
         password: passwordRef.current?.value ?? (isPublic ? undefined : ""),
       });
+
       if (result.data?.createRoom) {
+        if (initTracks?.length)
+          await updateQueue({
+            id: `room:${result.data.createRoom.id}`,
+            action: QueueAction.Add,
+            tracks: initTracks.map((initTrack) => initTrack.id),
+          });
+
         router.push("/room/[roomId]", `/room/${result.data.createRoom.id}`);
       }
     },
-    [createRoom, router, fetching, isPublic]
+    [initTracks, router, fetching, isPublic, createRoom, updateQueue]
   );
 
   useEffect(() => {
@@ -171,24 +190,224 @@ const CreateRoomContent: React.FC = () => {
       <button
         className="button button-success mt-8"
         type="submit"
+        title="Start listening"
         disabled={fetching}
       >
-        Create Room
+        <SvgCheck className="mr-2" /> Start Listening
       </button>
     </form>
   );
 };
 
+const AddExistedRoom: React.FC<{ initTracks?: Track[]; user: User }> = ({
+  initTracks,
+  user,
+}) => {
+  const router = useRouter();
+  const [{ data: { rooms } = { rooms: undefined } }] = useRoomsQuery({
+    variables: { creatorId: user?.id || "" },
+    pause: !user,
+  });
+  const [, updateQueue] = useUpdateQueueMutation();
+
+  const selectRef = useRef<HTMLSelectElement>(null);
+  const onAdd = useCallback(async () => {
+    if (!selectRef.current?.value) return;
+    if (initTracks?.length)
+      await updateQueue({
+        id: `room:${selectRef.current.value}`,
+        action: QueueAction.Add,
+        tracks: initTracks.map((initTrack) => initTrack.id),
+      });
+
+    router.push("/room/[roomId]", `/room/${selectRef.current.value}`);
+  }, [router, updateQueue, initTracks]);
+
+  return (
+    <div
+      className={
+        initTracks?.length
+          ? ""
+          : "opacity-50 pointer-events-none cursor-not-allowed"
+      }
+    >
+      {initTracks?.length && (
+        <>
+          <p className="px-4 text-center text-xs text-foreground-secondary">
+            Select a room to start listening
+          </p>
+          <div className="flex px-4 py-2">
+            <select
+              ref={selectRef}
+              className="flex-1 w-0 p-2 font-bold bg-white text-pink rounded-lg mr-1"
+            >
+              {rooms?.map((room) => (
+                <option key={room.id} value={room.id}>
+                  {room.title}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={onAdd}
+              className="button bg-white text-pink hover:bg-pink hover:text-white"
+            >
+              <SvgCheck />
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+const isURL = (url?: string): URL | false => {
+  if (!url) return false;
+  try {
+    return new URL(url);
+  } catch (e) {
+    return false;
+  }
+};
+
+const getFeaturedArtists = (tracks: Track[]): string[] => {
+  const o: Record<string, number> = {};
+  for (const track of tracks)
+    for (const artist of track.artists)
+      o[artist.name] = o[artist.name] ? o[artist.name] + 1 : 1;
+  return Object.entries(o)
+    .sort((a, b) => b[1] - a[1])
+    .map(([name]) => name)
+    .slice(0, 4);
+};
+
 const NewPage: NextPage = () => {
+  const [tab, setTab] = useState<"create" | "add">("create");
   const user = useCurrentUser();
   const [, openLogin] = useLogin();
+  const router = useRouter();
+  const { data: mAuth } = useMAuth();
+  const searchQuery = router.query.search as string | undefined;
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const [
+    {
+      data: { searchTrack: initTracks } = { searchTrack: undefined },
+      fetching,
+    },
+  ] = useSearchTrackQuery({
+    variables: {
+      query: decodeURIComponent(searchQuery || ""),
+      platform: mAuth?.platform || PlatformName.Youtube,
+    },
+    pause: !isURL(searchQuery),
+  });
+
+  useEffect(() => {
+    inputRef.current!.value = searchQuery || "";
+  }, [searchQuery]);
+
   return (
     <>
-      <NextSeo title="Create New" />
+      <NextSeo title="Start listening together" />
       <div className="container mx-auto pt-20">
-        <h1 className="mb-4 text-2xl font-bold">Create new room</h1>
+        <div className="py-6 px-3 h-40">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              inputRef.current!.value &&
+                router.replace(
+                  `/new?search=${encodeURIComponent(inputRef.current!.value)}`
+                );
+            }}
+            className="p-4"
+          >
+            <input
+              ref={inputRef}
+              className=" w-full mb-2 px-4 py-2 text-center font-bold border-b-4 border-pink bg-transparent transition duration-300"
+              placeholder="Optional: Enter a playlist link to listen together"
+            />
+            {initTracks?.length ? (
+              <p className="text-foreground-secondary text-center">
+                <SvgCheck
+                  width="18"
+                  height="18"
+                  className="inline bg-pink text-white p-1 rounded-full mr-1"
+                />
+                Start listening together to{" "}
+                <b className="text-foreground">{initTracks.length} tracks</b>{" "}
+                featuring{" "}
+                <i className="text-foreground">
+                  {getFeaturedArtists(initTracks).join(", ")}
+                </i>
+                .
+              </p>
+            ) : (
+              !!searchQuery &&
+              (fetching ? (
+                <p className="text-foreground-secondary text-center text-sm">
+                  Fetching...
+                </p>
+              ) : (
+                <p className="text-foreground-secondary text-center text-sm">
+                  <SvgX
+                    width="18"
+                    height="18"
+                    className="inline bg-foreground-tertiary text-white p-1 rounded-full mr-1"
+                  />
+                  No songs found from the above link
+                </p>
+              ))
+            )}
+          </form>
+        </div>
+        <div role="tablist" className="flex flex-none mb-2">
+          <button
+            role="tab"
+            className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
+              tab === "create"
+                ? "bg-pink text-white"
+                : "opacity-75 hover:opacity-100 bg-white text-pink"
+            } transition duration-300`}
+            aria-controls="tabpanel_create"
+            onClick={() => setTab("create")}
+            aria-selected={tab === "create"}
+          >
+            Create New Room
+          </button>
+          <button
+            role="tab"
+            className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
+              tab === "add"
+                ? "bg-pink text-white"
+                : "opacity-75 hover:opacity-100 bg-white text-pink"
+            } transition duration-300`}
+            aria-controls="tabpanel_add"
+            onClick={() => setTab("add")}
+            aria-selected={tab === "add"}
+            hidden={!initTracks?.length}
+          >
+            Use an Existing Room
+          </button>
+        </div>
         {user ? (
-          <CreateRoomContent />
+          <>
+            <div
+              role="tabpanel"
+              id="tabpanel_create"
+              className="p-2"
+              hidden={tab !== "create"}
+            >
+              <CreateRoom initTracks={initTracks} />
+            </div>
+            <div
+              role="tabpanel"
+              id="tabpanel_add"
+              className="p-2"
+              hidden={tab !== "add"}
+            >
+              <AddExistedRoom user={user} initTracks={initTracks} />
+            </div>
+          </>
         ) : (
           <>
             <p className="font-bold mb-2">Sign in to create your rooms</p>
