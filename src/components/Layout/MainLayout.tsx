@@ -167,15 +167,19 @@ const LayoutBg: React.FC = () => {
   const colorThief = useRef<any>();
   useEffect(() => {
     if (!playerPlaying) return;
-    colorThief.current = colorThief.current || new ColorThief();
-    const img = new Image();
-    img.addEventListener("load", async () => {
-      document.body.style.backgroundColor = `rgb(${colorThief
-        .current!.getColor(img)
-        .join(", ")}`;
-    });
-    img.crossOrigin = "Anonymous";
-    img.src = playerPlaying.image;
+    try {
+      colorThief.current = colorThief.current || new ColorThief();
+      const img = new Image();
+      img.addEventListener("load", async () => {
+        document.body.style.backgroundColor = `rgb(${colorThief
+          .current!.getColor(img)
+          .join(", ")}`;
+      });
+      img.crossOrigin = "Anonymous";
+      img.src = playerPlaying.image;
+    } catch (e) {
+      /* noop */
+    }
   }, [playerPlaying]);
   return null;
 };
