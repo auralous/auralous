@@ -186,7 +186,7 @@ const RoomSettingsButton: React.FC<{ room: Room }> = ({ room }) => {
       <button
         title="Room Settings"
         onClick={open}
-        className="button button-light absolute top-2 left-2"
+        className="button absolute top-2 left-2"
       >
         <SvgSettings />
       </button>
@@ -214,7 +214,7 @@ const RoomRulesButton: React.FC<{ room: Room }> = ({ room }) => {
           open();
           setIsViewed(true);
         }}
-        className="button button-light absolute top-2 right-2"
+        className="button absolute top-2 right-2"
         title="Room Rules"
       >
         {!isViewed && (
