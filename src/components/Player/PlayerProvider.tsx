@@ -16,7 +16,7 @@ const SpotifyPlayer = dynamic(() => import("./Spotify"));
 const player = new Player();
 
 const PlayerProvider: React.FC = ({ children }) => {
-  const { data: mAuth, isLoading: fetchingMAuth } = useMAuth();
+  const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
 
   const [fRPP, forceResetPlayingPlatform] = useState({});
 

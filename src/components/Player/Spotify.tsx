@@ -16,10 +16,10 @@ const SS_STORE_KEY = "spotify-token";
 function authViaSessionStorage(): null | string {
   const strToken = sessionStorage.getItem(SS_STORE_KEY);
   const authJson = strToken ? JSON.parse(strToken) : null;
-  if (authJson?.expireAt && new Date(authJson.expireAt) > new Date()) {
+  if (authJson?.expireAt && new Date(authJson.expireAt) > new Date())
     // token is good
     return authJson.access_token;
-  }
+  sessionStorage.removeItem(SS_STORE_KEY);
   return null;
 }
 
@@ -88,27 +88,31 @@ export default function SpotifyPlayer() {
     player,
   } = usePlayer();
   const toasts = useToasts();
-  const { data: mAuth } = useMAuth();
+  const [accessToken, setAccessToken] = useState<null | string>(null);
+  const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
 
   const [status, setStatus] = useState<SpotifyPlayerStatus>("AUTH_WAIT");
-  const [_init, forceInit] = useState({});
 
   useEffect(() => {
-    let spotifyPlayer: Spotify.SpotifyPlayer;
+    // get access token
+    setAccessToken(mAuth?.accessToken || authViaSessionStorage() || null);
+  }, [mAuth]);
+
+  useEffect(() => {
+    // If there is no access token or is loading, return
+    if (fetchingMAuth) return;
+    // FIXME: No reliable to way to determine AUTH_WAIT
+    if (!accessToken)
+      return setStatus((s) => (s !== "NO_SUPPORT" ? "AUTH_ASK" : s));
+
+    let spotifyPlayer: Spotify.SpotifyPlayer | null = null;
     const spotifyData: {
       currentTrackId?: string;
       device_id?: string;
       state?: Spotify.PlaybackState;
     } = {};
-    let accessToken: string | null;
 
     let durationInterval: number; // ID of setInterval
-
-    async function getOAuthToken(callback: (token: string) => void) {
-      if ((accessToken = authViaSessionStorage() || mAuth?.accessToken || null))
-        callback(accessToken);
-      else setStatus((s) => (s !== "NO_SUPPORT" ? "AUTH_ASK" : s));
-    }
 
     async function playById(externalId: string) {
       if (externalId === spotifyData.currentTrackId) return;
@@ -133,13 +137,14 @@ export default function SpotifyPlayer() {
         .catch(() => null);
       if (!json) return;
       spotifyData.currentTrackId = json.item?.id;
-      spotifyPlayer.resume();
+      spotifyPlayer?.resume();
     }
 
     async function init() {
+      if (spotifyPlayer) return;
       spotifyPlayer = new window.Spotify.Player({
         name: "Stereo - withstereo.com",
-        getOAuthToken,
+        getOAuthToken: (cb) => cb(accessToken!),
       });
       // readiness
       spotifyPlayer.addListener(
@@ -147,21 +152,20 @@ export default function SpotifyPlayer() {
         ({ device_id }: { device_id: string }) => {
           spotifyData.device_id = device_id;
           player.registerPlayer({
-            play: () => spotifyPlayer.resume(),
+            play: () => spotifyPlayer?.resume(),
             seek: (ms) =>
-              spotifyPlayer.seek(ms).then(() => player.emit("seeked")),
-            pause: () => spotifyPlayer.pause(),
+              spotifyPlayer?.seek(ms).then(() => player.emit("seeked")),
+            pause: () => spotifyPlayer?.pause(),
             loadById: playById,
-            setVolume: (p) => spotifyPlayer.setVolume(p),
+            setVolume: (p) => spotifyPlayer?.setVolume(p),
             // Note: It is impossible to determine spotify without a promise
             isPlaying: () => !spotifyData.state?.paused,
           });
-          if (playerPlaying) playById(playerPlaying.externalId);
           // get duration
           durationInterval = window.setInterval(async () => {
             player.emit(
               "time",
-              (await spotifyPlayer.getCurrentState())?.position || 0
+              (await spotifyPlayer?.getCurrentState())?.position || 0
             );
           }, 1000);
           setStatus("OK");
@@ -188,9 +192,9 @@ export default function SpotifyPlayer() {
       spotifyPlayer.addListener("authentication_error", () =>
         setStatus((s) => (s !== "NO_SUPPORT" ? "AUTH_ERROR" : s))
       );
-      spotifyPlayer.addListener("initialization_error", () => {
-        setStatus("NO_SUPPORT");
-      });
+      spotifyPlayer.addListener("initialization_error", () =>
+        setStatus("NO_SUPPORT")
+      );
       spotifyPlayer.addListener("account_error", () => setStatus("NO_PREMIUM"));
       spotifyPlayer.addListener("playback_error", ({ message }) =>
         toasts.error(message)
@@ -200,13 +204,15 @@ export default function SpotifyPlayer() {
     }
 
     window.onSpotifyWebPlaybackSDKReady = init;
-    verifyScript("https://sdk.scdn.co/spotify-player.js").then((hadLoaded) => {
-      hadLoaded && init();
+    verifyScript("https://sdk.scdn.co/spotify-player.js").then(() => {
+      window.Spotify?.Player && init();
     });
 
     return function cleanup() {
-      if (durationInterval) clearInterval(durationInterval);
+      window.clearInterval(durationInterval);
       player.unregisterPlayer();
+      // @ts-ignore
+      window.onSpotifyWebPlaybackSDKReady = null;
       if (!spotifyPlayer) return;
       spotifyPlayer.removeListener("ready");
       spotifyPlayer.removeListener("player_state_changed");
@@ -215,8 +221,9 @@ export default function SpotifyPlayer() {
       spotifyPlayer.removeListener("account_error");
       spotifyPlayer.removeListener("playback_error");
       spotifyPlayer.disconnect();
+      spotifyPlayer = null;
     };
-  }, [_init, toasts, mAuth, player]);
+  }, [fetchingMAuth, accessToken, toasts, player]);
 
   return (
     <Modal.Modal active={status !== "OK"}>
@@ -250,7 +257,9 @@ export default function SpotifyPlayer() {
               <button
                 className="button button-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
-                  authViaImplicit().then((token) => token && forceInit({}))
+                  authViaImplicit().then(
+                    (token) => token && setAccessToken(token)
+                  )
                 }
               >
                 Connect to Spotify
@@ -272,7 +281,9 @@ export default function SpotifyPlayer() {
               <button
                 className="button button-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
-                  authViaImplicit().then((token) => token && forceInit({}))
+                  authViaImplicit().then(
+                    (token) => token && setAccessToken(token)
+                  )
                 }
               >
                 Try again
