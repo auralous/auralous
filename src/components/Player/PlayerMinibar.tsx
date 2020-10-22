@@ -41,7 +41,7 @@ const PlayerMinibar: React.FC = () => {
     <Link href="/room/[roomId]" as={`/${playerControl.split(":").join("/")}`}>
       <button
         ref={divRef}
-        className="flex items-center h-12 z-20 w-full rounded-t-lg overflow-hidden fixed bottom-0 left-0"
+        className="flex items-center h-12 z-20 w-full rounded-t-lg overflow-hidden fixed bottom-0 left-0 transition-colors duration-300"
       >
         <div
           className="opacity-50 absolute inset-0"
