@@ -115,6 +115,7 @@ export default function SpotifyPlayer() {
     let durationInterval: number; // ID of setInterval
 
     async function playById(externalId: string) {
+      if (!spotifyData.device_id) return;
       if (externalId === spotifyData.currentTrackId) return;
       await fetch(
         `${BASE_URL}/me/player/play?device_id=${spotifyData.device_id}`,
@@ -141,6 +142,7 @@ export default function SpotifyPlayer() {
     }
 
     async function init() {
+      if (!window.Spotify?.Player) return;
       if (spotifyPlayer) return;
       spotifyPlayer = new window.Spotify.Player({
         name: "Stereo - withstereo.com",
@@ -204,15 +206,13 @@ export default function SpotifyPlayer() {
     }
 
     window.onSpotifyWebPlaybackSDKReady = init;
-    verifyScript("https://sdk.scdn.co/spotify-player.js").then(() => {
-      window.Spotify?.Player && init();
-    });
+    verifyScript("https://sdk.scdn.co/spotify-player.js").then(init);
 
     return function cleanup() {
       window.clearInterval(durationInterval);
-      player.unregisterPlayer();
       // @ts-ignore
       window.onSpotifyWebPlaybackSDKReady = null;
+      player.unregisterPlayer();
       if (!spotifyPlayer) return;
       spotifyPlayer.removeListener("ready");
       spotifyPlayer.removeListener("player_state_changed");

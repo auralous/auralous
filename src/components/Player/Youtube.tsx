@@ -4,6 +4,12 @@ import { verifyScript } from "~/lib/script-utils";
 import { SvgChevronDown, SvgChevronUp } from "~/assets/svg";
 /// <reference path="youtube" />
 
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady?: null | (() => void);
+  }
+}
+
 const YT_PLAYER_VARS = {
   playsinline: 1,
   controls: 0,
@@ -17,10 +23,12 @@ export default function YouTubePlayer() {
 
   useEffect(() => {
     let ytPlayer: YT.Player;
+    let video_id: string | undefined;
     let durationInterval: number; // setInterval
 
     function playById(externalId: string) {
-      if (externalId === (ytPlayer as any).getVideoData()?.video_id) return;
+      if (externalId === video_id) return;
+      video_id = externalId;
       ytPlayer.loadVideoById(externalId);
       ytPlayer.playVideo();
     }
@@ -29,7 +37,7 @@ export default function YouTubePlayer() {
       if (!hadLoaded) {
         // wait for iframe api to load
         await new Promise((resolve) => {
-          (window as any).onYouTubeIframeAPIReady = resolve;
+          window.onYouTubeIframeAPIReady = resolve;
         });
       }
       if (!(ytPlayer instanceof window.YT.Player)) {
@@ -72,7 +80,8 @@ export default function YouTubePlayer() {
     verifyScript("https://www.youtube.com/iframe_api").then(init);
 
     return function cleanup() {
-      clearInterval(durationInterval);
+      window.clearInterval(durationInterval);
+      window.onYouTubeIframeAPIReady = null;
       player.unregisterPlayer();
       ytPlayer?.destroy();
     };
