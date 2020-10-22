@@ -30,7 +30,7 @@ const QueueViewer: React.FC<{
   queueId: string;
   reverse?: boolean;
 }> = ({ queueId, reverse }) => {
-  const [queue] = useQueue(queueId);
+  const [queue] = useQueue(queueId, { requestPolicy: "cache-and-network" });
 
   const queueItems = useMemo(() => {
     if (!queue) return [];

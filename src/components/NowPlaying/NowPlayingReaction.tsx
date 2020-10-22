@@ -28,7 +28,10 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
     fire: 0,
     joy: 0,
   }).current;
-  const [{ data }] = useNowPlayingReactionsQuery({ variables: { id } });
+  const [{ data }] = useNowPlayingReactionsQuery({
+    variables: { id },
+    requestPolicy: "cache-and-network",
+  });
   useOnNowPlayingReactionsUpdatedSubscription({ variables: { id } });
   const nowPlayingReaction = data?.nowPlayingReactions;
 

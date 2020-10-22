@@ -16,7 +16,7 @@ const SpotifyPlayer = dynamic(() => import("./Spotify"));
 const player = new Player();
 
 const PlayerProvider: React.FC = ({ children }) => {
-  const { data: mAuth, isLoading: fetchingMAuth } = useMAuth();
+  const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
 
   const [fRPP, forceResetPlayingPlatform] = useState({});
 
@@ -53,22 +53,17 @@ const PlayerProvider: React.FC = ({ children }) => {
   );
 
   // The track that is playing
-  const playerPlaying = useMemo<PlayerPlaying | null>(() => {
-    if (!crossTracks || !playingPlatform) return null;
-    return crossTracks[playingPlatform] || null;
+  const playerPlaying = useMemo<PlayerPlaying>(() => {
+    if (!crossTracks || !playingPlatform) return (player.playerPlaying = null);
+    return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
 
-  const playRoom = useCallback(
-    async (roomId: string) => {
-      player.wasPlaying = true;
-      setPlayerControl(`room:${roomId}`);
-    },
-    [setPlayerControl]
-  );
+  const playRoom = useCallback(async (roomId: string) => {
+    player.wasPlaying = true;
+    setPlayerControl(`room:${roomId}`);
+  }, []);
 
-  const stopPlaying = useCallback(() => setPlayerControl(""), [
-    setPlayerControl,
-  ]);
+  const stopPlaying = useCallback(() => setPlayerControl(""), []);
 
   useEffect(() => {
     if (!playerControl.startsWith("room:") && !nowPlaying) return undefined;

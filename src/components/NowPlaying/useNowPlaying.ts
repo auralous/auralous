@@ -18,5 +18,5 @@ export default function useNowPlaying(
     pause,
   });
 
-  return [res.data?.nowPlaying, res] as const;
+  return [!pause ? res.data?.nowPlaying : null, res] as const;
 }

@@ -4,6 +4,12 @@ import { verifyScript } from "~/lib/script-utils";
 import { SvgChevronDown, SvgChevronUp } from "~/assets/svg";
 /// <reference path="youtube" />
 
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady?: null | (() => void);
+  }
+}
+
 const YT_PLAYER_VARS = {
   playsinline: 1,
   controls: 0,
@@ -13,25 +19,25 @@ const YT_PLAYER_VARS = {
 };
 
 export default function YouTubePlayer() {
-  const {
-    state: { playerPlaying },
-    player,
-  } = usePlayer();
+  const { player } = usePlayer();
 
   useEffect(() => {
     let ytPlayer: YT.Player;
+    let video_id: string | undefined;
     let durationInterval: number; // setInterval
 
     function playById(externalId: string) {
-      if (externalId === (ytPlayer as any).getVideoData()?.video_id) return;
+      if (externalId === video_id) return;
+      video_id = externalId;
       ytPlayer.loadVideoById(externalId);
+      ytPlayer.playVideo();
     }
 
     async function init(hadLoaded: boolean) {
       if (!hadLoaded) {
         // wait for iframe api to load
         await new Promise((resolve) => {
-          (window as any).onYouTubeIframeAPIReady = resolve;
+          window.onYouTubeIframeAPIReady = resolve;
         });
       }
       if (!(ytPlayer instanceof window.YT.Player)) {
@@ -55,8 +61,6 @@ export default function YouTubePlayer() {
               durationInterval = window.setInterval(() => {
                 player.emit("time", ytPlayer.getCurrentTime() * 1000);
               }, 1000);
-              if (playerPlaying) playById(playerPlaying.externalId);
-              ytPlayer.playVideo();
             },
             onStateChange(event: any) {
               // @ts-ignore
@@ -76,7 +80,8 @@ export default function YouTubePlayer() {
     verifyScript("https://www.youtube.com/iframe_api").then(init);
 
     return function cleanup() {
-      clearInterval(durationInterval);
+      window.clearInterval(durationInterval);
+      window.onYouTubeIframeAPIReady = null;
       player.unregisterPlayer();
       ytPlayer?.destroy();
     };
@@ -95,15 +100,15 @@ export default function YouTubePlayer() {
     <div
       className={`absolute md:fixed top-0 right-0 z-30 w-screen ${
         posIsTop ? "" : "md:bottom-0 md:top-auto"
-      } md:w-72 h-48 overflow-hidden`}
+      } md:w-72 h-48`}
     >
       <div
-        className="absolute overflow-hidden md:rounded-lg md:shadow-lg top-0 right-0 md:top-2 md:right-2 w-full h-full"
+        className="absolute bottom-0 right-0 md:bottom-2 md:right-2 w-full h-full md:rounded-lg md:shadow-xl overflow-hidden"
         id="ytPlayer"
       />
-      <div className="absolute z-20 bottom-0 left-0 p-3 hidden md:block">
+      <div className="absolute z-20 bottom-0 left-0 -ml-2 mb-2 p-2 hidden md:block">
         <button
-          className="button rounded-r-none p-1"
+          className="button button-light rounded-r-none p-1"
           onClick={() => setPosIsTop(true)}
           disabled={posIsTop}
           title="Move to top"
@@ -111,7 +116,7 @@ export default function YouTubePlayer() {
           <SvgChevronUp width="14" height="14" />
         </button>
         <button
-          className="button rounded-l-none p-1"
+          className="button button-light rounded-l-none p-1"
           onClick={() => setPosIsTop(false)}
           disabled={!posIsTop}
           title="Move to bottom"

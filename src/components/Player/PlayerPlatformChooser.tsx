@@ -1,9 +1,10 @@
 import React from "react";
 import { Modal } from "~/components/Modal";
-import { SvgSpotify, SvgYoutube } from "~/assets/svg";
 import { PlatformName } from "~/graphql/gql.gen";
 import Link from "next/link";
 import usePlayer from "./usePlayer";
+import { useLogin } from "~/components/Auth";
+import { SvgSpotify, SvgYoutube } from "~/assets/svg";
 
 const PlayerPlatformChooser: React.FC<{
   active: boolean;
@@ -16,43 +17,57 @@ const PlayerPlatformChooser: React.FC<{
     onSelect();
   };
 
+  const [, showLogin] = useLogin();
+
   return (
     <Modal.Modal title="Choose platform to play this track on" active={active}>
       <Modal.Header>
         <Modal.Title>
           <span className="text-center w-full">
-            Select music streaming service
+            Sign in or select a music service
           </span>
         </Modal.Title>
       </Modal.Header>
       <Modal.Content className="flex flex-col items-center">
-        <button
-          onClick={() => selectPlatform(PlatformName.Youtube)}
-          className="button opacity-75 hover:opacity-100 transition-opacity duration-200 flex mb-2 brand-youtube h-12"
-        >
-          <SvgYoutube width="24" fill="currentColor" strokeWidth="0" />
-          <span className="ml-2 text-sm">Listen on YouTube</span>
-        </button>
-        <button
-          onClick={() => selectPlatform(PlatformName.Spotify)}
-          className="button opacity-75 hover:opacity-100 transition-opacity duration-200 flex brand-spotify h-12"
-        >
-          <SvgSpotify width="24" fill="currentColor" strokeWidth="0" />
-          <span className="ml-2 text-sm">Listen on Spotify</span>
-        </button>
+        <div className="flex flex-col md:flex-row mb-2">
+          <button
+            onClick={showLogin}
+            className="w-48 m-1 text-sm button rounded-full"
+          >
+            Sign in to Stereo
+          </button>
+          <button
+            onClick={() => selectPlatform(PlatformName.Youtube)}
+            className="w-48 m-1 button rounded-full text-sm opacity-75 hover:opacity-100 transition-opacity duration-200 brand-youtube"
+          >
+            <SvgYoutube width="24" fill="currentColor" strokeWidth="0" />
+            <span className="ml-2 text-sm">Listen on YouTube</span>
+          </button>
+          <button
+            onClick={() => selectPlatform(PlatformName.Spotify)}
+            className="w-48 m-1 button rounded-full text-sm opacity-75 hover:opacity-100 transition-opacity duration-200 brand-spotify"
+          >
+            <SvgSpotify width="24" fill="currentColor" strokeWidth="0" />
+            <span className="ml-2 text-sm">Listen on Spotify</span>
+          </button>
+        </div>
         <button
           onClick={stopPlaying}
-          className="button mt-2 text-sm bg-transparent opacity-75 hover:opacity-100 transition-opacity"
+          className="button mt-2 text-xs bg-transparent opacity-75 hover:opacity-100 transition-opacity"
         >
           Stop Playing
         </button>
-        <div className="text-foreground-tertiary text-xs mt-6">
-          You can change you music streaming service at any time in{" "}
-          <Link href="/settings">
-            <button className="underline" onClick={stopPlaying}>
-              Settings
-            </button>
-          </Link>
+        <div className="text-foreground-tertiary text-xs mt-6 container">
+          <p className="text-center">
+            Join Stereo allows you to add songs from and to your playlists and
+            more. Otherwise, you can change your choice at any time in{" "}
+            <Link href="/settings">
+              <button className="underline" onClick={stopPlaying}>
+                Settings
+              </button>
+            </Link>
+            .
+          </p>
         </div>
       </Modal.Content>
     </Modal.Modal>

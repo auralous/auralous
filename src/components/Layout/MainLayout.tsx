@@ -4,8 +4,7 @@ import Link from "next/link";
 import NProgress from "nprogress";
 // @ts-ignore
 import ColorThief from "colorthief";
-import NowPlayingPill from "./NowPlayingPill";
-import { usePlayer } from "~/components/Player/index";
+import { usePlayer, PlayerMinibar } from "~/components/Player/index";
 import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 import { SvgPlus, SvgLogo, SvgSettings } from "~/assets/svg";
@@ -42,7 +41,6 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
         <div className="flex content-end items-center flex-none">
-          <NowPlayingPill />
           <Link href="/new">
             <a aria-label="Add new" type="button" className="button p-2 mr-2">
               <SvgPlus />
@@ -189,6 +187,7 @@ export const MainLayout: React.FC = ({ children }) => {
     <>
       <Navbar />
       <LayoutBg />
+      <PlayerMinibar />
       <main>{children}</main>
       <Footer />
     </>
