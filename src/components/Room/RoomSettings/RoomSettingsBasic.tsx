@@ -193,7 +193,7 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
             onClick={() =>
               deleteRoom({ id: room.id }).then(() => {
                 toasts.success("Room deleted");
-                router.replace("/explore");
+                router.replace("/browse");
               })
             }
             disabled={confirmDelete !== room.title || fetching}

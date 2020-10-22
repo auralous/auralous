@@ -26,8 +26,8 @@ export const FRAGMENT_TRACK = /* GraphQL */ `
 `;
 
 export const QUERY_TRACK = /* GraphQL */ `
-  query track($uri: String, $id: ID) {
-    track(uri: $uri, id: $id) {
+  query track($id: ID!) {
+    track(id: $id) {
       ...TrackParts
     }
   }

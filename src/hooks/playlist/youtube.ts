@@ -98,7 +98,7 @@ export default class YoutubePlaylist {
     return playlists;
   }
 
-  async create(name?: string): Promise<Playlist | null> {
+  async create(name: string): Promise<Playlist | null> {
     if (!this.auth) return null;
     const instance: typeof axios = axios.create({
       headers: { Authorization: `Bearer ${this.auth.token}` },
@@ -108,7 +108,7 @@ export default class YoutubePlaylist {
     const data = await instance
       .post(
         `/youtube/v3/playlists`,
-        { snippet: { title: name || "Untitled playlist" } },
+        { snippet: { title: name } },
         { params: { part: "snippet" } }
       )
       .then((res) => res.data);

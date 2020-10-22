@@ -131,10 +131,15 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
             tab !== "playlist" ? "hidden" : "flex"
           } flex-col h-full overflow-hidden`}
         >
-          <TrackAdderPlaylist
-            callback={onAddTracks}
-            addedTracks={addedTracks}
-          />
+          {
+            /* We do not render playlist to avoid prefetch of playlists */
+            tab === "playlist" && (
+              <TrackAdderPlaylist
+                callback={onAddTracks}
+                addedTracks={addedTracks}
+              />
+            )
+          }
         </div>
       </div>
       <Modal.Modal active={activePlayed} onOutsideClick={closePlayed}>

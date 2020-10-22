@@ -1,80 +1,57 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useClient } from "urql";
 import { useMAuth } from "~/hooks/user";
 import { default as TrackAdderResults } from "./TrackAdderResults";
-import { SvgX } from "~/assets/svg";
-import { PlatformName, Track } from "~/graphql/gql.gen";
-import { TrackDocument, SearchTrackDocument } from "~/graphql/gql.gen";
+import { PlatformName, Track, SearchTrackDocument } from "~/graphql/gql.gen";
 import { TrackAdderCallbackFn } from "./types";
-
-const PLATFORM_FULL_NAME: Record<PlatformName, "YouTube" | "Spotify"> = {
-  youtube: "YouTube",
-  spotify: "Spotify",
-};
-
-const isValidUrl = (string: string) => {
-  try {
-    return new URL(string);
-  } catch (_) {
-    return false;
-  }
-};
+import { SvgX } from "~/assets/svg";
 
 const TrackAdderSearch: React.FC<{
   callback: TrackAdderCallbackFn;
   addedTracks: string[];
   platform?: PlatformName;
 }> = ({ addedTracks, callback }) => {
+  const formRef = useRef<HTMLFormElement>(null);
   const { data: mAuth } = useMAuth();
   const platform = mAuth?.platform || PlatformName.Youtube;
-  const [queryResults, setQueryResults] = useState<Track[]>([]);
   const urqlClient = useClient();
+  const [queryResults, setQueryResults] = useState<Track[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [isEmpty, setIsEmpty] = useState(true);
 
-  async function submitSearch(searchQuery = "") {
-    const query = searchQuery.trim();
-    if (!searchQuery || isSearching) return;
-    setIsSearching(true);
-    if (isValidUrl(searchQuery)) {
-      const response = await urqlClient
-        .query(TrackDocument, {
-          uri: query,
-        })
-        .toPromise();
-      setQueryResults(response.data.track ? [response.data.track] : []);
-    } else {
-      const response = await urqlClient
-        .query(SearchTrackDocument, {
-          platform,
-          query,
-        })
-        .toPromise();
-      setQueryResults(response.data.searchTrack || []);
-    }
-    setIsSearching(false);
-  }
+  const onSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const query = event.currentTarget.search.value.trim();
+      if (!query || isSearching) return;
+      setIsEmpty(false);
+      setIsSearching(true);
+      urqlClient
+        .query(SearchTrackDocument, { platform, query })
+        .toPromise()
+        .then((response) => {
+          setQueryResults(response.data.searchTrack || []);
+          setIsSearching(false);
+        });
+    },
+    [urqlClient, isSearching, platform]
+  );
 
   return (
     <>
       <form
         ref={formRef}
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!inputRef.current) return;
-          submitSearch(inputRef.current.value);
-        }}
+        onSubmit={onSubmit}
         className="p-2"
         autoComplete="off"
       >
         <div className="relative w-full">
           <input
-            ref={inputRef}
             className="input w-full h-10"
             type="text"
+            name="search"
             aria-label="Search"
-            placeholder={`Search for music on ${PLATFORM_FULL_NAME[platform]} or enter a link`}
+            placeholder="Find by keywords or links"
             required
           />
           <button
@@ -82,10 +59,11 @@ const TrackAdderSearch: React.FC<{
             type="button"
             className="absolute right-0 transform -translate-x-1/2 -translate-y-1/2 top-1/2"
             onClick={() => {
-              if (!inputRef.current) return;
-              inputRef.current.value = "";
+              formRef.current?.reset();
+              setIsEmpty(true);
               setQueryResults([]);
             }}
+            hidden={isEmpty}
           >
             <SvgX />
           </button>
@@ -95,6 +73,14 @@ const TrackAdderSearch: React.FC<{
         <p className="px-2 py-6 text-center font-bold text-foreground-tertiary animate-pulse">
           Searching...
         </p>
+      )}
+      {isEmpty && (
+        <div className="px-2">
+          <div className="p-2 rounded-lg bg-success-light text-xs">
+            To search, enter the song keywords <b>or</b> a <i>Song link</i>{" "}
+            <b>or</b> a <i>Playlist link</i>.
+          </div>
+        </div>
       )}
       <TrackAdderResults
         addedTracks={addedTracks}

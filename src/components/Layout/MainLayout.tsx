@@ -1,11 +1,14 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import Router, { useRouter } from "next/router";
 import Link from "next/link";
 import NProgress from "nprogress";
-import { UserMenu } from "./UserMenu";
-import AddNewMenu from "./AddNewMenu";
+// @ts-ignore
+import ColorThief from "colorthief";
 import NowPlayingPill from "./NowPlayingPill";
-import { SvgLogo } from "~/assets/svg";
+import { usePlayer } from "~/components/Player/index";
+import { useLogin } from "~/components/Auth";
+import { useCurrentUser } from "~/hooks/user";
+import { SvgPlus, SvgLogo, SvgSettings } from "~/assets/svg";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -20,15 +23,14 @@ const Navbar: React.FC = () => {
     () => noNavbarRoutes.includes(router.pathname),
     [router]
   );
+  const user = useCurrentUser();
+  const [, openLogin] = useLogin();
   if (shouldHideNavFoot) return null;
   return (
-    <nav
-      className="nav fixed overflow-visible bg-background bg-opacity-25"
-      style={{ backdropFilter: "blur(9px)" }}
-    >
+    <nav className="nav fixed" style={{ backdropFilter: "blur(9px)" }}>
       <div className="container flex items-center justify-between">
         <div className="flex items-center content-start overflow-hidden">
-          <Link href="/explore">
+          <Link href="/browse">
             <a className="ml-2 mr-6" aria-label="Back to Explore">
               <SvgLogo
                 className="mx-auto"
@@ -41,8 +43,28 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex content-end items-center flex-none">
           <NowPlayingPill />
-          <AddNewMenu />
-          <UserMenu />
+          <Link href="/new">
+            <a aria-label="Add new" type="button" className="button p-2 mr-2">
+              <SvgPlus />
+            </a>
+          </Link>
+          <Link href="/settings">
+            <a className="button p-2 mr-2" title="Settings">
+              <SvgSettings />
+            </a>
+          </Link>
+          {user ? (
+            <img
+              alt={user.username}
+              title={user.username}
+              src={user.profilePicture}
+              className="w-10 h-10 bg-background-secondary object-cover rounded"
+            />
+          ) : (
+            <button className="button" onClick={openLogin}>
+              Join
+            </button>
+          )}
         </div>
       </div>
     </nav>
@@ -138,10 +160,35 @@ const Footer: React.FC = () => {
   );
 };
 
+const LayoutBg: React.FC = () => {
+  const {
+    state: { playerPlaying },
+  } = usePlayer();
+  const colorThief = useRef<any>();
+  useEffect(() => {
+    if (!playerPlaying) return;
+    try {
+      colorThief.current = colorThief.current || new ColorThief();
+      const img = new Image();
+      img.addEventListener("load", async () => {
+        document.body.style.backgroundColor = `rgb(${colorThief
+          .current!.getColor(img)
+          .join(", ")}`;
+      });
+      img.crossOrigin = "Anonymous";
+      img.src = playerPlaying.image;
+    } catch (e) {
+      /* noop */
+    }
+  }, [playerPlaying]);
+  return null;
+};
+
 export const MainLayout: React.FC = ({ children }) => {
   return (
     <>
       <Navbar />
+      <LayoutBg />
       <main>{children}</main>
       <Footer />
     </>

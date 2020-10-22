@@ -15,7 +15,6 @@ const QueueItemUser: React.FC<{ userId: string }> = ({ userId }) => {
     >
       {data?.user && (
         <>
-          <span className="text-foreground-secondary">Added by </span>
           <img
             className="inline w-3 h-3 rounded-full"
             src={data.user.profilePicture}

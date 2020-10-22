@@ -3,7 +3,6 @@ import { useMutation, useQuery, useQueryCache } from "react-query";
 import SpotifyPlaylist from "./spotify";
 import YoutubePlaylist from "./youtube";
 import { Playlist } from "~/types/index";
-import { useToasts } from "~/components/Toast";
 import { useMAuth } from "~/hooks/user";
 
 const playlistService = {
@@ -11,13 +10,14 @@ const playlistService = {
   spotify: new SpotifyPlaylist(),
 };
 
-const MY_PLAYLIST_CACHEKEY = "my-playlists";
+const CACHE_PREFIX = "my-playlists";
 
 export const useMyPlaylistsQuery = () => {
   const { data: mAuth } = useMAuth();
+  const cacheKey = CACHE_PREFIX + mAuth?.id;
 
   return useQuery<Playlist[] | null>(
-    MY_PLAYLIST_CACHEKEY + mAuth?.id,
+    cacheKey,
     () => {
       playlistService.youtube.auth = null;
       playlistService.spotify.auth = null;
@@ -41,7 +41,7 @@ export const useMyPlaylistsQuery = () => {
 
 export const useInsertPlaylistTracksMutation = () => {
   const { data: mAuth } = useMAuth();
-  const toasts = useToasts();
+  const cacheKey = CACHE_PREFIX + mAuth?.id;
   const queryCache = useQueryCache();
   const insertPlaylistTracks = useCallback(
     async ({
@@ -58,38 +58,33 @@ export const useInsertPlaylistTracksMutation = () => {
         // If no id is provided, create new playlist
         try {
           const createdPlaylist = await playlistService[mAuth.platform].create(
-            name
+            name || "Untitled Playlist"
           );
           if (createdPlaylist)
             queryCache.setQueryData<Playlist[] | null>(
-              MY_PLAYLIST_CACHEKEY,
+              cacheKey,
               (playlists) => [...(playlists || []), createdPlaylist]
             );
+          id = createdPlaylist?.id;
         } catch (e) {
-          /* noop */
+          return false;
         }
       }
-      if (!id) {
-        toasts.error("Could not add to playlist");
-        return false;
-      }
+      if (!id) return false;
       const ok = await playlistService[mAuth.platform].addToPlaylist(
         id.split(":")[1],
         tracks.map((trackId) => trackId.split(":")[1])
       );
       if (ok) {
-        queryCache.setQueryData<Playlist[] | null>(
-          MY_PLAYLIST_CACHEKEY,
-          (playlists) => {
-            const playlist = (playlists || []).find((pl) => pl.id === id);
-            playlist?.tracks.push(...tracks);
-            return playlists || null;
-          }
-        );
+        queryCache.setQueryData<Playlist[] | null>(cacheKey, (playlists) => {
+          const playlist = (playlists || []).find((pl) => pl.id === id);
+          playlist?.tracks.push(...tracks);
+          return playlists || null;
+        });
       }
       return ok;
     },
-    [mAuth, toasts, queryCache]
+    [mAuth, queryCache, cacheKey]
   );
 
   return useMutation(insertPlaylistTracks);

@@ -72,12 +72,12 @@ export default class SpotifyPlaylist {
     return playlists;
   }
 
-  async create(name?: string): Promise<Playlist | null> {
+  async create(name: string): Promise<Playlist | null> {
     if (!this.auth) return null;
     const data: SpotifyApi.CreatePlaylistResponse = await axios
       .post(
         `${this.baseURL}/users/${this.auth.authId}/playlists`,
-        { name: name || "Untitled playlist" },
+        { name },
         { headers: { Authorization: `Bearer ${this.auth.token}` } }
       )
       .then((res) => res.data);

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import { RoomItem } from "~/components/Room";
 import { useLogin } from "~/components/Auth";
@@ -66,10 +67,36 @@ const MyRoomsSection: React.FC = () => {
   );
 };
 
+const SearchAndPlaySection: React.FC = () => {
+  const router = useRouter();
+  return (
+    <div className="bg-white bg-opacity-10 text-white p-4 rounded-lg">
+      <h3 className="text-xl font-bold">Start Listening Together</h3>
+      <p className="text-sm text-foreground-secondary mb-1">
+        Have an awesome playlist in mind to listen together with your friends?
+        Just enter its link below.
+      </p>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          const s = event.currentTarget.searchQuery.value.trim();
+          s && router.push(`/new?search=${encodeURIComponent(s)}`);
+        }}
+      >
+        <input
+          name="searchQuery"
+          className="input w-full"
+          placeholder="Enter a Playlist Link"
+        />
+      </form>
+    </div>
+  );
+};
+
 const RoomSection: React.FC = () => {
   const [tab, setTab] = useState<"random" | "mine">("random");
   return (
-    <div className="h-full flex flex-col mt-20">
+    <div className="h-full flex flex-col">
       <div className="flex-none flex mb-2 justify-center" role="tablist">
         <button
           role="tab"
@@ -116,15 +143,18 @@ const RoomSection: React.FC = () => {
   );
 };
 
-const ExplorePage: NextPage = () => {
+const BrowsePage: NextPage = () => {
   return (
     <>
-      <NextSeo title="Explore" />
-      <div className="container mx-auto">
+      <NextSeo title="Browse" />
+      <div className="container mx-auto mt-20">
+        <div className="mb-2">
+          <SearchAndPlaySection />
+        </div>
         <RoomSection />
       </div>
     </>
   );
 };
 
-export default ExplorePage;
+export default BrowsePage;

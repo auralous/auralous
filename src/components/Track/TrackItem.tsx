@@ -19,7 +19,7 @@ export const TrackItem: React.FC<{
           src={track.image}
         />
       ) : (
-        <div className="h-12 w-12 rounded-lg flex-none overflow-hidden hidden mr-3 animate-pulse bg-black bg-opacity-25" />
+        <div className="h-12 w-12 rounded-lg flex-none overflow-hidden mr-3 animate-pulse bg-black bg-opacity-25" />
       )}
       <div className="w-full overflow-hidden">
         {track ? (
@@ -38,7 +38,7 @@ export const TrackItem: React.FC<{
                 {track.title}
               </h4>
             </div>
-            <div className="flex text-sm text-foreground-secondary">
+            <div className="flex text-xs text-foreground-secondary">
               <span className="mr-1 flex-none">
                 {(() => {
                   const [sec, min] = parseMs(track.duration, true);

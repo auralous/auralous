@@ -32,7 +32,7 @@ const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => (
           / CC BY 4.0
         </small>
         <p className="text-center mt-2">
-          <Link href="/explore">
+          <Link href="/browse">
             <a className="text-sm button bg-transparent text-foreground hover:text-foreground-secondary">
               ← Back to home
             </a>

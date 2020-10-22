@@ -39,6 +39,7 @@ module.exports = withBundleAnalyzer({
             stripPrefix: ["webpack://_N_E/"],
             urlPrefix: "~/_next",
             release: `${name}@${version}`,
+            silent: true,
           })
         );
       } else
