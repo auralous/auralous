@@ -53,9 +53,9 @@ const PlayerProvider: React.FC = ({ children }) => {
   );
 
   // The track that is playing
-  const playerPlaying = useMemo<PlayerPlaying | null>(() => {
-    if (!crossTracks || !playingPlatform) return null;
-    return crossTracks[playingPlatform] || null;
+  const playerPlaying = useMemo<PlayerPlaying>(() => {
+    if (!crossTracks || !playingPlatform) return (player.playerPlaying = null);
+    return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
 
   const playRoom = useCallback(

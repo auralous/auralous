@@ -13,10 +13,7 @@ const YT_PLAYER_VARS = {
 };
 
 export default function YouTubePlayer() {
-  const {
-    state: { playerPlaying },
-    player,
-  } = usePlayer();
+  const { player } = usePlayer();
 
   useEffect(() => {
     let ytPlayer: YT.Player;
@@ -25,6 +22,7 @@ export default function YouTubePlayer() {
     function playById(externalId: string) {
       if (externalId === (ytPlayer as any).getVideoData()?.video_id) return;
       ytPlayer.loadVideoById(externalId);
+      ytPlayer.playVideo();
     }
 
     async function init(hadLoaded: boolean) {
@@ -55,8 +53,6 @@ export default function YouTubePlayer() {
               durationInterval = window.setInterval(() => {
                 player.emit("time", ytPlayer.getCurrentTime() * 1000);
               }, 1000);
-              if (playerPlaying) playById(playerPlaying.externalId);
-              ytPlayer.playVideo();
             },
             onStateChange(event: any) {
               // @ts-ignore

@@ -1,4 +1,5 @@
 import { PlatformName } from "~/graphql/gql.gen";
+import { PlayerPlaying } from "./types";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type HandlerFn = Function;
@@ -33,6 +34,7 @@ class Player {
   currentMs: number;
   playerFn: PlayerHandle | null;
   wasPlaying = false;
+  playerPlaying: PlayerPlaying = null;
 
   constructor() {
     // developit/mitt
@@ -63,6 +65,9 @@ class Player {
 
   registerPlayer(registerHandle: PlayerHandle) {
     this.playerFn = registerHandle;
+    // start playing after register
+    this.playerPlaying &&
+      registerHandle.loadById(this.playerPlaying.externalId);
   }
 
   unregisterPlayer() {
