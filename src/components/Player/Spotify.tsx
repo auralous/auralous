@@ -114,7 +114,7 @@ export default function SpotifyPlayer() {
   } = usePlayer();
   const toasts = useToasts();
   const [accessToken, setAccessToken] = useState<null | string>(null);
-  const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
+  const { data: mAuth } = useMAuth();
 
   const [status, setStatus] = useState<SpotifyPlayerStatus>("AUTH_WAIT");
 
@@ -128,8 +128,6 @@ export default function SpotifyPlayer() {
   }, [mAuth]);
 
   useEffect(() => {
-    // If there is no access token or is loading, return
-    if (fetchingMAuth) return;
     // FIXME: No reliable to way to determine AUTH_WAIT
     if (!accessToken)
       return setStatus((s) => (s !== "NO_SUPPORT" ? "AUTH_ASK" : s));
@@ -251,7 +249,7 @@ export default function SpotifyPlayer() {
       spotifyPlayer.disconnect();
       spotifyPlayer = null;
     };
-  }, [fetchingMAuth, accessToken, toasts, player]);
+  }, [accessToken, toasts, player]);
 
   return (
     <Modal.Modal active={status !== "OK"}>

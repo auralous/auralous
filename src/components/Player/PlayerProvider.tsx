@@ -58,17 +58,12 @@ const PlayerProvider: React.FC = ({ children }) => {
     return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
 
-  const playRoom = useCallback(
-    async (roomId: string) => {
-      player.wasPlaying = true;
-      setPlayerControl(`room:${roomId}`);
-    },
-    [setPlayerControl]
-  );
+  const playRoom = useCallback(async (roomId: string) => {
+    player.wasPlaying = true;
+    setPlayerControl(`room:${roomId}`);
+  }, []);
 
-  const stopPlaying = useCallback(() => setPlayerControl(""), [
-    setPlayerControl,
-  ]);
+  const stopPlaying = useCallback(() => setPlayerControl(""), []);
 
   useEffect(() => {
     if (!playerControl.startsWith("room:") && !nowPlaying) return undefined;
