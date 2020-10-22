@@ -231,7 +231,7 @@ const AddExistedRoom: React.FC<{ initTracks?: Track[]; user: User }> = ({
           : "opacity-50 pointer-events-none cursor-not-allowed"
       }
     >
-      {initTracks?.length && (
+      {initTracks?.length ? (
         <>
           <p className="px-4 text-center text-xs text-foreground-secondary">
             Select a room to start listening
@@ -249,6 +249,11 @@ const AddExistedRoom: React.FC<{ initTracks?: Track[]; user: User }> = ({
             </button>
           </div>
         </>
+      ) : (
+        <p className="p-2 text-sm text-foreground-secondary text-center">
+          Find something by entering a playlist link above to add to an existing
+          room <i>or</i> create an empty room
+        </p>
       )}
     </div>
   );
@@ -369,14 +374,16 @@ const NewPage: NextPage = () => {
           <button
             role="tab"
             className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
-              tab === "add"
-                ? "bg-pink text-white"
-                : "opacity-75 hover:opacity-100 bg-white text-pink"
+              initTracks?.length
+                ? tab === "add"
+                  ? "bg-pink text-white"
+                  : "opacity-75 hover:opacity-100 bg-white text-pink"
+                : "opacity-25"
             } transition duration-300`}
             aria-controls="tabpanel_add"
             onClick={() => setTab("add")}
             aria-selected={tab === "add"}
-            hidden={!initTracks?.length}
+            disabled={!initTracks?.length}
           >
             Use an Existing Room
           </button>
