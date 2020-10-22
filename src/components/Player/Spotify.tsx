@@ -10,6 +10,11 @@ import { SvgSpotify } from "~/assets/svg";
 import { useMAuth } from "~/hooks/user";
 /// <reference path="spotify-web-playback-sdk" />
 
+interface ImplicitAuthJson {
+  expireAt: Date;
+  accessToken: string;
+}
+
 const BASE_URL = "https://api.spotify.com/v1";
 const SS_STORE_KEY = "spotify-token";
 
@@ -17,37 +22,40 @@ let expireTimer: number | undefined;
 function getAuthViaImplicit(onExpire?: () => void): null | string {
   window.clearTimeout(expireTimer);
   const strToken = sessionStorage.getItem(SS_STORE_KEY);
-  const authJson = strToken ? JSON.parse(strToken) : null;
-  const expireAt = authJson?.expireAt ? new Date(authJson.expireAt) : null;
-  if (expireAt && expireAt > new Date()) {
+  const authJson: ImplicitAuthJson | null = strToken
+    ? JSON.parse(strToken)
+    : null;
+  if (!authJson) return null;
+  const expireAt = new Date(authJson.expireAt);
+  if (expireAt > new Date()) {
     // token is good, optionally register onExpired
     onExpire &&
       (expireTimer = window.setTimeout(
         onExpire,
-        expireAt.getTime() - Date.now()
+        // 5000 delay just in case
+        expireAt.getTime() - Date.now() + 5000
       ));
-    return authJson.access_token;
+    return authJson.accessToken;
   }
   sessionStorage.removeItem(SS_STORE_KEY);
   return null;
 }
 
 let popup: Window | null;
+const implicitRedirectUri = `${process.env.APP_URI}/auth/callback`;
 function doAuthViaImplicit(): Promise<null | string> {
-  const redirectUri = `${process.env.APP_URI}/auth/callback`;
-
+  // https://developer.spotify.com/documentation/general/guides/authorization-guide/#implicit-grant-flow
   if (!popup || popup.closed)
     popup = window.open(
       `https://accounts.spotify.com/authorize?client_id=${
         process.env.SPOTIFY_CLIENT_ID
-      }&response_type=token&redirect_uri=${redirectUri}&scope=${encodeURIComponent(
+      }&response_type=token&redirect_uri=${implicitRedirectUri}&scope=${encodeURIComponent(
         "streaming user-read-email user-read-private"
       )}`,
       "Login with Spotify",
       "width=800,height=600"
     );
   else popup.focus();
-
   let spotifyCbInterval: number;
   return new Promise<string | null>((resolve) => {
     spotifyCbInterval = window.setInterval(() => {
@@ -55,21 +63,29 @@ function doAuthViaImplicit(): Promise<null | string> {
         if (!popup || popup.closed) return resolve(null);
         if (popup.location.origin === process.env.APP_URI) {
           popup.close();
-          const hashObj: any = popup.location.hash
+          const hashObj = {} as ImplicitAuthJson | { error: string };
+          // Parse location hash for expires_in, access_token and error
+          popup.location.hash
             .substring(1)
             .split("&")
             .map((v) => v.split("="))
-            .reduce((pre, [key, value]) => ({ ...pre, [key]: value }), {});
-          if (hashObj.access_token) {
-            hashObj.expireAt = new Date(
-              Date.now() + parseInt(hashObj.expires_in, 10) * 1000
-            );
+            .forEach(([key, value]) => {
+              if (key === "error") (hashObj as { error: string }).error = value;
+              else if (key === "access_token")
+                (hashObj as ImplicitAuthJson).accessToken = value;
+              else if (key === "expires_in")
+                (hashObj as ImplicitAuthJson).expireAt = new Date(
+                  Date.now() + parseInt(value, 10) * 1000
+                );
+            });
+          if ("accessToken" in hashObj) {
             window.sessionStorage.setItem(
               SS_STORE_KEY,
               JSON.stringify(hashObj)
             );
+            return resolve(hashObj.accessToken);
           }
-          return resolve(hashObj.access_token);
+          return resolve(null);
         }
       } catch (e) {
         // noop
@@ -77,6 +93,7 @@ function doAuthViaImplicit(): Promise<null | string> {
     }, 500);
   }).then((res) => {
     window.clearInterval(spotifyCbInterval);
+    popup = null;
     return res;
   });
 }
@@ -158,7 +175,7 @@ export default function SpotifyPlayer() {
       if (spotifyPlayer) return;
       spotifyPlayer = new window.Spotify.Player({
         name: "Stereo - withstereo.com",
-        getOAuthToken: (cb) => cb(accessToken!),
+        getOAuthToken: (cb) => accessToken && cb(accessToken),
       });
       // readiness
       spotifyPlayer.addListener(
@@ -222,8 +239,7 @@ export default function SpotifyPlayer() {
 
     return function cleanup() {
       window.clearInterval(durationInterval);
-      // @ts-ignore
-      window.onSpotifyWebPlaybackSDKReady = null;
+      (window as any).onSpotifyWebPlaybackSDKReady = null;
       player.unregisterPlayer();
       if (!spotifyPlayer) return;
       spotifyPlayer.removeListener("ready");
@@ -269,8 +285,10 @@ export default function SpotifyPlayer() {
               <button
                 className="button button-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
-                  doAuthViaImplicit().then(
-                    (token) => token && setAccessToken(token)
+                  doAuthViaImplicit().then(() =>
+                    setAccessToken(
+                      getAuthViaImplicit(() => setAccessToken(null))
+                    )
                   )
                 }
               >
@@ -293,8 +311,10 @@ export default function SpotifyPlayer() {
               <button
                 className="button button-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
-                  doAuthViaImplicit().then(
-                    (token) => token && setAccessToken(token)
+                  doAuthViaImplicit().then(() =>
+                    setAccessToken(
+                      getAuthViaImplicit(() => setAccessToken(null))
+                    )
                   )
                 }
               >
