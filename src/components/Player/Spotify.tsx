@@ -13,19 +13,27 @@ import { useMAuth } from "~/hooks/user";
 const BASE_URL = "https://api.spotify.com/v1";
 const SS_STORE_KEY = "spotify-token";
 
-function authViaSessionStorage(): null | string {
+let expireTimer: number | undefined;
+function getAuthViaImplicit(onExpire?: () => void): null | string {
+  window.clearTimeout(expireTimer);
   const strToken = sessionStorage.getItem(SS_STORE_KEY);
   const authJson = strToken ? JSON.parse(strToken) : null;
-  if (authJson?.expireAt && new Date(authJson.expireAt) > new Date())
-    // token is good
+  const expireAt = authJson?.expireAt ? new Date(authJson.expireAt) : null;
+  if (expireAt && expireAt > new Date()) {
+    // token is good, optionally register onExpired
+    onExpire &&
+      (expireTimer = window.setTimeout(
+        onExpire,
+        expireAt.getTime() - Date.now()
+      ));
     return authJson.access_token;
+  }
   sessionStorage.removeItem(SS_STORE_KEY);
   return null;
 }
 
 let popup: Window | null;
-
-function authViaImplicit(): Promise<null | string> {
+function doAuthViaImplicit(): Promise<null | string> {
   const redirectUri = `${process.env.APP_URI}/auth/callback`;
 
   if (!popup || popup.closed)
@@ -95,7 +103,11 @@ export default function SpotifyPlayer() {
 
   useEffect(() => {
     // get access token
-    setAccessToken(mAuth?.accessToken || authViaSessionStorage() || null);
+    setAccessToken(
+      mAuth?.accessToken ||
+        getAuthViaImplicit(() => setAccessToken(null)) ||
+        null
+    );
   }, [mAuth]);
 
   useEffect(() => {
@@ -257,7 +269,7 @@ export default function SpotifyPlayer() {
               <button
                 className="button button-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
-                  authViaImplicit().then(
+                  doAuthViaImplicit().then(
                     (token) => token && setAccessToken(token)
                   )
                 }
@@ -281,7 +293,7 @@ export default function SpotifyPlayer() {
               <button
                 className="button button-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
-                  authViaImplicit().then(
+                  doAuthViaImplicit().then(
                     (token) => token && setAccessToken(token)
                   )
                 }
