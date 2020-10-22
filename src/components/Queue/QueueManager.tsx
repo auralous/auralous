@@ -144,7 +144,7 @@ const QueueManager: React.FC<{
   rules: QueueRules;
 }> = ({ queueId, permission }) => {
   const user = useCurrentUser();
-  const [queue] = useQueue(queueId);
+  const [queue] = useQueue(queueId, { requestPolicy: "cache-and-network" });
   const [, updateQueue] = useUpdateQueueMutation();
 
   const onDragEnd = useCallback(
