@@ -55,11 +55,11 @@ const PlayerMinibar: React.FC = () => {
         />
         <div className="text-xs p-1 flex-1 w-0 text-left">
           <div className="font-bold leading-none truncate">
-            {playerPlaying?.title || "Nothing is playing"}
+            {playerPlaying?.title || ""}
           </div>
           <div className="text-foreground-secondary truncate">
             {playerPlaying?.artists.map((artist) => artist.name).join(", ") ||
-              "Add a song to listen together"}
+              ""}
           </div>
         </div>
       </button>
