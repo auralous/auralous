@@ -1678,36 +1678,6 @@
   dependencies:
     mkdirp "^1.0.4"
 
-"@reach/auto-id@0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.11.2.tgz#c66a905c5401d1ac3da8d26165b8d27d6e778fa6"
-  integrity sha512-YZ21b0Kb88wJ0t7QjSznWOYskARQMnmXY9Y2XZ5RyYcZ2krT4s3+ghghpfaPs6BKcrZDonZCrU65OFDJPa1jAw==
-  dependencies:
-    "@reach/utils" "0.11.2"
-    tslib "^2.0.0"
-
-"@reach/combobox@^0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@reach/combobox/-/combobox-0.11.2.tgz#f94c6ba2a4abe64c8e44841b54ab5516edb21752"
-  integrity sha512-dqb55eJZTcylJBjnr7fgHdEtb1OvbSGHQHHWIGnQldUZyau0t0oWJ+EFNmhXXrLbl1nIeJ9wp/EPNnrY2uyXmg==
-  dependencies:
-    "@reach/auto-id" "0.11.2"
-    "@reach/descendants" "0.11.2"
-    "@reach/popover" "0.11.2"
-    "@reach/portal" "0.11.2"
-    "@reach/utils" "0.11.2"
-    highlight-words-core "1.2.2"
-    prop-types "^15.7.2"
-    tslib "^2.0.0"
-
-"@reach/descendants@0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@reach/descendants/-/descendants-0.11.2.tgz#49ea1b5eb91aba8ae6dce57f6575c38aff1f9756"
-  integrity sha512-63Wdx32/RyjGRJc4UZKK7F1sIrb6jeGkDwvQH0hv0lRAhEjsiSQ1t2JTYDml3testFP48J0B2xS7JzNeY0zoQw==
-  dependencies:
-    "@reach/utils" "0.11.2"
-    tslib "^2.0.0"
-
 "@reach/dialog@^0.11.2":
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/@reach/dialog/-/dialog-0.11.2.tgz#44d99b4918cb211d4458f7cce3bee01c27c9c8ed"
@@ -1720,38 +1690,12 @@
     react-remove-scroll "^2.3.0"
     tslib "^2.0.0"
 
-"@reach/observe-rect@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@reach/observe-rect/-/observe-rect-1.2.0.tgz#d7a6013b8aafcc64c778a0ccb83355a11204d3b2"
-  integrity sha512-Ba7HmkFgfQxZqqaeIWWkNK0rEhpxVQHIoVyW1YDSkGsGIXzcaW4deC8B0pZrNSSyLTdIk7y+5olKt5+g0GmFIQ==
-
-"@reach/popover@0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@reach/popover/-/popover-0.11.2.tgz#d7d14d8d74b0a376e31dd9a3223d16802360e0d3"
-  integrity sha512-fB5lScg7Sfu3k0c+bjX7QbnFOJ1nsCWYGvrH1M9qlQolWM6gSJcD+ANnEHIb/wF85zuxzgdxZY5bjTj0RZc6Lg==
-  dependencies:
-    "@reach/portal" "0.11.2"
-    "@reach/rect" "0.11.2"
-    "@reach/utils" "0.11.2"
-    tabbable "^4.0.0"
-    tslib "^2.0.0"
-
 "@reach/portal@0.11.2", "@reach/portal@^0.11.2":
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/@reach/portal/-/portal-0.11.2.tgz#19a671be9ff010a345892b81e710cb6e4d9f9762"
   integrity sha512-/53A/rY5oX2Y7D5TpvsP+V5cSd+4MPY6f21mAmVn4DCVwpkCFOlJ059ZL7ixS85M0Jz48YQnnvBJUqwkxqUG/g==
   dependencies:
     "@reach/utils" "0.11.2"
-    tslib "^2.0.0"
-
-"@reach/rect@0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@reach/rect/-/rect-0.11.2.tgz#bc92f97f87e81d1307054fd41c40874d3fbf5491"
-  integrity sha512-eoUWayAADi1ITtrc+8jN9NsBTUkfpORkOs5bQb4RnR6UA/3zlxo5VPuxWgWAG0BCohZlqsxg7NpvckNAyaiAAQ==
-  dependencies:
-    "@reach/observe-rect" "1.2.0"
-    "@reach/utils" "0.11.2"
-    prop-types "^15.7.2"
     tslib "^2.0.0"
 
 "@reach/utils@0.11.2":
@@ -5675,11 +5619,6 @@ hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
-
-highlight-words-core@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/highlight-words-core/-/highlight-words-core-1.2.2.tgz#1eff6d7d9f0a22f155042a00791237791b1eeaaa"
-  integrity sha512-BXUKIkUuh6cmmxzi5OIbUJxrG8OAk2MqoL1DtO3Wo9D2faJg2ph5ntyuQeLqaHJmzER6H5tllCDA9ZnNe9BVGg==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -9818,11 +9757,6 @@ symbol-observable@^1.0.4, symbol-observable@^1.1.0, symbol-observable@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
   integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
-
-tabbable@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-4.0.0.tgz#5bff1d1135df1482cf0f0206434f15eadbeb9261"
-  integrity sha512-H1XoH1URcBOa/rZZWxLxHCtOdVUEev+9vo5YdYhC9tCY4wnybX+VQrCYuy9ubkg69fCBxCONJOSLGfw0DWMffQ==
 
 table@^5.2.3:
   version "5.4.6"

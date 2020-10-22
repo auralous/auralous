@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@next/plugin-sentry": "^9.5.5",
-    "@reach/combobox": "^0.11.2",
     "@reach/dialog": "^0.11.2",
     "@reach/portal": "^0.11.2",
     "@urql/devtools": "^2.0.2",
