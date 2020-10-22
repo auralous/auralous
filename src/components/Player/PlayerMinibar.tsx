@@ -11,13 +11,13 @@ const PlayerMinibar: React.FC = () => {
   const divRef = useRef<HTMLButtonElement>(null);
   const colorThief = useRef<any>();
   const router = useRouter();
-  const shouldHide = useMemo(
-    () => noPlayerMinibarRoutes.includes(router.pathname),
-    [router]
-  );
   const {
     state: { playerControl, playerPlaying, playerContext },
   } = usePlayer();
+  const shouldHide = useMemo(
+    () => !playerControl || noPlayerMinibarRoutes.includes(router.pathname),
+    [router, playerControl]
+  );
   useEffect(() => {
     if (!divRef.current || !playerPlaying) return;
     try {
@@ -35,13 +35,14 @@ const PlayerMinibar: React.FC = () => {
       /* noop */
     }
   }, [playerPlaying]);
-  if (!playerControl || shouldHide) return null;
 
   return (
     <Link href="/room/[roomId]" as={`/${playerControl.split(":").join("/")}`}>
       <button
         ref={divRef}
-        className="flex items-center h-12 z-20 w-full rounded-t-lg overflow-hidden fixed bottom-0 left-0 transition-colors duration-300"
+        className={`${
+          shouldHide ? "hidden" : "flex"
+        } items-center h-12 z-20 w-full rounded-t-lg overflow-hidden fixed bottom-0 left-0 transition-colors duration-300`}
       >
         <div
           className="opacity-50 absolute inset-0"
