@@ -12,11 +12,11 @@ const PlayerMinibar: React.FC = () => {
   const colorThief = useRef<any>();
   const router = useRouter();
   const {
-    state: { playerControl, playerPlaying, playerContext },
+    state: { playingRoomId, playerPlaying, playerContext },
   } = usePlayer();
   const shouldHide = useMemo(
-    () => !playerControl || noPlayerMinibarRoutes.includes(router.pathname),
-    [router, playerControl]
+    () => !playingRoomId || noPlayerMinibarRoutes.includes(router.pathname),
+    [router, playingRoomId]
   );
   useEffect(() => {
     if (!divRef.current || !playerPlaying) return;
@@ -37,7 +37,7 @@ const PlayerMinibar: React.FC = () => {
   }, [playerPlaying]);
 
   return (
-    <Link href="/room/[roomId]" as={`/${playerControl.split(":").join("/")}`}>
+    <Link href="/room/[roomId]" as={`/room/${playingRoomId}`}>
       <button
         ref={divRef}
         className={`${

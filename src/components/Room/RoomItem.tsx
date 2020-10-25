@@ -5,7 +5,7 @@ import { SvgLock } from "~/assets/svg";
 
 const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
   const [{ data: { nowPlaying } = { nowPlaying: null } }] = useNowPlayingQuery({
-    variables: { id: `room:${room.id}` },
+    variables: { id: room.id },
   });
 
   const [{ data: trackData }] = useTrackQuery({
