@@ -5,7 +5,7 @@ import RoomSettingsRules from "./RoomSettingsRules";
 import RoomSettingsMember from "./RoomSettingsMember";
 import { Room, RoomState } from "~/graphql/gql.gen";
 
-const RoomSettingsModal: React.FC<{
+const RoomSettings: React.FC<{
   room: Room;
   roomState: RoomState;
   active: boolean;
@@ -90,4 +90,4 @@ const RoomSettingsModal: React.FC<{
   );
 };
 
-export default RoomSettingsModal;
+export default RoomSettings;

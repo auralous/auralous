@@ -1,5 +1,5 @@
-import React from "react";
-import { SvgX, SvgPlus } from "~/assets/svg";
+import React, { useCallback, useMemo } from "react";
+import { SvgPlus } from "~/assets/svg";
 import { useModal, Modal } from "~/components/Modal";
 import { useToasts } from "~/components/Toast";
 import {
@@ -9,61 +9,90 @@ import {
   RoomState,
   RoomMembership,
 } from "~/graphql/gql.gen";
+import { MEMBERSHIP_NAMES } from "~/lib/constants";
 
-const RoomMember: React.FC<{ userId: string; roomId: string }> = ({
-  userId,
-  roomId,
-}) => {
+const RoomMember: React.FC<{
+  userId: string;
+  roomId: string;
+  role: RoomMembership | undefined;
+}> = ({ userId, roomId, role }) => {
   const toasts = useToasts();
   const [{ data }] = useUserQuery({ variables: { id: userId } });
   const [
     { fetching },
     updateRoomMembership,
   ] = useUpdateRoomMembershipMutation();
-  const handleDeleteMembership = async () => {
-    const { error } = await updateRoomMembership({
-      id: roomId,
-      userId,
-      role: null,
-    });
-    if (!error)
-      toasts.success(
-        `Remove ${data?.user?.username || "user"} from Collaborators`
+
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const newRole = e.currentTarget.value as RoomMembership | "";
+      updateRoomMembership({
+        id: roomId,
+        userId,
+        role: newRole || null,
+      }).then(({ error }) =>
+        !error && newRole
+          ? toasts.success(
+              `Add ${data?.user?.username} to ${MEMBERSHIP_NAMES[newRole]}`
+            )
+          : toasts.success(`Remove ${data?.user?.username} as a room member`)
       );
-  };
+    },
+    [toasts, data, roomId, updateRoomMembership, userId]
+  );
+
   return (
-    <div className="h-16 w-16 relative mr-1">
+    <div className="h-12 mb-2 w-full mr-1 flex shadow-lg py-2 bg-background-secondary rounded-lg">
       {
         //FIXME: Add user name
         data?.user ? (
           <>
-            <img
-              className="w-full h-full rounded-lg object-cover"
-              src={data.user.profilePicture}
-              alt={data.user.username}
-              title={data.user.username}
-            />
+            <div className="px-2 flex-none">
+              <img
+                className="w-8 h-8 rounded-full object-cover"
+                src={data.user.profilePicture}
+                alt={data.user.username}
+                title={data.user.username}
+              />
+            </div>
+            <div className="font-bold text-foreground flex items-center justify-between w-full">
+              <div className="flex-1 w-0 leading-none truncate">
+                {data.user.username}
+              </div>
+              <div className="px-1 flex items-center">
+                {role !== RoomMembership.Host ? (
+                  <>
+                    <select
+                      value={role || ""}
+                      onChange={onChange}
+                      className="input px-1 py-2 mr-1"
+                      disabled={fetching}
+                    >
+                      <option value={RoomMembership.Collab}>
+                        {MEMBERSHIP_NAMES[RoomMembership.Collab]}
+                      </option>
+                      <option value="">{MEMBERSHIP_NAMES[""]}</option>
+                    </select>
+                  </>
+                ) : null}
+              </div>
+            </div>
           </>
         ) : (
-          <div className="bg-background-secondary animate-pulse w-full h-full rounded" />
+          <>
+            <div className="mx-2 flex-none w-8 h-8 rounded-full bg-background-secondary animate-pulse" />
+            <div className="bg-background-secondary animate-pulse rounded-lg w-full mr-2" />
+          </>
         )
       }
-      <button
-        className="button button-danger absolute top-0 right-0 w-5 h-5 p-0 -m-1"
-        title={`Remove ${data?.user?.username || "user"}`}
-        onClick={handleDeleteMembership}
-        disabled={fetching}
-      >
-        <SvgX width="10" height="10" />
-      </button>
     </div>
   );
 };
 
-const RoomMemberSection: React.FC<{
-  room: Room;
-  roomState: RoomState;
-}> = ({ room, roomState }) => {
+const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
+  room,
+  roomState,
+}) => {
   const [activeAdd, openAdd, closeAdd] = useModal();
   const toasts = useToasts();
   const [
@@ -88,16 +117,54 @@ const RoomMemberSection: React.FC<{
     return;
   };
 
+  const otherUserIds = useMemo(
+    () => roomState.collabs.filter((uid) => !roomState.userIds.includes(uid)),
+    [roomState]
+  );
   return (
     <>
-      <div className="flex flex-wrap">
-        <button className="button h-16 w-16 mr-1" onClick={openAdd}>
-          <SvgPlus />
+      <div>
+        <button
+          className="button button-light h-12 mr-1 w-full mb-2"
+          onClick={openAdd}
+        >
+          <SvgPlus /> Add a member
         </button>
-        {roomState.collabs.map((userId) => (
-          // TODO: react-window
-          <RoomMember key={userId} userId={userId} roomId={room.id} />
-        ))}
+        {roomState.userIds.map((userId) => {
+          const role =
+            room.creatorId === userId
+              ? RoomMembership.Host
+              : roomState.collabs.includes(userId)
+              ? RoomMembership.Collab
+              : undefined;
+          return (
+            <RoomMember
+              key={userId}
+              userId={userId}
+              roomId={room.id}
+              role={role}
+            />
+          );
+        })}
+        <p className="font-bold text-sm text-foreground-secondary mb-1">
+          Offline
+        </p>
+        {otherUserIds.map((userId) => {
+          const role =
+            room.creatorId === userId
+              ? RoomMembership.Host
+              : roomState.collabs.includes(userId)
+              ? RoomMembership.Collab
+              : undefined;
+          return (
+            <RoomMember
+              key={userId}
+              userId={userId}
+              roomId={room.id}
+              role={role}
+            />
+          );
+        })}
       </div>
       <Modal.Modal active={activeAdd} onOutsideClick={closeAdd}>
         <Modal.Header>
@@ -116,42 +183,6 @@ const RoomMemberSection: React.FC<{
           </form>
         </Modal.Content>
       </Modal.Modal>
-    </>
-  );
-};
-
-const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
-  room,
-  roomState,
-}) => {
-  return (
-    <>
-      <div className="mb-4">
-        <h5 className="text-lg font-bold">Host</h5>
-        <a
-          href="https://giphy.com/explore/its-you"
-          className="text-success-light hover:text-success-dark font-bold"
-          rel="noreferrer noopener nofollow"
-          target="_blank"
-        >
-          This person
-        </a>
-      </div>
-      <div className="mb-4">
-        <h5 className="text-lg font-bold">Collaborator</h5>
-        <p className="text-foreground-secondary mb-1">
-          Can also add songs to the room. Exciting!
-        </p>
-        <RoomMemberSection room={room} roomState={roomState} />
-      </div>
-      {room.isPublic && (
-        <div className="mb-4">
-          <h5 className="text-lg font-bold">Guest</h5>
-          <p className="text-foreground-secondary mb-1">
-            Can <b>only</b> react to songs -- that&apos;s it.
-          </p>
-        </div>
-      )}
     </>
   );
 };

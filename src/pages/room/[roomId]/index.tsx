@@ -33,15 +33,14 @@ import { QUERY_ROOM } from "~/graphql/room";
 import { CONFIG } from "~/lib/constants";
 
 // FIXME: types: should be inferred
-const RoomSettingsModal = dynamic<{
+const RoomSettings = dynamic<{
   room: Room;
   roomState: RoomState;
   active: boolean;
   close: () => void;
-}>(
-  () => import("~/components/Room/index").then((mod) => mod.RoomSettingsModal),
-  { ssr: false }
-);
+}>(() => import("~/components/Room/index").then((mod) => mod.RoomSettings), {
+  ssr: false,
+});
 
 const RoomQueue = dynamic<{ room: Room; roomState?: RoomState }>(
   () => import("~/components/Room/index").then((mod) => mod.RoomQueue),
@@ -52,6 +51,14 @@ const RoomChat = dynamic<{ room: Room; roomState?: RoomState }>(
   () => import("~/components/Room/index").then((mod) => mod.RoomChat),
   { ssr: false }
 );
+
+const RoomRules = dynamic<{
+  active: boolean;
+  close: () => void;
+  roomState: RoomState;
+}>(() => import("~/components/Room/index").then((mod) => mod.RoomRules), {
+  ssr: false,
+});
 
 const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
   const isInit = useRef<boolean>(false);
@@ -172,81 +179,6 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
         </Link>
       </Modal.Content>
     </Modal.Modal>
-  );
-};
-
-const RoomSettingsButton: React.FC<{ room: Room }> = ({ room }) => {
-  const [active, open, close] = useModal();
-  const [
-    { data: { roomState } = { roomState: undefined } },
-  ] = useRoomStateQuery({ variables: { id: room.id } });
-  if (!roomState) return null;
-  return (
-    <>
-      <button
-        title="Room Settings"
-        onClick={open}
-        className="button absolute top-2 left-2"
-      >
-        <SvgSettings />
-      </button>
-      <RoomSettingsModal
-        roomState={roomState}
-        active={active}
-        close={close}
-        room={room}
-      />
-    </>
-  );
-};
-
-const RoomRulesButton: React.FC<{ room: Room }> = ({ room }) => {
-  const [
-    { data: { roomState } = { roomState: undefined } },
-  ] = useRoomStateQuery({ variables: { id: room.id } });
-  const [active, open, close] = useModal();
-  const [isViewed, setIsViewed] = useState(false);
-  return (
-    <>
-      <button
-        aria-label="Room Rules"
-        onClick={() => {
-          open();
-          setIsViewed(true);
-        }}
-        className="button absolute top-2 right-2"
-        title="Room Rules"
-      >
-        {!isViewed && (
-          <span className="animate-ping absolute top-0 right-0 -m-1 w-3 h-3 rounded-full bg-pink" />
-        )}
-        <SvgBookOpen />
-      </button>
-      <Modal.Modal active={active} onOutsideClick={close}>
-        <Modal.Header>
-          <Modal.Title>Room Rules</Modal.Title>
-        </Modal.Header>
-        <Modal.Content>
-          <ul className="py-4 text-xl mb-4">
-            <li className="px-4 py-2 mb-2 rounded-lg">
-              {roomState?.anyoneCanAdd ? (
-                "Anyone can add songs"
-              ) : (
-                <span>
-                  <b className="text-success-light">Only member</b> can add
-                  songs
-                </span>
-              )}
-            </li>
-          </ul>
-        </Modal.Content>
-        <Modal.Footer>
-          <button onClick={close} className="button">
-            Got it!
-          </button>
-        </Modal.Footer>
-      </Modal.Modal>
-    </>
   );
 };
 
@@ -395,6 +327,9 @@ const RoomPage: NextPage<{
     (prevResposne, response) => response
   );
 
+  const [activeRules, openRules, closeRules] = useModal();
+  const [activeSettings, openSettings, closeSettings] = useModal();
+
   if (!room) return <NotFoundPage />;
   return (
     <>
@@ -434,8 +369,40 @@ const RoomPage: NextPage<{
             } lg:block lg:w-1/2`}
           >
             <RoomLive room={room} />
-            {room.creatorId === user?.id && <RoomSettingsButton room={room} />}
-            <RoomRulesButton room={room} />
+            {room.creatorId === user?.id && roomState && (
+              <>
+                <button
+                  title="Room Settings"
+                  onClick={openSettings}
+                  className="button absolute top-2 left-2"
+                >
+                  <SvgSettings />
+                </button>
+                <RoomSettings
+                  roomState={roomState}
+                  active={activeSettings}
+                  close={closeSettings}
+                  room={room}
+                />
+              </>
+            )}
+            {roomState && (
+              <>
+                <button
+                  aria-label="Room Rules"
+                  onClick={openRules}
+                  className="button absolute top-2 right-2"
+                  title="Room Rules"
+                >
+                  <SvgBookOpen />
+                </button>
+                <RoomRules
+                  active={activeRules}
+                  close={closeRules}
+                  roomState={roomState}
+                />
+              </>
+            )}
           </div>
           <div
             className={`w-full ${
