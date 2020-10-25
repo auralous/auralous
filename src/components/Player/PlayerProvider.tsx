@@ -87,11 +87,11 @@ const PlayerProvider: React.FC = ({ children }) => {
       player.off("playing", onPlaying);
       player.off("paused", onPaused);
     };
-  }, [playingRoomId, nowPlaying]);
+  }, [nowPlaying]);
 
   // room
 
-  const [{ data: { room } = { room: null } }] = useRoomQuery({
+  const [{ data: { room } = { room: undefined } }] = useRoomQuery({
     variables: { id: playingRoomId },
     pause: !playingRoomId,
   });

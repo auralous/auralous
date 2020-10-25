@@ -9,7 +9,7 @@ const noPlayerMinibarRoutes = ["/room/[roomId]"];
 
 const PlayerMinibar: React.FC = () => {
   const divRef = useRef<HTMLButtonElement>(null);
-  const colorThief = useRef<any>();
+  const colorThief = useRef<ColorThief>();
   const router = useRouter();
   const {
     state: { playingRoomId, playerPlaying, playerContext },
