@@ -19,7 +19,12 @@ const TrackMenu: React.FC<{
     : null;
   return (
     <DialogOverlay isOpen={active}>
-      <div className="flex flex-col items-center p-8 bg-black bg-opacity-50 rounded-lg text-center overflow-hidden">
+      <div
+        className="flex flex-col m-2 items-center p-8 bg-white bg-opacity-10 rounded-lg text-center overflow-hidden"
+        style={{
+          backdropFilter: "blur(12px)",
+        }}
+      >
         <h3 className="text-xl mb-1 leading-tight font-bold text-center truncate w-full">
           {track?.title}
         </h3>
