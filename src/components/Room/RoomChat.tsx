@@ -6,6 +6,7 @@ import {
   RoomState,
   useUserQuery,
 } from "~/graphql/gql.gen";
+import { MEMBERSHIP_NAMES } from "~/lib/constants";
 
 const CurrentUser: React.FC<{
   userId: string;
@@ -13,33 +14,37 @@ const CurrentUser: React.FC<{
 }> = ({ userId, role }) => {
   const [{ data }] = useUserQuery({ variables: { id: userId } });
   return (
-    <div className="flex items-start p-2 rounded-lg mb-2 mr-2">
-      {data?.user ? (
-        <img
-          className="rounded-full w-10 h-10 object-cover"
-          src={data.user.profilePicture}
-          alt={data.user.username}
-        />
-      ) : (
-        <div className="rounded-full w-10 h-10 bg-background-secondary animate-pulse" />
-      )}
-      <div className="ml-2 overflow-hidden">
-        <h5 className="font-bold truncate leading-none">
-          {data?.user?.username || (
-            <div className="bg-background-secondary animate-pulse h-6 w-32 rounded" />
-          )}
-        </h5>
-        {role === RoomMembership.Host && (
-          <span className="px-1 rounded-lg text-xs bg-pink font-semibold">
-            Host
-          </span>
-        )}
-        {role === RoomMembership.Collab && (
-          <span className="px-1 rounded-lg text-xs bg-white text-black font-semibold">
-            Collab
-          </span>
-        )}
-      </div>
+    <div className="h-12 mb-2 w-full mr-1 flex py-2 bg-background-secondary rounded-lg">
+      {
+        //FIXME: Add user name
+        data?.user ? (
+          <>
+            <div className="px-2 flex-none">
+              <img
+                className="w-8 h-8 rounded-full object-cover"
+                src={data.user.profilePicture}
+                alt={data.user.username}
+                title={data.user.username}
+              />
+            </div>
+            <div className="font-bold text-foreground flex items-center justify-between w-full">
+              <div className="flex-1 w-0 leading-none truncate">
+                {data.user.username}
+              </div>
+              <div className="px-2 flex items-center">
+                <span className="py-1 px-2 text-xs rounded-full bg-background-secondary">
+                  {MEMBERSHIP_NAMES[role || ""]}
+                </span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="mx-2 flex-none w-8 h-8 rounded-full bg-background-secondary animate-pulse" />
+            <div className="bg-background-secondary animate-pulse rounded-lg w-full mr-2" />
+          </>
+        )
+      }
     </div>
   );
 };
