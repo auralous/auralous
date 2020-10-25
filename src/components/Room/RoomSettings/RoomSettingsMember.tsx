@@ -79,7 +79,10 @@ const RoomMember: React.FC<{
             </div>
           </>
         ) : (
-          <div className="bg-background-secondary animate-pulse w-full h-full rounded" />
+          <>
+            <div className="mx-2 flex-none w-8 h-8 rounded-full bg-background-secondary animate-pulse" />
+            <div className="bg-background-secondary animate-pulse rounded-lg w-full mr-2" />
+          </>
         )
       }
     </div>
