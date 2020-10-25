@@ -16,7 +16,6 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "~/components/Track/index";
 import { useToasts } from "~/components/Toast/index";
 import useQueue from "./useQueue";
-import QueueItemUser from "./QueueItemUser";
 import { useCurrentUser } from "~/hooks/user";
 import {
   useUpdateQueueMutation,
@@ -24,6 +23,7 @@ import {
   TrackQueryVariables,
   TrackQuery,
   Queue,
+  useUserQuery,
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
 import { QueuePermission, QueueRules } from "./types";
@@ -39,7 +39,7 @@ const QueueDraggableItem: React.FC<{
 }> = ({ permission, provided, isDragging, queue, index, style }) => {
   const toasts = useToasts();
   const urqlClient = useClient();
-  const user = useCurrentUser();
+  const me = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
   const removeItem = useCallback(
     async (index: number) => {
@@ -63,7 +63,10 @@ const QueueDraggableItem: React.FC<{
     [queue, toasts, updateQueue, urqlClient]
   );
   const canRemove =
-    permission.canEditOthers || queue.items[index].creatorId === user?.id;
+    permission.canEditOthers || queue.items[index].creatorId === me?.id;
+  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+    variables: { id: queue.items[index].creatorId },
+  });
 
   return (
     <div
@@ -81,9 +84,18 @@ const QueueDraggableItem: React.FC<{
         className="overflow-hidden h-full flex flex-col justify-center pl-2 flex-1 relative"
         {...provided.dragHandleProps}
       >
-        <TrackItem id={queue.items[index].trackId} />
+        <TrackItem
+          id={queue.items[index].trackId}
+          extraInfo={
+            <span className="ml-1 flex-none">
+              Added by{" "}
+              <span className="text-foreground font-semibold text-opacity-75">
+                {user?.username || ""}
+              </span>
+            </span>
+          }
+        />
       </div>
-      <QueueItemUser userId={queue.items[index].creatorId} />
       <button
         type="button"
         title="Remove Track"

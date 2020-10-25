@@ -5,7 +5,8 @@ import { SvgSpotify, SvgYoutube } from "~/assets/svg";
 
 export const TrackItem: React.FC<{
   id: string;
-}> = ({ id }) => {
+  extraInfo?: string | React.ReactElement;
+}> = ({ id, extraInfo }) => {
   const [{ data: { track } = { track: null } }] = useTrackQuery({
     variables: { id },
   });
@@ -46,9 +47,15 @@ export const TrackItem: React.FC<{
                 })()}
                 {" • "}
               </span>
-              <span className="truncate">
+              <span className="truncate mr-1">
                 {track.artists.map(({ name }) => name).join(", ")}
               </span>
+              {extraInfo && (
+                <>
+                  {" • "}
+                  {extraInfo}
+                </>
+              )}
             </div>
           </>
         ) : (

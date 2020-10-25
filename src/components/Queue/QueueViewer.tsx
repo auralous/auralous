@@ -3,14 +3,16 @@ import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import useQueue from "./useQueue";
 import { TrackItem } from "~/components/Track/index";
-import { QueueItem } from "~/graphql/gql.gen";
-import QueueItemUser from "./QueueItemUser";
+import { QueueItem, useUserQuery } from "~/graphql/gql.gen";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
   data: items,
   index,
   style,
 }) {
+  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+    variables: { id: items[index].creatorId },
+  });
   return (
     <>
       <div
@@ -18,8 +20,17 @@ const Row = React.memo<ListChildComponentProps>(function Row({
         style={style}
         key={items[index].id}
       >
-        <TrackItem id={items[index].trackId} />
-        <QueueItemUser userId={items[index].creatorId} />
+        <TrackItem
+          id={items[index].trackId}
+          extraInfo={
+            <span className="ml-1 flex-none">
+              Added by{" "}
+              <span className="text-foreground font-semibold text-opacity-75">
+                {user?.username || ""}
+              </span>
+            </span>
+          }
+        />
       </div>
     </>
   );
