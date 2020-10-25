@@ -7,7 +7,7 @@ const PlayerContext = React.createContext<{
   state: {
     playerPlaying: PlayerPlaying;
     playerContext: IPlayerContext;
-    playerControl: string;
+    playingRoomId: string;
     originalTrack: Track | null | undefined;
     playingPlatform: PlatformName | null;
     fetching: boolean;

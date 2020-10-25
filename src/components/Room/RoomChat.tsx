@@ -109,7 +109,7 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
         </button>
       </div>
       <div hidden={tab !== "chat"} className="flex-1">
-        <Chatbox roomId={`room:${room.id}`} />
+        <Chatbox roomId={room.id} />
       </div>
       <div hidden={tab !== "users"} className="flex-1">
         {roomState && <RoomUsers room={room} roomState={roomState} />}

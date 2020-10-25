@@ -34,12 +34,13 @@ const PlayerProvider: React.FC = ({ children }) => {
   );
 
   // Player Control: To play a room or a track
-  const [playerControl, setPlayerControl] = useState<string>("");
+  const [playingRoomId, playRoom] = useState<string>("");
 
-  const [nowPlaying, { fetching: fetchingNP }] = useNowPlaying(
-    playerControl.split(":")[0],
-    playerControl.split(":")[1]
-  );
+  useEffect(() => {
+    if (playingRoomId) player.wasPlaying = true;
+  }, [playingRoomId]);
+
+  const [nowPlaying, { fetching: fetchingNP }] = useNowPlaying(playingRoomId);
 
   const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
     nowPlaying?.currentTrack?.trackId,
@@ -58,22 +59,16 @@ const PlayerProvider: React.FC = ({ children }) => {
     return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
 
-  const playRoom = useCallback(async (roomId: string) => {
-    player.wasPlaying = true;
-    setPlayerControl(`room:${roomId}`);
-  }, []);
-
-  const stopPlaying = useCallback(() => setPlayerControl(""), []);
+  const stopPlaying = useCallback(() => playRoom(""), []);
 
   useEffect(() => {
-    if (!playerControl.startsWith("room:") && !nowPlaying) return undefined;
+    if (!nowPlaying) return undefined;
 
     let wasSeeked = false;
 
     const onPaused = () => (wasSeeked = false); // The player paused and should be seeked next time
     const onPlaying = async () => {
-      if (!playerControl.startsWith("room:") || !nowPlaying?.currentTrack)
-        return;
+      if (!nowPlaying?.currentTrack) return;
       // When the player buffering due to seeking, this got triggered continously
       // We must treat buffering as "Playing"
       if (!wasSeeked) {
@@ -92,20 +87,20 @@ const PlayerProvider: React.FC = ({ children }) => {
       player.off("playing", onPlaying);
       player.off("paused", onPaused);
     };
-  }, [playerControl, nowPlaying]);
+  }, [nowPlaying]);
 
   // room
 
-  const [{ data: { room } = { room: null } }] = useRoomQuery({
-    variables: { id: playerControl.split(":")[1] },
-    pause: !playerControl.startsWith("room:"),
+  const [{ data: { room } = { room: undefined } }] = useRoomQuery({
+    variables: { id: playingRoomId },
+    pause: !playingRoomId,
   });
 
   const playerContext = useMemo(
     () => ({
-      ...(!!playerControl.startsWith("room:") && { room }),
+      ...(!!playingRoomId && { room }),
     }),
-    [playerControl, room]
+    [playingRoomId, room]
   );
 
   // Player Component
@@ -152,7 +147,7 @@ const PlayerProvider: React.FC = ({ children }) => {
       state: {
         playerPlaying,
         playerContext,
-        playerControl,
+        playingRoomId,
         originalTrack: crossTracks?.original,
         playingPlatform,
         fetching,
@@ -167,7 +162,7 @@ const PlayerProvider: React.FC = ({ children }) => {
     fetching,
     playerPlaying,
     playerContext,
-    playerControl,
+    playingRoomId,
     playRoom,
     stopPlaying,
     forceResetPlayingPlatform,

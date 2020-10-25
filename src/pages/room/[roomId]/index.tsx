@@ -184,7 +184,7 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
 
 const RoomSkipNowPlaying: React.FC<{ room: Room }> = ({ room }) => {
   const user = useCurrentUser();
-  const [nowPlaying] = useNowPlaying("room", room.id);
+  const [nowPlaying] = useNowPlaying(room.id);
   const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
   return (
     <div className="flex justify-center h-6 mt-4">
@@ -193,7 +193,7 @@ const RoomSkipNowPlaying: React.FC<{ room: Room }> = ({ room }) => {
           nowPlaying?.currentTrack?.creatorId === user.id) && (
           <button
             className="text-xs py-1 px-2 text-white font-bold text-opacity-50 hover:text-opacity-75 transition-colors duration-300"
-            onClick={() => skipNowPlaying({ id: `room:${room.id}` })}
+            onClick={() => skipNowPlaying({ id: room.id })}
             disabled={fetching}
           >
             Skip song
@@ -207,14 +207,14 @@ const RoomLive: React.FC<{
   room: Room;
 }> = ({ room }) => {
   const {
-    state: { playerControl },
+    state: { playingRoomId },
     playRoom,
   } = usePlayer();
 
   return (
     <div className="w-full h-full flex flex-col relative overflow-hidden">
       <div className="p-2 flex-1 flex flex-col justify-center overflow-auto">
-        {playerControl !== `room:${room.id}` ? (
+        {playingRoomId !== room.id ? (
           <div className="flex justify-center py-16">
             <button
               onClick={() => playRoom(room.id)}
@@ -226,7 +226,7 @@ const RoomLive: React.FC<{
           </div>
         ) : (
           <>
-            <PlayerEmbeddedControl nowPlayingReactionId={`room:${room.id}`} />
+            <PlayerEmbeddedControl nowPlayingReactionId={room.id} />
             <RoomSkipNowPlaying room={room} />
           </>
         )}
