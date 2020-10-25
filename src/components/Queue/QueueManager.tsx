@@ -232,6 +232,11 @@ const QueueManager: React.FC<{
             )}
           </Droppable>
         </DragDropContext>
+        {queue.items?.length === 0 && (
+          <div className="text-xs text-foreground-secondary p-4 text-center">
+            It&apos;s lonely around here... Let&apos;s add a song!
+          </div>
+        )}
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
         {permission.canAdd ? null : (
