@@ -115,7 +115,7 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
       </div>
       {playerPlaying && (
         <TrackMenu
-          track={playerPlaying}
+          id={playerPlaying.id}
           active={activeMenu}
           close={closeMenu}
         />

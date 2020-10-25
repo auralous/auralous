@@ -1,7 +1,7 @@
 import React from "react";
 import { parseMs } from "~/lib/editor-utils";
-import { useTrackQuery, PlatformName } from "~/graphql/gql.gen";
-import { SvgSpotify, SvgYoutube } from "~/assets/svg";
+import { useTrackQuery } from "~/graphql/gql.gen";
+import { SvgByPlatformName } from "~/lib/constants";
 
 export const TrackItem: React.FC<{
   id: string;
@@ -10,7 +10,9 @@ export const TrackItem: React.FC<{
   const [{ data: { track } = { track: null } }] = useTrackQuery({
     variables: { id },
   });
-
+  const SvgPlatformName = track?.platform
+    ? SvgByPlatformName[track.platform]
+    : null;
   return (
     <div className="flex items-center overflow-hidden w-full">
       {track ? (
@@ -27,11 +29,8 @@ export const TrackItem: React.FC<{
           <>
             <div className="truncate content-start text-left">
               <span className="inline-flex h-6 align-middle px-1">
-                {track.platform === PlatformName.Youtube && (
-                  <SvgYoutube width="16" fill="currentColor" />
-                )}
-                {track.platform === PlatformName.Spotify && (
-                  <SvgSpotify width="16" fill="currentColor" />
+                {SvgPlatformName && (
+                  <SvgPlatformName width="16" fill="currentColor" />
                 )}
               </span>
               <h4 className="inline align-middle font-bold text-sm">

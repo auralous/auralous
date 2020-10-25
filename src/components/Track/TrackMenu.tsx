@@ -1,25 +1,30 @@
 import React, { useState } from "react";
 import { DialogOverlay } from "@reach/dialog";
 import AddToPlaylistModal from "~/components/Playlist/AddToPlaylist";
-import { SvgPlus, SvgYoutube, SvgSpotify, SvgX } from "~/assets/svg";
-import { Track, PlatformName } from "~/graphql/gql.gen";
-import { PLATFORM_FULLNAMES } from "~/lib/constants";
+import { SvgPlus, SvgX } from "~/assets/svg";
+import { useTrackQuery } from "~/graphql/gql.gen";
+import { SvgByPlatformName, PLATFORM_FULLNAMES } from "~/lib/constants";
 
 const TrackMenu: React.FC<{
-  track: Track;
+  id: string;
   active: boolean;
   close: () => void;
-}> = ({ track, active, close }) => {
+}> = ({ id, active, close }) => {
   const [openAddPlaylist, setOpenAddPlaylist] = useState(false);
-
+  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
+    variables: { id },
+  });
+  const SvgPlatformName = track?.platform
+    ? SvgByPlatformName[track.platform]
+    : null;
   return (
     <DialogOverlay isOpen={active}>
       <div className="flex flex-col items-center p-8 bg-black bg-opacity-50 rounded-lg text-center overflow-hidden">
         <h3 className="text-xl mb-1 leading-tight font-bold text-center truncate w-full">
-          {track.title}
+          {track?.title}
         </h3>
         <div className="text-sm mb-3 text-foreground-secondary w-full">
-          {track.artists.map(({ name }) => name).join(", ")}
+          {track?.artists.map(({ name }) => name).join(", ")}
         </div>
         <button
           className="button bg-transparent text-sm mb-2"
@@ -28,19 +33,16 @@ const TrackMenu: React.FC<{
           <SvgPlus width="20" className="mr-1" /> Add to playlist
         </button>
         <a
-          href={track.url}
+          href={track?.url}
           target="_blank"
           rel="noopener noreferrer"
           className="button bg-transparent text-sm mb-2"
         >
-          {track.platform === PlatformName.Youtube && (
-            <SvgYoutube width="20" fill="currentColor" />
-          )}
-          {track.platform === PlatformName.Spotify && (
-            <SvgSpotify width="20" fill="currentColor" />
+          {SvgPlatformName && (
+            <SvgPlatformName width="20" fill="currentColor" />
           )}
           <span className="ml-2 text-xs">
-            Listen on {PLATFORM_FULLNAMES[track.platform]}
+            Listen on {track?.platform && PLATFORM_FULLNAMES[track.platform]}
           </span>
         </a>
         <button

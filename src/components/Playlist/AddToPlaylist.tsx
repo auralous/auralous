@@ -9,7 +9,8 @@ import {
 } from "~/hooks/playlist/index";
 import { Track, PlatformName } from "~/graphql/gql.gen";
 import { Playlist } from "~/types/index";
-import { SvgSpotify, SvgYoutube, SvgCheck, SvgPlus } from "~/assets/svg";
+import { SvgCheck, SvgPlus } from "~/assets/svg";
+import { SvgByPlatformName } from "~/lib/constants";
 
 const PlaylistItem: React.FC<{
   playlist: Playlist;
@@ -18,6 +19,7 @@ const PlaylistItem: React.FC<{
   track: Track;
 }> = ({ playlist, handleAdd, added, track }) => {
   if (playlist.platform !== track.platform) return null;
+  const SvgPlatformName = SvgByPlatformName[playlist.platform];
   return (
     <div
       role="button"
@@ -34,26 +36,14 @@ const PlaylistItem: React.FC<{
       />
       <div className="ml-2 text-left">
         <p>
-          {playlist.platform === PlatformName.Youtube && (
-            <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
-              <SvgYoutube
-                className="inline"
-                fill="currentColor"
-                width="18"
-                stroke="0"
-              />
-            </span>
-          )}
-          {playlist.platform === PlatformName.Spotify && (
-            <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
-              <SvgSpotify
-                className="inline"
-                fill="currentColor"
-                width="18"
-                stroke="0"
-              />
-            </span>
-          )}
+          <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
+            <SvgPlatformName
+              className="inline"
+              fill="currentColor"
+              width="18"
+              stroke="0"
+            />
+          </span>
           {playlist.title}
         </p>
         <p className="text-foreground-tertiary text-sm">
