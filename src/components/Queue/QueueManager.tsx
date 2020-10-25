@@ -15,6 +15,7 @@ import {
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "~/components/Track/index";
 import { useToasts } from "~/components/Toast/index";
+import { useLogin } from "~/components/Auth/index";
 import useQueue from "./useQueue";
 import { useCurrentUser } from "~/hooks/user";
 import {
@@ -27,7 +28,7 @@ import {
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
 import { QueuePermission, QueueRules } from "./types";
-import { useLogin } from "~/components/Auth/index";
+import { SvgBookOpen } from "~/assets/svg/index";
 
 const QueueDraggableItem: React.FC<{
   permission: QueuePermission;
@@ -235,8 +236,13 @@ const QueueManager: React.FC<{
       <div className="text-foreground-tertiary text-xs px-2 py-1">
         {permission.canAdd ? null : (
           <p>
-            You are not allowed to contribute. See <i>Room Rules</i> to learn
-            more.
+            You are not allowed to contribute. See{" "}
+            <SvgBookOpen
+              className="inline bg-background-secondary p-1 rounded-lg"
+              width="20"
+              height="20"
+              title="Room Rules button"
+            />
           </p>
         )}
       </div>
