@@ -15,8 +15,8 @@ import {
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "~/components/Track/index";
 import { useToasts } from "~/components/Toast/index";
+import { useLogin } from "~/components/Auth/index";
 import useQueue from "./useQueue";
-import QueueItemUser from "./QueueItemUser";
 import { useCurrentUser } from "~/hooks/user";
 import {
   useUpdateQueueMutation,
@@ -24,10 +24,11 @@ import {
   TrackQueryVariables,
   TrackQuery,
   Queue,
+  useUserQuery,
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
 import { QueuePermission, QueueRules } from "./types";
-import { useLogin } from "~/components/Auth/index";
+import { SvgBookOpen } from "~/assets/svg/index";
 
 const QueueDraggableItem: React.FC<{
   permission: QueuePermission;
@@ -39,7 +40,7 @@ const QueueDraggableItem: React.FC<{
 }> = ({ permission, provided, isDragging, queue, index, style }) => {
   const toasts = useToasts();
   const urqlClient = useClient();
-  const user = useCurrentUser();
+  const me = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
   const removeItem = useCallback(
     async (index: number) => {
@@ -63,7 +64,10 @@ const QueueDraggableItem: React.FC<{
     [queue, toasts, updateQueue, urqlClient]
   );
   const canRemove =
-    permission.canEditOthers || queue.items[index].creatorId === user?.id;
+    permission.canEditOthers || queue.items[index].creatorId === me?.id;
+  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+    variables: { id: queue.items[index].creatorId },
+  });
 
   return (
     <div
@@ -73,7 +77,7 @@ const QueueDraggableItem: React.FC<{
         ...provided.draggableProps.style,
         ...style,
       }}
-      className={`select-none flex p-2 border-b-2 border-opacity-25 border-background-secondary items-center justify-between ${
+      className={`select-none flex p-2 hover:bg-background-secondary items-center justify-between ${
         isDragging ? "opacity-75" : ""
       }`}
     >
@@ -81,9 +85,18 @@ const QueueDraggableItem: React.FC<{
         className="overflow-hidden h-full flex flex-col justify-center pl-2 flex-1 relative"
         {...provided.dragHandleProps}
       >
-        <TrackItem id={queue.items[index].trackId} />
+        <TrackItem
+          id={queue.items[index].trackId}
+          extraInfo={
+            <span className="ml-1 flex-none">
+              Added by{" "}
+              <span className="text-foreground font-semibold text-opacity-75">
+                {user?.username || ""}
+              </span>
+            </span>
+          }
+        />
       </div>
-      <QueueItemUser userId={queue.items[index].creatorId} />
       <button
         type="button"
         title="Remove Track"
@@ -219,12 +232,22 @@ const QueueManager: React.FC<{
             )}
           </Droppable>
         </DragDropContext>
+        {queue.items?.length === 0 && (
+          <div className="text-xs text-foreground-secondary p-4 text-center">
+            It&apos;s lonely around here... Let&apos;s add a song!
+          </div>
+        )}
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
         {permission.canAdd ? null : (
           <p>
-            You are not allowed to contribute. See <i>Room Rules</i> to learn
-            more.
+            You are not allowed to contribute. See{" "}
+            <SvgBookOpen
+              className="inline bg-background-secondary p-1 rounded-lg"
+              width="20"
+              height="20"
+              title="Room Rules button"
+            />
           </p>
         )}
       </div>

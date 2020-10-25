@@ -1,5 +1,6 @@
 export { default as SvgAlertCircle } from "./alert-circle.svg";
 export { default as SvgBookOpen } from "./book-open.svg";
+export { default as SvgClock } from "./clock.svg";
 export { default as SvgCheck } from "./check.svg";
 export { default as SvgChevronDown } from "./chevron-down.svg";
 export { default as SvgChevronLeft } from "./chevron-left.svg";

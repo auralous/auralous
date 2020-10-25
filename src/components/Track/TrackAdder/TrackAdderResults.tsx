@@ -24,7 +24,7 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
       key={data.items[index]}
       style={style}
     >
-      <TrackItem id={data.items[index]} />
+      <TrackItem showMenu id={data.items[index]} />
       <div className="flex content-end items-center ml-2">
         <button
           type="button"

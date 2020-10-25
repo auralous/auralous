@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useCurrentUser } from "~/hooks/user";
-import { Modal, useModal } from "~/components/Modal";
 import { QueueManager, QueueViewer, useQueue } from "~/components/Queue";
 import {
   TrackAdderPlaylist,
@@ -12,12 +11,15 @@ import {
   RoomState,
   useUpdateQueueMutation,
 } from "~/graphql/gql.gen";
+import { SvgClock } from "~/assets/svg";
 
 const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
   room,
   roomState,
 }) => {
-  const [tab, setTab] = useState<"queue" | "song" | "playlist">("queue");
+  const [tab, setTab] = useState<"queue" | "song" | "playlist" | "played">(
+    "queue"
+  );
   const user = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
 
@@ -52,8 +54,6 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
     },
     [updateQueue, room]
   );
-
-  const [activePlayed, openPlayed, closePlayed] = useModal();
 
   return (
     <>
@@ -100,6 +100,20 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
           >
             Playlist
           </button>
+          <button
+            role="tab"
+            className={`flex-none mx-1 p-1 text-sm rounded-lg font-bold ${
+              tab === "played"
+                ? "bg-foreground bg-opacity-25 text-white"
+                : "opacity-75"
+            }`}
+            title="Recently Played"
+            aria-controls="tabpanel_played"
+            onClick={() => setTab("played")}
+            aria-selected={tab === "played"}
+          >
+            <SvgClock width="16" height="16" />
+          </button>
         </div>
         <div
           aria-hidden={tab !== "queue"}
@@ -112,12 +126,6 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
             rules={{}}
             queueId={`room:${room.id}`}
           />
-          <button
-            className="text-xs p-1 leading-none button button-light bottom-2 right-2 absolute"
-            onClick={openPlayed}
-          >
-            Recently Played
-          </button>
         </div>
         <div
           aria-hidden={tab !== "song"}
@@ -141,17 +149,19 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
             )
           }
         </div>
+        <div
+          aria-hidden={tab !== "played"}
+          className={`${
+            tab !== "played" ? "hidden" : "flex"
+          } flex-col h-full overflow-hidden`}
+        >
+          <QueueViewer
+            onAdd={onAddTracks}
+            queueId={`room:${room.id}:played`}
+            reverse
+          />
+        </div>
       </div>
-      <Modal.Modal active={activePlayed} onOutsideClick={closePlayed}>
-        <Modal.Header>
-          <Modal.Title>Recently Played</Modal.Title>
-        </Modal.Header>
-        <Modal.Content noPadding>
-          <div className="h-128">
-            <QueueViewer queueId={`room:${room.id}:played`} reverse />
-          </div>
-        </Modal.Content>
-      </Modal.Modal>
     </>
   );
 };
