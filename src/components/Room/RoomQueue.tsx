@@ -148,7 +148,11 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
         </Modal.Header>
         <Modal.Content noPadding>
           <div className="h-128">
-            <QueueViewer queueId={`room:${room.id}:played`} reverse />
+            <QueueViewer
+              onAdd={onAddTracks}
+              queueId={`room:${room.id}:played`}
+              reverse
+            />
           </div>
         </Modal.Content>
       </Modal.Modal>
