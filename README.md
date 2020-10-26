@@ -4,7 +4,7 @@
   </a>
 </p>
 
-> Music Together
+> Music is always better when we listen together
 
 Stereo is a completely-free and community-driven project that lets you play & listen to music in sync with friends in public or private rooms.
 
