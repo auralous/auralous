@@ -172,7 +172,7 @@ export default function SpotifyPlayer() {
       if (!window.Spotify?.Player) return;
       if (spotifyPlayer) return;
       spotifyPlayer = new window.Spotify.Player({
-        name: "Stereo - withstereo.com",
+        name: "Stereo Web Player",
         getOAuthToken: (cb) => accessToken && cb(accessToken),
       });
       // readiness
