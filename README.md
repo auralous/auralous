@@ -1,19 +1,23 @@
-# stereo-web
+<p align="center">
+  <a href="https://withstereo.com">
+    <img alt="Stereo" src="https://withstereo.com/images/banner.png" height="300px">
+  </a>
+</p>
 
 > Music Together
 
-This is the `stereo-web` codebase that powers [Stereo Web App](https://withstereo.com/). It is a [Next.js](https://github.com/vercel/next.js) app written in [TypeScript](https://github.com/microsoft/TypeScript). The app uses [urql](https://formidable.com/open-source/urql/) to communicate with the GraphQL API Server.
-
-## What is Stereo
-
 Stereo is a completely-free and community-driven project that lets you play & listen to music in sync with friends in public or private rooms.
 
-Stereo currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/).
+Stereo currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/). We hope to add support for [Apple Music](https://www.apple.com/apple-music/) soon.
+
+![CI](https://github.com/hoangvvo/stereo-web/workflows/CI/badge.svg)
+[![PRs Welcome](https://badgen.net/badge/PRs/welcome/ff5252)](/CONTRIBUTING.md)
 
 ## Other repositories
 
 Stereo consists of several other repos containing server or mobile apps, some of which or open sourced.
 
+- [Web](https://github.com/hoangvvo/stereo-web): The [Next.js](https://github.com/vercel/next.js) + [urql](https://formidable.com/open-source/urql/) web application.
 - Server: The [Node.js](https://github.com/nodejs/node) GraphQL server using [benzene](https://github.com/hoangvvo/benzene)
 - Mobile (React Native): TBD
 
