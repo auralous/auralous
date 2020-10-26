@@ -6,7 +6,7 @@ import { NextSeo } from "next-seo";
 import { RoomItem } from "~/components/Room";
 import { useExploreRoomsQuery, useRoomsQuery } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
-import { SvgPlus } from "~/assets/svg";
+import { SvgPlus, SvgSearch } from "~/assets/svg";
 
 const RandomRoomSection: React.FC = () => {
   const [
@@ -43,9 +43,9 @@ const MyRoomsSection: React.FC = () => {
             <Link href="/new">
               <a className="block overflow-hidden border-2 border-background-secondary hover:border-white pb-4/3 rounded-lg relative transition ease-in-out duration-300">
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <SvgPlus className="w-16 h-16 mx-auto rounded-full p-2 bg-foreground-secondary text-black" />
+                  <SvgPlus className="w-16 h-16 mx-auto rounded-full p-2 bg-foreground-secondary text-white text-opacity-75" />
                   <p className="mt-2 text-foreground-secondary text-sm text-center font-bold">
-                    Create a room
+                    Create a Room
                   </p>
                 </div>
               </a>
@@ -71,8 +71,8 @@ const SearchAndPlaySection: React.FC = () => {
     <div className="bg-white bg-opacity-10 text-white p-4 rounded-lg">
       <h3 className="text-xl font-bold">Start Listening Together</h3>
       <p className="text-sm text-foreground-secondary mb-1">
-        Have an awesome playlist in mind to listen together with your friends?
-        Just enter its link below.
+        Have an awesome playlist to listen together with friends? Just enter its
+        link below.
       </p>
       <form
         onSubmit={(event) => {
@@ -80,12 +80,20 @@ const SearchAndPlaySection: React.FC = () => {
           const s = event.currentTarget.searchQuery.value.trim();
           s && router.push(`/new?search=${encodeURIComponent(s)}`);
         }}
+        className="flex"
       >
         <input
           name="searchQuery"
-          className="input w-full"
+          className="input w-full rounded-r-none"
           placeholder="Enter a Playlist Link"
         />
+        <button
+          type="submit"
+          className="button rounded-l-none"
+          title="Search Playlist"
+        >
+          <SvgSearch />
+        </button>
       </form>
     </div>
   );

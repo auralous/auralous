@@ -14,13 +14,13 @@ import {
 } from "~/graphql/gql.gen";
 import { useCurrentUser, useMAuth } from "~/hooks/user";
 import { AuthBanner } from "~/components/Auth";
-import { SvgCheck, SvgX } from "~/assets/svg";
+import { SvgCheck, SvgSearch, SvgX } from "~/assets/svg";
 
 const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
-  const [isPublic, setIsPublic] = useState(false);
+  const [isPublic, setIsPublic] = useState(true);
   const passwordRef = useRef<HTMLInputElement>(null);
   const anyoneCanAddRef = useRef<HTMLSelectElement>(null);
 
@@ -109,20 +109,6 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
         <div className="inline-flex items-center border-background-secondary border-2 p-2 rounded-lg">
           <div className="flex items-center mr-4">
             <input
-              id="roomPrivacyPrivate"
-              name="roomPrivacy"
-              type="radio"
-              value="private"
-              className="input"
-              checked={!isPublic}
-              onChange={(e) => setIsPublic(e.currentTarget.value === "public")}
-            />
-            <label className="label mb-0 pl-1" htmlFor="roomPrivacyPrivate">
-              Private
-            </label>
-          </div>
-          <div className="flex items-center">
-            <input
               id="roomPrivacyPublic"
               name="roomPrivacy"
               type="radio"
@@ -133,6 +119,20 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
             />
             <label className="label mb-0 pl-1" htmlFor="roomPrivacyPublic">
               Public
+            </label>
+          </div>
+          <div className="flex items-center">
+            <input
+              id="roomPrivacyPrivate"
+              name="roomPrivacy"
+              type="radio"
+              value="private"
+              className="input"
+              checked={!isPublic}
+              onChange={(e) => setIsPublic(e.currentTarget.value === "public")}
+            />
+            <label className="label mb-0 pl-1" htmlFor="roomPrivacyPrivate">
+              Private
             </label>
           </div>
         </div>
@@ -317,11 +317,20 @@ const NewPage: NextPage = () => {
             }}
             className="p-4"
           >
-            <input
-              ref={inputRef}
-              className=" w-full mb-2 px-4 py-2 text-center font-bold border-b-4 border-pink bg-transparent transition duration-300"
-              placeholder="Optional: Enter a playlist link to listen together"
-            />
+            <div className="relative mb-2">
+              <input
+                ref={inputRef}
+                className="w-full px-4 py-2 text-center font-bold border-b-4 border-pink bg-transparent transition duration-300"
+                placeholder="Optional: Enter a playlist link to listen together"
+              />
+              <button
+                type="submit"
+                title="Search Playlist"
+                className="absolute right-1 top-1/2 transform -translate-y-1/2"
+              >
+                <SvgSearch />
+              </button>
+            </div>
             {initTracks?.length ? (
               <p className="text-foreground-secondary text-center">
                 <SvgCheck
