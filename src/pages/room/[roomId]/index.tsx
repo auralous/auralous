@@ -8,7 +8,7 @@ import { ShareDialog } from "~/components/Social/Share";
 import { useModal, Modal } from "~/components/Modal/index";
 import { useNowPlaying } from "~/components/NowPlaying";
 import { useToasts } from "~/components/Toast";
-import { useLogin } from "~/components/Auth/index";
+import { AuthBanner } from "~/components/Auth/index";
 import { useCurrentUser } from "~/hooks/user";
 import NotFoundPage from "../../404";
 import { forwardSSRHeaders } from "~/lib/ssr-utils";
@@ -68,7 +68,6 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
     fetchRoomState,
   ] = useRoomStateQuery({ variables: { id: room.id } });
   const toasts = useToasts();
-  const [, openLogin] = useLogin();
   const [, fetchQueue] = useQueueQuery({
     variables: { id: `room:${room.id}` },
   });
@@ -164,19 +163,15 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
             </p>
           </>
         ) : (
-          <div>
-            <p className="font-bold mb-2">Sign in to join a private room</p>
-            <button onClick={openLogin} className="button button-foreground">
-              Sign in
-            </button>
-          </div>
+          <AuthBanner prompt="Join Stereo to Enter a Private Room" />
         )}
-
-        <Link href="/browse">
-          <button className="text-sm text-foreground-secondary hover:text-foreground-tertiary mt-2 p-1">
-            ← Leave
-          </button>
-        </Link>
+        <div className="text-center">
+          <Link href="/browse">
+            <button className="text-sm text-foreground-secondary hover:text-foreground-tertiary mt-2 p-1">
+              Leave
+            </button>
+          </Link>
+        </div>
       </Modal.Content>
     </Modal.Modal>
   );
@@ -356,7 +351,7 @@ const RoomPage: NextPage<{
           <div
             className={`w-full ${
               tab === "queue" ? "" : "hidden"
-            } lg:block flex-1`}
+            } lg:block flex-1 overflow-hidden`}
             style={{
               background: "linear-gradient(0deg, rgba(0,0,0,.1), transparent)",
             }}
@@ -407,7 +402,7 @@ const RoomPage: NextPage<{
           <div
             className={`w-full ${
               tab === "chat" ? "" : "hidden"
-            } lg:block flex-1`}
+            } lg:block flex-1 overflow-hidden`}
             style={{
               background: "linear-gradient(0deg, rgba(0,0,0,.1), transparent)",
             }}

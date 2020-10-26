@@ -6,7 +6,9 @@ import {
   RoomState,
   useUserQuery,
 } from "~/graphql/gql.gen";
+import { useCurrentUser } from "~/hooks/user";
 import { MEMBERSHIP_NAMES } from "~/lib/constants";
+import { AuthBanner } from "~/components/Auth";
 
 const CurrentUser: React.FC<{
   userId: string;
@@ -78,6 +80,7 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
   roomState,
 }) => {
   const [tab, setTab] = useState<"chat" | "users">("chat");
+  const user = useCurrentUser();
   return (
     <div className="h-full flex flex-col">
       <div role="tablist" className="flex flex-none">
@@ -108,12 +111,25 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
           Listeners ({roomState?.userIds.length || 0})
         </button>
       </div>
-      <div hidden={tab !== "chat"} className="flex-1">
-        <Chatbox roomId={room.id} />
-      </div>
-      <div hidden={tab !== "users"} className="flex-1">
-        {roomState && <RoomUsers room={room} roomState={roomState} />}
-      </div>
+      {user ? (
+        <>
+          <div hidden={tab !== "chat"} className="flex-1">
+            <Chatbox roomId={room.id} />
+          </div>
+          <div hidden={tab !== "users"} className="flex-1">
+            {roomState && <RoomUsers room={room} roomState={roomState} />}
+          </div>
+        </>
+      ) : (
+        <div className="flex-1 flex flex-col justify-center">
+          <AuthBanner
+            prompt="Join Stereo to Chat"
+            hook={
+              "Listen to music with friends and chat no matter where they are"
+            }
+          />
+        </div>
+      )}
     </div>
   );
 };

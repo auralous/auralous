@@ -13,7 +13,7 @@ import {
   useUpdateQueueMutation,
 } from "~/graphql/gql.gen";
 import { useCurrentUser, useMAuth } from "~/hooks/user";
-import { useLogin } from "~/components/Auth";
+import { AuthBanner } from "~/components/Auth";
 import { SvgCheck, SvgX } from "~/assets/svg";
 
 const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
@@ -282,7 +282,6 @@ const getFeaturedArtists = (tracks: Track[]): string[] => {
 const NewPage: NextPage = () => {
   const [tab, setTab] = useState<"create" | "add">("create");
   const user = useCurrentUser();
-  const [, openLogin] = useLogin();
   const router = useRouter();
   const { data: mAuth } = useMAuth();
   const searchQuery = router.query.search as string | undefined;
@@ -408,12 +407,7 @@ const NewPage: NextPage = () => {
             </div>
           </>
         ) : (
-          <>
-            <p className="font-bold mb-2">Sign in to create your rooms</p>
-            <button onClick={openLogin} className="button button-foreground">
-              Sign in
-            </button>
-          </>
+          <AuthBanner prompt="Join Stereo to Create a Room" />
         )}
       </div>
     </>

@@ -184,14 +184,14 @@ const LeftSection: React.FC = () => {
       ) : (
         <>
           <p className="text-foreground-tertiary">
-            Sign in to your Stereo account to make changes to your profile.
+            Join Stereo to customize your profile.
           </p>
           <button
             onClick={logIn}
-            title="Sign in to Stereo"
+            title="Join Stereo"
             className="button items-center mt-2"
           >
-            Sign in
+            Join
           </button>
         </>
       )}
@@ -229,103 +229,6 @@ const MusicConnection: React.FC<{
     </div>
   );
 };
-
-// const SocialConnection: React.FC<{
-//   name: string;
-//   provider: OAuthProviderName;
-// }> = ({ name, provider }) => {
-//   const [activeDisconnect, openDisconnect, closeDisconnect] = useModal();
-//   const toasts = useToasts();
-
-//   const [{ data }] = useMeAuthQuery();
-
-//   const [, disconnectOAuth] = useDeleteMeOauthMutation();
-
-//   async function disconnect() {
-//     await disconnectOAuth({ provider });
-//     toasts.message(`${name} account has been disconnected`);
-//     closeDisconnect();
-//   }
-
-//   const isConnected = !!data?.meAuth?.[provider];
-
-//   return (
-//     <>
-//       <div className="mb-2 rounded-lg flex">
-//         <div
-//           className={`brand-${provider} p-3 w-16 h-16 flex flex-none place-center rounded`}
-//         >
-//           {provider === "facebook" && (
-//             <SvgFacebook width="32" height="32" fill="currentColor" />
-//           )}
-//           {provider === "twitter" && (
-//             <SvgTwitter width="32" height="32" fill="currentColor" />
-//           )}
-//         </div>
-//         <div className="px-4">
-//           <h4 className="font-bold text-foreground-tertiary mb-1 text-lg">
-//             <span className="text-foreground">{name}</span> (
-//             <span
-//               className={`mb-2 text-sm ${
-//                 isConnected ? "text-success" : "text-foreground-secondary"
-//               }`}
-//             >
-//               {isConnected ? "Connected" : "Disconnected"}
-//             </span>
-//             )
-//           </h4>
-//           {!isConnected ? (
-//             <a
-//               href={`${process.env.API_URI}/auth/${provider}?continue=/settings`}
-//               className="button button-success text-sm"
-//             >
-//               Connect
-//             </a>
-//           ) : (
-//             <button
-//               type="button"
-//               onClick={openDisconnect}
-//               className="button button-danger text-sm"
-//             >
-//               Disconnect
-//             </button>
-//           )}
-//         </div>
-//       </div>
-//       <Modal.Modal
-//         title="Disconnect account"
-//         active={activeDisconnect}
-//         onOutsideClick={closeDisconnect}
-//       >
-//         <Modal.Header>
-//           <Modal.Title>Disconnect from {name}</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Content>
-//           <p className="text-foreground-secondary">
-//             Are your sure you want to unlink your {name} account? You can always
-//             reconnect at any time.
-//           </p>
-//         </Modal.Content>
-//         <Modal.Footer>
-//           <button
-//             type="button"
-//             className="button bg-transparent text-danger-light"
-//             onClick={disconnect}
-//           >
-//             Disconnect
-//           </button>
-//           <button
-//             type="button"
-//             onClick={closeDisconnect}
-//             className="button button-success"
-//           >
-//             Nevermind
-//           </button>
-//         </Modal.Footer>
-//       </Modal.Modal>
-//     </>
-//   );
-// };
 
 const LocalPlatformSettings: React.FC = () => {
   const { forceResetPlayingPlatform } = usePlayer();
@@ -406,31 +309,11 @@ const LinkSettings: React.FC = () => {
             name="Spotify"
             provider={OAuthProviderName.Spotify}
           />
-          {/* <h4 className="font-bold my-2">Social</h4>
-          <SocialConnection
-            name="Facebook"
-            provider={OAuthProviderName.Facebook}
-          />
-          <SocialConnection
-            name="Twitter"
-            provider={OAuthProviderName.Twitter}
-          /> */}
         </>
       ) : (
         <>
           <h4 className="font-bold mb-2">Music</h4>
           <LocalPlatformSettings />
-          {/* <h4 className="font-bold my-2">Social</h4>
-          <p className="text-foreground-secondary ">
-            Sign in to your Stereo account to connect with friends and families.
-          </p>
-          <button
-            onClick={logIn}
-            title="Sign in to Stereo"
-            className="button items-center mt-2"
-          >
-            Sign in
-          </button> */}
         </>
       )}
     </>

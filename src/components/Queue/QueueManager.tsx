@@ -188,11 +188,8 @@ const QueueManager: React.FC<{
     <div className="h-full w-full flex flex-col justify-between">
       {!user && (
         <div className="p-1 flex-none">
-          <button
-            onClick={showLogin}
-            className="button w-full button-success text-xs p-2"
-          >
-            Sign in to add songs and listen together
+          <button onClick={showLogin} className="button w-full text-xs p-2">
+            Join to Add Songs and Listen Together
           </button>
         </div>
       )}

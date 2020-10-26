@@ -52,12 +52,14 @@ const Navbar: React.FC = () => {
             </a>
           </Link>
           {user ? (
-            <img
-              alt={user.username}
-              title={user.username}
-              src={user.profilePicture}
-              className="w-10 h-10 bg-background-secondary object-cover rounded"
-            />
+            <div className="flex p-1 rounded-lg bg-background-secondary">
+              <img
+                alt={user.username}
+                title={user.username}
+                src={user.profilePicture}
+                className="w-8 h-8 bg-background-secondary object-cover rounded"
+              />
+            </div>
           ) : (
             <button className="button" onClick={openLogin}>
               Join

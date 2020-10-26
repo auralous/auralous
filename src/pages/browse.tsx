@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import { RoomItem } from "~/components/Room";
-import { useLogin } from "~/components/Auth";
 import { useExploreRoomsQuery, useRoomsQuery } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
+import { SvgPlus } from "~/assets/svg";
 
 const RandomRoomSection: React.FC = () => {
   const [
@@ -30,29 +31,26 @@ const RandomRoomSection: React.FC = () => {
 
 const MyRoomsSection: React.FC = () => {
   const user = useCurrentUser();
-  const [, openLogin] = useLogin();
   const [{ data: { rooms } = { rooms: undefined } }] = useRoomsQuery({
     variables: { creatorId: user?.id || "" },
     pause: !user,
   });
-  if (!user)
-    return (
-      <div className="py-12 text-center">
-        <p className="text-2xl font-bold mb-2">
-          Sign in to create a room and have some fun.
-        </p>
-        <button
-          onClick={openLogin}
-          className="button button-foreground px-8 py-4"
-        >
-          Sign in
-        </button>
-      </div>
-    );
   return (
     <>
       <div>
         <div className="flex flex-wrap pb-12">
+          <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
+            <Link href="/new">
+              <a className="block overflow-hidden border-2 border-background-secondary hover:border-white pb-4/3 rounded-lg relative transition ease-in-out duration-300">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <SvgPlus className="w-16 h-16 mx-auto rounded-full p-2 bg-foreground-secondary text-black" />
+                  <p className="mt-2 text-foreground-secondary text-sm text-center font-bold">
+                    Create a room
+                  </p>
+                </div>
+              </a>
+            </Link>
+          </div>
           {rooms?.map((room) => (
             <div
               key={room.id}

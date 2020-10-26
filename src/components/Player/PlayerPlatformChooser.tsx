@@ -24,7 +24,7 @@ const PlayerPlatformChooser: React.FC<{
       <Modal.Header>
         <Modal.Title>
           <span className="text-center w-full">
-            Sign in or select a music service
+            Join Stereo or Select a Music Service
           </span>
         </Modal.Title>
       </Modal.Header>
@@ -34,7 +34,7 @@ const PlayerPlatformChooser: React.FC<{
             onClick={showLogin}
             className="w-48 m-1 text-sm button rounded-full"
           >
-            Sign in to Stereo
+            Join Stereo
           </button>
           <button
             onClick={() => selectPlatform(PlatformName.Youtube)}
@@ -58,8 +58,10 @@ const PlayerPlatformChooser: React.FC<{
           Stop Playing
         </button>
         <div className="text-foreground-tertiary text-xs mt-6 container">
-          <p className="text-center">
-            Join Stereo allows you to add songs from and to your playlists and
+          <p className="text-center max-w-3xl w-full mx-auto">
+            You can either temporarily listen on one of the music providers
+            above, or join Stereo for free and access features like add songs to
+            and from from your playlists, react to your friends&apos; picks, and
             more. Otherwise, you can change your choice at any time in{" "}
             <Link href="/settings">
               <button className="underline" onClick={stopPlaying}>

@@ -41,7 +41,7 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
             console.error(error);
             message = "An internal error has occurred.";
           }
-          if (code === "UNAUTHENTICATED") message = "Please log in again.";
+          if (code === "UNAUTHENTICATED") message = "Please sign in again.";
           (window as any).toasts.error(message);
         });
       }
