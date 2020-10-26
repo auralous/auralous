@@ -27,18 +27,45 @@ The following tools must be installed:
 - [Yarn](https://yarnpkg.com/) 1.x: See [Installation](https://classic.yarnpkg.com/en/docs/install)
 - [Caddy](https://caddyserver.com/). Get it at [Download](https://caddyserver.com/download) then see [Caddy Setup](#caddy-setup).
 
-### Caddy Setup
+### Environment variables
 
-For development, we use [https://caddyserver.com/] to proxy requests from our local API Server at [localhost:4000](http://localhost:4000) to our production server at [api.withstereo.com](https://api.withstereo.com).
+Certain environment variables are required to run this application:
+
+- `APP_URI`: URL of this web app
+- `API_URI`: URL of the API Server
+- `WEBSOCKET_URI`: URL of the WebSocket server
+- `SPOTIFY_CLIENT_ID`: The Spotify Client ID for use in the Web Playback SDK. See [developer.spotify.com](https://developer.spotify.com/)
+- `FACEBOOK_APP_ID`: (optional) The Facebook App ID. See [developers.facebook.com](https://developers.facebook.com/).
+- `FATHOM_SITE_ID`: (optional) [Fathom](https://usefathom.com/) site ID for analytics.
+- `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`: (optional) Sentry environment variables: the first one for error reporting and the second for source map uploading.
+
+Create a `.env` file in the working dir to set the variables. For development, set `APP_URI` to `http://localhost:4000`, `WEBSOCKET_URI` to `ws://localhost:4000`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
+
+> Do not commit `.env`!
+
+### API Server Proxy
+
+#### Caddy Setup
+
+For development, we use [Caddy Server](https://caddyserver.com/) to proxy requests from our local API Server at [localhost:4000](http://localhost:4000) to our production server at [api.withstereo.com](https://api.withstereo.com).
 
 After downloading the approriate Caddy package, place it in a folder of your choice. In the same folder, create a `Caddyfile`:
 
 ```
 http://localhost:4000 {
+    @options {
+      method OPTIONS
+    }
+    respond @options 204
     reverse_proxy * https://api.withstereo.com {
       header_up Host {http.reverse_proxy.upstream.hostport}
-      header_down access-control-allow-credentials true
-      header_down access-control-allow-origin http://localhost:3000
+    }
+    header * {
+      access-control-allow-credentials true
+      access-control-allow-origin http://localhost:3000
+      access-control-request-method "GET, POST, OPTIONS"
+      access-control-allow-headers "authorization, cache-control, content-type, dnt, if-modified-since, user-agent"
+      -set-cookie
     }
 }
 ```
@@ -55,21 +82,13 @@ When you're done, stop the service with:
 ./caddy_{os}_{arch} stop
 ```
 
-### Environment variables
+#### Authentication
 
-Certain environment variables are required to run this application:
+You cannot sign in to Stereo directly from the development app. To authenticate, login on https://withstereo.com/ and copy the  `sid` cookie value. Run the following in console devtool while at http://localhost:3000 and reload the page:
 
-- `APP_URI`: URL of this web app
-- `API_URI`: URL of the API Server
-- `WEBSOCKET_URI`: URL of the WebSocket server
-- `SPOTIFY_CLIENT_ID`: The Spotify Client ID for use in the Web Playback SDK. See [developer.spotify.com](https://developer.spotify.com/)
-- `FACEBOOK_APP_ID`: (optional) The Facebook App ID. See [developers.facebook.com](https://developers.facebook.com/).
-- `FATHOM_SITE_ID`: (optional) [Fathom](https://usefathom.com/) site ID for analytics.
-- `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`: (optional) Sentry environment variables: the first one for error reporting and the second for source map uploading.
-
-Create a `.env` file in the working dir to set the variables. For development, set `APP_URI` to `http://localhost:4000`, `WEBSOCKET_URI` to `ws://localhost:4000`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
-
-> Do not commit `.env`!
+```js
+document.cookie = "sid={COPIED_COOKIE_VALUE}"
+```
 
 ### Workflows
 
