@@ -2,11 +2,11 @@
 
 > Music Together
 
-This is the `stereo-web` codebase that powers [Stereo](https://withstereo.com/) Web App. It is a [Next.js](https://github.com/vercel/next.js) app written in [TypeScript](https://github.com/microsoft/TypeScript).
+This is the `stereo-web` codebase that powers [Stereo Web App](https://withstereo.com/). It is a [Next.js](https://github.com/vercel/next.js) app written in [TypeScript](https://github.com/microsoft/TypeScript).
 
 ## What is Stereo
 
-Stereo is a completely-free and community-driven project that lets you play & listen to music in sync with friends in public or private "rooms".
+Stereo is a completely-free and community-driven project that lets you play & listen to music in sync with friends in public or private rooms.
 
 Stereo currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/).
 
@@ -14,22 +14,46 @@ Stereo currently supports streaming music on [YouTube](https://www.youtube.com/)
 
 Stereo consists of several other repos containing server or mobile apps, some of which or open sourced.
 
-- Server: The [Node.js](https://github.com/nodejs/node) with GraphQL server ([benzene](https://github.com/hoangvvo/benzene))
-
+- Server: The [Node.js](https://github.com/nodejs/node) GraphQL server
 - Mobile (React Native): TBD
 
 ## Development
 
 ### Prerequisites
 
-#### Local
+The following tools must be installed:
 
 - [Node](https://nodejs.org/) 12.x or 14.x ([nvm](https://github.com/nvm-sh/nvm) recommended)
 - [Yarn](https://yarnpkg.com/) 1.x: See [Installation](https://classic.yarnpkg.com/en/docs/install)
+- [Caddy](https://caddyserver.com/). Get it at [Download](https://caddyserver.com/download) then see [Caddy Setup](#caddy-setup).
 
-#### Containers
+### Caddy Setup
 
-TBD
+For development, we use [https://caddyserver.com/] to proxy requests from our local API Server at [localhost:4000](http://localhost:4000) to our production server at [api.withstereo.com](https://api.withstereo.com).
+
+After downloading the approriate Caddy package, place it in a folder of your choice. In the same folder, create a `Caddyfile`:
+
+```
+http://localhost:4000 {
+    reverse_proxy * https://api.withstereo.com {
+      header_up Host {http.reverse_proxy.upstream.hostport}
+      header_down access-control-allow-credentials true
+      header_down access-control-allow-origin http://localhost:3000
+    }
+}
+```
+
+Start the reverse proxy service with:
+
+```bash
+./caddy_{os}_{arch} start
+```
+
+When you're done, stop the service with:
+
+```bash
+./caddy_{os}_{arch} stop
+```
 
 ### Environment variables
 
@@ -43,19 +67,7 @@ Certain environment variables are required to run this application:
 - `FATHOM_SITE_ID`: (optional) [Fathom](https://usefathom.com/) site ID for analytics.
 - `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`: (optional) Sentry environment variables: the first one for error reporting and the second for source map uploading.
 
-#### `.env`
-
-This project supports loading environment variables from `.env` file via [dotenv](https://github.com/motdotla/dotenv). Below is an example `.env` file:
-
-```
-API_URI=http://localhost:4000
-WEBSOCKET_URI=ws://localhost:4000/websocket
-APP_URI=http://localhost:3000
-FACEBOOK_APP_ID=x
-SPOTIFY_CLIENT_ID=x
-FATHOM_SITE_ID=XYZ123
-SENTRY_DSN=https://test@test.ingest.sentry.io/noop
-```
+Create a `.env` file in the working dir to set the variables. For development, set `APP_URI` to `http://localhost:4000`, `WEBSOCKET_URI` to `ws://localhost:4000`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
 
 > Do not commit `.env`!
 
@@ -77,40 +89,17 @@ This is only run whenever the GraphQL operations are modified inside the `graphq
 
 Run `yarn lint` to check for error in source code using [`eslint`](https://github.com/eslint/eslint). You can also run `yarn lint --fix` to let `eslint` fixed the errors automatically.
 
-## Deployment
+#### `yarn build`
 
-`stereo-web` can be deployed anywhere: Netlify, AWS, Vercel, Heroku, etc. `withstereo.com` is deployed on [Vercel](https://vercel.com).
-
-As of right now, there is no way to deploy your own instance of `stereo-web`. There are two options I'm considering:
-
-- Allow creating an `stereo-api` instance with its own database, pointing to your custom domain. Accessible via API Key + Secret. If this interests you, email me at [yo@withstereo.com](yo@withstereo.com). I hope to make it available for free.
-- If `stereo-api` is open sourced in the future (which I'm planning to), you should be able to host your own server using Docker. You will be responsible for maintainance, though.
-
-### Production build
-
-Running `yarn build` will create an optimized production build of your application. To also analyzing build size.
+Running `yarn build` will create an optimized production build of your application. To also analyzing build size set the env variable `ANALYZE=true`.
 
 ```bash
 yarn build
 ```
 
-Set `ANALYZE` env variable to `true` to also run bundle analyzer.
+## Contribution
 
-```bash
-ANALYZE=true yarn build
-```
-
-See [`next build`](https://nextjs.org/docs/api-reference/cli#build).
-
-### Start the application
-
-After building the application, run `yarn start` to start the application in production mode.  To specific a port, simply add `-p` argument.
-
-```bash
-yarn start -p PORT
-```
-
-See [`next start`](https://nextjs.org/docs/api-reference/cli#production). This can be used to run the app in your own deployment environment.:
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
