@@ -2,7 +2,7 @@
 
 > Music Together
 
-This is the `stereo-web` codebase that powers [Stereo Web App](https://withstereo.com/). It is a [Next.js](https://github.com/vercel/next.js) app written in [TypeScript](https://github.com/microsoft/TypeScript).
+This is the `stereo-web` codebase that powers [Stereo Web App](https://withstereo.com/). It is a [Next.js](https://github.com/vercel/next.js) app written in [TypeScript](https://github.com/microsoft/TypeScript). The app uses [urql](https://formidable.com/open-source/urql/) to communicate with the GraphQL API Server.
 
 ## What is Stereo
 
@@ -14,7 +14,7 @@ Stereo currently supports streaming music on [YouTube](https://www.youtube.com/)
 
 Stereo consists of several other repos containing server or mobile apps, some of which or open sourced.
 
-- Server: The [Node.js](https://github.com/nodejs/node) GraphQL server
+- Server: The [Node.js](https://github.com/nodejs/node) GraphQL server using [benzene](https://github.com/hoangvvo/benzene)
 - Mobile (React Native): TBD
 
 ## Development
