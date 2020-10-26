@@ -179,7 +179,7 @@ const WelcomePage: NextPage = () => {
   };
   return (
     <>
-      <NextSeo title="Welcome" noindex nofollow />
+      <NextSeo title="Welcome" noindex />
       <div className="w-full p-4 min-h-screen flex place-center">
         <div className="w-3xl max-w-full h-96 flex flex-col items-center border-background-secondary border-2 rounded-lg overflow-hidden">
           <div className="w-full flex-1 h-0 p-4">
