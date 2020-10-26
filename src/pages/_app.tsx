@@ -74,6 +74,14 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                     type: "website",
                     locale: "en_US",
                     site_name: "Stereo",
+                    images: [
+                      {
+                        url: `${process.env.APP_URI}/images/banner.png`,
+                        width: 2400,
+                        height: 1260,
+                        alt: "Stereo",
+                      },
+                    ],
                   }}
                 />
                 <Component {...pageProps} />

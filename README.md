@@ -1,35 +1,35 @@
-# stereo-web
+<p align="center">
+  <a href="https://withstereo.com">
+    <img alt="Stereo" src="https://withstereo.com/images/banner.png" height="300px">
+  </a>
+</p>
 
-> Music Together
+> Music is always better when we listen together
 
-This is the `stereo-web` codebase that powers [Stereo](https://withstereo.com/) Web App. It is a [Next.js](https://github.com/vercel/next.js) app written in [TypeScript](https://github.com/microsoft/TypeScript).
+Stereo is a completely-free and community-driven project that lets you play & listen to music in sync with friends in public or private rooms.
 
-## What is Stereo
+Stereo currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/). We hope to add support for [Apple Music](https://www.apple.com/apple-music/) soon.
 
-Stereo is a completely-free and community-driven project that lets you play & listen to music in sync with friends in public or private "rooms".
-
-Stereo currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/).
+![CI](https://github.com/hoangvvo/stereo-web/workflows/CI/badge.svg)
+[![PRs Welcome](https://badgen.net/badge/PRs/welcome/ff5252)](/CONTRIBUTING.md)
 
 ## Other repositories
 
 Stereo consists of several other repos containing server or mobile apps, some of which or open sourced.
 
-- Server: The [Node.js](https://github.com/nodejs/node) with GraphQL server ([benzene](https://github.com/hoangvvo/benzene))
-
+- [Web](https://github.com/hoangvvo/stereo-web): The [Next.js](https://github.com/vercel/next.js) + [urql](https://formidable.com/open-source/urql/) web application.
+- Server: The [Node.js](https://github.com/nodejs/node) GraphQL server using [benzene](https://github.com/hoangvvo/benzene)
 - Mobile (React Native): TBD
 
 ## Development
 
 ### Prerequisites
 
-#### Local
+The following tools must be installed:
 
 - [Node](https://nodejs.org/) 12.x or 14.x ([nvm](https://github.com/nvm-sh/nvm) recommended)
 - [Yarn](https://yarnpkg.com/) 1.x: See [Installation](https://classic.yarnpkg.com/en/docs/install)
-
-#### Containers
-
-TBD
+- [Caddy](https://caddyserver.com/). Get it at [Download](https://caddyserver.com/download) then see [Caddy Setup](#caddy-setup).
 
 ### Environment variables
 
@@ -43,21 +43,56 @@ Certain environment variables are required to run this application:
 - `FATHOM_SITE_ID`: (optional) [Fathom](https://usefathom.com/) site ID for analytics.
 - `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`: (optional) Sentry environment variables: the first one for error reporting and the second for source map uploading.
 
-#### `.env`
-
-This project supports loading environment variables from `.env` file via [dotenv](https://github.com/motdotla/dotenv). Below is an example `.env` file:
-
-```
-API_URI=http://localhost:4000
-WEBSOCKET_URI=ws://localhost:4000/websocket
-APP_URI=http://localhost:3000
-FACEBOOK_APP_ID=x
-SPOTIFY_CLIENT_ID=x
-FATHOM_SITE_ID=XYZ123
-SENTRY_DSN=https://test@test.ingest.sentry.io/noop
-```
+Create a `.env` file in the working dir to set the variables. For development, set `APP_URI` to `http://localhost:4000`, `WEBSOCKET_URI` to `ws://localhost:4000`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
 
 > Do not commit `.env`!
+
+### API Server Proxy
+
+#### Caddy Setup
+
+For development, we use [Caddy Server](https://caddyserver.com/) to proxy requests from our local API Server at [localhost:4000](http://localhost:4000) to our production server at [api.withstereo.com](https://api.withstereo.com).
+
+After downloading the approriate Caddy package, place it in a folder of your choice. In the same folder, create a `Caddyfile`:
+
+```
+http://localhost:4000 {
+    @options {
+      method OPTIONS
+    }
+    respond @options 204
+    reverse_proxy * https://api.withstereo.com {
+      header_up Host {http.reverse_proxy.upstream.hostport}
+    }
+    header * {
+      access-control-allow-credentials true
+      access-control-allow-origin http://localhost:3000
+      access-control-request-method "GET, POST, OPTIONS"
+      access-control-allow-headers "authorization, cache-control, content-type, dnt, if-modified-since, user-agent"
+      -set-cookie
+    }
+}
+```
+
+Start the reverse proxy service with:
+
+```bash
+./caddy_{os}_{arch} start
+```
+
+When you're done, stop the service with:
+
+```bash
+./caddy_{os}_{arch} stop
+```
+
+#### Authentication
+
+You cannot sign in to Stereo directly from the development app. To authenticate, login on https://withstereo.com/ and copy the  `sid` cookie value. Run the following in console devtool while at http://localhost:3000 and reload the page:
+
+```js
+document.cookie = "sid={COPIED_COOKIE_VALUE}"
+```
 
 ### Workflows
 
@@ -77,40 +112,17 @@ This is only run whenever the GraphQL operations are modified inside the `graphq
 
 Run `yarn lint` to check for error in source code using [`eslint`](https://github.com/eslint/eslint). You can also run `yarn lint --fix` to let `eslint` fixed the errors automatically.
 
-## Deployment
+#### `yarn build`
 
-`stereo-web` can be deployed anywhere: Netlify, AWS, Vercel, Heroku, etc. `withstereo.com` is deployed on [Vercel](https://vercel.com).
-
-As of right now, there is no way to deploy your own instance of `stereo-web`. There are two options I'm considering:
-
-- Allow creating an `stereo-api` instance with its own database, pointing to your custom domain. Accessible via API Key + Secret. If this interests you, email me at [yo@withstereo.com](yo@withstereo.com). I hope to make it available for free.
-- If `stereo-api` is open sourced in the future (which I'm planning to), you should be able to host your own server using Docker. You will be responsible for maintainance, though.
-
-### Production build
-
-Running `yarn build` will create an optimized production build of your application. To also analyzing build size.
+Running `yarn build` will create an optimized production build of your application. To also analyzing build size set the env variable `ANALYZE=true`.
 
 ```bash
 yarn build
 ```
 
-Set `ANALYZE` env variable to `true` to also run bundle analyzer.
+## Contribution
 
-```bash
-ANALYZE=true yarn build
-```
-
-See [`next build`](https://nextjs.org/docs/api-reference/cli#build).
-
-### Start the application
-
-After building the application, run `yarn start` to start the application in production mode.  To specific a port, simply add `-p` argument.
-
-```bash
-yarn start -p PORT
-```
-
-See [`next start`](https://nextjs.org/docs/api-reference/cli#production). This can be used to run the app in your own deployment environment.:
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

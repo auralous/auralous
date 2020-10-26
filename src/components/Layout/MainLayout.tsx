@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
   if (shouldHideNavFoot) return null;
   return (
     <footer className="text-center mt-20 border-t-4 py-4 max-w-xl mx-auto border-background-secondary">
-      <div className="mb-1">
+      <div className="mb-1 text-sm">
         <a
           href="https://www.facebook.com/withstereo/"
           target="_blank"
@@ -98,11 +98,19 @@ const Footer: React.FC = () => {
         <Link href="/privacy">
           <a className="mx-2 font-bold opacity-50 hover:opacity-75">Privacy</a>
         </Link>
+        <a
+          href="https://github.com/hoangvvo/stereo-web"
+          target="_blank"
+          rel="noreferrer"
+          className="mx-2 font-bold opacity-50 hover:opacity-75"
+        >
+          GitHub
+        </a>
         <Link href="/contact">
           <a className="mx-2 font-bold opacity-50 hover:opacity-75">Contact</a>
         </Link>
       </div>
-      <p className="text-center opacity-50 mb-2">
+      <p className="text-center opacity-50 mb-2 text-sm">
         © 2019. Made with{" "}
         <span role="img" aria-label="Love">
           ❤️
@@ -121,10 +129,20 @@ const Footer: React.FC = () => {
           href="https://hoangvvo.com/"
         >
           Hoang
+        </a>{" "}
+        and{" "}
+        <a
+          className="font-bold hover:text-foreground"
+          href="https://github.com/hoangvvo/stereo-web/contributors"
+        >
+          contributors
         </a>
         .
       </p>
-      <p className="text-foreground-tertiary text-xs px-4 leading-tight">
+      <p
+        className="text-foreground-tertiary px-4 leading-tight"
+        style={{ fontSize: "0.6rem" }}
+      >
         Music data provided by{" "}
         <a
           className="italic"
