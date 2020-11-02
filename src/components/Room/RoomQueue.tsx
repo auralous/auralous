@@ -156,7 +156,7 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
           } flex-col h-full overflow-hidden`}
         >
           <QueueViewer
-            onAdd={onAddTracks}
+            onAdd={permission.canAdd ? onAddTracks : undefined}
             queueId={`room:${room.id}:played`}
             reverse
           />

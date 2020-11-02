@@ -27,7 +27,7 @@ export const TrackItem: React.FC<{
             src={track.image}
           />
         ) : (
-          <div className="h-12 w-12 rounded-lg flex-none overflow-hidden mr-3 animate-pulse bg-black bg-opacity-25" />
+          <div className="h-12 w-12 rounded-lg flex-none overflow-hidden mr-3 animate-pulse bg-white bg-opacity-25" />
         )}
         <div className="w-full overflow-hidden">
           {track ? (
@@ -70,8 +70,8 @@ export const TrackItem: React.FC<{
             </>
           ) : (
             <>
-              <div className="h-6 animate-pulse bg-black bg-opacity-25 rounded-lg mb-1" />
-              <div className="h-4 animate-pulse bg-black bg-opacity-25 rounded-lg w-3/4" />
+              <div className="h-6 animate-pulse bg-white bg-opacity-25 rounded-lg mb-1" />
+              <div className="h-4 animate-pulse bg-white bg-opacity-25 rounded-lg w-3/4" />
             </>
           )}
         </div>
