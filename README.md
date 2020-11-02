@@ -29,7 +29,6 @@ The following tools must be installed:
 
 - [Node](https://nodejs.org/) 12.x or 14.x ([nvm](https://github.com/nvm-sh/nvm) recommended)
 - [Yarn](https://yarnpkg.com/) 1.x: See [Installation](https://classic.yarnpkg.com/en/docs/install)
-- [Caddy](https://caddyserver.com/). Get it at [Download](https://caddyserver.com/download) then see [Caddy Setup](#caddy-setup).
 
 ### Environment variables
 
@@ -43,56 +42,13 @@ Certain environment variables are required to run this application:
 - `FATHOM_SITE_ID`: (optional) [Fathom](https://usefathom.com/) site ID for analytics.
 - `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`: (optional) Sentry environment variables: the first one for error reporting and the second for source map uploading.
 
-Create a `.env` file in the working dir to set the variables. For development, set `APP_URI` to `http://localhost:4000`, `WEBSOCKET_URI` to `ws://localhost:4000`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
+Create a `.env` file in the working dir to set the variables. For development, set `APP_URI` to `https://api.withstereo.com`, `WEBSOCKET_URI` to `wss://api.withstereo.com/graphql`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
 
 > Do not commit `.env`!
 
-### API Server Proxy
+### Authentication
 
-#### Caddy Setup
-
-For development, we use [Caddy Server](https://caddyserver.com/) to proxy requests from our local API Server at [localhost:4000](http://localhost:4000) to our production server at [api.withstereo.com](https://api.withstereo.com).
-
-After downloading the approriate Caddy package, place it in a folder of your choice. In the same folder, create a `Caddyfile`:
-
-```
-http://localhost:4000 {
-    @options {
-      method OPTIONS
-    }
-    respond @options 204
-    reverse_proxy * https://api.withstereo.com {
-      header_up Host {http.reverse_proxy.upstream.hostport}
-    }
-    header * {
-      access-control-allow-credentials true
-      access-control-allow-origin http://localhost:3000
-      access-control-request-method "GET, POST, OPTIONS"
-      access-control-allow-headers "authorization, cache-control, content-type, dnt, if-modified-since, user-agent"
-      -set-cookie
-    }
-}
-```
-
-Start the reverse proxy service with:
-
-```bash
-./caddy_{os}_{arch} start
-```
-
-When you're done, stop the service with:
-
-```bash
-./caddy_{os}_{arch} stop
-```
-
-#### Authentication
-
-You cannot sign in to Stereo directly from the development app. To authenticate, login on https://withstereo.com/ and copy the  `sid` cookie value. Run the following in console devtool while at http://localhost:3000 and reload the page:
-
-```js
-document.cookie = "sid={COPIED_COOKIE_VALUE}"
-```
+You cannot sign in to Stereo directly from the development app. See https://github.com/hoangvvo/stereo-web/issues/17 for instruction.
 
 ### Workflows
 
@@ -106,7 +62,7 @@ Run `yarn dev` to start the app in development mode. This enables hot-code reloa
 
 Run `yarn codegen` to run the [graphql-codegen-generator](https://github.com/dotansimha/graphql-code-generator). This generates TypeScript definitions inside [`src/graphql/gql.gen.ts`](src/graphql/gql.gen.ts) and [`urql`](https://github.com/FormidableLabs/urql) React hooks.
 
-This is only run whenever the GraphQL operations are modified inside the `graphql` folder or when Server GraphQL Schema changes.
+This is only run whenever the GraphQL operations are modified inside the `graphql` folder or when the Server GraphQL Schema changes.
 
 #### `yarn lint`
 
@@ -119,6 +75,10 @@ Running `yarn build` will create an optimized production build of your applicati
 ```bash
 yarn build
 ```
+
+## Deployment
+
+`stereo-web` cannot be self-hosted at the moment. However, if you are interested, I'm happy to implement a OAuth2.0-like system (available for free too if possible!) to do so. `stereo-api` cannot be open sourced now due to having a lot of moving pieces, but I hope to be able to do that soon in the future.
 
 ## Contribution
 
