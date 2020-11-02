@@ -15,7 +15,7 @@ import { RoomDocument } from "~/graphql/gql.gen";
 
 const subscriptionClient =
   typeof window !== "undefined"
-    ? new SubscriptionClient(process.env.WEBSOCKET_URI as string, {
+    ? new SubscriptionClient(`${process.env.WEBSOCKET_URI}/graphql`, {
         genId: (params) => params.key,
         reconnectionAttempts: Infinity,
       })

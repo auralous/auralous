@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-require("dotenv").config();
 const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 const { name, version } = require("./package.json");
 
