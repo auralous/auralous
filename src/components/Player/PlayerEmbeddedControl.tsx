@@ -50,24 +50,29 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
           </div>
         </div>
         <div className="mt-2 mb-4 max-w-lg px-2 mx-auto text-center flex flex-col items-center justify-start">
-          <div
-            aria-label="Track name and artists"
-            onClick={() => playerPlaying && openMenu()}
-            role="button"
-            tabIndex={0}
-            className="max-w-full h-12"
-            onKeyDown={({ key }) =>
-              key === "Enter" && playerPlaying && openMenu()
-            }
-          >
-            <h2 className="font-bold text-lg leading-tight truncate">
-              {track?.title ||
-                (fetching ? (
-                  <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
-                ) : (
-                  "Nothing is playing"
-                ))}
-            </h2>
+          <div aria-label="Track name and artists" className="max-w-full h-12">
+            <div
+              onClick={() => playerPlaying && openMenu()}
+              role="button"
+              onKeyDown={({ key }) =>
+                key === "Enter" && playerPlaying && openMenu()
+              }
+              tabIndex={0}
+              className={`${
+                playerPlaying
+                  ? "cursor-pointer hover:bg-background-secondary"
+                  : ""
+              } rounded overflow-hidden`}
+            >
+              <h2 className="font-bold text-lg leading-tight truncate">
+                {track?.title ||
+                  (fetching ? (
+                    <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
+                  ) : (
+                    "Nothing is playing"
+                  ))}
+              </h2>
+            </div>
             <div className="truncate text-foreground-secondary text-sm">
               {track?.artists.map(({ name }) => name).join(", ") ||
                 (fetching ? (
