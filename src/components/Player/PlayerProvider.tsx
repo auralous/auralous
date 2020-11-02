@@ -111,16 +111,19 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     const handlePlayerChange = () => {
-      if (player.comparePlatform(playerPlaying?.platform)) {
-        if (playerPlaying?.externalId)
+      if (nowPlaying?.currentTrack && !playerPlaying) {
+        // playerPlaying is fetching, should not decide yet
+        return;
+      }
+      if (playerPlaying && player.comparePlatform(playerPlaying.platform)) {
+        if (playerPlaying.externalId)
           player.loadByExternalId(playerPlaying.externalId);
       } else {
-        const platform = playerPlaying?.platform;
-        switch (platform) {
-          case "youtube":
+        switch (playerPlaying?.platform) {
+          case PlatformName.Youtube:
             setDynamicPlayer(YouTubePlayer);
             break;
-          case "spotify":
+          case PlatformName.Spotify:
             setDynamicPlayer(SpotifyPlayer);
             break;
           default:
@@ -135,7 +138,7 @@ const PlayerProvider: React.FC = ({ children }) => {
       player.on("playing", handlePlayerChange);
       return () => player.off("playing", handlePlayerChange);
     }
-  }, [playerPlaying]);
+  }, [nowPlaying, playerPlaying]);
 
   const fetching = fetchingMAuth || fetchingCrossTracks || fetchingNP;
 
