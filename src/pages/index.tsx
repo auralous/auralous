@@ -131,8 +131,10 @@ const IndexPage: React.FC = () => {
         className="px-4 flex flex-col items-center"
         style={{ minHeight: "calc(100vh - 13rem)" }}
       >
-        <IndexIntro />
-        <AppLinks />
+        <div className="min-h-screen flex flex-col place-center">
+          <IndexIntro />
+          <AppLinks />
+        </div>
         <ListenEverywhereSection />
         <StartWithPlaylistSection />
         <RoomRuleSection />

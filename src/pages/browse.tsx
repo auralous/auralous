@@ -68,7 +68,7 @@ const MyRoomsSection: React.FC = () => {
 const SearchAndPlaySection: React.FC = () => {
   const router = useRouter();
   return (
-    <div className="bg-white bg-opacity-10 text-white p-4 rounded-lg">
+    <div className="bg-white bg-opacity-10 text-white p-4 rounded-lg mb-8">
       <h3 className="text-xl font-bold">Start Listening Together</h3>
       <p className="text-sm text-foreground-secondary mb-1">
         Have an awesome playlist to listen together with friends? Just enter its

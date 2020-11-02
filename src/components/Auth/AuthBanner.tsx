@@ -12,8 +12,7 @@ const AuthBanner: React.FC<{ prompt: string; hook?: string }> = ({
       <p className="font-bold text-center mb-2">{prompt}</p>
       <p className="text-foreground-secondary text-sm mb-4 text-center">
         {hook ||
-          `Stereo is a completely-free and community-driven project that lets you
-        play & listen to music in sync with friends in public or private
+          `Start listening to music in sync with friends in public or private
         rooms. All you need is an YouTube, Spotify, or Apple Music account.`}
       </p>
       <button onClick={openLogin} className="button w-128 max-w-full">
