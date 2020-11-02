@@ -16,7 +16,7 @@ const IndexIntro = () => {
         />
       </h1>
       <h2 className="font-medium text-2xl mt-6" style={{ color: "#ff2f56" }}>
-        Listen Together
+        Music Together
       </h2>
     </div>
   );
@@ -55,7 +55,7 @@ const ListenEverywhereSection: React.FC = () => {
         <SvgSpotify width="52" height="52" className="fill-current mx-4" />
       </div>
       <p className="text-center text-foreground-secondary">
-        <i>Your friend listens on a different music application?</i> No worry,
+        <i>Your friend listens to a different music application?</i> No worry,
         you can still listen together by letting Stereo find and play that same
         song on your application instead.
       </p>
@@ -110,9 +110,14 @@ const RoomRuleSection: React.FC = () => {
         Your Room. Your Rule.
       </h2>
       <p className="text-center text-foreground-secondary mb-4">
-        Listen either in public or private room. Only assigned collaborators can
-        add songs. Need some help in managing your room? Invite your close
-        friends to be moderators.
+        Listen either in public or private rooms. Set a password to avoid
+        unwelcome guests. Only collaborators can add songs, but everyone can
+        chat and add their reactions.
+      </p>
+      <p className="text-center text-foreground-secondary mb-4">
+        Invite your close friends to be moderators. Ban offended messages and
+        people. Customize room rules so that your friends know what songs can be
+        added. <b>You are in control</b>.
       </p>
     </section>
   );
