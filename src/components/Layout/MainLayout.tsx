@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
   const [, openLogin] = useLogin();
   if (shouldHideNavFoot) return null;
   return (
-    <nav className="nav fixed" style={{ backdropFilter: "blur(9px)" }}>
+    <nav className="nav relative" style={{ backdropFilter: "blur(9px)" }}>
       <div className="container flex items-center justify-between">
         <div className="flex items-center content-start overflow-hidden">
           <Link href="/browse">
