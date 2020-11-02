@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
   if (shouldHideNavFoot) return null;
   return (
     <footer className="text-center mt-20 border-t-4 py-4 max-w-xl mx-auto border-background-secondary">
-      <div className="mb-1 text-sm">
+      <div className="mb-1 text-xs">
         <a
           href="https://www.facebook.com/withstereo/"
           target="_blank"
@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
           rel="noreferrer"
           className="mx-2 font-bold opacity-50 hover:opacity-75"
         >
-          GitHub
+          Contribute
         </a>
         <Link href="/contact">
           <a className="mx-2 font-bold opacity-50 hover:opacity-75">Contact</a>
