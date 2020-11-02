@@ -1,3 +1,16 @@
+## TL;DR
+
+[Stereo](/) is a privacy-friendly application. No 🙈 monkey business!
+
+- 🤝 We never share your information (We don't even have much anyway)
+- 💯 We use [privacy-friendly analytics](https://usefathom.com/).
+- 🍪 We have **zero** cookies that track you. The only cookie is for authentication.
+- 👻 You can easily delete **all** of your data at any time.
+
+Don't believe us? [Check out the source code](https://github.com/hoangvvo/stereo-web)
+
+---
+
 *Last updated: Jun 18, 2020*
 
 The privacy of your data — and it is your data, not ours! — is a big deal to us. In this policy, we lay out: what data we collect and why; how your data is handled; and your rights to your data. We promise we never sell your data: never have, never will.
