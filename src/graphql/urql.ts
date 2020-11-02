@@ -15,7 +15,7 @@ import { RoomDocument } from "~/graphql/gql.gen";
 
 const subscriptionClient =
   typeof window !== "undefined"
-    ? new SubscriptionClient(process.env.WEBSOCKET_URI as string, {
+    ? new SubscriptionClient(`${process.env.WEBSOCKET_URI}/graphql`, {
         genId: (params) => params.key,
         reconnectionAttempts: Infinity,
       })
@@ -41,7 +41,7 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
             console.error(error);
             message = "An internal error has occurred.";
           }
-          if (code === "UNAUTHENTICATED") message = "Please log in again.";
+          if (code === "UNAUTHENTICATED") message = "Please sign in again.";
           (window as any).toasts.error(message);
         });
       }

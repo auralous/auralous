@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
   const [, openLogin] = useLogin();
   if (shouldHideNavFoot) return null;
   return (
-    <nav className="nav fixed" style={{ backdropFilter: "blur(9px)" }}>
+    <nav className="nav relative" style={{ backdropFilter: "blur(9px)" }}>
       <div className="container flex items-center justify-between">
         <div className="flex items-center content-start overflow-hidden">
           <Link href="/browse">
@@ -52,12 +52,14 @@ const Navbar: React.FC = () => {
             </a>
           </Link>
           {user ? (
-            <img
-              alt={user.username}
-              title={user.username}
-              src={user.profilePicture}
-              className="w-10 h-10 bg-background-secondary object-cover rounded"
-            />
+            <div className="flex p-1 rounded-lg bg-background-secondary">
+              <img
+                alt={user.username}
+                title={user.username}
+                src={user.profilePicture}
+                className="w-8 h-8 bg-background-secondary object-cover rounded"
+              />
+            </div>
           ) : (
             <button className="button" onClick={openLogin}>
               Join
@@ -78,7 +80,7 @@ const Footer: React.FC = () => {
   if (shouldHideNavFoot) return null;
   return (
     <footer className="text-center mt-20 border-t-4 py-4 max-w-xl mx-auto border-background-secondary">
-      <div className="mb-1 text-sm">
+      <div className="mb-1 text-xs">
         <a
           href="https://www.facebook.com/withstereo/"
           target="_blank"
@@ -104,7 +106,7 @@ const Footer: React.FC = () => {
           rel="noreferrer"
           className="mx-2 font-bold opacity-50 hover:opacity-75"
         >
-          GitHub
+          Contribute
         </a>
         <Link href="/contact">
           <a className="mx-2 font-bold opacity-50 hover:opacity-75">Contact</a>

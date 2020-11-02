@@ -40,7 +40,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
   const react = useCallback(
     (reaction: NowPlayingReactionType) => {
       if (user) reactNowPlaying({ id, reaction });
-      else toasts.message("Sign in to add your reaction");
+      else toasts.message("Join to Add Your Reaction");
     },
     [toasts, id, reactNowPlaying, user]
   );

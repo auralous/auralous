@@ -17,7 +17,9 @@ const RoomMember: React.FC<{
   role: RoomMembership | undefined;
 }> = ({ userId, roomId, role }) => {
   const toasts = useToasts();
-  const [{ data }] = useUserQuery({ variables: { id: userId } });
+  const [{ data, fetching: fetchingUser }] = useUserQuery({
+    variables: { id: userId },
+  });
   const [
     { fetching },
     updateRoomMembership,
@@ -43,48 +45,52 @@ const RoomMember: React.FC<{
 
   return (
     <div className="h-12 mb-2 w-full mr-1 flex shadow-lg py-2 bg-background-secondary rounded-lg">
-      {
-        //FIXME: Add user name
-        data?.user ? (
-          <>
-            <div className="px-2 flex-none">
-              <img
-                className="w-8 h-8 rounded-full object-cover"
-                src={data.user.profilePicture}
-                alt={data.user.username}
-                title={data.user.username}
-              />
-            </div>
-            <div className="font-bold text-foreground flex items-center justify-between w-full">
-              <div className="flex-1 w-0 leading-none truncate">
-                {data.user.username}
-              </div>
-              <div className="px-1 flex items-center">
-                {role !== RoomMembership.Host ? (
-                  <>
-                    <select
-                      value={role || ""}
-                      onChange={onChange}
-                      className="input px-1 py-2 mr-1"
-                      disabled={fetching}
-                    >
-                      <option value={RoomMembership.Collab}>
-                        {MEMBERSHIP_NAMES[RoomMembership.Collab]}
-                      </option>
-                      <option value="">{MEMBERSHIP_NAMES[""]}</option>
-                    </select>
-                  </>
-                ) : null}
-              </div>
-            </div>
-          </>
+      <div className="px-2 flex-none">
+        {data?.user ? (
+          <img
+            className="w-8 h-8 rounded-full object-cover"
+            src={data.user.profilePicture}
+            alt={data.user.username}
+            title={data.user.username}
+          />
         ) : (
-          <>
-            <div className="mx-2 flex-none w-8 h-8 rounded-full bg-background-secondary animate-pulse" />
-            <div className="bg-background-secondary animate-pulse rounded-lg w-full mr-2" />
-          </>
-        )
-      }
+          <div
+            className={`flex-none w-8 h-8 rounded-full bg-background-secondary ${
+              fetchingUser ? "animate-pulse" : ""
+            }`}
+          />
+        )}
+      </div>
+      <div className="font-bold text-foreground flex items-center justify-between w-full">
+        {data?.user ? (
+          <div className="flex-1 w-0 leading-none truncate">
+            {data.user.username}
+          </div>
+        ) : fetchingUser ? (
+          <div className="bg-background-secondary animate-pulse rounded-lg flex-1 w-0" />
+        ) : (
+          <div className="flex-1 w-0 text-xs text-foreground-secondary">
+            User Not Found
+          </div>
+        )}
+        <div className="px-1 flex items-center">
+          {role !== RoomMembership.Host ? (
+            <>
+              <select
+                value={role || ""}
+                onChange={onChange}
+                className="input px-1 py-2 mr-1"
+                disabled={fetching}
+              >
+                <option value={RoomMembership.Collab}>
+                  {MEMBERSHIP_NAMES[RoomMembership.Collab]}
+                </option>
+                <option value="">{MEMBERSHIP_NAMES[""]}</option>
+              </select>
+            </>
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 };
@@ -178,7 +184,7 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
           <form onSubmit={handleAdd} className="flex">
             <input name="uname" className="input flex-1 mr-1" />
             <button type="submit" className="button" disabled={fetching}>
-              Add Member
+              Search
             </button>
           </form>
         </Modal.Content>

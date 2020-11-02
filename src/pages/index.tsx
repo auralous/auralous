@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
-import { SvgLogo } from "~/assets/svg";
+import { SvgLogo, SvgSpotify, SvgYoutube } from "~/assets/svg";
 
 const IndexIntro = () => {
   return (
@@ -23,19 +24,102 @@ const IndexIntro = () => {
 
 const AppLinks = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-16">
       <Link href="/browse">
         <a className="button text-center px-12 py-4 rounded-full mb-2 bg-pink">
           Use Web App
         </a>
       </Link>
-      <div className="button text-center px-12 py-4 rounded-full mb-2">
+      <div className="button bg-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
         iOS<div className="text-xs opacity-75 ml-2">(Coming Soon)</div>
       </div>
-      <div className="button text-center  px-12 py-4 rounded-full mb-2">
+      <div className="button bg-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
         Android<div className="text-xs opacity-75 ml-2">(Coming Soon)</div>
       </div>
     </div>
+  );
+};
+
+const ListenEverywhereSection: React.FC = () => {
+  return (
+    <section className="py-16 container mx-auto max-w-3xl text-sm sm:text-md">
+      <h2 className="text-center font-bold text-2xl sm:text-4xl mb-4">
+        Listen Anywhere
+      </h2>
+      <p className="text-center text-foreground-secondary">
+        Stereo integrates with the music applications you know and love. All you
+        need is a YouTube or Spotify account.
+      </p>
+      <div className="flex justify-center py-4 opacity-50">
+        <SvgYoutube width="52" height="52" className="fill-current mx-4" />
+        <SvgSpotify width="52" height="52" className="fill-current mx-4" />
+      </div>
+      <p className="text-center text-foreground-secondary">
+        <i>Your friend listens to a different music application?</i> No worry,
+        you can still listen together by letting Stereo find and play that same
+        song on your application instead.
+      </p>
+      <div className="flex justify-center py-2 mt-4">
+        <Link href="/new">
+          <a className="button">Start Listening</a>
+        </Link>
+      </div>
+    </section>
+  );
+};
+
+const StartWithPlaylistSection: React.FC = () => {
+  const router = useRouter();
+  return (
+    <section className="py-16 container mx-auto max-w-3xl text-sm sm:text-md">
+      <h2 className="text-center font-bold text-2xl sm:text-4xl mb-4">
+        Quick Start
+      </h2>
+      <p className="text-center text-foreground-secondary mb-2">
+        It takes less than 30 seconds to start listening together. Just
+        copy-paste the playlist link and start right away.
+      </p>
+      <p className="text-center text-foreground-secondary mb-4">
+        Have a good playlist to share with friends? Did your favorite artist
+        just release their new album? Grab the link and start listening
+        together!
+      </p>
+      <form
+        className="flex justify-center"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const val = event.currentTarget.playlistLink.value.trim();
+          val && router.push(`/new?search=${val}`);
+        }}
+      >
+        <input
+          name="playlistLink"
+          className="input"
+          placeholder="Enter a playlist link"
+        />
+        <button className="button flex-none ml-1">Go</button>
+      </form>
+    </section>
+  );
+};
+
+const RoomRuleSection: React.FC = () => {
+  return (
+    <section className="py-16 container mx-auto max-w-3xl text-sm sm:text-md">
+      <h2 className="text-center font-bold text-2xl sm:text-4xl mb-4">
+        Your Room. Your Rule.
+      </h2>
+      <p className="text-center text-foreground-secondary mb-4">
+        Listen either in public or private rooms. Set a password to avoid
+        unwelcome guests. Only collaborators can add songs, but everyone can
+        chat and add their reactions.
+      </p>
+      <p className="text-center text-foreground-secondary mb-4">
+        Invite your close friends to be moderators. Ban offended messages and
+        people. Customize room rules so that your friends know what songs can be
+        added. <b>You are in control</b>.
+      </p>
+    </section>
   );
 };
 
@@ -49,11 +133,16 @@ const IndexPage: React.FC = () => {
         canonical={`${process.env.APP_URI}/`}
       />
       <div
-        className="px-4 flex flex-col place-center"
+        className="px-4 flex flex-col items-center"
         style={{ minHeight: "calc(100vh - 13rem)" }}
       >
-        <IndexIntro />
-        <AppLinks />
+        <div className="min-h-screen flex flex-col place-center">
+          <IndexIntro />
+          <AppLinks />
+        </div>
+        <ListenEverywhereSection />
+        <StartWithPlaylistSection />
+        <RoomRuleSection />
       </div>
     </>
   );

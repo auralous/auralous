@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { Modal } from "~/components/Modal/index";
 import { useToasts } from "~/components/Toast/index";
-import { useLogin } from "~/components/Auth/index";
+import { AuthBanner } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 import {
   useMyPlaylistsQuery,
@@ -185,7 +185,6 @@ const AddToPlaylistModal: React.FC<{
   active: boolean;
 }> = ({ track, close, active }) => {
   const user = useCurrentUser();
-  const [, openLogin] = useLogin();
   return (
     <Modal.Modal title="Add to Playlist" active={active} onOutsideClick={close}>
       <Modal.Header>
@@ -205,12 +204,7 @@ const AddToPlaylistModal: React.FC<{
             <AddToExistingPlaylist track={track} done={close} />
           </>
         ) : (
-          <div className="text-center">
-            <p className="font-bold mb-2">Sign in to add songs to playlists</p>
-            <button onClick={openLogin} className="button button-foreground">
-              Sign in
-            </button>
-          </div>
+          <AuthBanner prompt="Join Stereo to Add Songs to Playlists" />
         )}
       </Modal.Content>
     </Modal.Modal>

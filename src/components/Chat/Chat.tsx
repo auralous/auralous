@@ -7,7 +7,6 @@ import {
 } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { useCurrentUser } from "~/hooks/user";
-import { useLogin } from "~/components/Auth/index";
 import {
   useSendMessageMutation,
   useOnMessageAddedSubscription,
@@ -128,29 +127,14 @@ const ChatBox: React.FC<{ roomId: string }> = ({ roomId }) => {
 };
 
 const ChatInput: React.FC<{ roomId: string }> = ({ roomId }) => {
-  const user = useCurrentUser();
   const [messageContent, setMessageContent] = useState("");
   const [{ fetching }, submitMessage] = useSendMessageMutation();
-  const [, openLogin] = useLogin();
   function handleSubmitMessage(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const trimMsg = messageContent.trim();
     if (fetching || !trimMsg) return;
     submitMessage({ roomId, message: trimMsg }).then(() =>
       setMessageContent("")
-    );
-  }
-  if (!user) {
-    return (
-      <div className="p-2">
-        <button
-          onClick={openLogin}
-          type="button"
-          className="button button-light p-4 rounded-lg opacity-75 w-full"
-        >
-          Join chat
-        </button>
-      </div>
     );
   }
   return (
@@ -170,13 +154,15 @@ const ChatInput: React.FC<{ roomId: string }> = ({ roomId }) => {
   );
 };
 
-const Chatbox: React.FC<{ roomId: string }> = ({ roomId }) => (
-  <div className="h-full w-full flex flex-col justify-between">
-    <ChatBox roomId={roomId} />
-    <div className="flex-none">
-      <ChatInput roomId={roomId} />
+const Chatbox: React.FC<{ roomId: string }> = ({ roomId }) => {
+  return (
+    <div className="h-full w-full flex flex-col justify-between">
+      <ChatBox roomId={roomId} />
+      <div className="flex-none">
+        <ChatInput roomId={roomId} />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Chatbox;

@@ -6,7 +6,7 @@
 
 > Music is always better when we listen together
 
-Stereo is a completely-free and community-driven project that lets you play & listen to music in sync with friends in public or private rooms.
+Stereo is a free project that lets you play & listen to music in sync with friends in public or private rooms.
 
 Stereo currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/). We hope to add support for [Apple Music](https://www.apple.com/apple-music/) soon.
 
@@ -42,13 +42,11 @@ Certain environment variables are required to run this application:
 - `FATHOM_SITE_ID`: (optional) [Fathom](https://usefathom.com/) site ID for analytics.
 - `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`: (optional) Sentry environment variables: the first one for error reporting and the second for source map uploading.
 
-Create a `.env` file in the working dir to set the variables. For development, set `APP_URI` to `https://api.withstereo.com`, `WEBSOCKET_URI` to `wss://api.withstereo.com/graphql`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
-
-> Do not commit `.env`!
+Create a `.env.local` file in the working dir to [set the environment variables](https://nextjs.org/docs/basic-features/environment-variables#loading-environment-variables). For development, set `APP_URI` to `http://localhost:3000`, `API_URI` to `https://api.withstereo.com`, `WEBSOCKET_URI` to `wss://api.withstereo.com`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
 
 ### Authentication
 
-You cannot sign in to Stereo directly from the development app. See https://github.com/hoangvvo/stereo-web/issues/17 for instruction.
+You cannot sign in to Stereo directly from the development app. See [#17](https://github.com/hoangvvo/stereo-web/issues/17) for instruction.
 
 ### Workflows
 
@@ -71,10 +69,6 @@ Run `yarn lint` to check for error in source code using [`eslint`](https://githu
 #### `yarn build`
 
 Running `yarn build` will create an optimized production build of your application. To also analyzing build size set the env variable `ANALYZE=true`.
-
-```bash
-yarn build
-```
 
 ## Deployment
 
