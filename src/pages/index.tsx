@@ -95,8 +95,7 @@ const IndexPlaylist: React.FC = () => {
       </IndexParagraph>
       <IndexParagraph>
         Have a good playlist to share with friends? Did your favorite artist
-        just release their new album? Grab the link and start listening
-        together!
+        just release their new album? Just grab the link and go!
       </IndexParagraph>
       <form
         className="flex justify-center mt-2"

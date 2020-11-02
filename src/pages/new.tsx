@@ -347,21 +347,22 @@ const NewPage: NextPage = () => {
                 .
               </p>
             ) : (
-              !!searchQuery &&
-              (fetching ? (
+              !!searchQuery && (
                 <p className="text-foreground-secondary text-center text-sm">
-                  Fetching...
+                  {fetching ? (
+                    "Fetching..."
+                  ) : (
+                    <>
+                      <SvgX
+                        width="18"
+                        height="18"
+                        className="inline bg-foreground-tertiary text-white p-1 rounded-full mr-1"
+                      />
+                      No songs found from the above link
+                    </>
+                  )}
                 </p>
-              ) : (
-                <p className="text-foreground-secondary text-center text-sm">
-                  <SvgX
-                    width="18"
-                    height="18"
-                    className="inline bg-foreground-tertiary text-white p-1 rounded-full mr-1"
-                  />
-                  No songs found from the above link
-                </p>
-              ))
+              )
             )}
           </form>
         </div>
