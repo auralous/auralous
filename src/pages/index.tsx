@@ -47,17 +47,17 @@ const ListenEverywhereSection: React.FC = () => {
         Listen Anywhere
       </h2>
       <p className="text-center text-foreground-secondary">
-        Stereo integrates with the music app you know and love. All you need is
-        a YouTube or Spotify account.
+        Stereo integrates with the music applications you know and love. All you
+        need is a YouTube or Spotify account.
       </p>
       <div className="flex justify-center py-4 opacity-50">
-        <SvgYoutube width="64" height="64" className="fill-current mx-4" />
-        <SvgSpotify width="64" height="64" className="fill-current mx-4" />
+        <SvgYoutube width="52" height="52" className="fill-current mx-4" />
+        <SvgSpotify width="52" height="52" className="fill-current mx-4" />
       </div>
       <p className="text-center text-foreground-secondary">
-        <i>Your friend listens on different music app?</i> No worry, you can
-        still listen together by letting Stereo look up and play that same song
-        on your app instead.
+        <i>Your friend listens on a different music application?</i> No worry,
+        you can still listen together by letting Stereo find and play that same
+        song on your application instead.
       </p>
       <div className="flex justify-center py-2 mt-4">
         <Link href="/new">
