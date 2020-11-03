@@ -109,6 +109,7 @@ const IndexPlaylist: React.FC = () => {
           name="playlistLink"
           className="input"
           placeholder="Enter a playlist link"
+          aria-label="Playlist Link"
         />
         <button className="button flex-none ml-1">Go</button>
       </form>
@@ -159,6 +160,7 @@ const IndexPage: React.FC = () => {
           <button
             onClick={scrollToSection}
             className="absolute-center opacity-50 hover:opacity-100 top-auto bottom-8"
+            aria-label="Scroll down"
           >
             <SvgChevronDown
               width={32}

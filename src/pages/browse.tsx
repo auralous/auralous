@@ -87,6 +87,7 @@ const SearchAndPlaySection: React.FC = () => {
           name="searchQuery"
           className="input w-full rounded-r-none"
           placeholder="Enter a Playlist Link"
+          aria-label="Playlist Link"
         />
         <button
           type="submit"

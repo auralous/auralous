@@ -322,6 +322,7 @@ const NewPage: NextPage = () => {
                 ref={inputRef}
                 className="w-full px-4 py-2 text-center font-bold border-b-4 border-opacity-50 focus:border-opacity-100 border-pink bg-transparent transition duration-300"
                 placeholder="Optional: Enter a playlist link to listen together"
+                aria-label="Playlist Link"
               />
               <button
                 type="submit"
