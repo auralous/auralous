@@ -133,7 +133,7 @@ const BrowsePage: NextPage = () => {
   return (
     <>
       <NextSeo title="Browse" />
-      <div className="container mx-auto mt-20">
+      <div className="container mx-auto">
         <div className="mb-2">
           <SearchAndPlaySection />
         </div>

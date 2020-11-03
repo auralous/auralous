@@ -13,7 +13,7 @@ const ContactPage: NextPage = () => {
         title="Contact us"
         description="The team behind Stereo would love to hear about your feedbacks and questions."
       />
-      <div className="py-16 mt-20 containerleading-loose text-lg">
+      <div className="py-16 containerleading-loose text-lg">
         <h1 className="text-center text-5xl text-foreground-secondary font-bold max-w-xl mx-auto leading-none">
           Hi{" "}
           {user ? (

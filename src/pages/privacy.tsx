@@ -12,7 +12,7 @@ const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => (
       title="Privacy Policy"
       description="Here on Stereo, you share your music, not your data. Learn more about our privacy policy."
     />
-    <div className="py-12 mt-20 px-2">
+    <div className="py-12 px-2">
       <div className="text-center container">
         <h1 className="text-5xl leading-none font-bold">Privacy Policy</h1>
       </div>

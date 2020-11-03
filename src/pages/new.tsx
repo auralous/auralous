@@ -307,7 +307,7 @@ const NewPage: NextPage = () => {
   return (
     <>
       <NextSeo title="Start listening together" noindex />
-      <div className="container mx-auto pt-20">
+      <div className="container mx-auto">
         <div className="py-6 px-3 min-h-40">
           <form
             onSubmit={(event) => {

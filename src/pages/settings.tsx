@@ -327,7 +327,7 @@ const RightSection: React.FC = () => {
 const SettingsPage: NextPage = () => (
   <>
     <NextSeo title="Settings" noindex />
-    <div className="container mt-20">
+    <div className="container">
       <h1 className="font-bold text-4xl mb-2 leading-tight">Settings</h1>
       <div className="flex flex-wrap">
         <div className="w-full lg:flex-1 p-4">

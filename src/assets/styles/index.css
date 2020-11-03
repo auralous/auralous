@@ -47,11 +47,7 @@ html {
   }
 }
 
-button:focus {
-  @apply outline-none border-none;
-}
-
-[role=button]:disabled, button:disabled {
+[role=button]:disabled, button:disabled, input:disabled {
   @apply cursor-not-allowed opacity-50;
 }
 
@@ -69,9 +65,6 @@ button:focus {
 
 .input {
   @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
-  &:disabled {
-    @apply cursor-not-allowed opacity-50;
-  }
   &:focus {
     @apply outline-none;
   }
@@ -85,6 +78,9 @@ button:focus {
   &:not([disabled]):hover, &:not([disabled]):focus {
     @apply bg-background-tertiary;
     @apply border-none;
+  }
+  &:focus {
+    @apply outline-none border-none;
   }
   &.button-danger {
     @apply text-danger-label;
@@ -118,9 +114,6 @@ button:focus {
     &:not([disabled]):hover, &:not([disabled]):focus {
       @apply bg-foreground bg-opacity-50;
     }
-  }
-  &:disabled {
-    @apply cursor-not-allowed opacity-50;
   }
 }
 
