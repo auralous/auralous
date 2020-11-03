@@ -17,6 +17,18 @@ import { useCurrentUser, useMAuth } from "~/hooks/user";
 import { AuthBanner } from "~/components/Auth";
 import { SvgCheck, SvgSearch, SvgX } from "~/assets/svg";
 
+const CreateRoomLabel: React.FC<{ htmlFor: string }> = ({
+  htmlFor,
+  children,
+}) => (
+  <label
+    className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
+    htmlFor={htmlFor}
+  >
+    {children}
+  </label>
+);
+
 const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement>(null);
@@ -72,12 +84,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
   return (
     <form onSubmit={handleRoomCreation} autoComplete="off">
       <div className="mb-2 flex">
-        <label
-          className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
-          htmlFor="roomTitle"
-        >
-          Title
-        </label>
+        <CreateRoomLabel htmlFor="roomTitle">Title</CreateRoomLabel>
         <input
           id="roomTitle"
           aria-label="Enter a title for the station"
@@ -89,9 +96,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
         />
       </div>
       <div className="mb-2 hidden">
-        <label className="label" htmlFor="roomDesc">
-          Description
-        </label>
+        <CreateRoomLabel htmlFor="roomDesc">Description</CreateRoomLabel>
         <textarea
           id="roomDesc"
           aria-label="Enter a description for the station"
@@ -101,13 +106,8 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
         />
       </div>
       <div className="mb-2 flex">
-        <label
-          htmlFor="roomPrivacy"
-          className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
-        >
-          Privacy
-        </label>
-        <div className="inline-flex items-center border-background-secondary border-2 p-2 rounded-lg">
+        <CreateRoomLabel htmlFor="roomPrivacy">Privacy</CreateRoomLabel>
+        <div className="input inline-flex">
           <div className="flex items-center mr-4">
             <input
               id="roomPrivacyPublic"
@@ -143,12 +143,9 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
           <>
             <div className="mb-2">
               <div className="flex">
-                <label
-                  className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
-                  htmlFor="roomAnyoneCanAdd"
-                >
+                <CreateRoomLabel htmlFor="roomAnyoneCanAdd">
                   Guests can add songs
-                </label>
+                </CreateRoomLabel>
                 <select
                   id="roomAnyoneCanAdd"
                   ref={anyoneCanAddRef}
@@ -167,12 +164,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
           <>
             <div className="mb-2">
               <div className="flex">
-                <label
-                  className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
-                  htmlFor="password"
-                >
-                  Password
-                </label>
+                <CreateRoomLabel htmlFor="password">Password</CreateRoomLabel>
                 <input
                   type="password"
                   id="password"

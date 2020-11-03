@@ -2,8 +2,8 @@ import { PlatformName, RoomMembership } from "~/graphql/gql.gen";
 import { SvgYoutube, SvgSpotify } from "~/assets/svg/index";
 
 export const PLATFORM_FULLNAMES: Record<PlatformName, string> = {
-  [PlatformName.Spotify]: "Spotify",
   [PlatformName.Youtube]: "YouTube",
+  [PlatformName.Spotify]: "Spotify",
 };
 
 export const CONFIG = {

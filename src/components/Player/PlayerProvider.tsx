@@ -168,9 +168,9 @@ const PlayerProvider: React.FC = ({ children }) => {
     fetching,
     playerPlaying,
     playingRoomId,
-    playRoom,
     crossTracks,
     playingPlatform,
+    playingThemeColor,
   ]);
 
   return (
@@ -178,7 +178,7 @@ const PlayerProvider: React.FC = ({ children }) => {
       <Portal>{DynamicPlayer && <DynamicPlayer />}</Portal>
       <PlayerPlatformChooser
         // force crossTracks as a hack to rechoose playerPlaying
-        onSelect={() => forceResetPlayingPlatform({})}
+        resetFn={forceResetPlayingPlatform}
         active={shouldShowPlatformChooser}
       />
       {children}

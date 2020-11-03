@@ -47,6 +47,13 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
 
   const canReact = playerPlaying && !nowPlayingReaction?.mine;
 
+  const getClassname = (type: NowPlayingReactionType) =>
+    `flex-1 button transform transition rounded-full p-2 mx-1 ${
+      nowPlayingReaction?.mine === type
+        ? "bg-pink opacity-100"
+        : "bg-opacity-25"
+    }`;
+
   useEffect(() => {
     // Add animation to buttons
     if (!nowPlayingReaction) return;
@@ -81,11 +88,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       <button
         ref={btnHeart}
         onClick={() => react(NowPlayingReactionType.Heart)}
-        className={`flex-1 button transform transition rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine === NowPlayingReactionType.Heart
-            ? "bg-pink opacity-100"
-            : "bg-opacity-25"
-        }`}
+        className={getClassname(NowPlayingReactionType.Heart)}
         disabled={!canReact}
       >
         <span role="img" aria-label="Heart">
@@ -94,11 +97,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       </button>
       <button
         ref={btnFire}
-        className={`flex-1 button transform transition rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine === NowPlayingReactionType.Fire
-            ? "bg-pink opacity-100"
-            : "bg-opacity-25"
-        }`}
+        className={getClassname(NowPlayingReactionType.Fire)}
         onClick={() => react(NowPlayingReactionType.Fire)}
         disabled={!canReact}
       >
@@ -108,11 +107,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       </button>
       <button
         ref={btnTearJoy}
-        className={`flex-1 button transform transition rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine === NowPlayingReactionType.Joy
-            ? "bg-pink opacity-100"
-            : "bg-opacity-25"
-        }`}
+        className={getClassname(NowPlayingReactionType.Joy)}
         onClick={() => react(NowPlayingReactionType.Joy)}
         disabled={!canReact}
       >
@@ -122,11 +117,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
       </button>
       <button
         ref={btnCrying}
-        className={`flex-1 button transform transition rounded-full p-2 mx-1 ${
-          nowPlayingReaction?.mine === NowPlayingReactionType.Cry
-            ? "bg-pink opacity-100"
-            : "bg-opacity-25"
-        }`}
+        className={getClassname(NowPlayingReactionType.Cry)}
         onClick={() => react(NowPlayingReactionType.Cry)}
         disabled={!canReact}
       >
