@@ -26,7 +26,7 @@ import {
   Queue,
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
-import { QueuePermission, QueueRules } from "./types";
+import { QueuePermission } from "./types";
 import { SvgBookOpen } from "~/assets/svg/index";
 import QueueAddedBy from "./QueueAddedBy";
 
@@ -141,7 +141,6 @@ areEqual);
 const QueueManager: React.FC<{
   queueId: string;
   permission: QueuePermission;
-  rules: QueueRules;
 }> = ({ queueId, permission }) => {
   const user = useCurrentUser();
   const [queue] = useQueue(queueId, { requestPolicy: "cache-and-network" });
@@ -181,6 +180,11 @@ const QueueManager: React.FC<{
         </div>
       )}
       <div className="w-full h-full">
+        {queue.items?.length === 0 && (
+          <div className="text-xs text-foreground-secondary p-4 text-center">
+            It&apos;s lonely around here... Let&apos;s add a song!
+          </div>
+        )}
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable
             droppableId="droppable"
@@ -216,11 +220,6 @@ const QueueManager: React.FC<{
             )}
           </Droppable>
         </DragDropContext>
-        {queue.items?.length === 0 && (
-          <div className="text-xs text-foreground-secondary p-4 text-center">
-            It&apos;s lonely around here... Let&apos;s add a song!
-          </div>
-        )}
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
         {permission.canAdd ? null : (

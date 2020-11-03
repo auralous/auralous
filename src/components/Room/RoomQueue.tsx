@@ -87,7 +87,6 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
               >
                 <QueueManager
                   permission={permission}
-                  rules={{}}
                   queueId={`room:${room.id}`}
                 />
               </TabPanel>
@@ -107,7 +106,7 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
                 } flex-col h-full overflow-hidden`}
               >
                 {
-                  /* We do not render playlist to avoid prefetch of playlists */
+                  /* We do not render to avoid prefetch */
                   selectedIndex === 2 ? (
                     <TrackAdderPlaylist
                       callback={onAddTracks}
@@ -123,11 +122,18 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
                   selectedIndex === 3 ? "flex" : "hidden"
                 } flex-col h-full overflow-hidden`}
               >
-                <QueueViewer
-                  onAdd={permission.canAdd ? onAddTracks : undefined}
-                  queueId={`room:${room.id}:played`}
-                  reverse
-                />
+                {
+                  /* We do not render to avoid prefetch */
+                  selectedIndex === 3 ? (
+                    <QueueViewer
+                      onAdd={permission.canAdd ? onAddTracks : undefined}
+                      queueId={`room:${room.id}:played`}
+                      reverse
+                    />
+                  ) : (
+                    <div />
+                  )
+                }
               </TabPanel>
             </TabPanels>
           </>
