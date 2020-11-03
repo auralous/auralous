@@ -179,7 +179,7 @@ const AddToExistingPlaylist: React.FC<{
   );
 };
 
-const AddToPlaylistModal: React.FC<{
+const AddToPlaylist: React.FC<{
   track: Track;
   close: () => void;
   active: boolean;
@@ -211,4 +211,4 @@ const AddToPlaylistModal: React.FC<{
   );
 };
 
-export default AddToPlaylistModal;
+export default AddToPlaylist;

@@ -13,11 +13,11 @@ export default function useQueue(
   >
 ) {
   const [res] = useQueueQuery({
-    variables: { id: queueId as string },
+    variables: { id: queueId },
     ...queryOpts,
   });
   useOnQueueUpdatedSubscription({
-    variables: { id: queueId as string },
+    variables: { id: queueId },
     pause: !res.data?.queue,
   });
   return [res.data?.queue, res] as const;

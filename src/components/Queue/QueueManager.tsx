@@ -42,27 +42,24 @@ const QueueDraggableItem: React.FC<{
   const urqlClient = useClient();
   const me = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
-  const removeItem = useCallback(
-    async (index: number) => {
-      if (!queue) return;
-      // This should read from cache
-      const deletingTrackName = (
-        await urqlClient
-          .query<TrackQuery, TrackQueryVariables>(TrackDocument, {
-            id: queue.items[index].trackId,
-          })
-          .toPromise()
-      ).data?.track?.title;
-      const { error } = await updateQueue({
-        id: queue.id,
-        action: QueueAction.Remove,
-        position: index,
-      });
-      if (!error)
-        toasts.success(`Removed ${deletingTrackName || "unknown track"}`);
-    },
-    [queue, toasts, updateQueue, urqlClient]
-  );
+  const removeItem = useCallback(async () => {
+    if (!queue) return;
+    // This should read from cache
+    const deletingTrackName = (
+      await urqlClient
+        .query<TrackQuery, TrackQueryVariables>(TrackDocument, {
+          id: queue.items[index].trackId,
+        })
+        .toPromise()
+    ).data?.track?.title;
+    const { error } = await updateQueue({
+      id: queue.id,
+      action: QueueAction.Remove,
+      position: index,
+    });
+    if (!error)
+      toasts.success(`Removed ${deletingTrackName || "unknown track"}`);
+  }, [queue, toasts, updateQueue, urqlClient, index]);
   const canRemove =
     permission.canEditOthers || queue.items[index].creatorId === me?.id;
   const [{ data: { user } = { user: undefined } }] = useUserQuery({
@@ -102,7 +99,7 @@ const QueueDraggableItem: React.FC<{
         title="Remove Track"
         className="absolute top-1 right-1 bg-transparent p-1 opacity-50 hover:opacity-100 transition-opacity duration-200"
         hidden={!canRemove}
-        onClick={() => canRemove && removeItem(index)}
+        onClick={removeItem}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

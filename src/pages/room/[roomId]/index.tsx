@@ -4,7 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { NextSeo } from "next-seo";
 import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
-import { ShareDialog } from "~/components/Social/Share";
+import { ShareDialog } from "~/components/Social/index";
 import { useModal, Modal } from "~/components/Modal/index";
 import { useNowPlaying } from "~/components/NowPlaying";
 import { useToasts } from "~/components/Toast";
@@ -425,7 +425,7 @@ export const getServerSideProps: GetServerSideProps<{
       " "
     ).trim()}&variables=${JSON.stringify({ id: params?.roomId })}`,
     { headers: forwardSSRHeaders(req) }
-  ).then((res) => res.json());
+  ).then((response) => response.json());
   const room = result.data?.room || null;
   if (!room) res.statusCode = 404;
   else {

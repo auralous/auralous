@@ -186,11 +186,11 @@ const LayoutBg: React.FC = () => {
   useEffect(() => {
     if (!playerPlaying) return;
     try {
-      colorThief.current = colorThief.current || new ColorThief();
       const img = new Image();
       img.addEventListener("load", async () => {
-        document.body.style.backgroundColor = `rgb(${colorThief
-          .current!.getColor(img)
+        colorThief.current = colorThief.current || new ColorThief();
+        document.body.style.backgroundColor = `rgb(${colorThief.current
+          .getColor(img)
           .join(", ")}`;
       });
       img.crossOrigin = "Anonymous";

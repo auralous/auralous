@@ -1,13 +1,14 @@
 import { useCallback } from "react";
 import { useMutation, useQuery, useQueryCache } from "react-query";
-import SpotifyPlaylist from "./spotify";
-import YoutubePlaylist from "./youtube";
+import PlaylistSpotify from "./PlaylistSpotify";
+import PlaylistYoutube from "./PlaylistYouTube";
 import { Playlist } from "~/types/index";
 import { useMAuth } from "~/hooks/user";
+import { PlatformName } from "~/graphql/gql.gen";
 
 const playlistService = {
-  youtube: new YoutubePlaylist(),
-  spotify: new SpotifyPlaylist(),
+  [PlatformName.Youtube]: new PlaylistYoutube(),
+  [PlatformName.Spotify]: new PlaylistSpotify(),
 };
 
 const CACHE_PREFIX = "my-playlists";
@@ -19,8 +20,9 @@ export const useMyPlaylistsQuery = () => {
   return useQuery<Playlist[] | null>(
     cacheKey,
     () => {
-      playlistService.youtube.auth = null;
-      playlistService.spotify.auth = null;
+      for (const plPlatform of Object.keys(playlistService)) {
+        playlistService[plPlatform as PlatformName].auth = null;
+      }
       if (mAuth) {
         playlistService[mAuth.platform].auth = {
           token: mAuth.accessToken,

@@ -241,9 +241,9 @@ const LocalPlatformSettings: React.FC = () => {
 
   const PlatformChoices = useMemo(
     () =>
-      Object.entries(PLATFORM_FULLNAMES).map(([value, name]) => (
+      Object.entries(PLATFORM_FULLNAMES).map(([value, plname]) => (
         <option key={value} value={value}>
-          {name}
+          {plname}
         </option>
       )),
     []

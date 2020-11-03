@@ -3,7 +3,7 @@ import { defaultAvatar } from "~/lib/util";
 import { PlatformName } from "~/graphql/gql.gen";
 import { Playlist } from "~/types/index";
 
-export default class YoutubePlaylist {
+export default class PlaylistYoutube {
   private baseURL = "https://www.googleapis.com";
   private apiKey = process.env.GOOGLE_API_KEY;
   auth: { token: string; authId: string } | null = null;

@@ -12,7 +12,7 @@ const PlayerMinibar: React.FC = () => {
   const colorThief = useRef<ColorThief>();
   const router = useRouter();
   const {
-    state: { playingRoomId, playerPlaying, playerContext },
+    state: { playingRoomId, playerPlaying },
   } = usePlayer();
   const shouldHide = useMemo(
     () => !playingRoomId || noPlayerMinibarRoutes.includes(router.pathname),
@@ -21,13 +21,13 @@ const PlayerMinibar: React.FC = () => {
   useEffect(() => {
     if (!divRef.current || !playerPlaying) return;
     try {
-      colorThief.current = colorThief.current || new ColorThief();
       const img = new Image();
       img.addEventListener("load", async () => {
-        divRef.current &&
-          (divRef.current.style.backgroundColor = `rgb(${colorThief
-            .current!.getColor(img)
-            .join(", ")}`);
+        if (!divRef.current) return;
+        colorThief.current = colorThief.current || new ColorThief();
+        divRef.current.style.backgroundColor = `rgb(${colorThief.current
+          .getColor(img)
+          .join(", ")}`;
       });
       img.crossOrigin = "Anonymous";
       img.src = playerPlaying.image;
@@ -50,7 +50,7 @@ const PlayerMinibar: React.FC = () => {
         />
         <img
           alt="Now Playing"
-          src={playerPlaying?.image || playerContext.room?.image}
+          src={playerPlaying?.image}
           className="h-10 w-10 mx-1 rounded-lg object-cover"
         />
         <div className="text-xs p-1 flex-1 w-0 text-left">

@@ -4,7 +4,7 @@ import { PlatformName } from "~/graphql/gql.gen";
 import { Playlist } from "~/types/index";
 /// <reference path="spotify-api" />
 
-export default class SpotifyPlaylist {
+export default class PlaylistSpotify {
   private baseURL = "https://api.spotify.com/v1";
   auth: { token: string; authId: string } | null = null;
 

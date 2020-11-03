@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "~/components/Modal/index";
 import { SvgFacebook, SvgTwitter, SvgReddit, SvgMail } from "~/assets/svg";
 
-export const ShareDialog: React.FC<{
+const ShareDialog: React.FC<{
   uri: string;
   name: string;
   active: boolean;
@@ -84,3 +84,5 @@ export const ShareDialog: React.FC<{
     </Modal.Modal>
   );
 };
+
+export default ShareDialog;

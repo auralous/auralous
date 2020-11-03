@@ -41,10 +41,11 @@ module.exports = withBundleAnalyzer({
             silent: true,
           })
         );
-      } else
+      } else {
         console.warn(
           "Missing SENTRY_AUTH_TOKEN environment variables: Source Maps will not be uploaded."
         );
+      }
     }
     config.module.rules.push({
       test: /\.svg$/,

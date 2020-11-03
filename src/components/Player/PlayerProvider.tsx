@@ -1,17 +1,17 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import Portal from "@reach/portal";
 import PlayerPlatformChooser from "./PlayerPlatformChooser";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
 import { useNowPlaying } from "~/components/NowPlaying/index";
-import { useRoomQuery, PlatformName } from "~/graphql/gql.gen";
+import { PlatformName } from "~/graphql/gql.gen";
 import { useMAuth } from "~/hooks/user";
 import { useCrossTracks } from "~/hooks/track";
-import { PlayerError, PlayerPlaying } from "./types";
+import { IPlayerContext, PlayerError, PlayerPlaying } from "./types";
 
-const YouTubePlayer = dynamic(() => import("./Youtube"));
-const SpotifyPlayer = dynamic(() => import("./Spotify"));
+const YouTubePlayer = dynamic(() => import("./YouTubePlayer"), { ssr: false });
+const SpotifyPlayer = dynamic(() => import("./SpotifyPlayer"), { ssr: false });
 
 const player = new Player();
 
@@ -59,8 +59,6 @@ const PlayerProvider: React.FC = ({ children }) => {
     return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
 
-  const stopPlaying = useCallback(() => playRoom(""), []);
-
   useEffect(() => {
     if (!nowPlaying) return undefined;
 
@@ -88,20 +86,6 @@ const PlayerProvider: React.FC = ({ children }) => {
       player.off("paused", onPaused);
     };
   }, [nowPlaying]);
-
-  // room
-
-  const [{ data: { room } = { room: undefined } }] = useRoomQuery({
-    variables: { id: playingRoomId },
-    pause: !playingRoomId,
-  });
-
-  const playerContext = useMemo(
-    () => ({
-      ...(!!playingRoomId && { room }),
-    }),
-    [playingRoomId, room]
-  );
 
   // Player Component
   const [
@@ -142,14 +126,13 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   const fetching = fetchingMAuth || fetchingCrossTracks || fetchingNP;
 
-  const playerContextValue = useMemo(() => {
+  const playerContextValue = useMemo<IPlayerContext>(() => {
     let error: PlayerError | undefined;
     if (!!playingPlatform && !!crossTracks && !playerPlaying)
       error = PlayerError.NOT_AVAILABLE_ON_PLATFORM;
     return {
       state: {
         playerPlaying,
-        playerContext,
         playingRoomId,
         originalTrack: crossTracks?.original,
         playingPlatform,
@@ -157,18 +140,15 @@ const PlayerProvider: React.FC = ({ children }) => {
         error,
       },
       playRoom,
-      stopPlaying,
+      stopPlaying: () => playRoom(""),
       player,
       forceResetPlayingPlatform,
     };
   }, [
     fetching,
     playerPlaying,
-    playerContext,
     playingRoomId,
     playRoom,
-    stopPlaying,
-    forceResetPlayingPlatform,
     crossTracks,
     playingPlatform,
   ]);

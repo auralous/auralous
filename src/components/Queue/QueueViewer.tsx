@@ -3,7 +3,7 @@ import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import useQueue from "./useQueue";
 import { TrackItem } from "~/components/Track/index";
-import { QueueItem, useUserQuery } from "~/graphql/gql.gen";
+import { useUserQuery } from "~/graphql/gql.gen";
 import { SvgPlus } from "~/assets/svg";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
@@ -72,11 +72,7 @@ const QueueViewer: React.FC<{
   const items = useMemo(() => {
     if (!queue) return [];
     if (!reverse) return queue.items;
-    const items: QueueItem[] = [];
-    for (let i = queue.items.length - 1; i >= 0; i--) {
-      items.push(queue.items[i]);
-    }
-    return items;
+    return [...queue.items].reverse();
   }, [queue, reverse]);
 
   return (

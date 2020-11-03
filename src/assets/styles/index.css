@@ -1,10 +1,10 @@
 @import "@reach/dialog/styles.css";
 
-@tailwind base;
+@import "tailwindcss/base";
 
-@tailwind components;
+@import "tailwindcss/components";
 
-@tailwind utilities;
+@import "tailwindcss/utilities";
 
 body {
   @apply text-foreground bg-background font-sans;
