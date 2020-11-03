@@ -6,19 +6,27 @@ import { Playlist } from "~/types/index";
 export default class PlaylistYoutube {
   private baseURL = "https://www.googleapis.com";
   private apiKey = process.env.GOOGLE_API_KEY;
-  auth: { token: string; authId: string } | null = null;
-
+  private _auth: { token: string; authId: string } | null = null;
+  private instance: typeof axios | null = null;
+  get auth() {
+    return this._auth;
+  }
+  set auth(val) {
+    this.instance = val
+      ? axios.create({
+          headers: { Authorization: `Bearer ${val.token}` },
+          baseURL: this.baseURL,
+          params: { key: this.apiKey },
+        })
+      : null;
+    this._auth = val;
+  }
   private async getPlaylistTracks(
     playlistId: string
   ): Promise<null | string[]> {
-    if (!this.auth) return null;
-    const instance: typeof axios = axios.create({
-      headers: { Authorization: `Bearer ${this.auth.token}` },
-      baseURL: this.baseURL,
-      params: { key: this.apiKey },
-    });
+    if (!this.instance) return null;
     const tracks: string[] = [];
-    let trackData = await instance
+    let trackData = await this.instance
       .get("/youtube/v3/playlistItems", {
         params: {
           playlistId,
@@ -33,7 +41,7 @@ export default class PlaylistYoutube {
         tracks.push(`youtube:${trackItem.contentDetails.videoId}`)
       );
       if (trackData.nextPageToken)
-        trackData = await instance
+        trackData = await this.instance
           .get("/youtube/v3/playlistItems", {
             params: {
               playlistId,
@@ -49,14 +57,9 @@ export default class PlaylistYoutube {
   }
 
   async getAll(): Promise<null | Playlist[]> {
-    if (!this.auth) return null;
-    const instance: typeof axios = axios.create({
-      headers: { Authorization: `Bearer ${this.auth.token}` },
-      baseURL: this.baseURL,
-      params: { key: this.apiKey },
-    });
+    if (!this.instance) return null;
     const playlists: Playlist[] = [];
-    let data = await instance
+    let data = await this.instance
       .get(`/youtube/v3/playlists`, {
         params: {
           part: "id,snippet",
@@ -83,7 +86,7 @@ export default class PlaylistYoutube {
       );
 
       if (data.nextPageToken)
-        data = await instance
+        data = await this.instance
           .get(`/youtube/v3/playlists`, {
             params: {
               part: "id,snippet",
@@ -99,13 +102,8 @@ export default class PlaylistYoutube {
   }
 
   async create(name: string): Promise<Playlist | null> {
-    if (!this.auth) return null;
-    const instance: typeof axios = axios.create({
-      headers: { Authorization: `Bearer ${this.auth.token}` },
-      baseURL: this.baseURL,
-      params: { key: this.apiKey },
-    });
-    const data = await instance
+    if (!this.instance) return null;
+    const data = await this.instance
       .post(
         `/youtube/v3/playlists`,
         { snippet: { title: name } },
@@ -126,14 +124,9 @@ export default class PlaylistYoutube {
     externalId: string,
     externalTrackIds: string[]
   ): Promise<boolean> {
-    if (!this.auth) return false;
-    const instance: typeof axios = axios.create({
-      headers: { Authorization: `Bearer ${this.auth.token}` },
-      baseURL: this.baseURL,
-      params: { key: this.apiKey },
-    });
+    if (!this.instance) return false;
     for (const externalTrackId of externalTrackIds) {
-      await instance.post(
+      await this.instance.post(
         `/youtube/v3/playlistItems`,
         {
           snippet: {

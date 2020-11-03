@@ -6,17 +6,23 @@ import { Playlist } from "~/types/index";
 
 export default class PlaylistSpotify {
   private baseURL = "https://api.spotify.com/v1";
-  auth: { token: string; authId: string } | null = null;
-
+  private _auth: { token: string; authId: string } | null = null;
+  private instance: typeof axios | null = null;
+  get auth() {
+    return this._auth;
+  }
+  set auth(val) {
+    this.instance = val
+      ? axios.create({ headers: { Authorization: `Bearer ${val.token}` } })
+      : null;
+    this._auth = val;
+  }
   private async getPlaylistTracks(
     playlistId: string
   ): Promise<null | string[]> {
-    if (!this.auth) return null;
-    const instance: typeof axios = axios.create({
-      headers: { Authorization: `Bearer ${this.auth.token}` },
-    });
+    if (!this.instance) return null;
     const tracks: string[] = [];
-    let trackData = await instance
+    let trackData = await this.instance
       .get<SpotifyApi.PlaylistTrackResponse>(
         `${this.baseURL}/playlists/${playlistId}/tracks`
       )
@@ -28,7 +34,7 @@ export default class PlaylistSpotify {
           !trackItem.is_local && tracks.push(`spotify:${trackItem.track.id}`)
       );
       if (trackData.next)
-        trackData = await instance
+        trackData = await this.instance
           .get<SpotifyApi.PlaylistTrackResponse>(trackData.next)
           .then((res) => res.data);
       else break;
@@ -37,12 +43,9 @@ export default class PlaylistSpotify {
   }
 
   async getAll(): Promise<null | Playlist[]> {
-    if (!this.auth) return null;
-    const instance: typeof axios = axios.create({
-      headers: { Authorization: `Bearer ${this.auth.token}` },
-    });
+    if (!this.instance) return null;
     const playlists: Playlist[] = [];
-    let data = await instance
+    let data = await this.instance
       .get<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(
         `${this.baseURL}/me/playlists`
       )
@@ -64,7 +67,7 @@ export default class PlaylistSpotify {
         ))
       );
       if (data.next)
-        data = await instance
+        data = await this.instance
           .get<SpotifyApi.ListOfCurrentUsersPlaylistsResponse>(data.next)
           .then((res) => res.data);
       else break;
@@ -73,13 +76,9 @@ export default class PlaylistSpotify {
   }
 
   async create(name: string): Promise<Playlist | null> {
-    if (!this.auth) return null;
-    const data: SpotifyApi.CreatePlaylistResponse = await axios
-      .post(
-        `${this.baseURL}/users/${this.auth.authId}/playlists`,
-        { name },
-        { headers: { Authorization: `Bearer ${this.auth.token}` } }
-      )
+    if (!this.instance || !this.auth) return null;
+    const data: SpotifyApi.CreatePlaylistResponse = await this.instance
+      .post(`${this.baseURL}/users/${this.auth.authId}/playlists`, { name })
       .then((res) => res.data);
     return {
       id: `spotify:${data.id}`,
@@ -95,17 +94,13 @@ export default class PlaylistSpotify {
     externalId: string,
     externalTrackIds: string[]
   ): Promise<boolean> {
-    if (!this.auth) return false;
-    return axios
-      .post(
-        `${this.baseURL}/playlists/${externalId}/tracks`,
-        {
-          uris: externalTrackIds.map(
-            (externalTrackId) => `spotify:track:${externalTrackId}`
-          ),
-        },
-        { headers: { Authorization: `Bearer ${this.auth.token}` } }
-      )
+    if (!this.instance) return false;
+    return this.instance
+      .post(`${this.baseURL}/playlists/${externalId}/tracks`, {
+        uris: externalTrackIds.map(
+          (externalTrackId) => `spotify:track:${externalTrackId}`
+        ),
+      })
       .then((res) => res.data && true);
   }
 }
