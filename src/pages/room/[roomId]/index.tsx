@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { NextSeo } from "next-seo";
 import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
@@ -236,15 +237,20 @@ const Navbar: React.FC<{
   setTab: React.Dispatch<React.SetStateAction<"live" | "chat" | "queue">>;
 }> = ({ room, tab, setTab }) => {
   const [activeShare, openShare, closeShare] = useModal();
+  const router = useRouter();
   return (
     <>
       <div className="nav px-2 overflow-hidden">
         <div className="flex flex-1 w-0 items-center justify-start h-full">
-          <Link href="/browse">
-            <button className="p-1 mr-2" title="Go back">
-              <SvgChevronLeft />
-            </button>
-          </Link>
+          <button
+            onClick={() =>
+              tab === "live" ? router.push("/browse") : setTab("live")
+            }
+            className="p-1 mr-2"
+            title="Go back"
+          >
+            <SvgChevronLeft />
+          </button>
           <h4 className="text-md font-bold leading-tight truncate mr-2">
             {room.title}
           </h4>
@@ -253,37 +259,28 @@ const Navbar: React.FC<{
           </button>
         </div>
         <div className="flex items justify-end">
-          <div className="flex-none lg:hidden flex" role="tablist">
+          <div className="flex-none lg:hidden flex">
             <button
-              role="tab"
               className={`text-lg font-bold mx-1 p-1 ${
                 tab === "live" ? "opacity-100" : "opacity-25"
               } transition-opacity duration-200`}
-              aria-controls="tabpanel_main"
               onClick={() => setTab("live")}
-              aria-selected={tab === "live"}
             >
               Live
             </button>
             <button
-              role="tab"
               className={`text-lg font-bold mx-1 p-1 ${
                 tab === "queue" ? "opacity-100" : "opacity-25"
               } transition-opacity duration-200`}
-              aria-controls="tabpanel_queue"
               onClick={() => setTab("queue")}
-              aria-selected={tab === "queue"}
             >
               Queue
             </button>
             <button
-              role="tab"
               className={`text-lg font-bold mx-1 p-1 ${
                 tab === "chat" ? "opacity-100" : "opacity-25"
               } transition-opacity duration-200`}
-              aria-controls="tabpanel_chat"
               onClick={() => setTab("chat")}
-              aria-selected={tab === "chat"}
             >
               Chat
             </button>
