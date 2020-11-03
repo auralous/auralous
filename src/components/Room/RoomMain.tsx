@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import RoomSettings from "./RoomSettings/index";
-import RoomQueue from "./RoomQueue";
-import RoomChat from "./RoomChat";
 import RoomRules from "./RoomRules";
 import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
 import { ShareDialog } from "~/components/Social/index";
@@ -27,6 +26,9 @@ import {
   SvgSettings,
   SvgBookOpen,
 } from "~/assets/svg";
+
+const RoomQueue = dynamic(() => import("./RoomQueue"), { ssr: false });
+const RoomChat = dynamic(() => import("./RoomChat"), { ssr: false });
 
 const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
   const isInit = useRef<boolean>(false);

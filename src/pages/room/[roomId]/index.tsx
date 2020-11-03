@@ -1,15 +1,12 @@
 import React from "react";
 import { GetServerSideProps, NextPage } from "next";
-import dynamic from "next/dynamic";
 import { NextSeo } from "next-seo";
+import RoomMain from "~/components/Room/RoomMain";
 import NotFoundPage from "../../404";
 import { forwardSSRHeaders } from "~/lib/ssr-utils";
 import { Room } from "~/graphql/gql.gen";
 import { QUERY_ROOM } from "~/graphql/room";
 import { CONFIG } from "~/lib/constants";
-const RoomMain = dynamic(() => import("~/components/Room/RoomMain"), {
-  ssr: false,
-});
 
 const RoomPage: NextPage<{
   room: Room | null;

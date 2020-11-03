@@ -97,29 +97,22 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
                 : "Use the button below to unpause"}
             </div>
           </div>
-          {roomPlayingStarted ? (
-            <button
-              type="button"
-              aria-label={isPlaying ? "Pause" : "Play"}
-              className="button bg-transparent hover:bg-white hover:bg-opacity-10 w-16 h-16 rounded-full"
-              onClick={() => (isPlaying ? player.pause() : player.play())}
-              disabled={!playerPlaying}
-            >
-              {isPlaying ? (
-                <SvgPause fill="white" stroke="white" />
-              ) : (
-                <SvgPlay fill="white" stroke="white" />
-              )}
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="button bg-transparent hover:bg-white hover:bg-opacity-10 w-16 h-16 rounded-full"
-              onClick={() => playRoom(roomId)}
-            >
+          <button
+            type="button"
+            aria-label={isPlaying ? "Pause" : "Play"}
+            className="button bg-transparent hover:bg-white hover:bg-opacity-10 w-16 h-16 rounded-full"
+            onClick={() => {
+              if (!roomPlayingStarted) return playRoom(roomId);
+              isPlaying ? player.pause() : player.play();
+            }}
+            disabled={!playerPlaying && roomPlayingStarted}
+          >
+            {isPlaying ? (
+              <SvgPause fill="white" stroke="white" />
+            ) : (
               <SvgPlay fill="white" stroke="white" />
-            </button>
-          )}
+            )}
+          </button>
           {error !== undefined && (
             <p className="text-xs">
               <SvgAlertCircle width="12" className="inline text-danger-light" />{" "}
