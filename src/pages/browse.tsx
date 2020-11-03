@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { RoomItem } from "~/components/Room";
 import { useExploreRoomsQuery, useRoomsQuery } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
@@ -100,52 +101,31 @@ const SearchAndPlaySection: React.FC = () => {
 };
 
 const RoomSection: React.FC = () => {
-  const [tab, setTab] = useState<"random" | "mine">("random");
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex-none flex mb-2 justify-center" role="tablist">
-        <button
-          role="tab"
-          className={`font-bold mx-1 px-2 py-1 ${
-            tab === "random" ? "opacity-100" : "opacity-25"
-          } transition-opacity duration-200`}
-          aria-controls="tabpanel_next"
-          onClick={() => setTab("random")}
-          aria-selected={tab === "random"}
-        >
-          Random Rooms
-        </button>
-        <button
-          role="tab"
-          className={`font-bold mx-1 px-2 py-1 ${
-            tab === "mine" ? "opacity-100" : "opacity-25"
-          } transition-opacity duration-200`}
-          aria-controls="tabpanel_played"
-          onClick={() => setTab("mine")}
-          aria-selected={tab === "mine"}
-        >
-          My Room
-        </button>
-      </div>
-      <div className="flex-1 overflow-hidden">
-        <div
-          aria-labelledby="tabpanel_next"
-          role="tabpanel"
-          aria-hidden={tab !== "random"}
-          hidden={tab !== "random"}
-        >
-          <RandomRoomSection />
-        </div>
-        <div
-          aria-labelledby="tabpanel_played"
-          role="tabpanel"
-          aria-hidden={tab !== "mine"}
-          hidden={tab !== "mine"}
-        >
-          <MyRoomsSection />
-        </div>
-      </div>
-    </div>
+    <Tabs className="h-full flex flex-col">
+      {({ selectedIndex }) => {
+        const getClassName = (index: number) =>
+          `font-bold mx-1 px-2 py-1 ${
+            index === selectedIndex ? "opacity-100" : "opacity-25"
+          } transition-opacity duration-200`;
+        return (
+          <>
+            <TabList className="flex-none flex mb-2 justify-center">
+              <Tab className={getClassName(0)}>Random Rooms</Tab>
+              <Tab className={getClassName(1)}>My Room</Tab>
+            </TabList>
+            <TabPanels className="flex-1 overflow-hidden">
+              <TabPanel>
+                <RandomRoomSection />
+              </TabPanel>
+              <TabPanel>
+                <MyRoomsSection />
+              </TabPanel>
+            </TabPanels>
+          </>
+        );
+      }}
+    </Tabs>
   );
 };
 

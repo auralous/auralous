@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { Modal } from "~/components/Modal/index";
 import RoomSettingsBasic from "./RoomSettingsBasic";
 import RoomSettingsRules from "./RoomSettingsRules";
@@ -11,81 +12,47 @@ const RoomSettings: React.FC<{
   active: boolean;
   close: () => void;
 }> = ({ room, roomState, active, close }) => {
-  const [tab, setTab] = useState<"basic" | "rules" | "member">("basic");
   if (!roomState) return null;
   return (
     <Modal.Modal active={active} onOutsideClick={close}>
-      <Modal.Header>
-        <div
-          className="flex-none flex items-center font-bold text-4xl leading-tight"
-          role="tablist"
-        >
-          <button
-            role="tab"
-            className={`font-bold ${
-              tab === "basic" ? "opacity-100" : "opacity-25"
-            } transition-opacity duration-200`}
-            onClick={() => setTab("basic")}
-            aria-selected={tab === "basic"}
-            aria-controls="tabpanel_basic"
-          >
-            Info
-          </button>
-          <span className="font-bold opacity-25 mx-2 text-lg">{" • "}</span>
-          <button
-            role="tab"
-            className={`font-bold ${
-              tab === "rules" ? "opacity-100" : "opacity-25"
-            } transition-opacity duration-200`}
-            onClick={() => setTab("rules")}
-            aria-selected={tab === "rules"}
-            aria-controls="tabpanel_rules"
-          >
-            Rule
-          </button>
-          <span className="font-bold opacity-25 mx-2 text-lg">{" • "}</span>
-          <button
-            role="tab"
-            className={`font-bold ${
-              tab === "member" ? "opacity-100" : "opacity-25"
-            } transition-opacity duration-200`}
-            onClick={() => setTab("member")}
-            aria-selected={tab === "member"}
-            aria-controls="tabpanel_member"
-          >
-            Member
-          </button>
-        </div>
-      </Modal.Header>
-      <Modal.Content>
-        <div
-          aria-labelledby="tabpanel_basic"
-          role="tabpanel"
-          style={{ height: "calc(100vh - 12rem)" }}
-          aria-hidden={tab !== "basic"}
-          hidden={tab !== "basic"}
-        >
-          <RoomSettingsBasic room={room} />
-        </div>
-        <div
-          aria-labelledby="tabpanel_rules"
-          role="tabpanel"
-          style={{ height: "calc(100vh - 12rem)" }}
-          aria-hidden={tab !== "rules"}
-          hidden={tab !== "rules"}
-        >
-          <RoomSettingsRules room={room} roomState={roomState} />
-        </div>
-        <div
-          aria-labelledby="tabpanel_member"
-          role="tabpanel"
-          style={{ height: "calc(100vh - 12rem)" }}
-          aria-hidden={tab !== "member"}
-          hidden={tab !== "member"}
-        >
-          <RoomSettingsMember room={room} roomState={roomState} />
-        </div>
-      </Modal.Content>
+      <Tabs>
+        {({ selectedIndex }) => {
+          const getClassNames = (index: number) =>
+            `font-bold ${
+              selectedIndex === index ? "opacity-100" : "opacity-25"
+            } transition-opacity duration-200`;
+          return (
+            <>
+              <Modal.Header>
+                <TabList className="flex-none flex items-center font-bold text-4xl leading-tight">
+                  <Tab className={getClassNames(0)}>Info</Tab>
+                  <span className="font-bold opacity-25 mx-2 text-lg">
+                    {" • "}
+                  </span>
+                  <Tab className={getClassNames(1)}>Rule</Tab>
+                  <span className="font-bold opacity-25 mx-2 text-lg">
+                    {" • "}
+                  </span>
+                  <Tab className={getClassNames(2)}>Member</Tab>
+                </TabList>
+              </Modal.Header>
+              <Modal.Content>
+                <TabPanels style={{ height: "calc(100vh - 12rem)" }}>
+                  <TabPanel>
+                    <RoomSettingsBasic room={room} />
+                  </TabPanel>
+                  <TabPanel>
+                    <RoomSettingsRules room={room} roomState={roomState} />
+                  </TabPanel>
+                  <TabPanel>
+                    <RoomSettingsMember room={room} roomState={roomState} />
+                  </TabPanel>
+                </TabPanels>
+              </Modal.Content>
+            </>
+          );
+        }}
+      </Tabs>
     </Modal.Modal>
   );
 };

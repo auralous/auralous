@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { useCurrentUser } from "~/hooks/user";
 import { QueueManager, QueueViewer, useQueue } from "~/components/Queue";
 import {
@@ -17,9 +18,6 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
   room,
   roomState,
 }) => {
-  const [tab, setTab] = useState<"queue" | "song" | "playlist" | "played">(
-    "queue"
-  );
   const user = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
 
@@ -56,113 +54,86 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
   );
 
   return (
-    <>
-      <div className="h-full flex flex-col">
-        <div role="tablist" className="flex flex-none">
-          <button
-            role="tab"
-            className={`flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
-              tab === "queue"
-                ? "bg-foreground bg-opacity-25 text-white"
-                : "opacity-75"
-            }`}
-            aria-controls="tabpanel_queue"
-            onClick={() => setTab("queue")}
-            aria-selected={tab === "queue"}
-          >
-            Queue
-          </button>
-          <button
-            role="tab"
-            className={`flex-1 mx-1 p-1 text-sm rounded-lg font-bold  ${
-              tab === "song"
-                ? "bg-foreground bg-opacity-25 text-white"
-                : "opacity-75"
-            }`}
-            aria-controls="tabpanel_song"
-            onClick={() => setTab("song")}
-            aria-selected={tab === "song"}
-            disabled={!permission.canAdd}
-          >
-            Search
-          </button>
-          <button
-            role="tab"
-            className={`flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
-              tab === "playlist"
-                ? "bg-foreground bg-opacity-25 text-white"
-                : "opacity-75"
-            }`}
-            aria-controls="tabpanel_playlist"
-            onClick={() => setTab("playlist")}
-            aria-selected={tab === "playlist"}
-            disabled={!permission.canAdd}
-          >
-            Playlist
-          </button>
-          <button
-            role="tab"
-            className={`flex-none mx-1 p-1 text-sm rounded-lg font-bold ${
-              tab === "played"
-                ? "bg-foreground bg-opacity-25 text-white"
-                : "opacity-75"
-            }`}
-            title="Recently Played"
-            aria-controls="tabpanel_played"
-            onClick={() => setTab("played")}
-            aria-selected={tab === "played"}
-          >
-            <SvgClock width="16" height="16" />
-          </button>
-        </div>
-        <div
-          aria-hidden={tab !== "queue"}
-          className={`${
-            tab !== "queue" ? "hidden" : "flex"
-          } relative flex-col h-full`}
-        >
-          <QueueManager
-            permission={permission}
-            rules={{}}
-            queueId={`room:${room.id}`}
-          />
-        </div>
-        <div
-          aria-hidden={tab !== "song"}
-          className={`${tab !== "song" ? "hidden" : "flex"} flex-col h-full`}
-        >
-          <TrackAdderSearch callback={onAddTracks} addedTracks={addedTracks} />
-        </div>
-        <div
-          aria-hidden={tab !== "playlist"}
-          className={`${
-            tab !== "playlist" ? "hidden" : "flex"
-          } flex-col h-full overflow-hidden`}
-        >
-          {
-            /* We do not render playlist to avoid prefetch of playlists */
-            tab === "playlist" && (
-              <TrackAdderPlaylist
-                callback={onAddTracks}
-                addedTracks={addedTracks}
-              />
-            )
-          }
-        </div>
-        <div
-          aria-hidden={tab !== "played"}
-          className={`${
-            tab !== "played" ? "hidden" : "flex"
-          } flex-col h-full overflow-hidden`}
-        >
-          <QueueViewer
-            onAdd={permission.canAdd ? onAddTracks : undefined}
-            queueId={`room:${room.id}:played`}
-            reverse
-          />
-        </div>
-      </div>
-    </>
+    <Tabs className="h-full flex flex-col">
+      {({ selectedIndex }) => {
+        const getClassName = (index: number) =>
+          `flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
+            index === selectedIndex
+              ? "bg-foreground bg-opacity-25 text-white"
+              : "opacity-75"
+          }`;
+        return (
+          <>
+            <TabList className="flex flex-none">
+              <Tab className={getClassName(0)}>Queue</Tab>
+              <Tab className={getClassName(1)} disabled={!permission.canAdd}>
+                Search
+              </Tab>
+              <Tab className={getClassName(2)} disabled={!permission.canAdd}>
+                Playlist
+              </Tab>
+              <Tab
+                className={`${getClassName(3)} flex-grow-0`}
+                title="Recently Played"
+              >
+                <SvgClock width="16" height="16" />
+              </Tab>
+            </TabList>
+            <TabPanels className="flex-1 h-0">
+              <TabPanel
+                className={`${
+                  selectedIndex === 0 ? "flex" : "hidden"
+                } relative flex-col h-full`}
+              >
+                <QueueManager
+                  permission={permission}
+                  rules={{}}
+                  queueId={`room:${room.id}`}
+                />
+              </TabPanel>
+              <TabPanel
+                className={`${
+                  selectedIndex === 1 ? "flex" : "hidden"
+                } flex-col h-full`}
+              >
+                <TrackAdderSearch
+                  callback={onAddTracks}
+                  addedTracks={addedTracks}
+                />
+              </TabPanel>
+              <TabPanel
+                className={`${
+                  selectedIndex === 2 ? "flex" : "hidden"
+                } flex-col h-full overflow-hidden`}
+              >
+                {
+                  /* We do not render playlist to avoid prefetch of playlists */
+                  selectedIndex === 2 ? (
+                    <TrackAdderPlaylist
+                      callback={onAddTracks}
+                      addedTracks={addedTracks}
+                    />
+                  ) : (
+                    <div />
+                  )
+                }
+              </TabPanel>
+              <TabPanel
+                className={`${
+                  selectedIndex === 3 ? "flex" : "hidden"
+                } flex-col h-full overflow-hidden`}
+              >
+                <QueueViewer
+                  onAdd={permission.canAdd ? onAddTracks : undefined}
+                  queueId={`room:${room.id}:played`}
+                  reverse
+                />
+              </TabPanel>
+            </TabPanels>
+          </>
+        );
+      }}
+    </Tabs>
   );
 };
 

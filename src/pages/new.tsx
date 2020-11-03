@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import {
   PlatformName,
   QueueAction,
@@ -280,7 +281,6 @@ const getFeaturedArtists = (tracks: Track[]): string[] => {
 };
 
 const NewPage: NextPage = () => {
-  const [tab, setTab] = useState<"create" | "add">("create");
   const user = useCurrentUser();
   const router = useRouter();
   const { data: mAuth } = useMAuth();
@@ -366,59 +366,46 @@ const NewPage: NextPage = () => {
             )}
           </form>
         </div>
-        <div role="tablist" className="flex flex-none mb-2">
-          <button
-            role="tab"
-            className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
-              tab === "create"
-                ? "bg-pink text-white"
-                : "opacity-75 hover:opacity-100 bg-white text-pink"
-            } transition duration-300`}
-            aria-controls="tabpanel_create"
-            onClick={() => setTab("create")}
-            aria-selected={tab === "create"}
-          >
-            Create New Room
-          </button>
-          <button
-            role="tab"
-            className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
-              initTracks?.length
-                ? tab === "add"
+        <Tabs>
+          {({ selectedIndex }) => {
+            const getClassName = (index: number) =>
+              `flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
+                index === selectedIndex
                   ? "bg-pink text-white"
                   : "opacity-75 hover:opacity-100 bg-white text-pink"
-                : "opacity-25"
-            } transition duration-300`}
-            aria-controls="tabpanel_add"
-            onClick={() => setTab("add")}
-            aria-selected={tab === "add"}
-            disabled={!initTracks?.length}
-          >
-            Use an Existing Room
-          </button>
-        </div>
-        {user ? (
-          <>
-            <div
-              role="tabpanel"
-              id="tabpanel_create"
-              className="p-2"
-              hidden={tab !== "create"}
-            >
-              <CreateRoom initTracks={initTracks} />
-            </div>
-            <div
-              role="tabpanel"
-              id="tabpanel_add"
-              className="p-2"
-              hidden={tab !== "add"}
-            >
-              <AddExistedRoom user={user} initTracks={initTracks} />
-            </div>
-          </>
-        ) : (
-          <AuthBanner prompt="Join Stereo to Create a Room" />
-        )}
+              } transition duration-300`;
+            return (
+              <>
+                <TabList className="flex flex-none mb-2">
+                  <Tab className={getClassName(0)}>Create New Room</Tab>
+                  <Tab
+                    className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
+                      initTracks?.length ? getClassName(1) : "opacity-25"
+                    } transition duration-300`}
+                    disabled={!initTracks?.length}
+                  >
+                    Use an Existing Room
+                  </Tab>
+                </TabList>
+                <TabPanels className="p-2">
+                  <TabPanel>
+                    {user ? <CreateRoom initTracks={initTracks} /> : <div />}
+                  </TabPanel>
+                  <TabPanel>
+                    {user ? (
+                      <AddExistedRoom user={user} initTracks={initTracks} />
+                    ) : (
+                      <div />
+                    )}
+                  </TabPanel>
+                  {!user && (
+                    <AuthBanner prompt="Join Stereo to Create a Room" />
+                  )}
+                </TabPanels>
+              </>
+            );
+          }}
+        </Tabs>
       </div>
     </>
   );
