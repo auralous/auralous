@@ -5,6 +5,7 @@ import useQueue from "./useQueue";
 import { TrackItem } from "~/components/Track/index";
 import { SvgPlus } from "~/assets/svg";
 import QueueAddedBy from "./QueueAddedBy";
+import { UseQueryArgs } from "urql";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
   data,
@@ -55,8 +56,16 @@ const QueueViewer: React.FC<{
   queueId: string;
   reverse?: boolean;
   onAdd?: (newTrackArray: string[]) => Promise<boolean>;
-}> = ({ queueId, reverse, onAdd }) => {
-  const [queue] = useQueue(queueId, { requestPolicy: "cache-and-network" });
+  queryOpts?: Partial<
+    UseQueryArgs<{
+      id: string;
+    }>
+  >;
+}> = ({ queueId, reverse, onAdd, queryOpts }) => {
+  const [queue] = useQueue(queueId, {
+    requestPolicy: "cache-and-network",
+    ...queryOpts,
+  });
 
   const items = useMemo(() => {
     if (!queue) return [];

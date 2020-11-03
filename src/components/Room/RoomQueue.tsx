@@ -105,35 +105,26 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
                   selectedIndex === 2 ? "flex" : "hidden"
                 } flex-col h-full overflow-hidden`}
               >
-                {
-                  /* We do not render to avoid prefetch */
-                  selectedIndex === 2 ? (
-                    <TrackAdderPlaylist
-                      callback={onAddTracks}
-                      addedTracks={addedTracks}
-                    />
-                  ) : (
-                    <div />
-                  )
-                }
+                <TrackAdderPlaylist
+                  callback={onAddTracks}
+                  addedTracks={addedTracks}
+                  queryConfig={
+                    selectedIndex === 2 ? undefined : { enabled: false }
+                  }
+                  hidden={selectedIndex !== 2}
+                />
               </TabPanel>
               <TabPanel
                 className={`${
                   selectedIndex === 3 ? "flex" : "hidden"
                 } flex-col h-full overflow-hidden`}
               >
-                {
-                  /* We do not render to avoid prefetch */
-                  selectedIndex === 3 ? (
-                    <QueueViewer
-                      onAdd={permission.canAdd ? onAddTracks : undefined}
-                      queueId={`room:${room.id}:played`}
-                      reverse
-                    />
-                  ) : (
-                    <div />
-                  )
-                }
+                <QueueViewer
+                  onAdd={permission.canAdd ? onAddTracks : undefined}
+                  queueId={`room:${room.id}:played`}
+                  reverse
+                  queryOpts={selectedIndex === 3 ? undefined : { pause: true }}
+                />
               </TabPanel>
             </TabPanels>
           </>

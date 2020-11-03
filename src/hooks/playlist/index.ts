@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useMutation, useQuery, useQueryCache } from "react-query";
+import { useMutation, useQuery, useQueryCache, QueryConfig } from "react-query";
 import PlaylistSpotify from "./PlaylistSpotify";
 import PlaylistYoutube from "./PlaylistYouTube";
 import { Playlist } from "~/types/index";
@@ -13,7 +13,9 @@ const playlistService = {
 
 const CACHE_PREFIX = "my-playlists";
 
-export const useMyPlaylistsQuery = () => {
+export const useMyPlaylistsQuery = (
+  queryConfig?: QueryConfig<Playlist[] | null, unknown>
+) => {
   const { data: mAuth } = useMAuth();
   const cacheKey = CACHE_PREFIX + mAuth?.id;
 
@@ -37,6 +39,7 @@ export const useMyPlaylistsQuery = () => {
       staleTime: Infinity,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
+      ...queryConfig,
     }
   );
 };
