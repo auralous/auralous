@@ -35,11 +35,16 @@ const PlayerMinibar: React.FC = () => {
           className="opacity-50 absolute inset-0"
           style={{ zIndex: -1, backgroundColor: "#000814" }}
         />
-        <img
-          alt="Now Playing"
-          src={playerPlaying?.image}
-          className="h-10 w-10 mx-1 rounded-lg object-cover"
-        />
+        {playerPlaying ? (
+          <img
+            alt="Now Playing"
+            src={playerPlaying.image}
+            className="h-10 w-10 mx-1 rounded-lg object-cover"
+          />
+        ) : (
+          <div className="h-10 w-10 mx-1 rounded-lg bg-foreground-tertiary" />
+        )}
+
         <div className="text-xs p-1 flex-1 w-0 text-left">
           <div className="font-bold leading-none truncate">
             {playerPlaying?.title || ""}
