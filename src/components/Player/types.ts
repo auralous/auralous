@@ -9,6 +9,7 @@ export interface IPlayerContext {
     playingRoomId: string;
     originalTrack: Track | null | undefined;
     playingPlatform: PlatformName | null;
+    playingThemeColor: string;
     fetching: boolean;
     error?: PlayerError | null;
   };

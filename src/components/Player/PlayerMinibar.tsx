@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-// @ts-ignore
-import ColorThief from "colorthief";
 import usePlayer from "./usePlayer";
 
 const noPlayerMinibarRoutes = ["/room/[roomId]"];
 
 const PlayerMinibar: React.FC = () => {
+  const {
+    state: { playingThemeColor },
+  } = usePlayer();
   const divRef = useRef<HTMLButtonElement>(null);
-  const colorThief = useRef<ColorThief>();
   const router = useRouter();
   const {
     state: { playingRoomId, playerPlaying },
@@ -19,22 +19,9 @@ const PlayerMinibar: React.FC = () => {
     [router, playingRoomId]
   );
   useEffect(() => {
-    if (!divRef.current || !playerPlaying) return;
-    try {
-      const img = new Image();
-      img.addEventListener("load", async () => {
-        if (!divRef.current) return;
-        colorThief.current = colorThief.current || new ColorThief();
-        divRef.current.style.backgroundColor = `rgb(${colorThief.current
-          .getColor(img)
-          .join(", ")}`;
-      });
-      img.crossOrigin = "Anonymous";
-      img.src = playerPlaying.image;
-    } catch (e) {
-      /* noop */
-    }
-  }, [playerPlaying]);
+    if (playingThemeColor && divRef.current)
+      divRef.current.style.backgroundColor = playingThemeColor;
+  }, [playingThemeColor]);
 
   return (
     <Link href="/room/[roomId]" as={`/room/${playingRoomId}`}>
