@@ -14,74 +14,6 @@
     align-items: center;
     justify-content: center;
   }
-  .nav {
-    @apply absolute top-0 h-12 w-full z-30 overflow-x-auto flex justify-between items-center;
-  }
-
-  .label {
-    @apply block text-foreground-secondary text-sm font-bold mb-2;
-  }
-
-  .button, .label {
-    @apply appearance-none;
-  }
-
-  .input {
-    @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
-    &:disabled {
-      @apply cursor-not-allowed opacity-50;
-    }
-    &:focus {
-      @apply outline-none;
-    }
-  }
-
-  .button {
-    @apply inline-flex items-center justify-center font-bold py-2 px-4 whitespace-no-wrap rounded-lg;
-    @apply transition-colors ease-in-out duration-200;
-    /* Theme */
-    @apply bg-background-secondary text-foreground;
-    &:not([disabled]):hover, &:not([disabled]):focus {
-      @apply bg-background-tertiary;
-      @apply border-none;
-    }
-    &.button-danger {
-      @apply text-danger-label;
-      @apply bg-danger;
-      &:not([disabled]):hover, &:not([disabled]):focus {
-        @apply bg-danger-dark;
-      }
-    }
-    &.button-success {
-      @apply text-success-label;
-      @apply bg-success;
-      &:not([disabled]):hover, &:not([disabled]):focus {
-        @apply bg-success-dark;
-      }
-    }
-    &.button-warning {
-      @apply text-warning-label;
-      @apply bg-warning;
-      &:not([disabled]):hover, &:not([disabled]):focus {
-        @apply bg-warning-dark;
-      }
-    }
-    &.button-foreground {
-      @apply text-background bg-foreground;
-      &:not([disabled]):hover, &:not([disabled]):focus {
-        @apply text-background bg-foreground-secondary;
-      }
-    }
-    &.button-light {
-      @apply text-foreground bg-foreground bg-opacity-25;
-      &:not([disabled]):hover, &:not([disabled]):focus {
-        @apply bg-foreground bg-opacity-50;
-      }
-    }
-    &:disabled {
-      @apply cursor-not-allowed opacity-50;
-    }
-  }
 }
 
 body {
@@ -121,6 +53,75 @@ button:focus {
 
 [role=button]:disabled, button:disabled {
   @apply cursor-not-allowed opacity-50;
+}
+
+.nav {
+  @apply absolute top-0 h-12 w-full z-30 overflow-x-auto flex justify-between items-center;
+}
+
+.label {
+  @apply block text-foreground-secondary text-sm font-bold mb-2;
+}
+
+.button, .label {
+  @apply appearance-none;
+}
+
+.input {
+  @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
+  &:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+  &:focus {
+    @apply outline-none;
+  }
+}
+
+.button {
+  @apply inline-flex items-center justify-center font-bold py-2 px-4 whitespace-no-wrap rounded-lg;
+  @apply transition-colors ease-in-out duration-200;
+  /* Theme */
+  @apply bg-background-secondary text-foreground;
+  &:not([disabled]):hover, &:not([disabled]):focus {
+    @apply bg-background-tertiary;
+    @apply border-none;
+  }
+  &.button-danger {
+    @apply text-danger-label;
+    @apply bg-danger;
+    &:not([disabled]):hover, &:not([disabled]):focus {
+      @apply bg-danger-dark;
+    }
+  }
+  &.button-success {
+    @apply text-success-label;
+    @apply bg-success;
+    &:not([disabled]):hover, &:not([disabled]):focus {
+      @apply bg-success-dark;
+    }
+  }
+  &.button-warning {
+    @apply text-warning-label;
+    @apply bg-warning;
+    &:not([disabled]):hover, &:not([disabled]):focus {
+      @apply bg-warning-dark;
+    }
+  }
+  &.button-foreground {
+    @apply text-background bg-foreground;
+    &:not([disabled]):hover, &:not([disabled]):focus {
+      @apply text-background bg-foreground-secondary;
+    }
+  }
+  &.button-light {
+    @apply text-foreground bg-foreground bg-opacity-25;
+    &:not([disabled]):hover, &:not([disabled]):focus {
+      @apply bg-foreground bg-opacity-50;
+    }
+  }
+  &:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
 }
 
 .brand-youtube {
