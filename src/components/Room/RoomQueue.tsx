@@ -60,7 +60,7 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
           `flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
             index === selectedIndex
               ? "bg-foreground bg-opacity-25 text-white"
-              : "opacity-75"
+              : ""
           } transition duration-200`;
         return (
           <>
@@ -111,7 +111,6 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
                   queryConfig={
                     selectedIndex === 2 ? undefined : { enabled: false }
                   }
-                  hidden={selectedIndex !== 2}
                 />
               </TabPanel>
               <TabPanel

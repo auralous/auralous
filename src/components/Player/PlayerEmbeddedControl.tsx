@@ -7,12 +7,18 @@ import { NowPlayingReaction } from "~/components/NowPlaying/index";
 import { PlayerError } from "./types";
 import { PLATFORM_FULLNAMES } from "~/lib/constants";
 
-const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
-  nowPlayingReactionId,
-}) => {
+const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
   const {
     player,
-    state: { playingPlatform, playerPlaying, originalTrack, fetching, error },
+    state: {
+      playingRoomId,
+      playingPlatform,
+      playerPlaying,
+      originalTrack,
+      fetching,
+      error,
+    },
+    playRoom,
   } = usePlayer();
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
@@ -30,10 +36,12 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
 
   const [activeMenu, openMenu, closeMenu] = useModal();
 
-  const track = useMemo(() => playerPlaying || originalTrack, [
-    playerPlaying,
-    originalTrack,
-  ]);
+  const roomPlayingStarted = playingRoomId === roomId;
+
+  const track = useMemo(
+    () => (roomPlayingStarted ? playerPlaying || originalTrack : null),
+    [playerPlaying, originalTrack, roomPlayingStarted]
+  );
 
   return (
     <>
@@ -50,7 +58,10 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
           </div>
         </div>
         <div className="mt-2 mb-4 max-w-lg px-2 mx-auto text-center flex flex-col items-center justify-start">
-          <div aria-label="Track name and artists" className="max-w-full h-12">
+          <div
+            aria-label="Track name and artists"
+            className="max-w-full h-12 mb-2"
+          >
             <div
               onClick={() => playerPlaying && openMenu()}
               role="button"
@@ -65,36 +76,50 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
               } rounded overflow-hidden`}
             >
               <h2 className="font-bold text-lg leading-tight truncate">
-                {track?.title ||
-                  (fetching ? (
-                    <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
-                  ) : (
-                    "Nothing is playing"
-                  ))}
+                {roomPlayingStarted
+                  ? track?.title ||
+                    (fetching ? (
+                      <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
+                    ) : (
+                      "Nothing is playing"
+                    ))
+                  : "Room has been paused"}
               </h2>
             </div>
             <div className="truncate text-foreground-secondary text-sm">
-              {track?.artists.map(({ name }) => name).join(", ") ||
-                (fetching ? (
-                  <span className="block h-4 w-32 mx-auto bg-foreground-tertiary rounded-full animate-pulse" />
-                ) : (
-                  "Add a song to listen together"
-                ))}
+              {roomPlayingStarted
+                ? track?.artists.map(({ name }) => name).join(", ") ||
+                  (fetching ? (
+                    <span className="block h-4 w-32 mx-auto bg-foreground-tertiary rounded-full animate-pulse" />
+                  ) : (
+                    "Add a song to listen together"
+                  ))
+                : "Use the button below to unpause"}
             </div>
           </div>
-          <button
-            type="button"
-            aria-label={isPlaying ? "Pause" : "Play"}
-            className="button bg-transparent hover:bg-white hover:bg-opacity-10 mt-2 w-16 h-16 rounded-full"
-            onClick={() => (isPlaying ? player.pause() : player.play())}
-            disabled={!playerPlaying}
-          >
-            {isPlaying ? (
-              <SvgPause fill="white" stroke="white" />
-            ) : (
+          {roomPlayingStarted ? (
+            <button
+              type="button"
+              aria-label={isPlaying ? "Pause" : "Play"}
+              className="button bg-transparent hover:bg-white hover:bg-opacity-10 w-16 h-16 rounded-full"
+              onClick={() => (isPlaying ? player.pause() : player.play())}
+              disabled={!playerPlaying}
+            >
+              {isPlaying ? (
+                <SvgPause fill="white" stroke="white" />
+              ) : (
+                <SvgPlay fill="white" stroke="white" />
+              )}
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="button bg-transparent hover:bg-white hover:bg-opacity-10 w-16 h-16 rounded-full"
+              onClick={() => playRoom(roomId)}
+            >
               <SvgPlay fill="white" stroke="white" />
-            )}
-          </button>
+            </button>
+          )}
           {error !== undefined && (
             <p className="text-xs">
               <SvgAlertCircle width="12" className="inline text-danger-light" />{" "}
@@ -118,18 +143,12 @@ const PlayerEmbeddedControl: React.FC<{ nowPlayingReactionId?: string }> = ({
           )}
         </div>
       </div>
-      {playerPlaying && (
-        <TrackMenu
-          id={playerPlaying.id}
-          active={activeMenu}
-          close={closeMenu}
-        />
+      {track && (
+        <TrackMenu id={track.id} active={activeMenu} close={closeMenu} />
       )}
-      {nowPlayingReactionId && (
-        <div className="w-full">
-          <NowPlayingReaction id={nowPlayingReactionId} />
-        </div>
-      )}
+      <div className="w-full">
+        <NowPlayingReaction id={roomId} />
+      </div>
     </>
   );
 };

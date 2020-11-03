@@ -53,13 +53,13 @@ const CurrentUser: React.FC<{
   );
 };
 
-const RoomUsers: React.FC<{ roomState: RoomState; room: Room }> = ({
+const RoomUsers: React.FC<{ roomState: RoomState | undefined; room: Room }> = ({
   room,
   roomState,
 }) => {
   return (
     <div className="h-full p-2">
-      {roomState.userIds.map((userId) => (
+      {roomState?.userIds.map((userId) => (
         // TODO: react-window
         <CurrentUser
           key={userId}
@@ -76,6 +76,17 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
   roomState,
 }) => {
   const user = useCurrentUser();
+  if (!user)
+    return (
+      <div className="h-full w-full flex flex-col justify-center">
+        <AuthBanner
+          prompt="Join Stereo to Chat"
+          hook={
+            "Listen to music with friends and chat no matter where they are"
+          }
+        />
+      </div>
+    );
   return (
     <Tabs className="h-full flex flex-col">
       {({ selectedIndex }) => {
@@ -95,25 +106,11 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
             </TabList>
             <TabPanels className="flex-1">
               <TabPanel className="h-full">
-                {user && roomState ? <Chatbox roomId={room.id} /> : <></>}
+                <Chatbox roomId={room.id} />
               </TabPanel>
               <TabPanel className="h-full">
-                {user && roomState ? (
-                  <RoomUsers room={room} roomState={roomState} />
-                ) : (
-                  <></>
-                )}
+                <RoomUsers room={room} roomState={roomState} />
               </TabPanel>
-              {!user && (
-                <div className="flex-1 flex flex-col justify-center">
-                  <AuthBanner
-                    prompt="Join Stereo to Chat"
-                    hook={
-                      "Listen to music with friends and chat no matter where they are"
-                    }
-                  />
-                </div>
-              )}
             </TabPanels>
           </>
         );
