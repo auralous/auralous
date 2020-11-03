@@ -84,7 +84,7 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
             index === selectedIndex
               ? "bg-foreground bg-opacity-25 text-white"
               : "opacity-75"
-          }`;
+          } transition duration-200`;
         return (
           <>
             <TabList className="flex flex-none">
