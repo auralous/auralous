@@ -153,12 +153,12 @@ const IndexPage: React.FC = () => {
         className="px-4 flex flex-col items-center"
         style={{ minHeight: "calc(100vh - 13rem)" }}
       >
-        <div className="relative min-h-screen flex flex-col place-center">
+        <div className="relative min-h-screen flex flex-col flex-center">
           <IndexIntro />
           <AppLinks />
           <button
             onClick={scrollToSection}
-            className="absolute opacity-50 hover:opacity-100 bottom-8 left-1/2 transform -translate-x-1/2"
+            className="absolute-center opacity-50 hover:opacity-100 top-auto bottom-8"
           >
             <SvgChevronDown
               width={32}

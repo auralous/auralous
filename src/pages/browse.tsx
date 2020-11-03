@@ -43,7 +43,7 @@ const MyRoomsSection: React.FC = () => {
           <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
             <Link href="/new">
               <a className="block overflow-hidden border-2 border-background-secondary hover:border-white pb-4/3 rounded-lg relative transition ease-in-out duration-300">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="absolute-center">
                   <SvgPlus className="w-16 h-16 mx-auto rounded-full p-2 bg-foreground-secondary text-white text-opacity-75" />
                   <p className="mt-2 text-foreground-secondary text-sm text-center font-bold">
                     Create a Room

@@ -98,7 +98,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
         <div className="container">
           <div className="text-center flex flex-col items-center px-2 py-24">
             <h1 className="text-3xl font-bold">Hellooo!</h1>
-            <div className="flex flex-wrap place-center">
+            <div className="flex flex-wrap flex-center">
               <div className="m-1 p-2 flex flex-col">
                 <span className="text-foreground-secondary mb-1 text-xs">
                   Listen on <b>YouTube</b>

@@ -185,7 +185,7 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
       onDismiss={close}
       className="h-full w-full p-2"
     >
-      <div className="w-full p-4 min-h-screen flex flex-col place-center">
+      <div className="w-full p-4 min-h-screen flex flex-col flex-center">
         <div className="h-96 w-full flex flex-col items-center overflow-hidden">
           <div className="w-full flex-1 h-0 p-4">
             {step === 0 && <StepWelcome />}

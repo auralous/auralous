@@ -326,7 +326,7 @@ const NewPage: NextPage = () => {
               <button
                 type="submit"
                 title="Search Playlist"
-                className="absolute right-1 top-1/2 transform -translate-y-1/2"
+                className="absolute-center left-auto right-1"
               >
                 <SvgSearch />
               </button>
