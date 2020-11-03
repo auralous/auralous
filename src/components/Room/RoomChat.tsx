@@ -9,10 +9,11 @@ import {
 import { useCurrentUser } from "~/hooks/user";
 import { MEMBERSHIP_NAMES } from "~/lib/constants";
 import { AuthBanner } from "~/components/Auth";
+import { getRole } from "~/lib/room";
 
 const CurrentUser: React.FC<{
   userId: string;
-  role: RoomMembership | null;
+  role: RoomMembership | undefined;
 }> = ({ userId, role }) => {
   const [{ data }] = useUserQuery({ variables: { id: userId } });
   return (
@@ -62,13 +63,7 @@ const RoomUsers: React.FC<{ roomState: RoomState; room: Room }> = ({
         <CurrentUser
           key={userId}
           userId={userId}
-          role={
-            roomState.collabs.includes(userId)
-              ? RoomMembership.Collab
-              : room.creatorId === userId
-              ? RoomMembership.Host
-              : null
-          }
+          role={getRole(userId, room, roomState)}
         />
       ))}
     </div>

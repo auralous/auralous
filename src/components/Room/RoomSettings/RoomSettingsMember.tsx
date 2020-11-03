@@ -10,6 +10,7 @@ import {
   RoomMembership,
 } from "~/graphql/gql.gen";
 import { MEMBERSHIP_NAMES } from "~/lib/constants";
+import { getRole } from "~/lib/room";
 
 const RoomMember: React.FC<{
   userId: string;
@@ -137,18 +138,12 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
           <SvgPlus /> Add a member
         </button>
         {roomState.userIds.map((userId) => {
-          const role =
-            room.creatorId === userId
-              ? RoomMembership.Host
-              : roomState.collabs.includes(userId)
-              ? RoomMembership.Collab
-              : undefined;
           return (
             <RoomMember
               key={userId}
               userId={userId}
               roomId={room.id}
-              role={role}
+              role={getRole(userId, room, roomState)}
             />
           );
         })}
@@ -156,18 +151,12 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
           Offline
         </p>
         {otherUserIds.map((userId) => {
-          const role =
-            room.creatorId === userId
-              ? RoomMembership.Host
-              : roomState.collabs.includes(userId)
-              ? RoomMembership.Collab
-              : undefined;
           return (
             <RoomMember
               key={userId}
               userId={userId}
               roomId={room.id}
-              role={role}
+              role={getRole(userId, room, roomState)}
             />
           );
         })}

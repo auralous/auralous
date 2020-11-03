@@ -24,11 +24,11 @@ import {
   TrackQueryVariables,
   TrackQuery,
   Queue,
-  useUserQuery,
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
 import { QueuePermission, QueueRules } from "./types";
 import { SvgBookOpen } from "~/assets/svg/index";
+import QueueAddedBy from "./QueueAddedBy";
 
 const QueueDraggableItem: React.FC<{
   permission: QueuePermission;
@@ -62,9 +62,6 @@ const QueueDraggableItem: React.FC<{
   }, [queue, toasts, updateQueue, urqlClient, index]);
   const canRemove =
     permission.canEditOthers || queue.items[index].creatorId === me?.id;
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: queue.items[index].creatorId },
-  });
 
   return (
     <div
@@ -84,14 +81,7 @@ const QueueDraggableItem: React.FC<{
       >
         <TrackItem
           id={queue.items[index].trackId}
-          extraInfo={
-            <span className="ml-1 flex-none">
-              Added by{" "}
-              <span className="text-foreground font-semibold text-opacity-75">
-                {user?.username || ""}
-              </span>
-            </span>
-          }
+          extraInfo={<QueueAddedBy userId={queue.items[index].creatorId} />}
         />
       </div>
       <button

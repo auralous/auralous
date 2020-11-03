@@ -3,18 +3,14 @@ import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import useQueue from "./useQueue";
 import { TrackItem } from "~/components/Track/index";
-import { useUserQuery } from "~/graphql/gql.gen";
 import { SvgPlus } from "~/assets/svg";
+import QueueAddedBy from "./QueueAddedBy";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
   data,
   index,
   style,
 }) {
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: data.items[index].creatorId },
-  });
-
   // Only if !!data.onAdd
   const [isAdding, setIsAdding] = useState(false);
 
@@ -27,14 +23,7 @@ const Row = React.memo<ListChildComponentProps>(function Row({
       >
         <TrackItem
           id={data.items[index].trackId}
-          extraInfo={
-            <span className="ml-1 flex-none">
-              Added by{" "}
-              <span className="text-foreground font-semibold text-opacity-75">
-                {user?.username || ""}
-              </span>
-            </span>
-          }
+          extraInfo={<QueueAddedBy userId={data.items[index].creatorId} />}
           showMenu
         />
         <div className="flex content-end items-center ml-2">
