@@ -69,10 +69,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
           }
         }, 500);
       }).then((success) => {
-        if (success) (window as any).resetUrqlClient();
+        if (success) window.resetUrqlClient();
         window.clearInterval(interval);
         if (success) {
-          (window as any).resetUrqlClient();
+          window.resetUrqlClient();
           success === 1 ? close() : openWelcome();
         }
         setIsAuth(success ? AuthState.SUCCESS : AuthState.FAIL);

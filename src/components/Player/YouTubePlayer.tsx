@@ -4,12 +4,6 @@ import { verifyScript } from "~/lib/script-utils";
 import { SvgChevronDown, SvgChevronUp } from "~/assets/svg";
 /// <reference path="youtube" />
 
-declare global {
-  interface Window {
-    onYouTubeIframeAPIReady?: null | (() => void);
-  }
-}
-
 const YT_PLAYER_VARS = {
   playsinline: 1,
   controls: 0,
@@ -17,6 +11,26 @@ const YT_PLAYER_VARS = {
   fs: 1,
   origin: process.env.APP_URI,
 };
+
+// FIXME: Remove after these two:
+// https://github.com/DefinitelyTyped/DefinitelyTyped/pull/49343
+// https://github.com/DefinitelyTyped/DefinitelyTyped/pull/49344
+enum PlayerState {
+  UNSTARTED = -1,
+  ENDED = 0,
+  PLAYING = 1,
+  PAUSED = 2,
+  BUFFERING = 3,
+  CUED = 5,
+}
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady?: null | (() => void);
+    YT: {
+      PlayerState: PlayerState;
+    };
+  }
+}
 
 export default function YouTubePlayer() {
   const { player } = usePlayer();
@@ -55,20 +69,17 @@ export default function YouTubePlayer() {
                 loadById: playById,
                 setVolume: (p) => ytPlayer.setVolume(p * 100),
                 isPlaying: () =>
-                  // @ts-ignore
                   ytPlayer.getPlayerState() === window.YT.PlayerState.PLAYING,
               });
-              durationInterval = window.setInterval(() => {
-                player.emit("time", ytPlayer.getCurrentTime() * 1000);
-              }, 1000);
+              // durationInterval = window.setInterval(() => {
+              //   player.emit("time", ytPlayer.getCurrentTime() * 1000);
+              // }, 1000);
             },
-            onStateChange(event: any) {
-              // @ts-ignore
+            onStateChange(event) {
               event.data === window.YT.PlayerState.PAUSED
                 ? player.emit("paused")
                 : player.emit("playing");
               // ENDED
-              // @ts-ignore
               if (event.data === window.YT.PlayerState.ENDED)
                 player.emit("ended");
             },

@@ -87,8 +87,9 @@ const StepUsername: React.FC<{
   const profilePicturePreviewRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    usernameRef.current!.value = user?.username || "";
-    profilePicturePreviewRef.current!.src = user?.profilePicture || "";
+    if (!usernameRef.current || !profilePicturePreviewRef.current) return;
+    usernameRef.current.value = user?.username || "";
+    profilePicturePreviewRef.current.src = user?.profilePicture || "";
   }, [user, usernameRef, profilePicturePreviewRef]);
 
   return (
@@ -130,8 +131,12 @@ const StepUsername: React.FC<{
             ref={profilePictureRef}
             className="input w-full ml-4"
             onChange={(event) => {
-              if (typeof window === "undefined") return;
-              profilePicturePreviewRef.current!.src = window.URL.createObjectURL(
+              if (
+                typeof window === "undefined" ||
+                !profilePicturePreviewRef.current
+              )
+                return;
+              profilePicturePreviewRef.current.src = window.URL.createObjectURL(
                 event.currentTarget.files?.[0]
               );
             }}

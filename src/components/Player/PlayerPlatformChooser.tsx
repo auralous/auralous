@@ -9,7 +9,7 @@ import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
 
 const PlayerPlatformChooser: React.FC<{
   active: boolean;
-  resetFn: (val: any) => void;
+  resetFn: (val: unknown) => void;
 }> = ({ active, resetFn }) => {
   const { stopPlaying } = usePlayer();
 

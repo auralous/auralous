@@ -49,6 +49,7 @@ const RoomSettingsRules: React.FC<{
               ref={anyoneCanAddRef}
               className="input"
               onChange={() => setIsChanged(true)}
+              onBlur={undefined}
             >
               <option value={1}>Yes</option>
               <option value={0}>No</option>

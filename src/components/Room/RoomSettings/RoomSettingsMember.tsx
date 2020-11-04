@@ -80,6 +80,7 @@ const RoomMember: React.FC<{
               <select
                 value={role || ""}
                 onChange={onChange}
+                onBlur={undefined}
                 className="input px-1 py-2 mr-1"
                 disabled={fetching}
               >

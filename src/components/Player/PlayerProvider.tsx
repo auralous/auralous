@@ -22,7 +22,7 @@ let colorThief: ColorThief;
 const PlayerProvider: React.FC = ({ children }) => {
   const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
 
-  const [fRPP, forceResetPlayingPlatform] = useState({});
+  const [fRPP, forceResetPlayingPlatform] = useState<unknown>({});
 
   // Preferred platform to use by user
   const playingPlatform = useMemo<PlatformName | null>(

@@ -37,7 +37,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const [urqlClient, setUrqlClient] = useState(createUrqlClient());
   useEffect(() => {
     // FIXME: Find alternative to reset urql
-    (window as any).resetUrqlClient = () => setUrqlClient(createUrqlClient());
+    window.resetUrqlClient = () => setUrqlClient(createUrqlClient());
   }, []);
 
   // Fathom
@@ -67,9 +67,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 <DefaultSeo
                   title=" "
                   titleTemplate="%s · Stereo"
-                  facebook={{
-                    appId: process.env.FACEBOOK_APP_ID!,
-                  }}
+                  facebook={
+                    process.env.FACEBOOK_APP_ID
+                      ? { appId: process.env.FACEBOOK_APP_ID }
+                      : undefined
+                  }
                   openGraph={{
                     type: "website",
                     locale: "en_US",

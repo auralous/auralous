@@ -128,7 +128,7 @@ const LeftSection: React.FC = () => {
       method: "POST",
       credentials: "include",
     });
-    (window as any).resetUrqlClient();
+    window.resetUrqlClient();
     toasts.message("You have been signed out");
   }, [toasts]);
 
@@ -273,6 +273,7 @@ const LocalPlatformSettings: React.FC = () => {
             aria-label="Listen on..."
             value={platform}
             onChange={(e) => setPlatform(e.currentTarget.value as PlatformName)}
+            onBlur={undefined}
             className="bg-white bg-opacity-50 font-bold p-1 rounded-lg"
           >
             <option value="" disabled>

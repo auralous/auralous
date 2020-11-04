@@ -52,7 +52,6 @@ const ToastProvider: React.FC = ({ children }) => {
     },
   }).current;
   useEffect(() => {
-    // @ts-ignore
     window.toasts = toasts;
   }, [toasts]);
   return (

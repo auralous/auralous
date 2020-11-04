@@ -293,7 +293,7 @@ const NewPage: NextPage = () => {
   });
 
   useEffect(() => {
-    inputRef.current!.value = searchQuery || "";
+    if (inputRef.current) inputRef.current.value = searchQuery || "";
   }, [searchQuery]);
 
   return (
@@ -304,7 +304,7 @@ const NewPage: NextPage = () => {
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              const s = inputRef.current!.value.trim();
+              const s = inputRef.current?.value.trim();
               s && router.replace(`/new?search=${encodeURIComponent(s)}`);
             }}
             className="p-4"
