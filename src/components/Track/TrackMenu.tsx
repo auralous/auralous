@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DialogOverlay } from "@reach/dialog";
-import AddToPlaylistModal from "~/components/Playlist/AddToPlaylist";
+import { AddToPlaylist } from "~/components/Playlist/index";
 import { SvgPlus, SvgX } from "~/assets/svg";
 import { useTrackQuery } from "~/graphql/gql.gen";
 import { SvgByPlatformName, PLATFORM_FULLNAMES } from "~/lib/constants";
@@ -59,7 +59,7 @@ const TrackMenu: React.FC<{
         </button>
       </div>
       {track && (
-        <AddToPlaylistModal
+        <AddToPlaylist
           active={openAddPlaylist}
           close={() => {
             setOpenAddPlaylist(false);

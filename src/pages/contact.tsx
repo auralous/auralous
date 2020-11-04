@@ -5,6 +5,17 @@ import { NextSeo } from "next-seo";
 import { useCurrentUser } from "~/hooks/user";
 import { SvgMail, SvgFacebook, SvgTwitter } from "~/assets/svg";
 
+const ContactLink: React.FC<{ href: string }> = ({ href, children }) => (
+  <a
+    className="button button-foreground rounded-full m-1 py-4 px-8"
+    target="_blank"
+    rel="noreferrer"
+    href={href}
+  >
+    {children}
+  </a>
+);
+
 const ContactPage: NextPage = () => {
   const user = useCurrentUser();
   return (
@@ -13,7 +24,7 @@ const ContactPage: NextPage = () => {
         title="Contact us"
         description="The team behind Stereo would love to hear about your feedbacks and questions."
       />
-      <div className="py-16 mt-20 containerleading-loose text-lg">
+      <div className="py-16 containerleading-loose text-lg">
         <h1 className="text-center text-5xl text-foreground-secondary font-bold max-w-xl mx-auto leading-none">
           Hi{" "}
           {user ? (
@@ -25,31 +36,18 @@ const ContactPage: NextPage = () => {
           how can we help?
         </h1>
         <div className="flex flex-wrap justify-center my-10">
-          <a
-            className="button button-foreground rounded-full m-1 py-4 px-8"
-            href="mailto:yo@withstereo.com"
-          >
+          <ContactLink href="mailto:yo@withstereo.com">
             <SvgMail className="mx-2" />
             yo@withstereo.com
-          </a>
-          <a
-            className="button button-foreground rounded-full m-1 py-4 px-8"
-            target="_blank"
-            rel="noreferrer"
-            href="https://www.facebook.com/withstereo/"
-          >
+          </ContactLink>
+          <ContactLink href="https://www.facebook.com/withstereo/">
             <SvgFacebook className="mx-2" />
             withstereo
-          </a>
-          <a
-            className="button button-foreground rounded-full m-1 py-4 px-8"
-            target="_blank"
-            rel="noreferrer"
-            href="https://twitter.com/withstereo_"
-          >
+          </ContactLink>
+          <ContactLink href="https://twitter.com/withstereo_">
             <SvgTwitter className="mx-2" />
             withstereo_
-          </a>
+          </ContactLink>
         </div>
         <p className="text-sm opacity-75 text-center mb-4">
           Be sure to reach out at any time should you have any ideas, questions,

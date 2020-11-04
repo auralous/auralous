@@ -1,9 +1,7 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo } from "react";
 import Router, { useRouter } from "next/router";
 import Link from "next/link";
 import NProgress from "nprogress";
-// @ts-ignore
-import ColorThief from "colorthief";
 import { usePlayer, PlayerMinibar } from "~/components/Player/index";
 import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
@@ -26,7 +24,7 @@ const Navbar: React.FC = () => {
   const [, openLogin] = useLogin();
   if (shouldHideNavFoot) return null;
   return (
-    <nav className="nav relative" style={{ backdropFilter: "blur(9px)" }}>
+    <nav className="nav relative mb-4" style={{ backdropFilter: "blur(9px)" }}>
       <div className="container flex items-center justify-between">
         <div className="flex items-center content-start overflow-hidden">
           <Link href="/browse">
@@ -180,25 +178,12 @@ const Footer: React.FC = () => {
 
 const LayoutBg: React.FC = () => {
   const {
-    state: { playerPlaying },
+    state: { playingThemeColor },
   } = usePlayer();
-  const colorThief = useRef<any>();
   useEffect(() => {
-    if (!playerPlaying) return;
-    try {
-      colorThief.current = colorThief.current || new ColorThief();
-      const img = new Image();
-      img.addEventListener("load", async () => {
-        document.body.style.backgroundColor = `rgb(${colorThief
-          .current!.getColor(img)
-          .join(", ")}`;
-      });
-      img.crossOrigin = "Anonymous";
-      img.src = playerPlaying.image;
-    } catch (e) {
-      /* noop */
-    }
-  }, [playerPlaying]);
+    if (playingThemeColor)
+      document.body.style.backgroundColor = playingThemeColor;
+  }, [playingThemeColor]);
   return null;
 };
 

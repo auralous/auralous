@@ -11,7 +11,7 @@ import { pipe, onPush } from "wonka";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { devtoolsExchange } from "@urql/devtools";
 // import { default as schemaIntrospection } from "./introspection.json";
-import { RoomDocument } from "~/graphql/gql.gen";
+import { Room, RoomDocument } from "~/graphql/gql.gen";
 
 const subscriptionClient =
   typeof window !== "undefined"
@@ -26,11 +26,10 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
     forward(ops$),
     onPush((result) => {
       if (result.error) {
-        if (typeof window === "undefined" || !(window as any).toasts) return;
+        if (typeof window === "undefined" || !window.toasts) return;
         const { networkError, graphQLErrors } = result.error;
 
-        if (networkError)
-          (window as any).toasts.error("Unable to connect to server.");
+        if (networkError) window.toasts.error("Unable to connect to server.");
 
         graphQLErrors.forEach((error) => {
           let message = error.message;
@@ -42,7 +41,7 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
             message = "An internal error has occurred.";
           }
           if (code === "UNAUTHENTICATED") message = "Please sign in again.";
-          (window as any).toasts.error(message);
+          window.toasts.error(message);
         });
       }
     })
@@ -61,12 +60,16 @@ const cacheExchange = createCacheExchange({
       createdAt: (parent) => new Date(parent.createdAt),
     },
     NowPlayingQueueItem: {
-      // @ts-ignore
-      playedAt: (parent) => new Date(parent.playedAt),
+      playedAt: (parent) =>
+        typeof parent.playedAt === "string" ? new Date(parent.playedAt) : null,
+      endedAt: (parent) =>
+        typeof parent.endedAt === "string"
+          ? new Date(parent.endedAt)
+          : undefined,
     },
     Room: {
       // @ts-ignore
-      createdAt: (parent) => new Date(parent.createdAt),
+      createdAt: (parent: Room) => new Date(parent.createdAt),
     },
   },
   updates: {
@@ -92,10 +95,10 @@ const cacheExchange = createCacheExchange({
         });
       },
       deleteMe: () => {
-        (window as any).resetUrqlClient();
+        window.resetUrqlClient();
       },
       deleteMeOauth: () => {
-        (window as any).resetUrqlClient();
+        window.resetUrqlClient();
       },
     },
   },

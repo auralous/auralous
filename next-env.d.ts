@@ -8,3 +8,8 @@ declare module "*.svg" {
   >;
   export default ReactComponent;
 }
+
+interface Window {
+  resetUrqlClient: () => void;
+  toasts: import("~/components/Toast/types").IToastContext;
+}

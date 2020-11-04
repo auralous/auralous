@@ -1,40 +1,27 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-// @ts-ignore
-import ColorThief from "colorthief";
 import usePlayer from "./usePlayer";
 
 const noPlayerMinibarRoutes = ["/room/[roomId]"];
 
 const PlayerMinibar: React.FC = () => {
+  const {
+    state: { playingThemeColor },
+  } = usePlayer();
   const divRef = useRef<HTMLButtonElement>(null);
-  const colorThief = useRef<ColorThief>();
   const router = useRouter();
   const {
-    state: { playingRoomId, playerPlaying, playerContext },
+    state: { playingRoomId, playerPlaying },
   } = usePlayer();
   const shouldHide = useMemo(
     () => !playingRoomId || noPlayerMinibarRoutes.includes(router.pathname),
     [router, playingRoomId]
   );
   useEffect(() => {
-    if (!divRef.current || !playerPlaying) return;
-    try {
-      colorThief.current = colorThief.current || new ColorThief();
-      const img = new Image();
-      img.addEventListener("load", async () => {
-        divRef.current &&
-          (divRef.current.style.backgroundColor = `rgb(${colorThief
-            .current!.getColor(img)
-            .join(", ")}`);
-      });
-      img.crossOrigin = "Anonymous";
-      img.src = playerPlaying.image;
-    } catch (e) {
-      /* noop */
-    }
-  }, [playerPlaying]);
+    if (playingThemeColor && divRef.current)
+      divRef.current.style.backgroundColor = playingThemeColor;
+  }, [playingThemeColor]);
 
   return (
     <Link href="/room/[roomId]" as={`/room/${playingRoomId}`}>
@@ -48,11 +35,16 @@ const PlayerMinibar: React.FC = () => {
           className="opacity-50 absolute inset-0"
           style={{ zIndex: -1, backgroundColor: "#000814" }}
         />
-        <img
-          alt="Now Playing"
-          src={playerPlaying?.image || playerContext.room?.image}
-          className="h-10 w-10 mx-1 rounded-lg object-cover"
-        />
+        {playerPlaying ? (
+          <img
+            alt="Now Playing"
+            src={playerPlaying.image}
+            className="h-10 w-10 mx-1 rounded-lg object-cover"
+          />
+        ) : (
+          <div className="h-10 w-10 mx-1 rounded-lg bg-foreground-tertiary" />
+        )}
+
         <div className="text-xs p-1 flex-1 w-0 text-left">
           <div className="font-bold leading-none truncate">
             {playerPlaying?.title || ""}

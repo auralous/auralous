@@ -21,7 +21,7 @@ const ImageEditSection: React.FC<{
   }
 
   return (
-    <div className="relative mx-auto w-32 h-32 mb-2 rounded-full overflow-hidden flex place-center">
+    <div className="relative mx-auto w-32 h-32 mb-2 rounded-full overflow-hidden flex flex-center">
       <input
         id="roomImg"
         className="absolute w-full h-full inset-0 cursor-pointer"
@@ -38,7 +38,7 @@ const ImageEditSection: React.FC<{
         src={room.image}
       />
       <div
-        className="pointer-events-none absolute inset-0 w-full h-full flex place-center"
+        className="pointer-events-none absolute inset-0 w-full h-full flex flex-center"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
       >
         <SvgEdit2 fill="white" stroke="transparent" />
@@ -126,7 +126,7 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
 
   return (
     <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
-      <div className="flex flex-wrap place-center">
+      <div className="flex flex-wrap flex-center">
         <div className="flex-none w-full md:w-auto md:mr-4">
           <ImageEditSection
             room={room}

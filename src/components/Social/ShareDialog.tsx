@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "~/components/Modal/index";
 import { SvgFacebook, SvgTwitter, SvgReddit, SvgMail } from "~/assets/svg";
 
-export const ShareDialog: React.FC<{
+const ShareDialog: React.FC<{
   uri: string;
   name: string;
   active: boolean;
@@ -37,7 +37,7 @@ export const ShareDialog: React.FC<{
         </div>
         <div className="mt-4">
           <p className="text-foreground-tertiary text-center">Share this via</p>
-          <div className="flex flex-wrap place-center mt-4">
+          <div className="flex flex-wrap flex-center mt-4">
             <a
               title="Facebook"
               className="button h-12"
@@ -84,3 +84,5 @@ export const ShareDialog: React.FC<{
     </Modal.Modal>
   );
 };
+
+export default ShareDialog;

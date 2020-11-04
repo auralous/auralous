@@ -1,24 +1,28 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import Portal from "@reach/portal";
+// @ts-ignore
+import ColorThief from "colorthief";
 import PlayerPlatformChooser from "./PlayerPlatformChooser";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
 import { useNowPlaying } from "~/components/NowPlaying/index";
-import { useRoomQuery, PlatformName } from "~/graphql/gql.gen";
+import { PlatformName } from "~/graphql/gql.gen";
 import { useMAuth } from "~/hooks/user";
 import { useCrossTracks } from "~/hooks/track";
-import { PlayerError, PlayerPlaying } from "./types";
+import { IPlayerContext, PlayerError, PlayerPlaying } from "./types";
 
-const YouTubePlayer = dynamic(() => import("./Youtube"));
-const SpotifyPlayer = dynamic(() => import("./Spotify"));
+const YouTubePlayer = dynamic(() => import("./YouTubePlayer"), { ssr: false });
+const SpotifyPlayer = dynamic(() => import("./SpotifyPlayer"), { ssr: false });
 
 const player = new Player();
+
+let colorThief: ColorThief;
 
 const PlayerProvider: React.FC = ({ children }) => {
   const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
 
-  const [fRPP, forceResetPlayingPlatform] = useState({});
+  const [fRPP, forceResetPlayingPlatform] = useState<unknown>({});
 
   // Preferred platform to use by user
   const playingPlatform = useMemo<PlatformName | null>(
@@ -59,8 +63,6 @@ const PlayerProvider: React.FC = ({ children }) => {
     return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
 
-  const stopPlaying = useCallback(() => playRoom(""), []);
-
   useEffect(() => {
     if (!nowPlaying) return undefined;
 
@@ -88,20 +90,6 @@ const PlayerProvider: React.FC = ({ children }) => {
       player.off("paused", onPaused);
     };
   }, [nowPlaying]);
-
-  // room
-
-  const [{ data: { room } = { room: undefined } }] = useRoomQuery({
-    variables: { id: playingRoomId },
-    pause: !playingRoomId,
-  });
-
-  const playerContext = useMemo(
-    () => ({
-      ...(!!playingRoomId && { room }),
-    }),
-    [playingRoomId, room]
-  );
 
   // Player Component
   const [
@@ -142,14 +130,29 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   const fetching = fetchingMAuth || fetchingCrossTracks || fetchingNP;
 
-  const playerContextValue = useMemo(() => {
+  const [playingThemeColor, setPlayingThemeColor] = useState<string>("#001431");
+
+  useEffect(() => {
+    if (!playerPlaying) return;
+    // YouTube image cannot use with cors
+    if (playerPlaying.platform === PlatformName.Youtube) return;
+    const img = new Image();
+    img.addEventListener("load", () => {
+      colorThief = colorThief || new ColorThief();
+      setPlayingThemeColor(`rgb(${colorThief.getColor(img).join(", ")}`);
+    });
+    img.crossOrigin = "Anonymous";
+    img.src = playerPlaying.image;
+  }, [playerPlaying]);
+
+  const playerContextValue = useMemo<IPlayerContext>(() => {
     let error: PlayerError | undefined;
     if (!!playingPlatform && !!crossTracks && !playerPlaying)
       error = PlayerError.NOT_AVAILABLE_ON_PLATFORM;
     return {
       state: {
+        playingThemeColor,
         playerPlaying,
-        playerContext,
         playingRoomId,
         originalTrack: crossTracks?.original,
         playingPlatform,
@@ -157,20 +160,17 @@ const PlayerProvider: React.FC = ({ children }) => {
         error,
       },
       playRoom,
-      stopPlaying,
+      stopPlaying: () => playRoom(""),
       player,
       forceResetPlayingPlatform,
     };
   }, [
     fetching,
     playerPlaying,
-    playerContext,
     playingRoomId,
-    playRoom,
-    stopPlaying,
-    forceResetPlayingPlatform,
     crossTracks,
     playingPlatform,
+    playingThemeColor,
   ]);
 
   return (
@@ -178,7 +178,7 @@ const PlayerProvider: React.FC = ({ children }) => {
       <Portal>{DynamicPlayer && <DynamicPlayer />}</Portal>
       <PlayerPlatformChooser
         // force crossTracks as a hack to rechoose playerPlaying
-        onSelect={() => forceResetPlayingPlatform({})}
+        resetFn={forceResetPlayingPlatform}
         active={shouldShowPlatformChooser}
       />
       {children}

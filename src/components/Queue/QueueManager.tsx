@@ -24,11 +24,11 @@ import {
   TrackQueryVariables,
   TrackQuery,
   Queue,
-  useUserQuery,
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
-import { QueuePermission, QueueRules } from "./types";
+import { QueuePermission } from "./types";
 import { SvgBookOpen } from "~/assets/svg/index";
+import QueueAddedBy from "./QueueAddedBy";
 
 const QueueDraggableItem: React.FC<{
   permission: QueuePermission;
@@ -42,32 +42,26 @@ const QueueDraggableItem: React.FC<{
   const urqlClient = useClient();
   const me = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
-  const removeItem = useCallback(
-    async (index: number) => {
-      if (!queue) return;
-      // This should read from cache
-      const deletingTrackName = (
-        await urqlClient
-          .query<TrackQuery, TrackQueryVariables>(TrackDocument, {
-            id: queue.items[index].trackId,
-          })
-          .toPromise()
-      ).data?.track?.title;
-      const { error } = await updateQueue({
-        id: queue.id,
-        action: QueueAction.Remove,
-        position: index,
-      });
-      if (!error)
-        toasts.success(`Removed ${deletingTrackName || "unknown track"}`);
-    },
-    [queue, toasts, updateQueue, urqlClient]
-  );
+  const removeItem = useCallback(async () => {
+    if (!queue) return;
+    // This should read from cache
+    const deletingTrackName = (
+      await urqlClient
+        .query<TrackQuery, TrackQueryVariables>(TrackDocument, {
+          id: queue.items[index].trackId,
+        })
+        .toPromise()
+    ).data?.track?.title;
+    const { error } = await updateQueue({
+      id: queue.id,
+      action: QueueAction.Remove,
+      position: index,
+    });
+    if (!error)
+      toasts.success(`Removed ${deletingTrackName || "unknown track"}`);
+  }, [queue, toasts, updateQueue, urqlClient, index]);
   const canRemove =
     permission.canEditOthers || queue.items[index].creatorId === me?.id;
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: queue.items[index].creatorId },
-  });
 
   return (
     <div
@@ -87,14 +81,7 @@ const QueueDraggableItem: React.FC<{
       >
         <TrackItem
           id={queue.items[index].trackId}
-          extraInfo={
-            <span className="ml-1 flex-none">
-              Added by{" "}
-              <span className="text-foreground font-semibold text-opacity-75">
-                {user?.username || ""}
-              </span>
-            </span>
-          }
+          extraInfo={<QueueAddedBy userId={queue.items[index].creatorId} />}
         />
       </div>
       <button
@@ -102,7 +89,7 @@ const QueueDraggableItem: React.FC<{
         title="Remove Track"
         className="absolute top-1 right-1 bg-transparent p-1 opacity-50 hover:opacity-100 transition-opacity duration-200"
         hidden={!canRemove}
-        onClick={() => canRemove && removeItem(index)}
+        onClick={removeItem}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +141,6 @@ areEqual);
 const QueueManager: React.FC<{
   queueId: string;
   permission: QueuePermission;
-  rules: QueueRules;
 }> = ({ queueId, permission }) => {
   const user = useCurrentUser();
   const [queue] = useQueue(queueId, { requestPolicy: "cache-and-network" });
@@ -194,6 +180,11 @@ const QueueManager: React.FC<{
         </div>
       )}
       <div className="w-full h-full">
+        {queue.items?.length === 0 && (
+          <div className="text-xs text-foreground-secondary p-4 text-center">
+            It&apos;s lonely around here... Let&apos;s add a song!
+          </div>
+        )}
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable
             droppableId="droppable"
@@ -229,11 +220,6 @@ const QueueManager: React.FC<{
             )}
           </Droppable>
         </DragDropContext>
-        {queue.items?.length === 0 && (
-          <div className="text-xs text-foreground-secondary p-4 text-center">
-            It&apos;s lonely around here... Let&apos;s add a song!
-          </div>
-        )}
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
         {permission.canAdd ? null : (

@@ -57,7 +57,7 @@ const TrackAdderSearch: React.FC<{
           <button
             title="Remove search results"
             type="button"
-            className="absolute right-0 transform -translate-x-1/2 -translate-y-1/2 top-1/2"
+            className="absolute-center left-auto right-0"
             onClick={() => {
               formRef.current?.reset();
               setIsEmpty(true);

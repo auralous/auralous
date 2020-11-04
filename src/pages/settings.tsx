@@ -1,23 +1,24 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { NextSeo } from "next-seo";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useToasts } from "~/components/Toast/index";
 import { Modal, useModal } from "~/components/Modal/index";
 import { useLogin } from "~/components/Auth/index";
-import { useCurrentUser } from "~/hooks/user";
+import { useCurrentUser, useMAuth } from "~/hooks/user";
 import {
   useUpdateMeMutation,
   useDeleteMeMutation,
-  OAuthProviderName,
-  useMeAuthQuery,
   User,
   PlatformName,
 } from "~/graphql/gql.gen";
-import { SvgYoutube, SvgSpotify } from "~/assets/svg";
 import { usePlayer } from "~/components/Player";
-import { PLATFORM_FULLNAMES } from "~/lib/constants";
+import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
 import { useCallback } from "react";
+
+const SettingTitle: React.FC = ({ children }) => (
+  <h3 className="text-lg font-bold mb-1">{children}</h3>
+);
 
 const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
   const toasts = useToasts();
@@ -127,13 +128,13 @@ const LeftSection: React.FC = () => {
       method: "POST",
       credentials: "include",
     });
-    (window as any).resetUrqlClient();
+    window.resetUrqlClient();
     toasts.message("You have been signed out");
   }, [toasts]);
 
   return (
     <>
-      <h3 className="text-lg font-bold mb-4">Me, myself, and I</h3>
+      <SettingTitle>Me, myself, and I</SettingTitle>
       {user ? (
         <>
           <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
@@ -199,20 +200,15 @@ const LeftSection: React.FC = () => {
   );
 };
 
-const MusicConnection: React.FC<{
-  name: string;
-  provider: OAuthProviderName;
-}> = ({ name, provider }) => {
-  const [{ data }] = useMeAuthQuery();
-  if (!data?.meAuth?.[provider]) return null;
+const MusicConnection: React.FC = () => {
+  const { data: mAuth } = useMAuth();
+  if (!mAuth) return null;
+  const platform = mAuth.platform;
+  const name = PLATFORM_FULLNAMES[mAuth.platform];
+  const PlatformSvg = SvgByPlatformName[platform];
   return (
-    <div className={`brand-${provider} p-4 rounded-lg flex items-center`}>
-      {provider === "youtube" && (
-        <SvgYoutube width="40" height="40" fill="currentColor" />
-      )}
-      {provider === "spotify" && (
-        <SvgSpotify width="40" height="40" fill="currentColor" />
-      )}
+    <div className={`brand-${platform} p-4 rounded-lg flex items-center`}>
+      <PlatformSvg width="40" height="40" className="fill-current" />
       <div className="ml-4">
         <div className="mb-1">
           Listening on <b>{name}</b>
@@ -232,20 +228,34 @@ const MusicConnection: React.FC<{
 
 const LocalPlatformSettings: React.FC = () => {
   const { forceResetPlayingPlatform } = usePlayer();
-  const [platform, setPlatform] = useState(() =>
-    typeof window !== "undefined"
-      ? (window.sessionStorage.getItem(
-          "playingPlatform"
-        ) as PlatformName | null)
-      : null
-  );
+  const [platform, setPlatform] = useState<PlatformName | "">("");
 
-  const name = platform ? PLATFORM_FULLNAMES[platform] : "";
+  useEffect(() => {
+    // init from sessionStorage
+    setPlatform(
+      (window.sessionStorage.getItem("playingPlatform") || "") as
+        | PlatformName
+        | ""
+    );
+  }, []);
+
+  const PlatformChoices = useMemo(
+    () =>
+      Object.entries(PLATFORM_FULLNAMES).map(([value, plname]) => (
+        <option key={value} value={value}>
+          {plname}
+        </option>
+      )),
+    []
+  );
 
   useEffect(() => {
     window.sessionStorage.setItem("playingPlatform", platform || "");
     forceResetPlayingPlatform({});
   }, [platform, forceResetPlayingPlatform]);
+
+  const name = platform ? PLATFORM_FULLNAMES[platform] : "";
+  const PlatformSvg = platform ? SvgByPlatformName[platform] : null;
 
   return (
     <div
@@ -253,28 +263,23 @@ const LocalPlatformSettings: React.FC = () => {
         platform ? `brand-${platform}` : "bg-background-secondary"
       }  p-4 rounded-lg flex items-center`}
     >
-      {platform === "youtube" && (
-        <SvgYoutube width="40" height="40" fill="currentColor" />
-      )}
-      {platform === "spotify" && (
-        <SvgSpotify width="40" height="40" fill="currentColor" />
+      {PlatformSvg && (
+        <PlatformSvg width="40" height="40" className="fill-current" />
       )}
       <div className="ml-4">
         <div className="mb-1">
           Listening on{" "}
           <select
             aria-label="Listen on..."
-            value={platform || ""}
-            onChange={(e) => {
-              setPlatform(e.currentTarget.value as PlatformName);
-            }}
+            value={platform}
+            onChange={(e) => setPlatform(e.currentTarget.value as PlatformName)}
+            onBlur={undefined}
             className="bg-white bg-opacity-50 font-bold p-1 rounded-lg"
           >
             <option value="" disabled>
               Select one
             </option>
-            <option value="youtube">YouTube</option>
-            <option value="spotify">Spotify</option>
+            {PlatformChoices}
           </select>
         </div>
         <p className="text-sm opacity-75">
@@ -297,25 +302,8 @@ const LinkSettings: React.FC = () => {
   // const [, logIn] = useLogin();
   return (
     <>
-      <h3 className="text-lg font-bold mb-1">Connections</h3>
-      {user ? (
-        <>
-          <h4 className="font-bold mb-2">Music</h4>
-          <MusicConnection
-            name="YouTube"
-            provider={OAuthProviderName.Youtube}
-          />
-          <MusicConnection
-            name="Spotify"
-            provider={OAuthProviderName.Spotify}
-          />
-        </>
-      ) : (
-        <>
-          <h4 className="font-bold mb-2">Music</h4>
-          <LocalPlatformSettings />
-        </>
-      )}
+      <SettingTitle>Connections</SettingTitle>
+      {user ? <MusicConnection /> : <LocalPlatformSettings />}
     </>
   );
 };
@@ -328,7 +316,7 @@ const RightSection: React.FC = () => {
         <LinkSettings />
         {user && (
           <div className="mt-8">
-            <h4 className="text-md font-bold">Danger zone</h4>
+            <SettingTitle>Danger zone</SettingTitle>
             <DeleteAccount user={user} />
           </div>
         )}
@@ -340,7 +328,7 @@ const RightSection: React.FC = () => {
 const SettingsPage: NextPage = () => (
   <>
     <NextSeo title="Settings" noindex />
-    <div className="container mt-20">
+    <div className="container">
       <h1 className="font-bold text-4xl mb-2 leading-tight">Settings</h1>
       <div className="flex flex-wrap">
         <div className="w-full lg:flex-1 p-4">

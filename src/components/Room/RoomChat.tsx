@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { Chatbox } from "~/components/Chat/index";
 import {
   Room,
@@ -9,10 +10,11 @@ import {
 import { useCurrentUser } from "~/hooks/user";
 import { MEMBERSHIP_NAMES } from "~/lib/constants";
 import { AuthBanner } from "~/components/Auth";
+import { getRole } from "~/lib/room";
 
 const CurrentUser: React.FC<{
   userId: string;
-  role: RoomMembership | null;
+  role: RoomMembership | undefined;
 }> = ({ userId, role }) => {
   const [{ data }] = useUserQuery({ variables: { id: userId } });
   return (
@@ -51,24 +53,18 @@ const CurrentUser: React.FC<{
   );
 };
 
-const RoomUsers: React.FC<{ roomState: RoomState; room: Room }> = ({
+const RoomUsers: React.FC<{ roomState: RoomState | undefined; room: Room }> = ({
   room,
   roomState,
 }) => {
   return (
     <div className="h-full p-2">
-      {roomState.userIds.map((userId) => (
+      {roomState?.userIds.map((userId) => (
         // TODO: react-window
         <CurrentUser
           key={userId}
           userId={userId}
-          role={
-            roomState.collabs.includes(userId)
-              ? RoomMembership.Collab
-              : room.creatorId === userId
-              ? RoomMembership.Host
-              : null
-          }
+          role={getRole(userId, room, roomState)}
         />
       ))}
     </div>
@@ -79,58 +75,47 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
   room,
   roomState,
 }) => {
-  const [tab, setTab] = useState<"chat" | "users">("chat");
   const user = useCurrentUser();
-  return (
-    <div className="h-full flex flex-col">
-      <div role="tablist" className="flex flex-none">
-        <button
-          role="tab"
-          className={`flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
-            tab === "chat"
-              ? "bg-foreground bg-opacity-25 text-white"
-              : "opacity-75"
-          }`}
-          aria-controls="tabpanel_chat"
-          onClick={() => setTab("chat")}
-          aria-selected={tab === "chat"}
-        >
-          Chat
-        </button>
-        <button
-          role="tab"
-          className={`flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
-            tab === "users"
-              ? "bg-foreground bg-opacity-25 text-white"
-              : "opacity-75"
-          }`}
-          aria-controls="tabpanel_users"
-          onClick={() => setTab("users")}
-          aria-selected={tab === "users"}
-        >
-          Listeners ({roomState?.userIds.length || 0})
-        </button>
+  if (!user)
+    return (
+      <div className="h-full w-full flex flex-col justify-center">
+        <AuthBanner
+          prompt="Join Stereo to Chat"
+          hook={
+            "Listen to music with friends and chat no matter where they are"
+          }
+        />
       </div>
-      {user ? (
-        <>
-          <div hidden={tab !== "chat"} className="flex-1">
-            <Chatbox roomId={room.id} />
-          </div>
-          <div hidden={tab !== "users"} className="flex-1">
-            {roomState && <RoomUsers room={room} roomState={roomState} />}
-          </div>
-        </>
-      ) : (
-        <div className="flex-1 flex flex-col justify-center">
-          <AuthBanner
-            prompt="Join Stereo to Chat"
-            hook={
-              "Listen to music with friends and chat no matter where they are"
-            }
-          />
-        </div>
-      )}
-    </div>
+    );
+  return (
+    <Tabs className="h-full flex flex-col">
+      {({ selectedIndex }) => {
+        const getClassName = (index: number) =>
+          `flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
+            index === selectedIndex
+              ? "bg-foreground bg-opacity-25 text-white"
+              : "opacity-75"
+          } transition duration-200`;
+        return (
+          <>
+            <TabList className="flex flex-none">
+              <Tab className={getClassName(0)}>Chat</Tab>
+              <Tab className={getClassName(1)}>
+                Listeners ({roomState?.userIds.length || 0})
+              </Tab>
+            </TabList>
+            <TabPanels className="flex-1">
+              <TabPanel className="h-full">
+                <Chatbox roomId={room.id} />
+              </TabPanel>
+              <TabPanel className="h-full">
+                <RoomUsers room={room} roomState={roomState} />
+              </TabPanel>
+            </TabPanels>
+          </>
+        );
+      }}
+    </Tabs>
   );
 };
 

@@ -87,8 +87,9 @@ const StepUsername: React.FC<{
   const profilePicturePreviewRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    usernameRef.current!.value = user?.username || "";
-    profilePicturePreviewRef.current!.src = user?.profilePicture || "";
+    if (!usernameRef.current || !profilePicturePreviewRef.current) return;
+    usernameRef.current.value = user?.username || "";
+    profilePicturePreviewRef.current.src = user?.profilePicture || "";
   }, [user, usernameRef, profilePicturePreviewRef]);
 
   return (
@@ -130,8 +131,12 @@ const StepUsername: React.FC<{
             ref={profilePictureRef}
             className="input w-full ml-4"
             onChange={(event) => {
-              if (typeof window === "undefined") return;
-              profilePicturePreviewRef.current!.src = window.URL.createObjectURL(
+              if (
+                typeof window === "undefined" ||
+                !profilePicturePreviewRef.current
+              )
+                return;
+              profilePicturePreviewRef.current.src = window.URL.createObjectURL(
                 event.currentTarget.files?.[0]
               );
             }}
@@ -185,7 +190,7 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
       onDismiss={close}
       className="h-full w-full p-2"
     >
-      <div className="w-full p-4 min-h-screen flex flex-col place-center">
+      <div className="w-full p-4 min-h-screen flex flex-col flex-center">
         <div className="h-96 w-full flex flex-col items-center overflow-hidden">
           <div className="w-full flex-1 h-0 p-4">
             {step === 0 && <StepWelcome />}

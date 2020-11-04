@@ -127,7 +127,7 @@ const CreatePlaylist: React.FC<{
       className="flex items-center mb-1 hover:bg-background-secondary p-2 rounded-lg w-full"
       onClick={() => setIsCreatingPlaylist(true)}
     >
-      <div className="w-12 h-12 bg-white text-black flex place-center rounded-lg">
+      <div className="w-12 h-12 bg-white text-black flex flex-center rounded-lg">
         <SvgPlus />
       </div>
       <span className="ml-2 font-bold">New Playlist</span>
@@ -179,7 +179,7 @@ const AddToExistingPlaylist: React.FC<{
   );
 };
 
-const AddToPlaylistModal: React.FC<{
+const AddToPlaylist: React.FC<{
   track: Track;
   close: () => void;
   active: boolean;
@@ -211,4 +211,4 @@ const AddToPlaylistModal: React.FC<{
   );
 };
 
-export default AddToPlaylistModal;
+export default AddToPlaylist;

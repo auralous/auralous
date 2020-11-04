@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import {
   PlatformName,
   QueueAction,
@@ -15,6 +16,18 @@ import {
 import { useCurrentUser, useMAuth } from "~/hooks/user";
 import { AuthBanner } from "~/components/Auth";
 import { SvgCheck, SvgSearch, SvgX } from "~/assets/svg";
+
+const CreateRoomLabel: React.FC<{ htmlFor: string }> = ({
+  htmlFor,
+  children,
+}) => (
+  <label
+    className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
+    htmlFor={htmlFor}
+  >
+    {children}
+  </label>
+);
 
 const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
   const router = useRouter();
@@ -71,12 +84,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
   return (
     <form onSubmit={handleRoomCreation} autoComplete="off">
       <div className="mb-2 flex">
-        <label
-          className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
-          htmlFor="roomTitle"
-        >
-          Title
-        </label>
+        <CreateRoomLabel htmlFor="roomTitle">Title</CreateRoomLabel>
         <input
           id="roomTitle"
           aria-label="Enter a title for the station"
@@ -88,9 +96,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
         />
       </div>
       <div className="mb-2 hidden">
-        <label className="label" htmlFor="roomDesc">
-          Description
-        </label>
+        <CreateRoomLabel htmlFor="roomDesc">Description</CreateRoomLabel>
         <textarea
           id="roomDesc"
           aria-label="Enter a description for the station"
@@ -100,13 +106,8 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
         />
       </div>
       <div className="mb-2 flex">
-        <label
-          htmlFor="roomPrivacy"
-          className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
-        >
-          Privacy
-        </label>
-        <div className="inline-flex items-center border-background-secondary border-2 p-2 rounded-lg">
+        <CreateRoomLabel htmlFor="roomPrivacy">Privacy</CreateRoomLabel>
+        <div className="input inline-flex">
           <div className="flex items-center mr-4">
             <input
               id="roomPrivacyPublic"
@@ -142,12 +143,9 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
           <>
             <div className="mb-2">
               <div className="flex">
-                <label
-                  className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
-                  htmlFor="roomAnyoneCanAdd"
-                >
+                <CreateRoomLabel htmlFor="roomAnyoneCanAdd">
                   Guests can add songs
-                </label>
+                </CreateRoomLabel>
                 <select
                   id="roomAnyoneCanAdd"
                   ref={anyoneCanAddRef}
@@ -166,12 +164,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
           <>
             <div className="mb-2">
               <div className="flex">
-                <label
-                  className="flex items-center label mr-1 mb-0 bg-background-secondary rounded-lg px-4"
-                  htmlFor="password"
-                >
-                  Password
-                </label>
+                <CreateRoomLabel htmlFor="password">Password</CreateRoomLabel>
                 <input
                   type="password"
                   id="password"
@@ -280,7 +273,6 @@ const getFeaturedArtists = (tracks: Track[]): string[] => {
 };
 
 const NewPage: NextPage = () => {
-  const [tab, setTab] = useState<"create" | "add">("create");
   const user = useCurrentUser();
   const router = useRouter();
   const { data: mAuth } = useMAuth();
@@ -301,18 +293,18 @@ const NewPage: NextPage = () => {
   });
 
   useEffect(() => {
-    inputRef.current!.value = searchQuery || "";
+    if (inputRef.current) inputRef.current.value = searchQuery || "";
   }, [searchQuery]);
 
   return (
     <>
       <NextSeo title="Start listening together" noindex />
-      <div className="container mx-auto pt-20">
+      <div className="container mx-auto">
         <div className="py-6 px-3 min-h-40">
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              const s = inputRef.current!.value.trim();
+              const s = inputRef.current?.value.trim();
               s && router.replace(`/new?search=${encodeURIComponent(s)}`);
             }}
             className="p-4"
@@ -322,11 +314,12 @@ const NewPage: NextPage = () => {
                 ref={inputRef}
                 className="w-full px-4 py-2 text-center font-bold border-b-4 border-opacity-50 focus:border-opacity-100 border-pink bg-transparent transition duration-300"
                 placeholder="Optional: Enter a playlist link to listen together"
+                aria-label="Playlist Link"
               />
               <button
                 type="submit"
                 title="Search Playlist"
-                className="absolute right-1 top-1/2 transform -translate-y-1/2"
+                className="absolute-center left-auto right-1"
               >
                 <SvgSearch />
               </button>
@@ -347,77 +340,65 @@ const NewPage: NextPage = () => {
                 .
               </p>
             ) : (
-              !!searchQuery &&
-              (fetching ? (
+              !!searchQuery && (
                 <p className="text-foreground-secondary text-center text-sm">
-                  Fetching...
+                  {fetching ? (
+                    "Fetching..."
+                  ) : (
+                    <>
+                      <SvgX
+                        width="18"
+                        height="18"
+                        className="inline bg-foreground-tertiary text-white p-1 rounded-full mr-1"
+                      />
+                      No songs found from the above link
+                    </>
+                  )}
                 </p>
-              ) : (
-                <p className="text-foreground-secondary text-center text-sm">
-                  <SvgX
-                    width="18"
-                    height="18"
-                    className="inline bg-foreground-tertiary text-white p-1 rounded-full mr-1"
-                  />
-                  No songs found from the above link
-                </p>
-              ))
+              )
             )}
           </form>
         </div>
-        <div role="tablist" className="flex flex-none mb-2">
-          <button
-            role="tab"
-            className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
-              tab === "create"
-                ? "bg-pink text-white"
-                : "opacity-75 hover:opacity-100 bg-white text-pink"
-            } transition duration-300`}
-            aria-controls="tabpanel_create"
-            onClick={() => setTab("create")}
-            aria-selected={tab === "create"}
-          >
-            Create New Room
-          </button>
-          <button
-            role="tab"
-            className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
-              initTracks?.length
-                ? tab === "add"
+        <Tabs>
+          {({ selectedIndex }) => {
+            const getClassName = (index: number) =>
+              `flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
+                index === selectedIndex
                   ? "bg-pink text-white"
                   : "opacity-75 hover:opacity-100 bg-white text-pink"
-                : "opacity-25"
-            } transition duration-300`}
-            aria-controls="tabpanel_add"
-            onClick={() => setTab("add")}
-            aria-selected={tab === "add"}
-            disabled={!initTracks?.length}
-          >
-            Use an Existing Room
-          </button>
-        </div>
-        {user ? (
-          <>
-            <div
-              role="tabpanel"
-              id="tabpanel_create"
-              className="p-2"
-              hidden={tab !== "create"}
-            >
-              <CreateRoom initTracks={initTracks} />
-            </div>
-            <div
-              role="tabpanel"
-              id="tabpanel_add"
-              className="p-2"
-              hidden={tab !== "add"}
-            >
-              <AddExistedRoom user={user} initTracks={initTracks} />
-            </div>
-          </>
-        ) : (
-          <AuthBanner prompt="Join Stereo to Create a Room" />
-        )}
+              } transition duration-300`;
+            return (
+              <>
+                <TabList className="flex flex-none mb-2">
+                  <Tab className={getClassName(0)}>Create New Room</Tab>
+                  <Tab
+                    className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
+                      initTracks?.length ? getClassName(1) : "opacity-25"
+                    } transition duration-300`}
+                    disabled={!initTracks?.length}
+                  >
+                    Use an Existing Room
+                  </Tab>
+                </TabList>
+                <TabPanels className="p-2">
+                  <TabPanel>
+                    {user ? <CreateRoom initTracks={initTracks} /> : <div />}
+                  </TabPanel>
+                  <TabPanel>
+                    {user ? (
+                      <AddExistedRoom user={user} initTracks={initTracks} />
+                    ) : (
+                      <div />
+                    )}
+                  </TabPanel>
+                  {!user && (
+                    <AuthBanner prompt="Join Stereo to Create a Room" />
+                  )}
+                </TabPanels>
+              </>
+            );
+          }}
+        </Tabs>
       </div>
     </>
   );

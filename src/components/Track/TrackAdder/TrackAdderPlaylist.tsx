@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { QueryConfig } from "react-query";
 import { SvgChevronLeft } from "~/assets/svg";
 import { default as TrackAdderResults } from "./TrackAdderResults";
 import { useMyPlaylistsQuery } from "~/hooks/playlist";
@@ -36,8 +37,9 @@ const PlaylistItem: React.FC<{
 const TrackAdderPlaylist: React.FC<{
   addedTracks: string[];
   callback: TrackAdderCallbackFn;
-}> = ({ addedTracks, callback }) => {
-  const { data: myPlaylists, isLoading } = useMyPlaylistsQuery();
+  queryConfig?: QueryConfig<Playlist[] | null, unknown>;
+}> = ({ addedTracks, callback, queryConfig }) => {
+  const { data: myPlaylists, isLoading } = useMyPlaylistsQuery(queryConfig);
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<null | Playlist>(
     null

@@ -3,18 +3,15 @@ import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import useQueue from "./useQueue";
 import { TrackItem } from "~/components/Track/index";
-import { QueueItem, useUserQuery } from "~/graphql/gql.gen";
 import { SvgPlus } from "~/assets/svg";
+import QueueAddedBy from "./QueueAddedBy";
+import { UseQueryArgs } from "urql";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
   data,
   index,
   style,
 }) {
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: data.items[index].creatorId },
-  });
-
   // Only if !!data.onAdd
   const [isAdding, setIsAdding] = useState(false);
 
@@ -27,14 +24,7 @@ const Row = React.memo<ListChildComponentProps>(function Row({
       >
         <TrackItem
           id={data.items[index].trackId}
-          extraInfo={
-            <span className="ml-1 flex-none">
-              Added by{" "}
-              <span className="text-foreground font-semibold text-opacity-75">
-                {user?.username || ""}
-              </span>
-            </span>
-          }
+          extraInfo={<QueueAddedBy userId={data.items[index].creatorId} />}
           showMenu
         />
         <div className="flex content-end items-center ml-2">
@@ -66,17 +56,21 @@ const QueueViewer: React.FC<{
   queueId: string;
   reverse?: boolean;
   onAdd?: (newTrackArray: string[]) => Promise<boolean>;
-}> = ({ queueId, reverse, onAdd }) => {
-  const [queue] = useQueue(queueId, { requestPolicy: "cache-and-network" });
+  queryOpts?: Partial<
+    UseQueryArgs<{
+      id: string;
+    }>
+  >;
+}> = ({ queueId, reverse, onAdd, queryOpts }) => {
+  const [queue] = useQueue(queueId, {
+    requestPolicy: "cache-and-network",
+    ...queryOpts,
+  });
 
   const items = useMemo(() => {
     if (!queue) return [];
     if (!reverse) return queue.items;
-    const items: QueueItem[] = [];
-    for (let i = queue.items.length - 1; i >= 0; i--) {
-      items.push(queue.items[i]);
-    }
-    return items;
+    return [...queue.items].reverse();
   }, [queue, reverse]);
 
   return (

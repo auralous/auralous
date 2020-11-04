@@ -1,23 +1,41 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Modal } from "~/components/Modal";
 import { PlatformName } from "~/graphql/gql.gen";
 import Link from "next/link";
 import usePlayer from "./usePlayer";
 import { useLogin } from "~/components/Auth";
-import { SvgLogIn, SvgSpotify, SvgYoutube } from "~/assets/svg";
+import { SvgLogIn } from "~/assets/svg";
+import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
 
 const PlayerPlatformChooser: React.FC<{
   active: boolean;
-  onSelect: () => void;
-}> = ({ active, onSelect }) => {
+  resetFn: (val: unknown) => void;
+}> = ({ active, resetFn }) => {
   const { stopPlaying } = usePlayer();
 
-  const selectPlatform = (platform: PlatformName) => {
-    window.sessionStorage.setItem("playingPlatform", platform);
-    onSelect();
-  };
-
   const [, showLogin] = useLogin();
+
+  const PlatformChoices = useMemo(
+    () =>
+      Object.entries(PLATFORM_FULLNAMES).map(([value, plname]) => {
+        const pl = value as PlatformName;
+        const SvgPlatform = SvgByPlatformName[pl];
+        return (
+          <button
+            key={pl}
+            onClick={() => {
+              window.sessionStorage.setItem("playingPlatform", pl);
+              resetFn({});
+            }}
+            className={`w-48 m-1 button rounded-full text-sm opacity-75 hover:opacity-100 transition-opacity duration-200 brand-${pl}`}
+          >
+            <SvgPlatform width="24" className="fill-current" strokeWidth="0" />
+            <span className="ml-2 text-sm">Listen on {plname}</span>
+          </button>
+        );
+      }),
+    [resetFn]
+  );
 
   return (
     <Modal.Modal title="Choose platform to play this track on" active={active}>
@@ -41,20 +59,7 @@ const PlayerPlatformChooser: React.FC<{
           <p className="px-2 text-sm py-4">Listen as guest</p>
           <hr className="flex-1" />
         </div>
-        <button
-          onClick={() => selectPlatform(PlatformName.Youtube)}
-          className="w-48 m-1 button rounded-full text-sm opacity-75 hover:opacity-100 transition-opacity duration-200 brand-youtube"
-        >
-          <SvgYoutube width="24" className="fill-current" strokeWidth="0" />
-          <span className="ml-2 text-sm">Listen on YouTube</span>
-        </button>
-        <button
-          onClick={() => selectPlatform(PlatformName.Spotify)}
-          className="w-48 m-1 button rounded-full text-sm opacity-75 hover:opacity-100 transition-opacity duration-200 brand-spotify"
-        >
-          <SvgSpotify width="24" className="fill-current" strokeWidth="0" />
-          <span className="ml-2 text-sm">Listen on Spotify</span>
-        </button>
+        {PlatformChoices}
         <button
           onClick={stopPlaying}
           className="button mt-2 text-xs bg-transparent opacity-75 hover:opacity-100 transition-opacity"

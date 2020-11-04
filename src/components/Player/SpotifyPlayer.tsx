@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useToasts } from "~/components/Toast/index";
@@ -191,12 +190,12 @@ export default function SpotifyPlayer() {
             isPlaying: () => !spotifyData.state?.paused,
           });
           // get duration
-          durationInterval = window.setInterval(async () => {
-            player.emit(
-              "time",
-              (await spotifyPlayer?.getCurrentState())?.position || 0
-            );
-          }, 1000);
+          // durationInterval = window.setInterval(async () => {
+          //   player.emit(
+          //     "time",
+          //     (await spotifyPlayer?.getCurrentState())?.position || 0
+          //   );
+          // }, 1000);
           setStatus("OK");
         }
       );
@@ -237,7 +236,8 @@ export default function SpotifyPlayer() {
 
     return function cleanup() {
       window.clearInterval(durationInterval);
-      (window as any).onSpotifyWebPlaybackSDKReady = null;
+      // @ts-expect-error: DT defines this as non null
+      window.onSpotifyWebPlaybackSDKReady = null;
       player.unregisterPlayer();
       if (!spotifyPlayer) return;
       spotifyPlayer.removeListener("ready");

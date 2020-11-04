@@ -1,8 +1,24 @@
-import { Track, Room } from "~/graphql/gql.gen";
+import { Track, PlatformName } from "~/graphql/gql.gen";
+import Player from "./Player";
 
 export type PlayerPlaying = Track | null;
+
 export interface IPlayerContext {
-  room?: Room | null;
+  state: {
+    playerPlaying: PlayerPlaying;
+    playingRoomId: string;
+    originalTrack: Track | null | undefined;
+    playingPlatform: PlatformName | null;
+    playingThemeColor: string;
+    fetching: boolean;
+    error?: PlayerError | null;
+  };
+  playRoom: (roomId: string) => void;
+  stopPlaying: () => void;
+  player: Player;
+  forceResetPlayingPlatform: React.Dispatch<
+    React.SetStateAction<Record<string, unknown>>
+  >;
 }
 
 export enum PlayerError {

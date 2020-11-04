@@ -1,10 +1,20 @@
 @import "@reach/dialog/styles.css";
 
-@tailwind base;
+@import "tailwindcss/base";
 
-@tailwind components;
+@import "tailwindcss/components";
 
-@tailwind utilities;
+@import "tailwindcss/utilities";
+
+@layer utilities {
+  .absolute-center {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+  }
+  .flex-center {
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 body {
   @apply text-foreground bg-background font-sans;
@@ -37,6 +47,10 @@ html {
   }
 }
 
+[role=button]:disabled, button:disabled, input:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
 .nav {
   @apply absolute top-0 h-12 w-full z-30 overflow-x-auto flex justify-between items-center;
 }
@@ -49,27 +63,11 @@ html {
   @apply appearance-none;
 }
 
-button:focus {
-  @apply outline-none border-none;
-}
-
-[role=button]:disabled, button:disabled {
-  @apply cursor-not-allowed opacity-50;
-}
-
 .input {
   @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
-  &:disabled {
-    @apply cursor-not-allowed opacity-50;
-  }
   &:focus {
     @apply outline-none;
   }
-}
-
-.place-center {
-  place-items: center;
-  justify-content: center;
 }
 
 .button {
@@ -80,6 +78,9 @@ button:focus {
   &:not([disabled]):hover, &:not([disabled]):focus {
     @apply bg-background-tertiary;
     @apply border-none;
+  }
+  &:focus {
+    @apply outline-none border-none;
   }
   &.button-danger {
     @apply text-danger-label;
@@ -114,9 +115,6 @@ button:focus {
       @apply bg-foreground bg-opacity-50;
     }
   }
-  &:disabled {
-    @apply cursor-not-allowed opacity-50;
-  }
 }
 
 .brand-youtube {
@@ -140,7 +138,7 @@ button:focus {
 }
 
 [data-reach-dialog-overlay] {
-  @apply fixed w-full h-full inset-0 flex place-center z-40 bg-black bg-opacity-75;
+  @apply fixed w-full h-full inset-0 flex flex-center z-40 bg-black bg-opacity-75;
   animation: fadeIn ease .4s;
   [data-reach-dialog-content] {
     background: #000814;

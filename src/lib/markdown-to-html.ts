@@ -1,6 +1,5 @@
 import unified from "unified";
 import remarkToRehype from "remark-rehype";
-// @ts-ignore
 import raw from "rehype-raw";
 import markdown from "remark-parse";
 import html from "rehype-stringify";

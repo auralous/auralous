@@ -8,7 +8,7 @@ export const useCrossTracks = (id?: string, pause?: boolean) => {
       fetching: fetchingCross,
     },
   ] = useCrossTracksQuery({
-    variables: { id: id! },
+    variables: { id: id || "" },
     pause: pause || !id,
   });
 

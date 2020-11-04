@@ -58,7 +58,7 @@ const ChatRow = React.memo<ListChildComponentProps>(function ChatRow({
 },
 areEqual);
 
-const ChatBox: React.FC<{ roomId: string }> = ({ roomId }) => {
+const ChatContent: React.FC<{ roomId: string }> = ({ roomId }) => {
   const shouldScrollToBottom = useRef(true);
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -157,7 +157,7 @@ const ChatInput: React.FC<{ roomId: string }> = ({ roomId }) => {
 const Chatbox: React.FC<{ roomId: string }> = ({ roomId }) => {
   return (
     <div className="h-full w-full flex flex-col justify-between">
-      <ChatBox roomId={roomId} />
+      <ChatContent roomId={roomId} />
       <div className="flex-none">
         <ChatInput roomId={roomId} />
       </div>
