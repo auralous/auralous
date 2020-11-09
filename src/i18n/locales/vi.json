@@ -11,7 +11,7 @@
       "title": "Nghe nhạc mọi nơi",
       "description": "Stereo tích hợp với ứng dụng nghe nhạc quen thuộc với bạn. Bạn không cần gì ngoại một tài khoản YouTube, Spotify, hay Apple Music.",
       "p": "Bạn bè bạn không dùng chung ứng dụng nghe nhạc? Không sao, Stereo sẽ tìm bài hát tương ứng trên ứng dụng mà bạn sở hữu.",
-      "action": "Start Listening"
+      "action": "Cùng nghe nào"
     },
     "playlist": {
       "title": "Bắt đầu ngay",
@@ -97,7 +97,7 @@
     }
   },
   "browse": {
-    "title": "Browse",
+    "title": "Duyệt qua",
     "titleRandom": "Ngẫu nhiên",
     "titleMy": "Của bạn",
     "playlist": {
