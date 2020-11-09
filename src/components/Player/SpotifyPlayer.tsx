@@ -7,6 +7,7 @@ import { sleep } from "~/lib/util";
 import { verifyScript } from "~/lib/script-utils";
 import { SvgSpotify } from "~/assets/svg";
 import { useMAuth } from "~/hooks/user";
+import { useI18n } from "~/i18n/index";
 /// <reference path="spotify-web-playback-sdk" />
 
 interface ImplicitAuthJson {
@@ -106,6 +107,7 @@ export type SpotifyPlayerStatus =
   | "NO_SUPPORT";
 
 export default function SpotifyPlayer() {
+  const { t } = useI18n();
   const {
     state: { playerPlaying },
     stopPlaying,
@@ -256,7 +258,7 @@ export default function SpotifyPlayer() {
       <Modal.Header className="brand-spotify">
         <Modal.Title>
           <SvgSpotify className="fill-current mr-2" width="24" height="24" />
-          Playing on Spotify
+          {t("player.spotify.playingOn")}
         </Modal.Title>
       </Modal.Header>
       <Modal.Content className="brand-spotify text-opacity-75 flex items-start">
@@ -271,14 +273,14 @@ export default function SpotifyPlayer() {
           {status === "AUTH_WAIT" && (
             <>
               <p className="text-lg font-bold leading-tight">
-                We are connecting to Spotify to play this song.{" "}
+                {t("player.spotify.connectingText")}
               </p>
             </>
           )}
           {status === "AUTH_ASK" && (
             <>
               <p className="text-lg font-bold leading-tight">
-                Let&apos;s connect to your Spotify account to play this song.{" "}
+                {t("player.spotify.authAskText")}
               </p>
               <button
                 className="button button-light text-sm p-2 mt-1 mr-1"
@@ -290,21 +292,21 @@ export default function SpotifyPlayer() {
                   )
                 }
               >
-                Connect to Spotify
+                {t("player.spotify.authAction")}
               </button>
             </>
           )}
           {status === "AUTH_ERROR" && (
             <>
               <p className="text-lg font-bold leading-tight">
-                Could not connect to Spotify
+                {t("player.spotify.errorText")}
               </p>
               <p className="text-white text-opacity-75">
-                We cannot connect your Spotify account.{" "}
+                {t("player.spotify.errorHelpText")}{" "}
                 <Link href="/contact">
-                  <a className="underline">Contact support</a>
-                </Link>{" "}
-                if you need help .
+                  <a className="underline">{t("player.contactSupportText")}</a>
+                </Link>
+                .
               </p>
               <button
                 className="button button-light text-sm p-2 mt-1 mr-1"
@@ -316,18 +318,18 @@ export default function SpotifyPlayer() {
                   )
                 }
               >
-                Try again
+                {t("player.retryText")}
               </button>
             </>
           )}
           {status === "NO_PREMIUM" && (
             <p className="bg-black p-2 rounded-lg font-bold bg-opacity-50">
-              Spotify Premium subscription required.
+              {t("player.spotify.premiumRequired")}.
             </p>
           )}
           {status === "NO_SUPPORT" && (
             <p className="text-lg font-bold leading-tight">
-              This browser may not be supported.
+              {t("player.spotify.notSupported")}.
             </p>
           )}
           <button
@@ -336,17 +338,17 @@ export default function SpotifyPlayer() {
               stopPlaying();
             }}
           >
-            Stop Playing
+            {t("player.stopPlaying")}
           </button>
           <p className="text-white text-xs text-opacity-50 border-t-2 border-opacity-25 border-white py-1 mt-2">
-            A Spotify subscription is required to play any track, ad-free. Go to{" "}
+            {t("player.spotify.footerText")}{" "}
             <a
               className="opacity-75 hover:opacity-100"
               href="https://www.spotify.com/premium"
             >
               spotify.com/premium
             </a>{" "}
-            to try it for free.
+            {t("player.spotify.footerTextAfter")}.
           </p>
         </div>
       </Modal.Content>

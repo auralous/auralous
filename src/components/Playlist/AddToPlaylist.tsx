@@ -11,6 +11,7 @@ import { Track, PlatformName } from "~/graphql/gql.gen";
 import { Playlist } from "~/types/index";
 import { SvgCheck, SvgPlus } from "~/assets/svg";
 import { SvgByPlatformName } from "~/lib/constants";
+import { useI18n } from "~/i18n/index";
 
 const PlaylistItem: React.FC<{
   playlist: Playlist;
@@ -18,13 +19,14 @@ const PlaylistItem: React.FC<{
   added: boolean;
   track: Track;
 }> = ({ playlist, handleAdd, added, track }) => {
+  const { t } = useI18n();
   if (playlist.platform !== track.platform) return null;
   const SvgPlatformName = SvgByPlatformName[playlist.platform];
   return (
     <div
       role="button"
-      title={`Add to ${playlist.title}`}
-      onKeyDown={({ keyCode }) => keyCode === 13 && handleAdd(playlist)}
+      title={t("playlist.add.title", { title: playlist.title })}
+      onKeyDown={({ key }) => key === "Enter" && handleAdd(playlist)}
       tabIndex={0}
       className={`flex items-center mb-1 hover:bg-background-secondary p-2 rounded-lg w-full`}
       onClick={() => handleAdd(playlist)}
@@ -47,8 +49,8 @@ const PlaylistItem: React.FC<{
           {playlist.title}
         </p>
         <p className="text-foreground-tertiary text-sm">
-          {playlist.tracks.length} tracks
-          {added && "(Added)"}
+          {playlist.tracks.length} {t("common.tracks")}
+          {added && `(${t("playlist.add.addedText")})`}
         </p>
       </div>
     </div>
@@ -59,6 +61,7 @@ const CreatePlaylist: React.FC<{
   track: Track;
   done: () => void;
 }> = ({ track, done }) => {
+  const { t } = useI18n();
   const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
   const toasts = useToasts();
 
@@ -77,8 +80,7 @@ const CreatePlaylist: React.FC<{
 
       const playlistTitle = inputRef.current?.value.trim();
 
-      if (!playlistTitle)
-        return toasts.error("Enter a playlist name to continue");
+      if (!playlistTitle) return toasts.error(t("playlist.new.nameRequired"));
 
       const ok = await insertPlaylistTracks({
         name: playlistTitle,
@@ -86,14 +88,14 @@ const CreatePlaylist: React.FC<{
       });
 
       if (!ok) {
-        toasts.error("Cannot create new playlist");
+        toasts.error(t("playlist.new.errorText"));
         return;
       }
 
-      toasts.success(`Create playlist ${playlistTitle}`);
+      toasts.success(t("playlist.new.okText", { title: playlistTitle }));
       done();
     },
-    [fetching, done, toasts, track, insertPlaylistTracks]
+    [t, fetching, done, toasts, track.id, insertPlaylistTracks]
   );
 
   return isCreatingPlaylist ? (
@@ -116,8 +118,7 @@ const CreatePlaylist: React.FC<{
       </form>
       {track.platform === PlatformName.Youtube && (
         <small className="text-foreground-tertiary">
-          You may need to have a YouTube channel <i>or</i> sign up for YouTube
-          Music to create a playlist.
+          {t("playlist.new.youtubeHelpText")}.
         </small>
       )}
     </>
@@ -130,7 +131,7 @@ const CreatePlaylist: React.FC<{
       <div className="w-12 h-12 bg-white text-black flex flex-center rounded-lg">
         <SvgPlus />
       </div>
-      <span className="ml-2 font-bold">New Playlist</span>
+      <span className="ml-2 font-bold">{t("playlist.new.title")}</span>
     </button>
   );
 };
@@ -139,6 +140,7 @@ const AddToExistingPlaylist: React.FC<{
   track: Track;
   done: () => void;
 }> = ({ track, done }) => {
+  const { t } = useI18n();
   const toasts = useToasts();
 
   const { data: myPlaylists } = useMyPlaylistsQuery();
@@ -156,11 +158,16 @@ const AddToExistingPlaylist: React.FC<{
         tracks: [track.id],
       });
       if (ok) {
-        toasts.success(`Added ${track.title} to ${playlist.title}`);
+        toasts.success(
+          t("playlist.add.okText", {
+            trackTitle: track.title,
+            playlistTitle: playlist.title,
+          })
+        );
         done();
       }
     },
-    [done, toasts, insertPlaylistTracks, fetching, track]
+    [t, done, toasts, insertPlaylistTracks, fetching, track]
   );
 
   return (
@@ -184,9 +191,14 @@ const AddToPlaylist: React.FC<{
   close: () => void;
   active: boolean;
 }> = ({ track, close, active }) => {
+  const { t } = useI18n();
   const user = useCurrentUser();
   return (
-    <Modal.Modal title="Add to Playlist" active={active} onOutsideClick={close}>
+    <Modal.Modal
+      title={t("playlist.addTitle")}
+      active={active}
+      onOutsideClick={close}
+    >
       <Modal.Header>
         <Modal.Title>
           <div>
@@ -204,7 +216,7 @@ const AddToPlaylist: React.FC<{
             <AddToExistingPlaylist track={track} done={close} />
           </>
         ) : (
-          <AuthBanner prompt="Join Stereo to Add Songs to Playlists" />
+          <AuthBanner prompt={t("playlist.authPrompt")} />
         )}
       </Modal.Content>
     </Modal.Modal>

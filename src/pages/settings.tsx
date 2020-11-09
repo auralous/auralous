@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  useMemo,
+} from "react";
 import { NextSeo } from "next-seo";
 import { NextPage } from "next";
 import Link from "next/link";
@@ -13,8 +19,8 @@ import {
   PlatformName,
 } from "~/graphql/gql.gen";
 import { usePlayer } from "~/components/Player";
+import { useI18n } from "~/i18n/index";
 import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
-import { useCallback } from "react";
 
 const SettingTitle: React.FC = ({ children }) => (
   <h3 className="text-lg font-bold mb-1">{children}</h3>
@@ -25,6 +31,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
   const [, deleteUser] = useDeleteMeMutation();
   const [confirmUsername, setConfirmUsername] = useState("");
   const [activeDelete, openDelete, close] = useModal();
+  const { t } = useI18n();
   function closeDelete() {
     setConfirmUsername("");
     close();
@@ -32,24 +39,23 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
   return (
     <>
       <Modal.Modal
-        title="Deactivate account"
+        title={t("settings.deleteAccount.titleA11y")}
         active={activeDelete}
         onOutsideClick={closeDelete}
       >
         <Modal.Header>
-          <Modal.Title>Sad to See You Go...</Modal.Title>
+          <Modal.Title>{t("settings.deleteAccount.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Content className="text-center">
           <p className="mb-4">
-            Deactivating your account will remove all of your information,
-            rooms.
+            {t("settings.deleteAccount.description")}
             <br />
-            <b>This process is immediate and cannot be undone</b>.
+            <b>{t("common.dangerousActionText")}</b>.
           </p>
           <input
-            aria-label="Enter your username to continue"
+            aria-label={t("settings.deleteAccount.enterName")}
             value={confirmUsername}
-            placeholder="Enter your username to continue"
+            placeholder={t("settings.deleteAccount.enterName")}
             onChange={(e) => setConfirmUsername(e.target.value)}
             className="input py-2 px-4 ml-2 w-96 max-w-full"
           />
@@ -60,28 +66,28 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
             className="button bg-transparent text-danger-light"
             onClick={() =>
               deleteUser().then(() => {
-                toasts.message(
-                  "Your account and data has been removed. We're sorry to see you go!"
-                );
+                toasts.message(t("settings.deleteAccount.deletedText"));
               })
             }
             disabled={confirmUsername !== user.username}
           >
-            Deactivate
+            {t("settings.deleteAccount.action")}
           </button>
           <button
             type="button"
             onClick={closeDelete}
             className="button button-success"
           >
-            Nevermind
+            {t("settings.deleteAccount.cancelAction")}
           </button>
         </Modal.Footer>
       </Modal.Modal>
       <p className="text-sm text-foreground-secondary">
-        You can delete your account at any time.{" "}
+        {t("settings.deleteAccount.helpText")}{" "}
         <Link href="/privacy#when-you-delete-data-in-your-accounts">
-          <a className="underline">About your data on deactivation</a>
+          <a className="underline">
+            {t("settings.deleteAccount.helpTextLinkTitle")}
+          </a>
         </Link>
       </p>
       <button
@@ -89,13 +95,15 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         className="button button-danger mt-2"
         onClick={openDelete}
       >
-        Deactivate Account
+        {t("settings.deleteAccount.startAction")}
       </button>
     </>
   );
 };
 
 const LeftSection: React.FC = () => {
+  const { t } = useI18n();
+
   const toasts = useToasts();
   const user = useCurrentUser();
 
@@ -113,7 +121,7 @@ const LeftSection: React.FC = () => {
       username: (usernameRef.current as HTMLInputElement).value,
       profilePicture: (profilePictureRef.current as HTMLInputElement)
         .files?.[0],
-    }).then(() => toasts.success("Profile updated"));
+    }).then(() => toasts.success(t("settings.profileUpdated")));
   }
 
   useEffect(() => {
@@ -129,18 +137,18 @@ const LeftSection: React.FC = () => {
       credentials: "include",
     });
     window.resetUrqlClient();
-    toasts.message("You have been signed out");
-  }, [toasts]);
+    toasts.message(t("settings.signedOut"));
+  }, [t, toasts]);
 
   return (
     <>
-      <SettingTitle>Me, myself, and I</SettingTitle>
+      <SettingTitle>{t("settings.profile.title")}</SettingTitle>
       {user ? (
         <>
           <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
             <div className="mt-4">
               <label className="label" htmlFor="usernameInput">
-                Username
+                {t("settings.username.label")}
               </label>
               <input
                 id="usernameInput"
@@ -150,12 +158,12 @@ const LeftSection: React.FC = () => {
                 required
               />
               <p className="text-xs text-foreground-secondary">
-                15 characters max, lowercase, no space or special characters
+                {t("settings.username.helpText")}
               </p>
             </div>
             <div className="mt-4">
               <label className="label" htmlFor="profilePictureInput">
-                Profile picture
+                {t("settings.profilePicture.label")}
               </label>
               <div className="flex">
                 <img
@@ -164,35 +172,31 @@ const LeftSection: React.FC = () => {
                   className="w-16 h-16 bg-background-secondary rounded-full object-cover"
                 />
                 <input
+                  id="profilePictureInput"
                   type="file"
                   accept="image/*"
-                  aria-label="Upload an image"
                   ref={profilePictureRef}
                   className="input w-full ml-4"
                 />
               </div>
             </div>
             <button type="submit" className="button button-success mt-2 w-full">
-              Save
+              {t("settings.save")}
             </button>
           </form>
           <div className="mt-8 border-t-2 py-4 border-background-secondary">
             <button className="button button-light w-full" onClick={signOut}>
-              Sign Out
+              {t("settings.signOut")}
             </button>
           </div>
         </>
       ) : (
         <>
           <p className="text-foreground-tertiary">
-            Join Stereo to customize your profile.
+            {t("settings.profile.authPrompt")}
           </p>
-          <button
-            onClick={logIn}
-            title="Join Stereo"
-            className="button items-center mt-2"
-          >
-            Join
+          <button onClick={logIn} className="button items-center mt-2">
+            {t("common.signIn")}
           </button>
         </>
       )}
@@ -201,43 +205,24 @@ const LeftSection: React.FC = () => {
 };
 
 const MusicConnection: React.FC = () => {
+  const { t } = useI18n();
+  // Account
   const { data: mAuth } = useMAuth();
-  if (!mAuth) return null;
-  const platform = mAuth.platform;
-  const name = PLATFORM_FULLNAMES[mAuth.platform];
-  const PlatformSvg = SvgByPlatformName[platform];
-  return (
-    <div className={`brand-${platform} p-4 rounded-lg flex items-center`}>
-      <PlatformSvg width="40" height="40" className="fill-current" />
-      <div className="ml-4">
-        <div className="mb-1">
-          Listening on <b>{name}</b>
-        </div>
-        <p className="text-sm opacity-75">
-          Your Stereo account is connected to <b>{name}</b>. If you wish to
-          switch,{" "}
-          <Link href="/contact">
-            <a className="underline">contact us</a>
-          </Link>
-          .
-        </p>
-      </div>
-    </div>
-  );
-};
 
-const LocalPlatformSettings: React.FC = () => {
+  // Local
   const { forceResetPlayingPlatform } = usePlayer();
-  const [platform, setPlatform] = useState<PlatformName | "">("");
-
+  const [localPlatform, setLocalPlatform] = useState<PlatformName | "">("");
   useEffect(() => {
-    // init from sessionStorage
-    setPlatform(
+    setLocalPlatform(
       (window.sessionStorage.getItem("playingPlatform") || "") as
         | PlatformName
         | ""
     );
   }, []);
+  useEffect(() => {
+    window.sessionStorage.setItem("playingPlatform", localPlatform || "");
+    forceResetPlayingPlatform({});
+  }, [localPlatform, forceResetPlayingPlatform]);
 
   const PlatformChoices = useMemo(
     () =>
@@ -249,46 +234,51 @@ const LocalPlatformSettings: React.FC = () => {
     []
   );
 
-  useEffect(() => {
-    window.sessionStorage.setItem("playingPlatform", platform || "");
-    forceResetPlayingPlatform({});
-  }, [platform, forceResetPlayingPlatform]);
-
-  const name = platform ? PLATFORM_FULLNAMES[platform] : "";
+  const platform = mAuth?.platform || localPlatform;
+  const name = platform ? PLATFORM_FULLNAMES[platform] : null;
   const PlatformSvg = platform ? SvgByPlatformName[platform] : null;
 
   return (
     <div
       className={`${
         platform ? `brand-${platform}` : "bg-background-secondary"
-      }  p-4 rounded-lg flex items-center`}
+      } p-4 rounded-lg flex items-center`}
     >
       {PlatformSvg && (
         <PlatformSvg width="40" height="40" className="fill-current" />
       )}
       <div className="ml-4">
         <div className="mb-1">
-          Listening on{" "}
-          <select
-            aria-label="Listen on..."
-            value={platform}
-            onChange={(e) => setPlatform(e.currentTarget.value as PlatformName)}
-            onBlur={undefined}
-            className="bg-white bg-opacity-50 font-bold p-1 rounded-lg"
-          >
-            <option value="" disabled>
-              Select one
-            </option>
-            {PlatformChoices}
-          </select>
+          {t("settings.listening.listeningOn", { name })}
         </div>
-        <p className="text-sm opacity-75">
-          {platform ? (
-            <>
-              You are listening to music on <b>{name}</b>
-            </>
+        <p className="text-sm leading-tight">
+          {mAuth ? (
+            <span className="opacity-75">
+              {t("settings.listening.connectedToStereo", { name })},{" "}
+              <Link href="/contact">
+                <a className="underline">{t("settings.listening.contactUs")}</a>
+              </Link>
+            </span>
           ) : (
-            "Select a platform to start playing music"
+            <>
+              <span className="opacity-75">
+                {t("settings.listening.changeLocalMusicApp")}
+              </span>{" "}
+              <select
+                aria-label="Listen on..."
+                value={platform}
+                onChange={(e) =>
+                  setLocalPlatform(e.currentTarget.value as PlatformName)
+                }
+                onBlur={undefined}
+                className="bg-white bg-opacity-50 font-bold p-1 rounded-lg"
+              >
+                <option value="" disabled>
+                  {t("settings.listening.selectOne")}
+                </option>
+                {PlatformChoices}
+              </select>
+            </>
           )}
           .
         </p>
@@ -298,17 +288,17 @@ const LocalPlatformSettings: React.FC = () => {
 };
 
 const LinkSettings: React.FC = () => {
-  const user = useCurrentUser();
-  // const [, logIn] = useLogin();
+  const { t } = useI18n();
   return (
     <>
-      <SettingTitle>Connections</SettingTitle>
-      {user ? <MusicConnection /> : <LocalPlatformSettings />}
+      <SettingTitle>{t("settings.titleLink")}</SettingTitle>
+      <MusicConnection />
     </>
   );
 };
 
 const RightSection: React.FC = () => {
+  const { t } = useI18n();
   const user = useCurrentUser();
   return (
     <>
@@ -316,7 +306,7 @@ const RightSection: React.FC = () => {
         <LinkSettings />
         {user && (
           <div className="mt-8">
-            <SettingTitle>Danger zone</SettingTitle>
+            <SettingTitle>{t("settings.titleDangerZone")}</SettingTitle>
             <DeleteAccount user={user} />
           </div>
         )}
@@ -325,21 +315,26 @@ const RightSection: React.FC = () => {
   );
 };
 
-const SettingsPage: NextPage = () => (
-  <>
-    <NextSeo title="Settings" noindex />
-    <div className="container">
-      <h1 className="font-bold text-4xl mb-2 leading-tight">Settings</h1>
-      <div className="flex flex-wrap">
-        <div className="w-full lg:flex-1 p-4">
-          <LeftSection />
-        </div>
-        <div className="w-full lg:flex-1 p-4">
-          <RightSection />
+const SettingsPage: NextPage = () => {
+  const { t } = useI18n();
+  return (
+    <>
+      <NextSeo title={t("settings.title")} noindex />
+      <div className="container">
+        <h1 className="font-bold text-4xl mb-2 leading-tight">
+          {t("settings.title")}
+        </h1>
+        <div className="flex flex-wrap">
+          <div className="w-full lg:flex-1 p-4">
+            <LeftSection />
+          </div>
+          <div className="w-full lg:flex-1 p-4">
+            <RightSection />
+          </div>
         </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default SettingsPage;

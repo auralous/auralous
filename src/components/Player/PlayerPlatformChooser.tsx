@@ -4,6 +4,7 @@ import { PlatformName } from "~/graphql/gql.gen";
 import Link from "next/link";
 import usePlayer from "./usePlayer";
 import { useLogin } from "~/components/Auth";
+import { useI18n } from "~/i18n/index";
 import { SvgLogIn } from "~/assets/svg";
 import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
 
@@ -11,6 +12,8 @@ const PlayerPlatformChooser: React.FC<{
   active: boolean;
   resetFn: (val: unknown) => void;
 }> = ({ active, resetFn }) => {
+  const { t } = useI18n();
+
   const { stopPlaying } = usePlayer();
 
   const [, showLogin] = useLogin();
@@ -38,11 +41,11 @@ const PlayerPlatformChooser: React.FC<{
   );
 
   return (
-    <Modal.Modal title="Choose platform to play this track on" active={active}>
+    <Modal.Modal title={t("player.platformChooser.altTitle")} active={active}>
       <Modal.Header>
         <Modal.Title>
           <span className="text-center w-full">
-            Join Stereo or Select a Music Service
+            {t("player.paltformChooser.title")}
           </span>
         </Modal.Title>
       </Modal.Header>
@@ -52,11 +55,13 @@ const PlayerPlatformChooser: React.FC<{
           className="w-48 m-1 text-sm button rounded-full"
         >
           <SvgLogIn width="24" />
-          <span className="ml-2 text-sm">Join Stereo</span>
+          <span className="ml-2 text-sm">{t("common.signIn")} Stereo</span>
         </button>
         <div className="text-foreground-secondary flex justify-between items-center max-w-full w-72">
           <hr className="flex-1" />
-          <p className="px-2 text-sm py-4">Listen as guest</p>
+          <p className="px-2 text-sm py-4">
+            {t("player.platformChooser.listenAsGuest")}
+          </p>
           <hr className="flex-1" />
         </div>
         {PlatformChoices}
@@ -64,17 +69,14 @@ const PlayerPlatformChooser: React.FC<{
           onClick={stopPlaying}
           className="button mt-2 text-xs bg-transparent opacity-75 hover:opacity-100 transition-opacity"
         >
-          Stop Playing
+          {t("player.stopPlaying")}
         </button>
         <div className="text-foreground-tertiary text-xs mt-6 container">
           <p className="text-center max-w-3xl w-full mx-auto">
-            You can either temporarily listen on one of the music providers
-            above, or join Stereo for free and access features like add songs to
-            and from from your playlists, react to your friends&apos; picks, and
-            more. Otherwise, you can change your choice at any time in{" "}
+            {t("player.platformChooser.helpText")}{" "}
             <Link href="/settings">
               <button className="underline" onClick={stopPlaying}>
-                Settings
+                {t("settings.title")}
               </button>
             </Link>
             .

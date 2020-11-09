@@ -7,6 +7,7 @@ import {
   useUpdateRoomMutation,
   useDeleteRoomMutation,
 } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
 import { SvgEdit2 } from "~/assets/svg";
 
 const ImageEditSection: React.FC<{
@@ -51,42 +52,48 @@ const InfoEditSection: React.FC<{
   room: Room;
   titleRef: React.RefObject<HTMLInputElement>;
   descriptionRef: React.RefObject<HTMLTextAreaElement>;
-}> = ({ room, titleRef, descriptionRef }) => (
-  <>
-    <div className="mb-4">
-      <label className="label" htmlFor="roomTitle">
-        Title
-      </label>
-      <input
-        id="roomTitle"
-        className="input w-full"
-        type="text"
-        ref={titleRef}
-      />
-    </div>
-    <div className="mb-4 hidden">
-      <label className="label" htmlFor="roomDesc">
-        Description
-      </label>
-      <textarea id="roomDesc" className="input w-full" ref={descriptionRef} />
-    </div>
-    {/* TODO: Not yet implemented */}
-    <div className="mb-4">
-      <label className="label" htmlFor="roomHandle">
-        Handle
-      </label>
-      <input
-        id="roomHandle"
-        disabled
-        className="input w-full"
-        type="text"
-        value={room.id}
-      />
-    </div>
-  </>
-);
+}> = ({ room, titleRef, descriptionRef }) => {
+  const { t } = useI18n();
+  return (
+    <>
+      <div className="mb-4">
+        <label className="label" htmlFor="roomTitle">
+          {t("room.settings.info.title")}
+        </label>
+        <input
+          id="roomTitle"
+          className="input w-full"
+          type="text"
+          ref={titleRef}
+          required
+        />
+      </div>
+      <div className="mb-4 hidden">
+        <label className="label" htmlFor="roomDesc">
+          {t("room.settings.info.description")}
+        </label>
+        <textarea id="roomDesc" className="input w-full" ref={descriptionRef} />
+      </div>
+      {/* TODO: Not yet implemented */}
+      <div className="mb-4">
+        <label className="label" htmlFor="roomHandle">
+          {t("room.settings.info.handle")}
+        </label>
+        <input
+          id="roomHandle"
+          disabled
+          className="input w-full"
+          type="text"
+          value={room.id}
+          required
+        />
+      </div>
+    </>
+  );
+};
 
 const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
+  const { t } = useI18n();
   const [, updateRoom] = useUpdateRoomMutation();
   const toasts = useToasts();
   const formRef = useRef<HTMLFormElement>(null);
@@ -118,10 +125,10 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
           ...(description !== false && { description }),
           ...(image && { image }),
         });
-        toasts.success("Room updated");
+        toasts.success(t("room.settings.updatedText"));
       }
     },
-    [imageInputRef, titleRef, descriptionRef, room, toasts, updateRoom]
+    [t, imageInputRef, titleRef, descriptionRef, room, toasts, updateRoom]
   );
 
   return (
@@ -143,13 +150,14 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
         </div>
       </div>
       <button type="submit" className="button button-success w-full mt-2">
-        Save
+        {t("room.settings.saveText")}
       </button>
     </form>
   );
 };
 
 const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
+  const { t } = useI18n();
   const router = useRouter();
   const toasts = useToasts();
   const [{ fetching }, deleteRoom] = useDeleteRoomMutation();
@@ -157,31 +165,42 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
   const [confirmDelete, setConfirmDelete] = useState("");
   return (
     <>
-      <h3 className="text-lg font-bold">Danger zone</h3>
+      <h3 className="text-lg font-bold">
+        {t("room.settings.dangerZone.title")}
+      </h3>
       <button
         type="button"
-        title={`Delete ${room.title}`}
         className="button button-danger mt-4"
         onClick={openDelete}
       >
-        Delete Room
+        {t("room.settings.dangerZone.deleteTitle", {
+          title: t("room.roomText"),
+        })}
       </button>
       <Modal.Modal
-        title="Delete Room"
+        title={t("room.settings.dangerZone.deleteTitle", {
+          title: t("room.roomText"),
+        })}
         active={activeDelete}
         onOutsideClick={closeDelete}
       >
         <Modal.Header>
-          <Modal.Title>Delete {room.title}</Modal.Title>
+          <Modal.Title>
+            {t("room.settings.dangerZone.deleteTitle", {
+              title: room.title,
+            })}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Content className="text-center">
           <p className="mb-2">
-            Enter the room name to continue. <i>This cannot be undone</i>.
+            {t("room.settings.dangerZone.deleteDescription")}
+            <br />
+            <b>{t("common.dangerousActionText")}</b>.
           </p>
           <input
-            aria-label="Enter the room name to continue"
+            aria-label={t("room.settings.dangerZone.deleteEnterToProceed")}
             value={confirmDelete}
-            placeholder="Enter the room name to continue"
+            placeholder={t("room.settings.dangerZone.deleteEnterToProceed")}
             onChange={(e) => setConfirmDelete(e.target.value)}
             className="input w-96 max-w-full"
           />
@@ -192,20 +211,20 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
             className="button bg-transparent text-danger-light"
             onClick={() =>
               deleteRoom({ id: room.id }).then(() => {
-                toasts.success("Room deleted");
+                toasts.success(t("room.settings.dangerZone.deletedText"));
                 router.replace("/browse");
               })
             }
             disabled={confirmDelete !== room.title || fetching}
           >
-            Yes, delete room
+            {t("room.settings.dangerZone.deleteConfirmText")}
           </button>
           <button
             type="button"
             onClick={closeDelete}
             className="button button-success"
           >
-            Nevermind
+            {t("room.settings.dangerZone.deleteCancelText")}
           </button>
         </Modal.Footer>
       </Modal.Modal>

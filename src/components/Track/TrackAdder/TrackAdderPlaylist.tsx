@@ -3,6 +3,7 @@ import { QueryConfig } from "react-query";
 import { SvgChevronLeft } from "~/assets/svg";
 import { default as TrackAdderResults } from "./TrackAdderResults";
 import { useMyPlaylistsQuery } from "~/hooks/playlist";
+import { useI18n } from "~/i18n/index";
 import { Playlist } from "~/types/index";
 import { TrackAdderCallbackFn } from "./types";
 
@@ -10,10 +11,14 @@ const PlaylistItem: React.FC<{
   playlist: Playlist;
   handleSelect: (pl: Playlist) => void;
 }> = ({ playlist, handleSelect }) => {
+  const { t } = useI18n();
+
   return (
     <div
       role="button"
-      title={`Select songs from ${playlist.title}`}
+      title={t("track.adder.playlist.selectSongFrom", {
+        title: playlist.title,
+      })}
       onKeyDown={({ key }) => key === "Enter" && handleSelect(playlist)}
       tabIndex={0}
       className="flex items-center border-b-2 border-background-secondary hover:bg-white hover:bg-opacity-10 p-2 w-full"
@@ -27,7 +32,7 @@ const PlaylistItem: React.FC<{
       <div className="ml-2 text-left">
         <p>{playlist.title}</p>
         <p className="text-foreground-secondary text-sm">
-          {playlist.tracks.length} tracks
+          {playlist.tracks.length} {t("common.tracks")}
         </p>
       </div>
     </div>
@@ -39,6 +44,8 @@ const TrackAdderPlaylist: React.FC<{
   callback: TrackAdderCallbackFn;
   queryConfig?: QueryConfig<Playlist[] | null, unknown>;
 }> = ({ addedTracks, callback, queryConfig }) => {
+  const { t } = useI18n();
+
   const { data: myPlaylists, isLoading } = useMyPlaylistsQuery(queryConfig);
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<null | Playlist>(
@@ -77,7 +84,7 @@ const TrackAdderPlaylist: React.FC<{
             </div>
           </>
         ) : (
-          "Select a playlist"
+          t("track.adder.playlist.selectOne")
         )}
       </div>
       {selectedPlaylist ? (
@@ -90,7 +97,7 @@ const TrackAdderPlaylist: React.FC<{
         <div className="flex-1 h-0 overflow-auto">
           {isLoading && (
             <p className="px-2 py-6 text-center font-bold text-foreground-tertiary animate-pulse">
-              Loading playlist
+              {t("track.adder.playlist.loading")}
             </p>
           )}
           {myPlaylists?.map((playlist) => (

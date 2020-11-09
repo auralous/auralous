@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal } from "~/components/Modal/index";
+import { useI18n } from "~/i18n/index";
 import { RoomState } from "~/graphql/gql.gen";
 
 const RoomRules: React.FC<{
@@ -7,27 +8,26 @@ const RoomRules: React.FC<{
   close: () => void;
   roomState: RoomState;
 }> = ({ roomState, active, close }) => {
+  const { t } = useI18n();
   return (
     <Modal.Modal active={active} onOutsideClick={close}>
       <Modal.Header>
-        <Modal.Title>Room Rules</Modal.Title>
+        <Modal.Title>{t("rules.title")}</Modal.Title>
       </Modal.Header>
       <Modal.Content>
         <ul className="py-4 text-xl mb-4">
           <li className="px-4 py-2 mb-2 rounded-lg">
             {roomState?.anyoneCanAdd ? (
-              "Anyone can add songs"
+              t("room.rules.anyoneCanAdd")
             ) : (
-              <span>
-                <b className="text-success-light">Only member</b> can add songs
-              </span>
+              <span>{t("room.rules.onlyMemberCanAdd")}</span>
             )}
           </li>
         </ul>
       </Modal.Content>
       <Modal.Footer>
         <button onClick={close} className="button">
-          Got it!
+          {t("room.rules.ok")}
         </button>
       </Modal.Footer>
     </Modal.Modal>

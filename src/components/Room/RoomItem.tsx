@@ -1,9 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import { Room, useNowPlayingQuery, useTrackQuery } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
 import { SvgLock } from "~/assets/svg";
 
 const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
+  const { t } = useI18n();
+
   const [{ data: { nowPlaying } = { nowPlaying: null } }] = useNowPlayingQuery({
     variables: { id: room.id },
   });
@@ -25,13 +28,13 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
                 className="inline mr-1 p-1 rounded-lg bg-white text-black"
                 width="20"
                 height="20"
-                title="Private Room"
+                title={t("room.privacy.private")}
               />
             )}
             {room.title}
           </h3>
-          <h4 className="text-white flex-none text-center text-opacity-50 font-semibold text-xs mb-1">
-            NOW PLAYING
+          <h4 className="text-white flex-none text-center text-opacity-50 font-semibold text-xs mb-1 uppercase">
+            {t("nowPlaying.title")}
           </h4>
           <div className="relative w-32 h-32 mx-auto mb-2 rounded-full shadow-lg overflow-hidden">
             <img

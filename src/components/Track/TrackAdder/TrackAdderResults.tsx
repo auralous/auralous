@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "~/components/Track/index";
+import { useI18n } from "~/i18n/index";
 import { SvgCheck, SvgPlus } from "~/assets/svg";
 import { TrackAdderCallbackFn } from "./types";
 
@@ -10,6 +11,8 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
   index,
   style,
 }) {
+  const { t } = useI18n();
+
   const added = useMemo(() => data.addedTracks.includes(data.items[index]), [
     data,
     index,
@@ -19,7 +22,7 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
 
   return (
     <div
-      className="p-2 flex items-center justify-between border-b-2 border-opacity-25 border-background-secondary "
+      className="p-2 flex items-center justify-between border-b-2 border-opacity-25 border-background-secondary"
       role="presentation"
       key={data.items[index]}
       style={style}
@@ -35,10 +38,7 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
             isAdding ? "opacity-50" : ""
           } transition duration-200 rounded-full`}
           onClick={async () => {
-            if (
-              added &&
-              !window.confirm("This song has already been added. Add again?")
-            )
+            if (added && !window.confirm(t("track.adder.result.confirmAdded")))
               return;
             setIsAdding(true);
             await data.callback([data.items[index]]);

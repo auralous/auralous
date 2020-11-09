@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
 import { verifyScript } from "~/lib/script-utils";
+import { useI18n } from "~/i18n/index";
 import { SvgChevronDown, SvgChevronUp } from "~/assets/svg";
 /// <reference path="youtube" />
 
@@ -33,6 +34,7 @@ declare global {
 }
 
 export default function YouTubePlayer() {
+  const { t } = useI18n();
   const { player } = usePlayer();
 
   useEffect(() => {
@@ -122,7 +124,7 @@ export default function YouTubePlayer() {
           className="button button-light rounded-r-none p-1"
           onClick={() => setPosIsTop(true)}
           disabled={posIsTop}
-          title="Move to top"
+          title={t("player.youtube.moveToTop")}
         >
           <SvgChevronUp width="14" height="14" />
         </button>
@@ -130,7 +132,7 @@ export default function YouTubePlayer() {
           className="button button-light rounded-l-none p-1"
           onClick={() => setPosIsTop(false)}
           disabled={!posIsTop}
-          title="Move to bottom"
+          title={t("player.youtube.moveToBottom")}
         >
           <SvgChevronDown width="14" height="14" />
         </button>

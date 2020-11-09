@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal } from "~/components/Modal/index";
+import { useI18n } from "~/i18n/index";
 import { SvgFacebook, SvgTwitter, SvgReddit, SvgMail } from "~/assets/svg";
 
 const ShareDialog: React.FC<{
@@ -8,6 +9,7 @@ const ShareDialog: React.FC<{
   active: boolean;
   close: () => void;
 }> = ({ uri, name, active, close }) => {
+  const { t } = useI18n();
   const shareUri = uri.startsWith("/") ? `${process.env.APP_URI}${uri}` : uri;
   const [copied, setCopied] = useState(false);
 
@@ -19,7 +21,11 @@ const ShareDialog: React.FC<{
   }
 
   return (
-    <Modal.Modal title="Share" active={active} onOutsideClick={close}>
+    <Modal.Modal
+      title={t("share.title")}
+      active={active}
+      onOutsideClick={close}
+    >
       <Modal.Header>
         <Modal.Title>{name}</Modal.Title>
       </Modal.Header>
@@ -32,11 +38,13 @@ const ShareDialog: React.FC<{
             value={shareUri}
           />
           <button type="button" onClick={copy} className="button m-1 h-12">
-            {copied ? "Copied" : "Copy"}
+            {copied ? t("share.copied") : t("share.copy")}
           </button>
         </div>
         <div className="mt-4">
-          <p className="text-foreground-tertiary text-center">Share this via</p>
+          <p className="text-foreground-tertiary text-center">
+            {t("share.shareVia")}
+          </p>
           <div className="flex flex-wrap flex-center mt-4">
             <a
               title="Facebook"

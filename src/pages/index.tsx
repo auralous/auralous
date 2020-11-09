@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
+import { useI18n } from "~/i18n/index";
 import { SvgChevronDown, SvgLogo, SvgSpotify, SvgYoutube } from "~/assets/svg";
 
 const IndexSection: React.FC = ({ children }) => {
@@ -23,6 +24,7 @@ const IndexTitle: React.FC = ({ children }) => (
 );
 
 const IndexIntro = () => {
+  const { t } = useI18n();
   return (
     <div className="container py-16 text-center">
       <h1 className="font-black leading-none text-center">
@@ -34,50 +36,51 @@ const IndexIntro = () => {
         />
       </h1>
       <h2 className="font-medium text-2xl mt-6" style={{ color: "#ff2f56" }}>
-        Music Together
+        {t("intro.brandText")}
       </h2>
     </div>
   );
 };
 
 const AppLinks = () => {
+  const { t } = useI18n();
   return (
     <div className="flex flex-col mb-16">
       <Link href="/browse">
         <a className="button text-center px-12 py-4 rounded-full mb-2 bg-pink">
-          Use Web App
+          {t("intro.use.action")} {t("intro.use.web")}
         </a>
       </Link>
       <div className="button bg-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
-        iOS<div className="text-xs opacity-75 ml-2">(Coming Soon)</div>
+        iOS
+        <div className="text-xs opacity-75 ml-2">
+          {t("intro.use.comingSoon")}
+        </div>
       </div>
       <div className="button bg-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
-        Android<div className="text-xs opacity-75 ml-2">(Coming Soon)</div>
+        Android
+        <div className="text-xs opacity-75 ml-2">
+          {t("intro.use.comingSoon")}
+        </div>
       </div>
     </div>
   );
 };
 
 const IndexListen: React.FC = () => {
+  const { t } = useI18n();
   return (
     <IndexSection>
-      <IndexTitle>Listen Anywhere</IndexTitle>
-      <IndexParagraph>
-        Stereo integrates with the music applications you know and love. All you
-        need is a YouTube or Spotify account.
-      </IndexParagraph>
+      <IndexTitle>{t("intro.listen.title")}</IndexTitle>
+      <IndexParagraph>{t("intro.listen.description")}</IndexParagraph>
       <div className="flex justify-center py-4 opacity-50">
         <SvgYoutube width="52" height="52" className="fill-current mx-4" />
         <SvgSpotify width="52" height="52" className="fill-current mx-4" />
       </div>
-      <IndexParagraph>
-        <i>Your friend listens to a different music application?</i> No worry,
-        you can still listen together by letting Stereo find and play that same
-        song on your application instead.
-      </IndexParagraph>
+      <IndexParagraph>{t("intro.listen.p")}</IndexParagraph>
       <div className="flex justify-center py-2 mt-4">
         <Link href="/new">
-          <a className="button">Start Listening</a>
+          <a className="button">{t("intro.listen.action")}</a>
         </Link>
       </div>
     </IndexSection>
@@ -86,17 +89,12 @@ const IndexListen: React.FC = () => {
 
 const IndexPlaylist: React.FC = () => {
   const router = useRouter();
+  const { t } = useI18n();
   return (
     <IndexSection>
-      <IndexTitle>Quick Start</IndexTitle>
-      <IndexParagraph>
-        It takes less than 30 seconds to start listening together. Just
-        copy-paste the playlist link and start right away.
-      </IndexParagraph>
-      <IndexParagraph>
-        Have a good playlist to share with friends? Did your favorite artist
-        just release their new album? Just grab the link and go!
-      </IndexParagraph>
+      <IndexTitle>{t("intro.playlist.title")}</IndexTitle>
+      <IndexParagraph>{t("intro.playlist.p1")}</IndexParagraph>
+      <IndexParagraph>{t("intro.playlist.p2")}</IndexParagraph>
       <form
         className="flex justify-center mt-2"
         onSubmit={(event) => {
@@ -111,25 +109,22 @@ const IndexPlaylist: React.FC = () => {
           placeholder="Enter a playlist link"
           aria-label="Playlist Link"
         />
-        <button className="button flex-none ml-1">Go</button>
+        <button className="button flex-none ml-1">
+          {t("intro.playlist.action")}
+        </button>
       </form>
     </IndexSection>
   );
 };
 
 const IndexRoomRules: React.FC = () => {
+  const { t } = useI18n();
   return (
     <IndexSection>
-      <IndexTitle>Your Room. Your Rule.</IndexTitle>
+      <IndexTitle>{t("intro.rules.title")}</IndexTitle>
+      <IndexParagraph>{t("intro.rules.p1")}</IndexParagraph>
       <IndexParagraph>
-        Listen either in public or private rooms. Set a password to avoid
-        unwelcome guests. Only collaborators can add songs, but everyone can
-        chat and add their reactions.
-      </IndexParagraph>
-      <IndexParagraph>
-        Invite your close friends to be moderators. Ban offended messages and
-        people. Customize room rules so that your friends know what songs can be
-        added. <b>You are in control</b>.
+        {t("intro.rules.p2")} <b>{t("intro.rules.p2Bold")}</b>.
       </IndexParagraph>
     </IndexSection>
   );
@@ -142,12 +137,13 @@ const IndexPage: React.FC = () => {
       behavior: "smooth",
     });
   };
+  const { t } = useI18n();
   return (
     <>
       <NextSeo
         title="Stereo"
         titleTemplate="%s · Share music in realtime"
-        description="Stereo is a free internet music community. Join a room."
+        description={t("description")}
         canonical={`${process.env.APP_URI}/`}
       />
       <div

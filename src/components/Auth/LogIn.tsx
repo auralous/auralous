@@ -11,6 +11,7 @@ import { Dialog } from "@reach/dialog";
 import { useModal } from "~/components/Modal/index";
 import Welcome from "./Welcome";
 import { OAuthProviderName } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
 import { SvgSpotify, SvgGoogleColor } from "~/assets/svg";
 
 const SignInContext = createContext<[boolean, () => void]>([
@@ -29,6 +30,8 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
   active,
   close: closeModal,
 }) => {
+  const { t } = useI18n();
+
   const windowRef = useRef<Window | null>();
   const [isAuth, setIsAuth] = useState<AuthState>(AuthState.WAITING);
 
@@ -47,7 +50,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
         `${process.env.API_URI}/auth/${
           provider === OAuthProviderName.Youtube ? "google" : provider
         }`,
-        "Login",
+        t("auth.label"),
         "width=800,height=600"
       );
 
@@ -78,7 +81,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
         setIsAuth(success ? AuthState.SUCCESS : AuthState.FAIL);
       });
     },
-    [close, openWelcome]
+    [t, close, openWelcome]
   );
 
   useEffect(() => {
@@ -90,7 +93,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
   return (
     <>
       <Dialog
-        aria-label="Sign in to Stereo"
+        aria-label={t("auth.label")}
         isOpen={active}
         onDismiss={close}
         className="h-full w-full p-2"
@@ -101,7 +104,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             <div className="flex flex-wrap flex-center">
               <div className="m-1 p-2 flex flex-col">
                 <span className="text-foreground-secondary mb-1 text-xs">
-                  Listen on <b>YouTube</b>
+                  {t("auth.listenOn")} <b>YouTube</b>
                 </span>
                 <button
                   onClick={() => logIn(OAuthProviderName.Youtube)}
@@ -118,7 +121,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               </div>
               <div className="m-1 p-2 flex flex-col">
                 <span className="text-foreground-secondary  mb-1 text-xs">
-                  Listen on <b>Spotify</b>
+                  {t("auth.listenOn")} <b>Spotify</b>
                 </span>
                 <button
                   onClick={() => logIn(OAuthProviderName.Spotify)}
@@ -132,7 +135,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             </div>
             <div className="mt-4 text-xs text-foreground-secondary">
               <p>
-                YouTube Premium lets you enjoy ad-free and background play. See{" "}
+                {t("player.youtube.footerText")}{" "}
                 <a
                   style={{ color: "#ff0022" }}
                   className="opacity-50 hover:opacity-75"
@@ -140,11 +143,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 >
                   youtube.com/premium
                 </a>{" "}
-                for more info.
+                {t("player.youtube.footerTextAfter")}.
               </p>
               <p>
-                A Spotify subscription is required to play any track, ad-free.
-                Go to{" "}
+                {t("player.spotify.footerText")}{" "}
                 <a
                   style={{ color: "#1db954" }}
                   className="opacity-50 hover:opacity-75"
@@ -152,30 +154,30 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 >
                   spotify.com/premium
                 </a>{" "}
-                to try it for free.
+                {t("player.spotify.footerTextAfter")}.
               </p>
             </div>
             <button className="mt-4 button" onClick={close}>
-              Go back
+              {t("auth.cancelText")}
             </button>
           </div>
           <p className="mx-auto w-128 max-w-full p-4 text-foreground-tertiary text-xs text-center">
-            By continuing, you agree to our{" "}
+            {t("auth.footerText.pre")}{" "}
             <Link href="/privacy">
               <button className="underline" onClick={close}>
-                Privacy Policy
+                {t("auth.footerText.privacyPolicy")}
               </button>
-            </Link>{" "}
-            as well as{" "}
+            </Link>
+            ,{" "}
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://www.youtube.com/t/terms"
               className="underline"
             >
-              YouTube Terms of Service
+              {t("auth.footerText.youtubeTerm")}
             </a>{" "}
-            and/or{" "}
+            {t("auth.footerText.andOr")}{" "}
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -184,7 +186,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             >
               Spotify Privacy Policy
             </a>{" "}
-            where applicable.
+            {t("auth.footerText.whereApplicable")}.
           </p>
         </div>
       </Dialog>

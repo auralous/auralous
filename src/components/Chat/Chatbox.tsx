@@ -12,6 +12,7 @@ import {
   useOnMessageAddedSubscription,
   Message,
 } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
 
 const MessageItem: React.FC<{
   message: Message;
@@ -127,6 +128,8 @@ const ChatContent: React.FC<{ roomId: string }> = ({ roomId }) => {
 };
 
 const ChatInput: React.FC<{ roomId: string }> = ({ roomId }) => {
+  const { t } = useI18n();
+
   const [messageContent, setMessageContent] = useState("");
   const [{ fetching }, submitMessage] = useSendMessageMutation();
   function handleSubmitMessage(event: React.FormEvent<HTMLFormElement>) {
@@ -144,8 +147,8 @@ const ChatInput: React.FC<{ roomId: string }> = ({ roomId }) => {
       className="flex items-center mb-2 px-2"
     >
       <input
-        aria-label="Enter chat message"
-        placeholder="Say something, I'm giving up on you 🎵"
+        aria-label={t("chat.inputLabel")}
+        placeholder={t("chat.inputPlaceholder")}
         className="w-full opacity-75 outline-none text-white bg-white bg-opacity-10 p-4 rounded"
         value={messageContent}
         onChange={(e) => setMessageContent(e.target.value)}

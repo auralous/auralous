@@ -13,6 +13,7 @@ import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache"
 import { devtoolsExchange } from "@urql/devtools";
 // import { default as schemaIntrospection } from "./introspection.json";
 import { Room, RoomDocument } from "~/graphql/gql.gen";
+import { t } from "~/i18n/index";
 
 const subscriptionClient =
   typeof window !== "undefined"
@@ -39,9 +40,9 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
           if (message.startsWith("Internal error:")) {
             // We log this error to console so dev can look into it
             console.error(error);
-            message = "An internal error has occurred.";
+            message = t("error.internalError");
           }
-          if (code === "UNAUTHENTICATED") message = "Please sign in again.";
+          if (code === "UNAUTHENTICATED") message = t("error.authenticated");
           window.toasts.error(message);
         });
       }
