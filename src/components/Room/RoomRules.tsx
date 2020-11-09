@@ -12,7 +12,7 @@ const RoomRules: React.FC<{
   return (
     <Modal.Modal active={active} onOutsideClick={close}>
       <Modal.Header>
-        <Modal.Title>{t("rules.title")}</Modal.Title>
+        <Modal.Title>{t("room.rules.title")}</Modal.Title>
       </Modal.Header>
       <Modal.Content>
         <ul className="py-4 text-xl mb-4">

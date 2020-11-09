@@ -49,7 +49,6 @@ const TrackMenu: React.FC<{
             <SvgPlatformName width="20" fill="currentColor" />
           )}
           <span className="ml-2 text-xs">
-            $
             {t("track.listenOn", {
               platform:
                 (track?.platform && PLATFORM_FULLNAMES[track.platform]) || "",
