@@ -6,6 +6,7 @@ import {
 } from "urql";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
+import { refocusExchange } from "@urql/exchange-refocus";
 import { SubscriptionClient } from "benzene-ws-client";
 import { pipe, onPush } from "wonka";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
@@ -111,6 +112,7 @@ export const createUrqlClient = () =>
     exchanges: [
       process.env.NODE_ENV !== "production" && devtoolsExchange,
       dedupExchange,
+      typeof window !== "undefined" && refocusExchange(),
       cacheExchange,
       errorExchange,
       persistedFetchExchange({
