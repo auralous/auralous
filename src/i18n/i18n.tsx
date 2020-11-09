@@ -1,15 +1,30 @@
-import React, { useState, useEffect } from "react";
-import i18n from "./rosetta";
+import React, { useState, useEffect, useCallback } from "react";
+import i18n, { supportedLocale } from "./rosetta";
 import I18nContext from "./I18nContext";
-import { Lang } from "./types";
+import { Locale } from "./types";
+
+const localStorageKey = "settings.locale";
 
 const I18n: React.FC = ({ children }) => {
-  const [locale, setLocale] = useState<Lang>(() => i18n.locale() as Lang);
+  const [locale, _setLocale] = useState<Locale>(() => i18n.locale() as Locale);
 
-  // when locale is updated
+  const setLocale = useCallback((l: Locale) => {
+    i18n.locale(l);
+    window.localStorage.setItem(localStorageKey, l);
+    return _setLocale(l);
+  }, []);
+
   useEffect(() => {
-    i18n.locale(locale);
-  }, [locale]);
+    let preferred = window.localStorage.getItem(
+      localStorageKey
+    ) as Locale | null;
+
+    // update on first load
+    if (!preferred && navigator.language)
+      preferred = navigator.language.split("-")[0] as Locale;
+
+    if (preferred && supportedLocale.includes(preferred)) setLocale(preferred);
+  }, [setLocale]);
 
   return (
     <I18nContext.Provider

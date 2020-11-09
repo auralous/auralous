@@ -20,7 +20,12 @@ import {
 } from "~/graphql/gql.gen";
 import { usePlayer } from "~/components/Player";
 import { useI18n } from "~/i18n/index";
-import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
+import {
+  LANGUAGES,
+  PLATFORM_FULLNAMES,
+  SvgByPlatformName,
+} from "~/lib/constants";
+import { Locale } from "~/i18n/types";
 
 const SettingTitle: React.FC = ({ children }) => (
   <h3 className="text-lg font-bold mb-1">{children}</h3>
@@ -98,6 +103,34 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         {t("settings.danger.delete.action")}
       </button>
     </>
+  );
+};
+
+const LanguageSelect: React.FC = () => {
+  const { t, locale, setLocale } = useI18n();
+  const LanguageChoices = useMemo(
+    () =>
+      Object.entries(LANGUAGES).map(([value, name]) => (
+        <option key={value} value={value}>
+          {name}
+        </option>
+      )),
+    []
+  );
+
+  return (
+    <div className="mt-8">
+      <SettingTitle>{t("settings.language.title")}</SettingTitle>
+      <select
+        aria-label={t("settings.language.title")}
+        value={locale}
+        onChange={(e) => setLocale(e.currentTarget.value as Locale)}
+        onBlur={undefined}
+        className="input"
+      >
+        {LanguageChoices}
+      </select>
+    </div>
   );
 };
 
@@ -239,58 +272,53 @@ const MusicConnection: React.FC = () => {
   const PlatformSvg = platform ? SvgByPlatformName[platform] : null;
 
   return (
-    <div
-      className={`${
-        platform ? `brand-${platform}` : "bg-background-secondary"
-      } p-4 rounded-lg flex items-center`}
-    >
-      {PlatformSvg && (
-        <PlatformSvg width="40" height="40" className="fill-current" />
-      )}
-      <div className="ml-4">
-        <div className="mb-1">{t("settings.listening.title", { name })}</div>
-        <p className="text-sm leading-tight">
-          {mAuth ? (
-            <span className="opacity-75">
-              {t("settings.listening.withAuth", { name })},{" "}
-              <Link href="/contact">
-                <a className="underline">{t("settings.listening.contactUs")}</a>
-              </Link>
-            </span>
-          ) : (
-            <>
-              <span className="opacity-75">
-                {t("settings.listening.withLocal")}
-              </span>{" "}
-              <select
-                aria-label="Listen on..."
-                value={platform}
-                onChange={(e) =>
-                  setLocalPlatform(e.currentTarget.value as PlatformName)
-                }
-                onBlur={undefined}
-                className="bg-white bg-opacity-50 font-bold p-1 rounded-lg"
-              >
-                <option value="" disabled>
-                  {t("settings.listening.selectOne")}
-                </option>
-                {PlatformChoices}
-              </select>
-            </>
-          )}
-          .
-        </p>
-      </div>
-    </div>
-  );
-};
-
-const LinkSettings: React.FC = () => {
-  const { t } = useI18n();
-  return (
     <>
-      <SettingTitle>{t("settings.link.title")}</SettingTitle>
-      <MusicConnection />
+      <SettingTitle>{t("settings.connection.title")}</SettingTitle>
+      <div
+        className={`${
+          platform ? `brand-${platform}` : "bg-background-secondary"
+        } p-4 rounded-lg flex items-center`}
+      >
+        {PlatformSvg && (
+          <PlatformSvg width="40" height="40" className="fill-current" />
+        )}
+        <div className="ml-4">
+          <div className="mb-1">{t("settings.listening.title", { name })}</div>
+          <p className="text-sm leading-tight">
+            {mAuth ? (
+              <span className="opacity-75">
+                {t("settings.listening.withAuth", { name })},{" "}
+                <Link href="/contact">
+                  <a className="underline">
+                    {t("settings.listening.contactUs")}
+                  </a>
+                </Link>
+              </span>
+            ) : (
+              <>
+                <span className="opacity-75">
+                  {t("settings.listening.withLocal")}
+                </span>{" "}
+                <select
+                  aria-label="Listen on..."
+                  value={platform}
+                  onChange={(e) =>
+                    setLocalPlatform(e.currentTarget.value as PlatformName)
+                  }
+                  onBlur={undefined}
+                  className="bg-white bg-opacity-50 font-bold p-1 rounded-lg"
+                >
+                  <option value="" disabled>
+                    {t("settings.listening.selectOne")}
+                  </option>
+                  {PlatformChoices}
+                </select>
+              </>
+            )}
+            .
+          </p>
+        </div>
+      </div>
     </>
   );
 };
@@ -301,7 +329,8 @@ const RightSection: React.FC = () => {
   return (
     <>
       <div>
-        <LinkSettings />
+        <MusicConnection />
+        <LanguageSelect />
         {user && (
           <div className="mt-8">
             <SettingTitle>{t("settings.danger.title")}</SettingTitle>

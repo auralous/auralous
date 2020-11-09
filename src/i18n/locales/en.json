@@ -37,7 +37,8 @@
     "title": "Settings",
     "updated": "Profile updated",
     "signedOut": "You have been signed out",
-    "link": { "title": "Connection" },
+    "connection": { "title": "Connection" },
+    "language": { "title": "Language" },
     "danger": {
       "title": "Danger Zone",
       "delete": {

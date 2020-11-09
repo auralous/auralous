@@ -1,10 +1,9 @@
-import React from "react";
-import i18n from "./rosetta";
+import i18n, { supportedLocale } from "./rosetta";
 
-export type Lang = "en" | "vi";
+export type Locale = typeof supportedLocale[number];
 
 export interface I18NContextValue {
-  locale: Lang;
-  setLocale: React.Dispatch<React.SetStateAction<Lang>>;
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
   t: typeof i18n.t;
 }
