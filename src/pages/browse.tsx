@@ -48,7 +48,7 @@ const MyRoomsSection: React.FC = () => {
                 <div className="absolute-center">
                   <SvgPlus className="w-16 h-16 mx-auto rounded-full p-2 bg-foreground-secondary text-white text-opacity-75" />
                   <p className="mt-2 text-foreground-secondary text-sm text-center font-bold">
-                    {t("new.titleNew")}
+                    {t("new.addNew.title")}
                   </p>
                 </div>
               </a>
@@ -94,7 +94,7 @@ const SearchAndPlaySection: React.FC = () => {
         <button
           type="submit"
           className="button rounded-l-none"
-          title={t("new.playlist.searchTitle")}
+          title={t("new.playlist.title")}
         >
           <SvgSearch />
         </button>

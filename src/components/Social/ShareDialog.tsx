@@ -43,7 +43,7 @@ const ShareDialog: React.FC<{
         </div>
         <div className="mt-4">
           <p className="text-foreground-tertiary text-center">
-            {t("share.shareVia")}
+            {t("share.via")}
           </p>
           <div className="flex flex-wrap flex-center mt-4">
             <a

@@ -1,6 +1,6 @@
 import rosetta from "rosetta";
-import en from "./locales/en";
-import vi from "./locales/vi";
+import en from "./locales/en.json";
+import vi from "./locales/vi.json";
 
 const i18n = rosetta({ en, vi });
 i18n.locale("en");

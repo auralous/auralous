@@ -64,7 +64,7 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
         playRoom(room.id);
       } else {
         // Bad password
-        toasts.error(t("main.init.incorrectPassword"));
+        toasts.error(t("main.init.badPassword"));
       }
     },
     [

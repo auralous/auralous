@@ -82,8 +82,8 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
     return (
       <div className="h-full w-full flex flex-col justify-center">
         <AuthBanner
-          prompt={t("room.chat.joinText")}
-          hook={t("room.chat.joinTextHook")}
+          prompt={t("room.chat.authPrompt")}
+          hook={t("room.chat.authPromptHook")}
         />
       </div>
     );

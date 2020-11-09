@@ -39,23 +39,23 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
   return (
     <>
       <Modal.Modal
-        title={t("settings.deleteAccount.titleA11y")}
+        title={t("settings.danger.delete.label")}
         active={activeDelete}
         onOutsideClick={closeDelete}
       >
         <Modal.Header>
-          <Modal.Title>{t("settings.deleteAccount.title")}</Modal.Title>
+          <Modal.Title>{t("settings.danger.delete.modal.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Content className="text-center">
           <p className="mb-4">
-            {t("settings.deleteAccount.description")}
+            {t("settings.danger.delete.modal.description")}
             <br />
             <b>{t("common.dangerousActionText")}</b>.
           </p>
           <input
-            aria-label={t("settings.deleteAccount.enterName")}
+            aria-label={t("settings.delete.modal.enterName")}
             value={confirmUsername}
-            placeholder={t("settings.deleteAccount.enterName")}
+            placeholder={t("settings.delete.modal.enterName")}
             onChange={(e) => setConfirmUsername(e.target.value)}
             className="input py-2 px-4 ml-2 w-96 max-w-full"
           />
@@ -66,27 +66,27 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
             className="button bg-transparent text-danger-light"
             onClick={() =>
               deleteUser().then(() => {
-                toasts.message(t("settings.deleteAccount.deletedText"));
+                toasts.message(t("settings.danger.delete.deleted"));
               })
             }
             disabled={confirmUsername !== user.username}
           >
-            {t("settings.deleteAccount.action")}
+            {t("settings.danger.delete.action")}
           </button>
           <button
             type="button"
             onClick={closeDelete}
             className="button button-success"
           >
-            {t("settings.deleteAccount.cancelAction")}
+            {t("settings.danger.delete.cancel")}
           </button>
         </Modal.Footer>
       </Modal.Modal>
       <p className="text-sm text-foreground-secondary">
-        {t("settings.deleteAccount.helpText")}{" "}
+        {t("settings.danger.delete.description")}{" "}
         <Link href="/privacy#when-you-delete-data-in-your-accounts">
           <a className="underline">
-            {t("settings.deleteAccount.helpTextLinkTitle")}
+            {t("settings.danger.delete.descriptionData")}
           </a>
         </Link>
       </p>
@@ -95,7 +95,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         className="button button-danger mt-2"
         onClick={openDelete}
       >
-        {t("settings.deleteAccount.startAction")}
+        {t("settings.danger.delete.action")}
       </button>
     </>
   );
@@ -121,7 +121,7 @@ const LeftSection: React.FC = () => {
       username: (usernameRef.current as HTMLInputElement).value,
       profilePicture: (profilePictureRef.current as HTMLInputElement)
         .files?.[0],
-    }).then(() => toasts.success(t("settings.profileUpdated")));
+    }).then(() => toasts.success(t("settings.updated")));
   }
 
   useEffect(() => {
@@ -181,7 +181,7 @@ const LeftSection: React.FC = () => {
               </div>
             </div>
             <button type="submit" className="button button-success mt-2 w-full">
-              {t("settings.save")}
+              {t("common.save")}
             </button>
           </form>
           <div className="mt-8 border-t-2 py-4 border-background-secondary">
@@ -248,13 +248,11 @@ const MusicConnection: React.FC = () => {
         <PlatformSvg width="40" height="40" className="fill-current" />
       )}
       <div className="ml-4">
-        <div className="mb-1">
-          {t("settings.listening.listeningOn", { name })}
-        </div>
+        <div className="mb-1">{t("settings.listening.title", { name })}</div>
         <p className="text-sm leading-tight">
           {mAuth ? (
             <span className="opacity-75">
-              {t("settings.listening.connectedToStereo", { name })},{" "}
+              {t("settings.listening.withAuth", { name })},{" "}
               <Link href="/contact">
                 <a className="underline">{t("settings.listening.contactUs")}</a>
               </Link>
@@ -262,7 +260,7 @@ const MusicConnection: React.FC = () => {
           ) : (
             <>
               <span className="opacity-75">
-                {t("settings.listening.changeLocalMusicApp")}
+                {t("settings.listening.withLocal")}
               </span>{" "}
               <select
                 aria-label="Listen on..."
@@ -291,7 +289,7 @@ const LinkSettings: React.FC = () => {
   const { t } = useI18n();
   return (
     <>
-      <SettingTitle>{t("settings.titleLink")}</SettingTitle>
+      <SettingTitle>{t("settings.link.title")}</SettingTitle>
       <MusicConnection />
     </>
   );
@@ -306,7 +304,7 @@ const RightSection: React.FC = () => {
         <LinkSettings />
         {user && (
           <div className="mt-8">
-            <SettingTitle>{t("settings.titleDangerZone")}</SettingTitle>
+            <SettingTitle>{t("settings.danger.title")}</SettingTitle>
             <DeleteAccount user={user} />
           </div>
         )}

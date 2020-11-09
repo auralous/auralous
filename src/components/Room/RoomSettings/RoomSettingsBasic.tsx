@@ -150,7 +150,7 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
         </div>
       </div>
       <button type="submit" className="button button-success w-full mt-2">
-        {t("room.settings.saveText")}
+        {t("common.save")}
       </button>
     </form>
   );
@@ -173,34 +173,34 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
         className="button button-danger mt-4"
         onClick={openDelete}
       >
-        {t("room.settings.dangerZone.deleteTitle", {
-          title: t("room.roomText"),
+        {t("room.settings.dangerZone.delete.title", {
+          title: t("room.label"),
         })}
       </button>
       <Modal.Modal
-        title={t("room.settings.dangerZone.deleteTitle", {
-          title: t("room.roomText"),
+        title={t("room.settings.dangerZone.delete.title", {
+          title: t("room.label"),
         })}
         active={activeDelete}
         onOutsideClick={closeDelete}
       >
         <Modal.Header>
           <Modal.Title>
-            {t("room.settings.dangerZone.deleteTitle", {
+            {t("room.settings.dangerZone.delete.title", {
               title: room.title,
             })}
           </Modal.Title>
         </Modal.Header>
         <Modal.Content className="text-center">
           <p className="mb-2">
-            {t("room.settings.dangerZone.deleteDescription")}
+            {t("room.settings.dangerZone.delete.description")}
             <br />
             <b>{t("common.dangerousActionText")}</b>.
           </p>
           <input
-            aria-label={t("room.settings.dangerZone.deleteEnterToProceed")}
+            aria-label={t("room.settings.dangerZone.delete.enterName")}
             value={confirmDelete}
-            placeholder={t("room.settings.dangerZone.deleteEnterToProceed")}
+            placeholder={t("room.settings.dangerZone.delete.enterName")}
             onChange={(e) => setConfirmDelete(e.target.value)}
             className="input w-96 max-w-full"
           />
@@ -211,20 +211,20 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
             className="button bg-transparent text-danger-light"
             onClick={() =>
               deleteRoom({ id: room.id }).then(() => {
-                toasts.success(t("room.settings.dangerZone.deletedText"));
+                toasts.success(t("room.settings.dangerZone.delete.deleted"));
                 router.replace("/browse");
               })
             }
             disabled={confirmDelete !== room.title || fetching}
           >
-            {t("room.settings.dangerZone.deleteConfirmText")}
+            {t("room.settings.dangerZone.delete.action")}
           </button>
           <button
             type="button"
             onClick={closeDelete}
             className="button button-success"
           >
-            {t("room.settings.dangerZone.deleteCancelText")}
+            {t("room.settings.dangerZone.delete.cancel")}
           </button>
         </Modal.Footer>
       </Modal.Modal>

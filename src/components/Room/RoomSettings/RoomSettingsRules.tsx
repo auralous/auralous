@@ -87,7 +87,7 @@ const RoomSettingsRules: React.FC<{
         onClick={handleSaveRules}
         disabled={!isChanged || fetching}
       >
-        {isChanged ? t("room.settings.saveText") : t("room.settings.savedText")}
+        {isChanged ? t("common.save") : t("common.saved")}
       </button>
     </>
   );

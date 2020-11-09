@@ -184,7 +184,11 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
         <Modal.Content>
           <p className="mb-2">{t("room.settings.member.helpText")}</p>
           <form onSubmit={handleAdd} className="flex">
-            <input name="uname" className="input flex-1 mr-1" />
+            <input
+              name="uname"
+              className="input flex-1 mr-1"
+              aria-label={t("room.settings.member.helpText")}
+            />
             <button type="submit" className="button" disabled={fetching}>
               {t("room.settings.member.searchText")}
             </button>

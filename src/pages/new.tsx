@@ -49,7 +49,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
       event.preventDefault();
 
       if (!isPublic && !passwordRef.current?.value) {
-        if (!window.confirm(t("new.createRoom.warnNoPass"))) return;
+        if (!window.confirm(t("new.addNew.warnNoPass"))) return;
       }
 
       const result = await createRoom({
@@ -187,7 +187,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
         )}
       </div>
       <button className="button mt-8" type="submit" disabled={fetching}>
-        <SvgCheck className="mr-2" /> {t("new.createRoom.startListening")}
+        <SvgCheck className="mr-2" /> {t("new.addNew.action")}
       </button>
     </form>
   );
@@ -322,11 +322,11 @@ const NewPage: NextPage = () => {
                 ref={inputRef}
                 className="w-full px-4 py-2 text-center font-bold border-b-4 border-opacity-50 focus:border-opacity-100 border-pink bg-transparent transition duration-300"
                 placeholder={t("new.playlist.helpText")}
-                aria-label={t("new.playlist.searchTitle")}
+                aria-label={t("new.playlist.title")}
               />
               <button
                 type="submit"
-                title={t("new.playlist.searchTitle")}
+                title={t("new.playlist.title")}
                 className="absolute-center left-auto right-1"
               >
                 <SvgSearch />
@@ -380,14 +380,14 @@ const NewPage: NextPage = () => {
             return (
               <>
                 <TabList className="flex flex-none mb-2">
-                  <Tab className={getClassName(0)}>{t("new.titleNew")}</Tab>
+                  <Tab className={getClassName(0)}>{t("new.addNew.title")}</Tab>
                   <Tab
                     className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
                       initTracks?.length ? getClassName(1) : "opacity-25"
                     } transition duration-300`}
                     disabled={!initTracks?.length}
                   >
-                    {t("new.titleExisted")}
+                    {t("new.addExisted.title")}
                   </Tab>
                 </TabList>
                 <TabPanels className="p-2">
@@ -401,7 +401,7 @@ const NewPage: NextPage = () => {
                       <div />
                     )}
                   </TabPanel>
-                  {!user && <AuthBanner prompt={t("new.joinText")} />}
+                  {!user && <AuthBanner prompt={t("new.authPrompt")} />}
                 </TabPanels>
               </>
             );

@@ -16,7 +16,7 @@ const I18n: React.FC = ({ children }) => {
       value={{
         locale,
         setLocale,
-        t: (t, data) => i18n.t(t, data),
+        t: (t, data) => i18n.t(t, data) || t.toString(),
       }}
     >
       {children}

@@ -36,7 +36,7 @@ const IndexIntro = () => {
         />
       </h1>
       <h2 className="font-medium text-2xl mt-6" style={{ color: "#ff2f56" }}>
-        {t("intro.brandText")}
+        {t("motto")}
       </h2>
     </div>
   );
@@ -142,7 +142,7 @@ const IndexPage: React.FC = () => {
     <>
       <NextSeo
         title="Stereo"
-        titleTemplate="%s · Share music in realtime"
+        titleTemplate={`%s · ${t("motto")}`}
         description={t("description")}
         canonical={`${process.env.APP_URI}/`}
       />
