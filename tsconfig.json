@@ -8,7 +8,8 @@
       "~/graphql/*": ["graphql/*"],
       "~/lib/*": ["lib/*"],
       "~/hooks/*": ["hooks/*"],
-      "~/types/*": ["types/*"]
+      "~/types/*": ["types/*"],
+      "~/i18n/*": ["i18n/*"]
     },
     "target": "es5",
     "lib": [

@@ -13,6 +13,7 @@ import { createUrqlClient } from "~/graphql/urql";
 import "~/assets/styles/index.css";
 import "nprogress/nprogress.css";
 import { useMAuth } from "~/hooks/user";
+import { I18n } from "~/i18n/index";
 
 const queryCache = new QueryCache();
 
@@ -57,41 +58,43 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ReactQueryCacheProvider queryCache={queryCache}>
-      <UrqlProvider value={urqlClient}>
-        <ToastProvider>
-          <LogInProvider>
-            <MAuthRefresher />
-            <PlayerProvider>
-              <MainLayout>
-                <DefaultSeo
-                  title=" "
-                  titleTemplate="%s · Stereo"
-                  facebook={
-                    process.env.FACEBOOK_APP_ID
-                      ? { appId: process.env.FACEBOOK_APP_ID }
-                      : undefined
-                  }
-                  openGraph={{
-                    type: "website",
-                    locale: "en_US",
-                    site_name: "Stereo",
-                    images: [
-                      {
-                        url: `${process.env.APP_URI}/images/banner.png`,
-                        width: 2400,
-                        height: 1260,
-                        alt: "Stereo",
-                      },
-                    ],
-                  }}
-                />
-                <Component {...pageProps} />
-              </MainLayout>
-            </PlayerProvider>
-          </LogInProvider>
-        </ToastProvider>
-      </UrqlProvider>
-    </ReactQueryCacheProvider>
+    <I18n>
+      <ReactQueryCacheProvider queryCache={queryCache}>
+        <UrqlProvider value={urqlClient}>
+          <ToastProvider>
+            <LogInProvider>
+              <MAuthRefresher />
+              <PlayerProvider>
+                <MainLayout>
+                  <DefaultSeo
+                    title=" "
+                    titleTemplate="%s · Stereo"
+                    facebook={
+                      process.env.FACEBOOK_APP_ID
+                        ? { appId: process.env.FACEBOOK_APP_ID }
+                        : undefined
+                    }
+                    openGraph={{
+                      type: "website",
+                      locale: "en_US",
+                      site_name: "Stereo",
+                      images: [
+                        {
+                          url: `${process.env.APP_URI}/images/banner.png`,
+                          width: 2400,
+                          height: 1260,
+                          alt: "Stereo",
+                        },
+                      ],
+                    }}
+                  />
+                  <Component {...pageProps} />
+                </MainLayout>
+              </PlayerProvider>
+            </LogInProvider>
+          </ToastProvider>
+        </UrqlProvider>
+      </ReactQueryCacheProvider>
+    </I18n>
   );
 }
