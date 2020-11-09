@@ -4,12 +4,14 @@ import { AddToPlaylist } from "~/components/Playlist/index";
 import { SvgPlus, SvgX } from "~/assets/svg";
 import { useTrackQuery } from "~/graphql/gql.gen";
 import { SvgByPlatformName, PLATFORM_FULLNAMES } from "~/lib/constants";
+import { useI18n } from "~/i18n/index";
 
 const TrackMenu: React.FC<{
   id: string;
   active: boolean;
   close: () => void;
 }> = ({ id, active, close }) => {
+  const { t } = useI18n();
   const [openAddPlaylist, setOpenAddPlaylist] = useState(false);
   const [{ data: { track } = { track: undefined } }] = useTrackQuery({
     variables: { id },
@@ -35,7 +37,7 @@ const TrackMenu: React.FC<{
           className="button bg-transparent text-sm mb-2"
           onClick={() => setOpenAddPlaylist(true)}
         >
-          <SvgPlus width="20" className="mr-1" /> Add to playlist
+          <SvgPlus width="20" className="mr-1" /> {t("track.addToPlaylist")}
         </button>
         <a
           href={track?.url}
@@ -47,7 +49,10 @@ const TrackMenu: React.FC<{
             <SvgPlatformName width="20" fill="currentColor" />
           )}
           <span className="ml-2 text-xs">
-            Listen on {track?.platform && PLATFORM_FULLNAMES[track.platform]}
+            {t("track.listenOn", {
+              platform:
+                (track?.platform && PLATFORM_FULLNAMES[track.platform]) || "",
+            })}
           </span>
         </a>
         <button
@@ -55,7 +60,7 @@ const TrackMenu: React.FC<{
           className="button bg-transparent rounded-full text-sm"
           aria-label="Close track dialog"
         >
-          <SvgX width="20" className="mr-1" /> Close
+          <SvgX width="20" className="mr-1" /> {t("track.close")}
         </button>
       </div>
       {track && (

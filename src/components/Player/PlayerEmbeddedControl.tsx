@@ -4,10 +4,13 @@ import { useModal } from "~/components/Modal";
 import { SvgPlay, SvgPause, SvgAlertCircle } from "~/assets/svg";
 import { TrackMenu } from "~/components/Track/index";
 import { NowPlayingReaction } from "~/components/NowPlaying/index";
-import { PlayerError } from "./types";
 import { PLATFORM_FULLNAMES } from "~/lib/constants";
+import { useI18n } from "~/i18n/index";
+import { PlayerError } from "./types";
 
 const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
+  const { t } = useI18n();
+
   const {
     player,
     state: {
@@ -51,7 +54,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
             {track && (
               <img
                 className="absolute inset-0 w-full h-full object-cover"
-                alt="Now Playing"
+                alt={t("nowPlaying.title")}
                 src={track.image}
               />
             )}
@@ -59,7 +62,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
         </div>
         <div className="mt-2 mb-4 max-w-lg px-2 mx-auto text-center flex flex-col items-center justify-start">
           <div
-            aria-label="Track name and artists"
+            aria-label={t("player.label.nameAndArtist")}
             className="max-w-full h-12 mb-2"
           >
             <div
@@ -81,9 +84,9 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
                     (fetching ? (
                       <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
                     ) : (
-                      "Nothing is playing"
+                      t("player.noneText")
                     ))
-                  : "Room has been paused"}
+                  : t("player.pausedText")}
               </h2>
             </div>
             <div className="truncate text-foreground-secondary text-sm">
@@ -92,14 +95,14 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
                   (fetching ? (
                     <span className="block h-4 w-32 mx-auto bg-foreground-tertiary rounded-full animate-pulse" />
                   ) : (
-                    "Add a song to listen together"
+                    t("player.noneHelpText")
                   ))
-                : "Use the button below to unpause"}
+                : t("player.pausedHelpText")}
             </div>
           </div>
           <button
             type="button"
-            aria-label={isPlaying ? "Pause" : "Play"}
+            aria-label={isPlaying ? t("player.pause") : t("player.play")}
             className="button bg-transparent hover:bg-white hover:bg-opacity-10 w-16 h-16 rounded-full"
             onClick={() => {
               if (!roomPlayingStarted) return playRoom(roomId);
@@ -126,7 +129,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
                         .join(", ")}
                     </span>
                   </i>{" "}
-                  is not available on{" "}
+                  {t("player.noCrossTrackText")}{" "}
                   {playingPlatform && (
                     <b>{PLATFORM_FULLNAMES[playingPlatform]}</b>
                   )}

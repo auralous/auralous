@@ -20,6 +20,7 @@ import {
   useJoinPrivateRoomMutation,
   useQueueQuery,
 } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
 import {
   SvgChevronLeft,
   SvgShare,
@@ -31,6 +32,8 @@ const RoomQueue = dynamic(() => import("./RoomQueue"), { ssr: false });
 const RoomChat = dynamic(() => import("./RoomChat"), { ssr: false });
 
 const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
+  const { t } = useI18n();
+
   const isInit = useRef<boolean>(false);
   const [shouldPromptPassword, setShouldPromptPassword] = useState(false);
   const [
@@ -61,10 +64,11 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
         playRoom(room.id);
       } else {
         // Bad password
-        toasts.error("Incorrect room password");
+        toasts.error(t("main.init.badPassword"));
       }
     },
     [
+      t,
       toasts,
       fetchRoomState,
       room,
@@ -113,10 +117,7 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
       <Modal.Content>
         {user ? (
           <>
-            <p>
-              Enter room password to join <b>{room.title}</b>. Leave empty if it
-              has no password.
-            </p>
+            <p>{t("main.init.password1")}</p>
             <form className="flex my-1" onSubmit={handleJoinPrivateRoom}>
               <input
                 type="password"
@@ -125,11 +126,11 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
                 placeholder="Room Password"
               />
               <button type="submit" className="button" disabled={fetching}>
-                Join
+                {t("main.init.join")}
               </button>
             </form>
             <p className="text-foreground-secondary text-xs mt-2">
-              You can also join by asking the host to add you as a collaborator
+              {t("main.init.password2")}
             </p>
           </>
         ) : (
@@ -138,7 +139,7 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
         <div className="text-center">
           <Link href="/browse">
             <button className="text-sm text-foreground-secondary hover:text-foreground-tertiary mt-2 p-1">
-              Leave
+              {t("main.init.leave")}
             </button>
           </Link>
         </div>
@@ -148,6 +149,8 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
 };
 
 const RoomSkipNowPlaying: React.FC<{ room: Room }> = ({ room }) => {
+  const { t } = useI18n();
+
   const user = useCurrentUser();
   const [nowPlaying] = useNowPlaying(room.id);
   const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
@@ -161,7 +164,7 @@ const RoomSkipNowPlaying: React.FC<{ room: Room }> = ({ room }) => {
             onClick={() => skipNowPlaying({ id: room.id })}
             disabled={fetching}
           >
-            Skip song
+            {t("nowPlaying.skipSong")}
           </button>
         )}
     </div>
@@ -188,6 +191,7 @@ const Navbar: React.FC<{
   tab: "live" | "chat" | "queue";
   setTab: React.Dispatch<React.SetStateAction<"live" | "chat" | "queue">>;
 }> = ({ room, tab, setTab }) => {
+  const { t } = useI18n();
   const [activeShare, openShare, closeShare] = useModal();
   const router = useRouter();
   return (
@@ -199,14 +203,18 @@ const Navbar: React.FC<{
               tab === "live" ? router.push("/browse") : setTab("live")
             }
             className="p-1 mr-2"
-            title="Go back"
+            title={t("common.backToHome")}
           >
             <SvgChevronLeft />
           </button>
           <h4 className="text-md font-bold leading-tight truncate mr-2">
             {room.title}
           </h4>
-          <button onClick={openShare} className="button p-1 mx-1" title="Share">
+          <button
+            onClick={openShare}
+            className="button p-1 mx-1"
+            title={t("share.title")}
+          >
             <SvgShare width="14" height="14" />
           </button>
         </div>
@@ -218,7 +226,7 @@ const Navbar: React.FC<{
               } transition-opacity duration-200`}
               onClick={() => setTab("live")}
             >
-              Live
+              {t("room.live.title")}
             </button>
             <button
               className={`text-lg font-bold mx-1 p-1 ${
@@ -226,7 +234,7 @@ const Navbar: React.FC<{
               } transition-opacity duration-200`}
               onClick={() => setTab("queue")}
             >
-              Queue
+              {t("room.queue.title")}
             </button>
             <button
               className={`text-lg font-bold mx-1 p-1 ${
@@ -234,7 +242,7 @@ const Navbar: React.FC<{
               } transition-opacity duration-200`}
               onClick={() => setTab("chat")}
             >
-              Chat
+              {t("room.chat.title")}
             </button>
           </div>
         </div>
@@ -250,6 +258,8 @@ const Navbar: React.FC<{
 };
 
 const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
+  const { t } = useI18n();
+
   // initialRoom is the same as room, only might be a outdated version
   // so it can be used as backup
   const [{ data }] = useRoomQuery({
@@ -296,7 +306,7 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
             {room.creatorId === user?.id && roomState && (
               <>
                 <button
-                  title="Room Settings"
+                  title={t("room.settings.title")}
                   onClick={openSettings}
                   className="button absolute top-2 left-2"
                 >
@@ -313,10 +323,9 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
             {roomState && (
               <>
                 <button
-                  aria-label="Room Rules"
                   onClick={openRules}
                   className="button absolute top-2 right-2"
-                  title="Room Rules"
+                  title={t("room.rules.title")}
                 >
                   <SvgBookOpen />
                 </button>

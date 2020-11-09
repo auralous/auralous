@@ -5,6 +5,7 @@ import NProgress from "nprogress";
 import { usePlayer, PlayerMinibar } from "~/components/Player/index";
 import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
+import { useI18n } from "~/i18n/index";
 import { SvgPlus, SvgLogo, SvgSettings } from "~/assets/svg";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -75,10 +76,11 @@ const Footer: React.FC = () => {
     () => noFooterRoutes.includes(router.pathname),
     [router]
   );
+  const { t } = useI18n();
   if (shouldHideNavFoot) return null;
   return (
     <footer className="text-center mt-20 border-t-4 py-4 max-w-xl mx-auto border-background-secondary">
-      <div className="mb-1 text-xs">
+      <div className="mb-1 text-sm overflow-auto">
         <a
           href="https://www.facebook.com/withstereo/"
           target="_blank"
@@ -96,7 +98,9 @@ const Footer: React.FC = () => {
           Twitter
         </a>
         <Link href="/privacy">
-          <a className="mx-2 font-bold opacity-50 hover:opacity-75">Privacy</a>
+          <a className="mx-2 font-bold opacity-50 hover:opacity-75">
+            {t("footer.privacy")}
+          </a>
         </Link>
         <a
           href="https://github.com/hoangvvo/stereo-web"
@@ -104,13 +108,15 @@ const Footer: React.FC = () => {
           rel="noreferrer"
           className="mx-2 font-bold opacity-50 hover:opacity-75"
         >
-          Contribute
+          {t("footer.contribute")}
         </a>
         <Link href="/contact">
-          <a className="mx-2 font-bold opacity-50 hover:opacity-75">Contact</a>
+          <a className="mx-2 font-bold opacity-50 hover:opacity-75">
+            {t("footer.contact")}
+          </a>
         </Link>
       </div>
-      <p className="text-center opacity-50 mb-2 text-sm">
+      <p className="text-center opacity-50 mb-2 text-xs">
         © 2019. Made with{" "}
         <span role="img" aria-label="Love">
           ❤️

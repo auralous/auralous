@@ -8,6 +8,7 @@ import { RoomItem } from "~/components/Room";
 import { useExploreRoomsQuery, useRoomsQuery } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
 import { SvgPlus, SvgSearch } from "~/assets/svg";
+import { useI18n } from "../i18n";
 
 const RandomRoomSection: React.FC = () => {
   const [
@@ -31,6 +32,7 @@ const RandomRoomSection: React.FC = () => {
 };
 
 const MyRoomsSection: React.FC = () => {
+  const { t } = useI18n();
   const user = useCurrentUser();
   const [{ data: { rooms } = { rooms: undefined } }] = useRoomsQuery({
     variables: { creatorId: user?.id || "" },
@@ -46,7 +48,7 @@ const MyRoomsSection: React.FC = () => {
                 <div className="absolute-center">
                   <SvgPlus className="w-16 h-16 mx-auto rounded-full p-2 bg-foreground-secondary text-white text-opacity-75" />
                   <p className="mt-2 text-foreground-secondary text-sm text-center font-bold">
-                    Create a Room
+                    {t("new.addNew.title")}
                   </p>
                 </div>
               </a>
@@ -67,13 +69,13 @@ const MyRoomsSection: React.FC = () => {
 };
 
 const SearchAndPlaySection: React.FC = () => {
+  const { t } = useI18n();
   const router = useRouter();
   return (
     <div className="bg-white bg-opacity-10 text-white p-4 rounded-lg mb-8">
-      <h3 className="text-xl font-bold">Start Listening Together</h3>
+      <h3 className="text-xl font-bold">{t("browse.playlist.title")}</h3>
       <p className="text-sm text-foreground-secondary mb-1">
-        Have an awesome playlist to listen together with friends? Just enter its
-        link below.
+        {t("browse.playlist.description")}
       </p>
       <form
         onSubmit={(event) => {
@@ -86,13 +88,13 @@ const SearchAndPlaySection: React.FC = () => {
         <input
           name="searchQuery"
           className="input w-full rounded-r-none"
-          placeholder="Enter a Playlist Link"
-          aria-label="Playlist Link"
+          placeholder={t("new.playlist.altText")}
+          aria-label={t("new.playlist.altText")}
         />
         <button
           type="submit"
           className="button rounded-l-none"
-          title="Search Playlist"
+          title={t("new.playlist.title")}
         >
           <SvgSearch />
         </button>
@@ -102,6 +104,7 @@ const SearchAndPlaySection: React.FC = () => {
 };
 
 const RoomSection: React.FC = () => {
+  const { t } = useI18n();
   return (
     <Tabs className="h-full flex flex-col">
       {({ selectedIndex }) => {
@@ -112,8 +115,8 @@ const RoomSection: React.FC = () => {
         return (
           <>
             <TabList className="flex-none flex mb-2 justify-center">
-              <Tab className={getClassName(0)}>Random Rooms</Tab>
-              <Tab className={getClassName(1)}>My Room</Tab>
+              <Tab className={getClassName(0)}>{t("browse.titleRandom")}</Tab>
+              <Tab className={getClassName(1)}>{t("browse.titleMy")}</Tab>
             </TabList>
             <TabPanels className="flex-1 overflow-hidden">
               <TabPanel>
@@ -131,9 +134,10 @@ const RoomSection: React.FC = () => {
 };
 
 const BrowsePage: NextPage = () => {
+  const { t } = useI18n();
   return (
     <>
-      <NextSeo title="Browse" />
+      <NextSeo title={t("browse.title")} />
       <div className="container mx-auto">
         <div className="mb-2">
           <SearchAndPlaySection />

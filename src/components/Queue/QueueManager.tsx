@@ -29,6 +29,7 @@ import { TrackDocument } from "~/graphql/gql.gen";
 import { QueuePermission } from "./types";
 import { SvgBookOpen } from "~/assets/svg/index";
 import QueueAddedBy from "./QueueAddedBy";
+import { useI18n } from "~/i18n/index";
 
 const QueueDraggableItem: React.FC<{
   permission: QueuePermission;
@@ -38,6 +39,8 @@ const QueueDraggableItem: React.FC<{
   queue: Queue;
   style?: Partial<React.CSSProperties>;
 }> = ({ permission, provided, isDragging, queue, index, style }) => {
+  const { t } = useI18n();
+
   const toasts = useToasts();
   const urqlClient = useClient();
   const me = useCurrentUser();
@@ -58,8 +61,10 @@ const QueueDraggableItem: React.FC<{
       position: index,
     });
     if (!error)
-      toasts.success(`Removed ${deletingTrackName || "unknown track"}`);
-  }, [queue, toasts, updateQueue, urqlClient, index]);
+      toasts.success(
+        t("queue.manager.removedTrackText", { title: deletingTrackName })
+      );
+  }, [t, queue, toasts, updateQueue, urqlClient, index]);
   const canRemove =
     permission.canEditOthers || queue.items[index].creatorId === me?.id;
 
@@ -86,7 +91,7 @@ const QueueDraggableItem: React.FC<{
       </div>
       <button
         type="button"
-        title="Remove Track"
+        title={t("queue.manager.removeTrackText")}
         className="absolute top-1 right-1 bg-transparent p-1 opacity-50 hover:opacity-100 transition-opacity duration-200"
         hidden={!canRemove}
         onClick={removeItem}
@@ -142,6 +147,8 @@ const QueueManager: React.FC<{
   queueId: string;
   permission: QueuePermission;
 }> = ({ queueId, permission }) => {
+  const { t } = useI18n();
+
   const user = useCurrentUser();
   const [queue] = useQueue(queueId, { requestPolicy: "cache-and-network" });
   const [, updateQueue] = useUpdateQueueMutation();
@@ -175,14 +182,14 @@ const QueueManager: React.FC<{
       {!user && (
         <div className="p-1 flex-none">
           <button onClick={showLogin} className="button w-full text-xs p-2">
-            Join to Add Songs and Listen Together
+            {t("queue.manager.authPrompt")}
           </button>
         </div>
       )}
       <div className="w-full h-full">
         {queue.items?.length === 0 && (
           <div className="text-xs text-foreground-secondary p-4 text-center">
-            It&apos;s lonely around here... Let&apos;s add a song!
+            {t("queue.manager.emptyText")}
           </div>
         )}
         <DragDropContext onDragEnd={onDragEnd}>
@@ -224,12 +231,12 @@ const QueueManager: React.FC<{
       <div className="text-foreground-tertiary text-xs px-2 py-1">
         {permission.canAdd ? null : (
           <p>
-            You are not allowed to contribute. See{" "}
+            {t("queue.manager.notAllowedText")}{" "}
             <SvgBookOpen
               className="inline bg-background-secondary p-1 rounded-lg"
               width="20"
               height="20"
-              title="Room Rules button"
+              title={t("room.rules.title")}
             />
           </p>
         )}

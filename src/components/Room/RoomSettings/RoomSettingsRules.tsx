@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useToasts } from "~/components/Toast";
 import { Room, useUpdateRoomMutation, RoomState } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
 
 const RoomSettingsRules: React.FC<{
   room: Room;
   roomState: RoomState;
 }> = ({ room, roomState }) => {
+  const { t } = useI18n();
   const anyoneCanAddRef = useRef<HTMLSelectElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -31,7 +33,7 @@ const RoomSettingsRules: React.FC<{
     const result = await updateRoom(update);
     if (!result.error) {
       setIsChanged(false);
-      toasts.success("Room updated");
+      toasts.success(t("room.settings.updatedText"));
     }
   };
 
@@ -40,10 +42,11 @@ const RoomSettingsRules: React.FC<{
       {room.isPublic ? (
         <>
           <div className="mb-4">
-            <h5 className="text-lg font-bold">Allow guests to add songs</h5>
+            <h5 className="text-lg font-bold">
+              {t("room.settings.privacy.publicAllowGuests")}
+            </h5>
             <p className="text-foreground-secondary mb-1">
-              If disabled, only <b>room members</b> (not <b>Guest</b>) can add
-              songs.
+              {t("room.settings.privacy.publicAllowGuestsHelp")}
             </p>
             <select
               ref={anyoneCanAddRef}
@@ -59,10 +62,11 @@ const RoomSettingsRules: React.FC<{
       ) : (
         <>
           <div className="mb-4">
-            <h5 className="text-lg font-bold">New Password</h5>
+            <h5 className="text-lg font-bold">
+              {t("room.settings.privacy.newPassword")}
+            </h5>
             <p className="text-foreground-secondary mb-1">
-              Set a new password to join. Anyone with a password will also
-              become a <b>collaborator</b>.
+              {t("room.settings.privacy.passwordHelp")}
             </p>
             <input
               type="password"
@@ -73,7 +77,7 @@ const RoomSettingsRules: React.FC<{
               onChange={() => setIsChanged(true)}
             />
             <p className="text-foreground-tertiary text-xs mt-1">
-              Current members are not required to enter new password
+              {t("room.settings.privacy.newPasswordHelp")}
             </p>
           </div>
         </>
@@ -83,7 +87,7 @@ const RoomSettingsRules: React.FC<{
         onClick={handleSaveRules}
         disabled={!isChanged || fetching}
       >
-        {isChanged ? "Save" : "Saved"}
+        {isChanged ? t("common.save") : t("common.saved")}
       </button>
     </>
   );

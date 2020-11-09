@@ -1,5 +1,6 @@
 import { PlatformName, RoomMembership } from "~/graphql/gql.gen";
 import { SvgYoutube, SvgSpotify } from "~/assets/svg/index";
+import { Locale } from "~/i18n/types";
 
 export const PLATFORM_FULLNAMES: Record<PlatformName, string> = {
   [PlatformName.Youtube]: "YouTube",
@@ -22,4 +23,9 @@ export const SvgByPlatformName: Record<
 > = {
   [PlatformName.Youtube]: SvgYoutube,
   [PlatformName.Spotify]: SvgSpotify,
+};
+
+export const LANGUAGES: Record<Locale, string> = {
+  en: "English",
+  vi: "Tiếng Việt",
 };

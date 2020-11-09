@@ -41,6 +41,7 @@
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.6",
     "redaxios": "^0.3.0",
+    "rosetta": "^1.1.0",
     "tailwindcss": "^1.9.6",
     "urql": "^1.11.1"
   },

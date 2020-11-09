@@ -7,18 +7,19 @@ import { forwardSSRHeaders } from "~/lib/ssr-utils";
 import { Room } from "~/graphql/gql.gen";
 import { QUERY_ROOM } from "~/graphql/room";
 import { CONFIG } from "~/lib/constants";
+import { useI18n } from "~/i18n/index";
 
 const RoomPage: NextPage<{
   room: Room | null;
 }> = ({ room }) => {
+  const { t } = useI18n();
   if (!room) return <NotFoundPage />;
   return (
     <>
       <NextSeo
         title={room.title}
         description={
-          room.description ||
-          `Join ${room.title} on Stereo and listen to music together.`
+          room.description || t("room.description", { title: room.title })
         }
         canonical={`${process.env.APP_URI}/room/${room.id}`}
         openGraph={{

@@ -11,6 +11,7 @@ import { useCurrentUser } from "~/hooks/user";
 import { MEMBERSHIP_NAMES } from "~/lib/constants";
 import { AuthBanner } from "~/components/Auth";
 import { getRole } from "~/lib/room";
+import { useI18n } from "~/i18n/index";
 
 const CurrentUser: React.FC<{
   userId: string;
@@ -75,15 +76,14 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
   room,
   roomState,
 }) => {
+  const { t } = useI18n();
   const user = useCurrentUser();
   if (!user)
     return (
       <div className="h-full w-full flex flex-col justify-center">
         <AuthBanner
-          prompt="Join Stereo to Chat"
-          hook={
-            "Listen to music with friends and chat no matter where they are"
-          }
+          prompt={t("room.chat.authPrompt")}
+          hook={t("room.chat.authPromptHook")}
         />
       </div>
     );
@@ -99,9 +99,9 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
         return (
           <>
             <TabList className="flex flex-none">
-              <Tab className={getClassName(0)}>Chat</Tab>
+              <Tab className={getClassName(0)}>{t("room.chat.title")}</Tab>
               <Tab className={getClassName(1)}>
-                Listeners ({roomState?.userIds.length || 0})
+                {t("room.chat.listener")} ({roomState?.userIds.length || 0})
               </Tab>
             </TabList>
             <TabPanels className="flex-1">

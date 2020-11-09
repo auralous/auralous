@@ -12,12 +12,15 @@ import {
   RoomState,
   useUpdateQueueMutation,
 } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
 import { SvgClock } from "~/assets/svg";
 
 const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
   room,
   roomState,
 }) => {
+  const { t } = useI18n();
+
   const user = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
 
@@ -65,16 +68,18 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
         return (
           <>
             <TabList className="flex flex-none">
-              <Tab className={getClassName(0)}>Queue</Tab>
+              <Tab className={getClassName(0)}>
+                {t("room.queue.queue.title")}
+              </Tab>
               <Tab className={getClassName(1)} disabled={!permission.canAdd}>
-                Search
+                {t("room.queue.search.title")}
               </Tab>
               <Tab className={getClassName(2)} disabled={!permission.canAdd}>
-                Playlist
+                {t("room.queue.playlist.title")}
               </Tab>
               <Tab
                 className={`${getClassName(3)} flex-grow-0`}
-                title="Recently Played"
+                title={t("room.queue.played.title")}
               >
                 <SvgClock width="16" height="16" />
               </Tab>

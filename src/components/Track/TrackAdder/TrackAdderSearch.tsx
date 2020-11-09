@@ -3,6 +3,7 @@ import { useClient } from "urql";
 import { useMAuth } from "~/hooks/user";
 import { default as TrackAdderResults } from "./TrackAdderResults";
 import { PlatformName, Track, SearchTrackDocument } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
 import { TrackAdderCallbackFn } from "./types";
 import { SvgX } from "~/assets/svg";
 
@@ -11,6 +12,8 @@ const TrackAdderSearch: React.FC<{
   addedTracks: string[];
   platform?: PlatformName;
 }> = ({ addedTracks, callback }) => {
+  const { t } = useI18n();
+
   const formRef = useRef<HTMLFormElement>(null);
   const { data: mAuth } = useMAuth();
   const platform = mAuth?.platform || PlatformName.Youtube;
@@ -50,8 +53,8 @@ const TrackAdderSearch: React.FC<{
             className="input w-full h-10"
             type="text"
             name="search"
-            aria-label="Search"
-            placeholder="Find by keywords or links"
+            aria-label={t("track.adder.search.title")}
+            placeholder={t("track.adder.search.placeholder")}
             required
           />
           <button
@@ -71,14 +74,13 @@ const TrackAdderSearch: React.FC<{
       </form>
       {isSearching && (
         <p className="px-2 py-6 text-center font-bold text-foreground-tertiary animate-pulse">
-          Searching...
+          {t("track.adder.search.loading")}
         </p>
       )}
       {isEmpty && (
         <div className="px-2">
           <div className="p-2 rounded-lg bg-success-light text-xs">
-            To search, enter the song keywords <b>or</b> a <i>Song link</i>{" "}
-            <b>or</b> a <i>Playlist link</i>.
+            {t("track.adder.search.helpText")}
           </div>
         </div>
       )}

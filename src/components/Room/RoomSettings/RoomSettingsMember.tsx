@@ -9,6 +9,7 @@ import {
   RoomState,
   RoomMembership,
 } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
 import { MEMBERSHIP_NAMES } from "~/lib/constants";
 import { getRole } from "~/lib/room";
 
@@ -17,6 +18,7 @@ const RoomMember: React.FC<{
   roomId: string;
   role: RoomMembership | undefined;
 }> = ({ userId, roomId, role }) => {
+  const { t } = useI18n();
   const toasts = useToasts();
   const [{ data, fetching: fetchingUser }] = useUserQuery({
     variables: { id: userId },
@@ -36,12 +38,19 @@ const RoomMember: React.FC<{
       }).then(({ error }) =>
         !error && newRole
           ? toasts.success(
-              `Add ${data?.user?.username} to ${MEMBERSHIP_NAMES[newRole]}`
+              t("room.settings.member.addedText", {
+                username: data?.user?.username,
+                role: MEMBERSHIP_NAMES[newRole],
+              })
             )
-          : toasts.success(`Remove ${data?.user?.username} as a room member`)
+          : toasts.success(
+              t("room.settings.member.removedText", {
+                username: data?.user?.username,
+              })
+            )
       );
     },
-    [toasts, data, roomId, updateRoomMembership, userId]
+    [t, toasts, data, roomId, updateRoomMembership, userId]
   );
 
   return (
@@ -71,7 +80,7 @@ const RoomMember: React.FC<{
           <div className="bg-background-secondary animate-pulse rounded-lg flex-1 w-0" />
         ) : (
           <div className="flex-1 w-0 text-xs text-foreground-secondary">
-            User Not Found
+            {t("room.settings.member.userNotFound")}
           </div>
         )}
         <div className="px-1 flex items-center">
@@ -101,6 +110,8 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
   room,
   roomState,
 }) => {
+  const { t } = useI18n();
+
   const [activeAdd, openAdd, closeAdd] = useModal();
   const toasts = useToasts();
   const [
@@ -111,15 +122,19 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
     ev.preventDefault();
     if (fetching) return;
     const username = ev.currentTarget.uname.value;
-    if (!username)
-      return toasts.error("Enter the username of the person to be added");
+    if (!username) return toasts.error(t("room.settings.member.userNotFound"));
     const { error } = await updateRoomMembership({
       id: room.id,
       username,
       role: RoomMembership.Collab,
     });
     if (!error) {
-      toasts.success("User added to Collaborators");
+      toasts.success(
+        t("room.settings.member.addedText", {
+          username: username,
+          role: MEMBERSHIP_NAMES.collab,
+        })
+      );
       closeAdd();
     }
     return;
@@ -136,7 +151,7 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
           className="button button-light h-12 mr-1 w-full mb-2"
           onClick={openAdd}
         >
-          <SvgPlus /> Add a member
+          <SvgPlus /> {t("room.settings.member.title")}
         </button>
         {roomState.userIds.map((userId) => {
           return (
@@ -149,7 +164,7 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
           );
         })}
         <p className="font-bold text-sm text-foreground-secondary mb-1">
-          Offline
+          {t("room.settings.member.offline")}
         </p>
         {otherUserIds.map((userId) => {
           return (
@@ -164,17 +179,18 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
       </div>
       <Modal.Modal active={activeAdd} onOutsideClick={closeAdd}>
         <Modal.Header>
-          <Modal.Title>Add a member</Modal.Title>
+          <Modal.Title>{t("room.settings.member.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Content>
-          <p className="mb-2">
-            Enter the username of the one you want to add to{" "}
-            <b>Collaborators</b>
-          </p>
+          <p className="mb-2">{t("room.settings.member.helpText")}</p>
           <form onSubmit={handleAdd} className="flex">
-            <input name="uname" className="input flex-1 mr-1" />
+            <input
+              name="uname"
+              className="input flex-1 mr-1"
+              aria-label={t("room.settings.member.helpText")}
+            />
             <button type="submit" className="button" disabled={fetching}>
-              Search
+              {t("room.settings.member.action")}
             </button>
           </form>
         </Modal.Content>

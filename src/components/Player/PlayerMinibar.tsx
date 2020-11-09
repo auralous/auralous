@@ -2,10 +2,12 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import usePlayer from "./usePlayer";
+import { useI18n } from "~/i18n/index";
 
 const noPlayerMinibarRoutes = ["/room/[roomId]"];
 
 const PlayerMinibar: React.FC = () => {
+  const { t } = useI18n();
   const {
     state: { playingThemeColor },
   } = usePlayer();
@@ -37,21 +39,20 @@ const PlayerMinibar: React.FC = () => {
         />
         {playerPlaying ? (
           <img
-            alt="Now Playing"
+            alt={t("nowPlaying.title")}
             src={playerPlaying.image}
             className="h-10 w-10 mx-1 rounded-lg object-cover"
           />
         ) : (
           <div className="h-10 w-10 mx-1 rounded-lg bg-foreground-tertiary" />
         )}
-
         <div className="text-xs p-1 flex-1 w-0 text-left">
           <div className="font-bold leading-none truncate">
-            {playerPlaying?.title || ""}
+            {playerPlaying?.title || t("player.noneText")}
           </div>
           <div className="text-foreground-secondary truncate">
             {playerPlaying?.artists.map((artist) => artist.name).join(", ") ||
-              ""}
+              t("player.noneHelpText")}
           </div>
         </div>
       </button>

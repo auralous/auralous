@@ -15,6 +15,7 @@ import {
 } from "~/graphql/gql.gen";
 import { useCurrentUser, useMAuth } from "~/hooks/user";
 import { AuthBanner } from "~/components/Auth";
+import { useI18n } from "~/i18n/index";
 import { SvgCheck, SvgSearch, SvgX } from "~/assets/svg";
 
 const CreateRoomLabel: React.FC<{ htmlFor: string }> = ({
@@ -30,6 +31,8 @@ const CreateRoomLabel: React.FC<{ htmlFor: string }> = ({
 );
 
 const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
+  const { t } = useI18n();
+
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -46,12 +49,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
       event.preventDefault();
 
       if (!isPublic && !passwordRef.current?.value) {
-        if (
-          !window.confirm(
-            "The room password is not set. Anyone with the link can enter the room and become a collaborator. Continue anyway?"
-          )
-        )
-          return;
+        if (!window.confirm(t("new.addNew.warnNoPass"))) return;
       }
 
       const result = await createRoom({
@@ -73,7 +71,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
         router.push("/room/[roomId]", `/room/${result.data.createRoom.id}`);
       }
     },
-    [initTracks, router, fetching, isPublic, createRoom, updateQueue]
+    [t, initTracks, router, fetching, isPublic, createRoom, updateQueue]
   );
 
   useEffect(() => {
@@ -84,10 +82,12 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
   return (
     <form onSubmit={handleRoomCreation} autoComplete="off">
       <div className="mb-2 flex">
-        <CreateRoomLabel htmlFor="roomTitle">Title</CreateRoomLabel>
+        <CreateRoomLabel htmlFor="roomTitle">
+          {t("room.settings.info.title")}
+        </CreateRoomLabel>
         <input
           id="roomTitle"
-          aria-label="Enter a title for the station"
+          aria-label={t("room.settings.info.titleHelp")}
           required
           className="input w-full"
           type="text"
@@ -96,17 +96,21 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
         />
       </div>
       <div className="mb-2 hidden">
-        <CreateRoomLabel htmlFor="roomDesc">Description</CreateRoomLabel>
+        <CreateRoomLabel htmlFor="roomDesc">
+          {t("room.settings.descrition")}
+        </CreateRoomLabel>
         <textarea
           id="roomDesc"
-          aria-label="Enter a description for the station"
+          aria-label={t("room.settings.info.descriptionHelp")}
           className="input w-full"
           ref={descriptionRef}
           disabled={fetching}
         />
       </div>
       <div className="mb-2 flex">
-        <CreateRoomLabel htmlFor="roomPrivacy">Privacy</CreateRoomLabel>
+        <CreateRoomLabel htmlFor="roomPrivacy">
+          {t("room.settings.privacy.title")}
+        </CreateRoomLabel>
         <div className="input inline-flex">
           <div className="flex items-center mr-4">
             <input
@@ -119,7 +123,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
               onChange={(e) => setIsPublic(e.currentTarget.value === "public")}
             />
             <label className="label mb-0 pl-1" htmlFor="roomPrivacyPublic">
-              Public
+              {t("room.privacy.public")}
             </label>
           </div>
           <div className="flex items-center">
@@ -133,7 +137,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
               onChange={(e) => setIsPublic(e.currentTarget.value === "public")}
             />
             <label className="label mb-0 pl-1" htmlFor="roomPrivacyPrivate">
-              Private
+              {t("room.privacy.private")}
             </label>
           </div>
         </div>
@@ -144,7 +148,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
             <div className="mb-2">
               <div className="flex">
                 <CreateRoomLabel htmlFor="roomAnyoneCanAdd">
-                  Guests can add songs
+                  {t("room.privacy.publicAllowGuests")}
                 </CreateRoomLabel>
                 <select
                   id="roomAnyoneCanAdd"
@@ -156,7 +160,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
                 </select>
               </div>
               <p className="text-xs text-foreground-tertiary px-1">
-                If disabled, only room members can add songs
+                {t("room.privacy.publicAllowGuestsHelp")}
               </p>
             </div>
           </>
@@ -164,7 +168,9 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
           <>
             <div className="mb-2">
               <div className="flex">
-                <CreateRoomLabel htmlFor="password">Password</CreateRoomLabel>
+                <CreateRoomLabel htmlFor="password">
+                  {t("room.settings.privacy.password")}
+                </CreateRoomLabel>
                 <input
                   type="password"
                   id="password"
@@ -174,19 +180,14 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
                 />
               </div>
               <p className="text-xs text-foreground-tertiary px-1">
-                Anyone with a password will also become a collaborator
+                {t("room.settings.privacy.passwordHelp")}
               </p>
             </div>
           </>
         )}
       </div>
-      <button
-        className="button mt-8"
-        type="submit"
-        title="Start listening"
-        disabled={fetching}
-      >
-        <SvgCheck className="mr-2" /> Start Listening
+      <button className="button mt-8" type="submit" disabled={fetching}>
+        <SvgCheck className="mr-2" /> {t("new.addNew.action")}
       </button>
     </form>
   );
@@ -196,6 +197,8 @@ const AddExistedRoom: React.FC<{ initTracks?: Track[]; user: User }> = ({
   initTracks,
   user,
 }) => {
+  const { t } = useI18n();
+
   const router = useRouter();
   const [{ data: { rooms } = { rooms: undefined } }] = useRoomsQuery({
     variables: { creatorId: user?.id || "" },
@@ -227,7 +230,7 @@ const AddExistedRoom: React.FC<{ initTracks?: Track[]; user: User }> = ({
       {initTracks?.length ? (
         <>
           <p className="px-4 text-center text-xs text-foreground-secondary">
-            Select a room to start listening
+            {t("new.addExisted.description")}
           </p>
           <div className="flex px-4 py-2">
             <select ref={selectRef} className="input w-full rounded-r-none">
@@ -237,15 +240,18 @@ const AddExistedRoom: React.FC<{ initTracks?: Track[]; user: User }> = ({
                 </option>
               ))}
             </select>
-            <button onClick={onAdd} className="button rounded-l-none">
+            <button
+              aria-label={t("new.addExisted.action")}
+              onClick={onAdd}
+              className="button rounded-l-none"
+            >
               <SvgCheck />
             </button>
           </div>
         </>
       ) : (
         <p className="p-2 text-sm text-foreground-secondary text-center">
-          Find something by entering a playlist link above to add to an existing
-          room <i>or</i> create an empty room
+          {t("new.addExisted.helpText")}
         </p>
       )}
     </div>
@@ -273,6 +279,8 @@ const getFeaturedArtists = (tracks: Track[]): string[] => {
 };
 
 const NewPage: NextPage = () => {
+  const { t } = useI18n();
+
   const user = useCurrentUser();
   const router = useRouter();
   const { data: mAuth } = useMAuth();
@@ -298,7 +306,7 @@ const NewPage: NextPage = () => {
 
   return (
     <>
-      <NextSeo title="Start listening together" noindex />
+      <NextSeo title={t("new.title")} noindex />
       <div className="container mx-auto">
         <div className="py-6 px-3 min-h-40">
           <form
@@ -313,12 +321,12 @@ const NewPage: NextPage = () => {
               <input
                 ref={inputRef}
                 className="w-full px-4 py-2 text-center font-bold border-b-4 border-opacity-50 focus:border-opacity-100 border-pink bg-transparent transition duration-300"
-                placeholder="Optional: Enter a playlist link to listen together"
-                aria-label="Playlist Link"
+                placeholder={t("new.playlist.helpText")}
+                aria-label={t("new.playlist.title")}
               />
               <button
                 type="submit"
-                title="Search Playlist"
+                title={t("new.playlist.title")}
                 className="absolute-center left-auto right-1"
               >
                 <SvgSearch />
@@ -331,9 +339,11 @@ const NewPage: NextPage = () => {
                   height="18"
                   className="inline bg-pink text-white p-1 rounded-full mr-1"
                 />
-                Start listening together to{" "}
-                <b className="text-foreground">{initTracks.length} tracks</b>{" "}
-                featuring{" "}
+                {t("new.playlist.startListeningTo")}{" "}
+                <b className="text-foreground">
+                  {initTracks.length} {t("common.tracks")}
+                </b>{" "}
+                {t("new.playlist.featuring")}{" "}
                 <i className="text-foreground">
                   {getFeaturedArtists(initTracks).join(", ")}
                 </i>
@@ -343,7 +353,7 @@ const NewPage: NextPage = () => {
               !!searchQuery && (
                 <p className="text-foreground-secondary text-center text-sm">
                   {fetching ? (
-                    "Fetching..."
+                    <span className="block mx-auto rounded-full h-4 w-16 bg-rounded bg-background-secondary animate-pulse" />
                   ) : (
                     <>
                       <SvgX
@@ -351,7 +361,7 @@ const NewPage: NextPage = () => {
                         height="18"
                         className="inline bg-foreground-tertiary text-white p-1 rounded-full mr-1"
                       />
-                      No songs found from the above link
+                      {t("new.playlist.noResults")}
                     </>
                   )}
                 </p>
@@ -370,14 +380,14 @@ const NewPage: NextPage = () => {
             return (
               <>
                 <TabList className="flex flex-none mb-2">
-                  <Tab className={getClassName(0)}>Create New Room</Tab>
+                  <Tab className={getClassName(0)}>{t("new.addNew.title")}</Tab>
                   <Tab
                     className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
                       initTracks?.length ? getClassName(1) : "opacity-25"
                     } transition duration-300`}
                     disabled={!initTracks?.length}
                   >
-                    Use an Existing Room
+                    {t("new.addExisted.title")}
                   </Tab>
                 </TabList>
                 <TabPanels className="p-2">
@@ -391,9 +401,7 @@ const NewPage: NextPage = () => {
                       <div />
                     )}
                   </TabPanel>
-                  {!user && (
-                    <AuthBanner prompt="Join Stereo to Create a Room" />
-                  )}
+                  {!user && <AuthBanner prompt={t("new.authPrompt")} />}
                 </TabPanels>
               </>
             );

@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { NextSeo } from "next-seo";
 import { useCurrentUser } from "~/hooks/user";
+import { useI18n } from "../i18n/index";
 import { SvgMail, SvgFacebook, SvgTwitter } from "~/assets/svg";
 
 const ContactLink: React.FC<{ href: string }> = ({ href, children }) => (
@@ -18,22 +19,22 @@ const ContactLink: React.FC<{ href: string }> = ({ href, children }) => (
 
 const ContactPage: NextPage = () => {
   const user = useCurrentUser();
+  const { t } = useI18n();
   return (
     <>
       <NextSeo
-        title="Contact us"
+        title={t("contact.title")}
         description="The team behind Stereo would love to hear about your feedbacks and questions."
       />
       <div className="py-16 containerleading-loose text-lg">
         <h1 className="text-center text-5xl text-foreground-secondary font-bold max-w-xl mx-auto leading-none">
-          Hi{" "}
+          {t("contact.hi")}{" "}
           {user ? (
             <span className="text-foreground">{user.username}</span>
           ) : (
-            "there"
-          )}
-          ,<br />
-          how can we help?
+            t("contact.there")
+          )}{" "}
+          {t("contact.how")}
         </h1>
         <div className="flex flex-wrap justify-center my-10">
           <ContactLink href="mailto:yo@withstereo.com">
@@ -49,14 +50,11 @@ const ContactPage: NextPage = () => {
             withstereo_
           </ContactLink>
         </div>
-        <p className="text-sm opacity-75 text-center mb-4">
-          Be sure to reach out at any time should you have any ideas, questions,
-          or encounter any nasty bugs.
-        </p>
+        <p className="text-sm opacity-75 text-center mb-4">{t("contact.p")}</p>
         <p className="text-center">
           <Link href="/browse">
             <a className="text-sm button bg-transparent hover:text-foreground-secondary">
-              ← Back to home
+              ← {t("common.backToHome")}
             </a>
           </Link>
         </p>
