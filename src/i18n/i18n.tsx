@@ -8,9 +8,9 @@ const localStorageKey = "settings.locale";
 const I18n: React.FC = ({ children }) => {
   const [locale, _setLocale] = useState<Locale>(() => i18n.locale() as Locale);
 
-  const setLocale = useCallback((l: Locale) => {
+  const setLocale = useCallback((l: Locale, skipLocalStorage?: boolean) => {
     i18n.locale(l);
-    window.localStorage.setItem(localStorageKey, l);
+    if (!skipLocalStorage) window.localStorage.setItem(localStorageKey, l);
     return _setLocale(l);
   }, []);
 
@@ -23,7 +23,10 @@ const I18n: React.FC = ({ children }) => {
     if (!preferred && navigator.language)
       preferred = navigator.language.split("-")[0] as Locale;
 
-    if (preferred && supportedLocale.includes(preferred)) setLocale(preferred);
+    console.log(preferred);
+
+    if (preferred && supportedLocale.includes(preferred))
+      setLocale(preferred, true);
   }, [setLocale]);
 
   return (
