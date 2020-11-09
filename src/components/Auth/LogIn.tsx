@@ -184,7 +184,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               href="https://www.spotify.com/us/legal/privacy-policy/"
               className="underline"
             >
-              Spotify Privacy Policy
+              {t("auth.footerText.spotifyTerm")}
             </a>{" "}
             {t("auth.footerText.whereApplicable")}.
           </p>

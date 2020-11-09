@@ -190,7 +190,7 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
               aria-label={t("room.settings.member.helpText")}
             />
             <button type="submit" className="button" disabled={fetching}>
-              {t("room.settings.member.searchText")}
+              {t("room.settings.member.action")}
             </button>
           </form>
         </Modal.Content>

@@ -1,1 +1,309 @@
-{}
+{
+  "404": {
+    "title": "404",
+    "description": "Bạn thoáng nghe tiếng nhạc bên tai nhưng không thấy gì ở trước mắt"
+  },
+  "description": "Stereo cho phép bạn nghe nhạc cùng bạn bè khắp năm châu, chỉ với một tại khoản YouTube, Spotify, hay Apple Music.",
+  "motto": "Âm nhạc Bên nhau",
+  "intro": {
+    "use": { "action": "Truy cập", "web": "Web App", "comingSoon": "Sắp tới" },
+    "listen": {
+      "title": "Nghe nhạc mọi nơi",
+      "description": "Stereo tích hợp với ứng dụng nghe nhạc quen thuộc với bạn. Bạn không cần gì ngoại một tài khoản YouTube, Spotify, hay Apple Music.",
+      "p": "Bạn bè bạn không dùng chung ứng dụng nghe nhạc? Không sao, Stereo sẽ tìm bài hát tương ứng trên ứng dụng mà bạn sở hữu.",
+      "action": "Start Listening"
+    },
+    "playlist": {
+      "title": "Bắt đầu ngay",
+      "p1": "Bắt đầu nghe nhạc cùng nhau trong chưa đầy 30 giây. Chỉ cần bạn dán đường link playlist bạn mong muốn và bắt đầu ngay.",
+      "p2": "Bạn có một playlist khá độc, hay là ca sĩ yêu thích của bạn mới ra album mới? Dán đường link với đi thôi!",
+      "action": "Nghe ngay"
+    },
+    "rules": {
+      "title": "Phòng của bạn. Quy tắc của bạn.",
+      "p1": "Nghe cùng nhau trong phòng riêng tư hoặc công ngai. Đặt mật khẩu để tránh những vị khách không mời. Chỉ những thành viên mới có thể thêm nhạc nhưng ai cùng có thể trò chuyện và thả cảm xúc.",
+      "p2": "Mời bạn bè thân thiết làm quản trị viên. Chặn tin nhắn và thành viên xúc phạm. Tùy chỉnh luật lệ phòng để mọi người có thể thêm những bài hát phù hợp.",
+      "p2Bold": "Bạn luôn nắm quyền"
+    }
+  },
+  "contact": {
+    "title": "Liên hệ",
+    "hi": "Chào",
+    "there": "đằng ấy",
+    "how": ", chúng mình có thể giúp gì?",
+    "p": "Hãy nhớ cho chúng mình biết góp ý, câu hỏi, hay báo lỗi của bạn."
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "updated": "Đã cập nhật hồ sơ",
+    "signedOut": "Bạn đã đăng xuất",
+    "connection": { "title": "Kết nối" },
+    "language": { "title": "Ngôn ngữ" },
+    "danger": {
+      "title": "Vùng nguy hiểm",
+      "delete": {
+        "label": "Xoá tài khoản",
+        "description": "Bạn có thể xoá tài khoản của mình bất cứ lúc nào.",
+        "descriptionData": "Về dữ liệu của bạn khi vô hiệu hoá",
+        "action": "Xoá tài khoản",
+        "modal": {
+          "title": "Chúng mình sẽ nhớ bạn...",
+          "description": "Xoá tài khoản đồng nghĩa với việc xoá tất cả thông tin, phòng của bạn.",
+          "enterName": "Nhập username để tiếp tục"
+        },
+        "cancel": "Thôi",
+        "deleted": "Toàn bộ dữ liệu của bạn đã bị xoá. Hãy sớm quay lại nhé!"
+      }
+    },
+    "profile": {
+      "title": "Hồ sơ",
+      "authPrompt": "Tham gia Stereo để tùy chỉnh hồ sơ của bạn."
+    },
+    "username": {
+      "label": "Username",
+      "helpText": "Tối đa 15 kí tự, viết thường, không khoản cách và kí tự đặc biệt"
+    },
+    "profilePicture": { "label": "Ảnh đại diện" },
+    "listening": {
+      "title": "Nghe nhạc trên {{name}}",
+      "withAuth": "Tài khoản của bạn đang được kết nối với {{name}}. Nếu bạn muốn thay đổi",
+      "contactUs": "liên hệ chúng mình",
+      "withLocal": "Đổi ứng dụng nghe nhạc",
+      "selectOne": "Chọn ứng dụng"
+    },
+    "signOut": "Đăng xuất"
+  },
+  "new": {
+    "title": "Bắt đầu nghe cùng nhau",
+    "authPrompt": "Tham gia Stereo để tạo phòng",
+    "playlist": {
+      "title": "Tìm playlist",
+      "altText": "Nhập đường link playlist",
+      "helpText": "Tùy chọn: Nhập đường link playlist để nghe cùng nhau",
+      "startListeningTo": "Bắt đầu nghe",
+      "featuring": "đến từ",
+      "noResults": "Không tìm thấy bài hát nào"
+    },
+    "addNew": {
+      "title": "Tạo phòng mới",
+      "warnNoPass": "Mật khẩu phòng chưa được đặt. Bất cứ ai với đường link sẽ được trở thành của phòng. Vẫn tiếp tục?",
+      "action": "Nghe nào"
+    },
+    "addExisted": {
+      "title": "Nghe ở phòng hiện có",
+      "description": "Chọn phòng bạn muốn tham gia",
+      "action": "Thêm vào chơi",
+      "helpText": "Tìm kiếm một playlist sử dụng hộp thoại trên hoặc tạo phòng mới"
+    }
+  },
+  "browse": {
+    "title": "Browse",
+    "titleRandom": "Ngẫu nhiên",
+    "titleMy": "Của bạn",
+    "playlist": {
+      "title": "Nghe thôi",
+      "description": "Bạn có một playlist độc đáo muốn chia sẽ với bạn bè? Hãy dán đường link dưới đây."
+    }
+  },
+  "room": {
+    "label": "Phòng",
+    "description": "Tham gia cùng {{title}} trên Stereo và nghe nhạc cùng nhau.",
+    "privacy": { "public": "Công khai", "private": "Riêng tư" },
+    "main": {
+      "init": {
+        "password1": "Nhập mật khẩu để tham gia. Để trống nếu không có mật khẩu.",
+        "password2": "Bạn cũng có thể nhờ chủ phòng thêm bạn vào nhóm thành viền.",
+        "join": "Vào phòng",
+        "leave": "Quay về",
+        "badPassword": "Sai mật khẩu"
+      }
+    },
+    "settings": {
+      "title": "Cài đặt phòng",
+      "info": {
+        "title": "Tên",
+        "description": "Mô tả",
+        "titleHelp": "Enter a title for the room",
+        "descriptionHelp": "Đặt tên phòng của bạn",
+        "handle": "Handle"
+      },
+      "privacy": {
+        "title": "Công khai",
+        "publicAllowGuests": "Ai cũng có thể thêm nhạc",
+        "publicAllowGuestsHelp": "Nếu tắt, chỉ thành viên phòng mới có thể thêm nhạc",
+        "password": "Mật khẩu",
+        "passwordHelp": "Bất kì ai có mật khẩu sẽ tham gia làm thành viên phòng",
+        "newPassword": "Mật khẩu mới",
+        "newPasswordHelp": "Thành viên hiện tại không cần nhập lại mật khẩu"
+      },
+      "member": {
+        "title": "Thêm thành viên",
+        "helpText": "Nhập username người dùng bạn muôn thêm",
+        "action": "Tìm kiếm",
+        "addedText": "{{username}} đã trở thành {{role}}",
+        "removedText": "{{username}} không còn là thành viên",
+        "userNotFound": "Không tìm thấy người dùng",
+        "offline": "Ngoại tuyến"
+      },
+      "dangerZone": {
+        "title": "Vùng nguy hiểm",
+        "delete": {
+          "title": "Xoá {{title}}",
+          "description": "Thao tác sẽ xoá toàn bộ dữ liệu phòng",
+          "enterName": "Nhập lại tên phòng để xoá",
+          "action": "Xoá phòng",
+          "cancel": "Thôi",
+          "deleted": "Phòng đã bị xoá"
+        }
+      },
+      "updatedText": "Phòng đã được cập nhật"
+    },
+    "rules": {
+      "title": "Luật lệ phòng",
+      "anyoneCanAdd": "Ai cũng có thể thêm nhạc",
+      "onlyMemberCanAdd": "Chỉ thành viên mới được thêm nhạc",
+      "ok": "Đã hiểu!"
+    },
+    "queue": {
+      "title": "Hàng chờ",
+      "queue": { "title": "Hàng chờ" },
+      "search": { "title": "Tìm nhạc" },
+      "playlist": { "title": "Playlist" },
+      "played": { "title": "Đã phát gần đây" }
+    },
+    "chat": {
+      "title": "Chat",
+      "authPrompt": "Tham gia Stereo để trò chuyện",
+      "authPromptHook": "Nghe nhạc và trò chuyện cùng bạn bè khắp mọi nơi",
+      "listener": "Người nghe"
+    },
+    "live": { "title": "Live" }
+  },
+  "nowPlaying": { "title": "Đang phát", "skipSong": "Bỏ qua bài" },
+  "player": {
+    "label": { "nameAndArtist": "Tên bài hát và nghệ sĩ" },
+    "pause": "Tạm dừng",
+    "play": "Phát nhạc",
+    "noneText": "Không có bài hát",
+    "noneHelpText": "Thêm nhạc vào danh sách phát để nghe cùng nhau",
+    "pausedText": "Âm nhạc đã dừng",
+    "pausedHelpText": "Nhấn vào nút dưới để bắt đầu phát",
+    "noCrossTrackText": "không có sẵn trên",
+    "platformChooser": {
+      "altTitle": "Chọn ứng dụng nghe nhạc",
+      "title": "Tham gia Stereo hoặc chọn một ứng dụng nghe nhạc",
+      "listenAsGuest": "Nghe không đăng nhập",
+      "helpText": "Bạn có thể nghe nhạc tạm thời với một trong các ứng dụng trên hoặc tham gia Stereo để sử dụng các tính năng như thêm nhạc vào và từ playlist, thả cảm xúc, và hơn thế nữa. Tùy chỉnh trong"
+    },
+    "stopPlaying": "Dừng Phát",
+    "youtube": {
+      "moveToTop": "Chuyển trình chơi lên trên",
+      "moveToBottom": "Chuyển trình chơi xuống dưới",
+      "footerText": "YouTube Premium cho phép bạn nghe nhạc không quảng cáo và trong nền. Xem",
+      "footerTextAfter": "để biết thêm"
+    },
+    "spotify": {
+      "playingOn": "Nghe trên Spotify",
+      "authAskText": "Kết nối với tài khoản Spotify của bạn để nghe nhạc.",
+      "authAction": "Kết nối với Spotify",
+      "connectingText": "Chúng mình đang cố kết nối với tài khoản Spotify của bạn",
+      "errorText": "Không thể kết nối với Spotify",
+      "errorHelpText": "Chúng mình không thể kết nối với tài khoản Spotify của bạn. Hãy thử lại hoặc",
+      "premiumRequired": "Yêu cầu Spotify Premium",
+      "notSupported": "Trình duyệt của bạn có thể không được hỗ trợ",
+      "footerText": "Yêu cầu tài khoản Spotify Premium để chơi nhạc không giới hạn và không quảng cáo. Truy cập",
+      "footerTextAfter": "để dùng thử miễn phí"
+    },
+    "contactSupportText": "Liên hệ hỗ trợ",
+    "retryText": "Thử lại"
+  },
+  "track": {
+    "addToPlaylist": "Thêm vào playlist",
+    "listenOn": "Nghe trên {{platform}}",
+    "close": "Đóng",
+    "adder": {
+      "playlist": {
+        "selectOne": "Chọn playlist",
+        "selectSongFrom": "Chọn bài hát từ {{title}}",
+        "loading": "Đang tải playlist"
+      },
+      "result": {
+        "confirmAdded": "Bài hát này đã được thêm. Thêm lại?"
+      },
+      "search": {
+        "title": "Tìm kiếm",
+        "placeholder": "Tìm kiếm với từ khoá hoặc liên kết",
+        "loading": "Đang tìm kiếm...",
+        "helpText": "Để tìm kiếm, nhập từ khoá hoặc đường link của bài hát / playlist"
+      }
+    }
+  },
+  "queue": {
+    "addedBy": "Thêm bởi",
+    "manager": {
+      "removedTrackText": "Đã xoá {{title}}",
+      "removeTrackText": "Xoá bài hát",
+      "authPrompt": "Tham gia Stereo để lắng nghe cùng nhau ",
+      "emptyText": "Ở đây cô đơn quá... Thêm một bài cho nóng nào!",
+      "notAllowedText": "Bạn không được phép thêm nhạc. Xem"
+    }
+  },
+  "playlist": {
+    "addTitle": "Thêm vào playlist",
+    "authPrompt": "Tham gia Stereo để thêm vào playlist",
+    "add": {
+      "title": "Thêm vào {{title}}",
+      "addedText": "Đã thêm",
+      "okText": "Đã thêm {{trackTitle}} vào {{playlistTitle}}"
+    },
+    "new": {
+      "title": "Playlist mới",
+      "nameRequired": "Nhập tên playlist mới để tiếp tục",
+      "errorText": "Không thể tạo playlist",
+      "okText": "Đã tạo playlist {{title}}",
+      "youtubeHelpText": "Bạn sẽ cần một kênh YouTube hoặc tài khoản YouTube Music để tạo playlist"
+    }
+  },
+  "share": {
+    "title": "Chia sẽ",
+    "copy": "Copy",
+    "copied": "Đã copy",
+    "via": "Chia sẽ tới"
+  },
+  "chat": {
+    "inputLabel": "Nhập tin nhắn",
+    "inputPlaceholder": "Say something, I'm giving up on you 🎵"
+  },
+  "auth": {
+    "hookDefault": "Nghe nhạc cùng với bạn bè trong phòng công khai hoặc riêng tư. Tất cả bạn cần là một tài khoản YouTube, Spotify, hoặc Apple Music.",
+    "action": "Đăng nhập",
+    "label": "Đăng nhập vào Stereo",
+    "listenOn": "Nghe trên",
+    "cancelText": "Trở về",
+    "footerText": {
+      "pre": "Khi tiếp tục, bạn đống ý với",
+      "privacyPolicy": "Chính sách riêng tư",
+      "youtubeTerm": "Điều khoản sử dụng của YouTube",
+      "spotifyTerm": "Chính sách riêng tư của Spotify",
+      "andOr": "và/hoặc",
+      "whereApplicable": "ở nơi áp dụng"
+    }
+  },
+  "footer": {
+    "privacy": "Riêng tư",
+    "contribute": "Đóng góp",
+    "contact": "Liên hệ"
+  },
+  "common": {
+    "backToHome": "Trở về",
+    "signIn": "Đăng nhập",
+    "dangerousActionText": "Thao tác này sẽ có hiệu lực tức thì và không thể hoàn tác",
+    "tracks": "bài hát",
+    "save": "Lưu",
+    "saved": "Đã lưu"
+  },
+  "error": {
+    "internalError": "Thôi lỗi rồi:",
+    "unauthenticated": "Vui lòng đăng nhập lại"
+  }
+}

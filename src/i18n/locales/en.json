@@ -9,14 +9,14 @@
     "use": { "action": "Use", "web": "Web App", "comingSoon": "Coming Soon" },
     "listen": {
       "title": "Listen Anywhere",
-      "description": "Stereo integrates with the music applications you know and love. All you need is a YouTube or Spotify account.",
-      "p": "Your friend listens to a different music application? No worry, you can still listen together by letting Stereo find and play that same song on your application instead.",
+      "description": "Stereo integrates with the music applications you know and love. All you need is a YouTube, Spotify, or Apple Music account.",
+      "p": "Your friend listens to a different music application? No worry, Stereo will find and play that same song on your application instead.",
       "action": "Start Listening"
     },
     "playlist": {
       "title": "Quick Start",
       "p1": "It takes less than 30 seconds to start listening together. Just copy-paste the playlist link and start right away.",
-      "p2": "Have a good playlist to share with friends? Did your favorite artist. just release their new album? Just grab the link and go!",
+      "p2": "Have a good playlist to share with friends, or did your favorite artist just release their new album? Just grab the link and go!",
       "action": "Go"
     },
     "rules": {
@@ -52,7 +52,7 @@
           "enterName": "Enter your username to continue"
         },
         "cancel": "Nevermind",
-        "deleted": "Your account and data has been removed. We're sorry to see you go!"
+        "deleted": "Your account and data has been removed. Feel free to come back at any time!"
       }
     },
     "profile": {
@@ -113,7 +113,7 @@
       "init": {
         "password1": "Enter room password to join. Leave empty if it has no password.",
         "password2": "You can also join by asking the host to add you as a collaborator",
-        "join": "Join",
+        "join": "Enter room",
         "leave": "Leave",
         "badPassword": "Incorrect room password"
       }
@@ -139,7 +139,7 @@
       "member": {
         "title": "Add a Member",
         "helpText": "Enter the username of the one you want to add",
-        "searchText": "Search",
+        "action": "Search",
         "addedText": "{{username}} is now a {{role}}",
         "removedText": "{{username}} is no longer a member",
         "userNotFound": "User Not Found",
@@ -190,7 +190,7 @@
     "pausedHelpText": "Use the button below to unpause",
     "noCrossTrackText": "is not available on",
     "platformChooser": {
-      "altTitle": "Choose platform to play this track on",
+      "altTitle": "Choose music application to play",
       "title": "Join Stereo or Select a Music Service",
       "listenAsGuest": "Listen as guest",
       "helpText": "You can listen on one of the music applications as guest or join Stereo for features like add songs to and from your playlists, react to songs, and more. Change your preference in"
@@ -208,7 +208,7 @@
       "authAction": "Connect to Spotify",
       "connectingText": "We are connecting to Spotify to play this song.",
       "errorText": "Could not connect to Spotify",
-      "errorHelpText": "We cannot connect your Spotify account. Please try again. If you need help, ",
+      "errorHelpText": "We cannot connect your Spotify account. Please try again. If you need help,",
       "premiumRequired": "Spotify Premium subscription required",
       "notSupported": "This browser may not be supported",
       "footerText": "A Spotify subscription is required to play any track, ad-free. Go to",
@@ -284,6 +284,7 @@
       "pre": "By continuing, you agree to our",
       "privacyPolicy": "Privacy Policy",
       "youtubeTerm": "YouTube Terms of Service",
+      "spotifyTerm": "Spotify Privacy Policy",
       "andOr": "and/or",
       "whereApplicable": "where applicable"
     }
@@ -302,7 +303,7 @@
     "saved": "Saved"
   },
   "error": {
-    "internalError": "Internal Error:",
+    "internalError": "Oh no, an unexpected error:",
     "unauthenticated": "Please sign in again."
   }
 }
