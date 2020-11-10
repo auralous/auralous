@@ -7,12 +7,14 @@ import React, {
   useCallback,
 } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Dialog } from "@reach/dialog";
 import { useModal } from "~/components/Modal/index";
-import Welcome from "./Welcome";
-import { OAuthProviderName } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgSpotify, SvgGoogleColor } from "~/assets/svg";
+import { PlatformName } from "~/graphql/gql.gen";
+
+const Welcome = dynamic(() => import("./Welcome"), { ssr: false });
 
 const SignInContext = createContext<[boolean, () => void]>([
   false,
@@ -44,11 +46,11 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
   }, [closeModal, closeWelcome]);
 
   const logIn = useCallback(
-    (provider: OAuthProviderName) => {
+    (provider: PlatformName) => {
       setIsAuth(AuthState.CONNECTING);
       windowRef.current = window.open(
         `${process.env.API_URI}/auth/${
-          provider === OAuthProviderName.Youtube ? "google" : provider
+          provider === PlatformName.Youtube ? "google" : provider
         }`,
         t("auth.label"),
         "width=800,height=600"
@@ -107,7 +109,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                   {t("auth.listenOn")} <b>YouTube</b>
                 </span>
                 <button
-                  onClick={() => logIn(OAuthProviderName.Youtube)}
+                  onClick={() => logIn(PlatformName.Youtube)}
                   className="button bg-white text-black text-opacity-50 h-12"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
@@ -124,7 +126,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                   {t("auth.listenOn")} <b>Spotify</b>
                 </span>
                 <button
-                  onClick={() => logIn(OAuthProviderName.Spotify)}
+                  onClick={() => logIn(PlatformName.Spotify)}
                   className="button brand-spotify h-12"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
@@ -190,7 +192,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
           </p>
         </div>
       </Dialog>
-      <Welcome active={activeWelcome} close={close} />
+      {activeWelcome && <Welcome active={activeWelcome} close={close} />}
     </>
   );
 };

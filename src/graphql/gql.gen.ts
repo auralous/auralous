@@ -16,12 +16,158 @@ export type Scalars = {
   Upload: any;
 };
 
+
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  addMessage: Scalars['Boolean'];
+  reactNowPlaying?: Maybe<Scalars['Boolean']>;
+  skipNowPlaying?: Maybe<Scalars['Boolean']>;
+  updateQueue: Scalars['Boolean'];
+  createRoom: Room;
+  updateRoom: Room;
+  joinPrivateRoom: Scalars['Boolean'];
+  updateRoomMembership: Scalars['Boolean'];
+  deleteRoom: Scalars['ID'];
+  me?: Maybe<User>;
+  deleteMe: Scalars['Boolean'];
+};
+
+
+export type MutationAddMessageArgs = {
+  roomId: Scalars['ID'];
+  message: Scalars['String'];
+};
+
+
+export type MutationReactNowPlayingArgs = {
+  id: Scalars['ID'];
+  reaction: NowPlayingReactionType;
+};
+
+
+export type MutationSkipNowPlayingArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateQueueArgs = {
+  id: Scalars['ID'];
+  action: QueueAction;
+  tracks?: Maybe<Array<Scalars['ID']>>;
+  position?: Maybe<Scalars['Int']>;
+  insertPosition?: Maybe<Scalars['Int']>;
+};
+
+
+export type MutationCreateRoomArgs = {
+  title: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  isPublic: Scalars['Boolean'];
+  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
+  password?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateRoomArgs = {
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['Upload']>;
+  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
+  password?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationJoinPrivateRoomArgs = {
+  id: Scalars['ID'];
+  password: Scalars['String'];
+};
+
+
+export type MutationUpdateRoomMembershipArgs = {
+  id: Scalars['ID'];
+  username?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+  role?: Maybe<RoomMembership>;
+};
+
+
+export type MutationDeleteRoomArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationMeArgs = {
+  name?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
+  profilePicture?: Maybe<Scalars['Upload']>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  messageAdded: Message;
+  nowPlayingUpdated?: Maybe<NowPlaying>;
+  nowPlayingReactionsUpdated?: Maybe<NowPlayingReaction>;
+  queueUpdated: Queue;
+  roomStateUpdated?: Maybe<RoomState>;
+};
+
+
+export type SubscriptionMessageAddedArgs = {
+  roomId: Scalars['ID'];
+};
+
+
+export type SubscriptionNowPlayingUpdatedArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type SubscriptionNowPlayingReactionsUpdatedArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type SubscriptionQueueUpdatedArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type SubscriptionRoomStateUpdatedArgs = {
+  id: Scalars['ID'];
+};
+
+export type Message = {
+  __typename?: 'Message';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  message: Scalars['String'];
+  from: MessageParticipant;
+};
+
+export type MessageParticipant = {
+  __typename?: 'MessageParticipant';
+  type: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  photo: Scalars['String'];
+  uri: Scalars['String'];
+};
+
+export enum NowPlayingReactionType {
+  Heart = 'heart',
+  Joy = 'joy',
+  Fire = 'fire',
+  Cry = 'cry'
+}
+
 export type Query = {
   __typename?: 'Query';
-  _empty?: Maybe<Scalars['String']>;
-  me?: Maybe<User>;
-  user?: Maybe<User>;
-  meAuth?: Maybe<UserAuthWrapper>;
+  nowPlaying?: Maybe<NowPlaying>;
+  nowPlayingReactions?: Maybe<NowPlayingReaction>;
+  queue?: Maybe<Queue>;
   room?: Maybe<Room>;
   roomState?: Maybe<RoomState>;
   rooms?: Maybe<Array<Room>>;
@@ -30,15 +176,23 @@ export type Query = {
   track?: Maybe<Track>;
   crossTracks?: Maybe<CrossTracks>;
   searchTrack: Array<Track>;
-  queue?: Maybe<Queue>;
-  nowPlaying?: Maybe<NowPlaying>;
-  nowPlayingReactions?: Maybe<NowPlayingReaction>;
+  me?: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 
-export type QueryUserArgs = {
-  username?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
+export type QueryNowPlayingArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryNowPlayingReactionsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryQueueArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -84,178 +238,54 @@ export type QuerySearchTrackArgs = {
 };
 
 
-export type QueryQueueArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryNowPlayingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryNowPlayingReactionsArgs = {
-  id: Scalars['ID'];
-};
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  _empty?: Maybe<Scalars['String']>;
-  me?: Maybe<User>;
-  deleteMe: Scalars['Boolean'];
-  deleteMeOauth: Scalars['Boolean'];
-  createRoom: Room;
-  updateRoom: Room;
-  joinPrivateRoom: Scalars['Boolean'];
-  updateRoomMembership: Scalars['Boolean'];
-  deleteRoom: Scalars['ID'];
-  addMessage: Scalars['Boolean'];
-  updateQueue: Scalars['Boolean'];
-  reactNowPlaying?: Maybe<Scalars['Boolean']>;
-  skipNowPlaying?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationMeArgs = {
-  name?: Maybe<Scalars['String']>;
+export type QueryUserArgs = {
   username?: Maybe<Scalars['String']>;
-  bio?: Maybe<Scalars['String']>;
-  profilePicture?: Maybe<Scalars['Upload']>;
+  id?: Maybe<Scalars['ID']>;
 };
 
-
-export type MutationDeleteMeOauthArgs = {
-  provider: OAuthProviderName;
-};
-
-
-export type MutationCreateRoomArgs = {
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  isPublic: Scalars['Boolean'];
-  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
-  password?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationUpdateRoomArgs = {
+export type NowPlayingQueueItem = {
+  __typename?: 'NowPlayingQueueItem';
   id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['Upload']>;
-  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
-  password?: Maybe<Scalars['String']>;
+  trackId: Scalars['ID'];
+  playedAt: Scalars['DateTime'];
+  endedAt: Scalars['DateTime'];
+  creatorId: Scalars['ID'];
 };
 
-
-export type MutationJoinPrivateRoomArgs = {
+export type NowPlaying = {
+  __typename?: 'NowPlaying';
   id: Scalars['ID'];
-  password: Scalars['String'];
+  currentTrack?: Maybe<NowPlayingQueueItem>;
 };
 
-
-export type MutationUpdateRoomMembershipArgs = {
+export type NowPlayingReaction = {
+  __typename?: 'NowPlayingReaction';
   id: Scalars['ID'];
-  username?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
-  role?: Maybe<RoomMembership>;
+  mine?: Maybe<NowPlayingReactionType>;
+  heart: Scalars['Int'];
+  cry: Scalars['Int'];
+  joy: Scalars['Int'];
+  fire: Scalars['Int'];
 };
 
-
-export type MutationDeleteRoomArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationAddMessageArgs = {
-  roomId: Scalars['ID'];
-  message: Scalars['String'];
-};
-
-
-export type MutationUpdateQueueArgs = {
-  id: Scalars['ID'];
-  action: QueueAction;
-  tracks?: Maybe<Array<Scalars['ID']>>;
-  position?: Maybe<Scalars['Int']>;
-  insertPosition?: Maybe<Scalars['Int']>;
-};
-
-
-export type MutationReactNowPlayingArgs = {
-  id: Scalars['ID'];
-  reaction: NowPlayingReactionType;
-};
-
-
-export type MutationSkipNowPlayingArgs = {
-  id: Scalars['ID'];
-};
-
-export type Subscription = {
-  __typename?: 'Subscription';
-  _empty?: Maybe<Scalars['String']>;
-  roomStateUpdated?: Maybe<RoomState>;
-  messageAdded: Message;
-  queueUpdated: Queue;
-  nowPlayingUpdated?: Maybe<NowPlaying>;
-  nowPlayingReactionsUpdated?: Maybe<NowPlayingReaction>;
-};
-
-
-export type SubscriptionRoomStateUpdatedArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type SubscriptionMessageAddedArgs = {
-  roomId: Scalars['ID'];
-};
-
-
-export type SubscriptionQueueUpdatedArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type SubscriptionNowPlayingUpdatedArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type SubscriptionNowPlayingReactionsUpdatedArgs = {
-  id: Scalars['ID'];
-};
-
-
-
-export enum OAuthProviderName {
-  Youtube = 'youtube',
-  Twitter = 'twitter',
-  Facebook = 'facebook',
-  Spotify = 'spotify'
+export enum QueueAction {
+  Remove = 'remove',
+  Reorder = 'reorder',
+  Add = 'add',
+  Clear = 'clear'
 }
 
-export type User = {
-  __typename?: 'User';
+export type QueueItem = {
+  __typename?: 'QueueItem';
   id: Scalars['ID'];
-  username: Scalars['String'];
-  bio?: Maybe<Scalars['String']>;
-  profilePicture: Scalars['String'];
+  trackId: Scalars['String'];
+  creatorId: Scalars['String'];
 };
 
-export type UserAuthWrapper = {
-  __typename?: 'UserAuthWrapper';
-  youtube?: Maybe<UserOauthProvider>;
-  twitter?: Maybe<UserOauthProvider>;
-  facebook?: Maybe<UserOauthProvider>;
-  spotify?: Maybe<UserOauthProvider>;
-};
-
-export type UserOauthProvider = {
-  __typename?: 'UserOauthProvider';
-  provider: OAuthProviderName;
+export type Queue = {
+  __typename?: 'Queue';
   id: Scalars['ID'];
+  items: Array<QueueItem>;
 };
 
 export enum RoomMembership {
@@ -317,73 +347,12 @@ export type Artist = {
   url: Scalars['String'];
 };
 
-export type Message = {
-  __typename?: 'Message';
+export type User = {
+  __typename?: 'User';
   id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  message: Scalars['String'];
-  from: MessageParticipant;
-};
-
-export type MessageParticipant = {
-  __typename?: 'MessageParticipant';
-  type: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  photo: Scalars['String'];
-  uri: Scalars['String'];
-};
-
-export enum QueueAction {
-  Remove = 'remove',
-  Reorder = 'reorder',
-  Add = 'add',
-  Clear = 'clear'
-}
-
-export type QueueItem = {
-  __typename?: 'QueueItem';
-  id: Scalars['ID'];
-  trackId: Scalars['String'];
-  creatorId: Scalars['String'];
-};
-
-export type Queue = {
-  __typename?: 'Queue';
-  id: Scalars['ID'];
-  items: Array<QueueItem>;
-};
-
-export enum NowPlayingReactionType {
-  Heart = 'heart',
-  Joy = 'joy',
-  Fire = 'fire',
-  Cry = 'cry'
-}
-
-export type NowPlayingQueueItem = {
-  __typename?: 'NowPlayingQueueItem';
-  id: Scalars['ID'];
-  trackId: Scalars['ID'];
-  playedAt: Scalars['DateTime'];
-  endedAt: Scalars['DateTime'];
-  creatorId: Scalars['ID'];
-};
-
-export type NowPlaying = {
-  __typename?: 'NowPlaying';
-  id: Scalars['ID'];
-  currentTrack?: Maybe<NowPlayingQueueItem>;
-};
-
-export type NowPlayingReaction = {
-  __typename?: 'NowPlayingReaction';
-  id: Scalars['ID'];
-  mine?: Maybe<NowPlayingReactionType>;
-  heart: Scalars['Int'];
-  cry: Scalars['Int'];
-  joy: Scalars['Int'];
-  fire: Scalars['Int'];
+  username: Scalars['String'];
+  bio?: Maybe<Scalars['String']>;
+  profilePicture: Scalars['String'];
 };
 
 export type MessagePartsFragment = (
@@ -828,45 +797,12 @@ export type UpdateMeMutation = (
   )> }
 );
 
-export type DeleteMeOauthMutationVariables = Exact<{
-  provider: OAuthProviderName;
-}>;
-
-
-export type DeleteMeOauthMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteMeOauth'>
-);
-
 export type DeleteMeMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type DeleteMeMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteMe'>
-);
-
-export type MeAuthQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MeAuthQuery = (
-  { __typename?: 'Query' }
-  & { meAuth?: Maybe<(
-    { __typename?: 'UserAuthWrapper' }
-    & { youtube?: Maybe<(
-      { __typename?: 'UserOauthProvider' }
-      & Pick<UserOauthProvider, 'id'>
-    )>, spotify?: Maybe<(
-      { __typename?: 'UserOauthProvider' }
-      & Pick<UserOauthProvider, 'id'>
-    )>, twitter?: Maybe<(
-      { __typename?: 'UserOauthProvider' }
-      & Pick<UserOauthProvider, 'id'>
-    )>, facebook?: Maybe<(
-      { __typename?: 'UserOauthProvider' }
-      & Pick<UserOauthProvider, 'id'>
-    )> }
-  )> }
 );
 
 export const MessagePartsFragmentDoc = gql`
@@ -1046,7 +982,13 @@ export function useReactNowPlayingMutation() {
 };
 export const UpdateQueueDocument = gql`
     mutation updateQueue($id: ID!, $action: QueueAction!, $tracks: [ID!], $position: Int, $insertPosition: Int) {
-  updateQueue(id: $id, action: $action, tracks: $tracks, position: $position, insertPosition: $insertPosition)
+  updateQueue(
+    id: $id
+    action: $action
+    tracks: $tracks
+    position: $position
+    insertPosition: $insertPosition
+  )
 }
     `;
 
@@ -1131,7 +1073,13 @@ export function useSearchRoomsQuery(options: Omit<Urql.UseQueryArgs<SearchRoomsQ
 };
 export const CreateRoomDocument = gql`
     mutation createRoom($title: String!, $description: String, $isPublic: Boolean!, $anyoneCanAdd: Boolean, $password: String) {
-  createRoom(title: $title, description: $description, isPublic: $isPublic, anyoneCanAdd: $anyoneCanAdd, password: $password) {
+  createRoom(
+    title: $title
+    description: $description
+    isPublic: $isPublic
+    anyoneCanAdd: $anyoneCanAdd
+    password: $password
+  ) {
     id
     ...RoomDetailParts
   }
@@ -1143,7 +1091,14 @@ export function useCreateRoomMutation() {
 };
 export const UpdateRoomDocument = gql`
     mutation updateRoom($id: ID!, $title: String, $description: String, $image: Upload, $anyoneCanAdd: Boolean, $password: String) {
-  updateRoom(id: $id, title: $title, description: $description, image: $image, anyoneCanAdd: $anyoneCanAdd, password: $password) {
+  updateRoom(
+    id: $id
+    title: $title
+    description: $description
+    image: $image
+    anyoneCanAdd: $anyoneCanAdd
+    password: $password
+  ) {
     id
     ...RoomDetailParts
   }
@@ -1274,15 +1229,6 @@ export const UpdateMeDocument = gql`
 export function useUpdateMeMutation() {
   return Urql.useMutation<UpdateMeMutation, UpdateMeMutationVariables>(UpdateMeDocument);
 };
-export const DeleteMeOauthDocument = gql`
-    mutation deleteMeOauth($provider: OAuthProviderName!) {
-  deleteMeOauth(provider: $provider)
-}
-    `;
-
-export function useDeleteMeOauthMutation() {
-  return Urql.useMutation<DeleteMeOauthMutation, DeleteMeOauthMutationVariables>(DeleteMeOauthDocument);
-};
 export const DeleteMeDocument = gql`
     mutation deleteMe {
   deleteMe
@@ -1291,26 +1237,4 @@ export const DeleteMeDocument = gql`
 
 export function useDeleteMeMutation() {
   return Urql.useMutation<DeleteMeMutation, DeleteMeMutationVariables>(DeleteMeDocument);
-};
-export const MeAuthDocument = gql`
-    query meAuth {
-  meAuth {
-    youtube {
-      id
-    }
-    spotify {
-      id
-    }
-    twitter {
-      id
-    }
-    facebook {
-      id
-    }
-  }
-}
-    `;
-
-export function useMeAuthQuery(options: Omit<Urql.UseQueryArgs<MeAuthQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<MeAuthQuery>({ query: MeAuthDocument, ...options });
 };

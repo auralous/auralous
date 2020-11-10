@@ -1,4 +1,4 @@
-export const FRAGMENT_USER_PUBLIC = /* GraphQL */ `
+const FRAGMENT_USER_PUBLIC = /* GraphQL */ `
   fragment UserPublicParts on User {
     id
     username
@@ -34,33 +34,8 @@ export const MUTATION_UPDATE_CURRENT_USER = /* GraphQL */ `
   ${FRAGMENT_USER_PUBLIC}
 `;
 
-export const MUTATION_DISCONNECT_OAUTH = /* GraphQL */ `
-  mutation deleteMeOauth($provider: OAuthProviderName!) {
-    deleteMeOauth(provider: $provider)
-  }
-`;
-
 export const MUTATION_DELETE_CURRENT_USER = /* GraphQL */ `
   mutation deleteMe {
     deleteMe
-  }
-`;
-
-export const QUERY_CURRENT_USER_AUTH = /* GraphQL */ `
-  query meAuth {
-    meAuth {
-      youtube {
-        id
-      }
-      spotify {
-        id
-      }
-      twitter {
-        id
-      }
-      facebook {
-        id
-      }
-    }
   }
 `;

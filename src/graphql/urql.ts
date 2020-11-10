@@ -53,8 +53,6 @@ const cacheExchange = createCacheExchange({
   // schema: schemaIntrospection as any,
   keys: {
     QueueItem: () => null,
-    UserAuthWrapper: () => null,
-    UserOauthProvider: () => null,
   },
   resolvers: {
     Message: {
@@ -97,9 +95,6 @@ const cacheExchange = createCacheExchange({
         });
       },
       deleteMe: () => {
-        window.resetUrqlClient();
-      },
-      deleteMeOauth: () => {
         window.resetUrqlClient();
       },
     },

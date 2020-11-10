@@ -9,7 +9,7 @@ const AuthCallbackPage: NextPage = () => {
   return (
     <>
       <NextSeo title="Authenticated" nofollow noindex />
-      <div className="container py-12">
+      <div className="container mx-auto py-12">
         <h1 className="text-2xl font-bold mb-4 text-center">
           {isSuccess ? "You are in!" : "Oooops..."}
         </h1>

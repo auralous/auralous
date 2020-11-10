@@ -97,8 +97,7 @@ const StepUsername: React.FC<{
       <h2 className="text-4xl font-bold text-center mb-4">It&apos;s a me!</h2>
       <div className="mb-4">
         <p className="text-center mb-2">
-          Our robot assigns you the lame <b>username</b> below, but it can be
-          something cooler!
+          Let&apos;s make yourself unique with a cool <b>username</b>
         </p>
         <div className="w-full">
           <input
@@ -115,7 +114,7 @@ const StepUsername: React.FC<{
       </div>
       <div className="mb-8">
         <p className="text-center mb-2">
-          And while we&apos;re at it, how about some representation with a{" "}
+          And while we&apos;re at it, make it prettier with{" "}
           <b>profile picture</b>!
         </p>
         <div className="flex">
