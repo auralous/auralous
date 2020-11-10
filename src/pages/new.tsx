@@ -148,7 +148,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
             <div className="mb-2">
               <div className="flex">
                 <CreateRoomLabel htmlFor="roomAnyoneCanAdd">
-                  {t("room.privacy.publicAllowGuests")}
+                  {t("room.settings.privacy.publicAllowGuests")}
                 </CreateRoomLabel>
                 <select
                   id="roomAnyoneCanAdd"
@@ -160,7 +160,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
                 </select>
               </div>
               <p className="text-xs text-foreground-tertiary px-1">
-                {t("room.privacy.publicAllowGuestsHelp")}
+                {t("room.settings.privacy.publicAllowGuestsHelp")}
               </p>
             </div>
           </>

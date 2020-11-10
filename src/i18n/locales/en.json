@@ -39,7 +39,7 @@
     "signedOut": "You have been signed out",
     "connection": { "title": "Connection" },
     "language": { "title": "Language" },
-    "danger": {
+    "dangerZone": {
       "title": "Danger Zone",
       "delete": {
         "label": "Deactivate account",

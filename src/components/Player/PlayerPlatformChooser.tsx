@@ -45,7 +45,7 @@ const PlayerPlatformChooser: React.FC<{
       <Modal.Header>
         <Modal.Title>
           <span className="text-center w-full">
-            {t("player.paltformChooser.title")}
+            {t("player.platformChooser.title")}
           </span>
         </Modal.Title>
       </Modal.Header>

@@ -64,7 +64,7 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
         playRoom(room.id);
       } else {
         // Bad password
-        toasts.error(t("main.init.badPassword"));
+        toasts.error(t("room.main.init.badPassword"));
       }
     },
     [
@@ -117,20 +117,20 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
       <Modal.Content>
         {user ? (
           <>
-            <p>{t("main.init.password1")}</p>
+            <p>{t("room.main.init.password1")}</p>
             <form className="flex my-1" onSubmit={handleJoinPrivateRoom}>
               <input
                 type="password"
+                aria-label="Password"
                 ref={passwordRef}
                 className="input w-full mr-1"
-                placeholder="Room Password"
               />
               <button type="submit" className="button" disabled={fetching}>
-                {t("main.init.join")}
+                {t("room.main.init.join")}
               </button>
             </form>
             <p className="text-foreground-secondary text-xs mt-2">
-              {t("main.init.password2")}
+              {t("room.main.init.password2")}
             </p>
           </>
         ) : (
@@ -138,8 +138,8 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
         )}
         <div className="text-center">
           <Link href="/browse">
-            <button className="text-sm text-foreground-secondary hover:text-foreground-tertiary mt-2 p-1">
-              {t("main.init.leave")}
+            <button className="text-sm font-bold text-foreground-secondary hover:text-foreground-tertiary mt-2 p-1">
+              {t("room.main.init.leave")}
             </button>
           </Link>
         </div>

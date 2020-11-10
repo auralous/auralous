@@ -44,23 +44,25 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
   return (
     <>
       <Modal.Modal
-        title={t("settings.danger.delete.label")}
+        title={t("settings.dangerZone.delete.label")}
         active={activeDelete}
         onOutsideClick={closeDelete}
       >
         <Modal.Header>
-          <Modal.Title>{t("settings.danger.delete.modal.title")}</Modal.Title>
+          <Modal.Title>
+            {t("settings.dangerZone.delete.modal.title")}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Content className="text-center">
           <p className="mb-4">
-            {t("settings.danger.delete.modal.description")}
+            {t("settings.dangerZone.delete.modal.description")}
             <br />
             <b>{t("common.dangerousActionText")}</b>.
           </p>
           <input
-            aria-label={t("settings.delete.modal.enterName")}
+            aria-label={t("settings.dangerZone.delete.modal.enterName")}
             value={confirmUsername}
-            placeholder={t("settings.delete.modal.enterName")}
+            placeholder={t("settings.dangerZone.delete.modal.enterName")}
             onChange={(e) => setConfirmUsername(e.target.value)}
             className="input py-2 px-4 ml-2 w-96 max-w-full"
           />
@@ -71,27 +73,27 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
             className="button bg-transparent text-danger-light"
             onClick={() =>
               deleteUser().then(() => {
-                toasts.message(t("settings.danger.delete.deleted"));
+                toasts.message(t("settings.dangerZone.delete.deleted"));
               })
             }
             disabled={confirmUsername !== user.username}
           >
-            {t("settings.danger.delete.action")}
+            {t("settings.dangerZone.delete.action")}
           </button>
           <button
             type="button"
             onClick={closeDelete}
             className="button button-success"
           >
-            {t("settings.danger.delete.cancel")}
+            {t("settings.dangerZone.delete.cancel")}
           </button>
         </Modal.Footer>
       </Modal.Modal>
       <p className="text-sm text-foreground-secondary">
-        {t("settings.danger.delete.description")}{" "}
+        {t("settings.dangerZone.delete.description")}{" "}
         <Link href="/privacy#when-you-delete-data-in-your-accounts">
           <a className="underline">
-            {t("settings.danger.delete.descriptionData")}
+            {t("settings.dangerZone.delete.descriptionData")}
           </a>
         </Link>
       </p>
@@ -100,7 +102,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         className="button button-danger mt-2"
         onClick={openDelete}
       >
-        {t("settings.danger.delete.action")}
+        {t("settings.dangerZone.delete.action")}
       </button>
     </>
   );
@@ -333,7 +335,7 @@ const RightSection: React.FC = () => {
         <LanguageSelect />
         {user && (
           <div className="mt-8">
-            <SettingTitle>{t("settings.danger.title")}</SettingTitle>
+            <SettingTitle>{t("settings.dangerZone.title")}</SettingTitle>
             <DeleteAccount user={user} />
           </div>
         )}

@@ -35,12 +35,12 @@
   },
   "settings": {
     "title": "Cài đặt",
-    "updated": "Đã cập nhật hồ sơ",
+    "updated": "Đã cập nhật thông tin",
     "signedOut": "Bạn đã đăng xuất",
     "connection": { "title": "Kết nối" },
     "language": { "title": "Ngôn ngữ" },
-    "danger": {
-      "title": "Vùng nguy hiểm",
+    "dangerZone": {
+      "title": "Khu vực nguy hiểm",
       "delete": {
         "label": "Xoá tài khoản",
         "description": "Bạn có thể xoá tài khoản của mình bất cứ lúc nào.",
@@ -56,8 +56,8 @@
       }
     },
     "profile": {
-      "title": "Hồ sơ",
-      "authPrompt": "Tham gia Stereo để tùy chỉnh hồ sơ của bạn."
+      "title": "Về bản thân",
+      "authPrompt": "Tham gia Stereo để tùy chỉnh thông tin về bạn."
     },
     "username": {
       "label": "Username",
@@ -146,7 +146,7 @@
         "offline": "Ngoại tuyến"
       },
       "dangerZone": {
-        "title": "Vùng nguy hiểm",
+        "title": "Khu vực nguy hiểm",
         "delete": {
           "title": "Xoá {{title}}",
           "description": "Thao tác sẽ xoá toàn bộ dữ liệu phòng",

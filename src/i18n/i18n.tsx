@@ -23,8 +23,6 @@ const I18n: React.FC = ({ children }) => {
     if (!preferred && navigator.language)
       preferred = navigator.language.split("-")[0] as Locale;
 
-    console.log(preferred);
-
     if (preferred && supportedLocale.includes(preferred))
       setLocale(preferred, true);
   }, [setLocale]);
