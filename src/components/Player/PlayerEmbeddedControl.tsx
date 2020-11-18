@@ -23,17 +23,16 @@ import {
   SvgSkipForward,
 } from "~/assets/svg";
 
-const ErrorOverlay: React.FC = () => {
+const PlayerErrorBar: React.FC = () => {
   const { t } = useI18n();
 
   const {
     state: { error, originalTrack, playingPlatform },
   } = usePlayer();
-
   if (!error) return null;
   return (
-    <p className="text-xs">
-      <SvgAlertCircle width="12" className="inline text-danger-light" />{" "}
+    <p className="text-xs px-2 bg-danger-light">
+      <SvgAlertCircle width="12" className="inline" />{" "}
       {error === PlayerError.NOT_AVAILABLE_ON_PLATFORM && (
         <span className="align-middle">
           <i>
@@ -228,7 +227,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
           </div>
         </div>
       </div>
-      <ErrorOverlay />
+      <PlayerErrorBar />
     </>
   );
 };
