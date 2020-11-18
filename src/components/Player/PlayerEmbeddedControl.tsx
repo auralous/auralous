@@ -209,7 +209,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
             }}
             style={{ color: playingThemeColor }}
           >
-            {isPlaying ? (
+            {isPlaying && roomPlayingStarted ? (
               <SvgPause className="w-6 h-6 fill-current" />
             ) : (
               <SvgPlay className="w-6 h-6 fill-current" />
