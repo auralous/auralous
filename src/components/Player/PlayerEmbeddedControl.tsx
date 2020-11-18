@@ -182,7 +182,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
   return (
     <>
       <div
-        className="flex items-center rounded-lg overflow-hidden relative"
+        className="flex items-center relative"
         style={{ backgroundColor: playingThemeColor }}
       >
         <div className="bg-black absolute inset-0" style={{ opacity: ".15" }} />
@@ -211,9 +211,9 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
             style={{ color: playingThemeColor }}
           >
             {isPlaying ? (
-              <SvgPause className="ml-1 w-6 h-6 fill-current" />
+              <SvgPause className="w-6 h-6 fill-current" />
             ) : (
-              <SvgPlay className="ml-1 w-6 h-6 fill-current" />
+              <SvgPlay className="w-6 h-6 fill-current" />
             )}
           </button>
         </div>

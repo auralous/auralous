@@ -153,11 +153,11 @@ const RoomLive: React.FC<{
 }> = ({ room, roomState }) => {
   return (
     <>
-      <div className="w-full h-full flex flex-col relative overflow-hidden">
-        <div className="p-2">
+      <div className="w-full h-full flex flex-col relative overflow-hidden p-2">
+        <div className="mb-2 bordered-box rounded-lg overflow-hidden">
           <PlayerEmbeddedControl roomId={room.id} />
         </div>
-        <div className="p-2 flex-1 overflow-hidden">
+        <div className="bordered-box rounded-lg pt-1 flex-1 overflow-hidden">
           <RoomChat room={room} roomState={roomState} />
         </div>
       </div>
@@ -272,18 +272,18 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
             <RoomLive room={room} roomState={roomState || undefined} />
           </div>
           <div
-            className={`w-full lg:w-96 flex-none max-w-full overflow-hidden`}
+            className={`w-full p-2 lg:w-96 flex-none max-w-full overflow-hidden`}
           >
             <button
               onClick={expandQueue}
-              className="h-12 w-full button rounded-none lg:hidden"
+              className="h-12 w-full button lg:hidden"
             >
               Queue
             </button>
             <div
-              className={`w-full h-full flex flex-col z-30 fixed inset-0 lg:static ${
+              className={`bordered-box w-full h-full flex flex-col z-30 fixed inset-0 lg:static ${
                 expandedQueue ? "block" : "hidden"
-              } bg-background p-2 lg:p-0 lg:bg-transparent lg:block`}
+              } p-2 rounded-lg lg:block`}
             >
               <RoomQueue room={room} roomState={roomState || undefined} />
               <button

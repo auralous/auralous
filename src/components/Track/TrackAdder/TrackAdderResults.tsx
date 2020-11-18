@@ -22,7 +22,7 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
 
   return (
     <div
-      className="p-2 flex items-center justify-between border-b-2 border-opacity-25 border-background-secondary"
+      className="p-2 flex items-center justify-between"
       role="presentation"
       key={data.items[index]}
       style={style}
