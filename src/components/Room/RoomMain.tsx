@@ -191,21 +191,21 @@ const Navbar: React.FC<{
           <h4 className="text-md font-bold leading-tight truncate mr-2">
             {room.title}
           </h4>
-          <button
-            onClick={openShare}
-            className="button p-1 mr-1"
-            title={t("share.title")}
-          >
-            <SvgShare width="14" height="14" />
+        </div>
+        <div className="flex items justify-end">
+          <button onClick={openShare} className="button p-2 mr-1">
+            <SvgShare width="14" height="14" className="sm:mr-1" />
+            <span className="text-sm sr-only sm:not-sr-only leading-none">
+              {t("share.title")}
+            </span>
           </button>
           {roomState && (
             <>
-              <button
-                onClick={openRules}
-                className="button p-1 mr-1"
-                title={t("room.rules.title")}
-              >
-                <SvgBookOpen width="14" height="14" />
+              <button onClick={openRules} className="button p-2 mr-1">
+                <SvgBookOpen width="14" height="14" className="sm:mr-1" />
+                <span className="text-sm sr-only sm:not-sr-only leading-none">
+                  {t("room.rules.shortTitle")}
+                </span>
               </button>
               <RoomRules
                 active={activeRules}
@@ -216,12 +216,11 @@ const Navbar: React.FC<{
           )}
           {room.creatorId === user?.id && roomState && (
             <>
-              <button
-                onClick={openSettings}
-                className="button p-1"
-                title={t("room.settings.title")}
-              >
-                <SvgSettings width="14" height="14" />
+              <button onClick={openSettings} className="button p-2">
+                <SvgSettings width="14" height="14" className="sm:mr-1" />
+                <span className="text-sm sr-only sm:not-sr-only leading-none">
+                  {t("room.settings.shortTitle")}
+                </span>
               </button>
               <RoomSettings
                 roomState={roomState}

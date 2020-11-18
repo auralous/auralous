@@ -61,7 +61,7 @@ const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
   const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
   return (
     <button
-      className="button text-xs py-1 px-2 leading-none"
+      className="button text-xs leading-none"
       onClick={() => skipNowPlaying({ id: roomId })}
       disabled={
         fetching ||
@@ -86,7 +86,7 @@ const PlayerTrackMenu: React.FC<{ track: Track | null | undefined }> = ({
   return (
     <>
       <button
-        className="button mr-1 text-xs py-1 px-2 leading-none"
+        className="button mr-1 text-xs leading-none"
         onClick={openMenu}
         title={t("player.trackInfo")}
         disabled={!track}

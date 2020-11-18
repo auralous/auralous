@@ -120,6 +120,7 @@
     },
     "settings": {
       "title": "Room Settings",
+      "shortTitle": "Settings",
       "info": {
         "title": "Title",
         "description": "Description",
@@ -160,6 +161,7 @@
     },
     "rules": {
       "title": "Room Rules",
+      "shortTitle": "Rules",
       "anyoneCanAdd": "Anyone can add songs",
       "onlyMemberCanAdd": "Only member can add songs",
       "ok": "Got it!"

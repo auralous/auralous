@@ -120,6 +120,7 @@
     },
     "settings": {
       "title": "Cài đặt phòng",
+      "shortTitle": "Cài đặt",
       "info": {
         "title": "Tên",
         "description": "Mô tả",
@@ -159,7 +160,8 @@
       "updatedText": "Phòng đã được cập nhật"
     },
     "rules": {
-      "title": "Luật lệ phòng",
+      "title": "Quy tắc phòng",
+      "shortTitle": "Quy tắc",
       "anyoneCanAdd": "Ai cũng có thể thêm nhạc",
       "onlyMemberCanAdd": "Chỉ thành viên mới được thêm nhạc",
       "ok": "Đã hiểu!"
