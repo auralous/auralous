@@ -181,7 +181,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
   return (
     <>
       <div
-        className="flex items-center relative"
+        className="flex items-center relative transition-colors duration-300"
         style={{ backgroundColor: playingThemeColor }}
       >
         <div className="bg-black absolute inset-0" style={{ opacity: ".15" }} />
