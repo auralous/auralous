@@ -20,7 +20,7 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
 
   return (
     <Link href="/room/[roomId]" as={`/room/${room.id}`}>
-      <a className="block overflow-hidden border-2 border-background-secondary hover:border-white pb-4/3 rounded-lg relative transition ease-in-out duration-300">
+      <a className="block overflow-hidden border-2 border-background-secondary hover:border-white focus:border-white focus:outline-none pb-4/3 rounded-lg relative transition ease-in-out duration-300">
         <div className="absolute inset-0 py-2 justify-center flex flex-col">
           <h3 className="flex-none mb-2 text-xl font-bold truncate text-center">
             {room.isPublic === false && (

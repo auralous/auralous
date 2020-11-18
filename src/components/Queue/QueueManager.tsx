@@ -27,7 +27,7 @@ import {
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
 import { QueuePermission } from "./types";
-import { SvgBookOpen } from "~/assets/svg/index";
+import { SvgBookOpen, SvgGripVertical } from "~/assets/svg/index";
 import QueueAddedBy from "./QueueAddedBy";
 import { useI18n } from "~/i18n/index";
 
@@ -76,42 +76,49 @@ const QueueDraggableItem: React.FC<{
         ...provided.draggableProps.style,
         ...style,
       }}
-      className={`select-none flex p-2 hover:bg-background-secondary items-center justify-between ${
+      className={`select-none flex p-2 items-center ${
         isDragging ? "opacity-75" : ""
       }`}
     >
       <div
-        className="overflow-hidden h-full flex flex-col justify-center pl-2 flex-1 relative"
+        className="focus:outline-none hover:text-foreground-secondary focus:text-foreground-secondary mr-1"
         {...provided.dragHandleProps}
       >
+        <SvgGripVertical />
+      </div>
+      <div className="overflow-hidden h-full w-0 flex-1">
         <TrackItem
           id={queue.items[index].trackId}
           extraInfo={<QueueAddedBy userId={queue.items[index].creatorId} />}
+          showMenu
         />
       </div>
-      <button
-        type="button"
-        title={t("queue.manager.removeTrackText")}
-        className="absolute top-1 right-1 bg-transparent p-1 opacity-50 hover:opacity-100 transition-opacity duration-200"
-        hidden={!canRemove}
-        onClick={removeItem}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          width="12"
-          height="12"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+      <div className="flex content-end items-center ml-2">
+        <button
+          type="button"
+          title={t("queue.manager.removeTrackText")}
+          className={`button ${
+            !canRemove || isDragging ? "hidden" : ""
+          } p-0 h-10 w-10`}
+          onClick={removeItem}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={8}
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={8}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 };

@@ -32,9 +32,7 @@ const Row = React.memo<ListChildComponentProps>(function Row({
             <button
               type="button"
               aria-label="Add track"
-              className={`h-10 px-3 py-2 flex items-center hover:bg-background-secondary ${
-                isAdding ? "opacity-50" : ""
-              } transition duration-200 rounded-full`}
+              className="button p-0 h-10 w-10"
               onClick={async () => {
                 setIsAdding(true);
                 await data.onAdd([data.items[index].trackId]);

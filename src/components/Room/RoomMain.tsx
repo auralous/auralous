@@ -183,7 +183,7 @@ const Navbar: React.FC<{
         <div className="flex flex-1 w-0 items-center justify-start h-full">
           <button
             onClick={() => router.push("/browse")}
-            className="p-1 mr-2"
+            className="button button-transparent p-1 mr-2"
             title={t("common.backToHome")}
           >
             <SvgChevronLeft />

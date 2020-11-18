@@ -18,7 +18,7 @@ const NotFoundPage: NextPage = () => {
           {t("404.description")}
         </p>
         <Link href="/browse">
-          <a className="text-sm button bg-transparent hover:text-foreground-secondary">
+          <a className="text-sm button button-transparent">
             ← {t("common.backToHome")}
           </a>
         </Link>

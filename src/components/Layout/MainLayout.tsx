@@ -80,12 +80,12 @@ const Footer: React.FC = () => {
   if (shouldHideNavFoot) return null;
   return (
     <footer className="text-center mt-20 border-t-4 py-4 max-w-xl mx-auto border-background-secondary">
-      <div className="mb-1 text-sm overflow-auto">
+      <div className="mb-1 text-sm overflow-auto opacity-75">
         <a
           href="https://www.facebook.com/withstereo/"
           target="_blank"
           rel="noreferrer"
-          className="mx-2 font-bold opacity-50 hover:opacity-75"
+          className="button button-transparent p-0 mx-2"
         >
           Facebook
         </a>
@@ -93,12 +93,12 @@ const Footer: React.FC = () => {
           href="https://twitter.com/withstereo_"
           target="_blank"
           rel="noreferrer"
-          className="mx-2 font-bold opacity-50 hover:opacity-75"
+          className="button button-transparent p-0 mx-2"
         >
           Twitter
         </a>
         <Link href="/privacy">
-          <a className="mx-2 font-bold opacity-50 hover:opacity-75">
+          <a className="button button-transparent p-0 mx-2">
             {t("footer.privacy")}
           </a>
         </Link>
@@ -106,12 +106,12 @@ const Footer: React.FC = () => {
           href="https://github.com/hoangvvo/stereo-web"
           target="_blank"
           rel="noreferrer"
-          className="mx-2 font-bold opacity-50 hover:opacity-75"
+          className="button button-transparent p-0 mx-2"
         >
           {t("footer.contribute")}
         </a>
         <Link href="/contact">
-          <a className="mx-2 font-bold opacity-50 hover:opacity-75">
+          <a className="button button-transparent p-0 mx-2">
             {t("footer.contact")}
           </a>
         </Link>

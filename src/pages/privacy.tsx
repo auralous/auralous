@@ -37,7 +37,7 @@ const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {
           </small>
           <p className="text-center mt-2">
             <Link href="/browse">
-              <a className="text-sm button bg-transparent text-foreground hover:text-foreground-secondary">
+              <a className="text-sm button button-transparent">
                 ← {t("common.backToHome")}
               </a>
             </Link>

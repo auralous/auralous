@@ -51,13 +51,13 @@ const AppLinks = () => {
           {t("intro.use.action")} {t("intro.use.web")}
         </a>
       </Link>
-      <div className="button bg-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
+      <div className="button button-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
         iOS
         <div className="text-xs opacity-75 ml-2">
           ({t("intro.use.comingSoon")})
         </div>
       </div>
-      <div className="button bg-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
+      <div className="button button-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
         Android
         <div className="text-xs opacity-75 ml-2">
           ({t("intro.use.comingSoon")})

@@ -149,7 +149,7 @@ const ChatInput: React.FC<{ roomId: string }> = ({ roomId }) => {
       <input
         aria-label={t("chat.inputLabel")}
         placeholder={t("chat.inputPlaceholder")}
-        className="w-full opacity-75 outline-none text-white bg-white bg-opacity-10 px-6 py-2 rounded"
+        className="w-full input bg-background-secondary border-none focus:bg-background-tertiary"
         value={messageContent}
         onChange={(e) => setMessageContent(e.target.value)}
       />

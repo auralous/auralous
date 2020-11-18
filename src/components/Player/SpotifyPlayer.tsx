@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import axios from "redaxios";
 import { useToasts } from "~/components/Toast/index";
 import { Modal } from "~/components/Modal/index";
@@ -289,9 +288,9 @@ export default function SpotifyPlayer() {
               </p>
               <p className="text-white text-opacity-75">
                 {t("player.spotify.errorHelpText")}{" "}
-                <Link href="/contact">
-                  <a className="underline">{t("player.contactSupportText")}</a>
-                </Link>
+                <a href="/contact" target="_blank" className="underline">
+                  {t("player.contactSupportText")}
+                </a>
                 .
               </p>
               <button

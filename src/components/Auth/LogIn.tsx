@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import Link from "next/link";
 import { Dialog } from "@reach/dialog";
 import Welcome from "./Welcome";
 import { useModal } from "~/components/Modal/index";
@@ -163,11 +162,9 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
           </div>
           <p className="mx-auto w-128 max-w-full p-4 text-foreground-tertiary text-xs text-center">
             {t("auth.footerText.pre")}{" "}
-            <Link href="/privacy">
-              <button className="underline" onClick={close}>
-                {t("auth.footerText.privacyPolicy")}
-              </button>
-            </Link>
+            <a target="_blank" href="/privacy" className="underline">
+              {t("auth.footerText.privacyPolicy")}
+            </a>
             ,{" "}
             <a
               target="_blank"

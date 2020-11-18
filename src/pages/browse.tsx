@@ -44,10 +44,10 @@ const MyRoomsSection: React.FC = () => {
         <div className="flex flex-wrap pb-12">
           <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
             <Link href="/new">
-              <a className="block overflow-hidden border-2 border-background-secondary hover:border-white pb-4/3 rounded-lg relative transition ease-in-out duration-300">
+              <a className="block text-foreground-secondary hover:text-foreground focus:text-foreground focus:outline-none overflow-hidden border-2 border-background-secondary pb-4/3 rounded-lg relative transition ease-in-out duration-300">
                 <div className="absolute-center">
-                  <SvgPlus className="w-16 h-16 mx-auto rounded-full p-2 bg-foreground-secondary text-white text-opacity-75" />
-                  <p className="mt-2 text-foreground-secondary text-sm text-center font-bold">
+                  <SvgPlus className="w-16 h-16 mx-auto p-2" />
+                  <p className="mt-2 text-sm text-center font-bold">
                     {t("new.addNew.title")}
                   </p>
                 </div>
@@ -110,7 +110,9 @@ const RoomSection: React.FC = () => {
       {({ selectedIndex }) => {
         const getClassName = (index: number) =>
           `font-bold mx-1 px-2 py-1 ${
-            index === selectedIndex ? "opacity-100" : "opacity-25"
+            index === selectedIndex
+              ? "opacity-100"
+              : "opacity-25 hover:opacity-50 focus:opacity-50"
           } transition-opacity duration-200`;
         return (
           <>

@@ -93,7 +93,7 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
       {({ selectedIndex }) => {
         const getClassName = (index: number) =>
           `flex flex-center flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
-            index === selectedIndex ? "bg-pink text-white" : "opacity-75"
+            index === selectedIndex ? "bg-pink text-white" : ""
           } transition duration-200`;
         return (
           <>

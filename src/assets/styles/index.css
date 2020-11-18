@@ -56,14 +56,18 @@ html {
   @apply block text-foreground-secondary text-sm font-bold mb-2;
 }
 
-.button, .label {
-  @apply appearance-none;
+.button, .label, .input {
+  &:focus {
+    outline: none;
+  }
 }
 
 .input {
   @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
-  &:focus {
-    @apply outline-none;
+  &:not([disabled]) {
+    &:focus {
+      @apply border-background-tertiary;
+    }
   }
 }
 
@@ -72,44 +76,61 @@ html {
   @apply transition-colors ease-in-out duration-200;
   /* Theme */
   @apply bg-background-secondary text-foreground;
-  &:not([disabled]):hover, &:not([disabled]):focus {
-    @apply bg-background-tertiary;
-    @apply border-none;
-  }
-  &:focus {
-    @apply outline-none border-none;
+  &:not([disabled]) {
+    &:hover, &:focus {
+      @apply bg-background-tertiary;
+      @apply border-none;
+    }
   }
   &.button-danger {
     @apply text-danger-label;
     @apply bg-danger;
-    &:not([disabled]):hover, &:not([disabled]):focus {
-      @apply bg-danger-dark;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-danger-dark;
+      }
     }
   }
   &.button-success {
     @apply text-success-label;
     @apply bg-success;
-    &:not([disabled]):hover, &:not([disabled]):focus {
-      @apply bg-success-dark;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-success-dark;
+      }
     }
   }
   &.button-warning {
     @apply text-warning-label;
     @apply bg-warning;
-    &:not([disabled]):hover, &:not([disabled]):focus {
-      @apply bg-warning-dark;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-warning-dark;
+      }
     }
   }
   &.button-foreground {
     @apply text-background bg-foreground;
-    &:not([disabled]):hover, &:not([disabled]):focus {
-      @apply text-background bg-foreground-secondary;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply text-background bg-foreground-secondary;
+      }
     }
   }
   &.button-light {
     @apply text-foreground bg-foreground bg-opacity-25;
-    &:not([disabled]):hover, &:not([disabled]):focus {
-      @apply bg-foreground bg-opacity-50;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-foreground bg-opacity-50;
+      }
+    }
+  }
+  &.button-transparent {
+    @apply text-foreground bg-transparent;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-transparent text-foreground text-opacity-50;
+      }
     }
   }
 }
@@ -148,6 +169,27 @@ html {
   }
   .modal-footer > .button {
     @apply flex-1 rounded-none;
+  }
+}
+
+:root {
+  --reach-tabs: 1;
+}
+
+[data-reach-tabs] {
+  [data-reach-tab] {
+    &:focus {
+      outline: none;
+    }
+    &:not([disabled]):not([data-selected]) {
+      &:hover, &:focus {
+        @apply opacity-75;
+      }
+    }
+  }
+
+  [data-reach-tab-panel]:focus, [data-reach-tab-panels]:focus {
+    outline: none;
   }
 }
 

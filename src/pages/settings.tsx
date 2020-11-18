@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { NextSeo } from "next-seo";
 import { NextPage } from "next";
-import Link from "next/link";
 import { useToasts } from "~/components/Toast/index";
 import { Modal, useModal } from "~/components/Modal/index";
 import { useLogin } from "~/components/Auth/index";
@@ -70,7 +69,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         <Modal.Footer>
           <button
             type="button"
-            className="button bg-transparent text-danger-light"
+            className="button button-transparent text-danger-light"
             onClick={() =>
               deleteUser().then(() => {
                 toasts.message(t("settings.dangerZone.delete.deleted"));
@@ -91,11 +90,13 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
       </Modal.Modal>
       <p className="text-sm text-foreground-secondary">
         {t("settings.dangerZone.delete.description")}{" "}
-        <Link href="/privacy#when-you-delete-data-in-your-accounts">
-          <a className="underline">
-            {t("settings.dangerZone.delete.descriptionData")}
-          </a>
-        </Link>
+        <a
+          className="underline"
+          target="_blank"
+          href="/privacy#when-you-delete-data-in-your-accounts"
+        >
+          {t("settings.dangerZone.delete.descriptionData")}
+        </a>
       </p>
       <button
         type="button"
@@ -290,11 +291,9 @@ const MusicConnection: React.FC = () => {
             {mAuth ? (
               <span className="opacity-75">
                 {t("settings.listening.withAuth", { name })},{" "}
-                <Link href="/contact">
-                  <a className="underline">
-                    {t("settings.listening.contactUs")}
-                  </a>
-                </Link>
+                <a target="_blank" href="/contact" className="underline">
+                  {t("settings.listening.contactUs")}
+                </a>
               </span>
             ) : (
               <>

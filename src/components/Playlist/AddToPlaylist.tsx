@@ -9,7 +9,7 @@ import {
 } from "~/hooks/playlist/index";
 import { Track, PlatformName } from "~/graphql/gql.gen";
 import { Playlist } from "~/types/index";
-import { SvgCheck, SvgPlus } from "~/assets/svg";
+import { SvgCheck, SvgPlus, SvgX } from "~/assets/svg";
 import { SvgByPlatformName } from "~/lib/constants";
 import { useI18n } from "~/i18n/index";
 
@@ -28,7 +28,7 @@ const PlaylistItem: React.FC<{
       title={t("playlist.add.title", { title: playlist.title })}
       onKeyDown={({ key }) => key === "Enter" && handleAdd(playlist)}
       tabIndex={0}
-      className={`flex items-center mb-1 hover:bg-background-secondary p-2 rounded-lg w-full`}
+      className={`button w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary`}
       onClick={() => handleAdd(playlist)}
     >
       <img
@@ -100,20 +100,32 @@ const CreatePlaylist: React.FC<{
 
   return isCreatingPlaylist ? (
     <>
-      <form className="flex mb-1 p-2" onSubmit={handleCreatePlaylistAndAdd}>
+      <form
+        className="flex mb-1 p-2 h-16"
+        onSubmit={handleCreatePlaylistAndAdd}
+      >
         <input
-          placeholder="New playlist title"
+          placeholder={t("playlist.new.title")}
           className="input w-full"
           ref={inputRef}
           required
         />
         <button
-          aria-label="Create playlist"
+          aria-label={t("playlist.new.title")}
           type="submit"
           className="button button-success ml-2 flex-none"
           disabled={fetching}
         >
           <SvgCheck width="16" height="16" />
+        </button>
+        <button
+          aria-label={t("track.close")}
+          type="submit"
+          className="button ml-1 flex-none"
+          disabled={fetching}
+          onClick={() => setIsCreatingPlaylist(false)}
+        >
+          <SvgX width="16" height="16" />
         </button>
       </form>
       {track.platform === PlatformName.Youtube && (
@@ -125,10 +137,10 @@ const CreatePlaylist: React.FC<{
   ) : (
     <button
       type="button"
-      className="flex items-center mb-1 hover:bg-background-secondary p-2 rounded-lg w-full"
+      className="button w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
       onClick={() => setIsCreatingPlaylist(true)}
     >
-      <div className="w-12 h-12 bg-white text-black flex flex-center rounded-lg">
+      <div className="w-12 h-12 border-2 border-foreground flex flex-center rounded-lg">
         <SvgPlus />
       </div>
       <span className="ml-2 font-bold">{t("playlist.new.title")}</span>

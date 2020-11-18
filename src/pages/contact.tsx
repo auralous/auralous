@@ -53,7 +53,7 @@ const ContactPage: NextPage = () => {
         <p className="text-sm opacity-75 text-center mb-4">{t("contact.p")}</p>
         <p className="text-center">
           <Link href="/browse">
-            <a className="text-sm button bg-transparent hover:text-foreground-secondary">
+            <a className="text-sm button button-transparent">
               ← {t("common.backToHome")}
             </a>
           </Link>

@@ -18,21 +18,15 @@ const RoomSettings: React.FC<{
       <Tabs>
         {({ selectedIndex }) => {
           const getClassNames = (index: number) =>
-            `font-bold ${
-              selectedIndex === index ? "opacity-100" : "opacity-25"
+            `font-bold rounded-lg p-1 mr-2 leading-none ${
+              selectedIndex === index ? "bg-pink text-white" : ""
             } transition-opacity duration-200`;
           return (
             <>
               <Modal.Header>
                 <TabList className="flex-none flex items-center font-bold text-4xl leading-tight">
                   <Tab className={getClassNames(0)}>Info</Tab>
-                  <span className="font-bold opacity-25 mx-2 text-lg">
-                    {" • "}
-                  </span>
                   <Tab className={getClassNames(1)}>Rule</Tab>
-                  <span className="font-bold opacity-25 mx-2 text-lg">
-                    {" • "}
-                  </span>
                   <Tab className={getClassNames(2)}>Member</Tab>
                 </TabList>
               </Modal.Header>

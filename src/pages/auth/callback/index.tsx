@@ -10,18 +10,15 @@ const AuthCallbackPage: NextPage = () => {
     <>
       <NextSeo title="Authenticated" nofollow noindex />
       <div className="container mx-auto py-12">
-        <h1 className="text-2xl font-bold mb-4 text-center">
+        <h1 className="text-2xl font-bold mb-2 text-center">
           {isSuccess ? "You are in!" : "Oooops..."}
         </h1>
-        <p className="text-center mb-1">
+        <p className="text-center mb-4">
           {isSuccess
             ? "We have successfully connected to your account. Let's jam!"
             : "We could not connect to your account. Let's give it another try!"}
         </p>
-        <button
-          className="button text-xs py-1 px-2"
-          onClick={() => window.close()}
-        >
+        <button className="button w-full" onClick={() => window.close()}>
           Close window
         </button>
       </div>

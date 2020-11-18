@@ -12,6 +12,7 @@ export { default as SvgEdit2 } from "./edit-2.svg";
 export { default as SvgFacebook } from "./facebook.svg";
 export { default as SvgHeadphones } from "./headphones.svg";
 export { default as SvgGoogleColor } from "./google-color.svg";
+export { default as SvgGripVertical } from "./grip-vertical.svg";
 export { default as SvgLogo } from "./logo.svg";
 export { default as SvgLock } from "./lock.svg";
 export { default as SvgLogIn } from "./log-in.svg";

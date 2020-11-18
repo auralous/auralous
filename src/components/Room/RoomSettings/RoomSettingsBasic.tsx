@@ -208,7 +208,7 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
         <Modal.Footer>
           <button
             type="button"
-            className="button bg-transparent text-danger-light"
+            className="button button-transparent text-danger-light"
             onClick={() =>
               deleteRoom({ id: room.id }).then(() => {
                 toasts.success(t("room.settings.dangerZone.delete.deleted"));

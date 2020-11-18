@@ -67,7 +67,7 @@ const PlayerPlatformChooser: React.FC<{
         {PlatformChoices}
         <button
           onClick={stopPlaying}
-          className="button mt-2 text-xs bg-transparent opacity-75 hover:opacity-100 transition-opacity"
+          className="button button-transparent mt-2 text-xs"
         >
           {t("player.stopPlaying")}
         </button>
