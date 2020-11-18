@@ -267,16 +267,14 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
     <>
       <div className="h-screen relative pt-12 overflow-hidden">
         <Navbar room={room} roomState={roomState} />
-        <div className={`flex flex-col lg:flex-row h-full overflow-hidden`}>
-          <div className="relative w-full h-full">
+        <div className={`flex flex-col lg:flex-row h-full`}>
+          <div className="relative flex-1">
             <RoomLive room={room} roomState={roomState || undefined} />
           </div>
-          <div
-            className={`w-full p-2 lg:w-96 flex-none max-w-full overflow-hidden`}
-          >
+          <div className={`w-full p-2 lg:w-96 max-w-full`}>
             <button
               onClick={expandQueue}
-              className="h-12 w-full button lg:hidden"
+              className="h-12 w-full button inline-flex lg:hidden"
             >
               Queue
             </button>
