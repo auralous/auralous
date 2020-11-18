@@ -39,12 +39,9 @@ export default function YouTubePlayer() {
 
   useEffect(() => {
     let ytPlayer: YT.Player;
-    let video_id: string | undefined;
     let durationInterval: number; // setInterval
 
     function playById(externalId: string) {
-      if (externalId === video_id) return;
-      video_id = externalId;
       ytPlayer.loadVideoById(externalId);
       ytPlayer.playVideo();
     }

@@ -47,8 +47,7 @@ const PlayerProvider: React.FC = ({ children }) => {
   const [nowPlaying, { fetching: fetchingNP }] = useNowPlaying(playingRoomId);
 
   const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
-    nowPlaying?.currentTrack?.trackId,
-    !nowPlaying?.currentTrack
+    nowPlaying?.currentTrack?.trackId
   );
 
   // Should only show platform chooser if there is an ongoing track and no playingPlatform can be determined
@@ -99,12 +98,9 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     const handlePlayerChange = () => {
-      if (nowPlaying?.currentTrack && !playerPlaying) {
-        // playerPlaying is fetching, should not decide yet
-        return;
-      }
-      if (playerPlaying && player.comparePlatform(playerPlaying.platform)) {
-        if (playerPlaying.externalId)
+      if (fetchingCrossTracks) return;
+      if (player.comparePlatform(playerPlaying?.platform || null)) {
+        if (playerPlaying?.externalId)
           player.loadByExternalId(playerPlaying.externalId);
       } else {
         switch (playerPlaying?.platform) {
@@ -126,7 +122,7 @@ const PlayerProvider: React.FC = ({ children }) => {
       player.on("playing", handlePlayerChange);
       return () => player.off("playing", handlePlayerChange);
     }
-  }, [nowPlaying, playerPlaying]);
+  }, [playerPlaying?.platform, playerPlaying?.externalId, fetchingCrossTracks]);
 
   const fetching = fetchingMAuth || fetchingCrossTracks || fetchingNP;
 
@@ -134,7 +130,7 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (fetching) return;
-    if (!playerPlaying) return setPlayingThemeColor("#001431");
+    if (!playerPlaying?.image) return setPlayingThemeColor("#001431");
     // YouTube image cannot use with cors
     if (playerPlaying.platform === PlatformName.Youtube) return;
     const img = new Image();
@@ -146,7 +142,7 @@ const PlayerProvider: React.FC = ({ children }) => {
     img.crossOrigin = "Anonymous";
     img.src = playerPlaying.image;
     return () => img.removeEventListener("load", onLoad);
-  }, [fetching, playerPlaying]);
+  }, [fetching, playerPlaying?.platform, playerPlaying?.image]);
 
   const playerContextValue = useMemo<IPlayerContext>(() => {
     let error: PlayerError | undefined;

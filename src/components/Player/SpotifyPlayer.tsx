@@ -161,7 +161,6 @@ export default function SpotifyPlayer() {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     const playById = async (device_id: string, externalId: string) => {
-      if (externalId === spotifyState?.track_window.current_track.id) return;
       const resp = await instance.put(
         `${BASE_URL}/me/player/play`,
         { uris: [`spotify:track:${externalId}`] },
@@ -198,13 +197,11 @@ export default function SpotifyPlayer() {
     let durationInterval: number; // ID of setInterval
 
     async function init() {
-      if (!window.Spotify?.Player) return;
-      spotifyPlayer =
-        spotifyPlayer ||
-        new window.Spotify.Player({
-          name: "Stereo Web Player",
-          getOAuthToken: (cb) => accessToken && cb(accessToken),
-        });
+      if (!window.Spotify?.Player || spotifyPlayer) return;
+      spotifyPlayer = new window.Spotify.Player({
+        name: "Stereo Web Player",
+        getOAuthToken: (cb) => accessToken && cb(accessToken),
+      });
       // readiness
       spotifyPlayer.addListener("ready", onReady);
       // state handling

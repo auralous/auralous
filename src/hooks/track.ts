@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { useCrossTracksQuery, useTrackQuery } from "~/graphql/gql.gen";
+import { Track, useCrossTracksQuery, useTrackQuery } from "~/graphql/gql.gen";
 
-export const useCrossTracks = (id?: string, pause?: boolean) => {
+export const useCrossTracks = (id?: string) => {
   const [
     {
       data: { crossTracks } = { crossTracks: undefined },
@@ -9,7 +9,7 @@ export const useCrossTracks = (id?: string, pause?: boolean) => {
     },
   ] = useCrossTracksQuery({
     variables: { id: id || "" },
-    pause: pause || !id,
+    pause: !id,
   });
 
   const [
@@ -26,25 +26,27 @@ export const useCrossTracks = (id?: string, pause?: boolean) => {
     pause: !crossTracks?.spotify,
   });
 
-  const original = useMemo(() => {
-    if (!crossTracks) return null;
-    // Find the original tracks among crossTracks
-    if (spotify?.id === crossTracks.id) return spotify;
-    if (youtube?.id === crossTracks.id) return youtube;
-    return null;
-  }, [crossTracks, youtube, spotify]);
-
   const fetching = fetchingCross || fetchingYT || fetchingS;
 
-  return [
-    fetching || pause
-      ? undefined
-      : {
-          id,
-          original: original,
-          youtube: crossTracks?.youtube && youtube,
-          spotify: crossTracks?.spotify && spotify,
-        },
-    { fetching },
-  ] as const;
+  // TODO: Investigate while this returns differently on render
+  const data = useMemo<
+    | {
+        id: string;
+        original: Track | null;
+        youtube: Track | null;
+        spotify: Track | null;
+      }
+    | undefined
+  >(() => {
+    if (!id || !crossTracks || fetching) return undefined;
+
+    // Find the original tracks among crossTracks
+    let original: Track | null = null;
+    if (spotify?.id === crossTracks.id) original = spotify;
+    else if (youtube?.id === crossTracks.id) original = youtube;
+
+    return { id, original, youtube: youtube || null, spotify: spotify || null };
+  }, [id, fetching, crossTracks, youtube, spotify]);
+
+  return [data, { fetching }] as const;
 };

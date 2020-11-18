@@ -29,10 +29,10 @@ interface Player {
 }
 
 class Player {
-  ee: Record<string, HandlerFn[]>;
-  _lastPlatform: PlatformName | undefined;
+  private ee: Record<string, HandlerFn[]>;
+  private _lastPlatform: PlatformName | undefined | null;
   currentMs: number;
-  playerFn: PlayerHandle | null;
+  private playerFn: PlayerHandle | null;
   wasPlaying = false;
   playerPlaying: PlayerPlaying = null;
 
@@ -100,7 +100,7 @@ class Player {
     this.playerFn?.loadById(externalId);
   }
 
-  comparePlatform(platform: PlatformName | undefined): boolean {
+  comparePlatform(platform: PlatformName | null): boolean {
     const isSamePlatform = !!platform && this._lastPlatform === platform;
     this._lastPlatform = platform;
     return isSamePlatform;
