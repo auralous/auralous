@@ -84,7 +84,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
   ]);
 
   return (
-    <div className="flex max-w-sm overflow-x-auto text-sm">
+    <div className="flex text-sm">
       <button
         ref={btnHeart}
         onClick={() => react(NowPlayingReactionType.Heart)}

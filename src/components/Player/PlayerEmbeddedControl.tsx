@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import usePlayer from "./usePlayer";
 import { useModal } from "~/components/Modal";
-import { SvgPlay, SvgPause, SvgAlertCircle } from "~/assets/svg";
 import { TrackMenu } from "~/components/Track/index";
 import {
   NowPlayingReaction,
@@ -16,6 +15,13 @@ import {
   useRoomQuery,
   useSkipNowPlayingMutation,
 } from "~/graphql/gql.gen";
+import {
+  SvgPlay,
+  SvgPause,
+  SvgAlertCircle,
+  SvgMusic,
+  SvgSkipForward,
+} from "~/assets/svg";
 
 const ErrorOverlay: React.FC = () => {
   const { t } = useI18n();
@@ -44,7 +50,7 @@ const ErrorOverlay: React.FC = () => {
   );
 };
 
-const SkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
+const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
   const { t } = useI18n();
 
   const [{ data: { room } = { room: undefined } }] = useRoomQuery({
@@ -54,27 +60,55 @@ const SkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
   const user = useCurrentUser();
   const [nowPlaying] = useNowPlaying(roomId);
   const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
-  if (!room || !user || !nowPlaying?.currentTrack) return null;
-  if (
-    user.id !== room.creatorId &&
-    nowPlaying?.currentTrack?.creatorId !== user.id
-  )
-    return null;
   return (
     <button
       className="button text-xs py-1 px-2 leading-none"
-      onClick={() => skipNowPlaying({ id: room.id })}
-      disabled={fetching}
+      onClick={() => skipNowPlaying({ id: roomId })}
+      disabled={
+        fetching ||
+        !user ||
+        !nowPlaying?.currentTrack ||
+        (user.id !== room?.creatorId &&
+          nowPlaying?.currentTrack?.creatorId !== user.id)
+      }
+      title={t("nowPlaying.skipSong")}
     >
-      {t("nowPlaying.skipSong")}
+      <SvgSkipForward width="14" height="14" />
     </button>
   );
 };
 
-const PlayerMenu: React.FC<{ roomId: string }> = ({ roomId }) => {
+const PlayerTrackMenu: React.FC<{ track: Track | null | undefined }> = ({
+  track,
+}) => {
+  const { t } = useI18n();
+  const [activeMenu, openMenu, closeMenu] = useModal();
+
+  return (
+    <>
+      <button
+        className="button mr-1 text-xs py-1 px-2 leading-none"
+        onClick={openMenu}
+        title={t("player.trackInfo")}
+        disabled={!track}
+      >
+        <SvgMusic width="14" height="14" />
+      </button>
+      {track && (
+        <TrackMenu id={track.id} active={activeMenu} close={closeMenu} />
+      )}
+    </>
+  );
+};
+
+const PlayerMenu: React.FC<{
+  roomId: string;
+  track: Track | null | undefined;
+}> = ({ roomId, track }) => {
   return (
     <div className="absolute top-0 right-0 p-1">
-      <SkipNowPlaying roomId={roomId} />
+      <PlayerTrackMenu track={track} />
+      <PlayerSkipNowPlaying roomId={roomId} />
     </div>
   );
 };
@@ -85,48 +119,33 @@ const NowPlayingMeta: React.FC<{
 }> = ({ roomId, track }) => {
   const { t } = useI18n();
   const {
-    state: { playerPlaying, fetching, playingRoomId },
+    state: { fetching, playingRoomId },
   } = usePlayer();
 
   const roomPlayingStarted = playingRoomId === roomId;
 
-  const [activeMenu, openMenu, closeMenu] = useModal();
-
   return (
     <div className="mb-1">
-      <div
-        onClick={() => playerPlaying && openMenu()}
-        role="button"
-        onKeyDown={({ key }) => key === "Enter" && playerPlaying && openMenu()}
-        tabIndex={0}
-        className={`${
-          playerPlaying ? "cursor-pointer hover:bg-background-secondary" : ""
-        } rounded overflow-hidden`}
-      >
-        <h2 className="font-bold text-lg leading-tight truncate">
-          {roomPlayingStarted
-            ? track?.title ||
-              (fetching ? (
-                <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
-              ) : (
-                t("player.noneText")
-              ))
-            : t("player.pausedText")}
-        </h2>
-      </div>
+      <h2 className="font-bold text-lg leading-tight truncate">
+        {roomPlayingStarted
+          ? track?.title ||
+            (fetching ? (
+              <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
+            ) : (
+              t("player.noneText")
+            ))
+          : t("player.pausedText")}
+      </h2>
       <div className="truncate text-foreground-secondary text-sm">
         {roomPlayingStarted
           ? track?.artists.map(({ name }) => name).join(", ") ||
             (fetching ? (
-              <span className="block h-4 w-32 mx-auto bg-foreground-tertiary rounded-full animate-pulse" />
+              <span className="block h-4 w-32 bg-foreground-tertiary rounded-full animate-pulse" />
             ) : (
               t("player.noneHelpText")
             ))
           : t("player.pausedHelpText")}
       </div>
-      {track && (
-        <TrackMenu id={track.id} active={activeMenu} close={closeMenu} />
-      )}
     </div>
   );
 };
@@ -162,8 +181,8 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   return (
     <>
-      <div className="flex items-center">
-        <div className="w-32 h-32">
+      <div className="flex items-center bg-black bg-opacity-25 rounded-lg overflow-hidden">
+        <div className="w-24 h-24 lg:w-32 lg:h-32">
           <div className="pb-full h-0 relative mx-auto bg-background-secondary overflow-hidden">
             {track && (
               <img
@@ -174,13 +193,13 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
             )}
           </div>
         </div>
-        <div className="w-24 h-24 flex flex-center -ml-12 z-10">
+        <div className="w-16 h-24 flex flex-center -ml-8 z-10">
           <button
             type="button"
             aria-label={isPlaying ? t("player.pause") : t("player.play")}
             className={`${
               !playerPlaying && roomPlayingStarted ? "hidden" : "flex"
-            } flex-center w-16 h-16 rounded-full bg-white text-black transform hover:scale-105 transition-transform duration-300`}
+            } flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white text-black transform hover:scale-105 transition-transform duration-300`}
             onClick={() => {
               if (!roomPlayingStarted) return playRoom(roomId);
               isPlaying ? player.pause() : player.play();
@@ -195,11 +214,13 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
         </div>
         <div
           aria-label={t("player.label.nameAndArtist")}
-          className="flex-1 w-0 p-4 flex flex-col justify-center relative"
+          className="flex-1 w-0 p-2 lg:p-4 flex flex-col justify-center relative"
         >
           <NowPlayingMeta roomId={roomId} track={track} />
-          <NowPlayingReaction id={roomId} />
-          <PlayerMenu roomId={roomId} />
+          <div className="max-w-sm overflow-x-auto">
+            <NowPlayingReaction id={roomId} />
+            <PlayerMenu roomId={roomId} track={track} />
+          </div>
         </div>
       </div>
       <ErrorOverlay />

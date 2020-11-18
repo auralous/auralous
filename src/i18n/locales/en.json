@@ -215,7 +215,8 @@
       "footerTextAfter": "to try it for free"
     },
     "contactSupportText": "Contact Support",
-    "retryText": "Try again"
+    "retryText": "Try again",
+    "trackInfo": "Track detail"
   },
   "track": {
     "addToPlaylist": "Add to playlist",
