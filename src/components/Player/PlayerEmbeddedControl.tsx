@@ -200,14 +200,13 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
           <button
             type="button"
             aria-label={isPlaying ? t("player.pause") : t("player.play")}
-            className={`${
-              !playerPlaying && roomPlayingStarted ? "hidden" : "flex"
-            } flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white transform hover:scale-105 transition-transform duration-300`}
+            className="opacity-100 flex flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white transform hover:scale-105 transition-transform duration-300"
             onClick={() => {
               if (!roomPlayingStarted) return playRoom(roomId);
               isPlaying ? player.pause() : player.play();
             }}
             style={{ color: playingThemeColor }}
+            disabled={!playerPlaying && roomPlayingStarted}
           >
             {isPlaying && roomPlayingStarted ? (
               <SvgPause className="w-6 h-6 fill-current" />
