@@ -31,7 +31,7 @@ const PlayerMinibar: React.FC = () => {
         ref={divRef}
         className={`${
           shouldHide ? "hidden" : "flex"
-        } items-center h-12 z-20 w-full rounded-t-lg overflow-hidden fixed bottom-0 left-0 transition-colors duration-300`}
+        } items-center h-12 z-10 w-full rounded-t-lg overflow-hidden fixed bottom-0 left-0 transition-colors duration-300`}
       >
         <div
           className="opacity-50 absolute inset-0"

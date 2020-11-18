@@ -57,13 +57,11 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
   );
 
   return (
-    <Tabs className="h-full flex flex-col">
+    <Tabs className="h-full flex flex-col overflow-hidden">
       {({ selectedIndex }) => {
         const getClassName = (index: number) =>
           `flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
-            index === selectedIndex
-              ? "bg-foreground bg-opacity-25 text-white"
-              : ""
+            index === selectedIndex ? "bg-pink text-white" : ""
           } transition duration-200`;
         return (
           <>

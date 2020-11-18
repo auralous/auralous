@@ -120,6 +120,7 @@
     },
     "settings": {
       "title": "Room Settings",
+      "shortTitle": "Settings",
       "info": {
         "title": "Title",
         "description": "Description",
@@ -160,6 +161,7 @@
     },
     "rules": {
       "title": "Room Rules",
+      "shortTitle": "Rules",
       "anyoneCanAdd": "Anyone can add songs",
       "onlyMemberCanAdd": "Only member can add songs",
       "ok": "Got it!"
@@ -187,7 +189,7 @@
     "noneText": "Nothing is playing",
     "noneHelpText": "Add a song to listen together",
     "pausedText": "Music has been paused",
-    "pausedHelpText": "Use the button below to unpause",
+    "pausedHelpText": "Press play to start listening",
     "noCrossTrackText": "is not available on",
     "platformChooser": {
       "altTitle": "Choose music application to play",
@@ -215,7 +217,8 @@
       "footerTextAfter": "to try it for free"
     },
     "contactSupportText": "Contact Support",
-    "retryText": "Try again"
+    "retryText": "Try again",
+    "trackInfo": "Track detail"
   },
   "track": {
     "addToPlaylist": "Add to playlist",

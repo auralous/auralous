@@ -21,7 +21,7 @@ const PlaylistItem: React.FC<{
       })}
       onKeyDown={({ key }) => key === "Enter" && handleSelect(playlist)}
       tabIndex={0}
-      className="flex items-center border-b-2 border-background-secondary hover:bg-white hover:bg-opacity-10 p-2 w-full"
+      className="flex items-center hover:bg-white hover:bg-opacity-10 p-2 w-full"
       onClick={() => handleSelect(playlist)}
     >
       <img

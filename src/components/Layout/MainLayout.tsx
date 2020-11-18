@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import Router, { useRouter } from "next/router";
 import Link from "next/link";
 import NProgress from "nprogress";
-import { usePlayer, PlayerMinibar } from "~/components/Player/index";
+import { PlayerMinibar } from "~/components/Player/index";
 import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
@@ -182,22 +182,10 @@ const Footer: React.FC = () => {
   );
 };
 
-const LayoutBg: React.FC = () => {
-  const {
-    state: { playingThemeColor },
-  } = usePlayer();
-  useEffect(() => {
-    if (playingThemeColor)
-      document.body.style.backgroundColor = playingThemeColor;
-  }, [playingThemeColor]);
-  return null;
-};
-
 export const MainLayout: React.FC = ({ children }) => {
   return (
     <>
       <Navbar />
-      <LayoutBg />
       <PlayerMinibar />
       <main>{children}</main>
       <Footer />

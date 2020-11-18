@@ -111,7 +111,7 @@ export default function YouTubePlayer() {
 
   return (
     <div
-      className={`absolute md:fixed top-0 right-0 z-30 w-screen ${
+      className={`absolute md:fixed top-0 right-0 z-20 w-screen ${
         posIsTop ? "" : "md:bottom-0 md:top-auto"
       } md:w-72 h-48`}
     >

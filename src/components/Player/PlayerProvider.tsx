@@ -133,17 +133,20 @@ const PlayerProvider: React.FC = ({ children }) => {
   const [playingThemeColor, setPlayingThemeColor] = useState<string>("#001431");
 
   useEffect(() => {
-    if (!playerPlaying) return;
+    if (fetching) return;
+    if (!playerPlaying) return setPlayingThemeColor("#001431");
     // YouTube image cannot use with cors
     if (playerPlaying.platform === PlatformName.Youtube) return;
     const img = new Image();
-    img.addEventListener("load", () => {
+    const onLoad = () => {
       colorThief = colorThief || new ColorThief();
       setPlayingThemeColor(`rgb(${colorThief.getColor(img).join(", ")}`);
-    });
+    };
+    img.addEventListener("load", onLoad);
     img.crossOrigin = "Anonymous";
     img.src = playerPlaying.image;
-  }, [playerPlaying]);
+    return () => img.removeEventListener("load", onLoad);
+  }, [fetching, playerPlaying]);
 
   const playerContextValue = useMemo<IPlayerContext>(() => {
     let error: PlayerError | undefined;

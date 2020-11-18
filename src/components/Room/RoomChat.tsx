@@ -12,6 +12,7 @@ import { MEMBERSHIP_NAMES } from "~/lib/constants";
 import { AuthBanner } from "~/components/Auth";
 import { getRole } from "~/lib/room";
 import { useI18n } from "~/i18n/index";
+import { SvgUserGroup } from "~/assets/svg";
 
 const CurrentUser: React.FC<{
   userId: string;
@@ -91,17 +92,19 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
     <Tabs className="h-full flex flex-col">
       {({ selectedIndex }) => {
         const getClassName = (index: number) =>
-          `flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
-            index === selectedIndex
-              ? "bg-foreground bg-opacity-25 text-white"
-              : "opacity-75"
+          `flex flex-center flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
+            index === selectedIndex ? "bg-pink text-white" : "opacity-75"
           } transition duration-200`;
         return (
           <>
             <TabList className="flex flex-none">
               <Tab className={getClassName(0)}>{t("room.chat.title")}</Tab>
-              <Tab className={getClassName(1)}>
-                {t("room.chat.listener")} ({roomState?.userIds.length || 0})
+              <Tab className={`${getClassName(1)} flex-none px-2`}>
+                <SvgUserGroup width="12" height="12" />
+                <span className="ml-1">
+                  {roomState?.userIds.length || 0}
+                  <span className="sr-only">{t("room.chat.listener")}</span>
+                </span>
               </Tab>
             </TabList>
             <TabPanels className="flex-1">
