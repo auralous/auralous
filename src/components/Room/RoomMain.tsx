@@ -7,7 +7,6 @@ import RoomRules from "./RoomRules";
 import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
 import { ShareDialog } from "~/components/Social/index";
 import { useModal, Modal } from "~/components/Modal/index";
-import { useNowPlaying } from "~/components/NowPlaying";
 import { useToasts } from "~/components/Toast";
 import { AuthBanner } from "~/components/Auth/index";
 import { useCurrentUser } from "~/hooks/user";
@@ -16,9 +15,9 @@ import {
   useRoomQuery,
   useRoomStateQuery,
   useOnRoomStateUpdatedSubscription,
-  useSkipNowPlayingMutation,
   useJoinPrivateRoomMutation,
   useQueueQuery,
+  RoomState,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import {
@@ -148,38 +147,18 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
   );
 };
 
-const RoomSkipNowPlaying: React.FC<{ room: Room }> = ({ room }) => {
-  const { t } = useI18n();
-
-  const user = useCurrentUser();
-  const [nowPlaying] = useNowPlaying(room.id);
-  const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
-  return (
-    <div className="flex justify-center h-6 mt-4">
-      {!!user &&
-        (user.id === room.creatorId ||
-          nowPlaying?.currentTrack?.creatorId === user.id) && (
-          <button
-            className="text-xs py-1 px-2 text-white font-bold text-opacity-50 hover:text-opacity-75 transition-colors duration-300"
-            onClick={() => skipNowPlaying({ id: room.id })}
-            disabled={fetching}
-          >
-            {t("nowPlaying.skipSong")}
-          </button>
-        )}
-    </div>
-  );
-};
-
 const RoomLive: React.FC<{
   room: Room;
-}> = ({ room }) => {
+  roomState: RoomState | undefined;
+}> = ({ room, roomState }) => {
   return (
     <>
-      <div className={`w-full h-full flex flex-col relative overflow-hidden`}>
-        <div className="p-2 flex-1 flex flex-col justify-center overflow-auto">
+      <div className="w-full h-full flex flex-col relative overflow-hidden">
+        <div className="p-2">
           <PlayerEmbeddedControl roomId={room.id} />
-          <RoomSkipNowPlaying room={room} />
+        </div>
+        <div className="p-2 flex-1 overflow-hidden">
+          <RoomChat room={room} roomState={roomState} />
         </div>
       </div>
     </>
@@ -188,20 +167,22 @@ const RoomLive: React.FC<{
 
 const Navbar: React.FC<{
   room: Room;
-  tab: "live" | "chat" | "queue";
-  setTab: React.Dispatch<React.SetStateAction<"live" | "chat" | "queue">>;
-}> = ({ room, tab, setTab }) => {
+  roomState: RoomState | undefined | null;
+}> = ({ room, roomState }) => {
   const { t } = useI18n();
-  const [activeShare, openShare, closeShare] = useModal();
+
+  const user = useCurrentUser();
   const router = useRouter();
+  const [activeShare, openShare, closeShare] = useModal();
+  const [activeSettings, openSettings, closeSettings] = useModal();
+  const [activeRules, openRules, closeRules] = useModal();
+
   return (
     <>
       <div className="nav px-2 overflow-hidden">
         <div className="flex flex-1 w-0 items-center justify-start h-full">
           <button
-            onClick={() =>
-              tab === "live" ? router.push("/browse") : setTab("live")
-            }
+            onClick={() => router.push("/browse")}
             className="p-1 mr-2"
             title={t("common.backToHome")}
           >
@@ -212,39 +193,44 @@ const Navbar: React.FC<{
           </h4>
           <button
             onClick={openShare}
-            className="button p-1 mx-1"
+            className="button p-1 mr-1"
             title={t("share.title")}
           >
             <SvgShare width="14" height="14" />
           </button>
-        </div>
-        <div className="flex items justify-end">
-          <div className="flex-none lg:hidden flex">
-            <button
-              className={`text-lg font-bold mx-1 p-1 ${
-                tab === "live" ? "opacity-100" : "opacity-25"
-              } transition-opacity duration-200`}
-              onClick={() => setTab("live")}
-            >
-              {t("room.live.title")}
-            </button>
-            <button
-              className={`text-lg font-bold mx-1 p-1 ${
-                tab === "queue" ? "opacity-100" : "opacity-25"
-              } transition-opacity duration-200`}
-              onClick={() => setTab("queue")}
-            >
-              {t("room.queue.title")}
-            </button>
-            <button
-              className={`text-lg font-bold mx-1 p-1 ${
-                tab === "chat" ? "opacity-100" : "opacity-25"
-              } transition-opacity duration-200`}
-              onClick={() => setTab("chat")}
-            >
-              {t("room.chat.title")}
-            </button>
-          </div>
+          {roomState && (
+            <>
+              <button
+                onClick={openRules}
+                className="button p-1 mr-1"
+                title={t("room.rules.title")}
+              >
+                <SvgBookOpen width="14" height="14" />
+              </button>
+              <RoomRules
+                active={activeRules}
+                close={closeRules}
+                roomState={roomState}
+              />
+            </>
+          )}
+          {room.creatorId === user?.id && roomState && (
+            <>
+              <button
+                onClick={openSettings}
+                className="button p-1"
+                title={t("room.settings.title")}
+              >
+                <SvgSettings width="14" height="14" />
+              </button>
+              <RoomSettings
+                roomState={roomState}
+                active={activeSettings}
+                close={closeSettings}
+                room={room}
+              />
+            </>
+          )}
         </div>
       </div>
       <ShareDialog
@@ -258,16 +244,12 @@ const Navbar: React.FC<{
 };
 
 const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
-  const { t } = useI18n();
-
   // initialRoom is the same as room, only might be a outdated version
   // so it can be used as backup
   const [{ data }] = useRoomQuery({
     variables: { id: initialRoom.id as string },
   });
   const room = data?.room || initialRoom;
-  const [tab, setTab] = useState<"live" | "chat" | "queue">("live");
-  const user = useCurrentUser();
   const [
     { data: { roomState } = { roomState: undefined } },
   ] = useRoomStateQuery({
@@ -279,73 +261,38 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
     (prevResposne, response) => response
   );
 
-  const [activeRules, openRules, closeRules] = useModal();
-  const [activeSettings, openSettings, closeSettings] = useModal();
+  const [expandedQueue, expandQueue, collapseQueue] = useModal();
 
   return (
     <>
       <div className="h-screen relative pt-12 overflow-hidden">
-        <Navbar room={room} tab={tab} setTab={setTab} />
-        <div className="flex h-full overflow-hidden">
-          <div
-            className={`w-full ${
-              tab === "queue" ? "" : "hidden"
-            } lg:block flex-1 overflow-hidden`}
-            style={{
-              background: "linear-gradient(0deg, rgba(0,0,0,.1), transparent)",
-            }}
-          >
-            <RoomQueue room={room} roomState={roomState || undefined} />
+        <Navbar room={room} roomState={roomState} />
+        <div className={`flex flex-col lg:flex-row h-full overflow-hidden`}>
+          <div className="relative w-full h-full">
+            <RoomLive room={room} roomState={roomState || undefined} />
           </div>
           <div
-            className={`w-full relative ${
-              tab === "live" ? "" : "hidden"
-            } lg:block lg:w-1/2`}
+            className={`w-full lg:w-96 flex-none max-w-full overflow-hidden`}
           >
-            <RoomLive room={room} />
-            {room.creatorId === user?.id && roomState && (
-              <>
-                <button
-                  title={t("room.settings.title")}
-                  onClick={openSettings}
-                  className="button absolute top-2 left-2"
-                >
-                  <SvgSettings />
-                </button>
-                <RoomSettings
-                  roomState={roomState}
-                  active={activeSettings}
-                  close={closeSettings}
-                  room={room}
-                />
-              </>
-            )}
-            {roomState && (
-              <>
-                <button
-                  onClick={openRules}
-                  className="button absolute top-2 right-2"
-                  title={t("room.rules.title")}
-                >
-                  <SvgBookOpen />
-                </button>
-                <RoomRules
-                  active={activeRules}
-                  close={closeRules}
-                  roomState={roomState}
-                />
-              </>
-            )}
-          </div>
-          <div
-            className={`w-full ${
-              tab === "chat" ? "" : "hidden"
-            } lg:block flex-1 overflow-hidden`}
-            style={{
-              background: "linear-gradient(0deg, rgba(0,0,0,.1), transparent)",
-            }}
-          >
-            <RoomChat room={room} roomState={roomState || undefined} />
+            <button
+              onClick={expandQueue}
+              className="h-12 w-full button rounded-none lg:hidden"
+            >
+              Queue
+            </button>
+            <div
+              className={`w-full h-full flex flex-col z-30 fixed inset-0 lg:static ${
+                expandedQueue ? "block" : "hidden"
+              } bg-background p-2 lg:p-0 lg:bg-transparent lg:block`}
+            >
+              <RoomQueue room={room} roomState={roomState || undefined} />
+              <button
+                onClick={collapseQueue}
+                className="h-12 w-full flex-none button button-success mt-2 lg:hidden"
+              >
+                Done
+              </button>
+            </div>
           </div>
         </div>
       </div>

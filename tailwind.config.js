@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     colors: {
       background: {
-        default: "#000",
+        default: "#000c1e",
         secondary: "rgba(255,255,255,.1)",
         tertiary: "rgba(255,255,255,.2)",
       },

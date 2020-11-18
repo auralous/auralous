@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import Portal from "@reach/portal";
-// @ts-ignore
-import ColorThief from "colorthief";
 import PlayerPlatformChooser from "./PlayerPlatformChooser";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
@@ -16,8 +14,6 @@ const YouTubePlayer = dynamic(() => import("./YouTubePlayer"), { ssr: false });
 const SpotifyPlayer = dynamic(() => import("./SpotifyPlayer"), { ssr: false });
 
 const player = new Player();
-
-let colorThief: ColorThief;
 
 const PlayerProvider: React.FC = ({ children }) => {
   const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
@@ -130,20 +126,7 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   const fetching = fetchingMAuth || fetchingCrossTracks || fetchingNP;
 
-  const [playingThemeColor, setPlayingThemeColor] = useState<string>("#001431");
-
-  useEffect(() => {
-    if (!playerPlaying) return;
-    // YouTube image cannot use with cors
-    if (playerPlaying.platform === PlatformName.Youtube) return;
-    const img = new Image();
-    img.addEventListener("load", () => {
-      colorThief = colorThief || new ColorThief();
-      setPlayingThemeColor(`rgb(${colorThief.getColor(img).join(", ")}`);
-    });
-    img.crossOrigin = "Anonymous";
-    img.src = playerPlaying.image;
-  }, [playerPlaying]);
+  const [playingThemeColor] = useState<string>("#001431");
 
   const playerContextValue = useMemo<IPlayerContext>(() => {
     let error: PlayerError | undefined;

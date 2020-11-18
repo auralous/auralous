@@ -48,7 +48,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
   const canReact = playerPlaying && !nowPlayingReaction?.mine;
 
   const getClassname = (type: NowPlayingReactionType) =>
-    `flex-1 button transform transition rounded-full p-2 mx-1 ${
+    `flex-1 button transform transition rounded-full p-1 mr-1 ${
       nowPlayingReaction?.mine === type
         ? "bg-pink opacity-100"
         : "bg-opacity-25"
@@ -84,7 +84,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
   ]);
 
   return (
-    <div className="flex max-w-sm mx-auto overflow-x-auto text-sm">
+    <div className="flex max-w-sm overflow-x-auto text-sm">
       <button
         ref={btnHeart}
         onClick={() => react(NowPlayingReactionType.Heart)}
