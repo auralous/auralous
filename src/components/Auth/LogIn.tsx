@@ -7,14 +7,12 @@ import React, {
   useCallback,
 } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { Dialog } from "@reach/dialog";
+import Welcome from "./Welcome";
 import { useModal } from "~/components/Modal/index";
 import { useI18n } from "~/i18n/index";
 import { SvgSpotify, SvgGoogleColor } from "~/assets/svg";
 import { PlatformName } from "~/graphql/gql.gen";
-
-const Welcome = dynamic(() => import("./Welcome"), { ssr: false });
 
 const SignInContext = createContext<[boolean, () => void]>([
   false,
@@ -98,10 +96,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
         aria-label={t("auth.label")}
         isOpen={active}
         onDismiss={close}
-        className="h-full w-full p-2"
+        className="p-4"
       >
         <div className="container">
-          <div className="text-center flex flex-col items-center px-2 py-24">
+          <div className="text-center flex flex-col items-center p-4">
             <h1 className="text-3xl font-bold">Hellooo!</h1>
             <div className="flex flex-wrap flex-center">
               <div className="m-1 p-2 flex flex-col">
@@ -192,7 +190,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
           </p>
         </div>
       </Dialog>
-      {activeWelcome && <Welcome active={activeWelcome} close={close} />}
+      <Welcome active={activeWelcome} close={close} />
     </>
   );
 };
