@@ -155,7 +155,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   const {
     player,
-    state: { playingRoomId, playerPlaying, originalTrack },
+    state: { playingRoomId, playerPlaying, originalTrack, playingThemeColor },
     playRoom,
   } = usePlayer();
 
@@ -181,7 +181,11 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   return (
     <>
-      <div className="flex items-center bg-black bg-opacity-25 rounded-lg overflow-hidden">
+      <div
+        className="flex items-center rounded-lg overflow-hidden relative"
+        style={{ backgroundColor: playingThemeColor }}
+      >
+        <div className="bg-black absolute inset-0" style={{ opacity: ".15" }} />
         <div className="w-24 h-24 lg:w-32 lg:h-32">
           <div className="pb-full h-0 relative mx-auto bg-background-secondary overflow-hidden">
             {track && (
@@ -199,11 +203,12 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
             aria-label={isPlaying ? t("player.pause") : t("player.play")}
             className={`${
               !playerPlaying && roomPlayingStarted ? "hidden" : "flex"
-            } flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white text-black transform hover:scale-105 transition-transform duration-300`}
+            } flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white transform hover:scale-105 transition-transform duration-300`}
             onClick={() => {
               if (!roomPlayingStarted) return playRoom(roomId);
               isPlaying ? player.pause() : player.play();
             }}
+            style={{ color: playingThemeColor }}
           >
             {isPlaying ? (
               <SvgPause className="ml-1 w-6 h-6 fill-current" />
