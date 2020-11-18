@@ -187,7 +187,7 @@
     "noneText": "Không có bài hát",
     "noneHelpText": "Thêm nhạc vào danh sách phát để nghe cùng nhau",
     "pausedText": "Âm nhạc đã dừng",
-    "pausedHelpText": "Nhấn vào nút dưới để bắt đầu phát",
+    "pausedHelpText": "Nhấn vào nút phát để bắt đầu nghe",
     "noCrossTrackText": "không có sẵn trên",
     "platformChooser": {
       "altTitle": "Chọn ứng dụng nghe nhạc",

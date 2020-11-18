@@ -187,7 +187,7 @@
     "noneText": "Nothing is playing",
     "noneHelpText": "Add a song to listen together",
     "pausedText": "Music has been paused",
-    "pausedHelpText": "Use the button below to unpause",
+    "pausedHelpText": "Press play to start listening",
     "noCrossTrackText": "is not available on",
     "platformChooser": {
       "altTitle": "Choose music application to play",
