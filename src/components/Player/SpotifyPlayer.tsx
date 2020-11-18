@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import axios from "redaxios";
 import { useToasts } from "~/components/Toast/index";
 import { Modal } from "~/components/Modal/index";
 import usePlayer from "./usePlayer";
@@ -134,101 +135,88 @@ export default function SpotifyPlayer() {
       return setStatus((s) => (s !== "NO_SUPPORT" ? "AUTH_ASK" : s));
 
     let spotifyPlayer: Spotify.SpotifyPlayer | null = null;
-    const spotifyData: {
-      currentTrackId?: string;
-      device_id?: string;
-      state?: Spotify.PlaybackState;
-    } = {};
+    let spotifyState: Spotify.PlaybackState | null = null;
+
+    const onError = (e: Spotify.Error) => toasts.error(e.message);
+    const onReady: Spotify.PlaybackInstanceListener = ({ device_id }) => {
+      player.registerPlayer({
+        play: () => spotifyPlayer?.resume(),
+        seek: (ms) => spotifyPlayer?.seek(ms).then(() => player.emit("seeked")),
+        pause: () => spotifyPlayer?.pause(),
+        loadById: playById.bind(undefined, device_id),
+        setVolume: (p) => spotifyPlayer?.setVolume(p),
+        // Note: It is impossible to determine spotify without a promise
+        isPlaying: () => !spotifyState?.paused,
+      });
+      // get duration
+      // durationInterval = window.setInterval(async () => {
+      //   player.emit(
+      //     "time",
+      //     (await spotifyPlayer?.getCurrentState())?.position || 0
+      //   );
+      // }, 1000);
+      setStatus("OK");
+    };
+    const instance: typeof axios = axios.create({
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    const playById = async (device_id: string, externalId: string) => {
+      if (externalId === spotifyState?.track_window.current_track.id) return;
+      const resp = await instance.put(
+        `${BASE_URL}/me/player/play`,
+        { uris: [`spotify:track:${externalId}`] },
+        {
+          validateStatus: () => true,
+          params: { device_id },
+        }
+      );
+      if (resp.status !== 204 && resp.data?.error) {
+        onError(resp.data.error);
+        if (resp.data.error.reason === "PREMIUM_REQUIRED")
+          return setStatus("NO_PREMIUM");
+      }
+      await sleep(500);
+      spotifyPlayer?.resume();
+    };
+    const onState: Spotify.PlaybackStateListener = (state) => {
+      if (!state) return;
+      state.paused ? player.emit("paused") : player.emit("playing");
+      // FIXME: Temporary workaround only https://github.com/spotify/web-playback-sdk/issues/35#issuecomment-509159445
+      if (
+        spotifyState &&
+        state.track_window.previous_tracks[0]?.id ===
+          state.track_window.current_track.id &&
+        !spotifyState.paused &&
+        state.paused
+      ) {
+        // track end
+        player.emit("ended");
+      }
+      spotifyState = state;
+    };
 
     let durationInterval: number; // ID of setInterval
 
-    async function playById(externalId: string) {
-      if (!spotifyData.device_id) return;
-      if (externalId === spotifyData.currentTrackId) return;
-      await fetch(
-        `${BASE_URL}/me/player/play?device_id=${spotifyData.device_id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify({ uris: [`spotify:track:${externalId}`] }),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      await sleep(500);
-
-      const json = await fetch(`${BASE_URL}/me/player/currently-playing`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-        .then((response) => response.json())
-        .catch(() => null);
-      if (!json) return;
-      spotifyData.currentTrackId = json.item?.id;
-      spotifyPlayer?.resume();
-    }
-
     async function init() {
       if (!window.Spotify?.Player) return;
-      if (spotifyPlayer) return;
-      spotifyPlayer = new window.Spotify.Player({
-        name: "Stereo Web Player",
-        getOAuthToken: (cb) => accessToken && cb(accessToken),
-      });
+      spotifyPlayer =
+        spotifyPlayer ||
+        new window.Spotify.Player({
+          name: "Stereo Web Player",
+          getOAuthToken: (cb) => accessToken && cb(accessToken),
+        });
       // readiness
-      spotifyPlayer.addListener(
-        "ready",
-        ({ device_id }: { device_id: string }) => {
-          spotifyData.device_id = device_id;
-          player.registerPlayer({
-            play: () => spotifyPlayer?.resume(),
-            seek: (ms) =>
-              spotifyPlayer?.seek(ms).then(() => player.emit("seeked")),
-            pause: () => spotifyPlayer?.pause(),
-            loadById: playById,
-            setVolume: (p) => spotifyPlayer?.setVolume(p),
-            // Note: It is impossible to determine spotify without a promise
-            isPlaying: () => !spotifyData.state?.paused,
-          });
-          // get duration
-          // durationInterval = window.setInterval(async () => {
-          //   player.emit(
-          //     "time",
-          //     (await spotifyPlayer?.getCurrentState())?.position || 0
-          //   );
-          // }, 1000);
-          setStatus("OK");
-        }
-      );
+      spotifyPlayer.addListener("ready", onReady);
       // state handling
-      spotifyPlayer.addListener("player_state_changed", (state) => {
-        if (!state) return;
-        state.paused ? player.emit("paused") : player.emit("playing");
-        // FIXME: Temporary workaround only https://github.com/spotify/web-playback-sdk/issues/35#issuecomment-509159445
-        if (
-          spotifyData.state &&
-          state.track_window.previous_tracks[0]?.id ===
-            state.track_window.current_track.id &&
-          !spotifyData.state.paused &&
-          state.paused
-        ) {
-          // track end
-          player.emit("ended");
-        }
-        spotifyData.state = state;
-      });
+      spotifyPlayer.addListener("player_state_changed", onState);
       // error handling
-      spotifyPlayer.addListener("authentication_error", () =>
-        setStatus((s) => (s !== "NO_SUPPORT" ? "AUTH_ERROR" : s))
-      );
+
+      spotifyPlayer.addListener("authentication_error", onError);
       spotifyPlayer.addListener("initialization_error", () =>
         setStatus("NO_SUPPORT")
       );
-      spotifyPlayer.addListener("account_error", () => setStatus("NO_PREMIUM"));
-      spotifyPlayer.addListener("playback_error", ({ message }) =>
-        toasts.error(message)
-      );
+      spotifyPlayer.addListener("account_error", onError);
+      spotifyPlayer.addListener("playback_error", onError);
       // connect
       spotifyPlayer.connect();
     }
@@ -250,6 +238,7 @@ export default function SpotifyPlayer() {
       spotifyPlayer.removeListener("playback_error");
       spotifyPlayer.disconnect();
       spotifyPlayer = null;
+      spotifyState = null;
     };
   }, [accessToken, toasts, player]);
 
@@ -323,7 +312,7 @@ export default function SpotifyPlayer() {
             </>
           )}
           {status === "NO_PREMIUM" && (
-            <p className="bg-black p-2 rounded-lg font-bold bg-opacity-50">
+            <p className="text-lg font-bold leading-tight">
               {t("player.spotify.premiumRequired")}.
             </p>
           )}
