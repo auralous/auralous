@@ -60,7 +60,7 @@
       "authPrompt": "Tham gia Stereo để tùy chỉnh thông tin về bạn."
     },
     "username": {
-      "label": "Username",
+      "label": "Tên người dùng",
       "helpText": "Tối đa 15 kí tự, viết thường, không khoản cách và kí tự đặc biệt"
     },
     "profilePicture": { "label": "Ảnh đại diện" },
@@ -120,13 +120,16 @@
     },
     "settings": {
       "title": "Cài đặt phòng",
+      "titleInfo": "Thông tin phòng",
+      "titleRules": "Luật lệ và truy cập",
+      "titleMembers": "Thành viên phòng",
       "shortTitle": "Cài đặt",
       "info": {
         "title": "Tên",
         "description": "Mô tả",
         "titleHelp": "Enter a title for the room",
         "descriptionHelp": "Đặt tên phòng của bạn",
-        "handle": "Handle"
+        "username": "Tên người dùng"
       },
       "privacy": {
         "title": "Công khai",
@@ -157,7 +160,8 @@
           "deleted": "Phòng đã bị xoá"
         }
       },
-      "updatedText": "Phòng đã được cập nhật"
+      "updatedText": "Phòng đã được cập nhật",
+      "backToRoom": "Trờ lại phòng"
     },
     "rules": {
       "title": "Quy tắc phòng",

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import RoomSettings from "./RoomSettings/index";
 import RoomRules from "./RoomRules";
 import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
 import { ShareDialog } from "~/components/Social/index";
@@ -120,6 +119,7 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
             <form className="flex my-1" onSubmit={handleJoinPrivateRoom}>
               <input
                 type="password"
+                autoComplete="current-password"
                 aria-label="Password"
                 ref={passwordRef}
                 className="input w-full mr-1"
@@ -174,7 +174,6 @@ const Navbar: React.FC<{
   const user = useCurrentUser();
   const router = useRouter();
   const [activeShare, openShare, closeShare] = useModal();
-  const [activeSettings, openSettings, closeSettings] = useModal();
   const [activeRules, openRules, closeRules] = useModal();
 
   return (
@@ -215,20 +214,17 @@ const Navbar: React.FC<{
             </>
           )}
           {room.creatorId === user?.id && roomState && (
-            <>
-              <button onClick={openSettings} className="button p-2">
+            <Link
+              href="/room/[roomId]/settings"
+              as={`/room/${room.id}/settings`}
+            >
+              <a className="button p-2">
                 <SvgSettings width="14" height="14" className="sm:mr-1" />
                 <span className="text-sm sr-only sm:not-sr-only leading-none">
                   {t("room.settings.shortTitle")}
                 </span>
-              </button>
-              <RoomSettings
-                roomState={roomState}
-                active={activeSettings}
-                close={closeSettings}
-                room={room}
-              />
-            </>
+              </a>
+            </Link>
           )}
         </div>
       </div>

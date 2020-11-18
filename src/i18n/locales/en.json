@@ -121,12 +121,15 @@
     "settings": {
       "title": "Room Settings",
       "shortTitle": "Settings",
+      "titleInfo": "Room Info",
+      "titleRules": "Room Rules and Access",
+      "titleMembers": "Room Members",
       "info": {
         "title": "Title",
         "description": "Description",
         "titleHelp": "Enter a title for the room",
         "descriptionHelp": "Enter a description for the room",
-        "handle": "Handle"
+        "username": "Username"
       },
       "privacy": {
         "title": "Privacy",
@@ -157,7 +160,8 @@
           "deleted": "Room deleted"
         }
       },
-      "updatedText": "Room Updated"
+      "updatedText": "Room Updated",
+      "backToRoom": "Go back to room"
     },
     "rules": {
       "title": "Room Rules",

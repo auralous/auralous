@@ -70,6 +70,7 @@ const RoomSettingsRules: React.FC<{
             </p>
             <input
               type="password"
+              autoComplete="new-password"
               id="password"
               ref={passwordRef}
               className="input"

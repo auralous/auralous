@@ -76,11 +76,11 @@ const InfoEditSection: React.FC<{
       </div>
       {/* TODO: Not yet implemented */}
       <div className="mb-4">
-        <label className="label" htmlFor="roomHandle">
-          {t("room.settings.info.handle")}
+        <label className="label" htmlFor="roomUsername">
+          {t("room.settings.info.username")}
         </label>
         <input
-          id="roomHandle"
+          id="roomUsername"
           disabled
           className="input w-full"
           type="text"
@@ -94,25 +94,56 @@ const InfoEditSection: React.FC<{
 
 const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
   const { t } = useI18n();
-  const [, updateRoom] = useUpdateRoomMutation();
+  const [{ fetching }, updateRoom] = useUpdateRoomMutation();
+
+  const [isChanged, setIsChanged] = useState(false);
+
   const toasts = useToasts();
   const formRef = useRef<HTMLFormElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+
   useEffect(() => {
+    setIsChanged(false);
+
+    const formNode = formRef.current;
+    const titleNode = titleRef.current;
+    const descriptionNode = descriptionRef.current;
+    const imageInputNode = imageInputRef.current;
+    const imageNode = imageRef.current;
+
+    if (
+      !formNode ||
+      !titleNode ||
+      !descriptionNode ||
+      !imageInputNode ||
+      !imageNode
+    )
+      return;
+
     (formRef.current as HTMLFormElement).reset();
-    (titleRef.current as HTMLInputElement).value = room.title;
-    (descriptionRef.current as HTMLTextAreaElement).value =
-      room.description || "";
-    (imageRef.current as HTMLImageElement).src = room.image;
+
+    titleNode.value = room.title;
+    descriptionNode.value = room.description || "";
+    imageNode.src = room.image;
+
+    const onChange = () => setIsChanged(true);
+    titleNode.oninput = onChange;
+    descriptionNode.oninput = onChange;
+    imageInputNode.onchange = onChange;
+    return () => {
+      titleNode.oninput = null;
+      descriptionNode.oninput = null;
+      imageInputNode.onchange = null;
+    };
   }, [room]);
 
   const handleSubmit = useCallback(
     async (event: React.FormEvent) => {
       event.preventDefault();
-      const image = (imageInputRef.current as HTMLInputElement).files?.[0];
+      const image = imageInputRef.current?.files?.[0];
       const title =
         titleRef.current?.value !== room.title && titleRef.current?.value;
       const description =
@@ -149,8 +180,12 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
           />
         </div>
       </div>
-      <button type="submit" className="button button-success w-full mt-2">
-        {t("common.save")}
+      <button
+        type="submit"
+        className="button mt-2"
+        disabled={!isChanged || fetching}
+      >
+        {isChanged ? t("common.save") : t("common.saved")}
       </button>
     </form>
   );
