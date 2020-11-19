@@ -18,6 +18,99 @@ export type Scalars = {
 
 
 
+export enum MessageType {
+  Message = 'message',
+  Join = 'join'
+}
+
+export type Query = {
+  __typename?: 'Query';
+  messages?: Maybe<Array<Message>>;
+  nowPlaying?: Maybe<NowPlaying>;
+  nowPlayingReactions?: Maybe<NowPlayingReaction>;
+  queue?: Maybe<Queue>;
+  room?: Maybe<Room>;
+  roomState?: Maybe<RoomState>;
+  rooms?: Maybe<Array<Room>>;
+  exploreRooms: Array<Room>;
+  searchRooms: Array<Room>;
+  track?: Maybe<Track>;
+  crossTracks?: Maybe<CrossTracks>;
+  searchTrack: Array<Track>;
+  me?: Maybe<User>;
+  user?: Maybe<User>;
+};
+
+
+export type QueryMessagesArgs = {
+  id: Scalars['ID'];
+  offset?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryNowPlayingArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryNowPlayingReactionsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryQueueArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryRoomArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryRoomStateArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryRoomsArgs = {
+  creatorId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryExploreRoomsArgs = {
+  by: Scalars['String'];
+};
+
+
+export type QuerySearchRoomsArgs = {
+  query: Scalars['String'];
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryTrackArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryCrossTracksArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QuerySearchTrackArgs = {
+  platform: PlatformName;
+  query: Scalars['String'];
+};
+
+
+export type QueryUserArgs = {
+  username?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addMessage: Scalars['Boolean'];
@@ -35,8 +128,8 @@ export type Mutation = {
 
 
 export type MutationAddMessageArgs = {
-  roomId: Scalars['ID'];
-  message: Scalars['String'];
+  id: Scalars['ID'];
+  text: Scalars['String'];
 };
 
 
@@ -116,7 +209,7 @@ export type Subscription = {
 
 
 export type SubscriptionMessageAddedArgs = {
-  roomId: Scalars['ID'];
+  id: Scalars['ID'];
 };
 
 
@@ -142,18 +235,10 @@ export type SubscriptionRoomStateUpdatedArgs = {
 export type Message = {
   __typename?: 'Message';
   id: Scalars['ID'];
+  creatorId: Scalars['String'];
   createdAt: Scalars['DateTime'];
-  message: Scalars['String'];
-  from: MessageParticipant;
-};
-
-export type MessageParticipant = {
-  __typename?: 'MessageParticipant';
-  type: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  photo: Scalars['String'];
-  uri: Scalars['String'];
+  text?: Maybe<Scalars['String']>;
+  type: MessageType;
 };
 
 export enum NowPlayingReactionType {
@@ -162,86 +247,6 @@ export enum NowPlayingReactionType {
   Fire = 'fire',
   Cry = 'cry'
 }
-
-export type Query = {
-  __typename?: 'Query';
-  nowPlaying?: Maybe<NowPlaying>;
-  nowPlayingReactions?: Maybe<NowPlayingReaction>;
-  queue?: Maybe<Queue>;
-  room?: Maybe<Room>;
-  roomState?: Maybe<RoomState>;
-  rooms?: Maybe<Array<Room>>;
-  exploreRooms: Array<Room>;
-  searchRooms: Array<Room>;
-  track?: Maybe<Track>;
-  crossTracks?: Maybe<CrossTracks>;
-  searchTrack: Array<Track>;
-  me?: Maybe<User>;
-  user?: Maybe<User>;
-};
-
-
-export type QueryNowPlayingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryNowPlayingReactionsArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryQueueArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryRoomArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryRoomStateArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryRoomsArgs = {
-  creatorId?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryExploreRoomsArgs = {
-  by: Scalars['String'];
-};
-
-
-export type QuerySearchRoomsArgs = {
-  query: Scalars['String'];
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryTrackArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryCrossTracksArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QuerySearchTrackArgs = {
-  platform: PlatformName;
-  query: Scalars['String'];
-};
-
-
-export type QueryUserArgs = {
-  username?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-};
 
 export type NowPlayingQueueItem = {
   __typename?: 'NowPlayingQueueItem';
@@ -357,26 +362,37 @@ export type User = {
 
 export type MessagePartsFragment = (
   { __typename?: 'Message' }
-  & Pick<Message, 'id' | 'createdAt' | 'message'>
-  & { from: (
-    { __typename?: 'MessageParticipant' }
-    & Pick<MessageParticipant, 'type' | 'id' | 'name' | 'photo' | 'uri'>
-  ) }
+  & Pick<Message, 'id' | 'creatorId' | 'createdAt' | 'text' | 'type'>
 );
 
-export type SendMessageMutationVariables = Exact<{
-  roomId: Scalars['ID'];
-  message: Scalars['String'];
+export type MessagesQueryVariables = Exact<{
+  id: Scalars['ID'];
+  offset?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type SendMessageMutation = (
+export type MessagesQuery = (
+  { __typename?: 'Query' }
+  & { messages?: Maybe<Array<(
+    { __typename?: 'Message' }
+    & MessagePartsFragment
+  )>> }
+);
+
+export type AddMessageMutationVariables = Exact<{
+  id: Scalars['ID'];
+  text: Scalars['String'];
+}>;
+
+
+export type AddMessageMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'addMessage'>
 );
 
 export type OnMessageAddedSubscriptionVariables = Exact<{
-  roomId: Scalars['ID'];
+  id: Scalars['ID'];
 }>;
 
 
@@ -808,15 +824,10 @@ export type DeleteMeMutation = (
 export const MessagePartsFragmentDoc = gql`
     fragment MessageParts on Message {
   id
+  creatorId
   createdAt
-  message
-  from {
-    type
-    id
-    name
-    photo
-    uri
-  }
+  text
+  type
 }
     `;
 export const NowPlayingQueuePartsFragmentDoc = gql`
@@ -892,18 +903,29 @@ export const UserPublicPartsFragmentDoc = gql`
   profilePicture
 }
     `;
-export const SendMessageDocument = gql`
-    mutation sendMessage($roomId: ID!, $message: String!) {
-  addMessage(roomId: $roomId, message: $message)
+export const MessagesDocument = gql`
+    query messages($id: ID!, $offset: Int, $limit: Int) {
+  messages(id: $id, offset: $offset, limit: $limit) {
+    ...MessageParts
+  }
+}
+    ${MessagePartsFragmentDoc}`;
+
+export function useMessagesQuery(options: Omit<Urql.UseQueryArgs<MessagesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MessagesQuery>({ query: MessagesDocument, ...options });
+};
+export const AddMessageDocument = gql`
+    mutation addMessage($id: ID!, $text: String!) {
+  addMessage(id: $id, text: $text)
 }
     `;
 
-export function useSendMessageMutation() {
-  return Urql.useMutation<SendMessageMutation, SendMessageMutationVariables>(SendMessageDocument);
+export function useAddMessageMutation() {
+  return Urql.useMutation<AddMessageMutation, AddMessageMutationVariables>(AddMessageDocument);
 };
 export const OnMessageAddedDocument = gql`
-    subscription onMessageAdded($roomId: ID!) {
-  messageAdded(roomId: $roomId) {
+    subscription onMessageAdded($id: ID!) {
+  messageAdded(id: $id) {
     ...MessageParts
   }
 }

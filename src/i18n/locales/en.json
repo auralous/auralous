@@ -277,9 +277,12 @@
     "copied": "Copied",
     "via": "Share this via"
   },
-  "chat": {
+  "message": {
     "inputLabel": "Enter chat message",
-    "inputPlaceholder": "Say something, I'm giving up on you 🎵"
+    "inputPlaceholder": "Say something, I'm giving up on you 🎵",
+    "loadOlder": "Load previous messages",
+    "loadLatest": "Latest messages",
+    "welcomeMessage": "Start chatting!"
   },
   "auth": {
     "hookDefault": "Start listening to music in sync with friends in public or private rooms. All you need is an YouTube, Spotify, or Apple Music account.",

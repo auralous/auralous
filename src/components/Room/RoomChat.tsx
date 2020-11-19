@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
-import { Chatbox } from "~/components/Chat/index";
+import { Messager } from "~/components/Message/index";
 import {
   Room,
   RoomMembership,
@@ -109,7 +109,7 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
             </TabList>
             <TabPanels className="flex-1">
               <TabPanel className="h-full">
-                <Chatbox roomId={room.id} />
+                <Messager id={`room:${room.id}`} />
               </TabPanel>
               <TabPanel className="h-full">
                 <RoomUsers room={room} roomState={roomState} />
