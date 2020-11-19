@@ -191,7 +191,7 @@ const MessageInput: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
-const Messager: React.FC<{ id: string }> = ({ id }) => {
+const Messenger: React.FC<{ id: string }> = ({ id }) => {
   return (
     <div className="h-full w-full flex flex-col justify-between">
       <MessageList id={id} />
@@ -200,4 +200,4 @@ const Messager: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
-export default Messager;
+export default Messenger;
