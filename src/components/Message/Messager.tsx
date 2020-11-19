@@ -33,6 +33,7 @@ const MessageItem: React.FC<{
 
   return (
     <div
+      role="listitem"
       className={`relative w-full pl-12 hover:bg-background-secondary ${
         isGrouped ? "" : "mt-3"
       }`}
@@ -129,6 +130,9 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
       className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4"
       onScroll={onScroll}
       ref={messageListRef}
+      aria-label={t("message.listLabel", { name: "" })}
+      role="log"
+      aria-live="off"
     >
       <div className="h-12">
         {hasMore ? (

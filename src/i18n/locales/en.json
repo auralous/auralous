@@ -280,6 +280,7 @@
   "message": {
     "inputLabel": "Enter chat message",
     "inputPlaceholder": "Say something, I'm giving up on you 🎵",
+    "listLabel": "Messages in {{name}}",
     "loadOlder": "Load previous messages",
     "loadLatest": "Latest messages",
     "welcomeMessage": "Start chatting!"

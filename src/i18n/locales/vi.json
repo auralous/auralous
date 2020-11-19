@@ -280,6 +280,7 @@
   "message": {
     "inputLabel": "Nhập tin nhắn",
     "inputPlaceholder": "Say something, I'm giving up on you 🎵",
+    "listLabel": "Tin nhắn trong {{name}}",
     "loadOlder": "Tải tin nhắn cũ",
     "loadLatest": "Xem tin nhắn mới nhất",
     "welcomeMessage": "Trò chuyện thôi nào!"
