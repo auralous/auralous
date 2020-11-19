@@ -16,7 +16,7 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
-const LIMIT = 10;
+const LIMIT = 20;
 const GROUPED_TIME_DIFF = 10 * 60 * 1000; // within 10 min should be grouped
 
 const MessageItem: React.FC<{
@@ -69,33 +69,34 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
 
   const scrollShouldFollow = useRef(true);
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [prevMessages, setPrevMessages] = useState<Message[]>([]);
 
   const [offset, setOffset] = useState(0);
 
-  const [{ data, fetching }] = useMessagesQuery({
+  const [{ data, fetching, stale }] = useMessagesQuery({
     variables: { id, limit: LIMIT, offset },
+    requestPolicy: "cache-and-network",
   });
 
   useEffect(() => {
-    if (!data?.messages?.length) return;
-    setMessages((prevMessages) => [...data.messages, ...prevMessages]);
-  }, [data]);
+    if (!data?.messages?.length || stale) return;
+    setPrevMessages((prev) => [...data.messages, ...prev]);
+  }, [data, stale]);
 
-  useOnMessageAddedSubscription<Message[]>(
-    { variables: { id } },
-    (_, response) => {
+  const [{ data: newMessages = [] }] = useOnMessageAddedSubscription<Message[]>(
+    { variables: { id }, pause: !data?.messages },
+    (prev = [], response) => {
       response.messageAdded.createdAt = new Date(
         response.messageAdded.createdAt
       );
-      setMessages([...messages, response.messageAdded]);
-      return [];
+      return [...prev, response.messageAdded];
     }
   );
 
-  useEffect(() => {
-    setMessages([]);
-  }, [id]);
+  const messages = useMemo(() => [...prevMessages, ...newMessages], [
+    prevMessages,
+    newMessages,
+  ]);
 
   const messageListRef = useRef<HTMLDivElement>(null);
 
