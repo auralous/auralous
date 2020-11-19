@@ -34,7 +34,7 @@ const MessageItem: React.FC<{
   return (
     <div
       role="listitem"
-      className={`relative w-full pl-12 hover:bg-background-secondary ${
+      className={`relative w-full pl-12 pr-8 hover:bg-background-secondary ${
         isGrouped ? "" : "mt-3"
       }`}
     >
