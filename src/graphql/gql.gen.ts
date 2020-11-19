@@ -20,7 +20,8 @@ export type Scalars = {
 
 export enum MessageType {
   Message = 'message',
-  Join = 'join'
+  Join = 'join',
+  Play = 'play'
 }
 
 export type Query = {

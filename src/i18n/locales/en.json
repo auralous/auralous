@@ -282,7 +282,10 @@
     "inputPlaceholder": "Say something, I'm giving up on you 🎵",
     "listLabel": "Messages in {{name}}",
     "loadOlder": "Load previous messages",
-    "loadLatest": "Latest messages"
+    "loadLatest": "Latest messages",
+    "play": {
+      "text": "{{username}} played"
+    }
   },
   "auth": {
     "hookDefault": "Start listening to music in sync with friends in public or private rooms. All you need is an YouTube, Spotify, or Apple Music account.",
