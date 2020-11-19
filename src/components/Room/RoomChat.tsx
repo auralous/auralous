@@ -107,7 +107,7 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
                 </span>
               </Tab>
             </TabList>
-            <TabPanels className="flex-1">
+            <TabPanels className="flex-1 h-0">
               <TabPanel className="h-full">
                 <Messager id={`room:${room.id}`} />
               </TabPanel>

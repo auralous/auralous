@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import ms from "ms";
-import {
-  FixedSizeList as List,
-  ListChildComponentProps,
-  areEqual,
-} from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
 import { useCurrentUser } from "~/hooks/user";
 import {
   useMessagesQuery,
@@ -15,12 +15,10 @@ import {
   useUserQuery,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
-import { SvgChevronDown } from "~/assets/svg";
 
 const MessageItem: React.FC<{
   message: Message;
-  style?: React.CSSProperties;
-}> = ({ message, style }) => {
+}> = ({ message }) => {
   const user = useCurrentUser();
   const isCurrentUser = user?.id === message.creatorId;
   const dateDiff = Date.now() - message.createdAt;
@@ -30,7 +28,7 @@ const MessageItem: React.FC<{
   });
 
   return (
-    <div className="text-sm w-full" style={style}>
+    <div className="text-sm w-full">
       <div className="opacity-75 text-xs">
         <span
           className={`${
@@ -49,49 +47,12 @@ const MessageItem: React.FC<{
   );
 };
 
-const MessageRow = React.memo<ListChildComponentProps>(function MessageRow({
-  data,
-  index,
-  style,
-}) {
-  const { t } = useI18n();
-  if (index === 0) {
-    return (
-      <div className="h-12">
-        {data.hasMore ? (
-          <button
-            onClick={data.loadMore}
-            disabled={data.fetching}
-            className="button w-full text-sm p-2"
-          >
-            {t("message.loadOlder")}
-          </button>
-        ) : (
-          <p className="h-12 flex flex-center p-4 text-foreground-tertiary">
-            {t("message.welcomeMessage")}
-          </p>
-        )}
-      </div>
-    );
-  }
-  return (
-    <MessageItem
-      key={data.messages[index - 1].id}
-      message={data.messages[index - 1]}
-      style={style}
-    />
-  );
-},
-areEqual);
-
 const LIMIT = 10;
 
 const MessageList: React.FC<{ id: string }> = ({ id }) => {
   const { t } = useI18n();
 
-  const shouldScrollToBottom = useRef(true);
-
-  const [isFollowing, setIsFollowing] = useState(true);
+  const scrollShouldFollow = useRef(true);
 
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -121,59 +82,58 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
     setMessages([]);
   }, [id]);
 
-  const messageListRef = useRef<List>(null);
+  const messageListRef = useRef<HTMLDivElement>(null);
+
+  // Handle scroll and follow
+  const onScroll = useCallback(
+    ({ currentTarget }: React.UIEvent<HTMLDivElement, UIEvent>) => {
+      // Should unfollow if scroll up and follow again if scroll back to bottom
+      scrollShouldFollow.current =
+        currentTarget.scrollTop >=
+        currentTarget.scrollHeight - currentTarget.offsetHeight;
+    },
+    []
+  );
 
   useEffect(() => {
-    if (!messageListRef.current || !shouldScrollToBottom.current) return;
-    if (!isFollowing) return;
-    // The first item is the load more button
-    messageListRef.current.scrollToItem(messages.length - 1 + 1);
-  }, [isFollowing, messages]);
+    if (!messageListRef.current) return;
+    console.log(scrollShouldFollow.current);
+    if (scrollShouldFollow.current)
+      // Scroll to bottom
+      messageListRef.current.scrollTop =
+        messageListRef.current.scrollHeight -
+        messageListRef.current.offsetHeight;
+  }, [messages]);
 
   const hasMore = useMemo(
     () => Boolean(data?.messages && data.messages.length >= LIMIT),
     [data]
   );
 
-  const itemData = useMemo(() => {
-    return {
-      messages,
-      fetching,
-      loadMore: () => setOffset(messages.length),
-      hasMore,
-    };
-  }, [messages, hasMore, fetching]);
-
   return (
-    <div className="relative overflow-x-hidden overflow-y-auto p-4 w-full h-full flex flex-col">
-      <AutoSizer defaultHeight={1} defaultWidth={1}>
-        {({ height, width }) => (
-          <List
-            height={height}
-            width={width}
-            itemCount={messages.length + 1}
-            itemSize={48}
-            itemData={itemData}
-            ref={messageListRef}
-            onScroll={({ scrollDirection }) =>
-              !fetching &&
-              scrollDirection === "backward" &&
-              setIsFollowing(false)
-            }
+    <div
+      className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4 space-y-2"
+      onScroll={onScroll}
+      ref={messageListRef}
+    >
+      <div className="h-12">
+        {hasMore ? (
+          <button
+            onClick={() => setOffset(messages.length)}
+            disabled={fetching}
+            className="button w-full text-sm p-2"
           >
-            {MessageRow}
-          </List>
+            {t("message.loadOlder")}
+          </button>
+        ) : (
+          <p className="h-12 flex flex-center p-4 text-foreground-tertiary">
+            {t("message.welcomeMessage")}
+          </p>
         )}
-      </AutoSizer>
-      {!isFollowing && (
-        <button
-          title={t("message.loadLatest")}
-          onClick={() => setIsFollowing(true)}
-          className="button button-success p-1 w-6 h-6 absolute absolute-center top-auto bottom-2"
-        >
-          <SvgChevronDown />
-        </button>
-      )}
+      </div>
+      {messages.map((message) => (
+        <MessageItem key={message.id} message={message} />
+      ))}
     </div>
   );
 };
@@ -210,9 +170,7 @@ const Messager: React.FC<{ id: string }> = ({ id }) => {
   return (
     <div className="h-full w-full flex flex-col justify-between">
       <MessageList id={id} />
-      <div className="flex-none">
-        <MessageInput id={id} />
-      </div>
+      <MessageInput id={id} />
     </div>
   );
 };
