@@ -282,8 +282,7 @@
     "inputPlaceholder": "Say something, I'm giving up on you 🎵",
     "listLabel": "Tin nhắn trong {{name}}",
     "loadOlder": "Tải tin nhắn cũ",
-    "loadLatest": "Xem tin nhắn mới nhất",
-    "welcomeMessage": "Trò chuyện thôi nào!"
+    "loadLatest": "Xem tin nhắn mới nhất"
   },
   "auth": {
     "hookDefault": "Nghe nhạc cùng với bạn bè trong phòng công khai hoặc riêng tư. Tất cả bạn cần là một tài khoản YouTube, Spotify, hoặc Apple Music.",

@@ -134,21 +134,15 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
       role="log"
       aria-live="off"
     >
-      <div className="h-12">
-        {hasMore ? (
-          <button
-            onClick={() => setOffset(messages.length)}
-            disabled={fetching}
-            className="button w-full text-sm p-2"
-          >
-            {t("message.loadOlder")}
-          </button>
-        ) : (
-          <p className="h-12 flex flex-center p-4 text-foreground-tertiary">
-            {t("message.welcomeMessage")}
-          </p>
-        )}
-      </div>
+      {hasMore && (
+        <button
+          onClick={() => setOffset(messages.length)}
+          disabled={fetching}
+          className="button w-full text-xs p-1"
+        >
+          {t("message.loadOlder")}
+        </button>
+      )}
       {messages.map((message, index) => {
         // Whether message should be merged to previous
         const prevMessage = index > 0 ? messages[index - 1] : null;
