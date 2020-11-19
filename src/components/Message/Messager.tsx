@@ -40,7 +40,7 @@ const MessageItem: React.FC<{
         {" • "}
         <span className="text-white opacity-75">{dateDiffTxt}</span>
       </div>
-      <p className="text-white text-sm leading-tight text-opacity-75 truncate">
+      <p className="text-white text-sm leading-tight text-opacity-75">
         {message.text}
       </p>
     </div>
@@ -112,7 +112,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <div
-      className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4 space-y-2"
+      className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4 space-y-4"
       onScroll={onScroll}
       ref={messageListRef}
     >
