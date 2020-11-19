@@ -16,9 +16,13 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
+const LIMIT = 10;
+const GROUPED_TIME_DIFF = 10 * 60 * 1000; // within 10 min should be grouped
+
 const MessageItem: React.FC<{
   message: Message;
-}> = ({ message }) => {
+  isGrouped: boolean;
+}> = ({ message, isGrouped }) => {
   const user = useCurrentUser();
   const isCurrentUser = user?.id === message.creatorId;
   const dateDiff = Date.now() - message.createdAt;
@@ -28,26 +32,36 @@ const MessageItem: React.FC<{
   });
 
   return (
-    <div className="text-sm w-full">
-      <div className="opacity-75 text-xs">
-        <span
-          className={`${
-            isCurrentUser ? "bg-success-light rounded-lg px-1" : ""
-          } text-white font-bold`}
-        >
-          {sender?.username || ""}
-        </span>
-        {" • "}
-        <span className="text-white opacity-75">{dateDiffTxt}</span>
-      </div>
-      <p className="text-white text-sm leading-tight text-opacity-75">
+    <div
+      className={`relative w-full pl-12 hover:bg-background-secondary ${
+        isGrouped ? "" : "mt-3"
+      }`}
+    >
+      {!isGrouped && (
+        <>
+          <img
+            className="absolute top-1 left-1 w-8 h-8 rounded-full object-cover"
+            src={sender?.profilePicture}
+            alt={sender?.username}
+          />{" "}
+          <div className="flex opacity-75 text-xs pt-1">
+            <span
+              className={`${
+                isCurrentUser ? "bg-success-light rounded-lg px-1" : ""
+              } text-white font-bold`}
+            >
+              {sender?.username || ""}
+            </span>{" "}
+            <span className="text-white opacity-75 ml-1">{dateDiffTxt}</span>
+          </div>
+        </>
+      )}
+      <p className="text-white text-sm leading-relaxed text-opacity-75">
         {message.text}
       </p>
     </div>
   );
 };
-
-const LIMIT = 10;
 
 const MessageList: React.FC<{ id: string }> = ({ id }) => {
   const { t } = useI18n();
@@ -112,7 +126,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <div
-      className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4 space-y-4"
+      className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4"
       onScroll={onScroll}
       ref={messageListRef}
     >
@@ -131,9 +145,21 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
           </p>
         )}
       </div>
-      {messages.map((message) => (
-        <MessageItem key={message.id} message={message} />
-      ))}
+      {messages.map((message, index) => {
+        // Whether message should be merged to previous
+        const prevMessage = index > 0 ? messages[index - 1] : null;
+        const isGrouped =
+          prevMessage?.creatorId === message.creatorId &&
+          message.createdAt.getTime() - prevMessage.createdAt.getTime() <
+            GROUPED_TIME_DIFF;
+        return (
+          <MessageItem
+            key={message.id}
+            message={message}
+            isGrouped={isGrouped}
+          />
+        );
+      })}
     </div>
   );
 };
