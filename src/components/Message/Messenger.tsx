@@ -16,7 +16,7 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
-const LIMIT = 5;
+const LIMIT = 20;
 const GROUPED_TIME_DIFF = 10 * 60 * 1000; // within 10 min should be grouped
 
 const MessageItem: React.FC<{
@@ -45,19 +45,23 @@ const MessageItem: React.FC<{
             src={sender?.profilePicture}
             alt={sender?.username}
           />{" "}
-          <div className="flex opacity-75 text-xs pt-1">
+          <div className="flex items-center text-foreground text-opacity-75">
             <span
               className={`${
-                isCurrentUser ? "bg-success-light rounded-lg px-1" : ""
+                isCurrentUser
+                  ? "bg-success-light leading-tight text-opacity-75 rounded-lg px-1"
+                  : ""
               } text-white font-bold`}
             >
               {sender?.username || ""}
             </span>{" "}
-            <span className="text-white opacity-75 ml-1">{dateDiffTxt}</span>
+            <span className="text-foreground text-opacity-50 ml-2 text-sm">
+              {dateDiffTxt}
+            </span>
           </div>
         </>
       )}
-      <p className="text-white text-sm leading-relaxed text-opacity-75">
+      <p className="text-white leading-relaxed text-opacity-75">
         {message.text}
       </p>
     </div>
