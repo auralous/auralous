@@ -6,6 +6,7 @@ import {
 } from "urql";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
+import { simplePagination } from "./exchanges/simplePagination";
 import { refocusExchange } from "@urql/exchange-refocus";
 import { SubscriptionClient } from "benzene-ws-client";
 import { pipe, onPush } from "wonka";
@@ -55,6 +56,12 @@ const cacheExchange = createCacheExchange({
     QueueItem: () => null,
   },
   resolvers: {
+    Query: {
+      messages: simplePagination({
+        offsetArgument: "offset",
+        mergeMode: "inwards",
+      }),
+    },
     Message: {
       // @ts-ignore
       createdAt: (parent) => new Date(parent.createdAt),
