@@ -29,14 +29,6 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
     return queue.items.map(({ trackId }) => trackId);
   }, [queue]);
 
-  const permission = useMemo(
-    () => ({
-      canManage: Boolean(roomState.permission.queueCanManage),
-      canAdd: Boolean(roomState.permission.queueCanAdd),
-    }),
-    [roomState]
-  );
-
   const onAddTracks = useCallback(
     (newTrackArray: string[]) => {
       return updateQueue({
@@ -61,10 +53,16 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
               <Tab className={getClassName(0)}>
                 {t("room.queue.queue.title")}
               </Tab>
-              <Tab className={getClassName(1)} disabled={!permission.canAdd}>
+              <Tab
+                className={getClassName(1)}
+                disabled={!roomState.permission.queueCanAdd}
+              >
                 {t("room.queue.search.title")}
               </Tab>
-              <Tab className={getClassName(2)} disabled={!permission.canAdd}>
+              <Tab
+                className={getClassName(2)}
+                disabled={!roomState.permission.queueCanAdd}
+              >
                 {t("room.queue.playlist.title")}
               </Tab>
               <Tab
@@ -81,7 +79,7 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
                 } relative flex-col h-full`}
               >
                 <QueueManager
-                  permission={permission}
+                  permission={roomState.permission}
                   queueId={`room:${room.id}`}
                 />
               </TabPanel>
@@ -114,7 +112,9 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
                 } flex-col h-full overflow-hidden`}
               >
                 <QueueViewer
-                  onAdd={permission.canAdd ? onAddTracks : undefined}
+                  onAdd={
+                    roomState.permission.queueCanAdd ? onAddTracks : undefined
+                  }
                   queueId={`room:${room.id}:played`}
                   reverse
                   queryOpts={selectedIndex === 3 ? undefined : { pause: true }}

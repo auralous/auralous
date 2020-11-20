@@ -179,7 +179,6 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
 
   useEffect(() => {
     if (!messageListRef.current) return;
-    console.log(scrollShouldFollow.current);
     if (scrollShouldFollow.current)
       // Scroll to bottom
       messageListRef.current.scrollTop =

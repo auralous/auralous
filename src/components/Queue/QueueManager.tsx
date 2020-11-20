@@ -96,7 +96,7 @@ const QueueDraggableItem: React.FC<{
           title={t("queue.manager.removeTrackText")}
           className={`button ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
           onClick={removeItem}
-          disabled={removable}
+          disabled={!removable}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -133,14 +133,14 @@ const Row = React.memo<
       key={data.queue.items[index].id}
       draggableId={data.queue.items[index].id}
       index={index}
-      isDragDisabled={!data.permission.canManage}
+      isDragDisabled={!data.permission.queueCanManage}
     >
       {(provided1) => (
         <QueueDraggableItem
           style={style}
           provided={provided1}
           removable={
-            data.permission.canManage ||
+            data.permission.queueCanManage ||
             Boolean(
               data.userId && data.queue.items[index].creatorId === data.userId
             )
@@ -246,7 +246,7 @@ const QueueManager: React.FC<{
         </DragDropContext>
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
-        {permission.canAdd ? null : (
+        {permission.queueCanAdd ? null : (
           <p>
             {t("queue.manager.notAllowedText")}{" "}
             <SvgBookOpen
