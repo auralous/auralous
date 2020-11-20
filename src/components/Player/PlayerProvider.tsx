@@ -49,11 +49,10 @@ const PlayerProvider: React.FC = ({ children }) => {
   const [, pingRoom] = usePingRoomMutation();
   useEffect(() => {
     if (playingRoomId && mAuth) {
-      pingRoom({ id: playingRoomId });
       const pingInterval = window.setInterval(() => {
         // tell server that user is still in room
         pingRoom({ id: playingRoomId });
-      }, 60 * 1000);
+      }, 30 * 1000);
       return () => window.clearInterval(pingInterval);
     }
   }, [playingRoomId, mAuth, pingRoom]);

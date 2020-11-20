@@ -5,6 +5,7 @@ import {
   Room,
   RoomMembership,
   RoomState,
+  useRoomStateQuery,
   useUserQuery,
 } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
@@ -55,10 +56,10 @@ const CurrentUser: React.FC<{
   );
 };
 
-const RoomUsers: React.FC<{ roomState: RoomState | undefined; room: Room }> = ({
-  room,
-  roomState,
-}) => {
+const RoomUsers: React.FC<{
+  roomState: RoomState | undefined | null;
+  room: Room;
+}> = ({ room, roomState }) => {
   return (
     <div className="h-full p-2">
       {roomState?.userIds.map((userId) => (
@@ -73,12 +74,18 @@ const RoomUsers: React.FC<{ roomState: RoomState | undefined; room: Room }> = ({
   );
 };
 
-const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
-  room,
-  roomState,
-}) => {
+const RoomChat: React.FC<{ room: Room }> = ({ room }) => {
   const { t } = useI18n();
   const user = useCurrentUser();
+
+  const [
+    { data: { roomState } = { roomState: undefined } },
+  ] = useRoomStateQuery({
+    variables: { id: room.id },
+    pollInterval: 60 * 1000,
+    pause: !user,
+  });
+
   if (!user)
     return (
       <div className="h-full w-full flex flex-col justify-center">

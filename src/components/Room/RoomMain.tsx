@@ -13,10 +13,9 @@ import {
   Room,
   useRoomQuery,
   useRoomStateQuery,
-  useOnRoomStateUpdatedSubscription,
   useJoinPrivateRoomMutation,
   useQueueQuery,
-  RoomState,
+  useOnRoomStateUpdatedSubscription,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import {
@@ -148,10 +147,10 @@ const RoomInit: React.FC<{ room: Room }> = ({ room }) => {
   );
 };
 
-const RoomLive: React.FC<{
-  room: Room;
-  roomState: RoomState | undefined;
-}> = ({ room, roomState }) => {
+const RoomLive: React.FC<{ room: Room }> = ({ room }) => {
+  useOnRoomStateUpdatedSubscription({
+    variables: { id: room.id || "" },
+  });
   return (
     <>
       <div className="w-full h-full flex flex-col relative overflow-hidden p-2">
@@ -159,7 +158,7 @@ const RoomLive: React.FC<{
           <PlayerEmbeddedControl roomId={room.id} />
         </div>
         <div className="bordered-box rounded-lg pt-1 flex-1 overflow-hidden">
-          <RoomChat room={room} roomState={roomState} />
+          <RoomChat room={room} />
         </div>
       </div>
     </>
@@ -168,14 +167,19 @@ const RoomLive: React.FC<{
 
 const Navbar: React.FC<{
   room: Room;
-  roomState: RoomState | undefined | null;
-}> = ({ room, roomState }) => {
+}> = ({ room }) => {
   const { t } = useI18n();
 
   const user = useCurrentUser();
   const router = useRouter();
   const [activeShare, openShare, closeShare] = useModal();
   const [activeRules, openRules, closeRules] = useModal();
+
+  const [
+    { data: { roomState } = { roomState: undefined } },
+  ] = useRoomStateQuery({
+    variables: { id: room.id },
+  });
 
   return (
     <>
@@ -247,26 +251,16 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
     variables: { id: initialRoom.id as string },
   });
   const room = data?.room || initialRoom;
-  const [
-    { data: { roomState } = { roomState: undefined } },
-  ] = useRoomStateQuery({
-    variables: { id: room?.id as string },
-    pause: !room,
-  });
-  useOnRoomStateUpdatedSubscription(
-    { variables: { id: room?.id as string }, pause: !room },
-    (prevResposne, response) => response
-  );
 
   const [expandedQueue, expandQueue, collapseQueue] = useModal();
 
   return (
     <>
       <div className="h-screen relative pt-12 overflow-hidden">
-        <Navbar room={room} roomState={roomState} />
+        <Navbar room={room} />
         <div className={`flex flex-col lg:flex-row h-full`}>
           <div className="relative flex-1 lg:w-0">
-            <RoomLive room={room} roomState={roomState || undefined} />
+            <RoomLive room={room} />
           </div>
           <div className={`w-full p-2 lg:w-96 max-w-full`}>
             <button
@@ -280,7 +274,7 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
                 expandedQueue ? "block" : "hidden"
               } p-2 rounded-lg lg:block`}
             >
-              <RoomQueue room={room} roomState={roomState || undefined} />
+              <RoomQueue room={room} />
               <button
                 onClick={collapseQueue}
                 aria-label="OK"

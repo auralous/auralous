@@ -9,16 +9,13 @@ import {
 import {
   QueueAction,
   Room,
-  RoomState,
+  useRoomStateQuery,
   useUpdateQueueMutation,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgClock } from "~/assets/svg";
 
-const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
-  room,
-  roomState,
-}) => {
+const RoomQueue: React.FC<{ room: Room }> = ({ room }) => {
   const { t } = useI18n();
 
   const user = useCurrentUser();
@@ -30,6 +27,12 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
     if (!queue) return [];
     return queue.items.map(({ trackId }) => trackId);
   }, [queue]);
+
+  const [
+    { data: { roomState } = { roomState: undefined } },
+  ] = useRoomStateQuery({
+    variables: { id: room.id },
+  });
 
   const permission = useMemo(
     () => ({
