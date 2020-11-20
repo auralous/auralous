@@ -56,7 +56,7 @@ const RoomPrivate: React.FC<{
           </p>
         </>
       ) : (
-        <AuthBanner prompt="Join Stereo to Enter a Private Room" />
+        <AuthBanner prompt={t("room.main.private.prompt")} />
       )}
     </div>
   );

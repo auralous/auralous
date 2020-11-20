@@ -249,12 +249,15 @@ const QueueManager: React.FC<{
         {permission.queueCanAdd ? null : (
           <p>
             {t("queue.manager.notAllowedText")}{" "}
-            <SvgBookOpen
-              className="inline bg-background-secondary p-1 rounded-lg"
-              width="20"
-              height="20"
-              title={t("room.rules.title")}
-            />
+            <span className="bg-background-secondary p-1 rounded-lg font-bold">
+              <SvgBookOpen
+                className="inline"
+                width="14"
+                height="14"
+                title={t("room.rules.title")}
+              />{" "}
+              {t("room.rules.shortTitle")}
+            </span>
           </p>
         )}
       </div>
