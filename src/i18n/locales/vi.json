@@ -285,6 +285,9 @@
     "loadLatest": "Xem tin nhắn mới nhất",
     "play": {
       "text": "{{username}} phát"
+    },
+    "join": {
+      "text": "{{username}} đã tham gia"
     }
   },
   "auth": {

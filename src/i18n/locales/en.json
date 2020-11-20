@@ -285,6 +285,9 @@
     "loadLatest": "Latest messages",
     "play": {
       "text": "{{username}} played"
+    },
+    "join": {
+      "text": "{{username}} has joined"
     }
   },
   "auth": {
