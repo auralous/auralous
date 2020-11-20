@@ -110,12 +110,15 @@
     "description": "Tham gia cùng {{title}} trên Stereo và nghe nhạc cùng nhau.",
     "privacy": { "public": "Công khai", "private": "Riêng tư" },
     "main": {
-      "init": {
+      "private": {
         "password1": "Nhập mật khẩu để tham gia. Để trống nếu không có mật khẩu.",
         "password2": "Bạn cũng có thể nhờ chủ phòng thêm bạn vào nhóm thành viền.",
         "join": "Vào phòng",
         "leave": "Quay về",
         "badPassword": "Sai mật khẩu"
+      },
+      "loading": {
+        "text": "Đang vào phòng"
       }
     },
     "settings": {

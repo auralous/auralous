@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from "react";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
-import { useCurrentUser } from "~/hooks/user";
 import { QueueManager, QueueViewer, useQueue } from "~/components/Queue";
 import {
   TrackAdderPlaylist,
@@ -9,16 +8,18 @@ import {
 import {
   QueueAction,
   Room,
-  useRoomStateQuery,
   useUpdateQueueMutation,
+  RoomState,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgClock } from "~/assets/svg";
 
-const RoomQueue: React.FC<{ room: Room }> = ({ room }) => {
+const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
+  room,
+  roomState,
+}) => {
   const { t } = useI18n();
 
-  const user = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
 
   const [queue] = useQueue(`room:${room.id}`);
@@ -28,24 +29,12 @@ const RoomQueue: React.FC<{ room: Room }> = ({ room }) => {
     return queue.items.map(({ trackId }) => trackId);
   }, [queue]);
 
-  const [
-    { data: { roomState } = { roomState: undefined } },
-  ] = useRoomStateQuery({
-    variables: { id: room.id },
-  });
-
   const permission = useMemo(
     () => ({
-      canEditOthers: user?.id === room.creatorId,
-      canAdd:
-        !!user &&
-        Boolean(
-          room.creatorId === user.id ||
-            roomState?.anyoneCanAdd ||
-            roomState?.collabs.includes(user.id)
-        ),
+      canManage: Boolean(roomState.permission.queueCanManage),
+      canAdd: Boolean(roomState.permission.queueCanAdd),
     }),
-    [user, room, roomState]
+    [roomState]
   );
 
   const onAddTracks = useCallback(

@@ -16,6 +16,7 @@ import {
 import { useI18n } from "~/i18n/index";
 import Link from "next/link";
 import { SvgChevronLeft } from "~/assets/svg";
+import NotFoundPage from "pages/404";
 
 const RoomSettingsSectionTitle: React.FC = ({ children }) => (
   <h2 className="text-2xl mb-4 p-2 pl-4 bg-background-secondary border-l-4 font-bold">
@@ -23,7 +24,7 @@ const RoomSettingsSectionTitle: React.FC = ({ children }) => (
   </h2>
 );
 
-const RoomSettingsMain: React.FC = () => {
+const RoomSettingsPage: NextPage = () => {
   const { t } = useI18n();
   const user = useCurrentUser();
   const router = useRouter();
@@ -42,37 +43,9 @@ const RoomSettingsMain: React.FC = () => {
     variables: { id: room?.id || "" },
     pause: !room,
   });
-  if (fetching || fetchingState) return <div>loading</div>;
-  if (!roomState || !room) return <div>no</div>;
-  if (room.creatorId !== user?.id) return <div>bad</div>;
-  return (
-    <>
-      <section className="py-4">
-        <RoomSettingsSectionTitle>
-          {t("room.settings.titleInfo")}
-        </RoomSettingsSectionTitle>
-        <RoomSettingsBasic room={room} />
-      </section>
-      <section className="py-4">
-        <RoomSettingsSectionTitle>
-          {t("room.settings.titleRules")}
-        </RoomSettingsSectionTitle>
-        <RoomSettingsRules room={room} roomState={roomState} />
-      </section>
-      <section className="py-4">
-        <RoomSettingsSectionTitle>
-          {t("room.settings.titleMembers")}
-        </RoomSettingsSectionTitle>
-        <RoomSettingsMember room={room} roomState={roomState} />
-      </section>
-    </>
-  );
-};
-
-const RoomSettingsPage: NextPage = () => {
-  const { t } = useI18n();
-  const router = useRouter();
-  const roomId = router.query.roomId as string | undefined;
+  if (fetching || fetchingState) return <div />;
+  if (!roomState || !room) return <NotFoundPage />;
+  if (room.creatorId !== user?.id) return <NotFoundPage />;
 
   return (
     <>
@@ -91,7 +64,24 @@ const RoomSettingsPage: NextPage = () => {
             {t("room.settings.title")}
           </h1>
         </div>
-        <RoomSettingsMain />
+        <section className="py-4">
+          <RoomSettingsSectionTitle>
+            {t("room.settings.titleInfo")}
+          </RoomSettingsSectionTitle>
+          <RoomSettingsBasic room={room} />
+        </section>
+        <section className="py-4">
+          <RoomSettingsSectionTitle>
+            {t("room.settings.titleRules")}
+          </RoomSettingsSectionTitle>
+          <RoomSettingsRules room={room} roomState={roomState} />
+        </section>
+        <section className="py-4">
+          <RoomSettingsSectionTitle>
+            {t("room.settings.titleMembers")}
+          </RoomSettingsSectionTitle>
+          <RoomSettingsMember room={room} roomState={roomState} />
+        </section>
       </div>
     </>
   );

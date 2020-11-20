@@ -1,5 +1,5 @@
 export interface QueuePermission {
-  canEditOthers: boolean;
+  canManage: boolean;
   canAdd: boolean | number;
 }
 

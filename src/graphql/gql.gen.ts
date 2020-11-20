@@ -316,6 +316,13 @@ export type Room = {
   createdAt: Scalars['DateTime'];
 };
 
+export type RoomPermission = {
+  __typename?: 'RoomPermission';
+  viewable: Scalars['Boolean'];
+  queueCanAdd: Scalars['Boolean'];
+  queueCanManage: Scalars['Boolean'];
+};
+
 export type RoomState = {
   __typename?: 'RoomState';
   id: Scalars['ID'];
@@ -323,6 +330,7 @@ export type RoomState = {
   /** Settings */
   anyoneCanAdd: Scalars['Boolean'];
   collabs: Array<Scalars['String']>;
+  permission: RoomPermission;
 };
 
 export enum PlatformName {
@@ -565,6 +573,14 @@ export type RoomRulesPartsFragment = (
   & Pick<RoomState, 'anyoneCanAdd' | 'collabs'>
 );
 
+export type RoomPermissionPartFragment = (
+  { __typename?: 'RoomState' }
+  & { permission: (
+    { __typename?: 'RoomPermission' }
+    & Pick<RoomPermission, 'queueCanAdd' | 'queueCanManage' | 'viewable'>
+  ) }
+);
+
 export type RoomQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -704,6 +720,7 @@ export type RoomStateQuery = (
     { __typename?: 'RoomState' }
     & Pick<RoomState, 'id' | 'userIds'>
     & RoomRulesPartsFragment
+    & RoomPermissionPartFragment
   )> }
 );
 
@@ -728,6 +745,7 @@ export type OnRoomStateUpdatedSubscription = (
     { __typename?: 'RoomState' }
     & Pick<RoomState, 'id' | 'userIds'>
     & RoomRulesPartsFragment
+    & RoomPermissionPartFragment
   )> }
 );
 
@@ -886,6 +904,15 @@ export const RoomRulesPartsFragmentDoc = gql`
     fragment RoomRulesParts on RoomState {
   anyoneCanAdd
   collabs
+}
+    `;
+export const RoomPermissionPartFragmentDoc = gql`
+    fragment RoomPermissionPart on RoomState {
+  permission {
+    queueCanAdd
+    queueCanManage
+    viewable
+  }
 }
     `;
 export const ArtistPartsFragmentDoc = gql`
@@ -1180,9 +1207,11 @@ export const RoomStateDocument = gql`
     id
     userIds
     ...RoomRulesParts
+    ...RoomPermissionPart
   }
 }
-    ${RoomRulesPartsFragmentDoc}`;
+    ${RoomRulesPartsFragmentDoc}
+${RoomPermissionPartFragmentDoc}`;
 
 export function useRoomStateQuery(options: Omit<Urql.UseQueryArgs<RoomStateQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RoomStateQuery>({ query: RoomStateDocument, ...options });
@@ -1202,9 +1231,11 @@ export const OnRoomStateUpdatedDocument = gql`
     id
     userIds
     ...RoomRulesParts
+    ...RoomPermissionPart
   }
 }
-    ${RoomRulesPartsFragmentDoc}`;
+    ${RoomRulesPartsFragmentDoc}
+${RoomPermissionPartFragmentDoc}`;
 
 export function useOnRoomStateUpdatedSubscription<TData = OnRoomStateUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnRoomStateUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnRoomStateUpdatedSubscription, TData>) {
   return Urql.useSubscription<OnRoomStateUpdatedSubscription, TData, OnRoomStateUpdatedSubscriptionVariables>({ query: OnRoomStateUpdatedDocument, ...options }, handler);

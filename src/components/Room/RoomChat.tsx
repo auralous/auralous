@@ -5,7 +5,6 @@ import {
   Room,
   RoomMembership,
   RoomState,
-  useRoomStateQuery,
   useUserQuery,
 } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
@@ -57,12 +56,12 @@ const CurrentUser: React.FC<{
 };
 
 const RoomUsers: React.FC<{
-  roomState: RoomState | undefined | null;
+  roomState: RoomState;
   room: Room;
 }> = ({ room, roomState }) => {
   return (
     <div className="h-full p-2">
-      {roomState?.userIds.map((userId) => (
+      {roomState.userIds.map((userId) => (
         // TODO: react-window
         <CurrentUser
           key={userId}
@@ -74,17 +73,12 @@ const RoomUsers: React.FC<{
   );
 };
 
-const RoomChat: React.FC<{ room: Room }> = ({ room }) => {
+const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
+  room,
+  roomState,
+}) => {
   const { t } = useI18n();
   const user = useCurrentUser();
-
-  const [
-    { data: { roomState } = { roomState: undefined } },
-  ] = useRoomStateQuery({
-    variables: { id: room.id },
-    pollInterval: 60 * 1000,
-    pause: !user,
-  });
 
   if (!user)
     return (
@@ -109,7 +103,7 @@ const RoomChat: React.FC<{ room: Room }> = ({ room }) => {
               <Tab className={`${getClassName(1)} flex-none px-2`}>
                 <SvgUserGroup width="12" height="12" />
                 <span className="ml-1">
-                  {roomState?.userIds.length || 0}
+                  {roomState.userIds.length || 0}
                   <span className="sr-only">{t("room.chat.listener")}</span>
                 </span>
               </Tab>
