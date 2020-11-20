@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -6,14 +6,11 @@ import RoomRules from "./RoomRules";
 import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
 import { ShareDialog } from "~/components/Social/index";
 import { useModal } from "~/components/Modal/index";
-import { useToasts } from "~/components/Toast";
-import { AuthBanner } from "~/components/Auth/index";
 import { useCurrentUser } from "~/hooks/user";
 import {
   Room,
   useRoomQuery,
   useRoomStateQuery,
-  useJoinPrivateRoomMutation,
   useOnRoomStateUpdatedSubscription,
   RoomState,
 } from "~/graphql/gql.gen";
@@ -24,67 +21,11 @@ import {
   SvgSettings,
   SvgBookOpen,
   SvgCheck,
-  SvgLock,
 } from "~/assets/svg";
 
 const RoomQueue = dynamic(() => import("./RoomQueue"), { ssr: false });
 const RoomChat = dynamic(() => import("./RoomChat"), { ssr: false });
-
-const RoomPrivate: React.FC<{
-  room: Room;
-  roomState: RoomState;
-  reloadFn: () => void;
-}> = ({ room, reloadFn }) => {
-  const { t } = useI18n();
-  const toasts = useToasts();
-  const passwordRef = useRef<HTMLInputElement>(null);
-
-  const user = useCurrentUser();
-  const [{ fetching }, joinPrivateRoom] = useJoinPrivateRoomMutation();
-
-  const handleJoinPrivateRoom = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (!passwordRef.current || fetching) return;
-      const result = await joinPrivateRoom({
-        id: room.id,
-        password: passwordRef.current.value,
-      }).then((response) => response.data?.joinPrivateRoom);
-      result ? reloadFn() : toasts.error(t("room.main.private.badPassword"));
-    },
-    [t, toasts, room, joinPrivateRoom, fetching, reloadFn]
-  );
-
-  return (
-    <div className="w-full h-full flex flex-col flex-center p-4">
-      {user ? (
-        <>
-          <div className="mb-8 p-6 rounded-full bg-background-secondary">
-            <SvgLock className="w-16 h-16" />
-          </div>
-          <p>{t("room.main.private.password1")}</p>
-          <form className="flex my-2" onSubmit={handleJoinPrivateRoom}>
-            <input
-              type="password"
-              autoComplete="current-password"
-              aria-label="Password"
-              ref={passwordRef}
-              className="input w-full mr-1"
-            />
-            <button type="submit" className="button" disabled={fetching}>
-              {t("room.main.private.join")}
-            </button>
-          </form>
-          <p className="text-foreground-secondary text-xs mt-2">
-            {t("room.main.private.password2")}
-          </p>
-        </>
-      ) : (
-        <AuthBanner prompt="Join Stereo to Enter a Private Room" />
-      )}
-    </div>
-  );
-};
+const RoomPrivate = dynamic(() => import("./RoomPrivate"), { ssr: false });
 
 const RoomLive: React.FC<{ room: Room; roomState: RoomState }> = ({
   room,
