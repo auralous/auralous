@@ -187,7 +187,10 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
         messageListRef.current.offsetHeight;
   }, [messages]);
 
-  const hasMore = useMemo(() => true, []);
+  const hasMore = useMemo(
+    () => offset < (prevMessages?.length || 0) + (newMessages?.length || 0),
+    [prevMessages, newMessages, offset]
+  );
 
   return (
     <div
