@@ -5,7 +5,7 @@ import {
   NullArray,
 } from "@urql/exchange-graphcache/dist/types";
 
-export type MergeMode = "outwards" | "inwards";
+export type MergeMode = "before" | "after";
 
 export interface PaginationParams {
   offsetArgument?: string;
@@ -16,7 +16,7 @@ export interface PaginationParams {
 export const simplePagination = ({
   offsetArgument = "skip",
   limitArgument = "limit",
-  mergeMode = "inwards",
+  mergeMode = "after",
 }: PaginationParams = {}): Resolver => {
   const compareArgs = (
     fieldArgs: Variables,
@@ -91,13 +91,10 @@ export const simplePagination = ({
         visited.add(link);
       }
 
-      const isAhead = !prevOffset || currentOffset > prevOffset;
-
-      if (isAhead === (mergeMode === "inwards")) {
-        result = [...result, ...tempResult];
-      } else {
-        result = [...tempResult, ...result];
-      }
+      result =
+        (!prevOffset || currentOffset > prevOffset) === (mergeMode === "after")
+          ? [...result, ...tempResult]
+          : [...tempResult, ...result];
 
       prevOffset = currentOffset;
     }

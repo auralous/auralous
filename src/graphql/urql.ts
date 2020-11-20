@@ -59,7 +59,7 @@ const cacheExchange = createCacheExchange({
     Query: {
       messages: simplePagination({
         offsetArgument: "offset",
-        mergeMode: "inwards",
+        mergeMode: "before",
       }),
     },
     Message: {

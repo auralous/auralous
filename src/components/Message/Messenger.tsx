@@ -13,11 +13,77 @@ import {
   useOnMessageAddedSubscription,
   Message,
   useUserQuery,
+  MessageType,
+  useTrackQuery,
 } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+import { t, useI18n } from "~/i18n/index";
+import { SvgMusic, SvgLogIn } from "~/assets/svg";
 
 const LIMIT = 20;
 const GROUPED_TIME_DIFF = 10 * 60 * 1000; // within 10 min should be grouped
+
+const MessageItemJoin: React.FC<{
+  message: Message;
+}> = ({ message }) => {
+  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+    variables: { id: message.creatorId },
+  });
+  const dateDiff = Date.now() - message.createdAt;
+  const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
+  return (
+    <div
+      role="listitem"
+      className="w-full text-left text-sm mt-3 truncate hover:bg-background-secondary p-1"
+    >
+      <SvgLogIn className="inline w-6 h-6 mr-2 bg-background-secondary p-1 rounded-full" />
+      <span className="text-foreground-tertiary">
+        {t("message.join.text", { username: user?.username || "" })}
+      </span>{" "}
+      <span className="text-foreground-tertiary opacity-50 ml-1">
+        {"• "}
+        {dateDiffTxt}
+      </span>
+    </div>
+  );
+};
+
+const MessageItemPlay: React.FC<{
+  message: Message;
+}> = ({ message }) => {
+  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+    variables: { id: message.creatorId },
+  });
+  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
+    variables: { id: message.text || "" },
+    pause: !message.text,
+  });
+  const dateDiff = Date.now() - message.createdAt;
+  const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
+  return (
+    <div
+      role="listitem"
+      className="w-full text-left text-sm mt-3 truncate hover:bg-background-secondary p-1"
+    >
+      <SvgMusic className="inline w-6 h-6 mr-2 bg-background-secondary p-1 rounded-full" />
+      <span className="text-foreground-tertiary">
+        {t("message.play.text", { username: user?.username || "" })}
+      </span>{" "}
+      <a
+        href={track?.url}
+        target="_blank"
+        rel="noreferrer"
+        className="text-foreground-secondary hover:text-foreground transition-colors duration-200"
+      >
+        {track?.title} -{" "}
+        <i>{track?.artists.map(({ name }) => name).join(", ")}</i>
+      </a>{" "}
+      <span className="text-foreground-tertiary opacity-50 ml-1">
+        {"• "}
+        {dateDiffTxt}
+      </span>
+    </div>
+  );
+};
 
 const MessageItem: React.FC<{
   message: Message;
@@ -45,17 +111,18 @@ const MessageItem: React.FC<{
             src={sender?.profilePicture}
             alt={sender?.username}
           />{" "}
-          <div className="flex items-center text-foreground text-opacity-75">
+          <div className="flex items-center text-foreground text-opacity-75 pt-1">
             <span
               className={`${
                 isCurrentUser
                   ? "bg-success-light leading-tight text-opacity-75 rounded-lg px-1"
-                  : ""
-              } text-white font-bold`}
+                  : "text-white"
+              } font-bold`}
             >
               {sender?.username || ""}
-            </span>{" "}
-            <span className="text-foreground text-opacity-50 ml-2 text-sm">
+            </span>
+            <span className="text-foreground-tertiary text-sm opacity-50 ml-1">
+              {" • "}
               {dateDiffTxt}
             </span>
           </div>
@@ -141,9 +208,16 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
         </button>
       )}
       {messages.map((message, index) => {
+        if (message.type === MessageType.Play)
+          return <MessageItemPlay key={message.id} message={message} />;
+
+        if (message.type === MessageType.Join)
+          return <MessageItemJoin key={message.id} message={message} />;
+
         // Whether message should be merged to previous
         const prevMessage = index > 0 ? messages[index - 1] : null;
         const isGrouped =
+          prevMessage?.type === MessageType.Message &&
           prevMessage?.creatorId === message.creatorId &&
           message.createdAt.getTime() - prevMessage.createdAt.getTime() <
             GROUPED_TIME_DIFF;
