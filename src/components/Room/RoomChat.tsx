@@ -55,13 +55,13 @@ const CurrentUser: React.FC<{
   );
 };
 
-const RoomUsers: React.FC<{ roomState: RoomState | undefined; room: Room }> = ({
-  room,
-  roomState,
-}) => {
+const RoomUsers: React.FC<{
+  roomState: RoomState;
+  room: Room;
+}> = ({ room, roomState }) => {
   return (
     <div className="h-full p-2">
-      {roomState?.userIds.map((userId) => (
+      {roomState.userIds.map((userId) => (
         // TODO: react-window
         <CurrentUser
           key={userId}
@@ -73,12 +73,13 @@ const RoomUsers: React.FC<{ roomState: RoomState | undefined; room: Room }> = ({
   );
 };
 
-const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
+const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
   room,
   roomState,
 }) => {
   const { t } = useI18n();
   const user = useCurrentUser();
+
   if (!user)
     return (
       <div className="h-full w-full flex flex-col justify-center">
@@ -102,7 +103,7 @@ const RoomChat: React.FC<{ room: Room; roomState?: RoomState }> = ({
               <Tab className={`${getClassName(1)} flex-none px-2`}>
                 <SvgUserGroup width="12" height="12" />
                 <span className="ml-1">
-                  {roomState?.userIds.length || 0}
+                  {roomState.userIds.length || 0}
                   <span className="sr-only">{t("room.chat.listener")}</span>
                 </span>
               </Tab>

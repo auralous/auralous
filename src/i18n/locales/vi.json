@@ -110,12 +110,16 @@
     "description": "Tham gia cùng {{title}} trên Stereo và nghe nhạc cùng nhau.",
     "privacy": { "public": "Công khai", "private": "Riêng tư" },
     "main": {
-      "init": {
+      "private": {
+        "prompt": "Đăng nhập đề vào phòng riêng tư",
         "password1": "Nhập mật khẩu để tham gia. Để trống nếu không có mật khẩu.",
         "password2": "Bạn cũng có thể nhờ chủ phòng thêm bạn vào nhóm thành viền.",
         "join": "Vào phòng",
         "leave": "Quay về",
         "badPassword": "Sai mật khẩu"
+      },
+      "loading": {
+        "text": "Đang vào phòng"
       }
     },
     "settings": {
@@ -179,8 +183,8 @@
     },
     "chat": {
       "title": "Chat",
-      "authPrompt": "Tham gia Stereo để trò chuyện",
-      "authPromptHook": "Nghe nhạc và trò chuyện cùng bạn bè khắp mọi nơi",
+      "authPrompt": "Trò chuyện với nhau",
+      "authPromptHook": "Nghe nhạc và trò chuyện cùng bạn bè khắp mọi nơi với tài khoản Stereo",
       "listener": "Người nghe"
     },
     "live": { "title": "Live" }
@@ -250,7 +254,7 @@
     "manager": {
       "removedTrackText": "Đã xoá {{title}}",
       "removeTrackText": "Xoá bài hát",
-      "authPrompt": "Tham gia Stereo để lắng nghe cùng nhau ",
+      "authPrompt": "Tham gia Stereo để thêm nhạc",
       "emptyText": "Ở đây cô đơn quá... Thêm một bài cho nóng nào!",
       "notAllowedText": "Bạn không được phép thêm nhạc. Xem"
     }

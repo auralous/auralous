@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from "react";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
-import { useCurrentUser } from "~/hooks/user";
 import { QueueManager, QueueViewer, useQueue } from "~/components/Queue";
 import {
   TrackAdderPlaylist,
@@ -9,19 +8,18 @@ import {
 import {
   QueueAction,
   Room,
-  RoomState,
   useUpdateQueueMutation,
+  RoomState,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgClock } from "~/assets/svg";
 
-const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
+const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
   room,
   roomState,
 }) => {
   const { t } = useI18n();
 
-  const user = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
 
   const [queue] = useQueue(`room:${room.id}`);
@@ -30,20 +28,6 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
     if (!queue) return [];
     return queue.items.map(({ trackId }) => trackId);
   }, [queue]);
-
-  const permission = useMemo(
-    () => ({
-      canEditOthers: user?.id === room.creatorId,
-      canAdd:
-        !!user &&
-        Boolean(
-          room.creatorId === user.id ||
-            roomState?.anyoneCanAdd ||
-            roomState?.collabs.includes(user.id)
-        ),
-    }),
-    [user, room, roomState]
-  );
 
   const onAddTracks = useCallback(
     (newTrackArray: string[]) => {
@@ -69,10 +53,16 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
               <Tab className={getClassName(0)}>
                 {t("room.queue.queue.title")}
               </Tab>
-              <Tab className={getClassName(1)} disabled={!permission.canAdd}>
+              <Tab
+                className={getClassName(1)}
+                disabled={!roomState.permission.queueCanAdd}
+              >
                 {t("room.queue.search.title")}
               </Tab>
-              <Tab className={getClassName(2)} disabled={!permission.canAdd}>
+              <Tab
+                className={getClassName(2)}
+                disabled={!roomState.permission.queueCanAdd}
+              >
                 {t("room.queue.playlist.title")}
               </Tab>
               <Tab
@@ -89,7 +79,7 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
                 } relative flex-col h-full`}
               >
                 <QueueManager
-                  permission={permission}
+                  permission={roomState.permission}
                   queueId={`room:${room.id}`}
                 />
               </TabPanel>
@@ -122,7 +112,9 @@ const RoomQueue: React.FC<{ room: Room; roomState?: RoomState }> = ({
                 } flex-col h-full overflow-hidden`}
               >
                 <QueueViewer
-                  onAdd={permission.canAdd ? onAddTracks : undefined}
+                  onAdd={
+                    roomState.permission.queueCanAdd ? onAddTracks : undefined
+                  }
                   queueId={`room:${room.id}:played`}
                   reverse
                   queryOpts={selectedIndex === 3 ? undefined : { pause: true }}

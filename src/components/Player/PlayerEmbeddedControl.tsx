@@ -12,7 +12,7 @@ import { PlayerError } from "./types";
 import { useCurrentUser } from "~/hooks/user";
 import {
   Track,
-  useRoomQuery,
+  useRoomStateQuery,
   useSkipNowPlayingMutation,
 } from "~/graphql/gql.gen";
 import {
@@ -52,13 +52,14 @@ const PlayerErrorBar: React.FC = () => {
 const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
   const { t } = useI18n();
 
-  const [{ data: { room } = { room: undefined } }] = useRoomQuery({
-    variables: { id: roomId },
-  });
-
   const user = useCurrentUser();
   const [nowPlaying] = useNowPlaying(roomId);
   const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
+
+  const [
+    { data: { roomState } = { roomState: undefined } },
+  ] = useRoomStateQuery({ variables: { id: roomId } });
+
   return (
     <button
       className="button text-xs leading-none"
@@ -67,7 +68,7 @@ const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
         fetching ||
         !user ||
         !nowPlaying?.currentTrack ||
-        (user.id !== room?.creatorId &&
+        (!roomState?.permission.queueCanManage &&
           nowPlaying?.currentTrack?.creatorId !== user.id)
       }
       title={t("nowPlaying.skipSong")}

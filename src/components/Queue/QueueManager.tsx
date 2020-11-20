@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -32,18 +32,17 @@ import QueueAddedBy from "./QueueAddedBy";
 import { useI18n } from "~/i18n/index";
 
 const QueueDraggableItem: React.FC<{
-  permission: QueuePermission;
+  removable: boolean;
   provided: DraggableProvided;
   index: number;
   isDragging?: boolean;
   queue: Queue;
   style?: Partial<React.CSSProperties>;
-}> = ({ permission, provided, isDragging, queue, index, style }) => {
+}> = ({ removable, provided, isDragging, queue, index, style }) => {
   const { t } = useI18n();
 
   const toasts = useToasts();
   const urqlClient = useClient();
-  const me = useCurrentUser();
   const [, updateQueue] = useUpdateQueueMutation();
   const removeItem = useCallback(async () => {
     if (!queue) return;
@@ -65,8 +64,6 @@ const QueueDraggableItem: React.FC<{
         t("queue.manager.removedTrackText", { title: deletingTrackName })
       );
   }, [t, queue, toasts, updateQueue, urqlClient, index]);
-  const canRemove =
-    permission.canEditOthers || queue.items[index].creatorId === me?.id;
 
   return (
     <div
@@ -97,10 +94,9 @@ const QueueDraggableItem: React.FC<{
         <button
           type="button"
           title={t("queue.manager.removeTrackText")}
-          className={`button ${
-            !canRemove || isDragging ? "hidden" : ""
-          } p-0 h-10 w-10`}
+          className={`button ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
           onClick={removeItem}
+          disabled={!removable}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -123,23 +119,32 @@ const QueueDraggableItem: React.FC<{
   );
 };
 
-const Row = React.memo<ListChildComponentProps>(function Row({
-  data,
-  index,
-  style,
-}) {
+const Row = React.memo<
+  Pick<ListChildComponentProps, "index" | "style"> & {
+    data: {
+      queue: Queue;
+      permission: QueuePermission;
+      userId: string | undefined;
+    };
+  }
+>(function Row({ data, index, style }) {
   return (
     <Draggable
       key={data.queue.items[index].id}
       draggableId={data.queue.items[index].id}
       index={index}
-      isDragDisabled={!data.permission.canEditOthers}
+      isDragDisabled={!data.permission.queueCanManage}
     >
       {(provided1) => (
         <QueueDraggableItem
           style={style}
           provided={provided1}
-          permission={data.permission}
+          removable={
+            data.permission.queueCanManage ||
+            Boolean(
+              data.userId && data.queue.items[index].creatorId === data.userId
+            )
+          }
           queue={data.queue}
           index={index}
           isDragging={false}
@@ -147,8 +152,7 @@ const Row = React.memo<ListChildComponentProps>(function Row({
       )}
     </Draggable>
   );
-},
-areEqual);
+}, areEqual);
 
 const QueueManager: React.FC<{
   queueId: string;
@@ -182,6 +186,15 @@ const QueueManager: React.FC<{
 
   const [, showLogin] = useLogin();
 
+  const itemData = useMemo(
+    () => ({
+      queue,
+      permission,
+      userId: user?.id,
+    }),
+    [queue, permission, user]
+  );
+
   if (!queue) return null;
 
   return (
@@ -206,7 +219,7 @@ const QueueManager: React.FC<{
             renderClone={(provided, snapshot, rubric) => (
               <QueueDraggableItem
                 provided={provided}
-                permission={permission}
+                removable={false}
                 queue={queue}
                 index={rubric.source.index}
                 isDragging={snapshot.isDragging}
@@ -221,10 +234,7 @@ const QueueManager: React.FC<{
                     width={width}
                     itemCount={queue.items.length}
                     itemSize={72}
-                    itemData={{
-                      queue,
-                      permission,
-                    }}
+                    itemData={itemData}
                     outerRef={droppableProvided.innerRef}
                   >
                     {Row}
@@ -236,15 +246,18 @@ const QueueManager: React.FC<{
         </DragDropContext>
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
-        {permission.canAdd ? null : (
+        {permission.queueCanAdd ? null : (
           <p>
             {t("queue.manager.notAllowedText")}{" "}
-            <SvgBookOpen
-              className="inline bg-background-secondary p-1 rounded-lg"
-              width="20"
-              height="20"
-              title={t("room.rules.title")}
-            />
+            <span className="bg-background-secondary p-1 rounded-lg font-bold">
+              <SvgBookOpen
+                className="inline"
+                width="14"
+                height="14"
+                title={t("room.rules.title")}
+              />{" "}
+              {t("room.rules.shortTitle")}
+            </span>
           </p>
         )}
       </div>

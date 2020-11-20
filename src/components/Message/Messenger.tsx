@@ -179,7 +179,6 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
 
   useEffect(() => {
     if (!messageListRef.current) return;
-    console.log(scrollShouldFollow.current);
     if (scrollShouldFollow.current)
       // Scroll to bottom
       messageListRef.current.scrollTop =
@@ -187,7 +186,10 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
         messageListRef.current.offsetHeight;
   }, [messages]);
 
-  const hasMore = useMemo(() => true, []);
+  const hasMore = useMemo(
+    () => offset < (prevMessages?.length || 0) + (newMessages?.length || 0),
+    [prevMessages, newMessages, offset]
+  );
 
   return (
     <div

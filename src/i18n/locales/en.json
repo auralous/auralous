@@ -110,12 +110,16 @@
     "description": "Join {{title}} on Stereo and listen to music together.",
     "privacy": { "public": "Public", "private": "Private" },
     "main": {
-      "init": {
+      "private": {
+        "prompt": "Join Stereo to Enter a Private Room",
         "password1": "Enter room password to join. Leave empty if it has no password.",
         "password2": "You can also join by asking the host to add you as a collaborator",
         "join": "Enter room",
         "leave": "Leave",
         "badPassword": "Incorrect room password"
+      },
+      "loading": {
+        "text": "Joining Room"
       }
     },
     "settings": {
@@ -179,8 +183,8 @@
     },
     "chat": {
       "title": "Chat",
-      "authPrompt": "Join Stereo to Chat",
-      "authPromptHook": "Listen to music with friends and chat no matter where they are",
+      "authPrompt": "Say hi to each other",
+      "authPromptHook": "Listen to music with friends and chat no matter where they are with a Stereo account",
       "listener": "Listeners"
     },
     "live": { "title": "Live" }

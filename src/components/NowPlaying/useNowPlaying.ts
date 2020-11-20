@@ -13,6 +13,5 @@ export default function useNowPlaying(id: string) {
     variables: { id: id || "" },
     pause: !id,
   });
-
   return [id ? res.data?.nowPlaying : null, res] as const;
 }

@@ -16,6 +16,16 @@ export const FRAGMENT_ROOM_RULES = /* GraphQL */ `
   }
 `;
 
+export const FRAGMENT_ROOM_PERMISSION = /* GraphQL */ `
+  fragment RoomPermissionPart on RoomState {
+    permission {
+      queueCanAdd
+      queueCanManage
+      viewable
+    }
+  }
+`;
+
 export const QUERY_ROOM = /* GraphQL */ `
   query room($id: ID!) {
     room(id: $id) {
@@ -136,9 +146,17 @@ export const QUERY_ROOM_STATE = /* GraphQL */ `
       id
       userIds
       ...RoomRulesParts
+      ...RoomPermissionPart
     }
   }
   ${FRAGMENT_ROOM_RULES}
+  ${FRAGMENT_ROOM_PERMISSION}
+`;
+
+export const MUTATION_PING_ROOM = /* GraphQL */ `
+  mutation pingRoom($id: ID!) {
+    pingRoom(id: $id)
+  }
 `;
 
 export const SUBSCRIPTION_ROOM_STATE = /* GraphQL */ `
@@ -147,7 +165,9 @@ export const SUBSCRIPTION_ROOM_STATE = /* GraphQL */ `
       id
       userIds
       ...RoomRulesParts
+      ...RoomPermissionPart
     }
   }
   ${FRAGMENT_ROOM_RULES}
+  ${FRAGMENT_ROOM_PERMISSION}
 `;

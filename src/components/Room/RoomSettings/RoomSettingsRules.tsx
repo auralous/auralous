@@ -23,6 +23,9 @@ const RoomSettingsRules: React.FC<{
   const toasts = useToasts();
 
   const handleSaveRules = async () => {
+    if (!room.isPublic && !passwordRef.current?.value) {
+      if (!window.confirm(t("new.addNew.warnNoPass"))) return;
+    }
     const update = {
       id: room.id,
       anyoneCanAdd: room.isPublic
