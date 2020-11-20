@@ -123,6 +123,7 @@ export type Mutation = {
   joinPrivateRoom: Scalars['Boolean'];
   updateRoomMembership: Scalars['Boolean'];
   deleteRoom: Scalars['ID'];
+  pingRoom: Scalars['Boolean'];
   me?: Maybe<User>;
   deleteMe: Scalars['Boolean'];
 };
@@ -188,6 +189,11 @@ export type MutationUpdateRoomMembershipArgs = {
 
 
 export type MutationDeleteRoomArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationPingRoomArgs = {
   id: Scalars['ID'];
 };
 
@@ -701,6 +707,16 @@ export type RoomStateQuery = (
   )> }
 );
 
+export type PingRoomMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PingRoomMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'pingRoom'>
+);
+
 export type OnRoomStateUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1170,6 +1186,15 @@ export const RoomStateDocument = gql`
 
 export function useRoomStateQuery(options: Omit<Urql.UseQueryArgs<RoomStateQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RoomStateQuery>({ query: RoomStateDocument, ...options });
+};
+export const PingRoomDocument = gql`
+    mutation pingRoom($id: ID!) {
+  pingRoom(id: $id)
+}
+    `;
+
+export function usePingRoomMutation() {
+  return Urql.useMutation<PingRoomMutation, PingRoomMutationVariables>(PingRoomDocument);
 };
 export const OnRoomStateUpdatedDocument = gql`
     subscription onRoomStateUpdated($id: ID!) {

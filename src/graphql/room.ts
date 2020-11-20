@@ -141,6 +141,12 @@ export const QUERY_ROOM_STATE = /* GraphQL */ `
   ${FRAGMENT_ROOM_RULES}
 `;
 
+export const MUTATION_PING_ROOM = /* GraphQL */ `
+  mutation pingRoom($id: ID!) {
+    pingRoom(id: $id)
+  }
+`;
+
 export const SUBSCRIPTION_ROOM_STATE = /* GraphQL */ `
   subscription onRoomStateUpdated($id: ID!) {
     roomStateUpdated(id: $id) {

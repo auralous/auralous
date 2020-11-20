@@ -7,7 +7,7 @@ import PlayerPlatformChooser from "./PlayerPlatformChooser";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
 import { useNowPlaying } from "~/components/NowPlaying/index";
-import { PlatformName } from "~/graphql/gql.gen";
+import { PlatformName, usePingRoomMutation } from "~/graphql/gql.gen";
 import { useMAuth } from "~/hooks/user";
 import { useCrossTracks } from "~/hooks/track";
 import { IPlayerContext, PlayerError, PlayerPlaying } from "./types";
@@ -45,6 +45,18 @@ const PlayerProvider: React.FC = ({ children }) => {
   }, [playingRoomId]);
 
   const [nowPlaying, { fetching: fetchingNP }] = useNowPlaying(playingRoomId);
+
+  const [, pingRoom] = usePingRoomMutation();
+  useEffect(() => {
+    if (playingRoomId && mAuth) {
+      pingRoom({ id: playingRoomId });
+      const pingInterval = window.setInterval(() => {
+        // tell server that user is still in room
+        pingRoom({ id: playingRoomId });
+      }, 60 * 1000);
+      return () => window.clearInterval(pingInterval);
+    }
+  }, [playingRoomId, mAuth, pingRoom]);
 
   const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
     nowPlaying?.currentTrack?.trackId
