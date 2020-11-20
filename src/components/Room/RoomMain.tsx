@@ -248,6 +248,7 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
   ] = useRoomStateQuery({
     variables: { id: room.id },
     pollInterval: 60 * 1000,
+    requestPolicy: "cache-and-network",
   });
 
   useOnRoomStateUpdatedSubscription({
