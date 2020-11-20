@@ -16,7 +16,6 @@ import {
 import { useI18n } from "~/i18n/index";
 import Link from "next/link";
 import { SvgChevronLeft } from "~/assets/svg";
-import NotFoundPage from "pages/404";
 
 const RoomSettingsSectionTitle: React.FC = ({ children }) => (
   <h2 className="text-2xl mb-4 p-2 pl-4 bg-background-secondary border-l-4 font-bold">
@@ -44,8 +43,8 @@ const RoomSettingsPage: NextPage = () => {
     pause: !room,
   });
   if (fetching || fetchingState) return <div />;
-  if (!roomState || !room) return <NotFoundPage />;
-  if (room.creatorId !== user?.id) return <NotFoundPage />;
+  if (!roomState || !room) return <div />;
+  if (room.creatorId !== user?.id) return <div />;
 
   return (
     <>

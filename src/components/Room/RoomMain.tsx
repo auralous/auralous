@@ -251,10 +251,13 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
     requestPolicy: "cache-and-network",
   });
 
-  useOnRoomStateUpdatedSubscription({
-    variables: { id: room.id || "" },
-    pause: !roomState?.permission.viewable,
-  });
+  useOnRoomStateUpdatedSubscription(
+    {
+      variables: { id: room.id || "" },
+      pause: !roomState?.permission.viewable,
+    },
+    (prev, data) => data
+  );
 
   return (
     <>
