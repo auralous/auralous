@@ -24,10 +24,7 @@ export function useMAuth() {
       return data || null;
     },
     {
-      refetchOnMount: false,
-      staleTime: Infinity,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
+      staleTime: 30 * 1000 * 1000,
     }
   );
 }
