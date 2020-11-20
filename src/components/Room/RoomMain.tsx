@@ -24,6 +24,7 @@ import {
   SvgShare,
   SvgSettings,
   SvgBookOpen,
+  SvgCheck,
 } from "~/assets/svg";
 
 const RoomQueue = dynamic(() => import("./RoomQueue"), { ssr: false });
@@ -239,6 +240,7 @@ const Navbar: React.FC<{
 };
 
 const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
+  const { t } = useI18n();
   // initialRoom is the same as room, only might be a outdated version
   // so it can be used as backup
   const [{ data }] = useRoomQuery({
@@ -263,7 +265,7 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
       <div className="h-screen relative pt-12 overflow-hidden">
         <Navbar room={room} roomState={roomState} />
         <div className={`flex flex-col lg:flex-row h-full`}>
-          <div className="relative flex-1">
+          <div className="relative flex-1 lg:w-0">
             <RoomLive room={room} roomState={roomState || undefined} />
           </div>
           <div className={`w-full p-2 lg:w-96 max-w-full`}>
@@ -271,7 +273,7 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
               onClick={expandQueue}
               className="h-12 w-full button inline-flex lg:hidden"
             >
-              Queue
+              {t("room.queue.title")}
             </button>
             <div
               className={`bordered-box w-full h-full flex flex-col z-30 fixed inset-0 lg:static ${
@@ -281,9 +283,10 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
               <RoomQueue room={room} roomState={roomState || undefined} />
               <button
                 onClick={collapseQueue}
+                aria-label="OK"
                 className="h-12 w-full flex-none button button-success mt-2 lg:hidden"
               >
-                Done
+                <SvgCheck />
               </button>
             </div>
           </div>
