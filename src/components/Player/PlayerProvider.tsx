@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import Portal from "@reach/portal";
-// @ts-ignore
-import ColorThief from "colorthief";
 import PlayerPlatformChooser from "./PlayerPlatformChooser";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
@@ -16,8 +14,6 @@ const YouTubePlayer = dynamic(() => import("./YouTubePlayer"), { ssr: false });
 const SpotifyPlayer = dynamic(() => import("./SpotifyPlayer"), { ssr: false });
 
 const player = new Player();
-
-let colorThief: ColorThief;
 
 const PlayerProvider: React.FC = ({ children }) => {
   const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
@@ -137,31 +133,12 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   const fetching = fetchingMAuth || fetchingCrossTracks || fetchingNP;
 
-  const [playingThemeColor, setPlayingThemeColor] = useState<string>("#001431");
-
-  useEffect(() => {
-    if (fetching) return;
-    if (!playerPlaying?.image) return setPlayingThemeColor("#001431");
-    // YouTube image cannot use with cors
-    if (playerPlaying.platform === PlatformName.Youtube) return;
-    const img = new Image();
-    const onLoad = () => {
-      colorThief = colorThief || new ColorThief();
-      setPlayingThemeColor(`rgb(${colorThief.getColor(img).join(", ")}`);
-    };
-    img.addEventListener("load", onLoad);
-    img.crossOrigin = "Anonymous";
-    img.src = playerPlaying.image;
-    return () => img.removeEventListener("load", onLoad);
-  }, [fetching, playerPlaying?.platform, playerPlaying?.image]);
-
   const playerContextValue = useMemo<IPlayerContext>(() => {
     let error: PlayerError | undefined;
     if (!!playingPlatform && !!crossTracks && !playerPlaying)
       error = PlayerError.NOT_AVAILABLE_ON_PLATFORM;
     return {
       state: {
-        playingThemeColor,
         playerPlaying,
         playingRoomId,
         originalTrack: crossTracks?.original,
@@ -174,14 +151,7 @@ const PlayerProvider: React.FC = ({ children }) => {
       player,
       forceResetPlayingPlatform,
     };
-  }, [
-    fetching,
-    playerPlaying,
-    playingRoomId,
-    crossTracks,
-    playingPlatform,
-    playingThemeColor,
-  ]);
+  }, [fetching, playerPlaying, playingRoomId, crossTracks, playingPlatform]);
 
   return (
     <PlayerContext.Provider value={playerContextValue}>

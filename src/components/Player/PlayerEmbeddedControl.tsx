@@ -19,7 +19,6 @@ import {
   SvgPlay,
   SvgPause,
   SvgAlertCircle,
-  SvgMusic,
   SvgSkipForward,
 } from "~/assets/svg";
 
@@ -73,43 +72,8 @@ const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
       }
       title={t("nowPlaying.skipSong")}
     >
-      <SvgSkipForward width="14" height="14" />
+      <SvgSkipForward width="14" height="14" className="fill-current" />
     </button>
-  );
-};
-
-const PlayerTrackMenu: React.FC<{ track: Track | null | undefined }> = ({
-  track,
-}) => {
-  const { t } = useI18n();
-  const [activeMenu, openMenu, closeMenu] = useModal();
-
-  return (
-    <>
-      <button
-        className="button mr-1 text-xs leading-none"
-        onClick={openMenu}
-        title={t("player.trackInfo")}
-        disabled={!track}
-      >
-        <SvgMusic width="14" height="14" />
-      </button>
-      {track && (
-        <TrackMenu id={track.id} active={activeMenu} close={closeMenu} />
-      )}
-    </>
-  );
-};
-
-const PlayerMenu: React.FC<{
-  roomId: string;
-  track: Track | null | undefined;
-}> = ({ roomId, track }) => {
-  return (
-    <div className="absolute top-0 right-0 p-1">
-      <PlayerTrackMenu track={track} />
-      <PlayerSkipNowPlaying roomId={roomId} />
-    </div>
   );
 };
 
@@ -123,30 +87,42 @@ const NowPlayingMeta: React.FC<{
   } = usePlayer();
 
   const roomPlayingStarted = playingRoomId === roomId;
+  const [activeMenu, openMenu, closeMenu] = useModal();
 
   return (
-    <div className="mb-1">
-      <h2 className="font-bold text-lg leading-tight truncate">
-        {roomPlayingStarted
-          ? track?.title ||
-            (fetching ? (
-              <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
-            ) : (
-              t("player.noneText")
-            ))
-          : t("player.pausedText")}
-      </h2>
-      <div className="truncate text-foreground-secondary text-sm">
-        {roomPlayingStarted
-          ? track?.artists.map(({ name }) => name).join(", ") ||
-            (fetching ? (
-              <span className="block h-4 w-32 bg-foreground-tertiary rounded-full animate-pulse" />
-            ) : (
-              t("player.noneHelpText")
-            ))
-          : t("player.pausedHelpText")}
+    <>
+      <div className="mb-1 flex flex-col items-start">
+        <div
+          role="link"
+          className="font-bold text-lg leading-tight truncate cursor-pointer hover:bg-background-secondary focus:outline-none max-w-full"
+          onClick={() => track && openMenu()}
+          tabIndex={0}
+          onKeyDown={({ key }) => key === "Enter" && track && openMenu()}
+        >
+          {roomPlayingStarted
+            ? track?.title ||
+              (fetching ? (
+                <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
+              ) : (
+                t("player.noneText")
+              ))
+            : t("player.pausedText")}
+        </div>
+        <div className="truncate text-foreground-secondary text-sm max-w-full">
+          {roomPlayingStarted
+            ? track?.artists.map(({ name }) => name).join(", ") ||
+              (fetching ? (
+                <span className="block h-4 w-32 bg-foreground-tertiary rounded-full animate-pulse" />
+              ) : (
+                t("player.noneHelpText")
+              ))
+            : t("player.pausedHelpText")}
+        </div>
       </div>
-    </div>
+      {track && (
+        <TrackMenu id={track.id} active={activeMenu} close={closeMenu} />
+      )}
+    </>
   );
 };
 
@@ -155,7 +131,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   const {
     player,
-    state: { playingRoomId, playerPlaying, originalTrack, playingThemeColor },
+    state: { playingRoomId, playerPlaying, originalTrack },
     playRoom,
   } = usePlayer();
 
@@ -181,11 +157,8 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   return (
     <>
-      <div
-        className="flex items-center relative transition-colors duration-300"
-        style={{ backgroundColor: playingThemeColor }}
-      >
-        <div className="bg-black absolute inset-0" style={{ opacity: ".15" }} />
+      <div className="flex items-center relative transition-colors duration-300">
+        <div className="absolute inset-0" style={{ opacity: ".15" }} />
         <div className="w-24 h-24 lg:w-32 lg:h-32">
           <div className="pb-full h-0 relative mx-auto bg-background-secondary overflow-hidden">
             {track && (
@@ -201,12 +174,11 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
           <button
             type="button"
             aria-label={isPlaying ? t("player.pause") : t("player.play")}
-            className="opacity-100 flex flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white transform hover:scale-105 transition-transform duration-300"
+            className="opacity-100 flex flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white text-blue-tertiary transform hover:scale-105 transition-transform duration-300"
             onClick={() => {
               if (!roomPlayingStarted) return playRoom(roomId);
               isPlaying ? player.pause() : player.play();
             }}
-            style={{ color: playingThemeColor }}
             disabled={!playerPlaying && roomPlayingStarted}
           >
             {isPlaying && roomPlayingStarted ? (
@@ -221,9 +193,11 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
           className="flex-1 w-0 p-2 lg:p-4 flex flex-col justify-center relative"
         >
           <NowPlayingMeta roomId={roomId} track={track} />
-          <div className="max-w-sm overflow-x-auto">
-            <NowPlayingReaction id={roomId} />
-            <PlayerMenu roomId={roomId} track={track} />
+          <div className="max-w-md overflow-x-auto flex items-center">
+            <PlayerSkipNowPlaying roomId={roomId} />
+            <div className="flex-1 w-0 ml-1">
+              <NowPlayingReaction id={roomId} />
+            </div>
           </div>
         </div>
       </div>

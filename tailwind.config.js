@@ -38,6 +38,11 @@ module.exports = {
       black: "#000",
       white: "#fff",
       transparent: "transparent",
+      blue: {
+        default: "#090e1f",
+        secondary: "#001431",
+        tertiary: "#303a60",
+      },
     },
     screens: {
       sm: "640px",

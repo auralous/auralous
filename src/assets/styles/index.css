@@ -15,8 +15,8 @@
     justify-content: center;
   }
   .bordered-box {
-    background-color: #090e1f;
-    border: 1px solid #303a60;
+    @apply bg-blue border-blue-tertiary;
+    border-width: 1px;
   }
 }
 
@@ -34,7 +34,7 @@ html {
 
 *::-webkit-scrollbar {
   background-color: transparent;
-  @apply w-2;
+  @apply w-2 h-2;
 }
 
 *::-webkit-scrollbar-thumb {
