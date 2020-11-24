@@ -200,10 +200,9 @@
     "pausedHelpText": "Press play to start listening",
     "noCrossTrackText": "is not available on",
     "platformChooser": {
-      "altTitle": "Choose music application to play",
-      "title": "Join Stereo or Select a Music Service",
+      "title": "Join or Listen as Guest",
       "listenAsGuest": "Listen as guest",
-      "helpText": "You can listen on one of the music applications as guest or join Stereo for features like add songs to and from your playlists, react to songs, and more. Change your preference in"
+      "helpText": "You can listen as guest or join Stereo for full experience. Change your preference in"
     },
     "stopPlaying": "Stop Playing",
     "youtube": {

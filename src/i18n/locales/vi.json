@@ -200,10 +200,9 @@
     "pausedHelpText": "Nhấn vào nút phát để bắt đầu nghe",
     "noCrossTrackText": "không có sẵn trên",
     "platformChooser": {
-      "altTitle": "Chọn ứng dụng nghe nhạc",
-      "title": "Tham gia Stereo hoặc chọn một ứng dụng nghe nhạc",
+      "title": "Đăng nhập hoặc nghe ẩn danh",
       "listenAsGuest": "Nghe không đăng nhập",
-      "helpText": "Bạn có thể nghe nhạc tạm thời với một trong các ứng dụng trên hoặc tham gia Stereo để sử dụng các tính năng như thêm nhạc vào và từ playlist, thả cảm xúc, và hơn thế nữa. Tùy chỉnh trong"
+      "helpText": "Bạn có thể nghe nhạc ẩn danh hoặc tham gia Stereo cho trải nghiệm toàn diện. Tùy chỉnh trong"
     },
     "stopPlaying": "Dừng Phát",
     "youtube": {

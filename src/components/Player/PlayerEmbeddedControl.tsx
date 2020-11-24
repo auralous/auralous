@@ -21,6 +21,7 @@ import {
   SvgAlertCircle,
   SvgSkipForward,
 } from "~/assets/svg";
+import PlayerPlatformChooser from "./PlayerPlatformChooser";
 
 const PlayerErrorBar: React.FC = () => {
   const { t } = useI18n();
@@ -131,7 +132,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   const {
     player,
-    state: { playingRoomId, playerPlaying, originalTrack },
+    state: { playingPlatform, playingRoomId, playerPlaying, originalTrack },
     playRoom,
   } = usePlayer();
 
@@ -155,9 +156,19 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
     [playerPlaying, originalTrack, roomPlayingStarted]
   );
 
+  // Should only show platform chooser if there is an ongoing track and no playingPlatform can be determined
+  const shouldShowPlatformChooser = useMemo<boolean>(
+    () => !playingPlatform && !!track,
+    [playingPlatform, track]
+  );
+
   return (
     <>
-      <div className="flex items-center relative transition-colors duration-300">
+      <div
+        className={`${
+          shouldShowPlatformChooser ? "hidden" : "flex"
+        } items-center relative transition-colors duration-300`}
+      >
         <div className="absolute inset-0" style={{ opacity: ".15" }} />
         <div className="w-24 h-24 lg:w-32 lg:h-32">
           <div className="pb-full h-0 relative mx-auto bg-background-secondary overflow-hidden">
@@ -202,6 +213,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
         </div>
       </div>
       <PlayerErrorBar />
+      {shouldShowPlatformChooser && <PlayerPlatformChooser />}
     </>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
 import Portal from "@reach/portal";
-import PlayerPlatformChooser from "./PlayerPlatformChooser";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
 import { useNowPlaying } from "~/components/NowPlaying/index";
@@ -18,19 +17,16 @@ const player = new Player();
 const PlayerProvider: React.FC = ({ children }) => {
   const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
 
-  const [fRPP, forceResetPlayingPlatform] = useState<unknown>({});
+  const [
+    guestPlayingPlatform,
+    setGuestPlayingPlatform,
+  ] = useState<PlatformName | null>(null);
 
   // Preferred platform to use by user
   const playingPlatform = useMemo<PlatformName | null>(
-    () =>
-      mAuth?.platform ||
-      (typeof window !== "undefined"
-        ? (window.sessionStorage.getItem(
-            "playingPlatform"
-          ) as PlatformName | null)
-        : null),
+    () => mAuth?.platform || guestPlayingPlatform,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mAuth, fRPP]
+    [mAuth, guestPlayingPlatform]
   );
 
   // Player Control: To play a room or a track
@@ -55,12 +51,6 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
     nowPlaying?.currentTrack?.trackId
-  );
-
-  // Should only show platform chooser if there is an ongoing track and no playingPlatform can be determined
-  const shouldShowPlatformChooser = useMemo<boolean>(
-    () => !playingPlatform && !!crossTracks,
-    [playingPlatform, crossTracks]
   );
 
   // The track that is playing
@@ -143,24 +133,28 @@ const PlayerProvider: React.FC = ({ children }) => {
         playingRoomId,
         originalTrack: crossTracks?.original,
         playingPlatform,
+        guestPlayingPlatform,
         fetching,
         error,
       },
       playRoom,
       stopPlaying: () => playRoom(""),
       player,
-      forceResetPlayingPlatform,
+      setGuestPlayingPlatform,
     };
-  }, [fetching, playerPlaying, playingRoomId, crossTracks, playingPlatform]);
+  }, [
+    fetching,
+    playerPlaying,
+    guestPlayingPlatform,
+    playingRoomId,
+    crossTracks,
+    playingPlatform,
+  ]);
 
   return (
     <PlayerContext.Provider value={playerContextValue}>
       <Portal>{DynamicPlayer && <DynamicPlayer />}</Portal>
-      <PlayerPlatformChooser
-        // force crossTracks as a hack to rechoose playerPlaying
-        resetFn={forceResetPlayingPlatform}
-        active={shouldShowPlatformChooser}
-      />
+
       {children}
     </PlayerContext.Provider>
   );

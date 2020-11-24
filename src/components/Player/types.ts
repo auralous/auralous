@@ -9,14 +9,15 @@ export interface IPlayerContext {
     playingRoomId: string;
     originalTrack: Track | null | undefined;
     playingPlatform: PlatformName | null;
+    guestPlayingPlatform: PlatformName | null;
     fetching: boolean;
     error?: PlayerError | null;
   };
   playRoom: (roomId: string) => void;
   stopPlaying: () => void;
   player: Player;
-  forceResetPlayingPlatform: React.Dispatch<
-    React.SetStateAction<Record<string, unknown>>
+  setGuestPlayingPlatform: React.Dispatch<
+    React.SetStateAction<PlatformName | null>
   >;
 }
 

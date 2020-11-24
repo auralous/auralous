@@ -245,20 +245,10 @@ const MusicConnection: React.FC = () => {
   // Account
   const { data: mAuth } = useMAuth();
 
-  // Local
-  const { forceResetPlayingPlatform } = usePlayer();
-  const [localPlatform, setLocalPlatform] = useState<PlatformName | "">("");
-  useEffect(() => {
-    setLocalPlatform(
-      (window.sessionStorage.getItem("playingPlatform") || "") as
-        | PlatformName
-        | ""
-    );
-  }, []);
-  useEffect(() => {
-    window.sessionStorage.setItem("playingPlatform", localPlatform || "");
-    forceResetPlayingPlatform({});
-  }, [localPlatform, forceResetPlayingPlatform]);
+  const {
+    setGuestPlayingPlatform,
+    state: { guestPlayingPlatform },
+  } = usePlayer();
 
   const PlatformChoices = useMemo(
     () =>
@@ -270,7 +260,7 @@ const MusicConnection: React.FC = () => {
     []
   );
 
-  const platform = mAuth?.platform || localPlatform;
+  const platform = mAuth?.platform || guestPlayingPlatform || undefined;
   const name = platform ? PLATFORM_FULLNAMES[platform] : null;
   const PlatformSvg = platform ? SvgByPlatformName[platform] : null;
 
@@ -302,9 +292,11 @@ const MusicConnection: React.FC = () => {
                 </span>{" "}
                 <select
                   aria-label="Listen on..."
-                  value={platform}
+                  value={platform || ""}
                   onChange={(e) =>
-                    setLocalPlatform(e.currentTarget.value as PlatformName)
+                    setGuestPlayingPlatform(
+                      e.currentTarget.value as PlatformName
+                    )
                   }
                   onBlur={undefined}
                   className="bg-white bg-opacity-50 font-bold p-1 rounded-lg"
