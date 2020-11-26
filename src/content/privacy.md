@@ -72,4 +72,4 @@ When you deactivate your account, we’ll ensure that nothing is stored on our s
 
 Stereo may update this policy once in a blue moon — we’ll notify you about significant changes by emailing the account owner or by placing a prominent notice on our site. You can access, change or delete your personal information at any time in [settings](/settings).
 
-Questions about this privacy policy? Please [get in touch](/contact) and we’ll be happy to answer them!
+Questions about this privacy policy? Please [get in touch](/support) and we’ll be happy to answer them!

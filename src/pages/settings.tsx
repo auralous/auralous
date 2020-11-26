@@ -281,7 +281,7 @@ const MusicConnection: React.FC = () => {
             {mAuth ? (
               <span className="opacity-75">
                 {t("settings.listening.withAuth", { name })},{" "}
-                <a target="_blank" href="/contact" className="underline">
+                <a target="_blank" href="/support" className="underline">
                   {t("settings.listening.contactUs")}
                 </a>
               </span>

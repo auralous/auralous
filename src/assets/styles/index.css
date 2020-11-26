@@ -240,6 +240,15 @@ html {
   }
 }
 
+.content-support {
+  h2 {
+    @apply text-center;
+  }
+  h4 {
+    @apply text-warning-light;
+  }
+}
+
 .pt-youtube {
   @apply pt-48 md:pt-0;
 }

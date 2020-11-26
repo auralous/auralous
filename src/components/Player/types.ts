@@ -22,5 +22,5 @@ export interface IPlayerContext {
 }
 
 export enum PlayerError {
-  NOT_AVAILABLE_ON_PLATFORM,
+  NOT_AVAILABLE_ON_PLATFORM = "notAvailableOnPlatform",
 }

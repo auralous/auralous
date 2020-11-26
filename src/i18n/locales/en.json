@@ -26,12 +26,15 @@
       "p2Bold": "You are in control"
     }
   },
-  "contact": {
-    "title": "Contact",
+  "support": {
+    "title": "Support",
     "hi": "Hi",
     "there": "there",
     "how": ", how can we help?",
-    "p": "Be sure to reach out at any time should you have any ideas, questions, or encounter any bugs."
+    "p": "Be sure to reach out at any time should you have any ideas, questions, or encounter any bugs.",
+    "articles": {
+      "title": "Guide"
+    }
   },
   "settings": {
     "title": "Settings",
@@ -311,7 +314,7 @@
   "footer": {
     "privacy": "Privacy",
     "contribute": "Contribute",
-    "contact": "Contact"
+    "support": "Support"
   },
   "common": {
     "backToHome": "Back to home",

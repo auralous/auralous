@@ -26,12 +26,15 @@
       "p2Bold": "Bạn luôn nắm quyền"
     }
   },
-  "contact": {
+  "support": {
     "title": "Liên hệ",
     "hi": "Chào",
     "there": "đằng ấy",
     "how": ", chúng mình có thể giúp gì?",
-    "p": "Hãy nhớ cho chúng mình biết góp ý, câu hỏi, hay báo lỗi của bạn."
+    "p": "Hãy nhớ cho chúng mình biết góp ý, câu hỏi, hay báo lỗi của bạn.",
+    "articles": {
+      "title": "Hướng dẫn"
+    }
   },
   "settings": {
     "title": "Cài đặt",
@@ -311,7 +314,7 @@
   "footer": {
     "privacy": "Riêng tư",
     "contribute": "Đóng góp",
-    "contact": "Liên hệ"
+    "support": "Liên hệ"
   },
   "common": {
     "backToHome": "Trở về",
