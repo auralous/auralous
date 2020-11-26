@@ -1,6 +1,6 @@
 ---
 title: "Permissions"
-subtitle: "Why requiring this permission from my Google, Spotify, Apple Music account?"
+subtitle: "Why asking this permission from my Google, Spotify, Apple Music account?"
 ---
 
 First of all, it is great that you are aware of permissions granting to your everyday applications. Doing so helps keep your account secure.
@@ -27,11 +27,11 @@ This allows us to send you emails on invites to room or updates from followed pe
 
 This allows us to retrieve your public and private playlists. This information is only for you to import songs while using the app and is **not** stored on the server.
 
-#### ⚠️ See, edit, and permanently delete your YouTube videos, ratings, comments and captions
+#### ⚠️ View and manage your assets and associated content on YouTube
 
-This allows us only to add songs to and create your public and private playlists. We **never** see, edit, or delete your videos. The reason for this "sensitive" permission is that there is no alternative scopes provided by Google that allows to write to your playlists.
+This permission may be misleading, but it allows us only to add songs to and create your public and private playlists. We **never** look at, edit, or delete any other resources within your account.
 
-You **may** deny this permission by unchecking the box on prompted page, knowing that you will not be able to add to playlists.
+You **may** deny this permission by unchecking the box on the prompted page, knowing that you will not be able to add to playlists.
 
 ## Spotify
 
@@ -47,4 +47,4 @@ This allows us to retrieve your playlists and play songs using Spotify API.
 
 #### ⚠️ Take actions in Spotify on your behalf
 
-This allows us to add songs and create to your public and private playlists. This information is only for you to import songs while using the app and is **not** stored on the server. This also allows us to control your Spotify playback while you use the app.
+This allows us to add songs to and create your public and private playlists. This information is only for you to import songs while using the app and is **not** stored on the server. This also allows us to control your Spotify playback while you use the app.
