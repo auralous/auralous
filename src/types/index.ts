@@ -15,3 +15,10 @@ export interface MAuth {
   expiredAt?: Date;
   id: string;
 }
+
+export interface SupportArticle {
+  title: string;
+  subtitle: string;
+  content: string;
+  slug: string;
+}

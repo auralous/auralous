@@ -61,4 +61,13 @@ module.exports = withBundleAnalyzer({
   devIndicators: {
     autoPrerender: false,
   },
+  async redirects() {
+    return [
+      {
+        source: "/contact",
+        destination: "/support",
+        permanent: true,
+      },
+    ];
+  },
 });

@@ -17,11 +17,11 @@ const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {
         description="Here on Stereo, you share your music, not your data. Learn more about our privacy policy."
       />
       <div className="py-12 px-2">
-        <div className="text-center container">
+        <div className="text-center">
           <h1 className="text-5xl leading-none font-bold">Privacy Policy</h1>
         </div>
       </div>
-      <div className="py-20 leading-loose container">
+      <div className="py-20 px-2 leading-loose max-w-xl mx-auto">
         <div className="content text-lg">
           <div dangerouslySetInnerHTML={{ __html }} />
           <small className="text-foreground-tertiary">

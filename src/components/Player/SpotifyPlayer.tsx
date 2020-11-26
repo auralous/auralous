@@ -288,7 +288,7 @@ export default function SpotifyPlayer() {
               </p>
               <p className="text-white text-opacity-75">
                 {t("player.spotify.errorHelpText")}{" "}
-                <a href="/contact" target="_blank" className="underline">
+                <a href="/support" target="_blank" className="underline">
                   {t("player.contactSupportText")}
                 </a>
                 .
