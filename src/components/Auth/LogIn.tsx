@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import Link from "next/link";
 import { Dialog } from "@reach/dialog";
+import { useRouter } from "next/router";
 import Welcome from "./Welcome";
 import { useModal } from "~/components/Modal/index";
 import { useI18n } from "~/i18n/index";
@@ -42,6 +43,13 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
     closeWelcome();
     closeModal();
   }, [closeModal, closeWelcome]);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    router.events.on("routeChangeComplete", close);
+    return () => router.events.off("routeChangeComplete", close);
+  }, [router, close]);
 
   const logIn = useCallback(
     (provider: PlatformName) => {
@@ -134,16 +142,14 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               </div>
             </div>
             <p className="mt-4 text-sm p-2 rounded-lg text-warning-light max-w-xl mx-auto">
-              {t("auth.permission")}{" "}
               <Link href="/support/permissions">
-                <button
-                  onClick={close}
-                  className="underline font-bold hover:text-warning transition-colors duration-200"
-                >
+                <a className="hover:underline">
+                  <span role="img" aria-label="Light Bulb">
+                    💡
+                  </span>{" "}
                   {t("auth.permissionLink")}
-                </button>
+                </a>
               </Link>
-              .
             </p>
             <div className="mt-4 text-xs text-foreground-secondary">
               <p>

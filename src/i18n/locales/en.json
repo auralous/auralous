@@ -310,8 +310,7 @@
       "andOr": "and/or",
       "whereApplicable": "where applicable"
     },
-    "permission": "We may require sensitive permissions into your account. Learn how we transparently use them for your experience in",
-    "permissionLink": "this support article"
+    "permissionLink": "Why asking for such permissions from my account?"
   },
   "footer": {
     "privacy": "Privacy",
