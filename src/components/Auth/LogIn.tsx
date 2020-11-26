@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import Welcome from "./Welcome";
 import { useModal } from "~/components/Modal/index";
 import { useI18n } from "~/i18n/index";
-import { SvgSpotify, SvgGoogleColor } from "~/assets/svg";
+import { SvgSpotify, SvgGoogleColor, SvgX } from "~/assets/svg";
 import { PlatformName } from "~/graphql/gql.gen";
 
 const SignInContext = createContext<[boolean, () => void]>([
@@ -104,19 +104,24 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
         aria-label={t("auth.label")}
         isOpen={active}
         onDismiss={close}
-        className="p-4"
+        className="p-0 border-0 shadow-xl"
       >
-        <div className="container">
+        <div
+          className="p-4 bg-blue-tertiary bg-opacity-50 bg-repeat"
+          style={{
+            background: `url("/images/topography.svg")`,
+          }}
+        >
           <div className="text-center flex flex-col items-center p-4">
             <h1 className="text-3xl font-bold">Hellooo!</h1>
             <div className="flex flex-wrap flex-center">
-              <div className="m-1 p-2 flex flex-col">
+              <div className="m-1 p-1 flex flex-col">
                 <span className="text-foreground-secondary mb-1 text-xs">
                   {t("auth.listenOn")} <b>YouTube</b>
                 </span>
                 <button
                   onClick={() => logIn(PlatformName.Youtube)}
-                  className="button bg-white text-black text-opacity-50 h-12"
+                  className="button bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity duration-300 rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgGoogleColor
@@ -127,13 +132,13 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                   <span className="ml-4 text-sm">Continue with Google</span>
                 </button>
               </div>
-              <div className="m-1 p-2 flex flex-col">
-                <span className="text-foreground-secondary  mb-1 text-xs">
+              <div className="m-1 p-1 flex flex-col">
+                <span className="text-foreground-secondary mb-1 text-xs">
                   {t("auth.listenOn")} <b>Spotify</b>
                 </span>
                 <button
                   onClick={() => logIn(PlatformName.Spotify)}
-                  className="button brand-spotify h-12"
+                  className="button brand-spotify h-12 hover:opacity-75 transition-opacity duration-300 rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgSpotify width="24" fill="currentColor" strokeWidth="0" />
@@ -151,7 +156,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </a>
               </Link>
             </p>
-            <div className="mt-4 text-xs text-foreground-secondary">
+            <div className="mt-6 text-xs text-foreground-secondary">
               <p>
                 {t("player.youtube.footerText")}{" "}
                 <a
@@ -175,11 +180,8 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 {t("player.spotify.footerTextAfter")}.
               </p>
             </div>
-            <button className="mt-4 button" onClick={close}>
-              {t("auth.cancelText")}
-            </button>
           </div>
-          <p className="mx-auto w-128 max-w-full p-4 text-foreground-tertiary text-xs text-center">
+          <p className="mx-auto w-128 max-w-full p-4 pt-0 text-foreground-tertiary text-xs text-center">
             {t("auth.footerText.pre")}{" "}
             <a target="_blank" href="/privacy" className="underline">
               {t("auth.footerText.privacyPolicy")}
@@ -205,6 +207,14 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             {t("auth.footerText.whereApplicable")}.
           </p>
         </div>
+        <button
+          type="button"
+          className="button button-transparent absolute top-2 right-0"
+          onClick={close}
+          title={t("auth.cancelText")}
+        >
+          <SvgX />
+        </button>
       </Dialog>
       <Welcome active={activeWelcome} close={close} />
     </>
