@@ -27,7 +27,7 @@ This allows us to send you emails on invites to room or updates from followed pe
 
 This allows us to retrieve your public and private playlists. This information is only for you to manage playlist songs while using the app and is **not** stored on the server.
 
-#### ⚠️ View and manage your assets and associated content on YouTube
+#### ⚠️ View and manage your assets and associated content on YouTube (Optional)
 
 This permission may be misleading, but it allows us to add songs to and create your public and private playlists. We **never** look at, edit, or delete any other resources within your account.
 
