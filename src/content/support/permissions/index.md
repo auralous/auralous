@@ -1,9 +1,9 @@
 ---
 title: "Permissions"
-subtitle: "Why asking this permission from my Google, Spotify, Apple Music account?"
+subtitle: "Why asking for such permissions from my Google, Spotify, Apple Music account?"
 ---
 
-First of all, it is great that you are aware of permissions granting to other applications. Doing so helps keep your account secure.
+First of all, it is great that you are aware of permissions you grant to other applications. Doing so helps keep your account secure.
 
 We would like to be transparent on how we use the requested permimssions to provide you a good experience at Stereo. You can also [check out our source code](https://github.com/hoangvvo/stereo-web) to see how they are done.
 
