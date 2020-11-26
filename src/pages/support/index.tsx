@@ -10,7 +10,7 @@ import { SupportArticle } from "~/types/index";
 
 const ContactLink: React.FC<{ href: string }> = ({ href, children }) => (
   <a
-    className="button button-foreground rounded-full m-1 py-4 px-8"
+    className="button button-foreground rounded-full m-1 py-3 px-6"
     target="_blank"
     rel="noreferrer"
     href={href}
@@ -55,7 +55,7 @@ const SupportPage: NextPage<{
           </h2>
           {pages.map((page, index) => (
             <Link key={page.slug} href={`/support/${page.slug}`}>
-              <a className="flex items-center opacity-75 hover:opacity-100 transition-opacity duration-200">
+              <a className="mb-2 flex items-center opacity-75 hover:opacity-100 transition-opacity duration-200">
                 <span className="flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-pink text-white">
                   {index + 1}
                 </span>

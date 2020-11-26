@@ -112,7 +112,7 @@ const Footer: React.FC = () => {
         </a>
         <Link href="/support">
           <a className="button button-transparent p-0 mx-2">
-            {t("footer.contact")}
+            {t("footer.support")}
           </a>
         </Link>
       </div>

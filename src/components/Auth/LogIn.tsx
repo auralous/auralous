@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
+import Link from "next/link";
 import { Dialog } from "@reach/dialog";
 import Welcome from "./Welcome";
 import { useModal } from "~/components/Modal/index";
@@ -132,6 +133,18 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </button>
               </div>
             </div>
+            <p className="mt-4 text-sm p-2 rounded-lg text-warning-light max-w-xl mx-auto">
+              {t("auth.permission")}{" "}
+              <Link href="/support/permissions">
+                <button
+                  onClick={close}
+                  className="underline font-bold hover:text-warning transition-colors duration-200"
+                >
+                  {t("auth.permissionLink")}
+                </button>
+              </Link>
+              .
+            </p>
             <div className="mt-4 text-xs text-foreground-secondary">
               <p>
                 {t("player.youtube.footerText")}{" "}

@@ -17,9 +17,11 @@ const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
       <NextSeo title={`${page.title} - ${page.subtitle}`} />
       <div className="py-12 px-2">
         <div className="text-center container">
-          <h1 className="text-5xl leading-none font-bold">
-            <span className="block">{page.title}</span>
-            <span className="text-lg">{page.subtitle}</span>
+          <h1 className="font-bold">
+            <span className="block text-5xl leading-none mb-2">
+              {page.title}
+            </span>
+            <span className="text-lg leading-none">{page.subtitle}</span>
           </h1>
         </div>
       </div>

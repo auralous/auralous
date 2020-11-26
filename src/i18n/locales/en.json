@@ -309,7 +309,9 @@
       "spotifyTerm": "Spotify Privacy Policy",
       "andOr": "and/or",
       "whereApplicable": "where applicable"
-    }
+    },
+    "permission": "We may require sensitive permissions into your account. Learn how we transparently use them for your experience in",
+    "permissionLink": "this support article"
   },
   "footer": {
     "privacy": "Privacy",
