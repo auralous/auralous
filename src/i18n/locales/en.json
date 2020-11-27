@@ -303,14 +303,15 @@
     "listenOn": "Listen on",
     "cancelText": "Go back",
     "footerText": {
-      "pre": "By continuing, you agree to our",
+      "pre": "By continuing, you agree to our friendly",
       "privacyPolicy": "Privacy Policy",
       "youtubeTerm": "YouTube Terms of Service",
       "spotifyTerm": "Spotify Privacy Policy",
       "andOr": "and/or",
       "whereApplicable": "where applicable"
     },
-    "permissionLink": "Why asking for such permissions from my account?"
+    "permissionLink": "Why asking for such permissions from my account?",
+    "createNotice": "If you did not previously sign up, you will be creating a Stereo account"
   },
   "footer": {
     "privacy": "Privacy",

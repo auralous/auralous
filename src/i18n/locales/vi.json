@@ -310,7 +310,8 @@
       "andOr": "và/hoặc",
       "whereApplicable": "ở nơi áp dụng"
     },
-    "permissionLink": "Tại sao cần quyền hạn này từ tài khoản của tôi?"
+    "permissionLink": "Tại sao cần quyền hạn này từ tài khoản của tôi?",
+    "createNotice": "Nếu đây là lần đầu tiên đăng nhập, bạn sẽ tạo một tài khoản Stereo"
   },
   "footer": {
     "privacy": "Riêng tư",

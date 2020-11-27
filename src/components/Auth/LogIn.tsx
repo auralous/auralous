@@ -146,7 +146,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </button>
               </div>
             </div>
-            <p className="mt-4 text-sm p-2 rounded-lg text-warning-light max-w-xl mx-auto">
+            <p className="mt-2 text-xs p-2 text-foreground-tertiary">
+              {t("auth.createNotice")}.
+            </p>
+            <p className="text-xs p-2 rounded-lg text-warning-light max-w-xl mx-auto">
               <Link href="/support/permissions">
                 <a className="hover:underline">
                   <span role="img" aria-label="Light Bulb">
@@ -156,30 +159,6 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </a>
               </Link>
             </p>
-            <div className="mt-6 text-xs text-foreground-secondary">
-              <p>
-                {t("player.youtube.footerText")}{" "}
-                <a
-                  style={{ color: "#ff0022" }}
-                  className="opacity-50 hover:opacity-75"
-                  href="https://www.youtube.com/premium"
-                >
-                  youtube.com/premium
-                </a>{" "}
-                {t("player.youtube.footerTextAfter")}.
-              </p>
-              <p>
-                {t("player.spotify.footerText")}{" "}
-                <a
-                  style={{ color: "#1db954" }}
-                  className="opacity-50 hover:opacity-75"
-                  href="https://www.spotify.com/premium"
-                >
-                  spotify.com/premium
-                </a>{" "}
-                {t("player.spotify.footerTextAfter")}.
-              </p>
-            </div>
           </div>
           <p className="mx-auto w-128 max-w-full p-4 pt-0 text-foreground-tertiary text-xs text-center">
             {t("auth.footerText.pre")}{" "}
