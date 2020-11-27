@@ -34,7 +34,11 @@ module.exports = {
         dark: "#f49b0b",
         label: "#000",
       },
-      pink: "#d74d49",
+      pink: {
+        default: "#d74d49",
+        dark: "#ce4a4a",
+        label: "#fff",
+      },
       black: "#000",
       white: "#fff",
       transparent: "transparent",

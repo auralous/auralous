@@ -16,6 +16,7 @@ const noNavbarRoutes = ["/room/[roomId]", "/", "/welcome"];
 const noFooterRoutes = ["/room/[roomId]", "/welcome"];
 
 const Navbar: React.FC = () => {
+  const { t } = useI18n();
   const router = useRouter();
   const shouldHideNavFoot = useMemo(
     () => noNavbarRoutes.includes(router.pathname),
@@ -60,8 +61,8 @@ const Navbar: React.FC = () => {
               />
             </div>
           ) : (
-            <button className="button" onClick={openLogin}>
-              Join
+            <button className="button button-primary" onClick={openLogin}>
+              {t("common.signIn")}
             </button>
           )}
         </div>

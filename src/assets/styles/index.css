@@ -82,6 +82,14 @@ html {
       @apply border-none;
     }
   }
+  &.button-primary {
+    @apply text-pink-label bg-pink;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-pink-dark;
+      }
+    }
+  }
   &.button-danger {
     @apply text-danger-label;
     @apply bg-danger;
