@@ -167,7 +167,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
       <div
         className={`${
           shouldShowPlatformChooser ? "hidden" : "flex"
-        } items-center relative transition-colors duration-300`}
+        } items-center relative transition-colors`}
       >
         <div className="absolute inset-0" style={{ opacity: ".15" }} />
         <div className="w-24 h-24 lg:w-32 lg:h-32">
@@ -183,9 +183,8 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
         </div>
         <div className="w-16 h-24 flex flex-center -ml-8 z-10">
           <button
-            type="button"
             aria-label={isPlaying ? t("player.pause") : t("player.play")}
-            className="opacity-100 flex flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white text-blue-tertiary transform hover:scale-105 transition-transform duration-300"
+            className="opacity-100 flex flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white text-blue-tertiary transform hover:scale-105 transition-transform"
             onClick={() => {
               if (!roomPlayingStarted) return playRoom(roomId);
               isPlaying ? player.pause() : player.play();

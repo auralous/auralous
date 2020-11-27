@@ -68,7 +68,6 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         </Modal.Content>
         <Modal.Footer>
           <button
-            type="button"
             className="button button-transparent text-danger-light"
             onClick={() =>
               deleteUser().then(() => {
@@ -79,11 +78,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           >
             {t("settings.dangerZone.delete.action")}
           </button>
-          <button
-            type="button"
-            onClick={closeDelete}
-            className="button button-success"
-          >
+          <button onClick={closeDelete} className="button button-success">
             {t("settings.dangerZone.delete.cancel")}
           </button>
         </Modal.Footer>
@@ -98,11 +93,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           {t("settings.dangerZone.delete.descriptionData")}
         </a>
       </p>
-      <button
-        type="button"
-        className="button button-danger mt-2"
-        onClick={openDelete}
-      >
+      <button className="button button-danger mt-2" onClick={openDelete}>
         {t("settings.dangerZone.delete.action")}
       </button>
     </>

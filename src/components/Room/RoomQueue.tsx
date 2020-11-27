@@ -46,7 +46,7 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
         const getClassName = (index: number) =>
           `flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
             index === selectedIndex ? "bg-pink text-white" : ""
-          } transition duration-200`;
+          } transition`;
         return (
           <>
             <TabList className="flex flex-none">

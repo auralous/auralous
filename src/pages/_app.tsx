@@ -11,7 +11,6 @@ import { ToastProvider } from "~/components/Toast/index";
 import { LogInProvider } from "~/components/Auth/index";
 import { createUrqlClient } from "~/graphql/urql";
 import "~/assets/styles/index.css";
-import "nprogress/nprogress.css";
 import { useMAuth } from "~/hooks/user";
 import { I18n } from "~/i18n/index";
 

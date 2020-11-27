@@ -158,11 +158,7 @@ const IndexPage: React.FC = () => {
             className="absolute-center opacity-50 hover:opacity-100 top-auto bottom-8"
             aria-label="Scroll down"
           >
-            <SvgChevronDown
-              width={32}
-              height={32}
-              className="animate-bounce "
-            />
+            <SvgChevronDown width={32} height={32} className="animate-bounce" />
           </button>
         </div>
         <div ref={aboveIntro} />

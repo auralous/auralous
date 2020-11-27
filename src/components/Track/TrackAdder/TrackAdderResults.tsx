@@ -30,7 +30,6 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
       <TrackItem showMenu id={data.items[index]} />
       <div className="flex content-end items-center ml-2">
         <button
-          type="button"
           aria-label="Add track"
           className="button p-0 h-10 w-10"
           onClick={async () => {

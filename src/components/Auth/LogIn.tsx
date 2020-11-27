@@ -121,12 +121,12 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </span>
                 <button
                   onClick={() => logIn(PlatformName.Youtube)}
-                  className="button bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity duration-300 rounded-full"
+                  className="button bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgGoogleColor
+                    className="fill-current"
                     width="24"
-                    fill="currentColor"
                     strokeWidth="0"
                   />
                   <span className="ml-4 text-sm">Continue with Google</span>
@@ -138,10 +138,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </span>
                 <button
                   onClick={() => logIn(PlatformName.Spotify)}
-                  className="button brand-spotify h-12 hover:opacity-75 transition-opacity duration-300 rounded-full"
+                  className="button brand-spotify h-12 hover:opacity-75 transition-opacity rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
-                  <SvgSpotify width="24" fill="currentColor" strokeWidth="0" />
+                  <SvgSpotify width="24" className="fill-current stroke-0" />
                   <span className="ml-2 text-sm">Continue with Spotify</span>
                 </button>
               </div>
@@ -160,7 +160,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               </Link>
             </p>
           </div>
-          <p className="mx-auto w-128 max-w-full p-4 pt-0 text-foreground-tertiary text-xs text-center">
+          <p className="mx-auto w-96 max-w-full p-4 pt-0 text-foreground-tertiary text-xs text-center">
             {t("auth.footerText.pre")}{" "}
             <a target="_blank" href="/privacy" className="underline">
               {t("auth.footerText.privacyPolicy")}
@@ -187,7 +187,6 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
           </p>
         </div>
         <button
-          type="button"
           className="button button-transparent absolute top-2 right-0"
           onClick={close}
           title={t("auth.cancelText")}

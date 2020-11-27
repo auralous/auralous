@@ -50,7 +50,6 @@ const Modal: React.FC<{
     {children}
     {onOutsideClick && (
       <button
-        type="button"
         className="button button-transparent absolute top-4 right-4"
         onClick={onOutsideClick}
       >

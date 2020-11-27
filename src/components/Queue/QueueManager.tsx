@@ -92,7 +92,6 @@ const QueueDraggableItem: React.FC<{
       </div>
       <div className="flex content-end items-center ml-2">
         <button
-          type="button"
           title={t("queue.manager.removeTrackText")}
           className={`button ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
           onClick={removeItem}
@@ -104,7 +103,7 @@ const QueueDraggableItem: React.FC<{
             width="12"
             height="12"
             viewBox="0 0 24 24"
-            stroke="currentColor"
+            className="stroke-current"
           >
             <path
               strokeLinecap="round"

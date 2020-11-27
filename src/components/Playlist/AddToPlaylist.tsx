@@ -40,10 +40,8 @@ const PlaylistItem: React.FC<{
         <p>
           <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
             <SvgPlatformName
-              className="inline"
-              fill="currentColor"
+              className="inline fill-current stroke-0"
               width="18"
-              stroke="0"
             />
           </span>
           {playlist.title}
@@ -136,7 +134,6 @@ const CreatePlaylist: React.FC<{
     </>
   ) : (
     <button
-      type="button"
       className="button w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
       onClick={() => setIsCreatingPlaylist(true)}
     >

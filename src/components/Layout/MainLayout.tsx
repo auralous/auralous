@@ -1,16 +1,11 @@
 import React, { useMemo } from "react";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import NProgress from "nprogress";
 import { PlayerMinibar } from "~/components/Player/index";
 import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 import { SvgPlus, SvgLogo, SvgSettings } from "~/assets/svg";
-
-Router.events.on("routeChangeStart", () => NProgress.start());
-Router.events.on("routeChangeComplete", () => NProgress.done());
-Router.events.on("routeChangeError", () => NProgress.done());
 
 const noNavbarRoutes = ["/room/[roomId]", "/", "/welcome"];
 const noFooterRoutes = ["/room/[roomId]", "/welcome"];
@@ -32,8 +27,7 @@ const Navbar: React.FC = () => {
           <Link href="/browse">
             <a className="ml-2 mr-6" aria-label="Back to Explore">
               <SvgLogo
-                className="mx-auto"
-                fill="currentColor"
+                className="mx-auto fill-current"
                 width="112"
                 height="32"
               />
@@ -42,7 +36,7 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex content-end items-center flex-none">
           <Link href="/new">
-            <a aria-label="Add new" type="button" className="button p-2 mr-2">
+            <a aria-label="Add new" className="button p-2 mr-2">
               <SvgPlus />
             </a>
           </Link>

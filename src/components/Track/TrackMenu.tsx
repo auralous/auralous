@@ -46,7 +46,7 @@ const TrackMenu: React.FC<{
           className="button button-transparent text-sm mb-2"
         >
           {SvgPlatformName && (
-            <SvgPlatformName width="20" fill="currentColor" />
+            <SvgPlatformName width="20" className="fill-current" />
           )}
           <span className="ml-2 text-xs">
             {t("track.listenOn", {

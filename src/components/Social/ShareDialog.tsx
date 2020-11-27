@@ -37,7 +37,7 @@ const ShareDialog: React.FC<{
             readOnly
             value={shareUri}
           />
-          <button type="button" onClick={copy} className="button m-1 h-12">
+          <button onClick={copy} className="button m-1 h-12">
             {copied ? t("share.copied") : t("share.copy")}
           </button>
         </div>
@@ -53,7 +53,7 @@ const ShareDialog: React.FC<{
               rel="noopener noreferrer"
               href={`https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&href=${shareUri}&display=popup`}
             >
-              <SvgFacebook fill="currentColor" strokeWidth="0" />
+              <SvgFacebook className="fill-current stroke-0" />
             </a>
             <a
               title="Twitter"
@@ -64,7 +64,7 @@ const ShareDialog: React.FC<{
                 name
               )}`}
             >
-              <SvgTwitter fill="currentColor" strokeWidth="0" />
+              <SvgTwitter className="fill-current stroke-0" />
             </a>
             <a
               title="Reddit"
@@ -75,7 +75,7 @@ const ShareDialog: React.FC<{
                 name
               )}`}
             >
-              <SvgReddit width="24" fill="currentColor" strokeWidth="0" />
+              <SvgReddit width="24" className="fill-current stroke-0" />
             </a>
             <a
               title="Email"

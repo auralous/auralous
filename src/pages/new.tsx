@@ -308,7 +308,7 @@ const NewPage: NextPage = () => {
     <>
       <NextSeo title={t("new.title")} noindex />
       <div className="container mx-auto">
-        <div className="py-6 px-3 min-h-40">
+        <div className="py-6 px-3 h-40">
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -320,7 +320,7 @@ const NewPage: NextPage = () => {
             <div className="relative mb-2">
               <input
                 ref={inputRef}
-                className="w-full px-4 py-2 text-center font-bold border-b-4 border-opacity-50 focus:border-opacity-100 border-pink bg-transparent transition duration-300"
+                className="w-full px-4 py-2 text-center font-bold border-b-4 border-opacity-50 focus:border-opacity-100 border-pink bg-transparent transition"
                 placeholder={t("new.playlist.helpText")}
                 aria-label={t("new.playlist.title")}
               />
@@ -376,7 +376,7 @@ const NewPage: NextPage = () => {
                 index === selectedIndex
                   ? "bg-pink text-white"
                   : "opacity-75 hover:opacity-100 bg-white text-pink"
-              } transition duration-300`;
+              } transition`;
             return (
               <>
                 <TabList className="flex flex-none mb-2">
@@ -384,7 +384,7 @@ const NewPage: NextPage = () => {
                   <Tab
                     className={`flex-1 mx-1 p-2 text-xs rounded-lg font-bold ${
                       initTracks?.length ? getClassName(1) : "opacity-25"
-                    } transition duration-300`}
+                    }`}
                     disabled={!initTracks?.length}
                   >
                     {t("new.addExisted.title")}

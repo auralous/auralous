@@ -35,7 +35,7 @@ export const TrackItem: React.FC<{
               <div className="truncate content-start text-left">
                 <span className="inline-flex h-6 align-middle px-1">
                   {SvgPlatformName && (
-                    <SvgPlatformName width="16" fill="currentColor" />
+                    <SvgPlatformName width="16" className="fill-current" />
                   )}
                 </span>{" "}
                 <h4
