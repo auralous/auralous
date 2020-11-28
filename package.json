@@ -35,6 +35,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^17.0.1",
     "react-focus-lock": "^2.4.1",
+    "react-intersection-observer": "^8.31.0",
     "react-query": "^2.26.2",
     "react-remove-scroll": "^2.4.0",
     "react-spring": "^8.0.27",
