@@ -120,7 +120,7 @@ const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
           <div className="mb-2 bordered-box rounded-lg overflow-hidden">
             <PlayerEmbeddedControl roomId={room.id} />
           </div>
-          <div className="bordered-box rounded-lg pt-1 flex-1 overflow-hidden">
+          <div className="bordered-box rounded-lg flex-1 overflow-hidden">
             <RoomQueue roomState={roomState} room={room} />
           </div>
         </div>
