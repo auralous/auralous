@@ -169,7 +169,14 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
           shouldShowPlatformChooser ? "hidden" : "flex"
         } items-center relative transition-colors`}
       >
-        <div className="absolute inset-0" style={{ opacity: ".15" }} />
+        {track && (
+          <img
+            className="absolute inset-0 transform scale-125 w-full h-full object-cover"
+            alt={`${t("nowPlaying.title")}: ${track.title}`}
+            src={track.image}
+            style={{ filter: "blur(20px) brightness(.7)" }}
+          />
+        )}
         <div className="w-24 h-24 lg:w-32 lg:h-32">
           <div className="pb-full h-0 relative mx-auto bg-background-secondary overflow-hidden">
             {track && (
