@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DialogOverlay } from "@reach/dialog";
-import { useTransition, animated, config as springConfig } from "react-spring";
+import { useTransition, animated } from "react-spring";
 import { AddToPlaylist } from "~/components/Playlist/index";
 import { SvgPlus, SvgX } from "~/assets/svg";
 import { useTrackQuery } from "~/graphql/gql.gen";
@@ -24,19 +24,9 @@ const TrackMenu: React.FC<{
     : null;
 
   const transitions = useTransition(active, null, {
-    from: {
-      opacity: 0,
-      transform: "translateY(-40px)",
-    },
-    enter: {
-      opacity: 1,
-      transform: "translateY(0)",
-    },
-    leave: {
-      opacity: 0,
-      transform: "translateY(-40px)",
-    },
-    config: springConfig.gentle,
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
   });
 
   return (
@@ -94,18 +84,16 @@ const TrackMenu: React.FC<{
                   <SvgX width="20" className="mr-1" /> {t("track.close")}
                 </button>
               </div>
-              {track && (
-                <AddToPlaylist
-                  active={openAddPlaylist}
-                  close={() => {
-                    setOpenAddPlaylist(false);
-                  }}
-                  track={track}
-                />
-              )}
             </AnimatedDialogOverlay>
           )
       )}
+      <AddToPlaylist
+        active={openAddPlaylist}
+        close={() => {
+          setOpenAddPlaylist(false);
+        }}
+        trackId={id}
+      />
     </>
   );
 };

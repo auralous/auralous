@@ -7,7 +7,7 @@ import {
   useMyPlaylistsQuery,
   useInsertPlaylistTracksMutation,
 } from "~/hooks/playlist/index";
-import { Track, PlatformName } from "~/graphql/gql.gen";
+import { Track, PlatformName, useTrackQuery } from "~/graphql/gql.gen";
 import { Playlist } from "~/types/index";
 import { SvgCheck, SvgPlus, SvgX } from "~/assets/svg";
 import { SvgByPlatformName } from "~/lib/constants";
@@ -196,10 +196,13 @@ const AddToExistingPlaylist: React.FC<{
 };
 
 const AddToPlaylist: React.FC<{
-  track: Track;
+  trackId: string;
   close: () => void;
   active: boolean;
-}> = ({ track, close, active }) => {
+}> = ({ trackId, close, active }) => {
+  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
+    variables: { id: trackId },
+  });
   const { t } = useI18n();
   const user = useCurrentUser();
   return (
@@ -211,19 +214,21 @@ const AddToPlaylist: React.FC<{
       <Modal.Header>
         <Modal.Title>
           <div>
-            {track.title} <span className="text-foreground-tertiary">-</span>{" "}
+            {track?.title} <span className="text-foreground-tertiary">-</span>{" "}
             <span className="text-foreground-secondary">
-              {track.artists.map(({ name }) => name).join()}
+              {track?.artists.map(({ name }) => name).join()}
             </span>
           </div>
         </Modal.Title>
       </Modal.Header>
       <Modal.Content>
         {user ? (
-          <>
-            <CreatePlaylist track={track} done={close} />
-            <AddToExistingPlaylist track={track} done={close} />
-          </>
+          track && (
+            <>
+              <CreatePlaylist track={track} done={close} />
+              <AddToExistingPlaylist track={track} done={close} />
+            </>
+          )
         ) : (
           <AuthBanner prompt={t("playlist.authPrompt")} />
         )}
