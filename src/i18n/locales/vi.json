@@ -16,13 +16,13 @@
     "playlist": {
       "title": "Bắt đầu ngay",
       "p1": "Bắt đầu nghe nhạc cùng nhau trong chưa đầy 30 giây. Chỉ cần bạn dán đường link playlist bạn mong muốn và bắt đầu ngay.",
-      "p2": "Bạn có một playlist khá độc, hay là ca sĩ yêu thích của bạn mới ra album mới? Dán đường link với đi thôi!",
+      "p2": "Bạn có playlist khá độc, hay ca sĩ yêu thích của bạn mới ra album mới? Có link là nghe liền!",
       "action": "Nghe ngay"
     },
     "rules": {
       "title": "Phòng của bạn. Quy tắc của bạn.",
       "p1": "Nghe cùng nhau trong phòng riêng tư hoặc công ngai. Đặt mật khẩu để tránh những vị khách không mời. Chỉ những thành viên mới có thể thêm nhạc nhưng ai cùng có thể trò chuyện và thả cảm xúc.",
-      "p2": "Mời bạn bè thân thiết làm quản trị viên. Chặn tin nhắn và thành viên xúc phạm. Tùy chỉnh luật lệ phòng để mọi người có thể thêm những bài hát phù hợp.",
+      "p2": "Mời bạn bè làm quản trị viên. Chặn thành viên xúc phạm. Tùy chỉnh luật lệ phòng để mọi người thể thêm bài hát phù hợp.",
       "p2Bold": "Bạn luôn nắm quyền"
     }
   },
