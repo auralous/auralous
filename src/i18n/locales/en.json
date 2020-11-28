@@ -6,7 +6,7 @@
   "description": "Listen Together with Friends around the Globe in rooms. All you need is a YouTube, Spotify, or Apple Music account.",
   "motto": "Music Together",
   "intro": {
-    "use": { "action": "Use", "web": "Web App", "comingSoon": "Coming Soon" },
+    "use": { "action": "Launch Stereo", "watch": "Watch video" },
     "listen": {
       "title": "Listen Anywhere",
       "description": "Stereo integrates with the music applications you know and love. All you need is a YouTube, Spotify, or Apple Music account.",

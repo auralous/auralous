@@ -14,7 +14,7 @@ const IndexPage: React.FC = () => {
         description={t("description")}
         canonical={`${process.env.APP_URI}/`}
       />
-      <div className="px-4 flex flex-col items-center">
+      <div className="flex flex-col items-center">
         <IndexHero />
         <IndexListen />
         <IndexPlaylist />

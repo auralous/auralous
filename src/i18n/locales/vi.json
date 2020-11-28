@@ -6,7 +6,7 @@
   "description": "Stereo cho phép bạn nghe nhạc cùng bạn bè khắp năm châu, chỉ với một tại khoản YouTube, Spotify, hay Apple Music.",
   "motto": "Âm nhạc Bên nhau",
   "intro": {
-    "use": { "action": "Truy cập", "web": "Web App", "comingSoon": "Sắp tới" },
+    "use": { "action": "Truy cập Stereo", "watch": "Xem giới thiệu" },
     "listen": {
       "title": "Nghe nhạc mọi nơi",
       "description": "Stereo tích hợp với ứng dụng nghe nhạc quen thuộc với bạn. Bạn không cần gì ngoại một tài khoản YouTube, Spotify, hay Apple Music.",
