@@ -163,7 +163,6 @@ html {
 
 [data-reach-dialog-overlay] {
   @apply fixed w-full h-full inset-0 flex flex-center z-40 bg-black bg-opacity-75;
-  animation: fadeIn ease .4s;
   [data-reach-dialog-content] {
     background: #000814;
     width: theme('maxWidth.5xl');
@@ -197,11 +196,6 @@ html {
   [data-reach-tab-panel]:focus, [data-reach-tab-panels]:focus {
     outline: none;
   }
-}
-
-@keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity:1;}
 }
 
 .content {

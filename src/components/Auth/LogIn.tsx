@@ -7,10 +7,9 @@ import React, {
   useCallback,
 } from "react";
 import Link from "next/link";
-import { Dialog } from "@reach/dialog";
 import { useRouter } from "next/router";
 import Welcome from "./Welcome";
-import { useModal } from "~/components/Modal/index";
+import { Modal, useModal } from "~/components/Modal/index";
 import { useI18n } from "~/i18n/index";
 import { SvgSpotify, SvgGoogleColor, SvgX } from "~/assets/svg";
 import { PlatformName } from "~/graphql/gql.gen";
@@ -100,11 +99,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
 
   return (
     <>
-      <Dialog
-        aria-label={t("auth.label")}
-        isOpen={active}
-        onDismiss={close}
-        className="p-0 border-0 shadow-xl"
+      <Modal.Modal
+        title={t("auth.label")}
+        active={active}
+        onOutsideClick={close}
       >
         <div
           className="p-4 bg-blue-tertiary bg-opacity-50 bg-repeat"
@@ -193,7 +191,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
         >
           <SvgX />
         </button>
-      </Dialog>
+      </Modal.Modal>
       <Welcome active={activeWelcome} close={close} />
     </>
   );

@@ -68,11 +68,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                   <DefaultSeo
                     title=" "
                     titleTemplate="%s · Stereo"
-                    facebook={
-                      process.env.FACEBOOK_APP_ID
-                        ? { appId: process.env.FACEBOOK_APP_ID }
-                        : undefined
-                    }
+                    facebook={{ appId: process.env.FACEBOOK_APP_ID || "" }}
                     openGraph={{
                       type: "website",
                       locale: "en_US",

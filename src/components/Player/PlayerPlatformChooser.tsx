@@ -40,12 +40,7 @@ const PlayerPlatformChooser: React.FC = () => {
   );
 
   return (
-    <div
-      className="relative bg-blue-secondary h-24overflow-auto"
-      style={{
-        animation: "fadeIn ease .4s",
-      }}
-    >
+    <div className="relative bg-blue-secondary h-24overflow-auto">
       <div className="font-bold text-center pt-1">
         {t("player.platformChooser.title")}
       </div>
