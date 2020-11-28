@@ -254,6 +254,7 @@
   "queue": {
     "addedBy": "Added by",
     "manager": {
+      "addAction": "Add song",
       "removedTrackText": "Removed {{title}}",
       "removeTrackText": "Remove Track",
       "authPrompt": "Join to Add Songs and Listen Together",

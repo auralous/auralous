@@ -254,6 +254,7 @@
   "queue": {
     "addedBy": "Thêm bởi",
     "manager": {
+      "addAction": "Thêm nhạc",
       "removedTrackText": "Đã xoá {{title}}",
       "removeTrackText": "Xoá bài hát",
       "authPrompt": "Tham gia Stereo để thêm nhạc",

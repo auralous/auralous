@@ -156,7 +156,8 @@ const Row = React.memo<
 const QueueManager: React.FC<{
   queueId: string;
   permission: QueuePermission;
-}> = ({ queueId, permission }) => {
+  onEmptyAddClick?: () => void;
+}> = ({ queueId, permission, onEmptyAddClick }) => {
   const { t } = useI18n();
 
   const user = useCurrentUser();
@@ -207,8 +208,14 @@ const QueueManager: React.FC<{
       )}
       <div className="w-full h-full">
         {queue.items?.length === 0 && (
-          <div className="text-xs text-foreground-secondary p-4 text-center">
-            {t("queue.manager.emptyText")}
+          <div className="h-full flex flex-col flex-center text-lg text-foreground-tertiary p-4">
+            <p className="text-center">{t("queue.manager.emptyText")}</p>
+            <button
+              onClick={onEmptyAddClick}
+              className="py-2 px-4 rounded-lg text-success-light hover:bg-success-light hover:bg-opacity-10 transition-colors font-bold mt-1"
+            >
+              {t("queue.manager.addAction")}
+            </button>
           </div>
         )}
         <DragDropContext onDragEnd={onDragEnd}>

@@ -45,7 +45,7 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
     [updateQueue, room]
   );
 
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
 
   // Odd fix for inconsistent animation for intial el
   useEffect(() => setSelectedIndex(0), []);
@@ -70,6 +70,7 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
 
   return (
     <Tabs
+      index={selectedIndex || 0}
       onChange={setSelectedIndex}
       className="h-full flex flex-col overflow-hidden"
     >
@@ -99,6 +100,7 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
           <QueueManager
             permission={roomState.permission}
             queueId={`room:${room.id}`}
+            onEmptyAddClick={() => setSelectedIndex(1)}
           />
         </AnimatedTabPanel>
         <AnimatedTabPanel style={tabPanelStyle1} className="h-full">
