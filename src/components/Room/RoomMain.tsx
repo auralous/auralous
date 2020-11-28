@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -20,30 +20,13 @@ import {
   SvgShare,
   SvgSettings,
   SvgBookOpen,
-  SvgCheck,
+  SvgMessageSquare,
+  SvgX,
 } from "~/assets/svg";
 
 const RoomQueue = dynamic(() => import("./RoomQueue"), { ssr: false });
 const RoomChat = dynamic(() => import("./RoomChat"), { ssr: false });
 const RoomPrivate = dynamic(() => import("./RoomPrivate"), { ssr: false });
-
-const RoomLive: React.FC<{ room: Room; roomState: RoomState }> = ({
-  room,
-  roomState,
-}) => {
-  return (
-    <>
-      <div className="w-full h-full flex flex-col relative overflow-hidden p-2">
-        <div className="mb-2 bordered-box rounded-lg overflow-hidden">
-          <PlayerEmbeddedControl roomId={room.id} />
-        </div>
-        <div className="bordered-box rounded-lg pt-1 flex-1 overflow-hidden">
-          <RoomChat room={room} roomState={roomState} />
-        </div>
-      </div>
-    </>
-  );
-};
 
 const Navbar: React.FC<{
   room: Room;
@@ -128,33 +111,36 @@ const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
     playRoom(room.id);
   }, [room, playRoom]);
 
-  const [expandedQueue, expandQueue, collapseQueue] = useModal();
+  const [expandedChat, setExpandedChat] = useState(false);
 
   return (
     <div className={`flex flex-col lg:flex-row h-full`}>
       <div className="relative flex-1 lg:w-0">
-        <RoomLive room={room} roomState={roomState} />
+        <div className="w-full h-full flex flex-col relative overflow-hidden p-2">
+          <div className="mb-2 bordered-box rounded-lg overflow-hidden">
+            <PlayerEmbeddedControl roomId={room.id} />
+          </div>
+          <div className="bordered-box rounded-lg pt-1 flex-1 overflow-hidden">
+            <RoomQueue roomState={roomState} room={room} />
+          </div>
+        </div>
       </div>
-      <div className={`w-full p-2 lg:w-96 max-w-full`}>
+      <div className="w-full lg:w-96">
         <button
-          onClick={expandQueue}
-          className="btn h-12 w-full inline-flex lg:hidden"
+          className="btn lg:hidden fixed z-40 rounded-b-none rounded-r-none bottom-0 right-0"
+          onClick={() => setExpandedChat(!expandedChat)}
+          style={{ backdropFilter: "blur(5px)" }}
+          aria-label={t("room.chat.title")}
         >
-          {t("room.queue.title")}
+          {expandedChat ? <SvgX /> : <SvgMessageSquare />}
         </button>
         <div
-          className={`bordered-box w-full h-full flex flex-col z-30 fixed inset-0 lg:static ${
-            expandedQueue ? "block" : "hidden"
-          } p-2 rounded-lg lg:block`}
+          className={`p-2 bg-opacity-75 w-full h-full transform z-30 fixed inset-0 ${
+            expandedChat ? "translate-y-0 bg-blue" : "translate-y-full"
+          } lg:relative lg:translate-y-0 transition-transform duration-500`}
+          style={expandedChat ? { backdropFilter: "blur(20px)" } : undefined}
         >
-          <RoomQueue roomState={roomState} room={room} />
-          <button
-            onClick={collapseQueue}
-            aria-label="OK"
-            className="h-12 w-full flex-none btn btn-success mt-2 lg:hidden"
-          >
-            <SvgCheck />
-          </button>
+          <RoomChat room={room} roomState={roomState} />
         </div>
       </div>
     </div>
