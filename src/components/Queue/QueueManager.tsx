@@ -200,22 +200,28 @@ const QueueManager: React.FC<{
   return (
     <div className="h-full w-full flex flex-col justify-between">
       {!user && (
-        <div className="p-1 flex-none">
-          <button onClick={showLogin} className="btn w-full text-xs p-2">
-            {t("queue.manager.authPrompt")}
-          </button>
-        </div>
+        <button
+          onClick={showLogin}
+          className="btn bg-blue-secondary py-4 opacity-90 hover:opacity-100 transition rounded-none absolute bottom-0 w-full text-lg z-10"
+          style={{
+            background: 'url("/images/topography.svg")',
+          }}
+        >
+          {t("queue.manager.authPrompt")}
+        </button>
       )}
       <div className="w-full h-full">
         {queue.items?.length === 0 && (
           <div className="h-full flex flex-col flex-center text-lg text-foreground-tertiary p-4">
             <p className="text-center">{t("queue.manager.emptyText")}</p>
-            <button
-              onClick={onEmptyAddClick}
-              className="py-2 px-4 rounded-lg text-success-light hover:bg-success-light hover:bg-opacity-10 transition-colors font-bold mt-1"
-            >
-              {t("queue.manager.addAction")}
-            </button>
+            {permission.queueCanAdd && (
+              <button
+                onClick={onEmptyAddClick}
+                className="py-2 px-4 rounded-lg text-success-light hover:bg-success-light hover:bg-opacity-10 transition-colors font-bold mt-1"
+              >
+                {t("queue.manager.addAction")}
+              </button>
+            )}
           </div>
         )}
         <DragDropContext onDragEnd={onDragEnd}>
@@ -252,20 +258,22 @@ const QueueManager: React.FC<{
         </DragDropContext>
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
-        {permission.queueCanAdd ? null : (
-          <p>
-            {t("queue.manager.notAllowedText")}{" "}
-            <span className="bg-background-secondary p-1 rounded-lg font-bold">
-              <SvgBookOpen
-                className="inline"
-                width="14"
-                height="14"
-                title={t("room.rules.title")}
-              />{" "}
-              {t("room.rules.shortTitle")}
-            </span>
-          </p>
-        )}
+        {permission.queueCanAdd
+          ? null
+          : user && (
+              <p>
+                {t("queue.manager.notAllowedText")}{" "}
+                <span className="bg-background-secondary p-1 rounded-lg font-bold">
+                  <SvgBookOpen
+                    className="inline"
+                    width="14"
+                    height="14"
+                    title={t("room.rules.title")}
+                  />{" "}
+                  {t("room.rules.shortTitle")}
+                </span>
+              </p>
+            )}
       </div>
     </div>
   );
