@@ -45,6 +45,14 @@ module.exports = {
         secondary: "#001431",
         tertiary: "#303a60",
       },
+      youtube: {
+        DEFAULT: "#f00",
+        label: "#fff",
+      },
+      spotify: {
+        DEFAULT: "#1db954",
+        label: "#fff",
+      },
     },
     extend: {
       spacing: {
