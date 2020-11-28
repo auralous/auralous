@@ -103,6 +103,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
         title={t("auth.label")}
         active={active}
         onOutsideClick={close}
+        className="border-none"
       >
         <div
           className="p-4 bg-blue-tertiary bg-opacity-50 bg-repeat"
