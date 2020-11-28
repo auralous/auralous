@@ -45,7 +45,8 @@ const Modal: React.FC<{
   title?: string;
   active: boolean;
   onOutsideClick?: () => void;
-}> = ({ title, children, active, onOutsideClick }) => {
+  className?: string;
+}> = ({ title, children, active, onOutsideClick, className }) => {
   const transitions = useTransition(active, null, {
     from: {
       opacity: 0,
@@ -69,12 +70,15 @@ const Modal: React.FC<{
           item && (
             <AnimatedDialogOverlay
               aria-label={title ?? "Dialog"}
-              isOpen={active}
+              isOpen={style.opacity !== 0}
               onDismiss={() => onOutsideClick && onOutsideClick()}
               key={key}
               style={{ opacity: style.opacity }}
             >
-              <AnimatedDialogContent style={{ transform: style.transform }}>
+              <AnimatedDialogContent
+                style={{ transform: style.transform }}
+                className={className}
+              >
                 {children}
                 {onOutsideClick && (
                   <button
