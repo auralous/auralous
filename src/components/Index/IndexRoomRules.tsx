@@ -45,7 +45,7 @@ const IndexRoomRulesMembers: React.FC = () => {
         Listeners
       </b>
       <div className="text-sm mb-2">
-        thechoosenone1{" "}
+        thechosenone02{" "}
         <span className="text-xs p-0.5 rounded bg-white text-black">mod</span>
       </div>
       <div className="text-sm mb-2">

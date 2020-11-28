@@ -1,8 +1,13 @@
 import React from "react";
 import { NextSeo } from "next-seo";
-import { IndexListen, IndexPlaylist, IndexRoomRules } from "~/components/Index";
+import {
+  IndexHero,
+  IndexListen,
+  IndexPlaylist,
+  IndexRoomRules,
+  IndexEnd,
+} from "~/components/Index";
 import { useI18n } from "~/i18n/index";
-import IndexHero from "~/components/Index/IndexHero";
 
 const IndexPage: React.FC = () => {
   const { t } = useI18n();
@@ -14,12 +19,11 @@ const IndexPage: React.FC = () => {
         description={t("description")}
         canonical={`${process.env.APP_URI}/`}
       />
-      <div className="flex flex-col items-center">
-        <IndexHero />
-        <IndexListen />
-        <IndexPlaylist />
-        <IndexRoomRules />
-      </div>
+      <IndexHero />
+      <IndexListen />
+      <IndexPlaylist />
+      <IndexRoomRules />
+      <IndexEnd />
     </>
   );
 };

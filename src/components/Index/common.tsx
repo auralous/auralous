@@ -25,7 +25,11 @@ export const IndexSection: React.FC = ({ children }) => {
         }
   );
   return (
-    <animated.section ref={ref} className="px-6 py-24" style={props}>
+    <animated.section
+      ref={ref}
+      className="px-6 py-24 overflow-x-hidden"
+      style={props}
+    >
       {children}
     </animated.section>
   );

@@ -325,7 +325,8 @@
     "dangerousActionText": "This process is immediate and cannot be undone",
     "tracks": "songs",
     "save": "Save",
-    "saved": "Saved"
+    "saved": "Saved",
+    "startListening": "Start Listening"
   },
   "error": {
     "internalError": "Oh no, an unexpected error:",

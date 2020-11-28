@@ -325,7 +325,8 @@
     "dangerousActionText": "Thao tác này sẽ có hiệu lực tức thì và không thể hoàn tác",
     "tracks": "bài hát",
     "save": "Lưu",
-    "saved": "Đã lưu"
+    "saved": "Đã lưu",
+    "startListening": "Nghe nào"
   },
   "error": {
     "internalError": "Thôi lỗi rồi:",
