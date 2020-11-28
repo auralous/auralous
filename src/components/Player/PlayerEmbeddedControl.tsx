@@ -62,7 +62,7 @@ const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   return (
     <button
-      className="button text-xs leading-none"
+      className="btn text-xs leading-none"
       onClick={() => skipNowPlaying({ id: roomId })}
       disabled={
         fetching ||

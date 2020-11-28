@@ -49,7 +49,7 @@ const PlayerMinibar: React.FC = () => {
       </Link>
       <button
         onClick={stopPlaying}
-        className="button button-transparent p-2"
+        className="btn btn-transparent p-2"
         aria-label={t("player.stopPlaying")}
       >
         <SvgX />

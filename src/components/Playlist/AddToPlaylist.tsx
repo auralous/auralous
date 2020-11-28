@@ -28,7 +28,7 @@ const PlaylistItem: React.FC<{
       title={t("playlist.add.title", { title: playlist.title })}
       onKeyDown={({ key }) => key === "Enter" && handleAdd(playlist)}
       tabIndex={0}
-      className={`button w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary`}
+      className={`btn w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary`}
       onClick={() => handleAdd(playlist)}
     >
       <img
@@ -111,7 +111,7 @@ const CreatePlaylist: React.FC<{
         <button
           aria-label={t("playlist.new.title")}
           type="submit"
-          className="button button-success ml-2 flex-none"
+          className="btn btn-success ml-2 flex-none"
           disabled={fetching}
         >
           <SvgCheck width="16" height="16" />
@@ -119,7 +119,7 @@ const CreatePlaylist: React.FC<{
         <button
           aria-label={t("track.close")}
           type="submit"
-          className="button ml-1 flex-none"
+          className="btn ml-1 flex-none"
           disabled={fetching}
           onClick={() => setIsCreatingPlaylist(false)}
         >
@@ -134,7 +134,7 @@ const CreatePlaylist: React.FC<{
     </>
   ) : (
     <button
-      className="button w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
+      className="btn w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
       onClick={() => setIsCreatingPlaylist(true)}
     >
       <div className="w-12 h-12 border-2 border-foreground flex flex-center rounded-lg">

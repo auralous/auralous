@@ -9,7 +9,8 @@
       "~/lib/*": ["lib/*"],
       "~/hooks/*": ["hooks/*"],
       "~/types/*": ["types/*"],
-      "~/i18n/*": ["i18n/*"]
+      "~/i18n/*": ["i18n/*"],
+      "~/styles/*": ["styles/*"]
     },
     "target": "es5",
     "lib": [

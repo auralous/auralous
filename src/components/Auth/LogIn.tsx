@@ -121,7 +121,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </span>
                 <button
                   onClick={() => logIn(PlatformName.Youtube)}
-                  className="button bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity rounded-full"
+                  className="btn bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgGoogleColor
@@ -138,7 +138,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </span>
                 <button
                   onClick={() => logIn(PlatformName.Spotify)}
-                  className="button brand-spotify h-12 hover:opacity-75 transition-opacity rounded-full"
+                  className="btn brand-spotify h-12 hover:opacity-75 transition-opacity rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgSpotify width="24" className="fill-current stroke-0" />
@@ -187,7 +187,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
           </p>
         </div>
         <button
-          className="button button-transparent absolute top-2 right-0"
+          className="btn btn-transparent absolute top-2 right-0"
           onClick={close}
           title={t("auth.cancelText")}
         >

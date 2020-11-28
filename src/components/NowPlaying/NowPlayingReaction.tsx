@@ -48,7 +48,7 @@ const NowPlayingReaction: React.FC<{ id: string }> = ({ id }) => {
   const canReact = playerPlaying && !nowPlayingReaction?.mine;
 
   const getClassname = (type: NowPlayingReactionType) =>
-    `flex-1 button transform transition p-1 mr-1 ${
+    `btn flex-1 transform transition p-1 mr-1 ${
       nowPlayingReaction?.mine === type
         ? "bg-pink opacity-100"
         : "bg-opacity-25"

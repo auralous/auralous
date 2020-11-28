@@ -47,7 +47,7 @@ const RoomPrivate: React.FC<{
               ref={passwordRef}
               className="input w-full mr-1"
             />
-            <button type="submit" className="button" disabled={fetching}>
+            <button type="submit" className="btn" disabled={fetching}>
               {t("room.main.private.join")}
             </button>
           </form>

@@ -268,7 +268,7 @@ export default function SpotifyPlayer() {
                 {t("player.spotify.authAskText")}
               </p>
               <button
-                className="button button-light text-sm p-2 mt-1 mr-1"
+                className="btn btn-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
                   doAuthViaImplicit().then(() =>
                     setAccessToken(
@@ -294,7 +294,7 @@ export default function SpotifyPlayer() {
                 .
               </p>
               <button
-                className="button button-light text-sm p-2 mt-1 mr-1"
+                className="btn btn-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
                   doAuthViaImplicit().then(() =>
                     setAccessToken(
@@ -318,7 +318,7 @@ export default function SpotifyPlayer() {
             </p>
           )}
           <button
-            className="button text-sm my-2"
+            className="btn text-sm my-2"
             onClick={() => {
               stopPlaying();
             }}

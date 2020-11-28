@@ -37,7 +37,7 @@ const ShareDialog: React.FC<{
             readOnly
             value={shareUri}
           />
-          <button onClick={copy} className="button m-1 h-12">
+          <button onClick={copy} className="btn m-1 h-12">
             {copied ? t("share.copied") : t("share.copy")}
           </button>
         </div>
@@ -48,7 +48,7 @@ const ShareDialog: React.FC<{
           <div className="flex flex-wrap flex-center mt-4">
             <a
               title="Facebook"
-              className="button h-12"
+              className="btn h-12"
               target="_blank"
               rel="noopener noreferrer"
               href={`https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&href=${shareUri}&display=popup`}
@@ -57,7 +57,7 @@ const ShareDialog: React.FC<{
             </a>
             <a
               title="Twitter"
-              className="button h-12 ml-2"
+              className="btn h-12 ml-2"
               target="_blank"
               rel="noopener noreferrer"
               href={`https://twitter.com/intent/tweet?url=${shareUri}&text=${encodeURIComponent(
@@ -68,7 +68,7 @@ const ShareDialog: React.FC<{
             </a>
             <a
               title="Reddit"
-              className="button h-12 ml-2"
+              className="btn h-12 ml-2"
               target="_blank"
               rel="noopener noreferrer"
               href={`https://reddit.com/submit?url=${shareUri}&title=${encodeURIComponent(
@@ -79,7 +79,7 @@ const ShareDialog: React.FC<{
             </a>
             <a
               title="Email"
-              className="button h-12 ml-2"
+              className="btn h-12 ml-2"
               target="_blank"
               rel="noopener noreferrer"
               href={`mailto:?subject=${name}&body=${shareUri}`}

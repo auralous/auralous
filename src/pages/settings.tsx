@@ -68,7 +68,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         </Modal.Content>
         <Modal.Footer>
           <button
-            className="button button-transparent text-danger-light"
+            className="btn btn-transparent text-danger-light"
             onClick={() =>
               deleteUser().then(() => {
                 toasts.message(t("settings.dangerZone.delete.deleted"));
@@ -78,7 +78,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           >
             {t("settings.dangerZone.delete.action")}
           </button>
-          <button onClick={closeDelete} className="button button-success">
+          <button onClick={closeDelete} className="btn btn-success">
             {t("settings.dangerZone.delete.cancel")}
           </button>
         </Modal.Footer>
@@ -93,7 +93,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           {t("settings.dangerZone.delete.descriptionData")}
         </a>
       </p>
-      <button className="button button-danger mt-2" onClick={openDelete}>
+      <button className="btn btn-danger mt-2" onClick={openDelete}>
         {t("settings.dangerZone.delete.action")}
       </button>
     </>
@@ -207,12 +207,12 @@ const LeftSection: React.FC = () => {
                 />
               </div>
             </div>
-            <button type="submit" className="button button-success mt-2 w-full">
+            <button type="submit" className="btn btn-success mt-2 w-full">
               {t("common.save")}
             </button>
           </form>
           <div className="mt-8 border-t-2 py-4 border-background-secondary">
-            <button className="button button-light w-full" onClick={signOut}>
+            <button className="btn btn-light w-full" onClick={signOut}>
               {t("settings.signOut")}
             </button>
           </div>
@@ -222,7 +222,7 @@ const LeftSection: React.FC = () => {
           <p className="text-foreground-tertiary">
             {t("settings.profile.authPrompt")}
           </p>
-          <button onClick={logIn} className="button items-center mt-2">
+          <button onClick={logIn} className="btn items-center mt-2">
             {t("common.signIn")}
           </button>
         </>

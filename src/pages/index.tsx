@@ -47,17 +47,17 @@ const AppLinks = () => {
   return (
     <div className="flex flex-col mb-16">
       <Link href="/browse">
-        <a className="button text-center px-12 py-4 rounded-full mb-2 bg-pink">
+        <a className="btn text-center px-12 py-4 rounded-full mb-2 bg-pink">
           {t("intro.use.action")} {t("intro.use.web")}
         </a>
       </Link>
-      <div className="button button-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
+      <div className="btn btn-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
         iOS
         <div className="text-xs opacity-75 ml-2">
           ({t("intro.use.comingSoon")})
         </div>
       </div>
-      <div className="button button-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
+      <div className="btn btn-transparent opacity-50 text-center px-12 py-4 rounded-full mb-2">
         Android
         <div className="text-xs opacity-75 ml-2">
           ({t("intro.use.comingSoon")})
@@ -80,7 +80,7 @@ const IndexListen: React.FC = () => {
       <IndexParagraph>{t("intro.listen.p")}</IndexParagraph>
       <div className="flex justify-center py-2 mt-4">
         <Link href="/new">
-          <a className="button">{t("intro.listen.action")}</a>
+          <a className="btn">{t("intro.listen.action")}</a>
         </Link>
       </div>
     </IndexSection>
@@ -109,7 +109,7 @@ const IndexPlaylist: React.FC = () => {
           placeholder="Enter a playlist link"
           aria-label="Playlist Link"
         />
-        <button className="button flex-none ml-1">
+        <button className="btn flex-none ml-1">
           {t("intro.playlist.action")}
         </button>
       </form>

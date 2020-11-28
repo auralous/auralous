@@ -182,7 +182,7 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
       </div>
       <button
         type="submit"
-        className="button mt-2"
+        className="btn mt-2"
         disabled={!isChanged || fetching}
       >
         {isChanged ? t("common.save") : t("common.saved")}
@@ -203,7 +203,7 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
       <h3 className="text-lg font-bold">
         {t("room.settings.dangerZone.title")}
       </h3>
-      <button className="button button-danger mt-4" onClick={openDelete}>
+      <button className="btn btn-danger mt-4" onClick={openDelete}>
         {t("room.settings.dangerZone.delete.title", {
           title: t("room.label"),
         })}
@@ -238,7 +238,7 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
         </Modal.Content>
         <Modal.Footer>
           <button
-            className="button button-transparent text-danger-light"
+            className="btn btn-transparent text-danger-light"
             onClick={() =>
               deleteRoom({ id: room.id }).then(() => {
                 toasts.success(t("room.settings.dangerZone.delete.deleted"));
@@ -249,7 +249,7 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
           >
             {t("room.settings.dangerZone.delete.action")}
           </button>
-          <button onClick={closeDelete} className="button button-success">
+          <button onClick={closeDelete} className="btn btn-success">
             {t("room.settings.dangerZone.delete.cancel")}
           </button>
         </Modal.Footer>

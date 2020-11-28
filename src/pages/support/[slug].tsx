@@ -30,7 +30,7 @@ const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
           <div dangerouslySetInnerHTML={{ __html: page.content }} />
           <p className="text-center mt-2">
             <Link href="/browse">
-              <a className="text-sm button button-transparent">
+              <a className="btn btn-transparent text-sm">
                 ← {t("common.backToHome")}
               </a>
             </Link>

@@ -204,7 +204,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
         <button
           onClick={() => setOffset(messages.length)}
           disabled={fetching}
-          className="button w-full text-xs p-1"
+          className="btn w-full text-xs p-1"
         >
           {t("message.loadOlder")}
         </button>

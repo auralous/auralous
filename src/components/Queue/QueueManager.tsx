@@ -93,7 +93,7 @@ const QueueDraggableItem: React.FC<{
       <div className="flex content-end items-center ml-2">
         <button
           title={t("queue.manager.removeTrackText")}
-          className={`button ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
+          className={`btn ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
           onClick={removeItem}
           disabled={!removable}
         >
@@ -200,7 +200,7 @@ const QueueManager: React.FC<{
     <div className="h-full w-full flex flex-col justify-between">
       {!user && (
         <div className="p-1 flex-none">
-          <button onClick={showLogin} className="button w-full text-xs p-2">
+          <button onClick={showLogin} className="btn w-full text-xs p-2">
             {t("queue.manager.authPrompt")}
           </button>
         </div>

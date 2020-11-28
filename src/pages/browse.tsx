@@ -93,7 +93,7 @@ const SearchAndPlaySection: React.FC = () => {
         />
         <button
           type="submit"
-          className="button rounded-l-none"
+          className="btn rounded-l-none"
           title={t("new.playlist.title")}
         >
           <SvgSearch />

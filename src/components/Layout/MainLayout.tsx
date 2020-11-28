@@ -36,12 +36,12 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex content-end items-center flex-none">
           <Link href="/new">
-            <a aria-label="Add new" className="button p-2 mr-2">
+            <a aria-label="Add new" className="btn p-2 mr-2">
               <SvgPlus />
             </a>
           </Link>
           <Link href="/settings">
-            <a className="button p-2 mr-2" title="Settings">
+            <a className="btn p-2 mr-2" title="Settings">
               <SvgSettings />
             </a>
           </Link>
@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
               />
             </div>
           ) : (
-            <button className="button button-primary" onClick={openLogin}>
+            <button className="btn btn-primary" onClick={openLogin}>
               {t("common.signIn")}
             </button>
           )}
@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
           href="https://www.facebook.com/withstereo/"
           target="_blank"
           rel="noreferrer"
-          className="button button-transparent p-0 mx-2"
+          className="btn btn-transparent p-0 mx-2"
         >
           Facebook
         </a>
@@ -88,27 +88,23 @@ const Footer: React.FC = () => {
           href="https://twitter.com/withstereo_"
           target="_blank"
           rel="noreferrer"
-          className="button button-transparent p-0 mx-2"
+          className="btn btn-transparent p-0 mx-2"
         >
           Twitter
         </a>
         <Link href="/privacy">
-          <a className="button button-transparent p-0 mx-2">
-            {t("footer.privacy")}
-          </a>
+          <a className="btn btn-transparent p-0 mx-2">{t("footer.privacy")}</a>
         </Link>
         <a
           href="https://github.com/hoangvvo/stereo-web"
           target="_blank"
           rel="noreferrer"
-          className="button button-transparent p-0 mx-2"
+          className="btn btn-transparent p-0 mx-2"
         >
           {t("footer.contribute")}
         </a>
         <Link href="/support">
-          <a className="button button-transparent p-0 mx-2">
-            {t("footer.support")}
-          </a>
+          <a className="btn btn-transparent p-0 mx-2">{t("footer.support")}</a>
         </Link>
       </div>
       <p className="text-center opacity-50 mb-2 text-xs">

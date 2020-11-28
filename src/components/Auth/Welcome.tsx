@@ -55,7 +55,7 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
             {t("settings.username.helpText")}
           </p>
         </div>
-        <button className="button w-full" disabled={fetching}>
+        <button className="btn w-full" disabled={fetching}>
           {t("common.save")}
         </button>
       </form>

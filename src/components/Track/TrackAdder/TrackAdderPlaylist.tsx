@@ -21,7 +21,7 @@ const PlaylistItem: React.FC<{
       })}
       onKeyDown={({ key }) => key === "Enter" && handleSelect(playlist)}
       tabIndex={0}
-      className="button p-2 w-full justify-start font-normal bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
+      className="btn p-2 w-full justify-start font-normal bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
       onClick={() => handleSelect(playlist)}
     >
       <img
@@ -67,7 +67,7 @@ const TrackAdderPlaylist: React.FC<{
         <button
           onClick={() => setSelectedPlaylist(null)}
           title="Select another playlist"
-          className="button button-transparent p-1 inline mr-2"
+          className="btn btn-transparent p-1 inline mr-2"
           disabled={!selectedPlaylist}
         >
           <SvgChevronLeft width="24" height="24" />

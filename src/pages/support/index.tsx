@@ -10,7 +10,7 @@ import { SupportArticle } from "~/types/index";
 
 const ContactLink: React.FC<{ href: string }> = ({ href, children }) => (
   <a
-    className="button button-foreground rounded-full m-1 py-3 px-6"
+    className="btn btn-foreground rounded-full m-1 py-3 px-6"
     target="_blank"
     rel="noreferrer"
     href={href}
@@ -86,7 +86,7 @@ const SupportPage: NextPage<{
         </div>
         <p className="text-center">
           <Link href="/browse">
-            <a className="text-sm button button-transparent">
+            <a className="btn btn-transparent text-sm">
               ← {t("common.backToHome")}
             </a>
           </Link>

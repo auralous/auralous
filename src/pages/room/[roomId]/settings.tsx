@@ -52,10 +52,7 @@ const RoomSettingsPage: NextPage = () => {
       <div className="container">
         <div className="flex items-center mb-2">
           <Link href="/room/[roomId]" as={`/room/${roomId}`}>
-            <a
-              className="button p-1 mr-2"
-              title={t("room.settings.backToRoom")}
-            >
+            <a className="btn p-1 mr-2" title={t("room.settings.backToRoom")}>
               <SvgChevronLeft className="h-8 w-8" />
             </a>
           </Link>

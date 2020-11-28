@@ -9,10 +9,10 @@ import { MainLayout } from "~/components/Layout/index";
 import { PlayerProvider } from "~/components/Player/index";
 import { ToastProvider } from "~/components/Toast/index";
 import { LogInProvider } from "~/components/Auth/index";
-import { createUrqlClient } from "~/graphql/urql";
-import "~/assets/styles/index.css";
 import { useMAuth } from "~/hooks/user";
 import { I18n } from "~/i18n/index";
+import { createUrqlClient } from "~/graphql/urql";
+import "~/styles/index.css";
 
 const queryCache = new QueryCache();
 

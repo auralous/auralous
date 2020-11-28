@@ -118,7 +118,7 @@ export default function YouTubePlayer() {
       />
       <div className="absolute z-20 bottom-0 left-0 -ml-2 mb-2 p-2 hidden md:block">
         <button
-          className="button button-light rounded-r-none p-1"
+          className="btn btn-light rounded-r-none p-1"
           onClick={() => setPosIsTop(true)}
           disabled={posIsTop}
           title={t("player.youtube.moveToTop")}
@@ -126,7 +126,7 @@ export default function YouTubePlayer() {
           <SvgChevronUp width="14" height="14" />
         </button>
         <button
-          className="button button-light rounded-l-none p-1"
+          className="btn btn-light rounded-l-none p-1"
           onClick={() => setPosIsTop(false)}
           disabled={!posIsTop}
           title={t("player.youtube.moveToBottom")}

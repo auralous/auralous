@@ -23,7 +23,7 @@ const PlayerPlatformChooser: React.FC = () => {
           <button
             key={pl}
             onClick={() => setGuestPlayingPlatform(pl)}
-            className={`m-1 h-8 button py-1 px-2 brand-${pl} align-top`}
+            className={`btn m-1 h-8 py-1 px-2 brand-${pl} align-top`}
           >
             <SvgPlatform
               width="16"
@@ -50,7 +50,7 @@ const PlayerPlatformChooser: React.FC = () => {
         {t("player.platformChooser.title")}
       </div>
       <div className="text-center overflow-auto">
-        <button onClick={showLogin} className="m-1 button py-1 px-2 align-top">
+        <button onClick={showLogin} className="m-1 btn py-1 px-2 align-top">
           <SvgLogIn width="16" className="sm:mr-2" />
           <span className="text-xs sr-only sm:not-sr-only">
             {t("common.signIn")} Stereo
@@ -59,7 +59,7 @@ const PlayerPlatformChooser: React.FC = () => {
         {PlatformChoices}
         <button
           onClick={stopPlaying}
-          className="button absolute top-2 right-2 button-transparent p-1"
+          className="btn absolute top-2 right-2 btn-transparent p-1"
           title={t("player.stopPlaying")}
         >
           <SvgX />

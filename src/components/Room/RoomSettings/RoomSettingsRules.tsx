@@ -87,7 +87,7 @@ const RoomSettingsRules: React.FC<{
         </>
       )}
       <button
-        className="button  mb-6"
+        className="btn  mb-6"
         onClick={handleSaveRules}
         disabled={!isChanged || fetching}
       >

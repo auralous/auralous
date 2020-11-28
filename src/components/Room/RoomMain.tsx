@@ -62,7 +62,7 @@ const Navbar: React.FC<{
         <div className="flex flex-1 w-0 items-center justify-start h-full">
           <button
             onClick={() => router.push("/browse")}
-            className="button button-transparent p-1 mr-2"
+            className="btn btn-transparent p-1 mr-2"
             title={t("common.backToHome")}
           >
             <SvgChevronLeft />
@@ -72,7 +72,7 @@ const Navbar: React.FC<{
           </h4>
         </div>
         <div className="flex items justify-end">
-          <button onClick={openShare} className="button p-2 mr-1">
+          <button onClick={openShare} className="btn p-2 mr-1">
             <SvgShare width="14" height="14" className="sm:mr-1" />
             <span className="text-sm sr-only sm:not-sr-only leading-none">
               {t("share.title")}
@@ -80,7 +80,7 @@ const Navbar: React.FC<{
           </button>
           {roomState && (
             <>
-              <button onClick={openRules} className="button p-2 mr-1">
+              <button onClick={openRules} className="btn p-2 mr-1">
                 <SvgBookOpen width="14" height="14" className="sm:mr-1" />
                 <span className="text-sm sr-only sm:not-sr-only leading-none">
                   {t("room.rules.shortTitle")}
@@ -98,7 +98,7 @@ const Navbar: React.FC<{
               href="/room/[roomId]/settings"
               as={`/room/${room.id}/settings`}
             >
-              <a className="button p-2">
+              <a className="btn p-2">
                 <SvgSettings width="14" height="14" className="sm:mr-1" />
                 <span className="text-sm sr-only sm:not-sr-only leading-none">
                   {t("room.settings.shortTitle")}
@@ -138,7 +138,7 @@ const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
       <div className={`w-full p-2 lg:w-96 max-w-full`}>
         <button
           onClick={expandQueue}
-          className="h-12 w-full button inline-flex lg:hidden"
+          className="btn h-12 w-full inline-flex lg:hidden"
         >
           {t("room.queue.title")}
         </button>
@@ -151,7 +151,7 @@ const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
           <button
             onClick={collapseQueue}
             aria-label="OK"
-            className="h-12 w-full flex-none button button-success mt-2 lg:hidden"
+            className="h-12 w-full flex-none btn btn-success mt-2 lg:hidden"
           >
             <SvgCheck />
           </button>

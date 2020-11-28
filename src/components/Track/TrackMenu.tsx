@@ -34,7 +34,7 @@ const TrackMenu: React.FC<{
           {track?.artists.map(({ name }) => name).join(", ")}
         </div>
         <button
-          className="button button-transparent text-sm mb-2"
+          className="btn btn-transparent text-sm mb-2"
           onClick={() => setOpenAddPlaylist(true)}
         >
           <SvgPlus width="20" className="mr-1" /> {t("track.addToPlaylist")}
@@ -43,7 +43,7 @@ const TrackMenu: React.FC<{
           href={track?.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="button button-transparent text-sm mb-2"
+          className="btn btn-transparent text-sm mb-2"
         >
           {SvgPlatformName && (
             <SvgPlatformName width="20" className="fill-current" />
@@ -57,7 +57,7 @@ const TrackMenu: React.FC<{
         </a>
         <button
           onClick={close}
-          className="button button-transparent rounded-full text-sm"
+          className="btn btn-transparent rounded-full text-sm"
         >
           <SvgX width="20" className="mr-1" /> {t("track.close")}
         </button>

@@ -18,7 +18,7 @@ const AuthCallbackPage: NextPage = () => {
             ? "We have successfully connected to your account. Let's jam!"
             : "We could not connect to your account. Let's give it another try!"}
         </p>
-        <button className="button w-full" onClick={() => window.close()}>
+        <button className="btn w-full" onClick={() => window.close()}>
           Close window
         </button>
       </div>

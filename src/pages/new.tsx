@@ -186,7 +186,7 @@ const CreateRoom: React.FC<{ initTracks?: Track[] }> = ({ initTracks }) => {
           </>
         )}
       </div>
-      <button className="button mt-8" type="submit" disabled={fetching}>
+      <button className="btn mt-8" type="submit" disabled={fetching}>
         <SvgCheck className="mr-2" /> {t("new.addNew.action")}
       </button>
     </form>
@@ -243,7 +243,7 @@ const AddExistedRoom: React.FC<{ initTracks?: Track[]; user: User }> = ({
             <button
               aria-label={t("new.addExisted.action")}
               onClick={onAdd}
-              className="button rounded-l-none"
+              className="btn rounded-l-none"
             >
               <SvgCheck />
             </button>

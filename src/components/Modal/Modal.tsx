@@ -50,7 +50,7 @@ const Modal: React.FC<{
     {children}
     {onOutsideClick && (
       <button
-        className="button button-transparent absolute top-4 right-4"
+        className="btn btn-transparent absolute top-4 right-4"
         onClick={onOutsideClick}
       >
         <SvgX />

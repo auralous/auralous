@@ -148,7 +148,7 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
     <>
       <div>
         <button
-          className="button button-light h-12 mr-1 w-full mb-2"
+          className="btn btn-light h-12 mr-1 w-full mb-2"
           onClick={openAdd}
         >
           <SvgPlus /> {t("room.settings.member.title")}
@@ -189,7 +189,7 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
               className="input flex-1 mr-1"
               aria-label={t("room.settings.member.helpText")}
             />
-            <button type="submit" className="button" disabled={fetching}>
+            <button type="submit" className="btn" disabled={fetching}>
               {t("room.settings.member.action")}
             </button>
           </form>
