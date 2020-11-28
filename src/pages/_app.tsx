@@ -9,32 +9,15 @@ import { MainLayout } from "~/components/Layout/index";
 import { PlayerProvider } from "~/components/Player/index";
 import { ToastProvider } from "~/components/Toast/index";
 import { LogInProvider } from "~/components/Auth/index";
-import { useMAuth } from "~/hooks/user";
 import { I18n } from "~/i18n/index";
 import { createUrqlClient } from "~/graphql/urql";
 import "~/styles/index.css";
 
 const queryCache = new QueryCache();
 
-const MAuthRefresher: React.FC = () => {
-  // MAuth - Refetch on token expiry
-  const mAuthResp = useMAuth();
-  useEffect(() => {
-    let t: number | undefined;
-    if (mAuthResp.data?.expiredAt) {
-      const tm = mAuthResp.data.expiredAt.getTime() - Date.now();
-      // TODO: This indicates an error, report it
-      if (tm < 0) return;
-      t = window.setTimeout(mAuthResp.refetch, tm);
-    }
-    return () => window.clearTimeout(t);
-  }, [mAuthResp.data, mAuthResp.refetch]);
-  return null;
-};
-
 export default function MyApp({ Component, pageProps }: AppProps) {
   // URQL
-  const [urqlClient, setUrqlClient] = useState(createUrqlClient());
+  const [urqlClient, setUrqlClient] = useState(() => createUrqlClient());
   useEffect(() => {
     // FIXME: Find alternative to reset urql
     window.resetUrqlClient = () => setUrqlClient(createUrqlClient());
@@ -62,7 +45,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <UrqlProvider value={urqlClient}>
           <ToastProvider>
             <LogInProvider>
-              <MAuthRefresher />
               <PlayerProvider>
                 <MainLayout>
                   <DefaultSeo

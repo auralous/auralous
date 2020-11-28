@@ -15,7 +15,22 @@ const SpotifyPlayer = dynamic(() => import("./SpotifyPlayer"), { ssr: false });
 const player = new Player();
 
 const PlayerProvider: React.FC = ({ children }) => {
-  const { data: mAuth, isFetching: fetchingMAuth } = useMAuth();
+  const {
+    data: mAuth,
+    isFetching: fetchingMAuth,
+    refetch: mAuthRefetch,
+  } = useMAuth();
+
+  useEffect(() => {
+    let t: number | undefined;
+    if (mAuth?.expiredAt) {
+      const tm = mAuth.expiredAt.getTime() - Date.now();
+      // TODO: This indicates an error, report it
+      if (tm < 0) return;
+      t = window.setTimeout(mAuthRefetch, tm);
+    }
+    return () => window.clearTimeout(t);
+  }, [mAuth, mAuthRefetch]);
 
   const [
     guestPlayingPlatform,
@@ -154,7 +169,6 @@ const PlayerProvider: React.FC = ({ children }) => {
   return (
     <PlayerContext.Provider value={playerContextValue}>
       <Portal>{DynamicPlayer && <DynamicPlayer />}</Portal>
-
       {children}
     </PlayerContext.Provider>
   );
