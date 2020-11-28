@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { animated, useSpring } from "react-spring";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { Messenger } from "~/components/Message/index";
 import {
@@ -73,12 +74,33 @@ const RoomUsers: React.FC<{
   );
 };
 
+const AnimatedTabPanel = animated(TabPanel);
+const tabInactiveStyle = { opacity: 0, transform: "translate3d(0,40px,0)" };
+const tabActiveStyle = { opacity: 1, transform: "translate3d(0,0,0)" };
+
 const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
   room,
   roomState,
 }) => {
   const { t } = useI18n();
   const user = useCurrentUser();
+
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const chatPanelStyle = useSpring(
+    0 === selectedIndex ? tabActiveStyle : tabInactiveStyle
+  );
+  const userPanelStyle = useSpring(
+    1 === selectedIndex ? tabActiveStyle : tabInactiveStyle
+  );
+
+  const getClassName = (index: number) =>
+    `flex flex-center flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
+      index === selectedIndex ? "bg-pink text-white" : ""
+    } transition`;
+
+  // Odd fix for inconsistent animation for intial el
+  useEffect(() => setSelectedIndex(0), []);
 
   if (!user)
     return (
@@ -90,35 +112,25 @@ const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
       </div>
     );
   return (
-    <Tabs className="h-full flex flex-col">
-      {({ selectedIndex }) => {
-        const getClassName = (index: number) =>
-          `flex flex-center flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
-            index === selectedIndex ? "bg-pink text-white" : ""
-          } transition`;
-        return (
-          <>
-            <TabList className="flex flex-none">
-              <Tab className={getClassName(0)}>{t("room.chat.title")}</Tab>
-              <Tab className={`${getClassName(1)} flex-none px-2`}>
-                <SvgUserGroup width="12" height="12" />
-                <span className="ml-1">
-                  {roomState.userIds.length || 0}
-                  <span className="sr-only">{t("room.chat.listener")}</span>
-                </span>
-              </Tab>
-            </TabList>
-            <TabPanels className="flex-1 h-0">
-              <TabPanel className="h-full">
-                <Messenger id={`room:${room.id}`} />
-              </TabPanel>
-              <TabPanel className="h-full">
-                <RoomUsers room={room} roomState={roomState} />
-              </TabPanel>
-            </TabPanels>
-          </>
-        );
-      }}
+    <Tabs onChange={setSelectedIndex} className="h-full flex flex-col">
+      <TabList className="flex flex-none">
+        <Tab className={getClassName(0)}>{t("room.chat.title")}</Tab>
+        <Tab className={`${getClassName(1)} flex-none px-2`}>
+          <SvgUserGroup width="12" height="12" />
+          <span className="ml-1">
+            {roomState.userIds.length || 0}
+            <span className="sr-only">{t("room.chat.listener")}</span>
+          </span>
+        </Tab>
+      </TabList>
+      <TabPanels className="flex-1 h-0">
+        <AnimatedTabPanel style={chatPanelStyle} className="h-full">
+          <Messenger id={`room:${room.id}`} />
+        </AnimatedTabPanel>
+        <AnimatedTabPanel style={userPanelStyle} className="h-full">
+          <RoomUsers room={room} roomState={roomState} />
+        </AnimatedTabPanel>
+      </TabPanels>
     </Tabs>
   );
 };

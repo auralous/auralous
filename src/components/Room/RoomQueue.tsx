@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { animated, useSpring } from "react-spring";
 import { QueueManager, QueueViewer, useQueue } from "~/components/Queue";
@@ -45,23 +45,26 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
     [updateQueue, room]
   );
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  // Odd fix for inconsistent animation for intial el
+  useEffect(() => setSelectedIndex(0), []);
 
   const getClassName = (index: number) =>
     `flex-1 p-2 text-sm font-bold ${
       index === selectedIndex ? "bg-blue" : "bg-blue-secondary"
     } transition duration-300`;
 
-  const tabPanelStyle1 = useSpring(
+  const tabPanelStyle0 = useSpring(
     0 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
-  const tabPanelStyle2 = useSpring(
+  const tabPanelStyle1 = useSpring(
     1 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
-  const tabPanelStyle3 = useSpring(
+  const tabPanelStyle2 = useSpring(
     2 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
-  const tabPanelStyle4 = useSpring(
+  const tabPanelStyle3 = useSpring(
     3 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
 
@@ -92,23 +95,23 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
         </Tab>
       </TabList>
       <TabPanels className="flex-1 h-0">
-        <AnimatedTabPanel style={tabPanelStyle1} className="h-full">
+        <AnimatedTabPanel style={tabPanelStyle0} className="h-full">
           <QueueManager
             permission={roomState.permission}
             queueId={`room:${room.id}`}
           />
         </AnimatedTabPanel>
-        <AnimatedTabPanel style={tabPanelStyle2} className="h-full">
+        <AnimatedTabPanel style={tabPanelStyle1} className="h-full">
           <TrackAdderSearch callback={onAddTracks} addedTracks={addedTracks} />
         </AnimatedTabPanel>
-        <AnimatedTabPanel style={tabPanelStyle3} className="h-full">
+        <AnimatedTabPanel style={tabPanelStyle2} className="h-full">
           <TrackAdderPlaylist
             callback={onAddTracks}
             addedTracks={addedTracks}
             queryConfig={selectedIndex === 2 ? undefined : { enabled: false }}
           />
         </AnimatedTabPanel>
-        <AnimatedTabPanel style={tabPanelStyle4} className="h-full">
+        <AnimatedTabPanel style={tabPanelStyle3} className="h-full">
           <QueueViewer
             onAdd={roomState.permission.queueCanAdd ? onAddTracks : undefined}
             queueId={`room:${room.id}:played`}
