@@ -41,7 +41,7 @@ const TrackAdderSearch: React.FC<{
   );
 
   return (
-    <>
+    <div className="h-full w-full flex flex-col">
       <form
         ref={formRef}
         onSubmit={onSubmit}
@@ -89,7 +89,7 @@ const TrackAdderSearch: React.FC<{
         callback={callback}
         results={queryResults.map(({ id }) => id)}
       />
-    </>
+    </div>
   );
 };
 

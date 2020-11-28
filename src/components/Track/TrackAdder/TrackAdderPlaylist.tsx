@@ -21,7 +21,7 @@ const PlaylistItem: React.FC<{
       })}
       onKeyDown={({ key }) => key === "Enter" && handleSelect(playlist)}
       tabIndex={0}
-      className="btn p-2 w-full justify-start font-normal bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
+      className="btn rounded-none p-2 w-full justify-start font-normal bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
       onClick={() => handleSelect(playlist)}
     >
       <img
@@ -62,7 +62,7 @@ const TrackAdderPlaylist: React.FC<{
   );
 
   return (
-    <>
+    <div className="flex flex-col w-full h-full">
       <div className="text-sm px-2 h-10 flex items-center font-bold">
         <button
           onClick={() => setSelectedPlaylist(null)}
@@ -110,7 +110,7 @@ const TrackAdderPlaylist: React.FC<{
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
