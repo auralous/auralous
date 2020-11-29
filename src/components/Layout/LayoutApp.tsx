@@ -83,7 +83,7 @@ const Sidebar: React.FC = () => {
   );
 };
 
-const IndexLayout: React.FC = ({ children }) => {
+const LayoutApp: React.FC = ({ children }) => {
   return (
     <>
       <PlayerMinibar />
@@ -93,4 +93,4 @@ const IndexLayout: React.FC = ({ children }) => {
   );
 };
 
-export default IndexLayout;
+export default LayoutApp;

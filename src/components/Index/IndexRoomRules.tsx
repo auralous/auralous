@@ -18,7 +18,7 @@ const IndexRoomRulesLock: React.FC = () => {
 
   return (
     <animated.div
-      className="z-10 w-48 h-64 mx-1 bg-blue rounded-lg shadow-2xl flex flex-col flex-center p-1"
+      className="z-10 w-48 h-64 mx-1 bg-blue rounded-lg shadow-lg flex flex-col flex-center p-1"
       style={style}
     >
       <SvgLock className="mb-4 w-10 h-10" />
@@ -38,19 +38,21 @@ const IndexRoomRulesMembers: React.FC = () => {
 
   return (
     <animated.div
-      className="w-48 h-64 mt-10 mx-1 bg-blue rounded-lg shadow-2xl flex flex-col flex-center p-1"
+      className="w-48 h-64 mt-10 mx-1 bg-warning-dark rounded-lg shadow-lg flex flex-col flex-center p-1 text-foreground-secondary"
       style={style}
     >
-      <b className="mb-4" ref={ref}>
+      <b className="mb-4 text-foreground" ref={ref}>
         Listeners
       </b>
       <div className="text-sm mb-2">
         thechosenone02{" "}
-        <span className="text-xs p-0.5 rounded bg-white text-black">mod</span>
+        <span className="text-xs p-0.5 rounded bg-white bg-opacity-10 text-white text-opacity-50">
+          mod
+        </span>
       </div>
       <div className="text-sm mb-2">
         goodboi{" "}
-        <span className="text-xs p-0.5 rounded bg-white text-black">
+        <span className="text-xs p-0.5 rounded bg-white bg-opacity-10 text-white text-opacity-50">
           collab
         </span>
       </div>
