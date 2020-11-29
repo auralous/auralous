@@ -1,7 +1,12 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 import Router from "next/router";
-import { IndexParagraph, IndexSection, IndexTitle } from "./common";
+import {
+  IndexParagraph,
+  IndexSection,
+  IndexTitle,
+  useFadeInOnScroll,
+} from "./common";
 import { useI18n } from "~/i18n/index";
 import { PlatformName } from "~/graphql/gql.gen";
 import { useInView } from "react-intersection-observer";
@@ -73,15 +78,6 @@ const IndexPlaylist: React.FC = () => {
   const router = useRouter();
   const { t } = useI18n();
 
-  const [ref, inView] = useInView({ delay: 1000 });
-
-  const trail = useTrail(playlistData.length, {
-    opacity: inView ? 1 : 0,
-    transform: inView ? "translateY(0)" : "translateY(40px)",
-    from: { opacity: 0, transform: "translateY(40px)" },
-    config: springConfig.slow,
-  });
-
   const [value, setValue] = useState("");
 
   const onSelected = useCallback((url: string) => {
@@ -89,10 +85,24 @@ const IndexPlaylist: React.FC = () => {
     window.setTimeout(() => Router.push(`/new?search=${url}`), 3000);
   }, []);
 
+  const [ref, style] = useFadeInOnScroll();
+
+  const [refPl, inViewPl] = useInView({ delay: 1500 });
+  const trail = useTrail(playlistData.length, {
+    opacity: inViewPl ? 1 : 0,
+    transform: inViewPl ? "translateY(0)" : "translateY(40px)",
+    from: { opacity: 0, transform: "translateY(40px)" },
+    config: springConfig.slow,
+  });
+
   return (
     <IndexSection>
       <div className="flex flex-col md:flex-row">
-        <div className="py-4 px-2 md:px-8 text-center md:text-left md:w-5/12">
+        <animated.div
+          ref={ref}
+          style={style}
+          className="py-4 px-2 md:px-8 text-center md:text-left md:w-5/12"
+        >
           <IndexTitle>{t("intro.playlist.title")}</IndexTitle>
           <IndexParagraph>{t("intro.playlist.p1")}</IndexParagraph>
           <IndexParagraph>{t("intro.playlist.p2")}</IndexParagraph>
@@ -118,8 +128,8 @@ const IndexPlaylist: React.FC = () => {
               <SvgChevronsRight />
             </button>
           </form>
-        </div>
-        <div className="relative flex-1 md:w-0" ref={ref}>
+        </animated.div>
+        <animated.div ref={refPl} className="relative flex-1 md:w-0">
           {trail.map((style, index) => (
             <animated.div
               key={playlistData[index].title}
@@ -132,7 +142,7 @@ const IndexPlaylist: React.FC = () => {
               />
             </animated.div>
           ))}
-        </div>
+        </animated.div>
       </div>
     </IndexSection>
   );

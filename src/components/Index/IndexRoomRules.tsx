@@ -1,7 +1,12 @@
 import React from "react";
 import { useSpring, animated } from "react-spring";
 import { useInView } from "react-intersection-observer";
-import { IndexParagraph, IndexSection, IndexTitle } from "./common";
+import {
+  IndexParagraph,
+  IndexSection,
+  IndexTitle,
+  useFadeInOnScroll,
+} from "./common";
 import { useI18n } from "~/i18n/index";
 import { SvgLock } from "~/assets/svg";
 
@@ -65,6 +70,8 @@ const IndexRoomRulesMembers: React.FC = () => {
 
 const IndexRoomRules: React.FC = () => {
   const { t } = useI18n();
+  const [ref, style] = useFadeInOnScroll();
+
   return (
     <IndexSection>
       <div className="flex flex-col-reverse md:flex-row">
@@ -72,13 +79,17 @@ const IndexRoomRules: React.FC = () => {
           <IndexRoomRulesLock />
           <IndexRoomRulesMembers />
         </div>
-        <div className="py-2 px-2 md:px-8 text-center md:text-left md:w-7/12">
+        <animated.div
+          ref={ref}
+          style={style}
+          className="py-2 px-2 md:px-8 text-center md:text-left md:w-7/12"
+        >
           <IndexTitle>{t("intro.rules.title")}</IndexTitle>
           <IndexParagraph>{t("intro.rules.p1")}</IndexParagraph>
           <IndexParagraph>
             {t("intro.rules.p2")} <b>{t("intro.rules.p2Bold")}</b>.
           </IndexParagraph>
-        </div>
+        </animated.div>
       </div>
     </IndexSection>
   );

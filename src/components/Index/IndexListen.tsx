@@ -6,7 +6,12 @@ import { useCrossTracks } from "~/hooks/track";
 import { useI18n } from "~/i18n/index";
 import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
 import { parseMs } from "~/lib/editor-utils";
-import { IndexParagraph, IndexSection, IndexTitle } from "./common";
+import {
+  IndexParagraph,
+  IndexSection,
+  IndexTitle,
+  useFadeInOnScroll,
+} from "./common";
 
 const IndexListenFakePlayerContent: React.FC<{ track: Track }> = ({
   track,
@@ -155,17 +160,29 @@ const IndexListenFakePlayer: React.FC<{ trackId: string }> = ({ trackId }) => {
 
 const IndexListen: React.FC = () => {
   const { t } = useI18n();
+
+  const [ref1, style1] = useFadeInOnScroll();
+  const [ref2, style2] = useFadeInOnScroll();
+
   return (
     <IndexSection>
       <div className="flex flex-col-reverse md:flex-row">
-        <div className="relative flex-1 md:w-0">
+        <animated.div
+          ref={ref1}
+          style={style1}
+          className="relative flex-1 md:w-0"
+        >
           <IndexListenFakePlayer trackId="spotify:2CgOd0Lj5MuvOqzqdaAXtS" />
-        </div>
-        <div className="py-2 px-2 md:px-8 text-center md:text-left md:w-5/12">
+        </animated.div>
+        <animated.div
+          ref={ref2}
+          style={style2}
+          className="py-2 px-2 md:px-8 text-center md:text-left md:w-5/12"
+        >
           <IndexTitle>{t("intro.listen.title")}</IndexTitle>
           <IndexParagraph>{t("intro.listen.description")}</IndexParagraph>
           <IndexParagraph>{t("intro.listen.p")}</IndexParagraph>
-        </div>
+        </animated.div>
       </div>
     </IndexSection>
   );
