@@ -3,7 +3,7 @@
     "title": "404",
     "description": "You hear music in the distance, but nothing can be seen here."
   },
-  "description": "Listen Together with Friends around the Globe in rooms. All you need is a YouTube, Spotify, or Apple Music account.",
+  "description": "Listen Together with Friends around the Globe. All you need are your favorite songs and a YouTube, Spotify, or Apple Music account.",
   "motto": "Music Together",
   "intro": {
     "use": { "action": "Launch Stereo", "watch": "Watch video" },
@@ -15,14 +15,14 @@
     },
     "playlist": {
       "title": "Quick Start",
-      "p1": "It takes less than 30 seconds to start listening together. Just grab that link and start.",
+      "p1": "It takes less than 30 seconds to start listening together. Listen to songs from your library.",
       "p2": "Have a good playlist to share with friends, or did your favorite artists just release their new album? All you need is a link!",
       "action": "Go"
     },
     "rules": {
       "title": "Your Room. Your Rule.",
-      "p1": "Listen either in public or private rooms. Set a password to avoid unwelcome guests. Only collaborators can add songs, but everyone can chat and add their reactions.",
-      "p2": "Invite your close friends to be moderators. Ban offended messages and people. Customize room rules so that your friends know what songs can be added.",
+      "p1": "Listen either in public or private rooms. Set a password to avoid unwelcome guests. Everyone can chat and react, but only collaborators can add songs.",
+      "p2": "Invite your close friends to be moderators. Ban uncivil listeneres. Customize room rules so everyone know what songs will fit.",
       "p2Bold": "You are in control"
     }
   },
