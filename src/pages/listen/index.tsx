@@ -1,9 +1,9 @@
 import React from "react";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
-import { useI18n } from "~/i18n/index";
 import Link from "next/link";
 import { SvgLogo } from "~/assets/svg";
+import { useI18n } from "~/i18n/index";
 
 const ListenPage: NextPage = () => {
   const { t } = useI18n();
