@@ -28,6 +28,7 @@
     "benzene-ws-client": "^0.0.1",
     "fathom-client": "^3.0.0",
     "graphql": "^15.4.0",
+    "intersection-observer": "^0.11.0",
     "ms": "^2.1.2",
     "next": "^10.0.3",
     "next-seo": "^4.15.1",

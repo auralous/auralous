@@ -13,6 +13,9 @@ import { I18n } from "~/i18n/index";
 import { createUrqlClient } from "~/graphql/urql";
 import "~/styles/index.css";
 
+// polyfill
+import "intersection-observer";
+
 const queryCache = new QueryCache();
 
 export default function MyApp({ Component, pageProps, router }: AppProps) {
