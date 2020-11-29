@@ -3,12 +3,12 @@ import Link from "next/link";
 import { useSpring, animated } from "react-spring";
 import { PlayerMinibar } from "~/components/Player/index";
 import { useI18n } from "~/i18n/index";
-import { SvgLogo } from "~/assets/svg";
+import { SvgLogo, SvgMenu, SvgX } from "~/assets/svg";
 
 const navBarClassName =
-  "py-3 font-medium px-2 mx-3 opacity-50 hover:opacity-100 transition-opacity duration-300";
+  "text-center py-3 font-medium px-2 mx-3 opacity-50 hover:opacity-100 transition-opacity duration-300";
 const importantNavItemClassName =
-  "border-pink hover:border-white hover:bg-opacity-10 font-bold rounded-full border-2 px-6 py-2 mx-3 transition duration-300";
+  "text-center border-pink hover:border-white hover:bg-opacity-10 font-bold rounded-full border-2 px-6 py-2 mx-3 transition duration-300";
 
 const Navbar: React.FC = () => {
   const { t } = useI18n();
@@ -20,19 +20,22 @@ const Navbar: React.FC = () => {
       : { transform: "translateY(-120px)" }
   );
 
+  const [expanded, setExpanded] = useState(false);
+
   useEffect(() => {
     let prev = window.scrollY;
-
     const scrollHandler = () => {
-      if (window.scrollY > prev)
-        // scroll down
-        setActive(false);
-      else setActive(true);
+      if (!expanded) {
+        if (window.scrollY > prev)
+          // scroll down
+          setActive(false);
+        else setActive(true);
+      }
       prev = window.scrollY;
     };
     window.addEventListener("scroll", scrollHandler);
     return () => window.removeEventListener("scroll", scrollHandler);
-  }, []);
+  }, [expanded]);
 
   return (
     <>
@@ -43,7 +46,7 @@ const Navbar: React.FC = () => {
         <div className="container flex items-center justify-between">
           <div className="flex items-center content-start overflow-hidden">
             <Link href="/">
-              <a className="ml-2 mr-6" aria-label={t("common.backToHome")}>
+              <a className="ml-2 mr-6 z-10" aria-label={t("common.backToHome")}>
                 <SvgLogo
                   className="mx-auto fill-current"
                   width="112"
@@ -52,7 +55,19 @@ const Navbar: React.FC = () => {
               </a>
             </Link>
           </div>
-          <div className="flex content-end items-center flex-none">
+          <button
+            className="px-2 py-1 z-10 sm:hidden"
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? <SvgX /> : <SvgMenu />}
+          </button>
+          <div
+            className={`${
+              expanded
+                ? "flex py-4 w-full absolute justify-center bg-blue bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur"
+                : "hidden"
+            } sm:flex content-end sm:items-center flex-none`}
+          >
             <Link href="/support">
               <a className={navBarClassName}>{t("support.title")}</a>
             </Link>
