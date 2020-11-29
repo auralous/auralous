@@ -1,0 +1,240 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "@reach/dialog/styles.css";
+
+/* purgecss start ignore */
+
+@layer utilities {
+  .absolute-center {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+  }
+  .flex-center {
+    align-items: center;
+    justify-content: center;
+  }
+  .bordered-box {
+    @apply bg-blue border-blue-tertiary;
+    border-width: 1px;
+  }
+  .nav {
+    @apply absolute top-0 h-12 w-full z-30 overflow-x-auto flex justify-between items-center;
+  }
+
+  .label {
+    @apply block text-foreground-secondary text-sm font-bold mb-2;
+  }
+
+  .btn, .label, .input {
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .input {
+    @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
+    &:not([disabled]) {
+      &:focus {
+        @apply border-background-tertiary;
+      }
+    }
+  }
+  .btn {
+    @apply inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
+    @apply transition-colors;
+    /* Theme */
+    @apply bg-background-secondary text-foreground;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-background-tertiary;
+        @apply border-0;
+      }
+    }
+    &.btn-primary {
+      @apply text-pink-label bg-pink;
+      &:not([disabled]) {
+        &:hover, &:focus {
+          @apply bg-pink-dark;
+        }
+      }
+    }
+    &.btn-danger {
+      @apply text-danger-label;
+      @apply bg-danger;
+      &:not([disabled]) {
+        &:hover, &:focus {
+          @apply bg-danger-dark;
+        }
+      }
+    }
+    &.btn-success {
+      @apply text-success-label;
+      @apply bg-success;
+      &:not([disabled]) {
+        &:hover, &:focus {
+          @apply bg-success-dark;
+        }
+      }
+    }
+    &.btn-warning {
+      @apply text-warning-label;
+      @apply bg-warning;
+      &:not([disabled]) {
+        &:hover, &:focus {
+          @apply bg-warning-dark;
+        }
+      }
+    }
+    &.btn-foreground {
+      @apply text-background bg-foreground;
+      &:not([disabled]) {
+        &:hover, &:focus {
+          @apply text-background bg-foreground-secondary;
+        }
+      }
+    }
+    &.btn-light {
+      @apply text-foreground bg-foreground bg-opacity-25;
+      &:not([disabled]) {
+        &:hover, &:focus {
+          @apply bg-foreground bg-opacity-50;
+        }
+      }
+    }
+    &.btn-transparent {
+      @apply text-foreground bg-transparent;
+      &:not([disabled]) {
+        &:hover, &:focus {
+          @apply bg-transparent text-foreground text-opacity-50;
+        }
+      }
+    }
+  }
+
+  .backdrop-blur {
+    backdrop-filter: blur(20px);
+  }
+}
+
+body {
+  @apply text-foreground bg-background font-sans;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+*::-webkit-scrollbar {
+  background-color: transparent;
+  @apply w-2 h-2;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply rounded-sm bg-foreground-tertiary;
+  &:hover {
+    @apply bg-foreground-secondary;
+  }
+}
+
+[role=button]:disabled, button:disabled, input:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+[data-reach-dialog-overlay] {
+  @apply fixed w-full h-full inset-0 flex flex-center z-40 bg-black bg-opacity-75;
+  [data-reach-dialog-content] {
+    background: #000814;
+    width: theme('maxWidth.5xl');
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1rem);
+    @apply rounded-lg text-foreground overflow-hidden m-0 p-0 border-2 border-background-secondary;
+    @apply relative flex flex-col;
+    @apply transition;
+  }
+  .modal-footer > .btn {
+    @apply flex-1 rounded-none;
+  }
+}
+
+:root {
+  --reach-tabs: 1;
+}
+
+[data-reach-tabs] {
+  [data-reach-tab] {
+    &:focus {
+      outline: none;
+    }
+    &:not([disabled]):not([data-selected]) {
+      &:hover, &:focus {
+        @apply opacity-75;
+      }
+    }
+  }
+
+  [data-reach-tab-panel]:focus, [data-reach-tab-panels]:focus {
+    outline: none;
+  }
+}
+
+.content {
+  @apply text-foreground;
+  h2, h3, h4, h5, h6 {
+    @apply text-foreground mt-8 mb-2 leading-relaxed font-semibold;
+  }
+  h2 {
+    @apply text-3xl;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+  h4 {
+    @apply text-xl;
+  }
+  h5 {
+    @apply text-lg;
+  }
+  p {
+    @apply mb-4 leading-loose;
+  }
+  a {
+    @apply text-pink transition;
+    &:hover {
+      @apply text-opacity-75;
+    }
+  }
+  ul {
+    @apply pl-6 my-2 list-disc list-inside;
+    li {
+      ul {
+        @apply my-0;
+      }
+    }
+  }
+  ol {
+    @apply pl-6 my-2 list-decimal list-inside;
+  }
+  img {
+    @apply rounded-lg shadow-lg overflow-hidden;
+  }
+}
+
+.content-support {
+  h2 {
+    @apply text-center;
+  }
+  h4 {
+    @apply text-warning-light;
+  }
+}
+
+.pt-youtube {
+  @apply pt-48 sm:pt-0;
+}
+
+/* purgecss end ignore */

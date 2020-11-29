@@ -7,10 +7,9 @@ import React, {
   useCallback,
 } from "react";
 import Link from "next/link";
-import { Dialog } from "@reach/dialog";
 import { useRouter } from "next/router";
 import Welcome from "./Welcome";
-import { useModal } from "~/components/Modal/index";
+import { Modal, useModal } from "~/components/Modal/index";
 import { useI18n } from "~/i18n/index";
 import { SvgSpotify, SvgGoogleColor, SvgX } from "~/assets/svg";
 import { PlatformName } from "~/graphql/gql.gen";
@@ -100,11 +99,11 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
 
   return (
     <>
-      <Dialog
-        aria-label={t("auth.label")}
-        isOpen={active}
-        onDismiss={close}
-        className="p-0 border-0 shadow-xl"
+      <Modal.Modal
+        title={t("auth.label")}
+        active={active}
+        onOutsideClick={close}
+        className="border-none"
       >
         <div
           className="p-4 bg-blue-tertiary bg-opacity-50 bg-repeat"
@@ -121,12 +120,12 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </span>
                 <button
                   onClick={() => logIn(PlatformName.Youtube)}
-                  className="button bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity duration-300 rounded-full"
+                  className="btn bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgGoogleColor
+                    className="fill-current"
                     width="24"
-                    fill="currentColor"
                     strokeWidth="0"
                   />
                   <span className="ml-4 text-sm">Continue with Google</span>
@@ -138,15 +137,18 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </span>
                 <button
                   onClick={() => logIn(PlatformName.Spotify)}
-                  className="button brand-spotify h-12 hover:opacity-75 transition-opacity duration-300 rounded-full"
+                  className="btn bg-spotify text-spotify-label h-12 hover:opacity-75 transition-opacity rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
-                  <SvgSpotify width="24" fill="currentColor" strokeWidth="0" />
+                  <SvgSpotify width="24" className="fill-current stroke-0" />
                   <span className="ml-2 text-sm">Continue with Spotify</span>
                 </button>
               </div>
             </div>
-            <p className="mt-4 text-sm p-2 rounded-lg text-warning-light max-w-xl mx-auto">
+            <p className="mt-2 text-xs p-2 text-foreground-tertiary">
+              {t("auth.createNotice")}.
+            </p>
+            <p className="text-xs p-2 rounded-lg text-warning-light max-w-xl mx-auto">
               <Link href="/support/permissions">
                 <a className="hover:underline">
                   <span role="img" aria-label="Light Bulb">
@@ -156,32 +158,8 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </a>
               </Link>
             </p>
-            <div className="mt-6 text-xs text-foreground-secondary">
-              <p>
-                {t("player.youtube.footerText")}{" "}
-                <a
-                  style={{ color: "#ff0022" }}
-                  className="opacity-50 hover:opacity-75"
-                  href="https://www.youtube.com/premium"
-                >
-                  youtube.com/premium
-                </a>{" "}
-                {t("player.youtube.footerTextAfter")}.
-              </p>
-              <p>
-                {t("player.spotify.footerText")}{" "}
-                <a
-                  style={{ color: "#1db954" }}
-                  className="opacity-50 hover:opacity-75"
-                  href="https://www.spotify.com/premium"
-                >
-                  spotify.com/premium
-                </a>{" "}
-                {t("player.spotify.footerTextAfter")}.
-              </p>
-            </div>
           </div>
-          <p className="mx-auto w-128 max-w-full p-4 pt-0 text-foreground-tertiary text-xs text-center">
+          <p className="mx-auto w-96 max-w-full p-4 pt-0 text-foreground-tertiary text-xs text-center">
             {t("auth.footerText.pre")}{" "}
             <a target="_blank" href="/privacy" className="underline">
               {t("auth.footerText.privacyPolicy")}
@@ -208,14 +186,13 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
           </p>
         </div>
         <button
-          type="button"
-          className="button button-transparent absolute top-2 right-0"
+          className="btn btn-transparent absolute top-2 right-0"
           onClick={close}
           title={t("auth.cancelText")}
         >
           <SvgX />
         </button>
-      </Dialog>
+      </Modal.Modal>
       <Welcome active={activeWelcome} close={close} />
     </>
   );

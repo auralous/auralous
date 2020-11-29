@@ -1,6 +1,7 @@
 import React from "react";
-import { Dialog } from "@reach/dialog";
+import { DialogOverlay, DialogContent } from "@reach/dialog";
 import { SvgX } from "~/assets/svg";
+import { useTransition, animated, config as springConfig } from "react-spring";
 
 const ModalHeader: React.FC<{ className?: string }> = ({
   children,
@@ -37,28 +38,63 @@ const ModalFooter: React.FC = ({ children }) => (
   <div className="flex modal-footer h-12">{children}</div>
 );
 
+const AnimatedDialogOverlay = animated(DialogOverlay);
+const AnimatedDialogContent = animated(DialogContent);
+
 const Modal: React.FC<{
   title?: string;
   active: boolean;
   onOutsideClick?: () => void;
-}> = ({ title, children, active, onOutsideClick }) => (
-  <Dialog
-    aria-label={title ?? "Dialog"}
-    isOpen={active}
-    onDismiss={() => onOutsideClick && onOutsideClick()}
-  >
-    {children}
-    {onOutsideClick && (
-      <button
-        type="button"
-        className="button button-transparent absolute top-4 right-4"
-        onClick={onOutsideClick}
-      >
-        <SvgX />
-      </button>
-    )}
-  </Dialog>
-);
+  className?: string;
+}> = ({ title, children, active, onOutsideClick, className }) => {
+  const transitions = useTransition(active, null, {
+    from: {
+      opacity: 0,
+      transform: "translateY(-40px)",
+    },
+    enter: {
+      opacity: 1,
+      transform: "translateY(0px)",
+    },
+    leave: {
+      opacity: 0,
+      transform: "translateY(-40px)",
+    },
+    config: springConfig.gentle,
+  });
+
+  return (
+    <>
+      {transitions.map(
+        ({ item, key, props: style }) =>
+          item && (
+            <AnimatedDialogOverlay
+              aria-label={title ?? "Dialog"}
+              isOpen={style.opacity !== 0}
+              onDismiss={() => onOutsideClick && onOutsideClick()}
+              key={key}
+              style={{ opacity: style.opacity }}
+            >
+              <AnimatedDialogContent
+                style={{ transform: style.transform }}
+                className={className}
+              >
+                {children}
+                {onOutsideClick && (
+                  <button
+                    className="btn btn-transparent absolute p-2 top-2 right-2"
+                    onClick={onOutsideClick}
+                  >
+                    <SvgX />
+                  </button>
+                )}
+              </AnimatedDialogContent>
+            </AnimatedDialogOverlay>
+          )
+      )}
+    </>
+  );
+};
 
 export default {
   Modal,

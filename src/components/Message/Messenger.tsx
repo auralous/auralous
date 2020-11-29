@@ -72,7 +72,7 @@ const MessageItemPlay: React.FC<{
         href={track?.url}
         target="_blank"
         rel="noreferrer"
-        className="text-foreground-secondary hover:text-foreground transition-colors duration-200"
+        className="text-foreground-secondary hover:text-foreground transition-colors"
       >
         {track?.title} -{" "}
         <i>{track?.artists.map(({ name }) => name).join(", ")}</i>
@@ -204,7 +204,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
         <button
           onClick={() => setOffset(messages.length)}
           disabled={fetching}
-          className="button w-full text-xs p-1"
+          className="btn w-full text-xs p-1"
         >
           {t("message.loadOlder")}
         </button>

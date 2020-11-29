@@ -1,8 +1,8 @@
 import React, { useRef, useCallback } from "react";
-import Dialog from "@reach/dialog";
 import { useUpdateMeMutation } from "~/graphql/gql.gen";
 import { useToasts } from "~/components/Toast";
 import { useI18n } from "~/i18n/index";
+import { Modal } from "../Modal";
 
 const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   active,
@@ -34,12 +34,8 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   );
 
   return (
-    <Dialog
-      aria-label="Welcome to Stereo"
-      isOpen={active}
-      className="py-8 px-16"
-    >
-      <form className="h-full overflow-y-scroll" onSubmit={onSubmit}>
+    <Modal.Modal aria-label="Welcome to Stereo" active={active}>
+      <form className="py-8 px-16" onSubmit={onSubmit}>
         <div className="mb-4">
           <p className="text-center mb-2 font-bold">
             {t("settings.username.label")}
@@ -55,11 +51,11 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
             {t("settings.username.helpText")}
           </p>
         </div>
-        <button className="button w-full" disabled={fetching}>
+        <button className="btn w-full" disabled={fetching}>
           {t("common.save")}
         </button>
       </form>
-    </Dialog>
+    </Modal.Modal>
   );
 };
 

@@ -30,9 +30,8 @@ const Row = React.memo<ListChildComponentProps>(function Row({
         <div className="flex content-end items-center ml-2">
           {data.onAdd && (
             <button
-              type="button"
               aria-label="Add track"
-              className="button p-0 h-10 w-10"
+              className="btn p-0 h-10 w-10"
               onClick={async () => {
                 setIsAdding(true);
                 await data.onAdd([data.items[index].trackId]);

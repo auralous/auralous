@@ -15,7 +15,7 @@ const AuthBanner: React.FC<{ prompt: string; hook?: string }> = ({
       <p className="text-foreground-secondary text-sm mb-4 text-center">
         {hook || t("auth.hookDefault")}
       </p>
-      <button onClick={openLogin} className="button w-128 max-w-full">
+      <button onClick={openLogin} className="btn btn-success w-96 max-w-full">
         {t("auth.action")}
       </button>
     </div>

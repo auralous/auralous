@@ -92,9 +92,8 @@ const QueueDraggableItem: React.FC<{
       </div>
       <div className="flex content-end items-center ml-2">
         <button
-          type="button"
           title={t("queue.manager.removeTrackText")}
-          className={`button ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
+          className={`btn ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
           onClick={removeItem}
           disabled={!removable}
         >
@@ -104,7 +103,7 @@ const QueueDraggableItem: React.FC<{
             width="12"
             height="12"
             viewBox="0 0 24 24"
-            stroke="currentColor"
+            className="stroke-current"
           >
             <path
               strokeLinecap="round"
@@ -157,7 +156,8 @@ const Row = React.memo<
 const QueueManager: React.FC<{
   queueId: string;
   permission: QueuePermission;
-}> = ({ queueId, permission }) => {
+  onEmptyAddClick?: () => void;
+}> = ({ queueId, permission, onEmptyAddClick }) => {
   const { t } = useI18n();
 
   const user = useCurrentUser();
@@ -200,16 +200,28 @@ const QueueManager: React.FC<{
   return (
     <div className="h-full w-full flex flex-col justify-between">
       {!user && (
-        <div className="p-1 flex-none">
-          <button onClick={showLogin} className="button w-full text-xs p-2">
-            {t("queue.manager.authPrompt")}
-          </button>
-        </div>
+        <button
+          onClick={showLogin}
+          className="btn bg-blue-secondary py-4 opacity-90 hover:opacity-100 transition rounded-none absolute bottom-0 w-full text-lg z-10"
+          style={{
+            background: 'url("/images/topography.svg")',
+          }}
+        >
+          {t("queue.manager.authPrompt")}
+        </button>
       )}
       <div className="w-full h-full">
         {queue.items?.length === 0 && (
-          <div className="text-xs text-foreground-secondary p-4 text-center">
-            {t("queue.manager.emptyText")}
+          <div className="h-full flex flex-col flex-center text-lg text-foreground-tertiary p-4">
+            <p className="text-center">{t("queue.manager.emptyText")}</p>
+            {permission.queueCanAdd && (
+              <button
+                onClick={onEmptyAddClick}
+                className="py-2 px-4 rounded-lg text-success-light hover:bg-success-light hover:bg-opacity-10 transition-colors font-bold mt-1"
+              >
+                {t("queue.manager.addAction")}
+              </button>
+            )}
           </div>
         )}
         <DragDropContext onDragEnd={onDragEnd}>
@@ -246,20 +258,22 @@ const QueueManager: React.FC<{
         </DragDropContext>
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
-        {permission.queueCanAdd ? null : (
-          <p>
-            {t("queue.manager.notAllowedText")}{" "}
-            <span className="bg-background-secondary p-1 rounded-lg font-bold">
-              <SvgBookOpen
-                className="inline"
-                width="14"
-                height="14"
-                title={t("room.rules.title")}
-              />{" "}
-              {t("room.rules.shortTitle")}
-            </span>
-          </p>
-        )}
+        {permission.queueCanAdd
+          ? null
+          : user && (
+              <p>
+                {t("queue.manager.notAllowedText")}{" "}
+                <span className="bg-background-secondary p-1 rounded-lg font-bold">
+                  <SvgBookOpen
+                    className="inline"
+                    width="14"
+                    height="14"
+                    title={t("room.rules.title")}
+                  />{" "}
+                  {t("room.rules.shortTitle")}
+                </span>
+              </p>
+            )}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ const AuthCallbackPage: NextPage = () => {
   return (
     <>
       <NextSeo title="Authenticated" nofollow noindex />
-      <div className="container mx-auto py-12">
+      <div className="flex flex-col flex-center p-8 w-screen h-screen">
         <h1 className="text-2xl font-bold mb-2 text-center">
           {isSuccess ? "You are in!" : "Oooops..."}
         </h1>
@@ -18,7 +18,7 @@ const AuthCallbackPage: NextPage = () => {
             ? "We have successfully connected to your account. Let's jam!"
             : "We could not connect to your account. Let's give it another try!"}
         </p>
-        <button className="button w-full" onClick={() => window.close()}>
+        <button className="btn w-full" onClick={() => window.close()}>
           Close window
         </button>
       </div>

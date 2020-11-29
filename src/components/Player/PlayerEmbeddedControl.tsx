@@ -62,7 +62,7 @@ const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   return (
     <button
-      className="button text-xs leading-none"
+      className="btn text-xs leading-none"
       onClick={() => skipNowPlaying({ id: roomId })}
       disabled={
         fetching ||
@@ -167,9 +167,16 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
       <div
         className={`${
           shouldShowPlatformChooser ? "hidden" : "flex"
-        } items-center relative transition-colors duration-300`}
+        } items-center relative transition-colors`}
       >
-        <div className="absolute inset-0" style={{ opacity: ".15" }} />
+        {track && (
+          <img
+            className="absolute inset-0 transform scale-125 w-full h-full object-cover"
+            alt={`${t("nowPlaying.title")}: ${track.title}`}
+            src={track.image}
+            style={{ filter: "blur(20px) brightness(.7)" }}
+          />
+        )}
         <div className="w-24 h-24 lg:w-32 lg:h-32">
           <div className="pb-full h-0 relative mx-auto bg-background-secondary overflow-hidden">
             {track && (
@@ -183,9 +190,8 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
         </div>
         <div className="w-16 h-24 flex flex-center -ml-8 z-10">
           <button
-            type="button"
             aria-label={isPlaying ? t("player.pause") : t("player.play")}
-            className="opacity-100 flex flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white text-blue-tertiary transform hover:scale-105 transition-transform duration-300"
+            className="opacity-100 flex flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white text-blue-tertiary transform hover:scale-105 transition-transform"
             onClick={() => {
               if (!roomPlayingStarted) return playRoom(roomId);
               isPlaying ? player.pause() : player.play();

@@ -3,26 +3,26 @@
     "title": "404",
     "description": "Bạn thoáng nghe tiếng nhạc bên tai nhưng không thấy gì ở trước mắt"
   },
-  "description": "Stereo cho phép bạn nghe nhạc cùng bạn bè khắp năm châu, chỉ với một tại khoản YouTube, Spotify, hay Apple Music.",
+  "description": "Nghe nhạc cùng bạn bè khắp năm châu với Stereo. Bạn không cần gì ngoài gu âm nhạc và một tại khoản YouTube, Spotify, hoặc Apple Music.",
   "motto": "Âm nhạc Bên nhau",
   "intro": {
-    "use": { "action": "Truy cập", "web": "Web App", "comingSoon": "Sắp tới" },
+    "use": { "action": "Truy cập Stereo", "watch": "Xem giới thiệu" },
     "listen": {
       "title": "Nghe nhạc mọi nơi",
-      "description": "Stereo tích hợp với ứng dụng nghe nhạc quen thuộc với bạn. Bạn không cần gì ngoại một tài khoản YouTube, Spotify, hay Apple Music.",
+      "description": "Stereo tích hợp với ứng dụng nghe nhạc quen thuộc với bạn. Bạn không cần gì ngoài một tài khoản YouTube, Spotify, hay Apple Music.",
       "p": "Bạn bè bạn không dùng chung ứng dụng nghe nhạc? Không sao, Stereo sẽ tìm bài hát tương ứng trên ứng dụng mà bạn sở hữu.",
       "action": "Cùng nghe nào"
     },
     "playlist": {
       "title": "Bắt đầu ngay",
-      "p1": "Bắt đầu nghe nhạc cùng nhau trong chưa đầy 30 giây. Chỉ cần bạn dán đường link playlist bạn mong muốn và bắt đầu ngay.",
-      "p2": "Bạn có một playlist khá độc, hay là ca sĩ yêu thích của bạn mới ra album mới? Dán đường link với đi thôi!",
+      "p1": "Bắt đầu nghe nhạc cùng nhau trong chưa đầy 30 giây. Đu đưa ngay cùng những bản nhạc trong thư viện của bạn.",
+      "p2": "Bạn có playlist độc lạ sao, hay nhạc sĩ yêu thích của bạn mới ra album mới? Chỉ cần một đường link là có nghe liền!",
       "action": "Nghe ngay"
     },
     "rules": {
       "title": "Phòng của bạn. Quy tắc của bạn.",
-      "p1": "Nghe cùng nhau trong phòng riêng tư hoặc công ngai. Đặt mật khẩu để tránh những vị khách không mời. Chỉ những thành viên mới có thể thêm nhạc nhưng ai cùng có thể trò chuyện và thả cảm xúc.",
-      "p2": "Mời bạn bè thân thiết làm quản trị viên. Chặn tin nhắn và thành viên xúc phạm. Tùy chỉnh luật lệ phòng để mọi người có thể thêm những bài hát phù hợp.",
+      "p1": "Nghe nhạc riêng tư hoặc công ngai tùy ý bạn. Đặt mật khẩu để tránh những vị khách không mời. Ai cùng có thể trò chuyện và thả cảm xúc nhưng chỉ thành viên mới có thể thêm nhạc.",
+      "p2": "Mời bạn bè làm quản trị viên. Chặn những người nghe xấu tính. Tùy chỉnh luật lệ phòng để mọi người thể cùng thêm bài hát phù hợp.",
       "p2Bold": "Bạn luôn nắm quyền"
     }
   },
@@ -64,7 +64,7 @@
     },
     "username": {
       "label": "Tên người dùng",
-      "helpText": "Tối đa 15 kí tự, viết thường, không khoản cách và kí tự đặc biệt"
+      "helpText": "Tối đa 15 kí tự, viết thường, không khoảng cách và kí tự đặc biệt"
     },
     "profilePicture": { "label": "Ảnh đại diện" },
     "listening": {
@@ -75,6 +75,11 @@
       "selectOne": "Chọn ứng dụng"
     },
     "signOut": "Đăng xuất"
+  },
+  "listen": {
+    "title": "Nghe ngay",
+    "description": "Nghe nhạc không nhất thiết phải là một trải nghiệm thụ động. Stereo đem đến bạn một cảm giác mới mẻ khi nghe nhạc cùng nhau.",
+    "comingSoon": "Trải nghiệm này sẽ sớm có mặt. Trong thời gian chờ đợi, xem trang Duyệt qua để nghe cùng nhau."
   },
   "new": {
     "title": "Bắt đầu nghe cùng nhau",
@@ -254,6 +259,7 @@
   "queue": {
     "addedBy": "Thêm bởi",
     "manager": {
+      "addAction": "Thêm nhạc",
       "removedTrackText": "Đã xoá {{title}}",
       "removeTrackText": "Xoá bài hát",
       "authPrompt": "Tham gia Stereo để thêm nhạc",
@@ -310,7 +316,8 @@
       "andOr": "và/hoặc",
       "whereApplicable": "ở nơi áp dụng"
     },
-    "permissionLink": "Tại sao cần quyền hạn này từ tài khoản của tôi?"
+    "permissionLink": "Tại sao cần quyền hạn này từ tài khoản của tôi?",
+    "createNotice": "Nếu đây là lần đầu tiên đăng nhập, bạn sẽ tạo một tài khoản Stereo"
   },
   "footer": {
     "privacy": "Riêng tư",
@@ -323,7 +330,9 @@
     "dangerousActionText": "Thao tác này sẽ có hiệu lực tức thì và không thể hoàn tác",
     "tracks": "bài hát",
     "save": "Lưu",
-    "saved": "Đã lưu"
+    "saved": "Đã lưu",
+    "startListening": "Nghe nào",
+    "newRoom": "Tạo phòng"
   },
   "error": {
     "internalError": "Thôi lỗi rồi:",

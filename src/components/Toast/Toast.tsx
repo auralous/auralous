@@ -48,7 +48,7 @@ const Toast: React.FC<{
         tabIndex={0}
         role="status"
         ref={toastRef}
-        className="p-4 mt-2 rounded-lg translate-y-4 opacity-0 transition duration-300 min-w-64 relative"
+        className="p-4 mt-2 rounded-lg translate-y-4 opacity-0 transition max-w-xs relative"
       >
         <button
           aria-label="Close toast"

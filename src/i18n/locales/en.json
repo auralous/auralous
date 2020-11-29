@@ -3,10 +3,10 @@
     "title": "404",
     "description": "You hear music in the distance, but nothing can be seen here."
   },
-  "description": "Listen Together with Friends around the Globe in rooms. All you need is a YouTube, Spotify, or Apple Music account.",
+  "description": "Listen Together with Friends around the Globe. All you need are your favorite songs and a YouTube, Spotify, or Apple Music account.",
   "motto": "Music Together",
   "intro": {
-    "use": { "action": "Use", "web": "Web App", "comingSoon": "Coming Soon" },
+    "use": { "action": "Launch Stereo", "watch": "Watch video" },
     "listen": {
       "title": "Listen Anywhere",
       "description": "Stereo integrates with the music applications you know and love. All you need is a YouTube, Spotify, or Apple Music account.",
@@ -15,14 +15,14 @@
     },
     "playlist": {
       "title": "Quick Start",
-      "p1": "It takes less than 30 seconds to start listening together. Just copy-paste the playlist link and start right away.",
-      "p2": "Have a good playlist to share with friends, or did your favorite artist just release their new album? Just grab the link and go!",
+      "p1": "It takes less than 30 seconds to start listening together. Listen to songs from your library.",
+      "p2": "Have a good playlist to share with friends, or did your favorite artists just release their new album? All you need is a link!",
       "action": "Go"
     },
     "rules": {
       "title": "Your Room. Your Rule.",
-      "p1": "Listen either in public or private rooms. Set a password to avoid unwelcome guests. Only collaborators can add songs, but everyone can chat and add their reactions.",
-      "p2": "Invite your close friends to be moderators. Ban offended messages and people. Customize room rules so that your friends know what songs can be added.",
+      "p1": "Listen either in public or private rooms. Set a password to avoid unwelcome guests. Everyone can chat and react, but only collaborators can add songs.",
+      "p2": "Invite your close friends to be moderators. Ban uncivil listeneres. Customize room rules so everyone know what songs will fit.",
       "p2Bold": "You are in control"
     }
   },
@@ -75,6 +75,11 @@
       "selectOne": "Select one"
     },
     "signOut": "Sign Out"
+  },
+  "listen": {
+    "title": "Listen Now",
+    "description": "Listening to music does not have to be a passive. Stereo brings forward a brand new experience of listening together.",
+    "comingSoon": "This experience is coming soon. In the meantime, check out Browse page to listen together."
   },
   "new": {
     "title": "Start listening together",
@@ -254,6 +259,7 @@
   "queue": {
     "addedBy": "Added by",
     "manager": {
+      "addAction": "Add song",
       "removedTrackText": "Removed {{title}}",
       "removeTrackText": "Remove Track",
       "authPrompt": "Join to Add Songs and Listen Together",
@@ -303,14 +309,15 @@
     "listenOn": "Listen on",
     "cancelText": "Go back",
     "footerText": {
-      "pre": "By continuing, you agree to our",
+      "pre": "By continuing, you agree to our friendly",
       "privacyPolicy": "Privacy Policy",
       "youtubeTerm": "YouTube Terms of Service",
       "spotifyTerm": "Spotify Privacy Policy",
       "andOr": "and/or",
       "whereApplicable": "where applicable"
     },
-    "permissionLink": "Why asking for such permissions from my account?"
+    "permissionLink": "Why asking for such permissions from my account?",
+    "createNotice": "If you did not previously sign up, you will be creating a Stereo account"
   },
   "footer": {
     "privacy": "Privacy",
@@ -323,7 +330,9 @@
     "dangerousActionText": "This process is immediate and cannot be undone",
     "tracks": "songs",
     "save": "Save",
-    "saved": "Saved"
+    "saved": "Saved",
+    "startListening": "Start Listening",
+    "newRoom": "Create Room"
   },
   "error": {
     "internalError": "Oh no, an unexpected error:",

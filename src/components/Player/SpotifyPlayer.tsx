@@ -240,13 +240,13 @@ export default function SpotifyPlayer() {
 
   return (
     <Modal.Modal active={status !== "OK"}>
-      <Modal.Header className="brand-spotify">
+      <Modal.Header className="bg-spotify text-spotify-label">
         <Modal.Title>
           <SvgSpotify className="fill-current mr-2" width="24" height="24" />
           {t("player.spotify.playingOn")}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Content className="brand-spotify text-opacity-75 flex items-start">
+      <Modal.Content className="bg-spotify text-spotify-label text-opacity-75 flex items-start">
         <div>
           <img
             className="w-0 sm:w-24 h-24 rounded"
@@ -268,7 +268,7 @@ export default function SpotifyPlayer() {
                 {t("player.spotify.authAskText")}
               </p>
               <button
-                className="button button-light text-sm p-2 mt-1 mr-1"
+                className="btn btn-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
                   doAuthViaImplicit().then(() =>
                     setAccessToken(
@@ -294,7 +294,7 @@ export default function SpotifyPlayer() {
                 .
               </p>
               <button
-                className="button button-light text-sm p-2 mt-1 mr-1"
+                className="btn btn-light text-sm p-2 mt-1 mr-1"
                 onClick={() =>
                   doAuthViaImplicit().then(() =>
                     setAccessToken(
@@ -318,7 +318,7 @@ export default function SpotifyPlayer() {
             </p>
           )}
           <button
-            className="button text-sm my-2"
+            className="btn text-sm my-2"
             onClick={() => {
               stopPlaying();
             }}

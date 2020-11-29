@@ -26,7 +26,7 @@ const RoomRules: React.FC<{
         </ul>
       </Modal.Content>
       <Modal.Footer>
-        <button onClick={close} className="button">
+        <button onClick={close} className="btn">
           {t("room.rules.ok")}
         </button>
       </Modal.Footer>

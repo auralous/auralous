@@ -7,7 +7,7 @@ import {
   useMyPlaylistsQuery,
   useInsertPlaylistTracksMutation,
 } from "~/hooks/playlist/index";
-import { Track, PlatformName } from "~/graphql/gql.gen";
+import { Track, PlatformName, useTrackQuery } from "~/graphql/gql.gen";
 import { Playlist } from "~/types/index";
 import { SvgCheck, SvgPlus, SvgX } from "~/assets/svg";
 import { SvgByPlatformName } from "~/lib/constants";
@@ -28,7 +28,7 @@ const PlaylistItem: React.FC<{
       title={t("playlist.add.title", { title: playlist.title })}
       onKeyDown={({ key }) => key === "Enter" && handleAdd(playlist)}
       tabIndex={0}
-      className={`button w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary`}
+      className={`btn w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary`}
       onClick={() => handleAdd(playlist)}
     >
       <img
@@ -40,10 +40,8 @@ const PlaylistItem: React.FC<{
         <p>
           <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
             <SvgPlatformName
-              className="inline"
-              fill="currentColor"
+              className="inline fill-current stroke-0"
               width="18"
-              stroke="0"
             />
           </span>
           {playlist.title}
@@ -113,7 +111,7 @@ const CreatePlaylist: React.FC<{
         <button
           aria-label={t("playlist.new.title")}
           type="submit"
-          className="button button-success ml-2 flex-none"
+          className="btn btn-success ml-2 flex-none"
           disabled={fetching}
         >
           <SvgCheck width="16" height="16" />
@@ -121,7 +119,7 @@ const CreatePlaylist: React.FC<{
         <button
           aria-label={t("track.close")}
           type="submit"
-          className="button ml-1 flex-none"
+          className="btn ml-1 flex-none"
           disabled={fetching}
           onClick={() => setIsCreatingPlaylist(false)}
         >
@@ -136,8 +134,7 @@ const CreatePlaylist: React.FC<{
     </>
   ) : (
     <button
-      type="button"
-      className="button w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
+      className="btn w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
       onClick={() => setIsCreatingPlaylist(true)}
     >
       <div className="w-12 h-12 border-2 border-foreground flex flex-center rounded-lg">
@@ -199,10 +196,13 @@ const AddToExistingPlaylist: React.FC<{
 };
 
 const AddToPlaylist: React.FC<{
-  track: Track;
+  trackId: string;
   close: () => void;
   active: boolean;
-}> = ({ track, close, active }) => {
+}> = ({ trackId, close, active }) => {
+  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
+    variables: { id: trackId },
+  });
   const { t } = useI18n();
   const user = useCurrentUser();
   return (
@@ -214,19 +214,21 @@ const AddToPlaylist: React.FC<{
       <Modal.Header>
         <Modal.Title>
           <div>
-            {track.title} <span className="text-foreground-tertiary">-</span>{" "}
+            {track?.title} <span className="text-foreground-tertiary">-</span>{" "}
             <span className="text-foreground-secondary">
-              {track.artists.map(({ name }) => name).join()}
+              {track?.artists.map(({ name }) => name).join()}
             </span>
           </div>
         </Modal.Title>
       </Modal.Header>
       <Modal.Content>
         {user ? (
-          <>
-            <CreatePlaylist track={track} done={close} />
-            <AddToExistingPlaylist track={track} done={close} />
-          </>
+          track && (
+            <>
+              <CreatePlaylist track={track} done={close} />
+              <AddToExistingPlaylist track={track} done={close} />
+            </>
+          )
         ) : (
           <AuthBanner prompt={t("playlist.authPrompt")} />
         )}

@@ -23,7 +23,7 @@ const PlayerMinibar: React.FC = () => {
     <div
       className={`${
         shouldHide ? "hidden" : "flex"
-      } items-center h-16 z-10 w-128 max-w-full bordered-box rounded-lg fixed bottom-0 sm:bottom-2 transform left-1/2 -translate-x-1/2`}
+      } items-center h-16 z-10 w-96 max-w-full bordered-box rounded-lg fixed transform right-1/2 sm:right-2 translate-x-1/2 sm:-translate-x-0 top-0 sm:top-auto sm:bottom-2`}
     >
       <Link href="/room/[roomId]" as={`/room/${playingRoomId}`}>
         <a className={`flex-1 w-0 flex shadow-lg items-center`}>
@@ -49,7 +49,7 @@ const PlayerMinibar: React.FC = () => {
       </Link>
       <button
         onClick={stopPlaying}
-        className="button button-transparent p-2"
+        className="btn btn-transparent p-2"
         aria-label={t("player.stopPlaying")}
       >
         <SvgX />
