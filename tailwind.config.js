@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     colors: {
       background: {
-        DEFAULT: "#000c1e",
+        DEFAULT: "#0f141d",
         secondary: "rgba(255,255,255,.1)",
         tertiary: "rgba(255,255,255,.2)",
       },
@@ -41,9 +41,9 @@ module.exports = {
       white: "#fff",
       transparent: "transparent",
       blue: {
-        DEFAULT: "#090e1f",
-        secondary: "#001431",
-        tertiary: "#303a60",
+        DEFAULT: "#121822",
+        secondary: "#171f2d",
+        tertiary: "#202a3b",
       },
       youtube: {
         DEFAULT: "#f00",
