@@ -307,7 +307,7 @@ const NewPage: NextPage = () => {
   return (
     <>
       <NextSeo title={t("new.title")} noindex />
-      <div className="container mx-auto">
+      <div className="">
         <div className="py-6 px-3 h-40">
           <form
             onSubmit={(event) => {

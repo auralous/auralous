@@ -143,7 +143,7 @@ const BrowsePage: NextPage = () => {
   return (
     <>
       <NextSeo title={t("browse.title")} />
-      <div className="container mx-auto">
+      <div className="">
         <div className="mb-2">
           <SearchAndPlaySection />
         </div>
