@@ -27,7 +27,9 @@ const IndexRoomRulesLock: React.FC = () => {
       style={style}
     >
       <SvgLock className="mb-4 w-10 h-10" />
-      <input ref={ref} className="input p-0 w-24 text-center" type="password" />
+      <div ref={ref} className="input p-0 h-7 w-24 text-center">
+        ••••
+      </div>
     </animated.div>
   );
 };
@@ -75,7 +77,11 @@ const IndexRoomRules: React.FC = () => {
   return (
     <IndexSection>
       <div className="flex flex-col-reverse md:flex-row">
-        <div className="relative w-screen overflow-x-hidden py-20 flex-1 md:w-0 flex justify-center">
+        <div
+          className="relative w-screen overflow-x-hidden py-20 flex-1 md:w-0 flex justify-center"
+          role="img"
+          aria-label={t("intro.rules.title")}
+        >
           <IndexRoomRulesLock />
           <IndexRoomRulesMembers />
         </div>
