@@ -25,7 +25,7 @@ const PlayerMinibar: React.FC = () => {
         shouldHide ? "hidden" : "flex"
       } items-center h-16 z-10 w-96 max-w-full bordered-box rounded-lg fixed transform right-1/2 sm:right-2 translate-x-1/2 sm:-translate-x-0 top-0 sm:top-auto sm:bottom-2`}
     >
-      <Link href="/room/[roomId]" as={`/room/${playingRoomId}`}>
+      <Link href={`/room/${playingRoomId}`}>
         <a className={`flex-1 w-0 flex shadow-lg items-center`}>
           <div className="w-16 h-16 p-2">
             {playerPlaying && (

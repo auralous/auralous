@@ -19,7 +19,7 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
   const currentTrack = nowPlaying?.currentTrack ? trackData?.track : null;
 
   return (
-    <Link href="/room/[roomId]" as={`/room/${room.id}`}>
+    <Link href={`/room/${room.id}`}>
       <a className="block overflow-hidden border-2 border-background-secondary hover:border-white focus:border-white focus:outline-none pb-4/3 rounded-lg relative transition">
         <div className="absolute inset-0 py-2 justify-center flex flex-col">
           <h3 className="flex-none mb-2 text-xl font-bold truncate text-center">

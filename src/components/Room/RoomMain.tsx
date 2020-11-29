@@ -72,10 +72,7 @@ const Navbar: React.FC<{
             </>
           )}
           {room.creatorId === user?.id && (
-            <Link
-              href="/room/[roomId]/settings"
-              as={`/room/${room.id}/settings`}
-            >
+            <Link href={`/room/${room.id}/settings`}>
               <a className="btn p-2">
                 <SvgSettings width="14" height="14" className="sm:mr-1" />
                 <span className="text-sm sr-only sm:not-sr-only leading-none">

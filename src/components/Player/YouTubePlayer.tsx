@@ -49,7 +49,7 @@ export default function YouTubePlayer() {
     async function init(hadLoaded: boolean) {
       if (!hadLoaded) {
         // wait for iframe api to load
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           window.onYouTubeIframeAPIReady = resolve;
         });
       }

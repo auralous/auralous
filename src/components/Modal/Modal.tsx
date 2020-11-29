@@ -74,10 +74,12 @@ const Modal: React.FC<{
               onDismiss={() => onOutsideClick && onOutsideClick()}
               key={key}
               style={{ opacity: style.opacity }}
+              as="div"
             >
               <AnimatedDialogContent
                 style={{ transform: style.transform }}
                 className={className}
+                as="div"
               >
                 {children}
                 {onOutsideClick && (

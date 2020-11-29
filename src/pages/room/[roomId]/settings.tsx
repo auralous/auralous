@@ -51,7 +51,7 @@ const RoomSettingsPage: NextPage = () => {
       <NextSeo title={t("room.settings.title")} noindex />
       <div className="container relative">
         <div className="sticky z-20 top-0 left-0 w-full px-4 pt-6 pb-2 flex items-center mb-2 bg-gradient-to-b from-blue to-transparent">
-          <Link href="/room/[roomId]" as={`/room/${roomId}`}>
+          <Link href={`/room/${roomId}`}>
             <a className="btn p-1 mr-2" title={t("room.settings.backToRoom")}>
               <SvgChevronLeft className="h-8 w-8" />
             </a>

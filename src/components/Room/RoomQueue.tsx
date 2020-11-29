@@ -93,24 +93,24 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
         </Tab>
       </TabList>
       <TabPanels className="flex-1 h-0">
-        <AnimatedTabPanel style={tabPanelStyle0} className="h-full">
+        <AnimatedTabPanel style={tabPanelStyle0} className="h-full" as="div">
           <QueueManager
             permission={roomState.permission}
             queueId={`room:${room.id}`}
             onEmptyAddClick={() => setSelectedIndex(1)}
           />
         </AnimatedTabPanel>
-        <AnimatedTabPanel style={tabPanelStyle1} className="h-full">
+        <AnimatedTabPanel style={tabPanelStyle1} className="h-full" as="div">
           <TrackAdderSearch callback={onAddTracks} addedTracks={addedTracks} />
         </AnimatedTabPanel>
-        <AnimatedTabPanel style={tabPanelStyle2} className="h-full">
+        <AnimatedTabPanel style={tabPanelStyle2} className="h-full" as="div">
           <TrackAdderPlaylist
             callback={onAddTracks}
             addedTracks={addedTracks}
             queryConfig={selectedIndex === 2 ? undefined : { enabled: false }}
           />
         </AnimatedTabPanel>
-        <AnimatedTabPanel style={tabPanelStyle3} className="h-full">
+        <AnimatedTabPanel style={tabPanelStyle3} className="h-full" as="div">
           <QueueViewer
             onAdd={roomState.permission.queueCanAdd ? onAddTracks : undefined}
             queueId={`room:${room.id}:played`}
