@@ -326,7 +326,8 @@
     "tracks": "songs",
     "save": "Save",
     "saved": "Saved",
-    "startListening": "Start Listening"
+    "startListening": "Start Listening",
+    "newRoom": "Create Room"
   },
   "error": {
     "internalError": "Oh no, an unexpected error:",

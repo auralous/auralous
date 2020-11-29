@@ -2,15 +2,18 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useLogin } from "~/components/Auth";
 import { useI18n } from "~/i18n/index";
+import { useCurrentUser } from "~/hooks/user";
 
 const IndexEnd: React.FC = () => {
   const { t } = useI18n();
   const router = useRouter();
   const [, logIn] = useLogin();
 
+  const user = useCurrentUser();
+
   const onClick = async () => {
     await router.push("/browse");
-    logIn();
+    if (!user) logIn();
   };
 
   return (

@@ -326,7 +326,8 @@
     "tracks": "bài hát",
     "save": "Lưu",
     "saved": "Đã lưu",
-    "startListening": "Nghe nào"
+    "startListening": "Nghe nào",
+    "newRoom": "Tạo phòng"
   },
   "error": {
     "internalError": "Thôi lỗi rồi:",

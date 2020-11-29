@@ -28,7 +28,7 @@ const IndexHero: React.FC = () => {
 
   return (
     <>
-      <section className="relative py-16 w-full bg-gradient-to-b from-blue-tertiary to-blue">
+      <section className="relative pt-36 py-16 w-full bg-gradient-to-b from-blue-tertiary to-blue">
         <div className="relative z-10 h-full flex flex-col flex-center">
           <h1 className="font-black leading-none text-center">
             <span className="sr-only">Stereo</span>
