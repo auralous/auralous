@@ -48,7 +48,7 @@
     &:not([disabled]) {
       &:hover, &:focus {
         @apply bg-background-tertiary;
-        @apply border-none;
+        @apply border-0;
       }
     }
     &.btn-primary {
