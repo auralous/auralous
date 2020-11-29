@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
             {t("common.newRoom")}
           </a>
         </Link>
-        <SidebarItem href="/listen-now">{t("listenNow.title")}</SidebarItem>
+        <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
         <SidebarItem href="/browse">{t("browse.title")}</SidebarItem>
       </div>
       <div className="bg-white bg-opacity-5">
@@ -115,9 +115,9 @@ const Appbar: React.FC = () => {
 
   return (
     <div className="flex sm:hidden fixed bottom-0 left-0 w-full bg-blue-tertiary">
-      <AppbarItem href="/listen-now">
+      <AppbarItem href="/listen">
         <SvgPlay className="w-4 h-4 mb-1" />
-        <span>{t("listenNow.title")}</span>
+        <span>{t("listen.title")}</span>
       </AppbarItem>
       <AppbarItem href="/browse">
         <SvgSearch className="w-4 h-4 mb-1" />

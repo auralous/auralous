@@ -12,7 +12,7 @@ const IndexEnd: React.FC = () => {
   const user = useCurrentUser();
 
   const onClick = async () => {
-    await router.push("/listen-now");
+    await router.push("/listen");
     if (!user) logIn();
   };
 

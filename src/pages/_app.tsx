@@ -47,6 +47,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
         "/room/[roomId]/settings",
         "/settings",
         "/new",
+        "/listen",
       ].includes(router.pathname)
     )
       return LayoutApp;

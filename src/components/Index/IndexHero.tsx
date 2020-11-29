@@ -7,7 +7,7 @@ const AppLinks = () => {
   const { t } = useI18n();
   return (
     <div className="flex flex-col mb-16">
-      <Link href="/listen-now">
+      <Link href="/listen">
         <a className="btn text-center px-10 py-5 rounded-full mb-2 bg-pink hover:opacity-75 transition-opacity">
           {t("intro.use.action")}
         </a>

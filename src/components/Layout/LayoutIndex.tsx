@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSpring, animated } from "react-spring";
 import { PlayerMinibar } from "~/components/Player/index";
-import { useLogin } from "~/components/Auth";
 import { useI18n } from "~/i18n/index";
 import { SvgLogo } from "~/assets/svg";
 
 const navBarClassName =
   "py-3 font-medium px-2 mx-3 opacity-50 hover:opacity-100 transition-opacity duration-300";
 const importantNavItemClassName =
-  "border-pink hover:bg-pink hover:bg-opacity-10 font-bold rounded-full border-2 px-6 py-2 mx-3 transition duration-300";
+  "border-pink hover:border-white hover:bg-opacity-10 font-bold rounded-full border-2 px-6 py-2 mx-3 transition duration-300";
 
 const Navbar: React.FC = () => {
   const { t } = useI18n();
@@ -35,7 +34,6 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", scrollHandler);
   }, []);
 
-  const [, openLogin] = useLogin();
   return (
     <>
       <animated.nav
@@ -61,9 +59,9 @@ const Navbar: React.FC = () => {
             <Link href="/settings">
               <a className={navBarClassName}>{t("settings.title")}</a>
             </Link>
-            <button className={importantNavItemClassName} onClick={openLogin}>
-              {t("common.signIn")}
-            </button>
+            <Link href="/listen">
+              <a className={importantNavItemClassName}>{t("player.play")}</a>
+            </Link>
           </div>
         </div>
       </animated.nav>

@@ -76,8 +76,10 @@
     },
     "signOut": "Đăng xuất"
   },
-  "listenNow": {
-    "title": "Nghe ngay"
+  "listen": {
+    "title": "Nghe ngay",
+    "description": "Nghe nhạc không nhất thiết phải là một trải nghiệm thụ động. Stereo đem đến bạn một cảm giác mới mẻ khi nghe nhạc cùng nhau.",
+    "comingSoon": "Trải nghiệm này sẽ sớm có mặt. Trong thời gian chờ đợi, xem trang Duyệt qua để nghe cùng nhau."
   },
   "new": {
     "title": "Bắt đầu nghe cùng nhau",
