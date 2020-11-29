@@ -1,14 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSpring, animated } from "react-spring";
 import { PlayerMinibar } from "~/components/Player/index";
+import { LANGUAGES } from "~/lib/constants";
 import { useI18n } from "~/i18n/index";
+import { Locale } from "~/i18n/types";
 import { SvgLogo, SvgMenu, SvgX } from "~/assets/svg";
 
-const navBarClassName =
-  "text-center py-3 font-medium px-2 mx-3 opacity-50 hover:opacity-100 transition-opacity duration-300";
-const importantNavItemClassName =
-  "text-center border-pink hover:border-white hover:bg-opacity-10 font-bold rounded-full border-2 px-6 py-2 mx-3 transition duration-300";
+const baseNavbarClassname = `text-center mx-3 focus:outline-none transition duration-300`;
+
+const navBarClassName = `${baseNavbarClassname} py-3 font-medium px-2 opacity-50 focus:opacity-100 hover:opacity-100`;
+const importantNavItemClassName = `${baseNavbarClassname} font-bold py-2 px-6 border-2 border-pink hover:border-white rounded-full`;
+
+const NavbarLanguageSelector: React.FC = () => {
+  const { t, locale, setLocale } = useI18n();
+  const LanguageChoices = useMemo(
+    () =>
+      Object.entries(LANGUAGES).map(([value, name]) => (
+        <option key={value} value={value}>
+          {name}
+        </option>
+      )),
+    []
+  );
+
+  return (
+    <select
+      aria-label={t("settings.language.title")}
+      value={locale}
+      onChange={(e) => setLocale(e.currentTarget.value as Locale)}
+      onBlur={undefined}
+      className={`bg-transparent ${navBarClassName}`}
+      style={{ textAlignLast: "center" }}
+    >
+      {LanguageChoices}
+    </select>
+  );
+};
 
 const Navbar: React.FC = () => {
   const { t } = useI18n();
@@ -71,9 +99,7 @@ const Navbar: React.FC = () => {
             <Link href="/support">
               <a className={navBarClassName}>{t("support.title")}</a>
             </Link>
-            <Link href="/settings">
-              <a className={navBarClassName}>{t("settings.title")}</a>
-            </Link>
+            <NavbarLanguageSelector />
             <Link href="/listen">
               <a className={importantNavItemClassName}>{t("player.play")}</a>
             </Link>
