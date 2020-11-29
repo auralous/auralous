@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import RoomRules from "./RoomRules";
 import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
 import { ShareDialog } from "~/components/Social/index";
@@ -16,7 +15,6 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import {
-  SvgChevronLeft,
   SvgShare,
   SvgSettings,
   SvgBookOpen,
@@ -35,7 +33,6 @@ const Navbar: React.FC<{
   const { t } = useI18n();
 
   const user = useCurrentUser();
-  const router = useRouter();
   const [activeShare, openShare, closeShare] = useModal();
   const [activeRules, openRules, closeRules] = useModal();
 
@@ -43,14 +40,12 @@ const Navbar: React.FC<{
     <>
       <div className="nav px-2 overflow-hidden">
         <div className="flex flex-1 w-0 items-center justify-start h-full">
-          <button
-            onClick={() => router.push("/browse")}
-            className="btn btn-transparent p-1 mr-2"
-            title={t("common.backToHome")}
-          >
-            <SvgChevronLeft />
-          </button>
-          <h4 className="text-md font-bold leading-tight truncate mr-2">
+          <img
+            alt={room.title}
+            src={room.image}
+            className="w-6 h-6 rounded-lg mr-2"
+          />
+          <h4 className="text-lg font-bold leading-tight truncate mr-2">
             {room.title}
           </h4>
         </div>

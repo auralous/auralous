@@ -331,8 +331,8 @@ const SettingsPage: NextPage = () => {
   return (
     <>
       <NextSeo title={t("settings.title")} noindex />
-      <div className="container">
-        <h1 className="font-bold text-4xl mb-2 leading-tight">
+      <div className="container relative">
+        <h1 className="sticky top-0 left-0 px-4 pt-6 pb-2 font-bold text-4xl mb-2 bg-gradient-to-b from-blue to-transparent">
           {t("settings.title")}
         </h1>
         <div className="flex flex-wrap">

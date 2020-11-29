@@ -72,7 +72,10 @@ const SearchAndPlaySection: React.FC = () => {
   const { t } = useI18n();
   const router = useRouter();
   return (
-    <div className="bg-white bg-opacity-10 text-white p-4 rounded-lg mb-8">
+    <div
+      className="text-white p-4 mb-8"
+      style={{ backgroundImage: "linear-gradient(to top, #182848, #4b6cb7)" }}
+    >
       <h3 className="text-xl font-bold">{t("browse.playlist.title")}</h3>
       <p className="text-sm text-foreground-secondary mb-1">
         {t("browse.playlist.description")}

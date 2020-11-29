@@ -49,8 +49,8 @@ const RoomSettingsPage: NextPage = () => {
   return (
     <>
       <NextSeo title={t("room.settings.title")} noindex />
-      <div className="container">
-        <div className="flex items-center mb-2">
+      <div className="container relative">
+        <div className="sticky z-20 top-0 left-0 w-full px-4 pt-6 pb-2 flex items-center mb-2 bg-gradient-to-b from-blue to-transparent">
           <Link href="/room/[roomId]" as={`/room/${roomId}`}>
             <a className="btn p-1 mr-2" title={t("room.settings.backToRoom")}>
               <SvgChevronLeft className="h-8 w-8" />
@@ -60,19 +60,19 @@ const RoomSettingsPage: NextPage = () => {
             {t("room.settings.title")}
           </h1>
         </div>
-        <section className="py-4">
+        <section className="p-4">
           <RoomSettingsSectionTitle>
             {t("room.settings.titleInfo")}
           </RoomSettingsSectionTitle>
           <RoomSettingsBasic room={room} />
         </section>
-        <section className="py-4">
+        <section className="p-4">
           <RoomSettingsSectionTitle>
             {t("room.settings.titleRules")}
           </RoomSettingsSectionTitle>
           <RoomSettingsRules room={room} roomState={roomState} />
         </section>
-        <section className="py-4">
+        <section className="p-4">
           <RoomSettingsSectionTitle>
             {t("room.settings.titleMembers")}
           </RoomSettingsSectionTitle>
