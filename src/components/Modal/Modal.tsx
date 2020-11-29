@@ -54,7 +54,7 @@ const Modal: React.FC<{
     },
     enter: {
       opacity: 1,
-      transform: "translateY(0)",
+      transform: "translateY(0px)",
     },
     leave: {
       opacity: 0,

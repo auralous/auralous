@@ -77,7 +77,7 @@ const IndexListenFakePlayer: React.FC<{ trackId: string }> = ({ trackId }) => {
 
   const transitions = useTransition(track, track?.id || "", {
     from: { opacity: 0, transform: "translateY(20px)" },
-    enter: { opacity: 1, transform: "translateY(0)" },
+    enter: { opacity: 1, transform: "translateY(0px)" },
     leave: { opacity: 0, transform: "translateY(20px)" },
   });
 

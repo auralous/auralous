@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { Messenger } from "~/components/Message/index";
@@ -75,8 +75,8 @@ const RoomUsers: React.FC<{
 };
 
 const AnimatedTabPanel = animated(TabPanel);
-const tabInactiveStyle = { opacity: 0, transform: "translate3d(0,40px,0)" };
-const tabActiveStyle = { opacity: 1, transform: "translate3d(0,0,0)" };
+const tabInactiveStyle = { opacity: 0, transform: "translate3d(0px,40px,0px)" };
+const tabActiveStyle = { opacity: 1, transform: "translate3d(0px,0px,0px)" };
 
 const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
   room,
@@ -85,7 +85,7 @@ const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
   const { t } = useI18n();
   const user = useCurrentUser();
 
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const chatPanelStyle = useSpring(
     0 === selectedIndex ? tabActiveStyle : tabInactiveStyle
@@ -98,9 +98,6 @@ const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
     `flex flex-center flex-1 mx-1 p-1 text-sm rounded-lg font-bold ${
       index === selectedIndex ? "bg-pink text-white" : ""
     } transition`;
-
-  // Odd fix for inconsistent animation for intial el
-  useEffect(() => setSelectedIndex(0), []);
 
   if (!user)
     return (

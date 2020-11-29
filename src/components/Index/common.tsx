@@ -17,7 +17,7 @@ export const IndexSection: React.FC = ({ children }) => {
     inView
       ? {
           opacity: 1,
-          transform: "translateY(0)",
+          transform: "translateY(0px)",
         }
       : {
           opacity: 0,

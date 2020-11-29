@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { animated, useSpring } from "react-spring";
 import { QueueManager, QueueViewer, useQueue } from "~/components/Queue";
@@ -16,8 +16,8 @@ import { useI18n } from "~/i18n/index";
 import { SvgClock } from "~/assets/svg";
 
 const AnimatedTabPanel = animated(TabPanel);
-const tabInactiveStyle = { opacity: 0, transform: "translate3d(0,40px,0)" };
-const tabActiveStyle = { opacity: 1, transform: "translate3d(0,0,0)" };
+const tabInactiveStyle = { opacity: 0, transform: "translate3d(0px,40px,0px)" };
+const tabActiveStyle = { opacity: 1, transform: "translate3d(0px,0px,0px)" };
 
 const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
   room,
@@ -45,10 +45,7 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
     [updateQueue, room]
   );
 
-  const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
-
-  // Odd fix for inconsistent animation for intial el
-  useEffect(() => setSelectedIndex(0), []);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const getClassName = (index: number) =>
     `flex-1 p-2 text-sm font-bold ${
@@ -70,7 +67,7 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
 
   return (
     <Tabs
-      index={selectedIndex || 0}
+      index={selectedIndex}
       onChange={setSelectedIndex}
       className="h-full flex flex-col overflow-hidden"
     >

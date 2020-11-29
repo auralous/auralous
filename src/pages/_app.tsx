@@ -46,7 +46,13 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
       )
     )
       return LayoutApp;
-    return LayoutIndex;
+    if (
+      ["/index", "/privacy", "/support", "/support/[slug]"].includes(
+        router.pathname
+      )
+    )
+      return LayoutIndex;
+    return React.Fragment;
   }, [router.pathname]);
 
   return (
