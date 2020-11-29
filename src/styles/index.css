@@ -234,7 +234,7 @@ html {
 }
 
 .pt-youtube {
-  @apply pt-48 md:pt-0;
+  @apply pt-48 sm:pt-0;
 }
 
 /* purgecss end ignore */

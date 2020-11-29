@@ -183,7 +183,7 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
 
   return (
     <>
-      <div className="h-screen relative pt-12 overflow-hidden">
+      <div className="h-screen-no-appbar sm:h-screen relative pt-12 overflow-hidden">
         <Navbar room={room} roomState={roomState} />
         {roomState ? (
           roomState.permission.viewable ? (

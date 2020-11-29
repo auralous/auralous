@@ -59,6 +59,9 @@ module.exports = {
         full: "100%",
         "4/3": "133.33%",
       },
+      height: {
+        "screen-no-appbar": "calc(100vh - 3rem)",
+      },
       animation: {
         "spin-slow": "spin 9s linear infinite",
       },
