@@ -1,15 +1,11 @@
 import React from "react";
 import { GetStaticProps, NextPage } from "next";
-import Link from "next/link";
 import fs from "fs";
 import path from "path";
 import { NextSeo } from "next-seo";
 import markdownToHtml from "~/lib/markdown-to-html";
-import { useI18n } from "~/i18n/index";
 
 const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {
-  const { t } = useI18n();
-
   return (
     <>
       <NextSeo
@@ -35,13 +31,6 @@ const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {
             </a>{" "}
             / CC BY 4.0
           </small>
-          <p className="text-center mt-2">
-            <Link href="/browse">
-              <a className="btn btn-transparent text-sm">
-                ← {t("common.backToHome")}
-              </a>
-            </Link>
-          </p>
         </div>
       </div>
     </>

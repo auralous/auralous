@@ -84,13 +84,6 @@ const SupportPage: NextPage<{
             withstereo_
           </ContactLink>
         </div>
-        <p className="text-center">
-          <Link href="/browse">
-            <a className="btn btn-transparent text-sm">
-              ← {t("common.backToHome")}
-            </a>
-          </Link>
-        </p>
       </div>
     </>
   );

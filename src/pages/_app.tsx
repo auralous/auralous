@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { AppProps } from "next/app";
 import Router from "next/router";
 import * as Fathom from "fathom-client";
 import { DefaultSeo } from "next-seo";
 import { Provider as UrqlProvider } from "urql";
 import { QueryCache, ReactQueryCacheProvider } from "react-query";
-import { MainLayout } from "~/components/Layout/index";
+import { LayoutIndex, LayoutApp } from "~/components/Layout/index";
 import { PlayerProvider } from "~/components/Player/index";
 import { ToastProvider } from "~/components/Toast/index";
 import { LogInProvider } from "~/components/Auth/index";
@@ -15,7 +15,7 @@ import "~/styles/index.css";
 
 const queryCache = new QueryCache();
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps, router }: AppProps) {
   // URQL
   const [urqlClient, setUrqlClient] = useState(() => createUrqlClient());
   useEffect(() => {
@@ -39,6 +39,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       Router.events.off("routeChangeComplete", onRouteChangeComplete);
   }, []);
 
+  const Layout = useMemo(() => {
+    if (
+      ["/browse", "/room/[roomId]", "/room/[roomId]/settings"].includes(
+        router.pathname
+      )
+    )
+      return LayoutApp;
+    return LayoutIndex;
+  }, [router.pathname]);
+
   return (
     <I18n>
       <ReactQueryCacheProvider queryCache={queryCache}>
@@ -46,7 +56,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <ToastProvider>
             <LogInProvider>
               <PlayerProvider>
-                <MainLayout>
+                <Layout>
                   <DefaultSeo
                     title=" "
                     titleTemplate="%s · Stereo"
@@ -66,7 +76,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                     }}
                   />
                   <Component {...pageProps} />
-                </MainLayout>
+                </Layout>
               </PlayerProvider>
             </LogInProvider>
           </ToastProvider>

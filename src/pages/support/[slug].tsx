@@ -1,6 +1,5 @@
 import React from "react";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import Link from "next/link";
 import { NextSeo } from "next-seo";
 import markdownToHtml from "~/lib/markdown-to-html";
 import {
@@ -8,10 +7,8 @@ import {
   getPages as getSupportPages,
 } from "~/lib/content-support";
 import { SupportArticle } from "~/types/index";
-import { useI18n } from "~/i18n/index";
 
 const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
-  const { t } = useI18n();
   return (
     <>
       <NextSeo title={`${page.title} - ${page.subtitle}`} />
@@ -28,13 +25,6 @@ const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
       <div className="py-20 px-2 leading-loose max-w-2xl mx-auto">
         <div className="content content-support text-lg">
           <div dangerouslySetInnerHTML={{ __html: page.content }} />
-          <p className="text-center mt-2">
-            <Link href="/browse">
-              <a className="btn btn-transparent text-sm">
-                ← {t("common.backToHome")}
-              </a>
-            </Link>
-          </p>
         </div>
       </div>
     </>

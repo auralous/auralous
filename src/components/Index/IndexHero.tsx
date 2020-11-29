@@ -7,7 +7,7 @@ const AppLinks = () => {
   const { t } = useI18n();
   return (
     <div className="flex flex-col mb-16">
-      <Link href="/browse">
+      <Link href="/listen-now">
         <a className="btn text-center px-10 py-5 rounded-full mb-2 bg-pink hover:opacity-75 transition-opacity">
           {t("intro.use.action")}
         </a>
@@ -28,7 +28,7 @@ const IndexHero: React.FC = () => {
 
   return (
     <>
-      <section className="relative pt-36 py-16 w-full bg-gradient-to-b from-blue-tertiary to-blue">
+      <section className="relative -mt-24 pt-36 pb-16 w-full bg-gradient-to-b from-blue-tertiary to-blue">
         <div className="relative z-10 h-full flex flex-col flex-center">
           <h1 className="font-black leading-none text-center">
             <span className="sr-only">Stereo</span>

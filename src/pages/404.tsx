@@ -10,15 +10,13 @@ const NotFoundPage: NextPage = () => {
   return (
     <>
       <NextSeo noindex title={t("404.title")} />
-      <div className="flex flex-col flex-center py-32">
-        <h1 className="font-black text-9xl leading-none px-2">
-          {t("404.title")}
-        </h1>
-        <p className="text-xl text-center text-foreground-tertiary py-2">
+      <div className="flex flex-col flex-center w-scree h-screen p-2">
+        <h1 className="font-black text-9xl leading-none">{t("404.title")}</h1>
+        <p className="text-xl text-center text-foreground-tertiary py-2 mb-4">
           {t("404.description")}
         </p>
-        <Link href="/browse">
-          <a className="btn btn-transparent text-sm">
+        <Link href="/">
+          <a className="py-3 px-6 font-bold border-2 border-foreground-secondary  hover:border-foreground rounded-lg text-sm">
             ← {t("common.backToHome")}
           </a>
         </Link>

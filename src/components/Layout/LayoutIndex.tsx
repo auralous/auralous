@@ -1,80 +1,80 @@
-import React, { useMemo } from "react";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSpring, animated } from "react-spring";
 import { PlayerMinibar } from "~/components/Player/index";
 import { useLogin } from "~/components/Auth";
-import { useCurrentUser } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
-import { SvgPlus, SvgLogo, SvgSettings } from "~/assets/svg";
+import { SvgLogo } from "~/assets/svg";
 
-const noNavbarRoutes = ["/room/[roomId]", "/", "/welcome"];
-const noFooterRoutes = ["/room/[roomId]", "/welcome"];
+const navBarClassName =
+  "py-3 font-medium px-2 mx-3 opacity-50 hover:opacity-100 transition-opacity duration-300";
+const importantNavItemClassName =
+  "border-pink hover:bg-pink hover:bg-opacity-10 font-bold rounded-full border-2 px-6 py-2 mx-3 transition duration-300";
 
 const Navbar: React.FC = () => {
   const { t } = useI18n();
-  const router = useRouter();
-  const shouldHideNavFoot = useMemo(
-    () => noNavbarRoutes.includes(router.pathname),
-    [router]
+  const [active, setActive] = useState(true);
+
+  const styles = useSpring(
+    active
+      ? { transform: "translateY(0px)" }
+      : { transform: "translateY(-120px)" }
   );
-  const user = useCurrentUser();
+
+  useEffect(() => {
+    let prev = window.scrollY;
+
+    const scrollHandler = () => {
+      if (window.scrollY > prev)
+        // scroll down
+        setActive(false);
+      else setActive(true);
+      prev = window.scrollY;
+    };
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
+  }, []);
+
   const [, openLogin] = useLogin();
-  if (shouldHideNavFoot) return null;
   return (
-    <nav className="nav relative mb-4">
-      <div className="container flex items-center justify-between">
-        <div className="flex items-center content-start overflow-hidden">
-          <Link href="/browse">
-            <a className="ml-2 mr-6" aria-label="Back to Explore">
-              <SvgLogo
-                className="mx-auto fill-current"
-                width="112"
-                height="32"
-              />
-            </a>
-          </Link>
-        </div>
-        <div className="flex content-end items-center flex-none">
-          <Link href="/new">
-            <a aria-label="Add new" className="btn p-2 mr-2">
-              <SvgPlus />
-            </a>
-          </Link>
-          <Link href="/settings">
-            <a className="btn p-2 mr-2" title="Settings">
-              <SvgSettings />
-            </a>
-          </Link>
-          {user ? (
-            <div className="flex p-1 rounded-lg bg-background-secondary">
-              <img
-                alt={user.username}
-                title={user.username}
-                src={user.profilePicture}
-                className="w-8 h-8 bg-background-secondary object-cover rounded"
-              />
-            </div>
-          ) : (
-            <button className="btn btn-primary" onClick={openLogin}>
+    <>
+      <animated.nav
+        className="w-full z-20 py-4 bg-gradient-to-b from-blue to-transparent bg-opacity-50 fixed top-0"
+        style={styles}
+      >
+        <div className="container flex items-center justify-between">
+          <div className="flex items-center content-start overflow-hidden">
+            <Link href="/">
+              <a className="ml-2 mr-6" aria-label={t("common.backToHome")}>
+                <SvgLogo
+                  className="mx-auto fill-current"
+                  width="112"
+                  height="32"
+                />
+              </a>
+            </Link>
+          </div>
+          <div className="flex content-end items-center flex-none">
+            <Link href="/support">
+              <a className={navBarClassName}>{t("support.title")}</a>
+            </Link>
+            <Link href="/settings">
+              <a className={navBarClassName}>{t("settings.title")}</a>
+            </Link>
+            <button className={importantNavItemClassName} onClick={openLogin}>
               {t("common.signIn")}
             </button>
-          )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </animated.nav>
+    </>
   );
 };
 
 const Footer: React.FC = () => {
-  const router = useRouter();
-  const shouldHideNavFoot = useMemo(
-    () => noFooterRoutes.includes(router.pathname),
-    [router]
-  );
   const { t } = useI18n();
-  if (shouldHideNavFoot) return null;
   return (
-    <footer className="text-center mt-20 border-t-4 py-4 max-w-xl mx-auto border-background-secondary">
+    <footer className="text-center mt-20 py-12 w-full mx-auto bg-gradient-to-t from-blue-secondary to-blue">
       <div className="mb-1 text-sm overflow-auto opacity-75">
         <a
           href="https://www.facebook.com/withstereo/"
@@ -173,13 +173,15 @@ const Footer: React.FC = () => {
   );
 };
 
-export const MainLayout: React.FC = ({ children }) => {
+const IndexLayout: React.FC = ({ children }) => {
   return (
     <>
       <Navbar />
       <PlayerMinibar />
-      <main>{children}</main>
+      <main className="pt-24">{children}</main>
       <Footer />
     </>
   );
 };
+
+export default IndexLayout;
