@@ -87,7 +87,7 @@ const IndexPlaylist: React.FC = () => {
 
   const [ref, style] = useFadeInOnScroll();
 
-  const [refPl, inViewPl] = useInView({ delay: 1500 });
+  const [refPl, inViewPl] = useInView();
   const trail = useTrail(playlistData.length, {
     opacity: inViewPl ? 1 : 0,
     transform: inViewPl ? "translateY(0)" : "translateY(40px)",

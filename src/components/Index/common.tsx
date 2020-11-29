@@ -11,7 +11,7 @@ export const IndexTitle: React.FC = ({ children }) => (
 );
 
 export const useFadeInOnScroll = () => {
-  const [ref, inView] = useInView({ threshold: 0.2 });
+  const [ref, inView] = useInView();
   const props = useSpring(
     inView
       ? {

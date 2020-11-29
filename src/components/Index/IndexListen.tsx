@@ -39,28 +39,30 @@ const IndexListenUser: React.FC<{
   platform: PlatformName;
   name: string;
   currPlatform: PlatformName;
-}> = ({ name, platform, currPlatform }) => {
+  setCurrPlatform: (p: PlatformName) => void;
+}> = ({ name, platform, currPlatform, setCurrPlatform }) => {
   const PlatformSvg = SvgByPlatformName[platform];
 
   return (
-    <div
+    <button
       className={`p-2 ${
         platform === currPlatform ? "opactiy-100" : "opacity-25"
-      } transition-opacity duration-500`}
+      } transition-opacity duration-500 focus:outline-none`}
+      onClick={() => setCurrPlatform(platform)}
     >
       <div
         className="relative bg-cover shadow-lg mb-1 w-10 h-10 mx-auto rounded-full flex flex-col flex-center"
         style={{ background: `url(https://avatar.tobi.sh/${name})` }}
       >
         <SvgUser className="w-4 h-4" />
-        <span className="absolute overflow-visible shadow-lg -bottom-1 -right-1 bg-white p-1 rounded-full">
+        <span className="absolute overflow-visible shadow-lg -bottom-1 -right-1 bg-white h-5 w-5 flex flex-center rounded-full">
           <PlatformSvg className={`w-3 h-3 text-${platform} fill-current`} />
         </span>
       </div>
       <div className="text-center text-xs text-foreground-secondary">
         {name}
       </div>
-    </div>
+    </button>
   );
 };
 
@@ -146,11 +148,13 @@ const IndexListenFakePlayer: React.FC<{ trackId: string }> = ({ trackId }) => {
             name="mikouwu"
             platform={PlatformName.Spotify}
             currPlatform={platform}
+            setCurrPlatform={setPlatform}
           />
           <IndexListenUser
             name="johnny570"
             platform={PlatformName.Youtube}
             currPlatform={platform}
+            setCurrPlatform={setPlatform}
           />
         </div>
       </div>
