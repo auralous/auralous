@@ -76,6 +76,9 @@
     },
     "signOut": "Đăng xuất"
   },
+  "listenNow": {
+    "title": "Nghe ngay"
+  },
   "new": {
     "title": "Bắt đầu nghe cùng nhau",
     "authPrompt": "Tham gia Stereo để tạo phòng",

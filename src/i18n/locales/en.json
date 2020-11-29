@@ -76,6 +76,9 @@
     },
     "signOut": "Sign Out"
   },
+  "listenNow": {
+    "title": "Listen Now"
+  },
   "new": {
     "title": "Start listening together",
     "authPrompt": "Join Stereo to Create a Room",

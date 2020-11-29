@@ -41,9 +41,12 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
 
   const Layout = useMemo(() => {
     if (
-      ["/browse", "/room/[roomId]", "/room/[roomId]/settings"].includes(
-        router.pathname
-      )
+      [
+        "/browse",
+        "/room/[roomId]",
+        "/room/[roomId]/settings",
+        "/settings",
+      ].includes(router.pathname)
     )
       return LayoutApp;
     if (
