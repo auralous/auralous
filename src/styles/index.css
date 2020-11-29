@@ -111,6 +111,10 @@
       }
     }
   }
+
+  .backdrop-blur {
+    backdrop-filter: blur(20px);
+  }
 }
 
 body {

@@ -48,7 +48,7 @@ const IndexListenUser: React.FC<{
         style={{ background: `url(https://avatar.tobi.sh/${name})` }}
       >
         <SvgUser className="w-4 h-4" />
-        <span className="absolute shadow-lg -bottom-1 -right-1 bg-white p-1 rounded-full">
+        <span className="absolute overflow-visible shadow-lg -bottom-1 -right-1 bg-white p-1 rounded-full">
           <PlatformSvg className={`w-3 h-3 text-${platform} fill-current`} />
         </span>
       </div>
