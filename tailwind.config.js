@@ -1,6 +1,11 @@
 module.exports = {
   important: true,
-  purge: ["./src/**/*.tsx"],
+  purge: {
+    content: ["./src/**/*.tsx"],
+    options: {
+      safelist: ["text-spotify", "text-youtube"],
+    },
+  },
   darkMode: false,
   theme: {
     colors: {

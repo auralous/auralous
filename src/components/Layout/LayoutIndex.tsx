@@ -7,7 +7,7 @@ import { useI18n } from "~/i18n/index";
 import { Locale } from "~/i18n/types";
 import { SvgLogo, SvgMenu, SvgX } from "~/assets/svg";
 
-const baseNavbarClassname = `text-center mx-3 focus:outline-none transition duration-300`;
+const baseNavbarClassname = `text-center mx-1 focus:outline-none transition duration-300`;
 
 const navBarClassName = `${baseNavbarClassname} py-3 font-medium px-2 opacity-50 focus:opacity-100 hover:opacity-100`;
 const importantNavItemClassName = `${baseNavbarClassname} font-bold py-2 px-6 border-2 border-pink hover:border-white rounded-full`;
