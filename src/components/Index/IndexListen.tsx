@@ -176,7 +176,7 @@ const IndexListen: React.FC = () => {
           style={style1}
           className="relative flex-1 md:w-0"
         >
-          <IndexListenFakePlayer trackId="spotify:2CgOd0Lj5MuvOqzqdaAXtS" />
+          <IndexListenFakePlayer trackId="spotify:6dGnYIeXmHdcikdzNNDMm2" />
         </animated.div>
         <animated.div
           ref={ref2}
