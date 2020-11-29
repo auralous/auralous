@@ -137,7 +137,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </span>
                 <button
                   onClick={() => logIn(PlatformName.Spotify)}
-                  className="btn brand-spotify h-12 hover:opacity-75 transition-opacity rounded-full"
+                  className="btn bg-spotify text-spotify-label h-12 hover:opacity-75 transition-opacity rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgSpotify width="24" className="fill-current stroke-0" />

@@ -62,10 +62,8 @@ const Sidebar: React.FC = () => {
                 alt={user.username}
                 className="w-8 h-8 rounded-full"
               />
-              <div className="w-0 flex-1 text-foreground-secondary py-1 px-3">
-                <span className="font-medium text-sm leading-none">
-                  {user.username}
-                </span>
+              <div className="w-0 flex-1 text-foreground-secondary py-1 px-3 truncate">
+                <span className="font-medium text-sm">{user.username}</span>
               </div>
               <Link href="/settings">
                 <a
@@ -80,7 +78,7 @@ const Sidebar: React.FC = () => {
         ) : (
           <button
             onClick={logIn}
-            className="btn btn-transparent text-sm w-full py-3"
+            className="btn btn-transparent rounded-none bg-pink hover:text-foreground text-sm w-full py-3"
           >
             {t("common.signIn")} Stereo
           </button>

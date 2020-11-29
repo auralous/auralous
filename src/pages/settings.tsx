@@ -260,7 +260,9 @@ const MusicConnection: React.FC = () => {
       <SettingTitle>{t("settings.connection.title")}</SettingTitle>
       <div
         className={`${
-          platform ? `brand-${platform}` : "bg-background-secondary"
+          platform
+            ? `bg-${platform} text-${platform}-label`
+            : "bg-background-secondary"
         } p-4 rounded-lg flex items-center`}
       >
         {PlatformSvg && (

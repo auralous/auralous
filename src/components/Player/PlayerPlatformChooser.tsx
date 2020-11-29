@@ -23,7 +23,7 @@ const PlayerPlatformChooser: React.FC = () => {
           <button
             key={pl}
             onClick={() => setGuestPlayingPlatform(pl)}
-            className={`btn m-1 h-8 py-1 px-2 brand-${pl} align-top`}
+            className={`btn m-1 h-8 py-1 px-2 bg-${pl} text-${pl}-label align-top`}
           >
             <SvgPlatform
               width="16"

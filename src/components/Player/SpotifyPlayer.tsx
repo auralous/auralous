@@ -240,13 +240,13 @@ export default function SpotifyPlayer() {
 
   return (
     <Modal.Modal active={status !== "OK"}>
-      <Modal.Header className="brand-spotify">
+      <Modal.Header className="bg-spotify text-spotify-label">
         <Modal.Title>
           <SvgSpotify className="fill-current mr-2" width="24" height="24" />
           {t("player.spotify.playingOn")}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Content className="brand-spotify text-opacity-75 flex items-start">
+      <Modal.Content className="bg-spotify text-spotify-label text-opacity-75 flex items-start">
         <div>
           <img
             className="w-0 sm:w-24 h-24 rounded"

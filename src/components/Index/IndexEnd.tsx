@@ -13,7 +13,7 @@ const IndexEnd: React.FC = () => {
     <div className="flex justify-center">
       <Link href="/listen">
         <animated.a
-          className="btn bg-gradient-to-l from-warning to-pink py-8 px-12 rounded-full transform hover:scale-110 transition-transform duration-500"
+          className="btn bg-gradient-to-l from-warning to-pink py-8 px-16 rounded-full transform hover:scale-110 transition-transform duration-500"
           style={style}
           ref={ref}
         >

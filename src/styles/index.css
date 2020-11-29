@@ -145,26 +145,6 @@ html {
   @apply cursor-not-allowed opacity-50;
 }
 
-.brand-youtube {
-  background: #f00 !important;
-  color: #fff !important;
-}
-
-.brand-spotify {
-  background: #1db954 !important;
-  color: #fff !important;
-}
-
-.brand-facebook {
-  background: #4267b2 !important;
-  color: #fff !important;
-}
-
-.brand-twitter {
-  background: #1da1f2 !important;
-  color: #fff !important;
-}
-
 [data-reach-dialog-overlay] {
   @apply fixed w-full h-full inset-0 flex flex-center z-40 bg-black bg-opacity-75;
   [data-reach-dialog-content] {
