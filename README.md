@@ -13,14 +13,6 @@ Stereo currently supports streaming music on [YouTube](https://www.youtube.com/)
 ![CI](https://github.com/hoangvvo/stereo-web/workflows/CI/badge.svg)
 [![PRs Welcome](https://badgen.net/badge/PRs/welcome/ff5252)](/CONTRIBUTING.md)
 
-## Other repositories
-
-Stereo consists of several other repos containing server or mobile apps, some of which or open sourced.
-
-- [Web](https://github.com/hoangvvo/stereo-web): The [Next.js](https://github.com/vercel/next.js) + [urql](https://formidable.com/open-source/urql/) web application.
-- Server: The [Node.js](https://github.com/nodejs/node) GraphQL server using [benzene](https://github.com/hoangvvo/benzene)
-- Mobile (React Native): TBD
-
 ## Development
 
 ### Prerequisites
@@ -46,7 +38,7 @@ Create a `.env.local` file in the working dir to [set the environment variables]
 
 ### Authentication
 
-You cannot sign in to Stereo directly from the development app. See [#17](https://github.com/hoangvvo/stereo-web/issues/17) for instruction.
+You cannot sign in to Stereo directly from the development app. See [#17](https://github.com/hoangvvo/stereo-web/issues/17) for instruction on how to authenticate.
 
 ### Workflows
 
@@ -70,10 +62,6 @@ Run `yarn lint` to check for error in source code using [`eslint`](https://githu
 
 Running `yarn build` will create an optimized production build of your application. To also analyzing build size set the env variable `ANALYZE=true`.
 
-## Deployment
-
-`stereo-web` cannot be self-hosted at the moment. However, if you are interested, I'm happy to implement a OAuth2.0-like system (available for free too if possible!) to do so. `stereo-api` cannot be open sourced now due to having a lot of moving pieces, but I hope to be able to do that soon in the future.
-
 ## Contribution
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -81,6 +69,3 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation. See [LICENSE](LICENSE) file in this repository for the full text.
-
-Feel free to email us at [yo@withstereo.com](yo@withstereo.com) with any questions and concerns.
-
