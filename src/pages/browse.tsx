@@ -1,14 +1,13 @@
 import React from "react";
 import { NextPage } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { RoomItem } from "~/components/Room";
 import { useExploreRoomsQuery, useRoomsQuery } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
-import { SvgPlus, SvgSearch } from "~/assets/svg";
-import { useI18n } from "../i18n";
+import { SvgSearch } from "~/assets/svg";
+import { useI18n } from "~/i18n/index";
 
 const RandomRoomSection: React.FC = () => {
   const [
@@ -32,7 +31,6 @@ const RandomRoomSection: React.FC = () => {
 };
 
 const MyRoomsSection: React.FC = () => {
-  const { t } = useI18n();
   const user = useCurrentUser();
   const [{ data: { rooms } = { rooms: undefined } }] = useRoomsQuery({
     variables: { creatorId: user?.id || "" },
@@ -42,18 +40,6 @@ const MyRoomsSection: React.FC = () => {
     <>
       <div>
         <div className="flex flex-wrap pb-12">
-          <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
-            <Link href="/new">
-              <a className="block text-foreground-secondary hover:text-foreground focus:text-foreground focus:outline-none overflow-hidden border-2 border-background-secondary pb-4/3 rounded-lg relative transition">
-                <div className="absolute-center">
-                  <SvgPlus className="w-16 h-16 mx-auto p-2" />
-                  <p className="mt-2 text-sm text-center font-bold">
-                    {t("new.addNew.title")}
-                  </p>
-                </div>
-              </a>
-            </Link>
-          </div>
           {rooms?.map((room) => (
             <div
               key={room.id}
