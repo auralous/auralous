@@ -83,11 +83,42 @@
   },
   "new": {
     "title": "Start listening together",
+    "prompt": "What are we listening today?",
+    "promptAlmost": "Almost there",
+    "or": "Or",
+    "fromSearch": {
+      "title": "Select from a link",
+      "action": "Search for songs",
+      "altText": "Enter a Playlist Link",
+      "helpText": "Enter a playlist link to listen together",
+      "noResults": "No songs found from the link below. Try a different one!"
+    },
+    "fromPlaylist": {
+      "title": "Select from your playlists",
+      "authPrompt": "Join Stereo to connect to your playlists",
+      "empty": "You have no playlist"
+    },
+    "startEmpty": "Start without songs",
+    "fromResult": {
+      "empty": "Start out fresh with an empty room",
+      "startListeningTo": "Start listening together to",
+      "featuring": "featuring"
+    },
+    "addNew": {
+      "title": "Create New Room",
+      "warnNoPass": "The room password is not set. Anyone with the link can enter the room and become a collaborator. Continue anyway?",
+      "action": "Start Listening",
+      "promptTitle": "How would we describe the room",
+      "promptPrivacy": "Are we listening in public or private"
+    },
+    "backText": "Go back"
+  },
+  "new1": {
+    "title": "Start listening together",
     "authPrompt": "Join Stereo to Create a Room",
     "playlist": {
       "title": "Search Playlist",
       "altText": "Enter a Playlist Link",
-      "helpText": "Optional: Enter a playlist link to listen together",
       "startListeningTo": "Start listening together to",
       "featuring": "featuring",
       "noResults": "No songs found from the above link"
@@ -281,6 +312,9 @@
       "errorText": "Cannot create new playlist",
       "okText": "Created playlist {{title}}",
       "youtubeHelpText": "You may need to have a YouTube channel or sign up for YouTube Music to create a playlist"
+    },
+    "error": {
+      "load": "Unable to retrieve your playlists"
     }
   },
   "share": {

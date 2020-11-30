@@ -117,6 +117,7 @@ export default class PlaylistYoutube {
       title: data.snippet.title,
       tracks: [],
       image: data.snippet.thumbnails?.high?.url || defaultAvatar(data.id),
+      url: `https://www.youtube.com/playlist?list=${data.id}`,
     };
   }
 

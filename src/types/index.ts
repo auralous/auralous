@@ -7,6 +7,7 @@ export interface Playlist {
   tracks: string[];
   platform: PlatformName;
   externalId: string;
+  url: string;
 }
 
 export interface MAuth {
