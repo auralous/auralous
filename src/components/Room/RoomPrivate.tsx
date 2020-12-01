@@ -38,7 +38,7 @@ const RoomPrivate: React.FC<{
           <div className="mb-8 p-6 rounded-full bg-background-secondary">
             <SvgLock className="w-16 h-16" />
           </div>
-          <p>{t("room.main.private.password1")}</p>
+          <p className="text-center">{t("room.main.private.password1")}</p>
           <form className="flex my-2" onSubmit={handleJoinPrivateRoom}>
             <input
               type="password"
@@ -51,7 +51,7 @@ const RoomPrivate: React.FC<{
               {t("room.main.private.join")}
             </button>
           </form>
-          <p className="text-foreground-secondary text-xs mt-2">
+          <p className="text-foreground-secondary text-xs text-center mt-2">
             {t("room.main.private.password2")}
           </p>
         </>

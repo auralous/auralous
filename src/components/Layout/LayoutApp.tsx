@@ -112,7 +112,7 @@ const Appbar: React.FC = () => {
   const [, logIn] = useLogin();
 
   return (
-    <div className="flex sm:hidden fixed bottom-0 left-0 w-full bg-blue-tertiary">
+    <div className="flex sm:hidden fixed bottom-0 left-0 w-full bg-blue-tertiary h-10 overflow-hidden">
       <AppbarItem href="/listen">
         <SvgPlay className="w-4 h-4 mb-1" />
         <span>{t("listen.title")}</span>
@@ -152,7 +152,7 @@ const LayoutApp: React.FC = ({ children }) => {
   return (
     <>
       <PlayerMinibar />
-      <main className="pb-12 sm:pb-0 sm:pl-48">{children}</main>
+      <main className="pb-10 sm:pb-0 sm:pl-48">{children}</main>
       <Sidebar />
       <Appbar />
     </>

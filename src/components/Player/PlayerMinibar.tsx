@@ -23,10 +23,10 @@ const PlayerMinibar: React.FC = () => {
     <div
       className={`${
         shouldHide ? "hidden" : "flex"
-      } items-center h-16 z-10 w-96 max-w-full bordered-box rounded-lg fixed transform right-1/2 sm:right-2 translate-x-1/2 sm:-translate-x-0 top-0 sm:top-auto sm:bottom-2`}
+      } fixed bordered-box items-center h-16 z-10 w-full sm:w-96 sm:rounded-lg sm:right-2 bottom-10 sm:bottom-2`}
     >
       <Link href={`/room/${playingRoomId}`}>
-        <a className={`flex-1 w-0 flex shadow-lg items-center`}>
+        <a className={`flex-1 w-0 flex items-center`}>
           <div className="w-16 h-16 p-2">
             {playerPlaying && (
               <img

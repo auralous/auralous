@@ -20,9 +20,21 @@ const getFeaturedArtists = (tracks: Track[]): string[] => {
 };
 
 const transitionConfig = {
-  from: { opacity: 0, transform: "translateY(10px)" },
-  enter: { opacity: 1, transform: "translateY(0px)" },
-  leave: { opacity: 0, transform: "translateY(10px)" },
+  from: {
+    opacity: 0,
+    transform: "translateY(10px)",
+    position: "static" as const,
+  },
+  enter: {
+    opacity: 1,
+    transform: "translateY(0px)",
+    position: "static" as const,
+  },
+  leave: {
+    opacity: 0,
+    transform: "translateY(10px)",
+    position: "absolute" as const,
+  },
   config: springConfig.stiff,
 };
 
@@ -95,7 +107,7 @@ const CreateRoomView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
   return (
     <>
-      <div className="text-lg text-center text-foreground-secondary mb-6">
+      <div className="text-lg text-center text-foreground-secondary pb-6">
         {initTracks.length ? (
           <>
             <p>
@@ -131,21 +143,21 @@ const CreateRoomView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
               </button>
             </div>
           </>
-        ) : (
-          t("new.fromResult.empty")
-        )}
+        ) : null}
       </div>
       {addExisted ? (
         <AddToExisted initTracks={initTracks} />
       ) : (
         <CreateRoom initTracks={initTracks} />
       )}
-      <button
-        className="inline-flex mx-auto py-1 font-bold text-sm mt-1 text-foreground-secondary hover:text-foreground transition-colors"
-        onClick={() => router.replace("/new")}
-      >
-        {t("new.backText")}
-      </button>
+      <div className="w-full flex mt-1 justify-center">
+        <button
+          className="py-1 font-bold text-sm text-foreground-secondary hover:text-foreground transition-colors"
+          onClick={() => router.replace("/new")}
+        >
+          {t("new.backText")}
+        </button>
+      </div>
     </>
   );
 };
@@ -164,26 +176,18 @@ const NewMain: React.FC = () => {
   const transitionsCreate = useTransition(!!initTracks, null, transitionConfig);
 
   return (
-    <div className="px-4 pt-8 max-w-xl mx-auto overflow-hidden h-screen-no-appbar sm:h-screen flex flex-col">
-      <h2 className="font-bold text-4xl text-center mb-6 flex-none">
+    <div className="px-4 max-w-xl mx-auto">
+      <h2 className="font-bold text-4xl text-center mb-6 pt-8">
         {initTracks ? t("new.promptAlmost") : t("new.prompt")}
       </h2>
-      <div className="relative h-full">
+      <div className="relative pb-8">
         {transitionsCreate.map(({ item: doneSelected, key, props }) =>
           doneSelected ? (
-            <animated.div
-              key={key}
-              style={props}
-              className="flex flex-col inset-0 absolute overflow-auto"
-            >
+            <animated.div key={key} style={props} className="w-full">
               <CreateRoomView initTracks={initTracks || []} />
             </animated.div>
           ) : (
-            <animated.div
-              key={key}
-              style={props}
-              className="flex flex-col inset-0 absolute overflow-auto"
-            >
+            <animated.div key={key} style={props} className="w-full">
               <SelectTracksView setInitTracks={setInitTracks} />
             </animated.div>
           )

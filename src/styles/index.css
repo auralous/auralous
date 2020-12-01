@@ -7,13 +7,6 @@
 /* purgecss start ignore */
 
 @layer utilities {
-  .absolute-center {
-    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
-  }
-  .flex-center {
-    align-items: center;
-    justify-content: center;
-  }
   .bordered-box {
     @apply bg-blue border-blue-tertiary;
     border-width: 1px;
@@ -114,6 +107,20 @@
 
   .backdrop-blur {
     backdrop-filter: blur(20px);
+  }
+
+  @variants responsive {
+    .absolute-center {
+      @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+    }
+    .flex-center {
+      align-items: center;
+      justify-content: center;
+    }
+    .h-screen-layout {
+      height: calc(100vh - theme('spacing.10'));
+      @apply sm:h-screen;
+    }
   }
 }
 

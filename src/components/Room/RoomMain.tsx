@@ -106,7 +106,7 @@ const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
   const [expandedChat, setExpandedChat] = useState(false);
 
   return (
-    <div className={`flex flex-col lg:flex-row h-full`}>
+    <div className="flex flex-col lg:flex-row w-full h-full">
       <div className="relative flex-1 lg:w-0">
         <div className="w-full h-full flex flex-col relative overflow-hidden p-2">
           <div className="mb-2 bordered-box rounded-lg overflow-hidden">
@@ -119,7 +119,7 @@ const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
       </div>
       <div className="w-full lg:w-96">
         <button
-          className="btn lg:hidden fixed z-40 rounded-b-none rounded-r-none bottom-0 right-0"
+          className="btn lg:hidden fixed z-40 bottom-12 sm:bottom-2 right-2"
           onClick={() => setExpandedChat(!expandedChat)}
           style={{ backdropFilter: "blur(5px)" }}
           aria-label={t("room.chat.title")}
@@ -180,7 +180,7 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
 
   return (
     <>
-      <div className="h-screen-no-appbar sm:h-screen relative pt-12 overflow-hidden">
+      <div className="h-screen-layout relative overflow-hidden pt-12">
         <Navbar room={room} roomState={roomState} />
         {roomState ? (
           roomState.permission.viewable ? (

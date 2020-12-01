@@ -3,7 +3,7 @@ module.exports = {
   purge: {
     content: ["./src/**/*.tsx"],
     options: {
-      safelist: ["text-spotify", "text-youtube"],
+      safelist: ["text-spotify", "text-youtube", "bg-youtube", "bg-spotify"],
     },
   },
   darkMode: false,
@@ -63,9 +63,6 @@ module.exports = {
       spacing: {
         full: "100%",
         "4/3": "133.33%",
-      },
-      height: {
-        "screen-no-appbar": "calc(100vh - 3rem)",
       },
       animation: {
         "spin-slow": "spin 9s linear infinite",

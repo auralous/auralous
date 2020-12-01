@@ -25,7 +25,7 @@ const TrackMenu: React.FC<{
       <Modal.Modal
         active={active}
         onOutsideClick={close}
-        className="px-6 py-8 flex-row max-w-xl"
+        className="px-6 py-8 max-w-xl flex flex-row"
       >
         <img
           className="w-full h-full absolute"
@@ -33,24 +33,24 @@ const TrackMenu: React.FC<{
           alt={track?.title}
           style={{
             zIndex: -1,
-            filter: "blur(20px)",
+            filter: "blur(20px) brightness(.6)",
           }}
         />
         <img
-          className="w-32 h-32 rounded shadow-lg mr-4 flex-none"
+          className="w-32 h-32 rounded shadow-lg mr-4"
           src={track?.image}
           alt={track?.title}
         />
-        <div>
+        <div className="w-0 flex-1">
           <div className="py-2 mb-2">
-            <div className="text-md mb-1 leading-tight font-bold w-full">
+            <div className="text-md mb-1 leading-tight font-bold truncate">
               {track?.title}
             </div>
-            <div className="text-sm text-foreground-secondary">
+            <div className="text-sm text-foreground-secondary truncate">
               {track?.artists.map(({ name }) => name).join(", ")}
             </div>
           </div>
-          <div className="flex">
+          <div className="flex overflow-auto">
             <button
               className="btn text-xs mr-2"
               onClick={() => setOpenAddPlaylist(true)}
