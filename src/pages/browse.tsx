@@ -74,8 +74,9 @@ const SearchAndPlaySection: React.FC = () => {
         <input
           name="searchQuery"
           className="input w-full rounded-r-none"
-          placeholder={t("new.playlist.altText")}
-          aria-label={t("new.playlist.altText")}
+          placeholder={t("new.fromSearch.altText")}
+          aria-label={t("new.fromSearch.altText")}
+          required
         />
         <button
           type="submit"

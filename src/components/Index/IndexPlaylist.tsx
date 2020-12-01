@@ -117,8 +117,8 @@ const IndexPlaylist: React.FC = () => {
             <input
               name="playlistLink"
               className="input w-full pl-0 pr-8 rounded-none border-0 border-b-2 text-foreground-secondary border-foreground-secondary focus:text-foreground focus:border-pink transition-colors duration-300"
-              placeholder={t("new.playlist.altText")}
-              aria-label={t("new.playlist.altText")}
+              placeholder={t("new.fromSearch.altText")}
+              aria-label={t("new.fromSearch.altText")}
               value={value}
               onChange={(e) => setValue(e.currentTarget.value)}
             />
