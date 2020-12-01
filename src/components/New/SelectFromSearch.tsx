@@ -56,7 +56,7 @@ const SelectFromSearch: React.FC<{
   );
 
   return (
-    <div className="flex flex-col flex-center h-48">
+    <>
       <p className="text-lg text-center text-foreground-secondary mb-2">
         {!searchTrack?.length && !fetching && !!searchQuery
           ? t("new.fromSearch.noResults")
@@ -89,7 +89,7 @@ const SelectFromSearch: React.FC<{
           {formDisabled ? <LoadingDots /> : <SvgSearch />}
         </button>
       </form>
-    </div>
+    </>
   );
 };
 

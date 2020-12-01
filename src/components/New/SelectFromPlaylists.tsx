@@ -42,7 +42,7 @@ const PlaylistItem: React.FC<{ playlist: Playlist }> = ({ playlist }) => {
   );
 };
 
-const SelectFromPlaylistsContent: React.FC<{
+const SelectFromPlaylists: React.FC<{
   onSelected(tracks: Track[]): void;
 }> = () => {
   const { t } = useI18n();
@@ -59,7 +59,6 @@ const SelectFromPlaylistsContent: React.FC<{
     if (selectedPlaylistId) {
       const playlist = myPlaylists?.find((pl) => pl.id === selectedPlaylistId);
       if (playlist) {
-        console.log(playlist);
         // TODO: Currently, we are redirecting to the search functionality
         // However, it is better to implement real select from playlist
         // in the future
@@ -82,7 +81,7 @@ const SelectFromPlaylistsContent: React.FC<{
 
   if (myPlaylists?.length)
     return (
-      <div className="h-full w-full overflow-auto">
+      <div className="h-full w-full overflow-auto bg-background-secondary rounded-lg shadow-lg">
         {myPlaylists.map((playlist) => (
           <PlaylistItem key={playlist.id} playlist={playlist} />
         ))}
@@ -103,16 +102,6 @@ const SelectFromPlaylistsContent: React.FC<{
     <p className="text-foreground-secondary font-bold">
       {t("new.fromPlaylist.empty")}
     </p>
-  );
-};
-
-const SelectFromPlaylists: React.FC<{
-  onSelected(tracks: Track[]): void;
-}> = ({ onSelected }) => {
-  return (
-    <div className="flex flex-col flex-center h-48">
-      <SelectFromPlaylistsContent onSelected={onSelected} />
-    </div>
   );
 };
 
