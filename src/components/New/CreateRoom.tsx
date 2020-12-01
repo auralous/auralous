@@ -8,6 +8,8 @@ import {
   useUpdateQueueMutation,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
+import { useLogin } from "~/components/Auth";
+import { useCurrentUser } from "~/hooks/user";
 
 const CreateRoomLabel: React.FC<{ htmlFor: string }> = ({
   htmlFor,
@@ -25,6 +27,9 @@ const CreateRoomFormGroup: React.FC = ({ children }) => (
 const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const { t } = useI18n();
 
+  const [, logIn] = useLogin();
+  const user = useCurrentUser();
+
   const router = useRouter();
 
   const titleRef = useRef<HTMLInputElement>(null);
@@ -39,6 +44,8 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
     async (event: React.FormEvent<HTMLFormElement>) => {
       if (fetching) return;
       event.preventDefault();
+
+      if (!user) return logIn();
 
       if (!isPublic && !passwordRef.current?.value) {
         if (!window.confirm(t("new.addNew.warnNoPass"))) return;
@@ -71,6 +78,8 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       createRoom,
       anyoneCanAdd,
       updateQueue,
+      logIn,
+      user,
     ]
   );
 
