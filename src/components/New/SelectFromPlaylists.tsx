@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { LoadingDots } from "./common";
+import { LoadingDots, SelectingListItem } from "./common";
 import { useLogin } from "~/components/Auth";
 import { useMyPlaylistsQuery } from "~/hooks/playlist";
 import { useCurrentUser } from "~/hooks/user";
@@ -15,9 +15,8 @@ const PlaylistItem: React.FC<{ playlist: Playlist }> = ({ playlist }) => {
   const router = useRouter();
 
   return (
-    <button
+    <SelectingListItem
       onClick={() => router.replace(`/new?playlist=${playlist.id}`)}
-      className="btn w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
     >
       <img
         className="w-12 h-12 rounded-lg object-cover"
@@ -38,7 +37,7 @@ const PlaylistItem: React.FC<{ playlist: Playlist }> = ({ playlist }) => {
           {playlist.tracks.length} {t("common.tracks")}
         </p>
       </div>
-    </button>
+    </SelectingListItem>
   );
 };
 

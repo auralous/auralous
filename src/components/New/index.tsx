@@ -164,17 +164,17 @@ const NewMain: React.FC = () => {
   const transitionsCreate = useTransition(!!initTracks, null, transitionConfig);
 
   return (
-    <div className="p-4 h-screen-no-appbar sm:h-screen pt-12 overflow-auto">
-      <h2 className="font-bold text-4xl text-center mb-6">
+    <div className="px-4 pt-8 max-w-xl mx-auto overflow-hidden h-screen-no-appbar sm:h-screen flex flex-col">
+      <h2 className="font-bold text-4xl text-center mb-6 flex-none">
         {initTracks ? t("new.promptAlmost") : t("new.prompt")}
       </h2>
-      <div className="flex flex-col mx-auto max-w-xl relative">
+      <div className="relative h-full">
         {transitionsCreate.map(({ item: doneSelected, key, props }) =>
           doneSelected ? (
             <animated.div
               key={key}
               style={props}
-              className="flex flex-col max-w-xl absolute w-full"
+              className="flex flex-col inset-0 absolute overflow-auto"
             >
               <CreateRoomView initTracks={initTracks || []} />
             </animated.div>
@@ -182,7 +182,7 @@ const NewMain: React.FC = () => {
             <animated.div
               key={key}
               style={props}
-              className="flex flex-col max-w-xl absolute w-full"
+              className="flex flex-col inset-0 absolute overflow-auto"
             >
               <SelectTracksView setInitTracks={setInitTracks} />
             </animated.div>

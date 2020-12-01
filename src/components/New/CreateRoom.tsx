@@ -15,7 +15,7 @@ const CreateRoomLabel: React.FC<{ htmlFor: string }> = ({
   htmlFor,
   children,
 }) => (
-  <label className="label text-center" htmlFor={htmlFor}>
+  <label className="label text-foreground text-center" htmlFor={htmlFor}>
     {children}
   </label>
 );
