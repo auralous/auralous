@@ -108,8 +108,8 @@
       "title": "Create New Room",
       "warnNoPass": "The room password is not set. Anyone with the link can enter the room and become a collaborator. Continue anyway?",
       "action": "Start Listening",
-      "promptTitle": "How would we describe the room",
-      "promptPrivacy": "Are we listening in public or private"
+      "promptTitle": "How would you describe the room",
+      "promptPrivacy": "Are you listening in public or private"
     },
     "backText": "Go back"
   },

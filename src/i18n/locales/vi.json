@@ -83,8 +83,8 @@
   },
   "new": {
     "title": "Bắt đầu nghe cùng nhau",
-    "prompt": "Chúng ta nghe gì hôm nay nào?",
-    "promptAlmost": "Sắp xong rồi",
+    "prompt": "Nghe gì hôm nay?",
+    "promptAlmost": "Bước cuối cùng",
     "or": "Hoặc",
     "fromSearch": {
       "title": "Chọn từ đường link",

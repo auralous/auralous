@@ -1,6 +1,5 @@
+import React, { useState } from "react";
 import { useRouter } from "next/router";
-import React, { useCallback, useState } from "react";
-import Router from "next/router";
 import {
   IndexParagraph,
   IndexSection,
@@ -38,9 +37,10 @@ const IndexPlaylistShowcase: React.FC<{
   description: string;
   url: string;
   platform: PlatformName;
-  onSelected(url: string): void;
-}> = ({ title, description, image, url, platform, onSelected }) => {
+}> = ({ title, description, image, url, platform }) => {
   const { t } = useI18n();
+  const router = useRouter();
+
   return (
     <>
       <img alt={title} src={image} className="w-0 sm:w-36 h-36 rounded-lg" />
@@ -63,7 +63,7 @@ const IndexPlaylistShowcase: React.FC<{
           {new URL(url).hostname}
         </a>
         <button
-          onClick={() => onSelected(url)}
+          onClick={() => router.push(`/new?search=${url}`)}
           className="btn btn-transparent p-1 absolute right-2 bottom-2"
           aria-label={title}
         >
@@ -79,11 +79,6 @@ const IndexPlaylist: React.FC = () => {
   const { t } = useI18n();
 
   const [value, setValue] = useState("");
-
-  const onSelected = useCallback((url: string) => {
-    setValue(url);
-    window.setTimeout(() => Router.push(`/new?search=${url}`), 3000);
-  }, []);
 
   const [ref, style] = useFadeInOnScroll();
 
@@ -137,10 +132,7 @@ const IndexPlaylist: React.FC = () => {
               style={style}
               className="flex mb-2 w-full bordered-box rounded-lg shadow-lg p-2"
             >
-              <IndexPlaylistShowcase
-                onSelected={onSelected}
-                {...playlistData[index]}
-              />
+              <IndexPlaylistShowcase {...playlistData[index]} />
             </animated.div>
           ))}
         </animated.div>
