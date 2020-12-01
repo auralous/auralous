@@ -76,6 +76,7 @@ const SearchAndPlaySection: React.FC = () => {
           className="input w-full rounded-r-none"
           placeholder={t("new.fromSearch.altText")}
           aria-label={t("new.fromSearch.altText")}
+          type="url"
           required
         />
         <button

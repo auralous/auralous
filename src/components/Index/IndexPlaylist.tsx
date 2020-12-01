@@ -116,6 +116,8 @@ const IndexPlaylist: React.FC = () => {
               aria-label={t("new.fromSearch.altText")}
               value={value}
               onChange={(e) => setValue(e.currentTarget.value)}
+              type="url"
+              required
             />
             <button
               className="absolute px-1 top-0 right-0 btn btn-transparent rounded-none flex-none"

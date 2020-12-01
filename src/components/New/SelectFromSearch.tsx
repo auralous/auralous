@@ -6,15 +6,6 @@ import { useMAuth } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 import { SvgSearch } from "~/assets/svg";
 
-const isURL = (url?: string): URL | false => {
-  if (!url) return false;
-  try {
-    return new URL(url);
-  } catch (e) {
-    return false;
-  }
-};
-
 const SelectFromSearch: React.FC<{
   onSelected(tracks: Track[]): void;
 }> = ({ onSelected }) => {
@@ -31,8 +22,6 @@ const SelectFromSearch: React.FC<{
     if (inputRef.current) inputRef.current.value = searchQuery || "";
   }, [searchQuery]);
 
-  const isValidQuery = isURL(searchQuery);
-
   const [
     { data: { searchTrack } = { searchTrack: undefined }, fetching },
   ] = useSearchTrackQuery({
@@ -40,19 +29,19 @@ const SelectFromSearch: React.FC<{
       query: decodeURIComponent(searchQuery || ""),
       platform: mAuth?.platform || PlatformName.Youtube,
     },
-    pause: !isValidQuery,
+    pause: !searchQuery,
   });
 
   useEffect(() => {
-    if (isValidQuery && searchTrack && searchTrack.length > 0) {
+    if (searchQuery && searchTrack && searchTrack.length > 0) {
       const to = window.setTimeout(() => onSelected(searchTrack), 2000);
       return () => window.clearTimeout(to);
     }
-  }, [searchTrack, onSelected, isValidQuery]);
+  }, [searchTrack, onSelected, searchQuery]);
 
   // either show loading indicator when we are loading or just waiting to move on
   const formDisabled = Boolean(
-    isValidQuery && (fetching || searchTrack?.length)
+    searchQuery && (fetching || searchTrack?.length)
   );
 
   return (
@@ -78,6 +67,7 @@ const SelectFromSearch: React.FC<{
           className="input w-0 flex-1 mr-1"
           required
           disabled={formDisabled}
+          type="url"
         />
         <button
           type="submit"
