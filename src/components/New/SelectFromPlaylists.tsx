@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { LoadingDots } from "./common";
-import { Track } from "~/graphql/gql.gen";
+import { useLogin } from "~/components/Auth";
 import { useMyPlaylistsQuery } from "~/hooks/playlist";
 import { useCurrentUser } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
-import { AuthBanner } from "~/components/Auth/index";
-import { Playlist } from "~/types/index";
 import { SvgByPlatformName } from "~/lib/constants";
+import { Track } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
+import { Playlist } from "~/types/index";
 
 const PlaylistItem: React.FC<{ playlist: Playlist }> = ({ playlist }) => {
   const SvgPlatformName = SvgByPlatformName[playlist.platform];
@@ -48,6 +48,8 @@ const SelectFromPlaylistsContent: React.FC<{
   const { t } = useI18n();
 
   const user = useCurrentUser();
+  const [, logIn] = useLogin();
+
   const { data: myPlaylists, isLoading, isError } = useMyPlaylistsQuery();
 
   const router = useRouter();
@@ -57,6 +59,7 @@ const SelectFromPlaylistsContent: React.FC<{
     if (selectedPlaylistId) {
       const playlist = myPlaylists?.find((pl) => pl.id === selectedPlaylistId);
       if (playlist) {
+        console.log(playlist);
         // TODO: Currently, we are redirecting to the search functionality
         // However, it is better to implement real select from playlist
         // in the future
@@ -65,7 +68,17 @@ const SelectFromPlaylistsContent: React.FC<{
     }
   }, [router, myPlaylists]);
 
-  if (!user) return <AuthBanner prompt={t("new.fromPlaylist.authPrompt")} />;
+  if (!user)
+    return (
+      <div className="flex flex-col items-center p-4 rounded-lg bg-blue-tertiary">
+        <p className="text-foreground-secondary mb-2cd ">
+          {t("new.fromPlaylist.authPrompt")}
+        </p>
+        <button onClick={logIn} className="btn btn-primary">
+          {t("common.signIn")}
+        </button>
+      </div>
+    );
 
   if (myPlaylists?.length)
     return (
@@ -97,7 +110,7 @@ const SelectFromPlaylists: React.FC<{
   onSelected(tracks: Track[]): void;
 }> = ({ onSelected }) => {
   return (
-    <div className="flex flex-col flex-center h-32">
+    <div className="flex flex-col flex-center h-48">
       <SelectFromPlaylistsContent onSelected={onSelected} />
     </div>
   );

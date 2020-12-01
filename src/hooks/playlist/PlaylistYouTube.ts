@@ -72,16 +72,20 @@ export default class PlaylistYoutube {
     while (true) {
       playlists.push(
         ...(await Promise.all<Playlist>(
-          data.items.map(async (item: any) => {
-            return {
-              id: `youtube:${item.id}`,
-              externalId: item.id,
-              platform: PlatformName.Youtube,
-              title: item.snippet.title,
-              tracks: (await this.getPlaylistTracks(item.id)) || [],
-              image: item.snippet.thumbnails.high.url || defaultAvatar(item.id),
-            };
-          })
+          data.items.map(
+            async (item: any): Promise<Playlist> => {
+              return {
+                id: `youtube:${item.id}`,
+                externalId: item.id,
+                platform: PlatformName.Youtube,
+                title: item.snippet.title,
+                tracks: (await this.getPlaylistTracks(item.id)) || [],
+                image:
+                  item.snippet.thumbnails.high.url || defaultAvatar(item.id),
+                url: `https://www.youtube.com/playlist?list=${item.id}`,
+              };
+            }
+          )
         ))
       );
 
