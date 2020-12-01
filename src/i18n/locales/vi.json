@@ -89,9 +89,9 @@
     "fromSearch": {
       "title": "Chọn từ đường link",
       "action": "Tìm bài hát",
-      "altText": "Nhập liên kết playlist",
-      "helpText": "Nhập liên kết playlist để nghe cùng nhau",
-      "noResults": "Không tìm thấy bài hát nào từ liên kết dưới. Hãy thử lại!"
+      "altText": "Nhập đường link playlist",
+      "helpText": "Nhập đường link playlist để nghe cùng nhau",
+      "noResults": "Không tìm thấy bài hát nào từ đường link dưới. Hãy thử lại!"
     },
     "fromPlaylist": {
       "title": "Chọn từ playlist của bạn",
@@ -264,7 +264,7 @@
       },
       "search": {
         "title": "Tìm kiếm",
-        "placeholder": "Tìm kiếm với từ khoá hoặc liên kết",
+        "placeholder": "Tìm kiếm với từ khoá hoặc đường link",
         "loading": "Đang tìm kiếm...",
         "helpText": "Để tìm kiếm, nhập từ khoá hoặc đường link của bài hát / playlist"
       }

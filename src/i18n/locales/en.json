@@ -266,7 +266,7 @@
         "title": "Search",
         "placeholder": "Find by keywords or links",
         "loading": "Searching...",
-        "helpText": "To search, enter the song keywords, a song link, or a playlist link"
+        "helpText": "To search, enter some keywords, a song link, or a playlist link"
       }
     }
   },
