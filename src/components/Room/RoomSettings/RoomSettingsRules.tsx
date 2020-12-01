@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { Switch } from "@headlessui/react";
 import { useToasts } from "~/components/Toast";
 import { Room, useUpdateRoomMutation, RoomState } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
@@ -8,13 +9,13 @@ const RoomSettingsRules: React.FC<{
   roomState: RoomState;
 }> = ({ room, roomState }) => {
   const { t } = useI18n();
-  const anyoneCanAddRef = useRef<HTMLSelectElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const [anyoneCanAdd, setAnyoneCanAdd] = useState(false);
 
   useEffect(() => {
     if (!roomState) return;
-    if (anyoneCanAddRef.current)
-      anyoneCanAddRef.current.value = roomState.anyoneCanAdd ? "1" : "0";
+    setAnyoneCanAdd(roomState.anyoneCanAdd);
   }, [roomState]);
 
   const [{ fetching }, updateRoom] = useUpdateRoomMutation();
@@ -28,9 +29,7 @@ const RoomSettingsRules: React.FC<{
     }
     const update = {
       id: room.id,
-      anyoneCanAdd: room.isPublic
-        ? anyoneCanAddRef.current?.value === "1"
-        : undefined,
+      anyoneCanAdd: room.isPublic ? anyoneCanAdd : undefined,
       password: !room.isPublic ? passwordRef.current?.value : undefined,
     };
     const result = await updateRoom(update);
@@ -51,15 +50,23 @@ const RoomSettingsRules: React.FC<{
             <p className="text-foreground-secondary mb-1">
               {t("room.settings.privacy.publicAllowGuestsHelp")}
             </p>
-            <select
-              ref={anyoneCanAddRef}
-              className="input"
-              onChange={() => setIsChanged(true)}
-              onBlur={undefined}
+            <Switch
+              checked={anyoneCanAdd}
+              onChange={(value) => {
+                setAnyoneCanAdd(value);
+                setIsChanged(true);
+              }}
+              className={`${
+                anyoneCanAdd ? "bg-success" : "bg-background-tertiary"
+              } relative inline-flex h-6 rounded-full w-12`}
+              aria-labelledby="roomAnyoneCanAdd"
             >
-              <option value={1}>Yes</option>
-              <option value={0}>No</option>
-            </select>
+              <span
+                className={`${
+                  anyoneCanAdd ? "translate-x-6" : "translate-x-0"
+                } inline-block w-6 h-6 transform bg-white rounded-full transition-transform`}
+              />
+            </Switch>
           </div>
         </>
       ) : (

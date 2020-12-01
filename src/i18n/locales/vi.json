@@ -83,26 +83,40 @@
   },
   "new": {
     "title": "Bắt đầu nghe cùng nhau",
-    "authPrompt": "Tham gia Stereo để tạo phòng",
-    "playlist": {
-      "title": "Tìm playlist",
+    "prompt": "Nghe gì hôm nay?",
+    "promptAlmost": "Bước cuối cùng",
+    "or": "Hoặc",
+    "fromSearch": {
+      "title": "Chọn từ đường link",
+      "action": "Tìm bài hát",
       "altText": "Nhập đường link playlist",
-      "helpText": "Tùy chọn: Nhập đường link playlist để nghe cùng nhau",
+      "helpText": "Nhập đường link playlist để nghe cùng nhau",
+      "noResults": "Không tìm thấy bài hát nào từ đường link dưới. Hãy thử lại!"
+    },
+    "fromPlaylist": {
+      "title": "Chọn từ playlist của bạn",
+      "authPrompt": "Đăng nhập vào Stereo để kết nối với playlist của bạn",
+      "empty": "Bạn không có playlist nào"
+    },
+    "startEmpty": "Bắt đầu phòng trống",
+    "fromResult": {
+      "empty": "Bắt đầu mới với phòng trống",
       "startListeningTo": "Bắt đầu nghe",
-      "featuring": "đến từ",
-      "noResults": "Không tìm thấy bài hát nào"
+      "featuring": "đến từ"
     },
     "addNew": {
       "title": "Tạo phòng mới",
       "warnNoPass": "Mật khẩu phòng chưa được đặt. Bất cứ ai với đường link sẽ được trở thành của phòng. Vẫn tiếp tục?",
-      "action": "Nghe nào"
+      "action": "Nghe nào",
+      "promptTitle": "Bạn sẽ miêu tả phòng của mình thế nào",
+      "promptPrivacy": "Bạn định nghe công khai hay riêng tư"
     },
     "addExisted": {
-      "title": "Nghe ở phòng hiện có",
-      "description": "Chọn phòng bạn muốn tham gia",
-      "action": "Thêm vào chơi",
-      "helpText": "Tìm kiếm một playlist sử dụng hộp thoại trên hoặc tạo phòng mới"
-    }
+      "title": "Tiếp tục ở phòng hiện có",
+      "prompt": "Chọn một phòng để tiếp tục nghe nhạc",
+      "authPrompt": "Đăng nhập Stereo để tiếp tục nghe"
+    },
+    "backText": "Trở về"
   },
   "browse": {
     "title": "Duyệt qua",
@@ -139,7 +153,7 @@
       "info": {
         "title": "Tên",
         "description": "Mô tả",
-        "titleHelp": "Enter a title for the room",
+        "titleHelp": "Nhập tên phòng của bạn",
         "descriptionHelp": "Đặt tên phòng của bạn",
         "username": "Tên người dùng"
       },
@@ -250,7 +264,7 @@
       },
       "search": {
         "title": "Tìm kiếm",
-        "placeholder": "Tìm kiếm với từ khoá hoặc liên kết",
+        "placeholder": "Tìm kiếm với từ khoá hoặc đường link",
         "loading": "Đang tìm kiếm...",
         "helpText": "Để tìm kiếm, nhập từ khoá hoặc đường link của bài hát / playlist"
       }
@@ -281,6 +295,9 @@
       "errorText": "Không thể tạo playlist",
       "okText": "Đã tạo playlist {{title}}",
       "youtubeHelpText": "Bạn sẽ cần một kênh YouTube hoặc tài khoản YouTube Music để tạo playlist"
+    },
+    "error": {
+      "load": "Không thể tải playlist của bạn"
     }
   },
   "share": {

@@ -83,26 +83,40 @@
   },
   "new": {
     "title": "Start listening together",
-    "authPrompt": "Join Stereo to Create a Room",
-    "playlist": {
-      "title": "Search Playlist",
+    "prompt": "What are we listening today?",
+    "promptAlmost": "Almost there",
+    "or": "Or",
+    "fromSearch": {
+      "title": "Select from a link",
+      "action": "Search for songs",
       "altText": "Enter a Playlist Link",
-      "helpText": "Optional: Enter a playlist link to listen together",
+      "helpText": "Enter a playlist link to listen together",
+      "noResults": "No songs found from the link below. Try a different one!"
+    },
+    "fromPlaylist": {
+      "title": "Select from your playlists",
+      "authPrompt": "Join Stereo to connect to your playlists",
+      "empty": "You have no playlist"
+    },
+    "startEmpty": "Start without songs",
+    "fromResult": {
+      "empty": "Start out fresh with an empty room",
       "startListeningTo": "Start listening together to",
-      "featuring": "featuring",
-      "noResults": "No songs found from the above link"
+      "featuring": "featuring"
     },
     "addNew": {
       "title": "Create New Room",
       "warnNoPass": "The room password is not set. Anyone with the link can enter the room and become a collaborator. Continue anyway?",
-      "action": "Start Listening"
+      "action": "Start Listening",
+      "promptTitle": "How would you describe the room",
+      "promptPrivacy": "Are you listening in public or private"
     },
     "addExisted": {
-      "title": "Use an Existing Room",
-      "description": "Select a room to start listening",
-      "action": "Add and Play",
-      "helpText": "Find something by entering a playlist link above to add to an existing room or create an empty room"
-    }
+      "title": "Continue in Existed Room",
+      "prompt": "Select a room to continue listening",
+      "authPrompt": "Join Stereo to continue listening"
+    },
+    "backText": "Go back"
   },
   "browse": {
     "title": "Browse",
@@ -252,7 +266,7 @@
         "title": "Search",
         "placeholder": "Find by keywords or links",
         "loading": "Searching...",
-        "helpText": "To search, enter the song keywords, a song link, or a playlist link"
+        "helpText": "To search, enter some keywords, a song link, or a playlist link"
       }
     }
   },
@@ -281,6 +295,9 @@
       "errorText": "Cannot create new playlist",
       "okText": "Created playlist {{title}}",
       "youtubeHelpText": "You may need to have a YouTube channel or sign up for YouTube Music to create a playlist"
+    },
+    "error": {
+      "load": "Unable to retrieve your playlists"
     }
   },
   "share": {

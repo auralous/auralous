@@ -62,6 +62,7 @@ export default class PlaylistSpotify {
               title: item.name,
               tracks: (await this.getPlaylistTracks(item.id)) || [],
               image: item.images[0]?.url || defaultAvatar(item.id),
+              url: `https://open.spotify.com/playlist/${item.id}`,
             };
           })
         ))
@@ -87,6 +88,7 @@ export default class PlaylistSpotify {
       title: data.name,
       tracks: [],
       image: data.images[0]?.url || defaultAvatar(data.id),
+      url: `https://open.spotify.com/playlist/${data.id}`,
     };
   }
 
