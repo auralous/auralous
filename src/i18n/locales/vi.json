@@ -111,6 +111,11 @@
       "promptTitle": "Bạn sẽ miêu tả phòng của mình thế nào",
       "promptPrivacy": "Bạn định nghe công khai hay riêng tư"
     },
+    "addExisted": {
+      "title": "Tiếp tục ở phòng hiện có",
+      "prompt": "Chọn một phòng để tiếp tục nghe nhạc",
+      "authPrompt": "Đăng nhập Stereo để tiếp tục nghe"
+    },
     "backText": "Trở về"
   },
   "browse": {

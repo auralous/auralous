@@ -111,29 +111,12 @@
       "promptTitle": "How would you describe the room",
       "promptPrivacy": "Are you listening in public or private"
     },
-    "backText": "Go back"
-  },
-  "new1": {
-    "title": "Start listening together",
-    "authPrompt": "Join Stereo to Create a Room",
-    "playlist": {
-      "title": "Search Playlist",
-      "altText": "Enter a Playlist Link",
-      "startListeningTo": "Start listening together to",
-      "featuring": "featuring",
-      "noResults": "No songs found from the above link"
-    },
-    "addNew": {
-      "title": "Create New Room",
-      "warnNoPass": "The room password is not set. Anyone with the link can enter the room and become a collaborator. Continue anyway?",
-      "action": "Start Listening"
-    },
     "addExisted": {
-      "title": "Use an Existing Room",
-      "description": "Select a room to start listening",
-      "action": "Add and Play",
-      "helpText": "Find something by entering a playlist link above to add to an existing room or create an empty room"
-    }
+      "title": "Continue in Existed Room",
+      "prompt": "Select a room to continue listening",
+      "authPrompt": "Join Stereo to continue listening"
+    },
+    "backText": "Go back"
   },
   "browse": {
     "title": "Browse",

@@ -24,3 +24,16 @@ export const LoadingDots: React.FC = () => {
     </svg>
   );
 };
+
+export const SelectingListItem: React.FC<{
+  onClick: () => void;
+  disabled?: boolean;
+}> = ({ onClick, children, disabled }) => (
+  <button
+    onClick={onClick}
+    className="btn rounded-none w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
+    disabled={disabled}
+  >
+    {children}
+  </button>
+);
