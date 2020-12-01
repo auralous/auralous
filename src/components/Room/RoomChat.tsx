@@ -101,7 +101,7 @@ const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
 
   if (!user)
     return (
-      <div className="h-full w-full flex flex-col justify-center bordered-box rounded-lg">
+      <div className="h-full w-full flex flex-col justify-center border-2 border-blue-secondary rounded-lg">
         <AuthBanner
           prompt={t("room.chat.authPrompt")}
           hook={t("room.chat.authPromptHook")}

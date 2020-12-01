@@ -106,34 +106,31 @@ const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
   const [expandedChat, setExpandedChat] = useState(false);
 
   return (
-    <div className="flex flex-col lg:flex-row w-full h-full">
-      <div className="relative flex-1 lg:w-0">
-        <div className="w-full h-full flex flex-col relative overflow-hidden p-2">
-          <div className="mb-2 bordered-box rounded-lg overflow-hidden">
-            <PlayerEmbeddedControl roomId={room.id} />
-          </div>
-          <div className="bordered-box rounded-lg flex-1 overflow-hidden">
-            <RoomQueue roomState={roomState} room={room} />
-          </div>
+    <div className="w-full h-full lg:pr-96 relative">
+      {/* Main */}
+      <div className="w-full h-full flex flex-col relative overflow-hidden p-2">
+        <div className="mb-1 bordered-box rounded-lg overflow-hidden">
+          <PlayerEmbeddedControl roomId={room.id} />
+        </div>
+        <div className="mt-1 bordered-box rounded-lg flex-1 overflow-hidden">
+          <RoomQueue roomState={roomState} room={room} />
         </div>
       </div>
-      <div className="w-full lg:w-96">
-        <button
-          className="btn lg:hidden fixed z-40 bottom-12 sm:bottom-2 right-2"
-          onClick={() => setExpandedChat(!expandedChat)}
-          style={{ backdropFilter: "blur(5px)" }}
-          aria-label={t("room.chat.title")}
-        >
-          {expandedChat ? <SvgX /> : <SvgMessageSquare />}
-        </button>
-        <div
-          className={`p-2 bg-opacity-75 w-full h-full transform z-30 fixed inset-0 ${
-            expandedChat ? "translate-y-0 bg-blue" : "translate-y-full"
-          } lg:relative lg:translate-y-0 transition-transform duration-500`}
-          style={expandedChat ? { backdropFilter: "blur(20px)" } : undefined}
-        >
-          <RoomChat room={room} roomState={roomState} />
-        </div>
+      {/* Chat */}
+      <button
+        aria-label={t("room.chat.title")}
+        className="btn w-14 h-14 p-1 rounded-full border-2 border-background-tertiary fixed z-40 right-2 bottom-12 md:bottom-2 lg:hidden"
+        onClick={() => setExpandedChat(!expandedChat)}
+      >
+        {expandedChat ? <SvgX /> : <SvgMessageSquare />}
+      </button>
+      <div
+        id="room-chat"
+        className={`absolute z-10 right-0 top-0 h-full w-full transform ${
+          expandedChat ? "traslate-y-0" : "translate-y-full lg:translate-y-0"
+        } lg:pb-0 lg:w-96 bg-blue bg-opacity-75 lg:bg-transparent backdrop-blur lg:backdrop-none transition-transform duration-500`}
+      >
+        <RoomChat room={room} roomState={roomState} />
       </div>
     </div>
   );
@@ -180,7 +177,7 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
 
   return (
     <>
-      <div className="h-screen-layout relative overflow-hidden pt-12">
+      <div className="h-screen-layout relative pt-12 overflow-hidden">
         <Navbar room={room} roomState={roomState} />
         {roomState ? (
           roomState.permission.viewable ? (
