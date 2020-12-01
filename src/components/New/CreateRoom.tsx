@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { Switch } from "@headlessui/react";
 import {
   QueueAction,
   Track,
@@ -29,7 +30,7 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const [isPublic, setIsPublic] = useState(true);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const anyoneCanAddRef = useRef<HTMLSelectElement>(null);
+  const [anyoneCanAdd, setAnyoneCanAdd] = useState(false);
 
   const [{ fetching }, createRoom] = useCreateRoomMutation();
   const [, updateQueue] = useUpdateQueueMutation();
@@ -46,7 +47,7 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       const result = await createRoom({
         title: (titleRef.current as HTMLInputElement).value,
         isPublic,
-        anyoneCanAdd: isPublic ? anyoneCanAddRef.current?.value === "1" : false,
+        anyoneCanAdd: isPublic ? anyoneCanAdd : false,
         password: passwordRef.current?.value ?? (isPublic ? undefined : ""),
       });
 
@@ -61,13 +62,17 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         router.push("/room/[roomId]", `/room/${result.data.createRoom.id}`);
       }
     },
-    [t, initTracks, router, fetching, isPublic, createRoom, updateQueue]
+    [
+      t,
+      initTracks,
+      router,
+      fetching,
+      isPublic,
+      createRoom,
+      anyoneCanAdd,
+      updateQueue,
+    ]
   );
-
-  useEffect(() => {
-    // Default
-    if (anyoneCanAddRef.current) anyoneCanAddRef.current.value = "0";
-  }, [anyoneCanAddRef]);
 
   return (
     <form
@@ -125,22 +130,27 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
           </div>
         </div>
       </CreateRoomFormGroup>
-      <div className="py-2 h-28 border-t-2 border-b-2 border-background-secondary">
+      <div className="px-4 py-2 h-28 rounded-lg bg-background-secondary">
         <CreateRoomFormGroup>
           {isPublic ? (
             <>
               <CreateRoomLabel htmlFor="roomAnyoneCanAdd">
                 {t("room.settings.privacy.publicAllowGuests")}
               </CreateRoomLabel>
-              <select
-                id="roomAnyoneCanAdd"
-                aria-label={t("room.settings.privacy.publicAllowGuests")}
-                ref={anyoneCanAddRef}
-                className="input mb-1"
+              <Switch
+                checked={anyoneCanAdd}
+                onChange={setAnyoneCanAdd}
+                className={`${
+                  anyoneCanAdd ? "bg-success" : "bg-background-tertiary"
+                } relative inline-flex h-6 rounded-full w-12 mb-1`}
+                aria-labelledby="roomAnyoneCanAdd"
               >
-                <option value={0}>No</option>
-                <option value={1}>Yes</option>
-              </select>
+                <span
+                  className={`${
+                    anyoneCanAdd ? "translate-x-6" : "translate-x-0"
+                  } inline-block w-6 h-6 transform bg-white rounded-full transition-transform`}
+                />
+              </Switch>
               <p className="text-xs text-foreground-tertiary px-1">
                 {t("room.settings.privacy.publicAllowGuestsHelp")}
               </p>
@@ -155,7 +165,7 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
                 id="password"
                 aria-label={t("room.settings.privacy.password")}
                 ref={passwordRef}
-                className="input"
+                className="input mb-1"
                 maxLength={16}
               />
               <p className="text-xs text-foreground-tertiary px-1">
