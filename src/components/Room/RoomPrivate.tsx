@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from "react";
-import { useToasts } from "~/components/Toast";
+import { toast } from "~/lib/toast";
 import { AuthBanner } from "~/components/Auth/index";
 import { useCurrentUser } from "~/hooks/user";
 import { Room, useJoinPrivateRoomMutation, RoomState } from "~/graphql/gql.gen";
@@ -12,7 +12,6 @@ const RoomPrivate: React.FC<{
   reloadFn: () => void;
 }> = ({ room, reloadFn }) => {
   const { t } = useI18n();
-  const toasts = useToasts();
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const user = useCurrentUser();
@@ -26,9 +25,9 @@ const RoomPrivate: React.FC<{
         id: room.id,
         password: passwordRef.current.value,
       }).then((response) => response.data?.joinPrivateRoom);
-      result ? reloadFn() : toasts.error(t("room.main.private.badPassword"));
+      result ? reloadFn() : toast.error(t("room.main.private.badPassword"));
     },
-    [t, toasts, room, joinPrivateRoom, fetching, reloadFn]
+    [t, room, joinPrivateRoom, fetching, reloadFn]
   );
 
   return (

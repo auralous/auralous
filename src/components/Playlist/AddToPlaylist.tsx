@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from "react";
 import { Modal } from "~/components/Modal/index";
-import { useToasts } from "~/components/Toast/index";
+import { toast } from "~/lib/toast";
 import { AuthBanner } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 import {
@@ -61,7 +61,6 @@ const CreatePlaylist: React.FC<{
 }> = ({ track, done }) => {
   const { t } = useI18n();
   const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
-  const toasts = useToasts();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -78,7 +77,7 @@ const CreatePlaylist: React.FC<{
 
       const playlistTitle = inputRef.current?.value.trim();
 
-      if (!playlistTitle) return toasts.error(t("playlist.new.nameRequired"));
+      if (!playlistTitle) return toast.error(t("playlist.new.nameRequired"));
 
       const ok = await insertPlaylistTracks({
         name: playlistTitle,
@@ -86,14 +85,14 @@ const CreatePlaylist: React.FC<{
       });
 
       if (!ok) {
-        toasts.error(t("playlist.new.errorText"));
+        toast.error(t("playlist.new.errorText"));
         return;
       }
 
-      toasts.success(t("playlist.new.okText", { title: playlistTitle }));
+      toast.success(t("playlist.new.okText", { title: playlistTitle }));
       done();
     },
-    [t, fetching, done, toasts, track.id, insertPlaylistTracks]
+    [t, fetching, done, track.id, insertPlaylistTracks]
   );
 
   return isCreatingPlaylist ? (
@@ -150,7 +149,6 @@ const AddToExistingPlaylist: React.FC<{
   done: () => void;
 }> = ({ track, done }) => {
   const { t } = useI18n();
-  const toasts = useToasts();
 
   const { data: myPlaylists } = useMyPlaylistsQuery();
 
@@ -167,7 +165,7 @@ const AddToExistingPlaylist: React.FC<{
         tracks: [track.id],
       });
       if (ok) {
-        toasts.success(
+        toast.success(
           t("playlist.add.okText", {
             trackTitle: track.title,
             playlistTitle: playlist.title,
@@ -176,7 +174,7 @@ const AddToExistingPlaylist: React.FC<{
         done();
       }
     },
-    [t, done, toasts, insertPlaylistTracks, fetching, track]
+    [t, done, insertPlaylistTracks, fetching, track]
   );
 
   return (

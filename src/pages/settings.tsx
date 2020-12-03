@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { NextSeo } from "next-seo";
 import { NextPage } from "next";
-import { useToasts } from "~/components/Toast/index";
+import { toast } from "~/lib/toast";
 import { Modal, useModal } from "~/components/Modal/index";
 import { useLogin } from "~/components/Auth/index";
 import { useCurrentUser, useMAuth } from "~/hooks/user";
@@ -30,15 +30,22 @@ const SettingTitle: React.FC = ({ children }) => (
 );
 
 const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
-  const toasts = useToasts();
   const [, deleteUser] = useDeleteMeMutation();
   const [confirmUsername, setConfirmUsername] = useState("");
   const [activeDelete, openDelete, close] = useModal();
   const { t } = useI18n();
+
   function closeDelete() {
     setConfirmUsername("");
     close();
   }
+
+  function onDelete() {
+    deleteUser().then(() => {
+      toast.success(t("settings.dangerZone.delete.deleted"));
+    });
+  }
+
   return (
     <>
       <Modal.Modal
@@ -68,11 +75,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         <Modal.Footer>
           <button
             className="btn btn-transparent text-danger-light"
-            onClick={() =>
-              deleteUser().then(() => {
-                toasts.message(t("settings.dangerZone.delete.deleted"));
-              })
-            }
+            onClick={onDelete}
             disabled={confirmUsername !== user.username}
           >
             {t("settings.dangerZone.delete.action")}
@@ -130,7 +133,6 @@ const LanguageSelect: React.FC = () => {
 const LeftSection: React.FC = () => {
   const { t } = useI18n();
 
-  const toasts = useToasts();
   const user = useCurrentUser();
 
   const [, updateUser] = useUpdateMeMutation();
@@ -143,11 +145,12 @@ const LeftSection: React.FC = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    console.log(toast);
     updateUser({
       username: (usernameRef.current as HTMLInputElement).value,
       profilePicture: (profilePictureRef.current as HTMLInputElement)
         .files?.[0],
-    }).then(() => toasts.success(t("settings.updated")));
+    }).then(() => toast.success(t("settings.updated")));
   }
 
   useEffect(() => {
@@ -163,8 +166,8 @@ const LeftSection: React.FC = () => {
       credentials: "include",
     });
     window.resetUrqlClient();
-    toasts.message(t("settings.signedOut"));
-  }, [t, toasts]);
+    toast.success(t("settings.signedOut"));
+  }, [t]);
 
   return (
     <>

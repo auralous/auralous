@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import axios from "redaxios";
-import { useToasts } from "~/components/Toast/index";
+import { toast } from "~/lib/toast";
 import usePlayer from "./usePlayer";
 import { sleep } from "~/lib/util";
 import { verifyScript } from "~/lib/script-utils";
 import { useMAuth } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
+import { t } from "~/i18n/index";
 /// <reference path="spotify-web-playback-sdk" />
 
 const BASE_URL = "https://api.spotify.com/v1";
@@ -13,16 +13,14 @@ const BASE_URL = "https://api.spotify.com/v1";
 export type SpotifyPlayerStatus = "WAIT" | "OK" | "NO_PREMIUM" | "NO_SUPPORT";
 
 export default function SpotifyPlayer() {
-  const { t } = useI18n();
   const { player } = usePlayer();
-  const toasts = useToasts();
   const { data: mAuth } = useMAuth();
 
   useEffect(() => {
     let spotifyPlayer: Spotify.SpotifyPlayer | null = null;
     let spotifyState: Spotify.PlaybackState | null = null;
 
-    const onError = (e: Spotify.Error) => toasts.error(e.message);
+    const onError = (e: Spotify.Error) => toast.error(e.message);
     const onReady: Spotify.PlaybackInstanceListener = ({ device_id }) => {
       player.registerPlayer({
         play: () => spotifyPlayer?.resume(),
@@ -54,9 +52,12 @@ export default function SpotifyPlayer() {
         }
       );
       if (resp.status !== 204 && resp.data?.error) {
-        onError(resp.data.error);
         if (resp.data.error.reason === "PREMIUM_REQUIRED")
-          return toasts.error(t("player.spotify.premiumRequired"));
+          return toast.error({
+            message: t("player.spotify.premiumRequired"),
+            duration: 25 * 1000,
+          });
+        else onError(resp.data.error);
       }
       await sleep(500);
       spotifyPlayer?.resume();
@@ -95,7 +96,10 @@ export default function SpotifyPlayer() {
 
       spotifyPlayer.addListener("authentication_error", onError);
       spotifyPlayer.addListener("initialization_error", () =>
-        toasts.error(t("player.spotify.notSupported"))
+        toast.error({
+          message: t("player.spotify.notSupported"),
+          duration: 25 * 1000,
+        })
       );
       spotifyPlayer.addListener("account_error", onError);
       spotifyPlayer.addListener("playback_error", onError);
@@ -122,6 +126,6 @@ export default function SpotifyPlayer() {
       spotifyPlayer = null;
       spotifyState = null;
     };
-  }, [mAuth, toasts, player]);
+  }, [mAuth, player]);
   return null;
 }

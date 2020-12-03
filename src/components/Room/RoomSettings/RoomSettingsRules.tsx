@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Switch } from "@headlessui/react";
-import { useToasts } from "~/components/Toast";
+import { toast } from "~/lib/toast";
 import { Room, useUpdateRoomMutation, RoomState } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
@@ -21,8 +21,6 @@ const RoomSettingsRules: React.FC<{
   const [{ fetching }, updateRoom] = useUpdateRoomMutation();
   const [isChanged, setIsChanged] = useState(false);
 
-  const toasts = useToasts();
-
   const handleSaveRules = async () => {
     if (!room.isPublic && !passwordRef.current?.value) {
       if (!window.confirm(t("new.addNew.warnNoPass"))) return;
@@ -35,7 +33,7 @@ const RoomSettingsRules: React.FC<{
     const result = await updateRoom(update);
     if (!result.error) {
       setIsChanged(false);
-      toasts.success(t("room.settings.updatedText"));
+      toast.success(t("room.settings.updatedText"));
     }
   };
 

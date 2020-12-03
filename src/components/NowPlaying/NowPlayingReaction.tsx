@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { animated } from "react-spring";
-import { useToasts } from "~/components/Toast/index";
+import { toast } from "~/lib/toast";
 import { usePlayer } from "~/components/Player/index";
 import { useCurrentUser } from "~/hooks/user";
 import {
@@ -36,7 +36,6 @@ const NowPlayingReactionEntry: React.FC<{
   const canReact = playerPlaying && !nowPlayingReactions?.mine;
 
   const user = useCurrentUser();
-  const toasts = useToasts();
 
   const [, reactNowPlaying] = useReactNowPlayingMutation();
 
@@ -50,8 +49,8 @@ const NowPlayingReactionEntry: React.FC<{
     if (!canReact) return;
     trigger();
     if (user) reactNowPlaying({ id, reaction });
-    else toasts.message("Join to Add Your Reaction");
-  }, [canReact, toasts, id, reactNowPlaying, user, reaction, trigger]);
+    else toast.open({ type: "info", message: "Join to Add Your Reaction" });
+  }, [canReact, id, reactNowPlaying, user, reaction, trigger]);
 
   return (
     <button

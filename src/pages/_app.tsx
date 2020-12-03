@@ -7,11 +7,11 @@ import { Provider as UrqlProvider } from "urql";
 import { QueryCache, ReactQueryCacheProvider } from "react-query";
 import { LayoutIndex, LayoutApp } from "~/components/Layout/index";
 import { PlayerProvider } from "~/components/Player/index";
-import { ToastProvider } from "~/components/Toast/index";
 import { LogInProvider } from "~/components/Auth/index";
 import { I18n } from "~/i18n/index";
 import { createUrqlClient } from "~/graphql/urql";
 import "~/styles/index.css";
+import "notyf/notyf.min.css";
 
 // polyfill
 import "intersection-observer";
@@ -65,33 +65,31 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
     <I18n>
       <ReactQueryCacheProvider queryCache={queryCache}>
         <UrqlProvider value={urqlClient}>
-          <ToastProvider>
-            <LogInProvider>
-              <PlayerProvider>
-                <Layout>
-                  <DefaultSeo
-                    title=" "
-                    titleTemplate="%s · Stereo"
-                    facebook={{ appId: process.env.FACEBOOK_APP_ID || "" }}
-                    openGraph={{
-                      type: "website",
-                      locale: "en_US",
-                      site_name: "Stereo",
-                      images: [
-                        {
-                          url: `${process.env.APP_URI}/images/banner.png`,
-                          width: 2400,
-                          height: 1260,
-                          alt: "Stereo",
-                        },
-                      ],
-                    }}
-                  />
-                  <Component {...pageProps} />
-                </Layout>
-              </PlayerProvider>
-            </LogInProvider>
-          </ToastProvider>
+          <LogInProvider>
+            <PlayerProvider>
+              <Layout>
+                <DefaultSeo
+                  title=" "
+                  titleTemplate="%s · Stereo"
+                  facebook={{ appId: process.env.FACEBOOK_APP_ID || "" }}
+                  openGraph={{
+                    type: "website",
+                    locale: "en_US",
+                    site_name: "Stereo",
+                    images: [
+                      {
+                        url: `${process.env.APP_URI}/images/banner.png`,
+                        width: 2400,
+                        height: 1260,
+                        alt: "Stereo",
+                      },
+                    ],
+                  }}
+                />
+                <Component {...pageProps} />
+              </Layout>
+            </PlayerProvider>
+          </LogInProvider>
         </UrqlProvider>
       </ReactQueryCacheProvider>
     </I18n>

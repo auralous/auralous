@@ -11,5 +11,4 @@ declare module "*.svg" {
 
 interface Window {
   resetUrqlClient: () => void;
-  toasts: import("~/components/Toast/types").IToastContext;
 }

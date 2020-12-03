@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { SvgPlus } from "~/assets/svg";
 import { useModal, Modal } from "~/components/Modal";
-import { useToasts } from "~/components/Toast";
+import { toast } from "~/lib/toast";
 import {
   useUserQuery,
   useUpdateRoomMembershipMutation,
@@ -19,7 +19,6 @@ const RoomMember: React.FC<{
   role: RoomMembership | undefined;
 }> = ({ userId, roomId, role }) => {
   const { t } = useI18n();
-  const toasts = useToasts();
   const [{ data, fetching: fetchingUser }] = useUserQuery({
     variables: { id: userId },
   });
@@ -37,20 +36,20 @@ const RoomMember: React.FC<{
         role: newRole || null,
       }).then(({ error }) =>
         !error && newRole
-          ? toasts.success(
+          ? toast.success(
               t("room.settings.member.addedText", {
                 username: data?.user?.username,
                 role: MEMBERSHIP_NAMES[newRole],
               })
             )
-          : toasts.success(
+          : toast.success(
               t("room.settings.member.removedText", {
                 username: data?.user?.username,
               })
             )
       );
     },
-    [t, toasts, data, roomId, updateRoomMembership, userId]
+    [t, data, roomId, updateRoomMembership, userId]
   );
 
   return (
@@ -113,7 +112,6 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
   const { t } = useI18n();
 
   const [activeAdd, openAdd, closeAdd] = useModal();
-  const toasts = useToasts();
   const [
     { fetching },
     updateRoomMembership,
@@ -122,14 +120,14 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
     ev.preventDefault();
     if (fetching) return;
     const username = ev.currentTarget.uname.value;
-    if (!username) return toasts.error(t("room.settings.member.userNotFound"));
+    if (!username) return toast.error(t("room.settings.member.userNotFound"));
     const { error } = await updateRoomMembership({
       id: room.id,
       username,
       role: RoomMembership.Collab,
     });
     if (!error) {
-      toasts.success(
+      toast.success(
         t("room.settings.member.addedText", {
           username: username,
           role: MEMBERSHIP_NAMES.collab,

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
-import { useToasts } from "~/components/Toast";
+import { toast } from "~/lib/toast";
 import { useModal, Modal } from "~/components/Modal";
 import {
   Room,
@@ -98,7 +98,6 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
 
   const [isChanged, setIsChanged] = useState(false);
 
-  const toasts = useToasts();
   const formRef = useRef<HTMLFormElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -156,10 +155,10 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
           ...(description !== false && { description }),
           ...(image && { image }),
         });
-        toasts.success(t("room.settings.updatedText"));
+        toast.success(t("room.settings.updatedText"));
       }
     },
-    [t, imageInputRef, titleRef, descriptionRef, room, toasts, updateRoom]
+    [t, room, updateRoom]
   );
 
   return (
@@ -194,10 +193,17 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
 const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
   const { t } = useI18n();
   const router = useRouter();
-  const toasts = useToasts();
   const [{ fetching }, deleteRoom] = useDeleteRoomMutation();
   const [activeDelete, openDelete, closeDelete] = useModal();
   const [confirmDelete, setConfirmDelete] = useState("");
+
+  const onDelete = () => {
+    deleteRoom({ id: room.id }).then(() => {
+      toast.success(t("room.settings.dangerZone.delete.deleted"));
+      router.replace("/browse");
+    });
+  };
+
   return (
     <>
       <h3 className="text-lg font-bold">
@@ -239,12 +245,7 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
         <Modal.Footer>
           <button
             className="btn btn-transparent text-danger-light"
-            onClick={() =>
-              deleteRoom({ id: room.id }).then(() => {
-                toasts.success(t("room.settings.dangerZone.delete.deleted"));
-                router.replace("/browse");
-              })
-            }
+            onClick={onDelete}
             disabled={confirmDelete !== room.title || fetching}
           >
             {t("room.settings.dangerZone.delete.action")}

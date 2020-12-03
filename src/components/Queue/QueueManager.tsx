@@ -14,7 +14,7 @@ import {
 } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "~/components/Track/index";
-import { useToasts } from "~/components/Toast/index";
+import { toast } from "~/lib/toast";
 import { useLogin } from "~/components/Auth/index";
 import useQueue from "./useQueue";
 import { useCurrentUser } from "~/hooks/user";
@@ -41,7 +41,6 @@ const QueueDraggableItem: React.FC<{
 }> = ({ removable, provided, isDragging, queue, index, style }) => {
   const { t } = useI18n();
 
-  const toasts = useToasts();
   const urqlClient = useClient();
   const [, updateQueue] = useUpdateQueueMutation();
   const removeItem = useCallback(async () => {
@@ -60,10 +59,10 @@ const QueueDraggableItem: React.FC<{
       position: index,
     });
     if (!error)
-      toasts.success(
+      toast.success(
         t("queue.manager.removedTrackText", { title: deletingTrackName })
       );
-  }, [t, queue, toasts, updateQueue, urqlClient, index]);
+  }, [t, queue, updateQueue, urqlClient, index]);
 
   return (
     <div

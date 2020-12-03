@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from "react";
 import { useUpdateMeMutation } from "~/graphql/gql.gen";
-import { useToasts } from "~/components/Toast";
+import { toast } from "~/lib/toast";
 import { useI18n } from "~/i18n/index";
 import { Modal } from "../Modal";
 
@@ -13,7 +13,6 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   const usernameRef = useRef<HTMLInputElement>(null);
 
   const [{ fetching }, updateUser] = useUpdateMeMutation();
-  const toasts = useToasts();
 
   const onSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,13 +23,13 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
       });
       if (error?.graphQLErrors) {
         for (const err of error?.graphQLErrors) {
-          toasts.error(err.message);
+          toast.error(err.message);
         }
         return;
       }
       close();
     },
-    [updateUser, toasts, close, fetching]
+    [updateUser, close, fetching]
   );
 
   return (
