@@ -232,12 +232,6 @@
       "footerTextAfter": "để biết thêm"
     },
     "spotify": {
-      "playingOn": "Nghe trên Spotify",
-      "authAskText": "Kết nối với tài khoản Spotify của bạn để nghe nhạc.",
-      "authAction": "Kết nối với Spotify",
-      "connectingText": "Chúng mình đang cố kết nối với tài khoản Spotify của bạn",
-      "errorText": "Không thể kết nối với Spotify",
-      "errorHelpText": "Chúng mình không thể kết nối với tài khoản Spotify của bạn. Hãy thử lại hoặc",
       "premiumRequired": "Yêu cầu Spotify Premium",
       "notSupported": "Trình duyệt của bạn có thể không được hỗ trợ",
       "footerText": "Yêu cầu tài khoản Spotify Premium để chơi nhạc không giới hạn và không quảng cáo. Truy cập",
@@ -351,6 +345,7 @@
     "newRoom": "Tạo phòng"
   },
   "error": {
+    "sorry": "Chúng mình xin lỗi vì sự bất tiện",
     "internalError": "Thôi lỗi rồi:",
     "unauthenticated": "Vui lòng đăng nhập lại"
   }

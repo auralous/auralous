@@ -232,13 +232,7 @@
       "footerTextAfter": "for more info"
     },
     "spotify": {
-      "playingOn": "Playing on Spotify",
-      "authAskText": "Let's connect to your Spotify account to play this song.",
-      "authAction": "Connect to Spotify",
-      "connectingText": "We are connecting to Spotify to play this song.",
-      "errorText": "Could not connect to Spotify",
-      "errorHelpText": "We cannot connect your Spotify account. Please try again. If you need help,",
-      "premiumRequired": "Spotify Premium subscription required",
+      "premiumRequired": "A Spotify Premium subscription is required",
       "notSupported": "This browser may not be supported",
       "footerText": "A Spotify subscription is required to play any track, ad-free. Go to",
       "footerTextAfter": "to try it for free"
@@ -351,6 +345,7 @@
     "newRoom": "Create Room"
   },
   "error": {
+    "sorry": "We are sorry for the inconvenience",
     "internalError": "Oh no, an unexpected error:",
     "unauthenticated": "Please sign in again."
   }
