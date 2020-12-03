@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "redaxios";
 import { useToasts } from "~/components/Toast/index";
-import { Modal } from "~/components/Modal/index";
 import usePlayer from "./usePlayer";
 import { sleep } from "~/lib/util";
 import { verifyScript } from "~/lib/script-utils";
@@ -15,11 +14,9 @@ export type SpotifyPlayerStatus = "WAIT" | "OK" | "NO_PREMIUM" | "NO_SUPPORT";
 
 export default function SpotifyPlayer() {
   const { t } = useI18n();
-  const { stopPlaying, player } = usePlayer();
+  const { player } = usePlayer();
   const toasts = useToasts();
   const { data: mAuth } = useMAuth();
-
-  const [status, setStatus] = useState<SpotifyPlayerStatus>("WAIT");
 
   useEffect(() => {
     let spotifyPlayer: Spotify.SpotifyPlayer | null = null;
@@ -43,7 +40,6 @@ export default function SpotifyPlayer() {
       //     (await spotifyPlayer?.getCurrentState())?.position || 0
       //   );
       // }, 1000);
-      setStatus("OK");
     };
     const instance: typeof axios = axios.create({
       headers: { Authorization: `Bearer ${mAuth?.accessToken}` },
@@ -60,7 +56,7 @@ export default function SpotifyPlayer() {
       if (resp.status !== 204 && resp.data?.error) {
         onError(resp.data.error);
         if (resp.data.error.reason === "PREMIUM_REQUIRED")
-          return setStatus("NO_PREMIUM");
+          return toasts.error(t("player.spotify.premiumRequired"));
       }
       await sleep(500);
       spotifyPlayer?.resume();
@@ -99,7 +95,7 @@ export default function SpotifyPlayer() {
 
       spotifyPlayer.addListener("authentication_error", onError);
       spotifyPlayer.addListener("initialization_error", () =>
-        setStatus("NO_SUPPORT")
+        toasts.error(t("player.spotify.notSupported"))
       );
       spotifyPlayer.addListener("account_error", onError);
       spotifyPlayer.addListener("playback_error", onError);
@@ -127,33 +123,5 @@ export default function SpotifyPlayer() {
       spotifyState = null;
     };
   }, [mAuth, toasts, player]);
-
-  return (
-    <Modal.Modal active={status !== "OK" && status !== "WAIT"}>
-      <Modal.Content
-        className="bg-spotify text-spotify-label py-2 px-4"
-        noPadding
-      >
-        {status === "NO_PREMIUM" && (
-          <p className="text-lg font-bold leading-tight">
-            {t("player.spotify.premiumRequired")}
-          </p>
-        )}
-        {status === "NO_SUPPORT" && (
-          <p className="text-lg font-bold leading-tight">
-            {t("player.spotify.notSupported")}
-          </p>
-        )}
-        <p className="text-xs">{t("error.sorry")}</p>
-        <button
-          className="btn text-sm my-2 p-1"
-          onClick={() => {
-            stopPlaying();
-          }}
-        >
-          {t("player.stopPlaying")}
-        </button>
-      </Modal.Content>
-    </Modal.Modal>
-  );
+  return null;
 }

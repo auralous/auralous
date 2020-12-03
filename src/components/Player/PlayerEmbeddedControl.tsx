@@ -8,7 +8,6 @@ import {
 } from "~/components/NowPlaying/index";
 import { PLATFORM_FULLNAMES } from "~/lib/constants";
 import { useI18n } from "~/i18n/index";
-import { PlayerError } from "./types";
 import { useCurrentUser, useMAuth } from "~/hooks/user";
 import {
   Track,
@@ -106,7 +105,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   const {
     player,
-    state: { playingRoomId, playerPlaying, originalTrack },
+    state: { playingRoomId, playerPlaying, crossTracks },
     playRoom,
   } = usePlayer();
 
@@ -126,8 +125,8 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
   const roomPlayingStarted = playingRoomId === roomId;
 
   const track = useMemo(
-    () => (roomPlayingStarted ? playerPlaying || originalTrack : null),
-    [playerPlaying, originalTrack, roomPlayingStarted]
+    () => (roomPlayingStarted ? playerPlaying || crossTracks?.original : null),
+    [playerPlaying, crossTracks, roomPlayingStarted]
   );
 
   return (
@@ -189,26 +188,24 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
 export const PlayerEmbeddedNotification: React.FC = () => {
   const { data: mAuth, isLoading: isLoadingMAuth } = useMAuth();
   const {
-    state: { playingPlatform, originalTrack, error },
+    state: { playingPlatform, crossTracks, playerPlaying },
   } = usePlayer();
   const { t } = useI18n();
 
   const [, logIn] = useLogin();
 
   const shouldSuggestSignIn = !isLoadingMAuth && !mAuth;
+  const isNotAvailable = !!crossTracks && !playerPlaying;
 
-  if (!error && !shouldSuggestSignIn) return null;
+  if (!isNotAvailable && !shouldSuggestSignIn) return null;
 
   return (
     <div className="bordered-box rounded-lg p-2">
-      {error && (
+      {isNotAvailable && (
         <p className="text-xs">
           <SvgAlertCircle width="12" height="12" className="inline mr-1" />
-          {error === PlayerError.NOT_AVAILABLE_ON_PLATFORM
-            ? `${originalTrack?.title} ${t("player.noCrossTrackText")} ${
-                PLATFORM_FULLNAMES[playingPlatform]
-              }`
-            : error}
+          <b>{crossTracks?.original?.title}</b> {t("player.noCrossTrackText")}{" "}
+          {PLATFORM_FULLNAMES[playingPlatform]}
         </p>
       )}
       {shouldSuggestSignIn && (
