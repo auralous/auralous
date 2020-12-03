@@ -7,7 +7,7 @@ import { useNowPlaying } from "~/components/NowPlaying/index";
 import { PlatformName, usePingRoomMutation } from "~/graphql/gql.gen";
 import { useMAuth } from "~/hooks/user";
 import { useCrossTracks } from "~/hooks/track";
-import { IPlayerContext, PlayerError, PlayerPlaying } from "./types";
+import { IPlayerContext, PlayerPlaying } from "./types";
 
 const YouTubePlayer = dynamic(() => import("./YouTubePlayer"), { ssr: false });
 const SpotifyPlayer = dynamic(() => import("./SpotifyPlayer"), { ssr: false });
@@ -32,16 +32,10 @@ const PlayerProvider: React.FC = ({ children }) => {
     return () => window.clearTimeout(t);
   }, [mAuth, mAuthRefetch]);
 
-  const [
-    guestPlayingPlatform,
-    setGuestPlayingPlatform,
-  ] = useState<PlatformName | null>(null);
-
   // Preferred platform to use by user
-  const playingPlatform = useMemo<PlatformName | null>(
-    () => mAuth?.platform || guestPlayingPlatform,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mAuth, guestPlayingPlatform]
+  const playingPlatform = useMemo<PlatformName>(
+    () => mAuth?.platform || PlatformName.Youtube,
+    [mAuth]
   );
 
   // Player Control: To play a room or a track
@@ -70,7 +64,7 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   // The track that is playing
   const playerPlaying = useMemo<PlayerPlaying>(() => {
-    if (!crossTracks || !playingPlatform) return (player.playerPlaying = null);
+    if (!crossTracks) return (player.playerPlaying = null);
     return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
 
@@ -139,32 +133,19 @@ const PlayerProvider: React.FC = ({ children }) => {
   const fetching = fetchingMAuth || fetchingCrossTracks || fetchingNP;
 
   const playerContextValue = useMemo<IPlayerContext>(() => {
-    let error: PlayerError | undefined;
-    if (!!playingPlatform && !!crossTracks && !playerPlaying)
-      error = PlayerError.NOT_AVAILABLE_ON_PLATFORM;
     return {
       state: {
         playerPlaying,
         playingRoomId,
-        originalTrack: crossTracks?.original,
+        crossTracks,
         playingPlatform,
-        guestPlayingPlatform,
         fetching,
-        error,
       },
       playRoom,
       stopPlaying: () => playRoom(""),
       player,
-      setGuestPlayingPlatform,
     };
-  }, [
-    fetching,
-    playerPlaying,
-    guestPlayingPlatform,
-    playingRoomId,
-    crossTracks,
-    playingPlatform,
-  ]);
+  }, [fetching, playerPlaying, playingRoomId, crossTracks, playingPlatform]);
 
   return (
     <PlayerContext.Provider value={playerContextValue}>

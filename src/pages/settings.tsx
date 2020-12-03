@@ -17,7 +17,6 @@ import {
   User,
   PlatformName,
 } from "~/graphql/gql.gen";
-import { usePlayer } from "~/components/Player";
 import { useI18n } from "~/i18n/index";
 import {
   LANGUAGES,
@@ -236,22 +235,9 @@ const MusicConnection: React.FC = () => {
   // Account
   const { data: mAuth } = useMAuth();
 
-  const {
-    setGuestPlayingPlatform,
-    state: { guestPlayingPlatform },
-  } = usePlayer();
+  const [, logIn] = useLogin();
 
-  const PlatformChoices = useMemo(
-    () =>
-      Object.entries(PLATFORM_FULLNAMES).map(([value, plname]) => (
-        <option key={value} value={value}>
-          {plname}
-        </option>
-      )),
-    []
-  );
-
-  const platform = mAuth?.platform || guestPlayingPlatform || undefined;
+  const platform = mAuth?.platform || PlatformName.Youtube || undefined;
   const name = platform ? PLATFORM_FULLNAMES[platform] : null;
   const PlatformSvg = platform ? SvgByPlatformName[platform] : null;
 
@@ -280,28 +266,18 @@ const MusicConnection: React.FC = () => {
               </span>
             ) : (
               <>
-                <span className="opacity-75">
-                  {t("settings.listening.withLocal")}
-                </span>{" "}
-                <select
-                  aria-label="Listen on..."
-                  value={platform || ""}
-                  onChange={(e) =>
-                    setGuestPlayingPlatform(
-                      e.currentTarget.value as PlatformName
-                    )
-                  }
-                  onBlur={undefined}
-                  className="bg-white bg-opacity-50 font-bold p-1 rounded-lg"
+                <span className="opacity-75 mr-1">
+                  {t("player.signInSuggest")}
+                </span>
+                <br />
+                <button
+                  className="p-1 pl-0 font-bold hover:opacity-75"
+                  onClick={logIn}
                 >
-                  <option value="" disabled>
-                    {t("settings.listening.selectOne")}
-                  </option>
-                  {PlatformChoices}
-                </select>
+                  {t("common.signIn")}
+                </button>
               </>
             )}
-            .
           </p>
         </div>
       </div>

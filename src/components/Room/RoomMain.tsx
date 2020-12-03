@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import RoomRules from "./RoomRules";
-import { usePlayer, PlayerEmbeddedControl } from "~/components/Player/index";
+import {
+  usePlayer,
+  PlayerEmbeddedControl,
+  PlayerEmbeddedNotification,
+} from "~/components/Player/index";
 import { ShareDialog } from "~/components/Social/index";
 import { useModal } from "~/components/Modal/index";
 import { useCurrentUser } from "~/hooks/user";
@@ -112,6 +116,7 @@ const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
         <div className="mb-1 bordered-box rounded-lg overflow-hidden">
           <PlayerEmbeddedControl roomId={room.id} />
         </div>
+        <PlayerEmbeddedNotification />
         <div className="mt-1 bordered-box rounded-lg flex-1 overflow-hidden">
           <RoomQueue roomState={roomState} room={room} />
         </div>

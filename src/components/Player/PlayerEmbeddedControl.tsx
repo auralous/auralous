@@ -8,8 +8,7 @@ import {
 } from "~/components/NowPlaying/index";
 import { PLATFORM_FULLNAMES } from "~/lib/constants";
 import { useI18n } from "~/i18n/index";
-import { PlayerError } from "./types";
-import { useCurrentUser } from "~/hooks/user";
+import { useCurrentUser, useMAuth } from "~/hooks/user";
 import {
   Track,
   useRoomStateQuery,
@@ -21,33 +20,7 @@ import {
   SvgAlertCircle,
   SvgSkipForward,
 } from "~/assets/svg";
-import PlayerPlatformChooser from "./PlayerPlatformChooser";
-
-const PlayerErrorBar: React.FC = () => {
-  const { t } = useI18n();
-
-  const {
-    state: { error, originalTrack, playingPlatform },
-  } = usePlayer();
-  if (!error) return null;
-  return (
-    <p className="text-xs px-2 bg-danger-light">
-      <SvgAlertCircle width="12" className="inline" />{" "}
-      {error === PlayerError.NOT_AVAILABLE_ON_PLATFORM && (
-        <span className="align-middle">
-          <i>
-            <b>{originalTrack?.title} </b>-{" "}
-            <span>
-              {originalTrack?.artists.map(({ name }) => name).join(", ")}
-            </span>
-          </i>{" "}
-          {t("player.noCrossTrackText")}{" "}
-          {playingPlatform && <b>{PLATFORM_FULLNAMES[playingPlatform]}</b>}
-        </span>
-      )}
-    </p>
-  );
-};
+import { useLogin } from "../Auth";
 
 const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
   const { t } = useI18n();
@@ -132,7 +105,7 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
 
   const {
     player,
-    state: { playingPlatform, playingRoomId, playerPlaying, originalTrack },
+    state: { playingRoomId, playerPlaying, crossTracks },
     playRoom,
   } = usePlayer();
 
@@ -152,23 +125,13 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
   const roomPlayingStarted = playingRoomId === roomId;
 
   const track = useMemo(
-    () => (roomPlayingStarted ? playerPlaying || originalTrack : null),
-    [playerPlaying, originalTrack, roomPlayingStarted]
-  );
-
-  // Should only show platform chooser if there is an ongoing track and no playingPlatform can be determined
-  const shouldShowPlatformChooser = useMemo<boolean>(
-    () => !playingPlatform && !!track,
-    [playingPlatform, track]
+    () => (roomPlayingStarted ? playerPlaying || crossTracks?.original : null),
+    [playerPlaying, crossTracks, roomPlayingStarted]
   );
 
   return (
     <>
-      <div
-        className={`${
-          shouldShowPlatformChooser ? "hidden" : "flex"
-        } items-center relative transition-colors`}
-      >
+      <div className="flex items-center relative transition-colors">
         {track && (
           <img
             className="absolute inset-0 transform scale-125 w-full h-full object-cover"
@@ -218,9 +181,45 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
           </div>
         </div>
       </div>
-      <PlayerErrorBar />
-      {shouldShowPlatformChooser && <PlayerPlatformChooser />}
     </>
+  );
+};
+
+export const PlayerEmbeddedNotification: React.FC = () => {
+  const { data: mAuth, isLoading: isLoadingMAuth } = useMAuth();
+  const {
+    state: { playingPlatform, crossTracks, playerPlaying },
+  } = usePlayer();
+  const { t } = useI18n();
+
+  const [, logIn] = useLogin();
+
+  const shouldSuggestSignIn = !isLoadingMAuth && !mAuth;
+  const isNotAvailable = !!crossTracks && !playerPlaying;
+
+  if (!isNotAvailable && !shouldSuggestSignIn) return null;
+
+  return (
+    <div className="bordered-box rounded-lg p-2">
+      {isNotAvailable && (
+        <p className="text-xs">
+          <SvgAlertCircle width="12" height="12" className="inline mr-1" />
+          <b>{crossTracks?.original?.title}</b> {t("player.noCrossTrackText")}{" "}
+          {PLATFORM_FULLNAMES[playingPlatform]}
+        </p>
+      )}
+      {shouldSuggestSignIn && (
+        <p className="text-xs">
+          {`💡 ${t("player.signInSuggest")}`}{" "}
+          <button
+            className="font-bold hover:opacity-75 btn py-0 px-2 text-xs"
+            onClick={logIn}
+          >
+            {t("common.signIn")}
+          </button>
+        </p>
+      )}
+    </div>
   );
 };
 
