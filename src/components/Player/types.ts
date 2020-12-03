@@ -8,17 +8,13 @@ export interface IPlayerContext {
     playerPlaying: PlayerPlaying;
     playingRoomId: string;
     originalTrack: Track | null | undefined;
-    playingPlatform: PlatformName | null;
-    guestPlayingPlatform: PlatformName | null;
+    playingPlatform: PlatformName;
     fetching: boolean;
     error?: PlayerError | null;
   };
   playRoom: (roomId: string) => void;
   stopPlaying: () => void;
   player: Player;
-  setGuestPlayingPlatform: React.Dispatch<
-    React.SetStateAction<PlatformName | null>
-  >;
 }
 
 export enum PlayerError {

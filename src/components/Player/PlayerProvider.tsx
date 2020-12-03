@@ -32,16 +32,11 @@ const PlayerProvider: React.FC = ({ children }) => {
     return () => window.clearTimeout(t);
   }, [mAuth, mAuthRefetch]);
 
-  const [
-    guestPlayingPlatform,
-    setGuestPlayingPlatform,
-  ] = useState<PlatformName | null>(null);
-
   // Preferred platform to use by user
-  const playingPlatform = useMemo<PlatformName | null>(
-    () => mAuth?.platform || guestPlayingPlatform,
+  const playingPlatform = useMemo<PlatformName>(
+    () => mAuth?.platform || PlatformName.Youtube,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mAuth, guestPlayingPlatform]
+    [mAuth]
   );
 
   // Player Control: To play a room or a track
@@ -148,23 +143,14 @@ const PlayerProvider: React.FC = ({ children }) => {
         playingRoomId,
         originalTrack: crossTracks?.original,
         playingPlatform,
-        guestPlayingPlatform,
         fetching,
         error,
       },
       playRoom,
       stopPlaying: () => playRoom(""),
       player,
-      setGuestPlayingPlatform,
     };
-  }, [
-    fetching,
-    playerPlaying,
-    guestPlayingPlatform,
-    playingRoomId,
-    crossTracks,
-    playingPlatform,
-  ]);
+  }, [fetching, playerPlaying, playingRoomId, crossTracks, playingPlatform]);
 
   return (
     <PlayerContext.Provider value={playerContextValue}>

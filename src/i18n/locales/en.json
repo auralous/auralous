@@ -71,7 +71,6 @@
       "title": "Listening on {{name}}",
       "withAuth": "Your Stereo account is connected to {{name}}. If you wish to switch",
       "contactUs": "contact us",
-      "withLocal": "Change your music application",
       "selectOne": "Select one"
     },
     "signOut": "Sign Out"
@@ -246,7 +245,8 @@
     },
     "contactSupportText": "Contact Support",
     "retryText": "Try again",
-    "trackInfo": "Track detail"
+    "trackInfo": "Track detail",
+    "signInSuggest": "Sign in to use your own music application"
   },
   "track": {
     "addToPlaylist": "Add to playlist",

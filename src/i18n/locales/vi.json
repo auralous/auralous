@@ -71,7 +71,6 @@
       "title": "Nghe nhạc trên {{name}}",
       "withAuth": "Tài khoản của bạn đang được kết nối với {{name}}. Nếu bạn muốn thay đổi",
       "contactUs": "liên hệ chúng mình",
-      "withLocal": "Đổi ứng dụng nghe nhạc",
       "selectOne": "Chọn ứng dụng"
     },
     "signOut": "Đăng xuất"
@@ -246,7 +245,8 @@
     },
     "contactSupportText": "Liên hệ hỗ trợ",
     "retryText": "Thử lại",
-    "trackInfo": "Chi tiết bài hát"
+    "trackInfo": "Chi tiết bài hát",
+    "signInSuggest": "Đăng nhập để sử dụng ứng dụng nghe nhạc của riêng bạn"
   },
   "track": {
     "addToPlaylist": "Thêm vào playlist",
