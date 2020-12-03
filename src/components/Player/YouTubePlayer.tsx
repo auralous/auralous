@@ -13,23 +13,9 @@ const YT_PLAYER_VARS = {
   origin: process.env.APP_URI,
 };
 
-// FIXME: Remove after these two:
-// https://github.com/DefinitelyTyped/DefinitelyTyped/pull/49343
-// https://github.com/DefinitelyTyped/DefinitelyTyped/pull/49344
-enum PlayerState {
-  UNSTARTED = -1,
-  ENDED = 0,
-  PLAYING = 1,
-  PAUSED = 2,
-  BUFFERING = 3,
-  CUED = 5,
-}
 declare global {
   interface Window {
     onYouTubeIframeAPIReady?: null | (() => void);
-    YT: {
-      PlayerState: PlayerState;
-    };
   }
 }
 

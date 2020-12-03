@@ -6,11 +6,11 @@ import {
 } from "urql";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
-import { simplePagination } from "./exchanges/simplePagination";
 import { refocusExchange } from "@urql/exchange-refocus";
 import { SubscriptionClient } from "benzene-ws-client";
 import { pipe, onPush } from "wonka";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
+import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { devtoolsExchange } from "@urql/devtools";
 import { toast } from "~/lib/toast";
 // import { default as schemaIntrospection } from "./introspection.json";
