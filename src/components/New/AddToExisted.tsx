@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import {
   QueueAction,
   Track,
-  useRoomsQuery,
+  useStoriesQuery,
   useUpdateQueueMutation,
 } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
@@ -16,7 +16,9 @@ const AddToExisted: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const [, logIn] = useLogin();
   const user = useCurrentUser();
 
-  const [{ data: { rooms } = { rooms: undefined }, fetching }] = useRoomsQuery({
+  const [
+    { data: { stories } = { stories: undefined }, fetching },
+  ] = useStoriesQuery({
     variables: { creatorId: user?.id || "" },
     pause: !user,
   });
@@ -26,11 +28,11 @@ const AddToExisted: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const onSelected = useCallback(
     async (id: string) => {
       await updateQueue({
-        id: `room:${id}`,
+        id: `story:${id}`,
         action: QueueAction.Add,
         tracks: initTracks.map((initTrack) => initTrack.id),
       });
-      router.push(`/room/${id}`);
+      router.push(`/story/${id}`);
     },
     [initTracks, updateQueue, router]
   );
@@ -60,18 +62,18 @@ const AddToExisted: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         {t("new.addExisted.prompt")}
       </p>
       <div className="h-48 w-full overflow-auto bg-background-secondary rounded-lg shadow-lg">
-        {rooms?.map((room) => (
+        {stories?.map((story) => (
           <SelectingListItem
-            key={room.id}
-            onClick={() => onSelected(room.id)}
+            key={story.id}
+            onClick={() => onSelected(story.id)}
             disabled={fetchingAdd}
           >
             <img
               className="w-8 h-8 rounded-lg object-cover"
-              src={room.image}
-              alt={room.title}
+              src={story.image}
+              alt={story.title}
             />
-            <div className="ml-2 text-left font-bold">{room.title}</div>
+            <div className="ml-2 text-left font-bold">{story.title}</div>
           </SelectingListItem>
         ))}
       </div>

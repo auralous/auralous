@@ -11,7 +11,7 @@ import { useI18n } from "~/i18n/index";
 import { useCurrentUser, useMAuth } from "~/hooks/user";
 import {
   Track,
-  useRoomStateQuery,
+  useStoryStateQuery,
   useSkipNowPlayingMutation,
 } from "~/graphql/gql.gen";
 import {
@@ -22,26 +22,26 @@ import {
 } from "~/assets/svg";
 import { useLogin } from "../Auth";
 
-const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
+const PlayerSkipNowPlaying: React.FC<{ storyId: string }> = ({ storyId }) => {
   const { t } = useI18n();
 
   const user = useCurrentUser();
-  const [nowPlaying] = useNowPlaying(roomId);
+  const [nowPlaying] = useNowPlaying(storyId);
   const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
 
   const [
-    { data: { roomState } = { roomState: undefined } },
-  ] = useRoomStateQuery({ variables: { id: roomId } });
+    { data: { storyState } = { storyState: undefined } },
+  ] = useStoryStateQuery({ variables: { id: storyId } });
 
   return (
     <button
       className="btn text-xs leading-none"
-      onClick={() => skipNowPlaying({ id: roomId })}
+      onClick={() => skipNowPlaying({ id: storyId })}
       disabled={
         fetching ||
         !user ||
         !nowPlaying?.currentTrack ||
-        (!roomState?.permission.queueCanManage &&
+        (!storyState?.permission.queueCanManage &&
           nowPlaying?.currentTrack?.creatorId !== user.id)
       }
       title={t("nowPlaying.skipSong")}
@@ -52,15 +52,15 @@ const PlayerSkipNowPlaying: React.FC<{ roomId: string }> = ({ roomId }) => {
 };
 
 const NowPlayingMeta: React.FC<{
-  roomId: string;
+  storyId: string;
   track: Track | null | undefined;
-}> = ({ roomId, track }) => {
+}> = ({ storyId, track }) => {
   const { t } = useI18n();
   const {
-    state: { fetching, playingRoomId },
+    state: { fetching, playingStoryId },
   } = usePlayer();
 
-  const roomPlayingStarted = playingRoomId === roomId;
+  const storyPlayingStarted = playingStoryId === storyId;
   const [activeMenu, openMenu, closeMenu] = useModal();
 
   return (
@@ -73,7 +73,7 @@ const NowPlayingMeta: React.FC<{
           tabIndex={0}
           onKeyDown={({ key }) => key === "Enter" && track && openMenu()}
         >
-          {roomPlayingStarted
+          {storyPlayingStarted
             ? track?.title ||
               (fetching ? (
                 <span className="block mb-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
@@ -83,7 +83,7 @@ const NowPlayingMeta: React.FC<{
             : t("player.pausedText")}
         </div>
         <div className="truncate text-foreground-secondary text-sm max-w-full">
-          {roomPlayingStarted
+          {storyPlayingStarted
             ? track?.artists.map(({ name }) => name).join(", ") ||
               (fetching ? (
                 <span className="block h-4 w-32 bg-foreground-tertiary rounded-full animate-pulse" />
@@ -100,13 +100,13 @@ const NowPlayingMeta: React.FC<{
   );
 };
 
-const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
+const PlayerEmbeddedControl: React.FC<{ storyId: string }> = ({ storyId }) => {
   const { t } = useI18n();
 
   const {
     player,
-    state: { playingRoomId, playerPlaying, crossTracks },
-    playRoom,
+    state: { playingStoryId, playerPlaying, crossTracks },
+    playStory,
   } = usePlayer();
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
@@ -122,11 +122,11 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
     };
   }, [player]);
 
-  const roomPlayingStarted = playingRoomId === roomId;
+  const storyPlayingStarted = playingStoryId === storyId;
 
   const track = useMemo(
-    () => (roomPlayingStarted ? playerPlaying || crossTracks?.original : null),
-    [playerPlaying, crossTracks, roomPlayingStarted]
+    () => (storyPlayingStarted ? playerPlaying || crossTracks?.original : null),
+    [playerPlaying, crossTracks, storyPlayingStarted]
   );
 
   return (
@@ -156,12 +156,12 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
             aria-label={isPlaying ? t("player.pause") : t("player.play")}
             className="opacity-100 flex flex-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white text-blue-tertiary transform hover:scale-105 transition-transform"
             onClick={() => {
-              if (!roomPlayingStarted) return playRoom(roomId);
+              if (!storyPlayingStarted) return playStory(storyId);
               isPlaying ? player.pause() : player.play();
             }}
-            disabled={!playerPlaying && roomPlayingStarted}
+            disabled={!playerPlaying && storyPlayingStarted}
           >
-            {isPlaying && roomPlayingStarted ? (
+            {isPlaying && storyPlayingStarted ? (
               <SvgPause className="w-6 h-6 fill-current" />
             ) : (
               <SvgPlay className="w-6 h-6 fill-current" />
@@ -172,11 +172,11 @@ const PlayerEmbeddedControl: React.FC<{ roomId: string }> = ({ roomId }) => {
           aria-label={t("player.label.nameAndArtist")}
           className="flex-1 w-0 p-2 lg:p-4 flex flex-col justify-center relative"
         >
-          <NowPlayingMeta roomId={roomId} track={track} />
+          <NowPlayingMeta storyId={storyId} track={track} />
           <div className="max-w-md overflow-x-auto flex items-center">
-            <PlayerSkipNowPlaying roomId={roomId} />
+            <PlayerSkipNowPlaying storyId={storyId} />
             <div className="flex-1 w-0 ml-1">
-              <NowPlayingReaction id={roomId} />
+              <NowPlayingReaction id={storyId} />
             </div>
           </div>
         </div>

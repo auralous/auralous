@@ -2,6 +2,8 @@ import gql from 'graphql-tag';
 import * as Urql from 'urql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -30,11 +32,11 @@ export type Query = {
   nowPlaying?: Maybe<NowPlaying>;
   nowPlayingReactions?: Maybe<NowPlayingReaction>;
   queue?: Maybe<Queue>;
-  room?: Maybe<Room>;
-  roomState?: Maybe<RoomState>;
-  rooms?: Maybe<Array<Room>>;
-  exploreRooms: Array<Room>;
-  searchRooms: Array<Room>;
+  story?: Maybe<Story>;
+  storyState?: Maybe<StoryState>;
+  stories?: Maybe<Array<Story>>;
+  exploreStories: Array<Story>;
+  searchStories: Array<Story>;
   track?: Maybe<Track>;
   crossTracks?: Maybe<CrossTracks>;
   searchTrack: Array<Track>;
@@ -65,27 +67,27 @@ export type QueryQueueArgs = {
 };
 
 
-export type QueryRoomArgs = {
+export type QueryStoryArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryRoomStateArgs = {
+export type QueryStoryStateArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryRoomsArgs = {
+export type QueryStoriesArgs = {
   creatorId?: Maybe<Scalars['String']>;
 };
 
 
-export type QueryExploreRoomsArgs = {
+export type QueryExploreStoriesArgs = {
   by: Scalars['String'];
 };
 
 
-export type QuerySearchRoomsArgs = {
+export type QuerySearchStoriesArgs = {
   query: Scalars['String'];
   limit?: Maybe<Scalars['Int']>;
 };
@@ -118,12 +120,12 @@ export type Mutation = {
   reactNowPlaying?: Maybe<Scalars['Boolean']>;
   skipNowPlaying?: Maybe<Scalars['Boolean']>;
   updateQueue: Scalars['Boolean'];
-  createRoom: Room;
-  updateRoom: Room;
-  joinPrivateRoom: Scalars['Boolean'];
-  updateRoomMembership: Scalars['Boolean'];
-  deleteRoom: Scalars['ID'];
-  pingRoom: Scalars['Boolean'];
+  createStory: Story;
+  updateStory: Story;
+  joinPrivateStory: Scalars['Boolean'];
+  updateStoryMembership: Scalars['Boolean'];
+  deleteStory: Scalars['ID'];
+  pingStory: Scalars['Boolean'];
   me?: Maybe<User>;
   deleteMe: Scalars['Boolean'];
 };
@@ -155,7 +157,7 @@ export type MutationUpdateQueueArgs = {
 };
 
 
-export type MutationCreateRoomArgs = {
+export type MutationCreateStoryArgs = {
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   isPublic: Scalars['Boolean'];
@@ -164,7 +166,7 @@ export type MutationCreateRoomArgs = {
 };
 
 
-export type MutationUpdateRoomArgs = {
+export type MutationUpdateStoryArgs = {
   id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -174,26 +176,26 @@ export type MutationUpdateRoomArgs = {
 };
 
 
-export type MutationJoinPrivateRoomArgs = {
+export type MutationJoinPrivateStoryArgs = {
   id: Scalars['ID'];
   password: Scalars['String'];
 };
 
 
-export type MutationUpdateRoomMembershipArgs = {
+export type MutationUpdateStoryMembershipArgs = {
   id: Scalars['ID'];
   username?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
-  role?: Maybe<RoomMembership>;
+  role?: Maybe<StoryMembership>;
 };
 
 
-export type MutationDeleteRoomArgs = {
+export type MutationDeleteStoryArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationPingRoomArgs = {
+export type MutationPingStoryArgs = {
   id: Scalars['ID'];
 };
 
@@ -211,7 +213,7 @@ export type Subscription = {
   nowPlayingUpdated?: Maybe<NowPlaying>;
   nowPlayingReactionsUpdated?: Maybe<NowPlayingReaction>;
   queueUpdated: Queue;
-  roomStateUpdated?: Maybe<RoomState>;
+  storyStateUpdated?: Maybe<StoryState>;
 };
 
 
@@ -235,7 +237,7 @@ export type SubscriptionQueueUpdatedArgs = {
 };
 
 
-export type SubscriptionRoomStateUpdatedArgs = {
+export type SubscriptionStoryStateUpdatedArgs = {
   id: Scalars['ID'];
 };
 
@@ -300,13 +302,13 @@ export type Queue = {
   items: Array<QueueItem>;
 };
 
-export enum RoomMembership {
+export enum StoryMembership {
   Host = 'host',
   Collab = 'collab'
 }
 
-export type Room = {
-  __typename?: 'Room';
+export type Story = {
+  __typename?: 'Story';
   id: Scalars['ID'];
   title: Scalars['String'];
   isPublic: Scalars['Boolean'];
@@ -316,21 +318,21 @@ export type Room = {
   createdAt: Scalars['DateTime'];
 };
 
-export type RoomPermission = {
-  __typename?: 'RoomPermission';
+export type StoryPermission = {
+  __typename?: 'StoryPermission';
   viewable: Scalars['Boolean'];
   queueCanAdd: Scalars['Boolean'];
   queueCanManage: Scalars['Boolean'];
 };
 
-export type RoomState = {
-  __typename?: 'RoomState';
+export type StoryState = {
+  __typename?: 'StoryState';
   id: Scalars['ID'];
   userIds: Array<Scalars['String']>;
   /** Settings */
   anyoneCanAdd: Scalars['Boolean'];
   collabs: Array<Scalars['String']>;
-  permission: RoomPermission;
+  permission: StoryPermission;
 };
 
 export enum PlatformName {
@@ -563,82 +565,82 @@ export type OnQueueUpdatedSubscription = (
   ) }
 );
 
-export type RoomDetailPartsFragment = (
-  { __typename?: 'Room' }
-  & Pick<Room, 'title' | 'description' | 'image' | 'createdAt' | 'isPublic' | 'creatorId'>
+export type StoryDetailPartsFragment = (
+  { __typename?: 'Story' }
+  & Pick<Story, 'title' | 'description' | 'image' | 'createdAt' | 'isPublic' | 'creatorId'>
 );
 
-export type RoomRulesPartsFragment = (
-  { __typename?: 'RoomState' }
-  & Pick<RoomState, 'anyoneCanAdd' | 'collabs'>
+export type StoryRulesPartsFragment = (
+  { __typename?: 'StoryState' }
+  & Pick<StoryState, 'anyoneCanAdd' | 'collabs'>
 );
 
-export type RoomPermissionPartFragment = (
-  { __typename?: 'RoomState' }
+export type StoryPermissionPartFragment = (
+  { __typename?: 'StoryState' }
   & { permission: (
-    { __typename?: 'RoomPermission' }
-    & Pick<RoomPermission, 'queueCanAdd' | 'queueCanManage' | 'viewable'>
+    { __typename?: 'StoryPermission' }
+    & Pick<StoryPermission, 'queueCanAdd' | 'queueCanManage' | 'viewable'>
   ) }
 );
 
-export type RoomQueryVariables = Exact<{
+export type StoryQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type RoomQuery = (
+export type StoryQuery = (
   { __typename?: 'Query' }
-  & { room?: Maybe<(
-    { __typename?: 'Room' }
-    & Pick<Room, 'id'>
-    & RoomDetailPartsFragment
+  & { story?: Maybe<(
+    { __typename?: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
   )> }
 );
 
-export type RoomsQueryVariables = Exact<{
+export type StoriesQueryVariables = Exact<{
   creatorId?: Maybe<Scalars['String']>;
 }>;
 
 
-export type RoomsQuery = (
+export type StoriesQuery = (
   { __typename?: 'Query' }
-  & { rooms?: Maybe<Array<(
-    { __typename?: 'Room' }
-    & Pick<Room, 'id'>
-    & RoomDetailPartsFragment
+  & { stories?: Maybe<Array<(
+    { __typename?: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
   )>> }
 );
 
-export type ExploreRoomsQueryVariables = Exact<{
+export type ExploreStoriesQueryVariables = Exact<{
   by: Scalars['String'];
 }>;
 
 
-export type ExploreRoomsQuery = (
+export type ExploreStoriesQuery = (
   { __typename?: 'Query' }
-  & { exploreRooms: Array<(
-    { __typename?: 'Room' }
-    & Pick<Room, 'id'>
-    & RoomDetailPartsFragment
+  & { exploreStories: Array<(
+    { __typename?: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
   )> }
 );
 
-export type SearchRoomsQueryVariables = Exact<{
+export type SearchStoriesQueryVariables = Exact<{
   query: Scalars['String'];
   limit?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type SearchRoomsQuery = (
+export type SearchStoriesQuery = (
   { __typename?: 'Query' }
-  & { searchRooms: Array<(
-    { __typename?: 'Room' }
-    & Pick<Room, 'id'>
-    & RoomDetailPartsFragment
+  & { searchStories: Array<(
+    { __typename?: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
   )> }
 );
 
-export type CreateRoomMutationVariables = Exact<{
+export type CreateStoryMutationVariables = Exact<{
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   isPublic: Scalars['Boolean'];
@@ -647,16 +649,16 @@ export type CreateRoomMutationVariables = Exact<{
 }>;
 
 
-export type CreateRoomMutation = (
+export type CreateStoryMutation = (
   { __typename?: 'Mutation' }
-  & { createRoom: (
-    { __typename?: 'Room' }
-    & Pick<Room, 'id'>
-    & RoomDetailPartsFragment
+  & { createStory: (
+    { __typename?: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
   ) }
 );
 
-export type UpdateRoomMutationVariables = Exact<{
+export type UpdateStoryMutationVariables = Exact<{
   id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -666,86 +668,86 @@ export type UpdateRoomMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRoomMutation = (
+export type UpdateStoryMutation = (
   { __typename?: 'Mutation' }
-  & { updateRoom: (
-    { __typename?: 'Room' }
-    & Pick<Room, 'id'>
-    & RoomDetailPartsFragment
+  & { updateStory: (
+    { __typename?: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
   ) }
 );
 
-export type UpdateRoomMembershipMutationVariables = Exact<{
+export type UpdateStoryMembershipMutationVariables = Exact<{
   id: Scalars['ID'];
   username?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
-  role?: Maybe<RoomMembership>;
+  role?: Maybe<StoryMembership>;
 }>;
 
 
-export type UpdateRoomMembershipMutation = (
+export type UpdateStoryMembershipMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateRoomMembership'>
+  & Pick<Mutation, 'updateStoryMembership'>
 );
 
-export type JoinPrivateRoomMutationVariables = Exact<{
+export type JoinPrivateStoryMutationVariables = Exact<{
   id: Scalars['ID'];
   password: Scalars['String'];
 }>;
 
 
-export type JoinPrivateRoomMutation = (
+export type JoinPrivateStoryMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'joinPrivateRoom'>
+  & Pick<Mutation, 'joinPrivateStory'>
 );
 
-export type DeleteRoomMutationVariables = Exact<{
+export type DeleteStoryMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type DeleteRoomMutation = (
+export type DeleteStoryMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteRoom'>
+  & Pick<Mutation, 'deleteStory'>
 );
 
-export type RoomStateQueryVariables = Exact<{
+export type StoryStateQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type RoomStateQuery = (
+export type StoryStateQuery = (
   { __typename?: 'Query' }
-  & { roomState?: Maybe<(
-    { __typename?: 'RoomState' }
-    & Pick<RoomState, 'id' | 'userIds'>
-    & RoomRulesPartsFragment
-    & RoomPermissionPartFragment
+  & { storyState?: Maybe<(
+    { __typename?: 'StoryState' }
+    & Pick<StoryState, 'id' | 'userIds'>
+    & StoryRulesPartsFragment
+    & StoryPermissionPartFragment
   )> }
 );
 
-export type PingRoomMutationVariables = Exact<{
+export type PingStoryMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PingRoomMutation = (
+export type PingStoryMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'pingRoom'>
+  & Pick<Mutation, 'pingStory'>
 );
 
-export type OnRoomStateUpdatedSubscriptionVariables = Exact<{
+export type OnStoryStateUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnRoomStateUpdatedSubscription = (
+export type OnStoryStateUpdatedSubscription = (
   { __typename?: 'Subscription' }
-  & { roomStateUpdated?: Maybe<(
-    { __typename?: 'RoomState' }
-    & Pick<RoomState, 'id' | 'userIds'>
-    & RoomRulesPartsFragment
-    & RoomPermissionPartFragment
+  & { storyStateUpdated?: Maybe<(
+    { __typename?: 'StoryState' }
+    & Pick<StoryState, 'id' | 'userIds'>
+    & StoryRulesPartsFragment
+    & StoryPermissionPartFragment
   )> }
 );
 
@@ -890,8 +892,8 @@ export const QueueItemPartsFragmentDoc = gql`
   creatorId
 }
     `;
-export const RoomDetailPartsFragmentDoc = gql`
-    fragment RoomDetailParts on Room {
+export const StoryDetailPartsFragmentDoc = gql`
+    fragment StoryDetailParts on Story {
   title
   description
   image
@@ -900,14 +902,14 @@ export const RoomDetailPartsFragmentDoc = gql`
   creatorId
 }
     `;
-export const RoomRulesPartsFragmentDoc = gql`
-    fragment RoomRulesParts on RoomState {
+export const StoryRulesPartsFragmentDoc = gql`
+    fragment StoryRulesParts on StoryState {
   anyoneCanAdd
   collabs
 }
     `;
-export const RoomPermissionPartFragmentDoc = gql`
-    fragment RoomPermissionPart on RoomState {
+export const StoryPermissionPartFragmentDoc = gql`
+    fragment StoryPermissionPart on StoryState {
   permission {
     queueCanAdd
     queueCanManage
@@ -1089,57 +1091,57 @@ export const OnQueueUpdatedDocument = gql`
 export function useOnQueueUpdatedSubscription<TData = OnQueueUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnQueueUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnQueueUpdatedSubscription, TData>) {
   return Urql.useSubscription<OnQueueUpdatedSubscription, TData, OnQueueUpdatedSubscriptionVariables>({ query: OnQueueUpdatedDocument, ...options }, handler);
 };
-export const RoomDocument = gql`
-    query room($id: ID!) {
-  room(id: $id) {
+export const StoryDocument = gql`
+    query story($id: ID!) {
+  story(id: $id) {
     id
-    ...RoomDetailParts
+    ...StoryDetailParts
   }
 }
-    ${RoomDetailPartsFragmentDoc}`;
+    ${StoryDetailPartsFragmentDoc}`;
 
-export function useRoomQuery(options: Omit<Urql.UseQueryArgs<RoomQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<RoomQuery>({ query: RoomDocument, ...options });
+export function useStoryQuery(options: Omit<Urql.UseQueryArgs<StoryQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<StoryQuery>({ query: StoryDocument, ...options });
 };
-export const RoomsDocument = gql`
-    query rooms($creatorId: String) {
-  rooms(creatorId: $creatorId) {
+export const StoriesDocument = gql`
+    query stories($creatorId: String) {
+  stories(creatorId: $creatorId) {
     id
-    ...RoomDetailParts
+    ...StoryDetailParts
   }
 }
-    ${RoomDetailPartsFragmentDoc}`;
+    ${StoryDetailPartsFragmentDoc}`;
 
-export function useRoomsQuery(options: Omit<Urql.UseQueryArgs<RoomsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<RoomsQuery>({ query: RoomsDocument, ...options });
+export function useStoriesQuery(options: Omit<Urql.UseQueryArgs<StoriesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<StoriesQuery>({ query: StoriesDocument, ...options });
 };
-export const ExploreRoomsDocument = gql`
-    query exploreRooms($by: String!) {
-  exploreRooms(by: $by) {
+export const ExploreStoriesDocument = gql`
+    query exploreStories($by: String!) {
+  exploreStories(by: $by) {
     id
-    ...RoomDetailParts
+    ...StoryDetailParts
   }
 }
-    ${RoomDetailPartsFragmentDoc}`;
+    ${StoryDetailPartsFragmentDoc}`;
 
-export function useExploreRoomsQuery(options: Omit<Urql.UseQueryArgs<ExploreRoomsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<ExploreRoomsQuery>({ query: ExploreRoomsDocument, ...options });
+export function useExploreStoriesQuery(options: Omit<Urql.UseQueryArgs<ExploreStoriesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ExploreStoriesQuery>({ query: ExploreStoriesDocument, ...options });
 };
-export const SearchRoomsDocument = gql`
-    query searchRooms($query: String!, $limit: Int) {
-  searchRooms(query: $query, limit: $limit) {
+export const SearchStoriesDocument = gql`
+    query searchStories($query: String!, $limit: Int) {
+  searchStories(query: $query, limit: $limit) {
     id
-    ...RoomDetailParts
+    ...StoryDetailParts
   }
 }
-    ${RoomDetailPartsFragmentDoc}`;
+    ${StoryDetailPartsFragmentDoc}`;
 
-export function useSearchRoomsQuery(options: Omit<Urql.UseQueryArgs<SearchRoomsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<SearchRoomsQuery>({ query: SearchRoomsDocument, ...options });
+export function useSearchStoriesQuery(options: Omit<Urql.UseQueryArgs<SearchStoriesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SearchStoriesQuery>({ query: SearchStoriesDocument, ...options });
 };
-export const CreateRoomDocument = gql`
-    mutation createRoom($title: String!, $description: String, $isPublic: Boolean!, $anyoneCanAdd: Boolean, $password: String) {
-  createRoom(
+export const CreateStoryDocument = gql`
+    mutation createStory($title: String!, $description: String, $isPublic: Boolean!, $anyoneCanAdd: Boolean, $password: String) {
+  createStory(
     title: $title
     description: $description
     isPublic: $isPublic
@@ -1147,17 +1149,17 @@ export const CreateRoomDocument = gql`
     password: $password
   ) {
     id
-    ...RoomDetailParts
+    ...StoryDetailParts
   }
 }
-    ${RoomDetailPartsFragmentDoc}`;
+    ${StoryDetailPartsFragmentDoc}`;
 
-export function useCreateRoomMutation() {
-  return Urql.useMutation<CreateRoomMutation, CreateRoomMutationVariables>(CreateRoomDocument);
+export function useCreateStoryMutation() {
+  return Urql.useMutation<CreateStoryMutation, CreateStoryMutationVariables>(CreateStoryDocument);
 };
-export const UpdateRoomDocument = gql`
-    mutation updateRoom($id: ID!, $title: String, $description: String, $image: Upload, $anyoneCanAdd: Boolean, $password: String) {
-  updateRoom(
+export const UpdateStoryDocument = gql`
+    mutation updateStory($id: ID!, $title: String, $description: String, $image: Upload, $anyoneCanAdd: Boolean, $password: String) {
+  updateStory(
     id: $id
     title: $title
     description: $description
@@ -1166,79 +1168,84 @@ export const UpdateRoomDocument = gql`
     password: $password
   ) {
     id
-    ...RoomDetailParts
+    ...StoryDetailParts
   }
 }
-    ${RoomDetailPartsFragmentDoc}`;
+    ${StoryDetailPartsFragmentDoc}`;
 
-export function useUpdateRoomMutation() {
-  return Urql.useMutation<UpdateRoomMutation, UpdateRoomMutationVariables>(UpdateRoomDocument);
+export function useUpdateStoryMutation() {
+  return Urql.useMutation<UpdateStoryMutation, UpdateStoryMutationVariables>(UpdateStoryDocument);
 };
-export const UpdateRoomMembershipDocument = gql`
-    mutation updateRoomMembership($id: ID!, $username: String, $userId: String, $role: RoomMembership) {
-  updateRoomMembership(id: $id, username: $username, userId: $userId, role: $role)
+export const UpdateStoryMembershipDocument = gql`
+    mutation updateStoryMembership($id: ID!, $username: String, $userId: String, $role: StoryMembership) {
+  updateStoryMembership(
+    id: $id
+    username: $username
+    userId: $userId
+    role: $role
+  )
 }
     `;
 
-export function useUpdateRoomMembershipMutation() {
-  return Urql.useMutation<UpdateRoomMembershipMutation, UpdateRoomMembershipMutationVariables>(UpdateRoomMembershipDocument);
+export function useUpdateStoryMembershipMutation() {
+  return Urql.useMutation<UpdateStoryMembershipMutation, UpdateStoryMembershipMutationVariables>(UpdateStoryMembershipDocument);
 };
-export const JoinPrivateRoomDocument = gql`
-    mutation joinPrivateRoom($id: ID!, $password: String!) {
-  joinPrivateRoom(id: $id, password: $password)
+export const JoinPrivateStoryDocument = gql`
+    mutation joinPrivateStory($id: ID!, $password: String!) {
+  joinPrivateStory(id: $id, password: $password)
 }
     `;
 
-export function useJoinPrivateRoomMutation() {
-  return Urql.useMutation<JoinPrivateRoomMutation, JoinPrivateRoomMutationVariables>(JoinPrivateRoomDocument);
+export function useJoinPrivateStoryMutation() {
+  return Urql.useMutation<JoinPrivateStoryMutation, JoinPrivateStoryMutationVariables>(JoinPrivateStoryDocument);
 };
-export const DeleteRoomDocument = gql`
-    mutation deleteRoom($id: ID!) {
-  deleteRoom(id: $id)
+export const DeleteStoryDocument = gql`
+    mutation deleteStory($id: ID!) {
+  deleteStory(id: $id)
 }
     `;
 
-export function useDeleteRoomMutation() {
-  return Urql.useMutation<DeleteRoomMutation, DeleteRoomMutationVariables>(DeleteRoomDocument);
+export function useDeleteStoryMutation() {
+  return Urql.useMutation<DeleteStoryMutation, DeleteStoryMutationVariables>(DeleteStoryDocument);
 };
-export const RoomStateDocument = gql`
-    query roomState($id: ID!) {
-  roomState(id: $id) {
+export const StoryStateDocument = gql`
+    query storyState($id: ID!) {
+  storyState(id: $id) {
     id
     userIds
-    ...RoomRulesParts
-    ...RoomPermissionPart
+    ...StoryRulesParts
+    ...StoryPermissionPart
   }
 }
-    ${RoomRulesPartsFragmentDoc}
-${RoomPermissionPartFragmentDoc}`;
+    ${StoryRulesPartsFragmentDoc}
+${StoryPermissionPartFragmentDoc}`;
 
-export function useRoomStateQuery(options: Omit<Urql.UseQueryArgs<RoomStateQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<RoomStateQuery>({ query: RoomStateDocument, ...options });
+export function useStoryStateQuery(options: Omit<Urql.UseQueryArgs<StoryStateQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<StoryStateQuery>({ query: StoryStateDocument, ...options });
 };
-export const PingRoomDocument = gql`
-    mutation pingRoom($id: ID!) {
-  pingRoom(id: $id)
+export const PingStoryDocument = gql`
+    mutation pingStory($id: ID!) {
+  pingStory(id: $id)
 }
     `;
 
-export function usePingRoomMutation() {
-  return Urql.useMutation<PingRoomMutation, PingRoomMutationVariables>(PingRoomDocument);
+export function usePingStoryMutation() {
+  return Urql.useMutation<PingStoryMutation, PingStoryMutationVariables>(PingStoryDocument);
 };
-export const OnRoomStateUpdatedDocument = gql`
-    subscription onRoomStateUpdated($id: ID!) {
-  roomStateUpdated(id: $id) {
+export const OnStoryStateUpdatedDocument = gql`
+    subscription onStoryStateUpdated($id: ID!) {
+  storyStateUpdated(id: $id) {
     id
     userIds
-    ...RoomRulesParts
-    ...RoomPermissionPart
+    ...StoryRulesParts
+    ...StoryPermissionPart
   }
 }
-    ${RoomRulesPartsFragmentDoc}
-${RoomPermissionPartFragmentDoc}`;
+    ${StoryRulesPartsFragmentDoc}
+${StoryPermissionPartFragmentDoc}`;
 
-export function useOnRoomStateUpdatedSubscription<TData = OnRoomStateUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnRoomStateUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnRoomStateUpdatedSubscription, TData>) {
-  return Urql.useSubscription<OnRoomStateUpdatedSubscription, TData, OnRoomStateUpdatedSubscriptionVariables>({ query: OnRoomStateUpdatedDocument, ...options }, handler);
+export function useOnStoryStateUpdatedSubscription<TData = OnStoryStateUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnStoryStateUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnStoryStateUpdatedSubscription, TData>) {
+  return Urql.useSubscription<OnStoryStateUpdatedSubscription, TData, OnStoryStateUpdatedSubscriptionVariables>({ query: OnStoryStateUpdatedDocument, ...options }, handler);
 };
 export const TrackDocument = gql`
     query track($id: ID!) {

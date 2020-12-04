@@ -4,14 +4,14 @@ import { Switch } from "@headlessui/react";
 import {
   QueueAction,
   Track,
-  useCreateRoomMutation,
+  useCreateStoryMutation,
   useUpdateQueueMutation,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 
-const CreateRoomLabel: React.FC<{ htmlFor: string }> = ({
+const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({
   htmlFor,
   children,
 }) => (
@@ -20,11 +20,11 @@ const CreateRoomLabel: React.FC<{ htmlFor: string }> = ({
   </label>
 );
 
-const CreateRoomFormGroup: React.FC = ({ children }) => (
+const CreateStoryFormGroup: React.FC = ({ children }) => (
   <div className="w-full flex flex-col mb-4 items-center">{children}</div>
 );
 
-const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
+const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const { t } = useI18n();
 
   const [, logIn] = useLogin();
@@ -37,10 +37,10 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const [anyoneCanAdd, setAnyoneCanAdd] = useState(false);
 
-  const [{ fetching }, createRoom] = useCreateRoomMutation();
+  const [{ fetching }, createStory] = useCreateStoryMutation();
   const [, updateQueue] = useUpdateQueueMutation();
 
-  const handleRoomCreation = useCallback(
+  const handleStoryCreation = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       if (fetching) return;
       event.preventDefault();
@@ -51,22 +51,22 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         if (!window.confirm(t("new.addNew.warnNoPass"))) return;
       }
 
-      const result = await createRoom({
+      const result = await createStory({
         title: (titleRef.current as HTMLInputElement).value,
         isPublic,
         anyoneCanAdd: isPublic ? anyoneCanAdd : false,
         password: passwordRef.current?.value ?? (isPublic ? undefined : ""),
       });
 
-      if (result.data?.createRoom) {
+      if (result.data?.createStory) {
         if (initTracks?.length)
           await updateQueue({
-            id: `room:${result.data.createRoom.id}`,
+            id: `story:${result.data.createStory.id}`,
             action: QueueAction.Add,
             tracks: initTracks.map((initTrack) => initTrack.id),
           });
 
-        router.push("/room/[roomId]", `/room/${result.data.createRoom.id}`);
+        router.push("/story/[storyId]", `/story/${result.data.createStory.id}`);
       }
     },
     [
@@ -75,7 +75,7 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       router,
       fetching,
       isPublic,
-      createRoom,
+      createStory,
       anyoneCanAdd,
       updateQueue,
       logIn,
@@ -85,74 +85,74 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
   return (
     <form
-      onSubmit={handleRoomCreation}
+      onSubmit={handleStoryCreation}
       autoComplete="off"
       className="flex flex-col flex-center"
     >
-      <CreateRoomFormGroup>
-        <CreateRoomLabel htmlFor="roomTitle">
+      <CreateStoryFormGroup>
+        <CreateStoryLabel htmlFor="storyTitle">
           {t("new.addNew.promptTitle")}
-        </CreateRoomLabel>
+        </CreateStoryLabel>
         <input
-          id="roomTitle"
-          aria-label={t("room.settings.info.titleHelp")}
-          placeholder={t("room.settings.info.titleHelp")}
+          id="storyTitle"
+          aria-label={t("story.settings.info.titleHelp")}
+          placeholder={t("story.settings.info.titleHelp")}
           required
           className="input w-full text-center"
           type="text"
           ref={titleRef}
           disabled={fetching}
         />
-      </CreateRoomFormGroup>
-      <CreateRoomFormGroup>
-        <CreateRoomLabel htmlFor="roomPrivacy">
+      </CreateStoryFormGroup>
+      <CreateStoryFormGroup>
+        <CreateStoryLabel htmlFor="storyPrivacy">
           {t("new.addNew.promptPrivacy")}
-        </CreateRoomLabel>
+        </CreateStoryLabel>
         <div className="input inline-flex mx-auto">
           <div className="flex items-center mr-4">
             <input
-              id="roomPrivacyPublic"
-              name="roomPrivacy"
+              id="storyPrivacyPublic"
+              name="storyPrivacy"
               type="radio"
               value="public"
               className="input"
               checked={isPublic}
               onChange={(e) => setIsPublic(e.currentTarget.value === "public")}
             />
-            <label className="label mb-0 pl-1" htmlFor="roomPrivacyPublic">
-              {t("room.privacy.public")}
+            <label className="label mb-0 pl-1" htmlFor="storyPrivacyPublic">
+              {t("story.privacy.public")}
             </label>
           </div>
           <div className="flex items-center">
             <input
-              id="roomPrivacyPrivate"
-              name="roomPrivacy"
+              id="storyPrivacyPrivate"
+              name="storyPrivacy"
               type="radio"
               value="private"
               className="input"
               checked={!isPublic}
               onChange={(e) => setIsPublic(e.currentTarget.value === "public")}
             />
-            <label className="label mb-0 pl-1" htmlFor="roomPrivacyPrivate">
-              {t("room.privacy.private")}
+            <label className="label mb-0 pl-1" htmlFor="storyPrivacyPrivate">
+              {t("story.privacy.private")}
             </label>
           </div>
         </div>
-      </CreateRoomFormGroup>
+      </CreateStoryFormGroup>
       <div className="px-4 py-2 h-28 rounded-lg bg-background-secondary">
-        <CreateRoomFormGroup>
+        <CreateStoryFormGroup>
           {isPublic ? (
             <>
-              <CreateRoomLabel htmlFor="roomAnyoneCanAdd">
-                {t("room.settings.privacy.publicAllowGuests")}
-              </CreateRoomLabel>
+              <CreateStoryLabel htmlFor="storyAnyoneCanAdd">
+                {t("story.settings.privacy.publicAllowGuests")}
+              </CreateStoryLabel>
               <Switch
                 checked={anyoneCanAdd}
                 onChange={setAnyoneCanAdd}
                 className={`${
                   anyoneCanAdd ? "bg-success" : "bg-background-tertiary"
                 } relative inline-flex h-6 rounded-full w-12 mb-1`}
-                aria-labelledby="roomAnyoneCanAdd"
+                aria-labelledby="storyAnyoneCanAdd"
               >
                 <span
                   className={`${
@@ -161,28 +161,28 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
                 />
               </Switch>
               <p className="text-xs text-foreground-tertiary px-1">
-                {t("room.settings.privacy.publicAllowGuestsHelp")}
+                {t("story.settings.privacy.publicAllowGuestsHelp")}
               </p>
             </>
           ) : (
             <>
-              <CreateRoomLabel htmlFor="password">
-                {t("room.settings.privacy.password")}
-              </CreateRoomLabel>
+              <CreateStoryLabel htmlFor="password">
+                {t("story.settings.privacy.password")}
+              </CreateStoryLabel>
               <input
                 type="password"
                 id="password"
-                aria-label={t("room.settings.privacy.password")}
+                aria-label={t("story.settings.privacy.password")}
                 ref={passwordRef}
                 className="input mb-1"
                 maxLength={16}
               />
               <p className="text-xs text-foreground-tertiary px-1">
-                {t("room.settings.privacy.passwordHelp")}
+                {t("story.settings.privacy.passwordHelp")}
               </p>
             </>
           )}
-        </CreateRoomFormGroup>
+        </CreateStoryFormGroup>
       </div>
       <button
         className="btn btn-success rounded-full mt-8"
@@ -195,4 +195,4 @@ const CreateRoom: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   );
 };
 
-export default CreateRoom;
+export default CreateStory;

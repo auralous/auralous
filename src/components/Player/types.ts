@@ -7,12 +7,12 @@ export type PlayerPlaying = Track | null;
 export interface IPlayerContext {
   state: {
     playerPlaying: PlayerPlaying;
-    playingRoomId: string;
+    playingStoryId: string;
     crossTracks: ReturnType<typeof useCrossTracks>[0];
     playingPlatform: PlatformName;
     fetching: boolean;
   };
-  playRoom: (roomId: string) => void;
+  playStory: (storyId: string) => void;
   stopPlaying: () => void;
   player: Player;
 }

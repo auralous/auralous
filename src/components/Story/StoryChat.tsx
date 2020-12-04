@@ -3,21 +3,21 @@ import { animated, useSpring } from "react-spring";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { Messenger } from "~/components/Message/index";
 import {
-  Room,
-  RoomMembership,
-  RoomState,
+  Story,
+  StoryMembership,
+  StoryState,
   useUserQuery,
 } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
 import { MEMBERSHIP_NAMES } from "~/lib/constants";
 import { AuthBanner } from "~/components/Auth";
-import { getRole } from "~/lib/room";
+import { getRole } from "~/lib/story";
 import { useI18n } from "~/i18n/index";
 import { SvgUserGroup } from "~/assets/svg";
 
 const CurrentUser: React.FC<{
   userId: string;
-  role: RoomMembership | undefined;
+  role: StoryMembership | undefined;
 }> = ({ userId, role }) => {
   const [{ data }] = useUserQuery({ variables: { id: userId } });
   return (
@@ -56,18 +56,18 @@ const CurrentUser: React.FC<{
   );
 };
 
-const RoomUsers: React.FC<{
-  roomState: RoomState;
-  room: Room;
-}> = ({ room, roomState }) => {
+const StoryUsers: React.FC<{
+  storyState: StoryState;
+  story: Story;
+}> = ({ story, storyState }) => {
   return (
     <div className="h-full p-2">
-      {roomState.userIds.map((userId) => (
+      {storyState.userIds.map((userId) => (
         // TODO: react-window
         <CurrentUser
           key={userId}
           userId={userId}
-          role={getRole(userId, room, roomState)}
+          role={getRole(userId, story, storyState)}
         />
       ))}
     </div>
@@ -78,9 +78,9 @@ const AnimatedTabPanel = animated(TabPanel);
 const tabInactiveStyle = { opacity: 0, transform: "translate3d(0px,40px,0px)" };
 const tabActiveStyle = { opacity: 1, transform: "translate3d(0px,0px,0px)" };
 
-const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
-  room,
-  roomState,
+const StoryChat: React.FC<{ story: Story; storyState: StoryState }> = ({
+  story,
+  storyState,
 }) => {
   const { t } = useI18n();
   const user = useCurrentUser();
@@ -103,33 +103,33 @@ const RoomChat: React.FC<{ room: Room; roomState: RoomState }> = ({
     return (
       <div className="h-full w-full flex flex-col justify-center border-2 border-blue-secondary rounded-lg">
         <AuthBanner
-          prompt={t("room.chat.authPrompt")}
-          hook={t("room.chat.authPromptHook")}
+          prompt={t("story.chat.authPrompt")}
+          hook={t("story.chat.authPromptHook")}
         />
       </div>
     );
   return (
     <Tabs onChange={setSelectedIndex} className="h-full flex flex-col">
       <TabList className="flex flex-none">
-        <Tab className={getClassName(0)}>{t("room.chat.title")}</Tab>
+        <Tab className={getClassName(0)}>{t("story.chat.title")}</Tab>
         <Tab className={`${getClassName(1)} flex-none px-2`}>
           <SvgUserGroup width="12" height="12" />
           <span className="ml-1">
-            {roomState.userIds.length || 0}
-            <span className="sr-only">{t("room.chat.listener")}</span>
+            {storyState.userIds.length || 0}
+            <span className="sr-only">{t("story.chat.listener")}</span>
           </span>
         </Tab>
       </TabList>
       <TabPanels className="flex-1 h-0">
         <AnimatedTabPanel style={chatPanelStyle} className="h-full" as="div">
-          <Messenger id={`room:${room.id}`} />
+          <Messenger id={`story:${story.id}`} />
         </AnimatedTabPanel>
         <AnimatedTabPanel style={userPanelStyle} className="h-full" as="div">
-          <RoomUsers room={room} roomState={roomState} />
+          <StoryUsers story={story} storyState={storyState} />
         </AnimatedTabPanel>
       </TabPanels>
     </Tabs>
   );
 };
 
-export default RoomChat;
+export default StoryChat;

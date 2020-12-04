@@ -2,32 +2,36 @@ import React, { useRef, useCallback } from "react";
 import { toast } from "~/lib/toast";
 import { AuthBanner } from "~/components/Auth/index";
 import { useCurrentUser } from "~/hooks/user";
-import { Room, useJoinPrivateRoomMutation, RoomState } from "~/graphql/gql.gen";
+import {
+  Story,
+  useJoinPrivateStoryMutation,
+  StoryState,
+} from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgLock } from "~/assets/svg";
 
-const RoomPrivate: React.FC<{
-  room: Room;
-  roomState: RoomState;
+const StoryPrivate: React.FC<{
+  story: Story;
+  storyState: StoryState;
   reloadFn: () => void;
-}> = ({ room, reloadFn }) => {
+}> = ({ story, reloadFn }) => {
   const { t } = useI18n();
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const user = useCurrentUser();
-  const [{ fetching }, joinPrivateRoom] = useJoinPrivateRoomMutation();
+  const [{ fetching }, joinPrivateStory] = useJoinPrivateStoryMutation();
 
-  const handleJoinPrivateRoom = useCallback(
+  const handleJoinPrivateStory = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (!passwordRef.current || fetching) return;
-      const result = await joinPrivateRoom({
-        id: room.id,
+      const result = await joinPrivateStory({
+        id: story.id,
         password: passwordRef.current.value,
-      }).then((response) => response.data?.joinPrivateRoom);
-      result ? reloadFn() : toast.error(t("room.main.private.badPassword"));
+      }).then((response) => response.data?.joinPrivateStory);
+      result ? reloadFn() : toast.error(t("story.main.private.badPassword"));
     },
-    [t, room, joinPrivateRoom, fetching, reloadFn]
+    [t, story, joinPrivateStory, fetching, reloadFn]
   );
 
   return (
@@ -37,8 +41,8 @@ const RoomPrivate: React.FC<{
           <div className="mb-8 p-6 rounded-full bg-background-secondary">
             <SvgLock className="w-16 h-16" />
           </div>
-          <p className="text-center">{t("room.main.private.password1")}</p>
-          <form className="flex my-2" onSubmit={handleJoinPrivateRoom}>
+          <p className="text-center">{t("story.main.private.password1")}</p>
+          <form className="flex my-2" onSubmit={handleJoinPrivateStory}>
             <input
               type="password"
               autoComplete="current-password"
@@ -47,18 +51,18 @@ const RoomPrivate: React.FC<{
               className="input w-full mr-1"
             />
             <button type="submit" className="btn" disabled={fetching}>
-              {t("room.main.private.join")}
+              {t("story.main.private.join")}
             </button>
           </form>
           <p className="text-foreground-secondary text-xs text-center mt-2">
-            {t("room.main.private.password2")}
+            {t("story.main.private.password2")}
           </p>
         </>
       ) : (
-        <AuthBanner prompt={t("room.main.private.prompt")} />
+        <AuthBanner prompt={t("story.main.private.prompt")} />
       )}
     </div>
   );
 };
 
-export default RoomPrivate;
+export default StoryPrivate;

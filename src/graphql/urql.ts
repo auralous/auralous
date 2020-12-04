@@ -14,7 +14,7 @@ import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { devtoolsExchange } from "@urql/devtools";
 import { toast } from "~/lib/toast";
 // import { default as schemaIntrospection } from "./introspection.json";
-import { Room, RoomDocument } from "~/graphql/gql.gen";
+import { Story, StoryDocument } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 
 const subscriptionClient =
@@ -75,31 +75,31 @@ const cacheExchange = createCacheExchange({
           ? new Date(parent.endedAt)
           : undefined,
     },
-    Room: {
+    Story: {
       // @ts-ignore
-      createdAt: (parent: Room) => new Date(parent.createdAt),
+      createdAt: (parent: Story) => new Date(parent.createdAt),
     },
   },
   updates: {
     Mutation: {
-      createRoom: (result, args, cache) => {
-        if (result.createRoom) {
+      createStory: (result, args, cache) => {
+        if (result.createStory) {
           cache.updateQuery(
             {
-              query: RoomDocument,
+              query: StoryDocument,
               // @ts-ignore
-              variables: { creatorId: result.createRoom.creatorId },
+              variables: { creatorId: result.createStory.creatorId },
             },
             // @ts-ignore
-            () => ({ room: result.createRoom })
+            () => ({ story: result.createStory })
           );
         }
       },
-      deleteRoom: (result, args, cache) => {
+      deleteStory: (result, args, cache) => {
         cache.invalidate({
-          __typename: "Room",
+          __typename: "Story",
           // @ts-ignore
-          id: result.deleteRoom,
+          id: result.deleteStory,
         });
       },
       deleteMe: () => {

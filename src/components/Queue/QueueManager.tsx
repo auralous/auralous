@@ -267,9 +267,9 @@ const QueueManager: React.FC<{
                     className="inline"
                     width="14"
                     height="14"
-                    title={t("room.rules.title")}
+                    title={t("story.rules.title")}
                   />{" "}
-                  {t("room.rules.shortTitle")}
+                  {t("story.rules.shortTitle")}
                 </span>
               </p>
             )}

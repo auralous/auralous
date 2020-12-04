@@ -1,14 +1,14 @@
 import React from "react";
 import Link from "next/link";
-import { Room, useNowPlayingQuery, useTrackQuery } from "~/graphql/gql.gen";
+import { Story, useNowPlayingQuery, useTrackQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgLock } from "~/assets/svg";
 
-const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
+const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
 
   const [{ data: { nowPlaying } = { nowPlaying: null } }] = useNowPlayingQuery({
-    variables: { id: room.id },
+    variables: { id: story.id },
   });
 
   const [{ data: trackData }] = useTrackQuery({
@@ -19,19 +19,19 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
   const currentTrack = nowPlaying?.currentTrack ? trackData?.track : null;
 
   return (
-    <Link href={`/room/${room.id}`}>
+    <Link href={`/story/${story.id}`}>
       <a className="block overflow-hidden border-2 border-background-secondary hover:border-white focus:border-white focus:outline-none pb-4/3 rounded-lg relative transition">
         <div className="absolute inset-0 py-2 justify-center flex flex-col">
           <h3 className="flex-none mb-2 text-xl font-bold truncate text-center">
-            {room.isPublic === false && (
+            {story.isPublic === false && (
               <SvgLock
                 className="inline mr-1 p-1 rounded-lg bg-white text-black"
                 width="20"
                 height="20"
-                title={t("room.privacy.private")}
+                title={t("story.privacy.private")}
               />
             )}
-            {room.title}
+            {story.title}
           </h3>
           <h4 className="text-white flex-none text-center text-opacity-50 font-semibold text-xs mb-1 uppercase">
             {t("nowPlaying.title")}
@@ -41,8 +41,8 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
               className={`absolute inset-0 w-full h-full object-cover ${
                 currentTrack ? "animate-spin-slow" : ""
               } rounded-full shadow-lg overflow-hidden`}
-              alt={`Now Playing on ${room.title}`}
-              src={currentTrack?.image || room.image}
+              alt={`Now Playing on ${story.title}`}
+              src={currentTrack?.image || story.image}
             />
           </div>
           <div className="px-2 h-12 text-center">
@@ -63,4 +63,4 @@ const RoomItem: React.FC<{ room: Room }> = ({ room }) => {
   );
 };
 
-export default RoomItem;
+export default StoryItem;

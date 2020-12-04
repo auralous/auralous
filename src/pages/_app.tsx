@@ -46,8 +46,8 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
     if (
       [
         "/browse",
-        "/room/[roomId]",
-        "/room/[roomId]/settings",
+        "/story/[storyId]",
+        "/story/[storyId]/settings",
         "/settings",
         "/new",
         "/listen",

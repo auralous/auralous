@@ -5,18 +5,18 @@ import usePlayer from "./usePlayer";
 import { useI18n } from "~/i18n/index";
 import { SvgX } from "~/assets/svg";
 
-const noPlayerMinibarRoutes = ["/room/[roomId]"];
+const noPlayerMinibarRoutes = ["/story/[storyId]"];
 
 const PlayerMinibar: React.FC = () => {
   const { t } = useI18n();
   const router = useRouter();
   const {
-    state: { playingRoomId, playerPlaying },
+    state: { playingStoryId, playerPlaying },
     stopPlaying,
   } = usePlayer();
   const shouldHide = useMemo(
-    () => !playingRoomId || noPlayerMinibarRoutes.includes(router.pathname),
-    [router, playingRoomId]
+    () => !playingStoryId || noPlayerMinibarRoutes.includes(router.pathname),
+    [router, playingStoryId]
   );
 
   return (
@@ -25,7 +25,7 @@ const PlayerMinibar: React.FC = () => {
         shouldHide ? "hidden" : "flex"
       } fixed bordered-box items-center h-16 z-10 w-full sm:w-96 sm:rounded-lg sm:right-2 bottom-10 sm:bottom-2`}
     >
-      <Link href={`/room/${playingRoomId}`}>
+      <Link href={`/story/${playingStoryId}`}>
         <a className={`flex-1 w-0 flex items-center`}>
           <div className="w-16 h-16 p-2">
             {playerPlaying && (

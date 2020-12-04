@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import RoomRules from "./RoomRules";
+import StoryRules from "./StoryRules";
 import {
   usePlayer,
   PlayerEmbeddedControl,
@@ -11,11 +11,11 @@ import { ShareDialog } from "~/components/Social/index";
 import { useModal } from "~/components/Modal/index";
 import { useCurrentUser } from "~/hooks/user";
 import {
-  Room,
-  useRoomQuery,
-  useRoomStateQuery,
-  useOnRoomStateUpdatedSubscription,
-  RoomState,
+  Story,
+  useStoryQuery,
+  useStoryStateQuery,
+  useOnStoryStateUpdatedSubscription,
+  StoryState,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import {
@@ -26,14 +26,14 @@ import {
   SvgX,
 } from "~/assets/svg";
 
-const RoomQueue = dynamic(() => import("./RoomQueue"), { ssr: false });
-const RoomChat = dynamic(() => import("./RoomChat"), { ssr: false });
-const RoomPrivate = dynamic(() => import("./RoomPrivate"), { ssr: false });
+const StoryQueue = dynamic(() => import("./StoryQueue"), { ssr: false });
+const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
+const StoryPrivate = dynamic(() => import("./StoryPrivate"), { ssr: false });
 
 const Navbar: React.FC<{
-  room: Room;
-  roomState: RoomState | null | undefined;
-}> = ({ room, roomState }) => {
+  story: Story;
+  storyState: StoryState | null | undefined;
+}> = ({ story, storyState }) => {
   const { t } = useI18n();
 
   const user = useCurrentUser();
@@ -45,12 +45,12 @@ const Navbar: React.FC<{
       <div className="nav px-2 overflow-hidden">
         <div className="flex flex-1 w-0 items-center justify-start h-full">
           <img
-            alt={room.title}
-            src={room.image}
+            alt={story.title}
+            src={story.image}
             className="w-6 h-6 rounded-lg mr-2"
           />
           <h4 className="text-lg font-bold leading-tight truncate mr-2">
-            {room.title}
+            {story.title}
           </h4>
         </div>
         <div className="flex items justify-end">
@@ -60,27 +60,27 @@ const Navbar: React.FC<{
               {t("share.title")}
             </span>
           </button>
-          {roomState && (
+          {storyState && (
             <>
               <button onClick={openRules} className="btn p-2 mr-1">
                 <SvgBookOpen width="14" height="14" className="sm:mr-1" />
                 <span className="text-sm sr-only sm:not-sr-only leading-none">
-                  {t("room.rules.shortTitle")}
+                  {t("story.rules.shortTitle")}
                 </span>
               </button>
-              <RoomRules
+              <StoryRules
                 active={activeRules}
                 close={closeRules}
-                roomState={roomState}
+                storyState={storyState}
               />
             </>
           )}
-          {room.creatorId === user?.id && (
-            <Link href={`/room/${room.id}/settings`}>
+          {story.creatorId === user?.id && (
+            <Link href={`/story/${story.id}/settings`}>
               <a className="btn p-2">
                 <SvgSettings width="14" height="14" className="sm:mr-1" />
                 <span className="text-sm sr-only sm:not-sr-only leading-none">
-                  {t("room.settings.shortTitle")}
+                  {t("story.settings.shortTitle")}
                 </span>
               </a>
             </Link>
@@ -88,8 +88,8 @@ const Navbar: React.FC<{
         </div>
       </div>
       <ShareDialog
-        uri={`/room/${room.id}`}
-        name={room.title}
+        uri={`/story/${story.id}`}
+        name={story.title}
         active={activeShare}
         close={closeShare}
       />
@@ -97,15 +97,15 @@ const Navbar: React.FC<{
   );
 };
 
-const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
-  room,
-  roomState,
+const StoryContent: React.FC<{ story: Story; storyState: StoryState }> = ({
+  story,
+  storyState,
 }) => {
   const { t } = useI18n();
-  const { playRoom } = usePlayer();
+  const { playStory } = usePlayer();
   useEffect(() => {
-    playRoom(room.id);
-  }, [room, playRoom]);
+    playStory(story.id);
+  }, [story, playStory]);
 
   const [expandedChat, setExpandedChat] = useState(false);
 
@@ -114,68 +114,68 @@ const RoomContent: React.FC<{ room: Room; roomState: RoomState }> = ({
       {/* Main */}
       <div className="w-full h-full flex flex-col relative overflow-hidden p-2">
         <div className="mb-1 bordered-box rounded-lg overflow-hidden">
-          <PlayerEmbeddedControl roomId={room.id} />
+          <PlayerEmbeddedControl storyId={story.id} />
         </div>
         <PlayerEmbeddedNotification />
         <div className="mt-1 bordered-box rounded-lg flex-1 overflow-hidden">
-          <RoomQueue roomState={roomState} room={room} />
+          <StoryQueue storyState={storyState} story={story} />
         </div>
       </div>
       {/* Chat */}
       <button
-        aria-label={t("room.chat.title")}
+        aria-label={t("story.chat.title")}
         className="btn w-14 h-14 p-1 rounded-full border-2 border-background-tertiary fixed z-40 right-2 bottom-12 md:bottom-2 lg:hidden"
         onClick={() => setExpandedChat(!expandedChat)}
       >
         {expandedChat ? <SvgX /> : <SvgMessageSquare />}
       </button>
       <div
-        id="room-chat"
+        id="story-chat"
         className={`absolute z-10 right-0 top-0 h-full w-full transform ${
           expandedChat ? "traslate-y-0" : "translate-y-full lg:translate-y-0"
         } lg:pb-0 lg:w-96 bg-blue bg-opacity-75 lg:bg-transparent backdrop-blur lg:backdrop-none transition-transform duration-500`}
       >
-        <RoomChat room={room} roomState={roomState} />
+        <StoryChat story={story} storyState={storyState} />
       </div>
     </div>
   );
 };
 
-const RoomLoading: React.FC<{ room: Room }> = ({ room }) => {
+const StoryLoading: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   return (
     <div className="w-full h-full flex flex-col flex-center">
-      <h1 className="text-2xl md:text-4xl font-black">{room.title}</h1>
+      <h1 className="text-2xl md:text-4xl font-black">{story.title}</h1>
       <p className="text-sm md:text-md text-foreground-secondary animate-pulse">
-        {t("room.main.loading.text")}
+        {t("story.main.loading.text")}
       </p>
     </div>
   );
 };
 
-const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
-  // initialRoom is the same as room, only might be a outdated version
+const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
+  // initialStory is the same as story, only might be a outdated version
   // so it can be used as backup
-  const [{ data }] = useRoomQuery({
-    variables: { id: initialRoom.id as string },
+  const [{ data }] = useStoryQuery({
+    variables: { id: initialStory.id as string },
   });
-  const room = data?.room || initialRoom;
+  const story = data?.story || initialStory;
   const [
     {
-      data: { roomState } = { roomState: undefined },
-      fetching: fetchingRoomState,
+      data: { storyState } = { storyState: undefined },
+      fetching: fetchingStoryState,
     },
-    refetchRoomState,
-  ] = useRoomStateQuery({
-    variables: { id: room.id },
+    refetchStoryState,
+  ] = useStoryStateQuery({
+    variables: { id: story.id },
     pollInterval: 60 * 1000,
     requestPolicy: "cache-and-network",
   });
 
-  useOnRoomStateUpdatedSubscription(
+  useOnStoryStateUpdatedSubscription(
     {
-      variables: { id: room.id || "" },
-      pause: !roomState?.permission.viewable,
+      variables: { id: story.id || "" },
+      pause: !storyState?.permission.viewable,
     },
     (prev, data) => data
   );
@@ -183,25 +183,25 @@ const RoomMain: React.FC<{ initialRoom: Room }> = ({ initialRoom }) => {
   return (
     <>
       <div className="h-screen-layout relative pt-12 overflow-hidden">
-        <Navbar room={room} roomState={roomState} />
-        {roomState ? (
-          roomState.permission.viewable ? (
-            <RoomContent room={room} roomState={roomState} />
+        <Navbar story={story} storyState={storyState} />
+        {storyState ? (
+          storyState.permission.viewable ? (
+            <StoryContent story={story} storyState={storyState} />
           ) : (
-            <RoomPrivate
-              room={room}
-              roomState={roomState}
+            <StoryPrivate
+              story={story}
+              storyState={storyState}
               reloadFn={() =>
-                refetchRoomState({ requestPolicy: "cache-and-network" })
+                refetchStoryState({ requestPolicy: "cache-and-network" })
               }
             />
           )
         ) : (
-          fetchingRoomState && <RoomLoading room={room} />
+          fetchingStoryState && <StoryLoading story={story} />
         )}
       </div>
     </>
   );
 };
 
-export default RoomMain;
+export default StoryMain;

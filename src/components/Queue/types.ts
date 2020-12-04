@@ -1,7 +1,7 @@
-import { RoomState } from "~/graphql/gql.gen";
+import { StoryState } from "~/graphql/gql.gen";
 
 export type QueuePermission = Pick<
-  RoomState["permission"],
+  StoryState["permission"],
   "queueCanAdd" | "queueCanManage"
 >;
 

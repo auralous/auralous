@@ -20,9 +20,9 @@
       "action": "Nghe ngay"
     },
     "rules": {
-      "title": "Phòng của bạn. Quy tắc của bạn.",
+      "title": "Story của bạn. Quy tắc của bạn.",
       "p1": "Nghe nhạc riêng tư hoặc công ngai tùy ý bạn. Đặt mật khẩu để tránh những vị khách không mời. Ai cùng có thể trò chuyện và thả cảm xúc nhưng chỉ thành viên mới có thể thêm nhạc.",
-      "p2": "Mời bạn bè làm quản trị viên. Chặn những người nghe xấu tính. Tùy chỉnh luật lệ phòng để mọi người thể cùng thêm bài hát phù hợp.",
+      "p2": "Mời bạn bè làm quản trị viên. Chặn những người nghe xấu tính. Tùy chỉnh luật lệ story để mọi người thể cùng thêm bài hát phù hợp.",
       "p2Bold": "Bạn luôn nắm quyền"
     }
   },
@@ -51,7 +51,7 @@
         "action": "Xoá tài khoản",
         "modal": {
           "title": "Chúng mình sẽ nhớ bạn...",
-          "description": "Xoá tài khoản đồng nghĩa với việc xoá tất cả thông tin, phòng của bạn.",
+          "description": "Xoá tài khoản đồng nghĩa với việc xoá tất cả thông tin, story của bạn.",
           "enterName": "Nhập username để tiếp tục"
         },
         "cancel": "Thôi",
@@ -97,21 +97,21 @@
       "authPrompt": "Đăng nhập vào Stereo để kết nối với playlist của bạn",
       "empty": "Bạn không có playlist nào"
     },
-    "startEmpty": "Bắt đầu phòng trống",
+    "startEmpty": "Bắt đầu story trống",
     "fromResult": {
       "startListeningTo": "Bắt đầu nghe",
       "featuring": "đến từ"
     },
     "addNew": {
-      "title": "Tạo phòng mới",
-      "warnNoPass": "Mật khẩu phòng chưa được đặt. Bất cứ ai với đường link sẽ được trở thành của phòng. Vẫn tiếp tục?",
+      "title": "Tạo story mới",
+      "warnNoPass": "Mật khẩu story chưa được đặt. Bất cứ ai với đường link sẽ được trở thành của story. Vẫn tiếp tục?",
       "action": "Nghe nào",
-      "promptTitle": "Bạn sẽ miêu tả phòng của mình thế nào",
+      "promptTitle": "Bạn sẽ miêu tả story của mình thế nào",
       "promptPrivacy": "Bạn định nghe công khai hay riêng tư"
     },
     "addExisted": {
-      "title": "Tiếp tục ở phòng hiện có",
-      "prompt": "Chọn một phòng để tiếp tục nghe nhạc",
+      "title": "Tiếp tục ở story hiện có",
+      "prompt": "Chọn một story để tiếp tục nghe nhạc",
       "authPrompt": "Đăng nhập Stereo để tiếp tục nghe"
     },
     "backText": "Trở về"
@@ -125,42 +125,42 @@
       "description": "Bạn có một playlist độc đáo muốn chia sẽ với bạn bè? Hãy dán đường link dưới đây."
     }
   },
-  "room": {
-    "label": "Phòng",
+  "story": {
+    "label": "Story",
     "description": "Tham gia cùng {{title}} trên Stereo và nghe nhạc cùng nhau.",
     "privacy": { "public": "Công khai", "private": "Riêng tư" },
     "main": {
       "private": {
-        "prompt": "Đăng nhập đề vào phòng riêng tư",
+        "prompt": "Đăng nhập đề vào story riêng tư",
         "password1": "Nhập mật khẩu để tham gia. Để trống nếu không có mật khẩu.",
-        "password2": "Bạn cũng có thể nhờ chủ phòng thêm bạn vào nhóm thành viền.",
-        "join": "Vào phòng",
+        "password2": "Bạn cũng có thể nhờ chủ story thêm bạn vào nhóm thành viền.",
+        "join": "Vào story",
         "leave": "Quay về",
         "badPassword": "Sai mật khẩu"
       },
       "loading": {
-        "text": "Đang vào phòng"
+        "text": "Đang vào story"
       }
     },
     "settings": {
-      "title": "Cài đặt phòng",
-      "titleInfo": "Thông tin phòng",
+      "title": "Cài đặt story",
+      "titleInfo": "Thông tin story",
       "titleRules": "Luật lệ và truy cập",
-      "titleMembers": "Thành viên phòng",
+      "titleMembers": "Thành viên story",
       "shortTitle": "Cài đặt",
       "info": {
         "title": "Tên",
         "description": "Mô tả",
-        "titleHelp": "Nhập tên phòng của bạn",
-        "descriptionHelp": "Đặt tên phòng của bạn",
+        "titleHelp": "Nhập tên story của bạn",
+        "descriptionHelp": "Đặt tên story của bạn",
         "username": "Tên người dùng"
       },
       "privacy": {
         "title": "Công khai",
         "publicAllowGuests": "Ai cũng có thể thêm nhạc",
-        "publicAllowGuestsHelp": "Nếu tắt, chỉ thành viên phòng mới có thể thêm nhạc",
+        "publicAllowGuestsHelp": "Nếu tắt, chỉ thành viên story mới có thể thêm nhạc",
         "password": "Mật khẩu",
-        "passwordHelp": "Bất kì ai có mật khẩu sẽ tham gia làm thành viên phòng",
+        "passwordHelp": "Bất kì ai có mật khẩu sẽ tham gia làm thành viên story",
         "newPassword": "Mật khẩu mới",
         "newPasswordHelp": "Thành viên hiện tại không cần nhập lại mật khẩu"
       },
@@ -177,18 +177,18 @@
         "title": "Khu vực nguy hiểm",
         "delete": {
           "title": "Xoá {{title}}",
-          "description": "Thao tác sẽ xoá toàn bộ dữ liệu phòng",
-          "enterName": "Nhập lại tên phòng để xoá",
-          "action": "Xoá phòng",
+          "description": "Thao tác sẽ xoá toàn bộ dữ liệu story",
+          "enterName": "Nhập lại tên story để xoá",
+          "action": "Xoá story",
           "cancel": "Thôi",
-          "deleted": "Phòng đã bị xoá"
+          "deleted": "Story đã bị xoá"
         }
       },
-      "updatedText": "Phòng đã được cập nhật",
-      "backToRoom": "Trờ lại phòng"
+      "updatedText": "Story đã được cập nhật",
+      "backToStory": "Trờ lại story"
     },
     "rules": {
-      "title": "Quy tắc phòng",
+      "title": "Quy tắc story",
       "shortTitle": "Quy tắc",
       "anyoneCanAdd": "Ai cũng có thể thêm nhạc",
       "onlyMemberCanAdd": "Chỉ thành viên mới được thêm nhạc",
@@ -313,7 +313,7 @@
     }
   },
   "auth": {
-    "hookDefault": "Nghe nhạc cùng với bạn bè trong phòng công khai hoặc riêng tư. Tất cả bạn cần là một tài khoản YouTube, Spotify, hoặc Apple Music.",
+    "hookDefault": "Nghe nhạc cùng với bạn bè trong story công khai hoặc riêng tư. Tất cả bạn cần là một tài khoản YouTube, Spotify, hoặc Apple Music.",
     "action": "Đăng nhập",
     "label": "Đăng nhập vào Stereo",
     "listenOn": "Nghe trên",
@@ -342,7 +342,7 @@
     "save": "Lưu",
     "saved": "Đã lưu",
     "startListening": "Nghe nào",
-    "newRoom": "Tạo phòng"
+    "newStory": "Tạo story"
   },
   "error": {
     "sorry": "Chúng mình xin lỗi vì sự bất tiện",

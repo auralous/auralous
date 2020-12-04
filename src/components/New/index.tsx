@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useI18n } from "~/i18n/index";
-import CreateRoom from "./CreateRoom";
+import CreateStory from "./CreateStory";
 import AddToExisted from "./AddToExisted";
 import SelectFromSearch from "./SelectFromSearch";
 import { Track } from "~/graphql/gql.gen";
@@ -99,7 +99,7 @@ const SelectTracksView: React.FC<{
   );
 };
 
-const CreateRoomView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
+const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const { t } = useI18n();
   const router = useRouter();
 
@@ -148,7 +148,7 @@ const CreateRoomView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       {addExisted ? (
         <AddToExisted initTracks={initTracks} />
       ) : (
-        <CreateRoom initTracks={initTracks} />
+        <CreateStory initTracks={initTracks} />
       )}
       <div className="w-full flex mt-1 justify-center">
         <button
@@ -184,7 +184,7 @@ const NewMain: React.FC = () => {
         {transitionsCreate.map(({ item: doneSelected, key, props }) =>
           doneSelected ? (
             <animated.div key={key} style={props} className="w-full">
-              <CreateRoomView initTracks={initTracks || []} />
+              <CreateStoryView initTracks={initTracks || []} />
             </animated.div>
           ) : (
             <animated.div key={key} style={props} className="w-full">

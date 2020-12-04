@@ -4,52 +4,52 @@ import { useModal, Modal } from "~/components/Modal";
 import { toast } from "~/lib/toast";
 import {
   useUserQuery,
-  useUpdateRoomMembershipMutation,
-  Room,
-  RoomState,
-  RoomMembership,
+  useUpdateStoryMembershipMutation,
+  Story,
+  StoryState,
+  StoryMembership,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { MEMBERSHIP_NAMES } from "~/lib/constants";
-import { getRole } from "~/lib/room";
+import { getRole } from "~/lib/story";
 
-const RoomMember: React.FC<{
+const StoryMember: React.FC<{
   userId: string;
-  roomId: string;
-  role: RoomMembership | undefined;
-}> = ({ userId, roomId, role }) => {
+  storyId: string;
+  role: StoryMembership | undefined;
+}> = ({ userId, storyId, role }) => {
   const { t } = useI18n();
   const [{ data, fetching: fetchingUser }] = useUserQuery({
     variables: { id: userId },
   });
   const [
     { fetching },
-    updateRoomMembership,
-  ] = useUpdateRoomMembershipMutation();
+    updateStoryMembership,
+  ] = useUpdateStoryMembershipMutation();
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const newRole = e.currentTarget.value as RoomMembership | "";
-      updateRoomMembership({
-        id: roomId,
+      const newRole = e.currentTarget.value as StoryMembership | "";
+      updateStoryMembership({
+        id: storyId,
         userId,
         role: newRole || null,
       }).then(({ error }) =>
         !error && newRole
           ? toast.success(
-              t("room.settings.member.addedText", {
+              t("story.settings.member.addedText", {
                 username: data?.user?.username,
                 role: MEMBERSHIP_NAMES[newRole],
               })
             )
           : toast.success(
-              t("room.settings.member.removedText", {
+              t("story.settings.member.removedText", {
                 username: data?.user?.username,
               })
             )
       );
     },
-    [t, data, roomId, updateRoomMembership, userId]
+    [t, data, storyId, updateStoryMembership, userId]
   );
 
   return (
@@ -79,11 +79,11 @@ const RoomMember: React.FC<{
           <div className="bg-background-secondary animate-pulse rounded-lg flex-1 w-0" />
         ) : (
           <div className="flex-1 w-0 text-xs text-foreground-secondary">
-            {t("room.settings.member.userNotFound")}
+            {t("story.settings.member.userNotFound")}
           </div>
         )}
         <div className="px-1 flex items-center">
-          {role !== RoomMembership.Host ? (
+          {role !== StoryMembership.Host ? (
             <>
               <select
                 value={role || ""}
@@ -92,8 +92,8 @@ const RoomMember: React.FC<{
                 className="input px-1 py-2 mr-1"
                 disabled={fetching}
               >
-                <option value={RoomMembership.Collab}>
-                  {MEMBERSHIP_NAMES[RoomMembership.Collab]}
+                <option value={StoryMembership.Collab}>
+                  {MEMBERSHIP_NAMES[StoryMembership.Collab]}
                 </option>
                 <option value="">{MEMBERSHIP_NAMES[""]}</option>
               </select>
@@ -105,30 +105,30 @@ const RoomMember: React.FC<{
   );
 };
 
-const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
-  room,
-  roomState,
-}) => {
+const StorySettingsMember: React.FC<{
+  story: Story;
+  storyState: StoryState;
+}> = ({ story, storyState }) => {
   const { t } = useI18n();
 
   const [activeAdd, openAdd, closeAdd] = useModal();
   const [
     { fetching },
-    updateRoomMembership,
-  ] = useUpdateRoomMembershipMutation();
+    updateStoryMembership,
+  ] = useUpdateStoryMembershipMutation();
   const handleAdd = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     if (fetching) return;
     const username = ev.currentTarget.uname.value;
-    if (!username) return toast.error(t("room.settings.member.userNotFound"));
-    const { error } = await updateRoomMembership({
-      id: room.id,
+    if (!username) return toast.error(t("story.settings.member.userNotFound"));
+    const { error } = await updateStoryMembership({
+      id: story.id,
       username,
-      role: RoomMembership.Collab,
+      role: StoryMembership.Collab,
     });
     if (!error) {
       toast.success(
-        t("room.settings.member.addedText", {
+        t("story.settings.member.addedText", {
           username: username,
           role: MEMBERSHIP_NAMES.collab,
         })
@@ -139,8 +139,8 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
   };
 
   const otherUserIds = useMemo(
-    () => roomState.collabs.filter((uid) => !roomState.userIds.includes(uid)),
-    [roomState]
+    () => storyState.collabs.filter((uid) => !storyState.userIds.includes(uid)),
+    [storyState]
   );
   return (
     <>
@@ -149,46 +149,46 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
           className="btn btn-light h-12 mr-1 w-full mb-2"
           onClick={openAdd}
         >
-          <SvgPlus /> {t("room.settings.member.title")}
+          <SvgPlus /> {t("story.settings.member.title")}
         </button>
-        {roomState.userIds.map((userId) => {
+        {storyState.userIds.map((userId) => {
           return (
-            <RoomMember
+            <StoryMember
               key={userId}
               userId={userId}
-              roomId={room.id}
-              role={getRole(userId, room, roomState)}
+              storyId={story.id}
+              role={getRole(userId, story, storyState)}
             />
           );
         })}
         <p className="font-bold text-sm text-foreground-secondary mb-1">
-          {t("room.settings.member.offline")}
+          {t("story.settings.member.offline")}
         </p>
         {otherUserIds.map((userId) => {
           return (
-            <RoomMember
+            <StoryMember
               key={userId}
               userId={userId}
-              roomId={room.id}
-              role={getRole(userId, room, roomState)}
+              storyId={story.id}
+              role={getRole(userId, story, storyState)}
             />
           );
         })}
       </div>
       <Modal.Modal active={activeAdd} onOutsideClick={closeAdd}>
         <Modal.Header>
-          <Modal.Title>{t("room.settings.member.title")}</Modal.Title>
+          <Modal.Title>{t("story.settings.member.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Content>
-          <p className="mb-2">{t("room.settings.member.helpText")}</p>
+          <p className="mb-2">{t("story.settings.member.helpText")}</p>
           <form onSubmit={handleAdd} className="flex">
             <input
               name="uname"
               className="input flex-1 mr-1"
-              aria-label={t("room.settings.member.helpText")}
+              aria-label={t("story.settings.member.helpText")}
             />
             <button type="submit" className="btn" disabled={fetching}>
-              {t("room.settings.member.action")}
+              {t("story.settings.member.action")}
             </button>
           </form>
         </Modal.Content>
@@ -197,4 +197,4 @@ const RoomSettingsMember: React.FC<{ room: Room; roomState: RoomState }> = ({
   );
 };
 
-export default RoomSettingsMember;
+export default StorySettingsMember;

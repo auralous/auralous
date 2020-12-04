@@ -1,52 +1,52 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Switch } from "@headlessui/react";
 import { toast } from "~/lib/toast";
-import { Room, useUpdateRoomMutation, RoomState } from "~/graphql/gql.gen";
+import { Story, useUpdateStoryMutation, StoryState } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
-const RoomSettingsRules: React.FC<{
-  room: Room;
-  roomState: RoomState;
-}> = ({ room, roomState }) => {
+const StorySettingsRules: React.FC<{
+  story: Story;
+  storyState: StoryState;
+}> = ({ story, storyState }) => {
   const { t } = useI18n();
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const [anyoneCanAdd, setAnyoneCanAdd] = useState(false);
 
   useEffect(() => {
-    if (!roomState) return;
-    setAnyoneCanAdd(roomState.anyoneCanAdd);
-  }, [roomState]);
+    if (!storyState) return;
+    setAnyoneCanAdd(storyState.anyoneCanAdd);
+  }, [storyState]);
 
-  const [{ fetching }, updateRoom] = useUpdateRoomMutation();
+  const [{ fetching }, updateStory] = useUpdateStoryMutation();
   const [isChanged, setIsChanged] = useState(false);
 
   const handleSaveRules = async () => {
-    if (!room.isPublic && !passwordRef.current?.value) {
+    if (!story.isPublic && !passwordRef.current?.value) {
       if (!window.confirm(t("new.addNew.warnNoPass"))) return;
     }
     const update = {
-      id: room.id,
-      anyoneCanAdd: room.isPublic ? anyoneCanAdd : undefined,
-      password: !room.isPublic ? passwordRef.current?.value : undefined,
+      id: story.id,
+      anyoneCanAdd: story.isPublic ? anyoneCanAdd : undefined,
+      password: !story.isPublic ? passwordRef.current?.value : undefined,
     };
-    const result = await updateRoom(update);
+    const result = await updateStory(update);
     if (!result.error) {
       setIsChanged(false);
-      toast.success(t("room.settings.updatedText"));
+      toast.success(t("story.settings.updatedText"));
     }
   };
 
   return (
     <>
-      {room.isPublic ? (
+      {story.isPublic ? (
         <>
           <div className="mb-4">
             <h5 className="text-lg font-bold">
-              {t("room.settings.privacy.publicAllowGuests")}
+              {t("story.settings.privacy.publicAllowGuests")}
             </h5>
             <p className="text-foreground-secondary mb-1">
-              {t("room.settings.privacy.publicAllowGuestsHelp")}
+              {t("story.settings.privacy.publicAllowGuestsHelp")}
             </p>
             <Switch
               checked={anyoneCanAdd}
@@ -57,7 +57,7 @@ const RoomSettingsRules: React.FC<{
               className={`${
                 anyoneCanAdd ? "bg-success" : "bg-background-tertiary"
               } relative inline-flex h-6 rounded-full w-12`}
-              aria-labelledby="roomAnyoneCanAdd"
+              aria-labelledby="storyAnyoneCanAdd"
             >
               <span
                 className={`${
@@ -71,10 +71,10 @@ const RoomSettingsRules: React.FC<{
         <>
           <div className="mb-4">
             <h5 className="text-lg font-bold">
-              {t("room.settings.privacy.newPassword")}
+              {t("story.settings.privacy.newPassword")}
             </h5>
             <p className="text-foreground-secondary mb-1">
-              {t("room.settings.privacy.passwordHelp")}
+              {t("story.settings.privacy.passwordHelp")}
             </p>
             <input
               type="password"
@@ -86,7 +86,7 @@ const RoomSettingsRules: React.FC<{
               onChange={() => setIsChanged(true)}
             />
             <p className="text-foreground-tertiary text-xs mt-1">
-              {t("room.settings.privacy.newPasswordHelp")}
+              {t("story.settings.privacy.newPasswordHelp")}
             </p>
           </div>
         </>
@@ -102,4 +102,4 @@ const RoomSettingsRules: React.FC<{
   );
 };
 
-export default RoomSettingsRules;
+export default StorySettingsRules;

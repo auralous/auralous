@@ -20,9 +20,9 @@
       "action": "Go"
     },
     "rules": {
-      "title": "Your Room. Your Rule.",
-      "p1": "Listen either in public or private rooms. Set a password to avoid unwelcome guests. Everyone can chat and react, but only collaborators can add songs.",
-      "p2": "Invite your close friends to be moderators. Ban uncivil listeneres. Customize room rules so everyone know what songs will fit.",
+      "title": "Your Story. Your Rule.",
+      "p1": "Listen either in public or private stories. Set a password to avoid unwelcome guests. Everyone can chat and react, but only collaborators can add songs.",
+      "p2": "Invite your close friends to be moderators. Ban uncivil listeneres. Customize story rules so everyone know what songs will fit.",
       "p2Bold": "You are in control"
     }
   },
@@ -51,7 +51,7 @@
         "action": "Deactivate Account",
         "modal": {
           "title": "Sad to See You Go...",
-          "description": "Deactivating your account will remove all of your information, rooms.",
+          "description": "Deactivating your account will remove all of your information, stories.",
           "enterName": "Enter your username to continue"
         },
         "cancel": "Nevermind",
@@ -103,62 +103,62 @@
       "featuring": "featuring"
     },
     "addNew": {
-      "title": "Create New Room",
-      "warnNoPass": "The room password is not set. Anyone with the link can enter the room and become a collaborator. Continue anyway?",
+      "title": "Create New Story",
+      "warnNoPass": "The story password is not set. Anyone with the link can enter the story and become a collaborator. Continue anyway?",
       "action": "Start Listening",
-      "promptTitle": "How would you describe the room",
+      "promptTitle": "How would you describe the story",
       "promptPrivacy": "Are you listening in public or private"
     },
     "addExisted": {
-      "title": "Continue in Existed Room",
-      "prompt": "Select a room to continue listening",
+      "title": "Continue in Existed Story",
+      "prompt": "Select a story to continue listening",
       "authPrompt": "Join Stereo to continue listening"
     },
     "backText": "Go back"
   },
   "browse": {
     "title": "Browse",
-    "titleRandom": "Random Rooms",
-    "titleMy": "My Rooms",
+    "titleRandom": "Random Stories",
+    "titleMy": "My Stories",
     "playlist": {
       "title": "Start Listening Together",
       "description": "Have an awesome playlist to listen together with friends? Just enter its link below."
     }
   },
-  "room": {
-    "label": "Room",
+  "story": {
+    "label": "Story",
     "description": "Join {{title}} on Stereo and listen to music together.",
     "privacy": { "public": "Public", "private": "Private" },
     "main": {
       "private": {
-        "prompt": "Join Stereo to Enter a Private Room",
-        "password1": "Enter room password to join. Leave empty if it has no password.",
+        "prompt": "Join Stereo to Enter a Private Story",
+        "password1": "Enter story password to join. Leave empty if it has no password.",
         "password2": "You can also join by asking the host to add you as a collaborator",
-        "join": "Enter room",
+        "join": "Enter story",
         "leave": "Leave",
-        "badPassword": "Incorrect room password"
+        "badPassword": "Incorrect story password"
       },
       "loading": {
-        "text": "Joining Room"
+        "text": "Joining Story"
       }
     },
     "settings": {
-      "title": "Room Settings",
+      "title": "Story Settings",
       "shortTitle": "Settings",
-      "titleInfo": "Room Info",
-      "titleRules": "Room Rules and Access",
-      "titleMembers": "Room Members",
+      "titleInfo": "Story Info",
+      "titleRules": "Story Rules and Access",
+      "titleMembers": "Story Members",
       "info": {
         "title": "Title",
         "description": "Description",
-        "titleHelp": "Enter a title for the room",
-        "descriptionHelp": "Enter a description for the room",
+        "titleHelp": "Enter a title for the story",
+        "descriptionHelp": "Enter a description for the story",
         "username": "Username"
       },
       "privacy": {
         "title": "Privacy",
         "publicAllowGuests": "Guests can add songs",
-        "publicAllowGuestsHelp": "If disabled, only room members can add songs",
+        "publicAllowGuestsHelp": "If disabled, only story members can add songs",
         "password": "Password",
         "passwordHelp": "Anyone with a password will also become a collaborator",
         "newPassword": "New Password",
@@ -177,18 +177,18 @@
         "title": "Danger Zone",
         "delete": {
           "title": "Delete {{title}}",
-          "description": "This will remove this room along with its data",
-          "enterName": "Enter the room name to continue",
-          "action": "Yes, delete room",
+          "description": "This will remove this story along with its data",
+          "enterName": "Enter the story name to continue",
+          "action": "Yes, delete story",
           "cancel": "Nevermind",
-          "deleted": "Room deleted"
+          "deleted": "Story deleted"
         }
       },
-      "updatedText": "Room Updated",
-      "backToRoom": "Go back to room"
+      "updatedText": "Story Updated",
+      "backToStory": "Go back to story"
     },
     "rules": {
-      "title": "Room Rules",
+      "title": "Story Rules",
       "shortTitle": "Rules",
       "anyoneCanAdd": "Anyone can add songs",
       "onlyMemberCanAdd": "Only member can add songs",
@@ -313,7 +313,7 @@
     }
   },
   "auth": {
-    "hookDefault": "Start listening to music in sync with friends in public or private rooms. All you need is an YouTube, Spotify, or Apple Music account.",
+    "hookDefault": "Start listening to music in sync with friends in public or private stories. All you need is an YouTube, Spotify, or Apple Music account.",
     "action": "Join now",
     "label": "Sign in to Stereo",
     "listenOn": "Listen on",
@@ -342,7 +342,7 @@
     "save": "Save",
     "saved": "Saved",
     "startListening": "Start Listening",
-    "newRoom": "Create Room"
+    "newStory": "Create Story"
   },
   "error": {
     "sorry": "We are sorry for the inconvenience",

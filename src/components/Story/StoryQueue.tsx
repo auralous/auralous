@@ -8,9 +8,9 @@ import {
 } from "~/components/Track/TrackAdder";
 import {
   QueueAction,
-  Room,
+  Story,
   useUpdateQueueMutation,
-  RoomState,
+  StoryState,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgClock } from "~/assets/svg";
@@ -19,15 +19,15 @@ const AnimatedTabPanel = animated(TabPanel);
 const tabInactiveStyle = { opacity: 0, transform: "translate3d(0px,40px,0px)" };
 const tabActiveStyle = { opacity: 1, transform: "translate3d(0px,0px,0px)" };
 
-const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
-  room,
-  roomState,
+const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
+  story,
+  storyState,
 }) => {
   const { t } = useI18n();
 
   const [, updateQueue] = useUpdateQueueMutation();
 
-  const [queue] = useQueue(`room:${room.id}`);
+  const [queue] = useQueue(`story:${story.id}`);
 
   const addedTracks = useMemo(() => {
     if (!queue) return [];
@@ -37,12 +37,12 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
   const onAddTracks = useCallback(
     (newTrackArray: string[]) => {
       return updateQueue({
-        id: `room:${room.id}`,
+        id: `story:${story.id}`,
         tracks: newTrackArray,
         action: QueueAction.Add,
       }).then((result) => !!result.data?.updateQueue);
     },
-    [updateQueue, room]
+    [updateQueue, story]
   );
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -72,22 +72,22 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
       className="h-full flex flex-col overflow-hidden"
     >
       <TabList className="flex flex-none">
-        <Tab className={getClassName(0)}>{t("room.queue.queue.title")}</Tab>
+        <Tab className={getClassName(0)}>{t("story.queue.queue.title")}</Tab>
         <Tab
           className={getClassName(1)}
-          disabled={!roomState.permission.queueCanAdd}
+          disabled={!storyState.permission.queueCanAdd}
         >
-          {t("room.queue.search.title")}
+          {t("story.queue.search.title")}
         </Tab>
         <Tab
           className={getClassName(2)}
-          disabled={!roomState.permission.queueCanAdd}
+          disabled={!storyState.permission.queueCanAdd}
         >
-          {t("room.queue.playlist.title")}
+          {t("story.queue.playlist.title")}
         </Tab>
         <Tab
           className={`${getClassName(3)} flex-grow-0`}
-          title={t("room.queue.played.title")}
+          title={t("story.queue.played.title")}
         >
           <SvgClock width="16" height="16" />
         </Tab>
@@ -95,8 +95,8 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
       <TabPanels className="flex-1 h-0">
         <AnimatedTabPanel style={tabPanelStyle0} className="h-full" as="div">
           <QueueManager
-            permission={roomState.permission}
-            queueId={`room:${room.id}`}
+            permission={storyState.permission}
+            queueId={`story:${story.id}`}
             onEmptyAddClick={() => setSelectedIndex(1)}
           />
         </AnimatedTabPanel>
@@ -112,8 +112,8 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
         </AnimatedTabPanel>
         <AnimatedTabPanel style={tabPanelStyle3} className="h-full" as="div">
           <QueueViewer
-            onAdd={roomState.permission.queueCanAdd ? onAddTracks : undefined}
-            queueId={`room:${room.id}:played`}
+            onAdd={storyState.permission.queueCanAdd ? onAddTracks : undefined}
+            queueId={`story:${story.id}:played`}
             reverse
             queryOpts={selectedIndex === 3 ? undefined : { pause: true }}
           />
@@ -123,4 +123,4 @@ const RoomQueue: React.FC<{ room: Room; roomState: RoomState }> = ({
   );
 };
 
-export default RoomQueue;
+export default StoryQueue;

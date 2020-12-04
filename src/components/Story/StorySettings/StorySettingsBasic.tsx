@@ -3,18 +3,18 @@ import { useRouter } from "next/router";
 import { toast } from "~/lib/toast";
 import { useModal, Modal } from "~/components/Modal";
 import {
-  Room,
-  useUpdateRoomMutation,
-  useDeleteRoomMutation,
+  Story,
+  useUpdateStoryMutation,
+  useDeleteStoryMutation,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgEdit2 } from "~/assets/svg";
 
 const ImageEditSection: React.FC<{
-  room: Room;
+  story: Story;
   imageRef: React.RefObject<HTMLImageElement>;
   imageInputRef: React.RefObject<HTMLInputElement>;
-}> = ({ room, imageRef, imageInputRef }) => {
+}> = ({ story, imageRef, imageInputRef }) => {
   function handleImageInputChange() {
     const file = (imageInputRef.current as HTMLInputElement).files?.[0];
     if (file)
@@ -24,7 +24,7 @@ const ImageEditSection: React.FC<{
   return (
     <div className="relative mx-auto w-32 h-32 mb-2 rounded-full overflow-hidden flex flex-center">
       <input
-        id="roomImg"
+        id="storyImg"
         className="absolute w-full h-full inset-0 cursor-pointer"
         type="file"
         accept="image/*"
@@ -34,9 +34,9 @@ const ImageEditSection: React.FC<{
       />
       <img
         ref={imageRef}
-        alt={room.title}
+        alt={story.title}
         className="pointer-events-none absolute inset-0 w-full h-full object-cover bg-background-secondary"
-        src={room.image}
+        src={story.image}
       />
       <div
         className="pointer-events-none absolute inset-0 w-full h-full flex flex-center"
@@ -49,19 +49,19 @@ const ImageEditSection: React.FC<{
 };
 
 const InfoEditSection: React.FC<{
-  room: Room;
+  story: Story;
   titleRef: React.RefObject<HTMLInputElement>;
   descriptionRef: React.RefObject<HTMLTextAreaElement>;
-}> = ({ room, titleRef, descriptionRef }) => {
+}> = ({ story, titleRef, descriptionRef }) => {
   const { t } = useI18n();
   return (
     <>
       <div className="mb-4">
-        <label className="label" htmlFor="roomTitle">
-          {t("room.settings.info.title")}
+        <label className="label" htmlFor="storyTitle">
+          {t("story.settings.info.title")}
         </label>
         <input
-          id="roomTitle"
+          id="storyTitle"
           className="input w-full"
           type="text"
           ref={titleRef}
@@ -69,22 +69,26 @@ const InfoEditSection: React.FC<{
         />
       </div>
       <div className="mb-4 hidden">
-        <label className="label" htmlFor="roomDesc">
-          {t("room.settings.info.description")}
+        <label className="label" htmlFor="storyDesc">
+          {t("story.settings.info.description")}
         </label>
-        <textarea id="roomDesc" className="input w-full" ref={descriptionRef} />
+        <textarea
+          id="storyDesc"
+          className="input w-full"
+          ref={descriptionRef}
+        />
       </div>
       {/* TODO: Not yet implemented */}
       <div className="mb-4">
-        <label className="label" htmlFor="roomUsername">
-          {t("room.settings.info.username")}
+        <label className="label" htmlFor="storyUsername">
+          {t("story.settings.info.username")}
         </label>
         <input
-          id="roomUsername"
+          id="storyUsername"
           disabled
           className="input w-full"
           type="text"
-          value={room.id}
+          value={story.id}
           required
         />
       </div>
@@ -92,9 +96,9 @@ const InfoEditSection: React.FC<{
   );
 };
 
-const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
+const StoryDetails: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
-  const [{ fetching }, updateRoom] = useUpdateRoomMutation();
+  const [{ fetching }, updateStory] = useUpdateStoryMutation();
 
   const [isChanged, setIsChanged] = useState(false);
 
@@ -124,9 +128,9 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
 
     (formRef.current as HTMLFormElement).reset();
 
-    titleNode.value = room.title;
-    descriptionNode.value = room.description || "";
-    imageNode.src = room.image;
+    titleNode.value = story.title;
+    descriptionNode.value = story.description || "";
+    imageNode.src = story.image;
 
     const onChange = () => setIsChanged(true);
     titleNode.oninput = onChange;
@@ -137,28 +141,28 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
       descriptionNode.oninput = null;
       imageInputNode.onchange = null;
     };
-  }, [room]);
+  }, [story]);
 
   const handleSubmit = useCallback(
     async (event: React.FormEvent) => {
       event.preventDefault();
       const image = imageInputRef.current?.files?.[0];
       const title =
-        titleRef.current?.value !== room.title && titleRef.current?.value;
+        titleRef.current?.value !== story.title && titleRef.current?.value;
       const description =
-        descriptionRef.current?.value !== room.description &&
+        descriptionRef.current?.value !== story.description &&
         descriptionRef.current?.value;
       if (image || title || description) {
-        await updateRoom({
-          id: room.id,
+        await updateStory({
+          id: story.id,
           ...(title && { title }),
           ...(description !== false && { description }),
           ...(image && { image }),
         });
-        toast.success(t("room.settings.updatedText"));
+        toast.success(t("story.settings.updatedText"));
       }
     },
-    [t, room, updateRoom]
+    [t, story, updateStory]
   );
 
   return (
@@ -166,14 +170,14 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
       <div className="flex flex-wrap flex-center">
         <div className="flex-none w-full md:w-auto md:mr-4">
           <ImageEditSection
-            room={room}
+            story={story}
             imageInputRef={imageInputRef}
             imageRef={imageRef}
           />
         </div>
         <div className="flex-1 pt-4">
           <InfoEditSection
-            room={room}
+            story={story}
             titleRef={titleRef}
             descriptionRef={descriptionRef}
           />
@@ -190,16 +194,16 @@ const RoomDetails: React.FC<{ room: Room }> = ({ room }) => {
   );
 };
 
-const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
+const StoryPublish: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   const router = useRouter();
-  const [{ fetching }, deleteRoom] = useDeleteRoomMutation();
+  const [{ fetching }, deleteStory] = useDeleteStoryMutation();
   const [activeDelete, openDelete, closeDelete] = useModal();
   const [confirmDelete, setConfirmDelete] = useState("");
 
   const onDelete = () => {
-    deleteRoom({ id: room.id }).then(() => {
-      toast.success(t("room.settings.dangerZone.delete.deleted"));
+    deleteStory({ id: story.id }).then(() => {
+      toast.success(t("story.settings.dangerZone.delete.deleted"));
       router.replace("/browse");
     });
   };
@@ -207,37 +211,37 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
   return (
     <>
       <h3 className="text-lg font-bold">
-        {t("room.settings.dangerZone.title")}
+        {t("story.settings.dangerZone.title")}
       </h3>
       <button className="btn btn-danger mt-4" onClick={openDelete}>
-        {t("room.settings.dangerZone.delete.title", {
-          title: t("room.label"),
+        {t("story.settings.dangerZone.delete.title", {
+          title: t("story.label"),
         })}
       </button>
       <Modal.Modal
-        title={t("room.settings.dangerZone.delete.title", {
-          title: t("room.label"),
+        title={t("story.settings.dangerZone.delete.title", {
+          title: t("story.label"),
         })}
         active={activeDelete}
         onOutsideClick={closeDelete}
       >
         <Modal.Header>
           <Modal.Title>
-            {t("room.settings.dangerZone.delete.title", {
-              title: room.title,
+            {t("story.settings.dangerZone.delete.title", {
+              title: story.title,
             })}
           </Modal.Title>
         </Modal.Header>
         <Modal.Content className="text-center">
           <p className="mb-2">
-            {t("room.settings.dangerZone.delete.description")}
+            {t("story.settings.dangerZone.delete.description")}
             <br />
             <b>{t("common.dangerousActionText")}</b>.
           </p>
           <input
-            aria-label={t("room.settings.dangerZone.delete.enterName")}
+            aria-label={t("story.settings.dangerZone.delete.enterName")}
             value={confirmDelete}
-            placeholder={t("room.settings.dangerZone.delete.enterName")}
+            placeholder={t("story.settings.dangerZone.delete.enterName")}
             onChange={(e) => setConfirmDelete(e.target.value)}
             className="input w-96 max-w-full"
           />
@@ -246,12 +250,12 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
           <button
             className="btn btn-transparent text-danger-light"
             onClick={onDelete}
-            disabled={confirmDelete !== room.title || fetching}
+            disabled={confirmDelete !== story.title || fetching}
           >
-            {t("room.settings.dangerZone.delete.action")}
+            {t("story.settings.dangerZone.delete.action")}
           </button>
           <button onClick={closeDelete} className="btn btn-success">
-            {t("room.settings.dangerZone.delete.cancel")}
+            {t("story.settings.dangerZone.delete.cancel")}
           </button>
         </Modal.Footer>
       </Modal.Modal>
@@ -259,17 +263,17 @@ const RoomPublish: React.FC<{ room: Room }> = ({ room }) => {
   );
 };
 
-const RoomSettingsBasic: React.FC<{ room: Room }> = ({ room }) => {
+const StorySettingsBasic: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <div>
       <div className="mb-4 rounded-t-lg overflow-hidden">
-        <RoomDetails room={room} />
+        <StoryDetails story={story} />
       </div>
       <div>
-        <RoomPublish room={room} />
+        <StoryPublish story={story} />
       </div>
     </div>
   );
 };
 
-export default RoomSettingsBasic;
+export default StorySettingsBasic;

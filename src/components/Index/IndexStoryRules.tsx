@@ -12,7 +12,7 @@ import { SvgLock } from "~/assets/svg";
 
 const intialStyle = { opacity: 0, transform: "skewY(0deg) translateY(0px)" };
 
-const IndexRoomRulesLock: React.FC = () => {
+const IndexStoryRulesLock: React.FC = () => {
   const [ref, inView] = useInView();
 
   const style = useSpring(
@@ -34,7 +34,7 @@ const IndexRoomRulesLock: React.FC = () => {
   );
 };
 
-const IndexRoomRulesMembers: React.FC = () => {
+const IndexStoryRulesMembers: React.FC = () => {
   const [ref, inView] = useInView();
 
   const style = useSpring(
@@ -70,7 +70,7 @@ const IndexRoomRulesMembers: React.FC = () => {
   );
 };
 
-const IndexRoomRules: React.FC = () => {
+const IndexStoryRules: React.FC = () => {
   const { t } = useI18n();
   const [ref, style] = useFadeInOnScroll();
 
@@ -82,8 +82,8 @@ const IndexRoomRules: React.FC = () => {
           role="img"
           aria-label={t("intro.rules.title")}
         >
-          <IndexRoomRulesLock />
-          <IndexRoomRulesMembers />
+          <IndexStoryRulesLock />
+          <IndexStoryRulesMembers />
         </div>
         <animated.div
           ref={ref}
@@ -101,4 +101,4 @@ const IndexRoomRules: React.FC = () => {
   );
 };
 
-export default IndexRoomRules;
+export default IndexStoryRules;

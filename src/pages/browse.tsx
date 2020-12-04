@@ -3,36 +3,36 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
-import { RoomItem } from "~/components/Room";
-import { useExploreRoomsQuery, useRoomsQuery } from "~/graphql/gql.gen";
+import { StoryItem } from "~/components/Story";
+import { useExploreStoriesQuery, useStoriesQuery } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
 import { SvgSearch } from "~/assets/svg";
 import { useI18n } from "~/i18n/index";
 
-const RandomRoomSection: React.FC = () => {
+const RandomStorySection: React.FC = () => {
   const [
-    { data: { exploreRooms } = { exploreRooms: undefined } },
-  ] = useExploreRoomsQuery({
+    { data: { exploreStories } = { exploreStories: undefined } },
+  ] = useExploreStoriesQuery({
     variables: { by: "random" },
   });
 
   return (
     <div className="flex flex-wrap pb-12">
-      {exploreRooms?.map((room) => (
+      {exploreStories?.map((story) => (
         <div
-          key={room.id}
+          key={story.id}
           className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2"
         >
-          <RoomItem room={room} />
+          <StoryItem story={story} />
         </div>
       ))}
     </div>
   );
 };
 
-const MyRoomsSection: React.FC = () => {
+const MyStoriesSection: React.FC = () => {
   const user = useCurrentUser();
-  const [{ data: { rooms } = { rooms: undefined } }] = useRoomsQuery({
+  const [{ data: { stories } = { stories: undefined } }] = useStoriesQuery({
     variables: { creatorId: user?.id || "" },
     pause: !user,
   });
@@ -40,12 +40,12 @@ const MyRoomsSection: React.FC = () => {
     <>
       <div>
         <div className="flex flex-wrap pb-12">
-          {rooms?.map((room) => (
+          {stories?.map((story) => (
             <div
-              key={room.id}
+              key={story.id}
               className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2"
             >
-              <RoomItem key={room.id} room={room} />
+              <StoryItem key={story.id} story={story} />
             </div>
           ))}
         </div>
@@ -91,7 +91,7 @@ const SearchAndPlaySection: React.FC = () => {
   );
 };
 
-const RoomSection: React.FC = () => {
+const StorySection: React.FC = () => {
   const { t } = useI18n();
   return (
     <Tabs className="h-full flex flex-col">
@@ -110,10 +110,10 @@ const RoomSection: React.FC = () => {
             </TabList>
             <TabPanels className="flex-1 overflow-hidden">
               <TabPanel>
-                <RandomRoomSection />
+                <RandomStorySection />
               </TabPanel>
               <TabPanel>
-                <MyRoomsSection />
+                <MyStoriesSection />
               </TabPanel>
             </TabPanels>
           </>
@@ -132,7 +132,7 @@ const BrowsePage: NextPage = () => {
         <div className="mb-2">
           <SearchAndPlaySection />
         </div>
-        <RoomSection />
+        <StorySection />
       </div>
     </>
   );

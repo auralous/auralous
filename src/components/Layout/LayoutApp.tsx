@@ -47,7 +47,7 @@ const Sidebar: React.FC = () => {
         </div>
         <Link href="/new">
           <a className="inline-flex flex-center w-full px-6 py-2 text-sm font-bold rounded-full border-2 border-pink hover:border-white transition duration-300 mb-2">
-            {t("common.newRoom")}
+            {t("common.newStory")}
           </a>
         </Link>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
@@ -123,7 +123,7 @@ const Appbar: React.FC = () => {
       </AppbarItem>
       <AppbarItem href="/new">
         <SvgPlus className="w-4 h-4 mb-1" />
-        <span>{t("common.newRoom")}</span>
+        <span>{t("common.newStory")}</span>
       </AppbarItem>
       {user ? (
         <AppbarItem href="/settings">
