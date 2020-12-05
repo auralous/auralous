@@ -52,7 +52,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       if (result.data?.createStory) {
         if (initTracks?.length)
           await updateQueue({
-            id: `story:${result.data.createStory.id}`,
+            id: result.data.createStory.id,
             action: QueueAction.Add,
             tracks: initTracks.map((initTrack) => initTrack.id),
           });

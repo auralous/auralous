@@ -27,7 +27,7 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
 
   const [, updateQueue] = useUpdateQueueMutation();
 
-  const [queue] = useQueue(`story:${story.id}`);
+  const [queue] = useQueue(story.id);
 
   const addedTracks = useMemo(() => {
     if (!queue) return [];
@@ -37,7 +37,7 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
   const onAddTracks = useCallback(
     (newTrackArray: string[]) => {
       return updateQueue({
-        id: `story:${story.id}`,
+        id: story.id,
         tracks: newTrackArray,
         action: QueueAction.Add,
       }).then((result) => !!result.data?.updateQueue);
@@ -96,7 +96,7 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
         <AnimatedTabPanel style={tabPanelStyle0} className="h-full" as="div">
           <QueueManager
             permission={storyState.permission}
-            queueId={`story:${story.id}`}
+            queueId={story.id}
             onEmptyAddClick={() => setSelectedIndex(1)}
           />
         </AnimatedTabPanel>
@@ -113,7 +113,7 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
         <AnimatedTabPanel style={tabPanelStyle3} className="h-full" as="div">
           <QueueViewer
             onAdd={storyState.permission.isQueueable ? onAddTracks : undefined}
-            queueId={`story:${story.id}:played`}
+            queueId={`${story.id}:played`}
             reverse
             queryOpts={selectedIndex === 3 ? undefined : { pause: true }}
           />
