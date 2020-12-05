@@ -10,15 +10,14 @@ export const FRAGMENT_STORY_DETAIL = /* GraphQL */ `
 
 export const FRAGMENT_STORY_RULES = /* GraphQL */ `
   fragment StoryRulesParts on StoryState {
-    collabs
+    queueable
   }
 `;
 
 export const FRAGMENT_STORY_PERMISSION = /* GraphQL */ `
   fragment StoryPermissionPart on StoryState {
     permission {
-      queueCanAdd
-      queueCanManage
+      isQueueable
       viewable
     }
   }
@@ -72,22 +71,6 @@ export const MUTATION_CREATE_STORY = /* GraphQL */ `
     }
   }
   ${FRAGMENT_STORY_DETAIL}
-`;
-
-export const MUTATION_UPDATE_STORY_MEMBERSHIP = /* GraphQL */ `
-  mutation updateStoryMembership(
-    $id: ID!
-    $username: String
-    $userId: String
-    $role: StoryMembership
-  ) {
-    updateStoryMembership(
-      id: $id
-      username: $username
-      userId: $userId
-      role: $role
-    )
-  }
 `;
 
 export const MUTATION_DELETE_STORY = /* GraphQL */ `

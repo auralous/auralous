@@ -2,23 +2,15 @@ import React, { useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { Messenger } from "~/components/Message/index";
-import {
-  Story,
-  StoryMembership,
-  StoryState,
-  useUserQuery,
-} from "~/graphql/gql.gen";
+import { Story, StoryState, useUserQuery } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
-import { MEMBERSHIP_NAMES } from "~/lib/constants";
 import { AuthBanner } from "~/components/Auth";
-import { getRole } from "~/lib/story";
 import { useI18n } from "~/i18n/index";
 import { SvgUserGroup } from "~/assets/svg";
 
 const CurrentUser: React.FC<{
   userId: string;
-  role: StoryMembership | undefined;
-}> = ({ userId, role }) => {
+}> = ({ userId }) => {
   const [{ data }] = useUserQuery({ variables: { id: userId } });
   return (
     <div className="h-12 mb-2 w-full mr-1 flex py-2 bg-background-secondary rounded-lg">
@@ -38,11 +30,6 @@ const CurrentUser: React.FC<{
               <div className="flex-1 w-0 leading-none truncate">
                 {data.user.username}
               </div>
-              <div className="px-2 flex items-center">
-                <span className="py-1 px-2 text-xs rounded-full bg-background-secondary">
-                  {MEMBERSHIP_NAMES[role || ""]}
-                </span>
-              </div>
             </div>
           </>
         ) : (
@@ -58,17 +45,12 @@ const CurrentUser: React.FC<{
 
 const StoryUsers: React.FC<{
   storyState: StoryState;
-  story: Story;
-}> = ({ story, storyState }) => {
+}> = ({ storyState }) => {
   return (
     <div className="h-full p-2">
       {storyState.userIds.map((userId) => (
         // TODO: react-window
-        <CurrentUser
-          key={userId}
-          userId={userId}
-          role={getRole(userId, story, storyState)}
-        />
+        <CurrentUser key={userId} userId={userId} />
       ))}
     </div>
   );

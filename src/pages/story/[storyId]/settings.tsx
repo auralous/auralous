@@ -3,7 +3,6 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import {
-  StorySettingsMember,
   StorySettingsBasic,
   StorySettingsRules,
 } from "~/components/Story/StorySettings";
@@ -74,12 +73,6 @@ const StorySettingsPage: NextPage = () => {
             {t("story.settings.titleRules")}
           </StorySettingsSectionTitle>
           <StorySettingsRules story={story} storyState={storyState} />
-        </section>
-        <section className="p-4">
-          <StorySettingsSectionTitle>
-            {t("story.settings.titleMembers")}
-          </StorySettingsSectionTitle>
-          <StorySettingsMember story={story} storyState={storyState} />
         </section>
       </div>
     </>

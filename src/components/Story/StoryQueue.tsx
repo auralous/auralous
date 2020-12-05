@@ -75,13 +75,13 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
         <Tab className={getClassName(0)}>{t("story.queue.queue.title")}</Tab>
         <Tab
           className={getClassName(1)}
-          disabled={!storyState.permission.queueCanAdd}
+          disabled={!storyState.permission.isQueueable}
         >
           {t("story.queue.search.title")}
         </Tab>
         <Tab
           className={getClassName(2)}
-          disabled={!storyState.permission.queueCanAdd}
+          disabled={!storyState.permission.isQueueable}
         >
           {t("story.queue.playlist.title")}
         </Tab>
@@ -112,7 +112,7 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
         </AnimatedTabPanel>
         <AnimatedTabPanel style={tabPanelStyle3} className="h-full" as="div">
           <QueueViewer
-            onAdd={storyState.permission.queueCanAdd ? onAddTracks : undefined}
+            onAdd={storyState.permission.isQueueable ? onAddTracks : undefined}
             queueId={`story:${story.id}:played`}
             reverse
             queryOpts={selectedIndex === 3 ? undefined : { pause: true }}

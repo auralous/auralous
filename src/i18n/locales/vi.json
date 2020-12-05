@@ -141,7 +141,6 @@
       "title": "Cài đặt story",
       "titleInfo": "Thông tin story",
       "titleRules": "Luật lệ và truy cập",
-      "titleMembers": "Thành viên story",
       "shortTitle": "Cài đặt",
       "info": {
         "textHelp": "Miêu tả story của bạn"
@@ -149,15 +148,6 @@
       },
       "privacy": {
         "title": "Công khai"
-      },
-      "member": {
-        "title": "Thêm thành viên",
-        "helpText": "Nhập username người dùng bạn muôn thêm",
-        "action": "Tìm kiếm",
-        "addedText": "{{username}} đã trở thành {{role}}",
-        "removedText": "{{username}} không còn là thành viên",
-        "userNotFound": "Không tìm thấy người dùng",
-        "offline": "Ngoại tuyến"
       },
       "dangerZone": {
         "title": "Khu vực nguy hiểm",

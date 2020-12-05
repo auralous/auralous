@@ -131,18 +131,14 @@ const Row = React.memo<
       key={data.queue.items[index].id}
       draggableId={data.queue.items[index].id}
       index={index}
-      isDragDisabled={!data.permission.queueCanManage}
     >
       {(provided1) => (
         <QueueDraggableItem
           style={style}
           provided={provided1}
-          removable={
-            data.permission.queueCanManage ||
-            Boolean(
-              data.userId && data.queue.items[index].creatorId === data.userId
-            )
-          }
+          removable={Boolean(
+            data.userId && data.queue.items[index].creatorId === data.userId
+          )}
           queue={data.queue}
           index={index}
           isDragging={false}
@@ -213,7 +209,7 @@ const QueueManager: React.FC<{
         {queue.items?.length === 0 && (
           <div className="h-full flex flex-col flex-center text-lg text-foreground-tertiary p-4">
             <p className="text-center">{t("queue.manager.emptyText")}</p>
-            {permission.queueCanAdd && (
+            {permission.isQueueable && (
               <button
                 onClick={onEmptyAddClick}
                 className="py-2 px-4 rounded-lg text-success-light hover:bg-success-light hover:bg-opacity-10 transition-colors font-bold mt-1"
@@ -257,7 +253,7 @@ const QueueManager: React.FC<{
         </DragDropContext>
       </div>
       <div className="text-foreground-tertiary text-xs px-2 py-1">
-        {permission.queueCanAdd
+        {permission.isQueueable
           ? null
           : user && (
               <p>

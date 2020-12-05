@@ -9,11 +9,7 @@ import {
 import { PLATFORM_FULLNAMES } from "~/lib/constants";
 import { useI18n } from "~/i18n/index";
 import { useCurrentUser, useMAuth } from "~/hooks/user";
-import {
-  Track,
-  useStoryStateQuery,
-  useSkipNowPlayingMutation,
-} from "~/graphql/gql.gen";
+import { Track, useSkipNowPlayingMutation } from "~/graphql/gql.gen";
 import {
   SvgPlay,
   SvgPause,
@@ -29,20 +25,14 @@ const PlayerSkipNowPlaying: React.FC<{ storyId: string }> = ({ storyId }) => {
   const [nowPlaying] = useNowPlaying(storyId);
   const [{ fetching }, skipNowPlaying] = useSkipNowPlayingMutation();
 
-  const [
-    { data: { storyState } = { storyState: undefined } },
-  ] = useStoryStateQuery({ variables: { id: storyId } });
-
   return (
     <button
       className="btn text-xs leading-none"
       onClick={() => skipNowPlaying({ id: storyId })}
       disabled={
         fetching ||
-        !user ||
         !nowPlaying?.currentTrack ||
-        (!storyState?.permission.queueCanManage &&
-          nowPlaying?.currentTrack?.creatorId !== user.id)
+        nowPlaying.currentTrack.creatorId !== user?.id
       }
       title={t("nowPlaying.skipSong")}
     >

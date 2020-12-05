@@ -141,21 +141,11 @@
       "shortTitle": "Settings",
       "titleInfo": "Story Info",
       "titleRules": "Story Rules and Access",
-      "titleMembers": "Story Members",
       "info": {
         "textHelp": "Describe your story"
       },
       "privacy": {
         "title": "Privacy"
-      },
-      "member": {
-        "title": "Add a Member",
-        "helpText": "Enter the username of the one you want to add",
-        "action": "Search",
-        "addedText": "{{username}} is now a {{role}}",
-        "removedText": "{{username}} is no longer a member",
-        "userNotFound": "User Not Found",
-        "offline": "Offline"
       },
       "dangerZone": {
         "title": "Danger Zone",

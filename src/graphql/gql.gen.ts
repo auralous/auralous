@@ -121,7 +121,6 @@ export type Mutation = {
   skipNowPlaying?: Maybe<Scalars['Boolean']>;
   updateQueue: Scalars['Boolean'];
   createStory: Story;
-  updateStoryMembership: Scalars['Boolean'];
   deleteStory: Scalars['ID'];
   pingStory: Scalars['Boolean'];
   me?: Maybe<User>;
@@ -158,14 +157,6 @@ export type MutationUpdateQueueArgs = {
 export type MutationCreateStoryArgs = {
   text: Scalars['String'];
   isPublic: Scalars['Boolean'];
-};
-
-
-export type MutationUpdateStoryMembershipArgs = {
-  id: Scalars['ID'];
-  username?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
-  role?: Maybe<StoryMembership>;
 };
 
 
@@ -281,11 +272,6 @@ export type Queue = {
   items: Array<QueueItem>;
 };
 
-export enum StoryMembership {
-  Host = 'host',
-  Collab = 'collab'
-}
-
 export type Story = {
   __typename?: 'Story';
   id: Scalars['ID'];
@@ -299,8 +285,7 @@ export type Story = {
 export type StoryPermission = {
   __typename?: 'StoryPermission';
   viewable: Scalars['Boolean'];
-  queueCanAdd: Scalars['Boolean'];
-  queueCanManage: Scalars['Boolean'];
+  isQueueable: Scalars['Boolean'];
 };
 
 export type StoryState = {
@@ -308,7 +293,7 @@ export type StoryState = {
   id: Scalars['ID'];
   userIds: Array<Scalars['String']>;
   /** Settings */
-  collabs: Array<Scalars['String']>;
+  queueable: Array<Scalars['String']>;
   permission: StoryPermission;
 };
 
@@ -549,14 +534,14 @@ export type StoryDetailPartsFragment = (
 
 export type StoryRulesPartsFragment = (
   { __typename?: 'StoryState' }
-  & Pick<StoryState, 'collabs'>
+  & Pick<StoryState, 'queueable'>
 );
 
 export type StoryPermissionPartFragment = (
   { __typename?: 'StoryState' }
   & { permission: (
     { __typename?: 'StoryPermission' }
-    & Pick<StoryPermission, 'queueCanAdd' | 'queueCanManage' | 'viewable'>
+    & Pick<StoryPermission, 'isQueueable' | 'viewable'>
   ) }
 );
 
@@ -630,19 +615,6 @@ export type CreateStoryMutation = (
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
   ) }
-);
-
-export type UpdateStoryMembershipMutationVariables = Exact<{
-  id: Scalars['ID'];
-  username?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
-  role?: Maybe<StoryMembership>;
-}>;
-
-
-export type UpdateStoryMembershipMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateStoryMembership'>
 );
 
 export type DeleteStoryMutationVariables = Exact<{
@@ -847,14 +819,13 @@ export const StoryDetailPartsFragmentDoc = gql`
     `;
 export const StoryRulesPartsFragmentDoc = gql`
     fragment StoryRulesParts on StoryState {
-  collabs
+  queueable
 }
     `;
 export const StoryPermissionPartFragmentDoc = gql`
     fragment StoryPermissionPart on StoryState {
   permission {
-    queueCanAdd
-    queueCanManage
+    isQueueable
     viewable
   }
 }
@@ -1092,20 +1063,6 @@ export const CreateStoryDocument = gql`
 
 export function useCreateStoryMutation() {
   return Urql.useMutation<CreateStoryMutation, CreateStoryMutationVariables>(CreateStoryDocument);
-};
-export const UpdateStoryMembershipDocument = gql`
-    mutation updateStoryMembership($id: ID!, $username: String, $userId: String, $role: StoryMembership) {
-  updateStoryMembership(
-    id: $id
-    username: $username
-    userId: $userId
-    role: $role
-  )
-}
-    `;
-
-export function useUpdateStoryMembershipMutation() {
-  return Urql.useMutation<UpdateStoryMembershipMutation, UpdateStoryMembershipMutationVariables>(UpdateStoryMembershipDocument);
 };
 export const DeleteStoryDocument = gql`
     mutation deleteStory($id: ID!) {
