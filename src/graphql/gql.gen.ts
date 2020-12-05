@@ -284,7 +284,7 @@ export type Story = {
 
 export type StoryPermission = {
   __typename?: 'StoryPermission';
-  viewable: Scalars['Boolean'];
+  isViewable: Scalars['Boolean'];
   isQueueable: Scalars['Boolean'];
 };
 
@@ -541,7 +541,7 @@ export type StoryPermissionPartFragment = (
   { __typename?: 'StoryState' }
   & { permission: (
     { __typename?: 'StoryPermission' }
-    & Pick<StoryPermission, 'isQueueable' | 'viewable'>
+    & Pick<StoryPermission, 'isQueueable' | 'isViewable'>
   ) }
 );
 
@@ -826,7 +826,7 @@ export const StoryPermissionPartFragmentDoc = gql`
     fragment StoryPermissionPart on StoryState {
   permission {
     isQueueable
-    viewable
+    isViewable
   }
 }
     `;

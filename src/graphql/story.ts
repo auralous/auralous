@@ -18,7 +18,7 @@ export const FRAGMENT_STORY_PERMISSION = /* GraphQL */ `
   fragment StoryPermissionPart on StoryState {
     permission {
       isQueueable
-      viewable
+      isViewable
     }
   }
 `;

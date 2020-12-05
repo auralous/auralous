@@ -151,7 +151,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   useOnStoryStateUpdatedSubscription(
     {
       variables: { id: story.id || "" },
-      pause: !storyState?.permission.viewable,
+      pause: !storyState?.permission.isViewable,
     },
     (prev, data) => data
   );
@@ -161,7 +161,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
       <div className="h-screen-layout relative pt-12 overflow-hidden">
         <Navbar story={story} storyState={storyState} />
         {storyState ? (
-          storyState.permission.viewable ? (
+          storyState.permission.isViewable ? (
             <StoryContent story={story} storyState={storyState} />
           ) : (
             <p>{t("main.private.prompt")}</p>

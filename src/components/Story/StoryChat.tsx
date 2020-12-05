@@ -107,7 +107,7 @@ const StoryChat: React.FC<{ story: Story; storyState: StoryState }> = ({
           <Messenger id={`story:${story.id}`} />
         </AnimatedTabPanel>
         <AnimatedTabPanel style={userPanelStyle} className="h-full" as="div">
-          <StoryUsers story={story} storyState={storyState} />
+          <StoryUsers storyState={storyState} />
         </AnimatedTabPanel>
       </TabPanels>
     </Tabs>
