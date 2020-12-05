@@ -121,7 +121,6 @@ export type Mutation = {
   skipNowPlaying?: Maybe<Scalars['Boolean']>;
   updateQueue: Scalars['Boolean'];
   createStory: Story;
-  updateStory: Story;
   updateStoryMembership: Scalars['Boolean'];
   deleteStory: Scalars['ID'];
   pingStory: Scalars['Boolean'];
@@ -157,17 +156,8 @@ export type MutationUpdateQueueArgs = {
 
 
 export type MutationCreateStoryArgs = {
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
+  text: Scalars['String'];
   isPublic: Scalars['Boolean'];
-};
-
-
-export type MutationUpdateStoryArgs = {
-  id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['Upload']>;
 };
 
 
@@ -299,9 +289,8 @@ export enum StoryMembership {
 export type Story = {
   __typename?: 'Story';
   id: Scalars['ID'];
-  title: Scalars['String'];
+  text: Scalars['String'];
   isPublic: Scalars['Boolean'];
-  description?: Maybe<Scalars['String']>;
   image: Scalars['String'];
   creatorId: Scalars['ID'];
   createdAt: Scalars['DateTime'];
@@ -555,7 +544,7 @@ export type OnQueueUpdatedSubscription = (
 
 export type StoryDetailPartsFragment = (
   { __typename?: 'Story' }
-  & Pick<Story, 'title' | 'description' | 'image' | 'createdAt' | 'isPublic' | 'creatorId'>
+  & Pick<Story, 'text' | 'image' | 'createdAt' | 'isPublic' | 'creatorId'>
 );
 
 export type StoryRulesPartsFragment = (
@@ -629,8 +618,7 @@ export type SearchStoriesQuery = (
 );
 
 export type CreateStoryMutationVariables = Exact<{
-  title: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
+  text: Scalars['String'];
   isPublic: Scalars['Boolean'];
 }>;
 
@@ -638,23 +626,6 @@ export type CreateStoryMutationVariables = Exact<{
 export type CreateStoryMutation = (
   { __typename?: 'Mutation' }
   & { createStory: (
-    { __typename?: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  ) }
-);
-
-export type UpdateStoryMutationVariables = Exact<{
-  id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['Upload']>;
-}>;
-
-
-export type UpdateStoryMutation = (
-  { __typename?: 'Mutation' }
-  & { updateStory: (
     { __typename?: 'Story' }
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
@@ -867,8 +838,7 @@ export const QueueItemPartsFragmentDoc = gql`
     `;
 export const StoryDetailPartsFragmentDoc = gql`
     fragment StoryDetailParts on Story {
-  title
-  description
+  text
   image
   createdAt
   isPublic
@@ -1112,8 +1082,8 @@ export function useSearchStoriesQuery(options: Omit<Urql.UseQueryArgs<SearchStor
   return Urql.useQuery<SearchStoriesQuery>({ query: SearchStoriesDocument, ...options });
 };
 export const CreateStoryDocument = gql`
-    mutation createStory($title: String!, $description: String, $isPublic: Boolean!) {
-  createStory(title: $title, description: $description, isPublic: $isPublic) {
+    mutation createStory($text: String!, $isPublic: Boolean!) {
+  createStory(text: $text, isPublic: $isPublic) {
     id
     ...StoryDetailParts
   }
@@ -1122,18 +1092,6 @@ export const CreateStoryDocument = gql`
 
 export function useCreateStoryMutation() {
   return Urql.useMutation<CreateStoryMutation, CreateStoryMutationVariables>(CreateStoryDocument);
-};
-export const UpdateStoryDocument = gql`
-    mutation updateStory($id: ID!, $title: String, $description: String, $image: Upload) {
-  updateStory(id: $id, title: $title, description: $description, image: $image) {
-    id
-    ...StoryDetailParts
-  }
-}
-    ${StoryDetailPartsFragmentDoc}`;
-
-export function useUpdateStoryMutation() {
-  return Urql.useMutation<UpdateStoryMutation, UpdateStoryMutationVariables>(UpdateStoryDocument);
 };
 export const UpdateStoryMembershipDocument = gql`
     mutation updateStoryMembership($id: ID!, $username: String, $userId: String, $role: StoryMembership) {

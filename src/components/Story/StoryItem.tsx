@@ -31,7 +31,7 @@ const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
                 title={t("story.privacy.private")}
               />
             )}
-            {story.title}
+            {story.text}
           </h3>
           <h4 className="text-white flex-none text-center text-opacity-50 font-semibold text-xs mb-1 uppercase">
             {t("nowPlaying.title")}
@@ -41,7 +41,7 @@ const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
               className={`absolute inset-0 w-full h-full object-cover ${
                 currentTrack ? "animate-spin-slow" : ""
               } rounded-full shadow-lg overflow-hidden`}
-              alt={`Now Playing on ${story.title}`}
+              alt={`Now Playing on ${story.text}`}
               src={currentTrack?.image || story.image}
             />
           </div>

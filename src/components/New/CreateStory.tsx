@@ -31,7 +31,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
   const router = useRouter();
 
-  const titleRef = useRef<HTMLInputElement>(null);
+  const textRef = useRef<HTMLInputElement>(null);
   const [isPublic, setIsPublic] = useState(true);
 
   const [{ fetching }, createStory] = useCreateStoryMutation();
@@ -45,7 +45,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       if (!user) return logIn();
 
       const result = await createStory({
-        title: (titleRef.current as HTMLInputElement).value,
+        text: (textRef.current as HTMLInputElement).value,
         isPublic,
       });
 
@@ -79,17 +79,17 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       className="flex flex-col flex-center"
     >
       <CreateStoryFormGroup>
-        <CreateStoryLabel htmlFor="storyTitle">
-          {t("new.addNew.promptTitle")}
+        <CreateStoryLabel htmlFor="storyText">
+          {t("new.addNew.promptText")}
         </CreateStoryLabel>
         <input
-          id="storyTitle"
-          aria-label={t("story.settings.info.titleHelp")}
-          placeholder={t("story.settings.info.titleHelp")}
+          id="storyText"
+          aria-label={t("story.settings.info.textHelp")}
+          placeholder={t("story.settings.info.textHelp")}
           required
           className="input w-full text-center"
           type="text"
-          ref={titleRef}
+          ref={textRef}
           disabled={fetching}
         />
       </CreateStoryFormGroup>

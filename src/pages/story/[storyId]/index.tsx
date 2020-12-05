@@ -7,26 +7,22 @@ import { forwardSSRHeaders } from "~/lib/ssr-utils";
 import { Story } from "~/graphql/gql.gen";
 import { QUERY_STORY } from "~/graphql/story";
 import { CONFIG } from "~/lib/constants";
-import { useI18n } from "~/i18n/index";
 
 const StoryPage: NextPage<{
   story: Story | null;
 }> = ({ story }) => {
-  const { t } = useI18n();
   if (!story) return <NotFoundPage />;
   return (
     <>
       <NextSeo
-        title={story.title}
-        description={
-          story.description || t("story.description", { title: story.title })
-        }
+        title={story.text}
+        description={story.text}
         canonical={`${process.env.APP_URI}/story/${story.id}`}
         openGraph={{
           images: [
             {
               url: story.image,
-              alt: story.title,
+              alt: story.text,
             },
           ],
         }}

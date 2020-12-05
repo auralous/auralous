@@ -105,7 +105,7 @@
     "addNew": {
       "title": "Create New Story",
       "action": "Start Listening",
-      "promptTitle": "How would you describe the story",
+      "promptText": "How would you describe the story",
       "promptPrivacy": "Are you listening in public or private"
     },
     "addExisted": {
@@ -143,11 +143,7 @@
       "titleRules": "Story Rules and Access",
       "titleMembers": "Story Members",
       "info": {
-        "title": "Title",
-        "description": "Description",
-        "titleHelp": "Enter a title for the story",
-        "descriptionHelp": "Enter a description for the story",
-        "username": "Username"
+        "textHelp": "Describe your story"
       },
       "privacy": {
         "title": "Privacy"
@@ -164,9 +160,8 @@
       "dangerZone": {
         "title": "Danger Zone",
         "delete": {
-          "title": "Delete {{title}}",
-          "description": "This will remove this story along with its data",
-          "enterName": "Enter the story name to continue",
+          "title": "Delete this story",
+          "description": "This will remove this story",
           "action": "Yes, delete story",
           "cancel": "Nevermind",
           "deleted": "Story deleted"

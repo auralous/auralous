@@ -106,7 +106,7 @@
       "title": "Tạo story mới",
       "warnNoPass": "Mật khẩu story chưa được đặt. Bất cứ ai với đường link sẽ được trở thành của story. Vẫn tiếp tục?",
       "action": "Nghe nào",
-      "promptTitle": "Bạn sẽ miêu tả story của mình thế nào",
+      "promptText": "Bạn sẽ miêu tả story của mình thế nào",
       "promptPrivacy": "Bạn định nghe công khai hay riêng tư"
     },
     "addExisted": {
@@ -144,11 +144,8 @@
       "titleMembers": "Thành viên story",
       "shortTitle": "Cài đặt",
       "info": {
-        "title": "Tên",
-        "description": "Mô tả",
-        "titleHelp": "Nhập tên story của bạn",
-        "descriptionHelp": "Đặt tên story của bạn",
-        "username": "Tên người dùng"
+        "textHelp": "Miêu tả story của bạn"
+
       },
       "privacy": {
         "title": "Công khai"
@@ -165,9 +162,8 @@
       "dangerZone": {
         "title": "Khu vực nguy hiểm",
         "delete": {
-          "title": "Xoá {{title}}",
-          "description": "Thao tác sẽ xoá toàn bộ dữ liệu story",
-          "enterName": "Nhập lại tên story để xoá",
+          "title": "Xoá Story này",
+          "description": "Thao tác sẽ xoá story",
           "action": "Xoá story",
           "cancel": "Thôi",
           "deleted": "Story đã bị xoá"

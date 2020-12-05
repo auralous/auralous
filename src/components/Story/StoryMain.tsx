@@ -36,12 +36,12 @@ const Navbar: React.FC<{
       <div className="nav px-2 overflow-hidden">
         <div className="flex flex-1 w-0 items-center justify-start h-full">
           <img
-            alt={story.title}
+            alt={story.text}
             src={story.image}
             className="w-6 h-6 rounded-lg mr-2"
           />
           <h4 className="text-lg font-bold leading-tight truncate mr-2">
-            {story.title}
+            {story.text}
           </h4>
         </div>
         <div className="flex items justify-end">
@@ -65,7 +65,7 @@ const Navbar: React.FC<{
       </div>
       <ShareDialog
         uri={`/story/${story.id}`}
-        name={story.title}
+        name={story.text}
         active={activeShare}
         close={closeShare}
       />
@@ -121,7 +121,7 @@ const StoryLoading: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   return (
     <div className="w-full h-full flex flex-col flex-center">
-      <h1 className="text-2xl md:text-4xl font-black">{story.title}</h1>
+      <h1 className="text-2xl md:text-4xl font-black">{story.text}</h1>
       <p className="text-sm md:text-md text-foreground-secondary animate-pulse">
         {t("story.main.loading.text")}
       </p>

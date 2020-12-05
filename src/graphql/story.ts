@@ -1,7 +1,6 @@
 export const FRAGMENT_STORY_DETAIL = /* GraphQL */ `
   fragment StoryDetailParts on Story {
-    title
-    description
+    text
     image
     createdAt
     isPublic
@@ -66,32 +65,8 @@ export const QUERY_SEARCH_STORIES = /* GraphQL */ `
 `;
 
 export const MUTATION_CREATE_STORY = /* GraphQL */ `
-  mutation createStory(
-    $title: String!
-    $description: String
-    $isPublic: Boolean!
-  ) {
-    createStory(title: $title, description: $description, isPublic: $isPublic) {
-      id
-      ...StoryDetailParts
-    }
-  }
-  ${FRAGMENT_STORY_DETAIL}
-`;
-
-export const MUTATION_UPDATE_STORY = /* GraphQL */ `
-  mutation updateStory(
-    $id: ID!
-    $title: String
-    $description: String
-    $image: Upload
-  ) {
-    updateStory(
-      id: $id
-      title: $title
-      description: $description
-      image: $image
-    ) {
+  mutation createStory($text: String!, $isPublic: Boolean!) {
+    createStory(text: $text, isPublic: $isPublic) {
       id
       ...StoryDetailParts
     }
