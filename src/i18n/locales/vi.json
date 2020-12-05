@@ -131,12 +131,7 @@
     "privacy": { "public": "Công khai", "private": "Riêng tư" },
     "main": {
       "private": {
-        "prompt": "Đăng nhập đề vào story riêng tư",
-        "password1": "Nhập mật khẩu để tham gia. Để trống nếu không có mật khẩu.",
-        "password2": "Bạn cũng có thể nhờ chủ story thêm bạn vào nhóm thành viền.",
-        "join": "Vào story",
-        "leave": "Quay về",
-        "badPassword": "Sai mật khẩu"
+        "prompt": "Đăng nhập đề vào story riêng tư"
       },
       "loading": {
         "text": "Đang vào story"
@@ -156,13 +151,7 @@
         "username": "Tên người dùng"
       },
       "privacy": {
-        "title": "Công khai",
-        "publicAllowGuests": "Ai cũng có thể thêm nhạc",
-        "publicAllowGuestsHelp": "Nếu tắt, chỉ thành viên story mới có thể thêm nhạc",
-        "password": "Mật khẩu",
-        "passwordHelp": "Bất kì ai có mật khẩu sẽ tham gia làm thành viên story",
-        "newPassword": "Mật khẩu mới",
-        "newPasswordHelp": "Thành viên hiện tại không cần nhập lại mật khẩu"
+        "title": "Công khai"
       },
       "member": {
         "title": "Thêm thành viên",
@@ -186,13 +175,6 @@
       },
       "updatedText": "Story đã được cập nhật",
       "backToStory": "Trờ lại story"
-    },
-    "rules": {
-      "title": "Quy tắc story",
-      "shortTitle": "Quy tắc",
-      "anyoneCanAdd": "Ai cũng có thể thêm nhạc",
-      "onlyMemberCanAdd": "Chỉ thành viên mới được thêm nhạc",
-      "ok": "Đã hiểu!"
     },
     "queue": {
       "title": "Hàng chờ",

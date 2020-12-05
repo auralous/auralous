@@ -11,7 +11,6 @@ export const FRAGMENT_STORY_DETAIL = /* GraphQL */ `
 
 export const FRAGMENT_STORY_RULES = /* GraphQL */ `
   fragment StoryRulesParts on StoryState {
-    anyoneCanAdd
     collabs
   }
 `;
@@ -71,16 +70,8 @@ export const MUTATION_CREATE_STORY = /* GraphQL */ `
     $title: String!
     $description: String
     $isPublic: Boolean!
-    $anyoneCanAdd: Boolean
-    $password: String
   ) {
-    createStory(
-      title: $title
-      description: $description
-      isPublic: $isPublic
-      anyoneCanAdd: $anyoneCanAdd
-      password: $password
-    ) {
+    createStory(title: $title, description: $description, isPublic: $isPublic) {
       id
       ...StoryDetailParts
     }
@@ -94,16 +85,12 @@ export const MUTATION_UPDATE_STORY = /* GraphQL */ `
     $title: String
     $description: String
     $image: Upload
-    $anyoneCanAdd: Boolean
-    $password: String
   ) {
     updateStory(
       id: $id
       title: $title
       description: $description
       image: $image
-      anyoneCanAdd: $anyoneCanAdd
-      password: $password
     ) {
       id
       ...StoryDetailParts
@@ -125,12 +112,6 @@ export const MUTATION_UPDATE_STORY_MEMBERSHIP = /* GraphQL */ `
       userId: $userId
       role: $role
     )
-  }
-`;
-
-export const MUTATION_JOIN_PRIVATE_STORY = /* GraphQL */ `
-  mutation joinPrivateStory($id: ID!, $password: String!) {
-    joinPrivateStory(id: $id, password: $password)
   }
 `;
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import StoryRules from "./StoryRules";
 import {
   usePlayer,
   PlayerEmbeddedControl,
@@ -18,27 +17,19 @@ import {
   StoryState,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
-import {
-  SvgShare,
-  SvgSettings,
-  SvgBookOpen,
-  SvgMessageSquare,
-  SvgX,
-} from "~/assets/svg";
+import { SvgShare, SvgSettings, SvgMessageSquare, SvgX } from "~/assets/svg";
 
 const StoryQueue = dynamic(() => import("./StoryQueue"), { ssr: false });
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
-const StoryPrivate = dynamic(() => import("./StoryPrivate"), { ssr: false });
 
 const Navbar: React.FC<{
   story: Story;
   storyState: StoryState | null | undefined;
-}> = ({ story, storyState }) => {
+}> = ({ story }) => {
   const { t } = useI18n();
 
   const user = useCurrentUser();
   const [activeShare, openShare, closeShare] = useModal();
-  const [activeRules, openRules, closeRules] = useModal();
 
   return (
     <>
@@ -60,21 +51,6 @@ const Navbar: React.FC<{
               {t("share.title")}
             </span>
           </button>
-          {storyState && (
-            <>
-              <button onClick={openRules} className="btn p-2 mr-1">
-                <SvgBookOpen width="14" height="14" className="sm:mr-1" />
-                <span className="text-sm sr-only sm:not-sr-only leading-none">
-                  {t("story.rules.shortTitle")}
-                </span>
-              </button>
-              <StoryRules
-                active={activeRules}
-                close={closeRules}
-                storyState={storyState}
-              />
-            </>
-          )}
           {story.creatorId === user?.id && (
             <Link href={`/story/${story.id}/settings`}>
               <a className="btn p-2">
@@ -154,6 +130,7 @@ const StoryLoading: React.FC<{ story: Story }> = ({ story }) => {
 };
 
 const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
+  const { t } = useI18n();
   // initialStory is the same as story, only might be a outdated version
   // so it can be used as backup
   const [{ data }] = useStoryQuery({
@@ -165,7 +142,6 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
       data: { storyState } = { storyState: undefined },
       fetching: fetchingStoryState,
     },
-    refetchStoryState,
   ] = useStoryStateQuery({
     variables: { id: story.id },
     pollInterval: 60 * 1000,
@@ -188,13 +164,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           storyState.permission.viewable ? (
             <StoryContent story={story} storyState={storyState} />
           ) : (
-            <StoryPrivate
-              story={story}
-              storyState={storyState}
-              reloadFn={() =>
-                refetchStoryState({ requestPolicy: "cache-and-network" })
-              }
-            />
+            <p>{t("main.private.prompt")}</p>
           )
         ) : (
           fetchingStoryState && <StoryLoading story={story} />

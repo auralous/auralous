@@ -122,7 +122,6 @@ export type Mutation = {
   updateQueue: Scalars['Boolean'];
   createStory: Story;
   updateStory: Story;
-  joinPrivateStory: Scalars['Boolean'];
   updateStoryMembership: Scalars['Boolean'];
   deleteStory: Scalars['ID'];
   pingStory: Scalars['Boolean'];
@@ -161,8 +160,6 @@ export type MutationCreateStoryArgs = {
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   isPublic: Scalars['Boolean'];
-  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
-  password?: Maybe<Scalars['String']>;
 };
 
 
@@ -171,14 +168,6 @@ export type MutationUpdateStoryArgs = {
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['Upload']>;
-  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
-  password?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationJoinPrivateStoryArgs = {
-  id: Scalars['ID'];
-  password: Scalars['String'];
 };
 
 
@@ -330,7 +319,6 @@ export type StoryState = {
   id: Scalars['ID'];
   userIds: Array<Scalars['String']>;
   /** Settings */
-  anyoneCanAdd: Scalars['Boolean'];
   collabs: Array<Scalars['String']>;
   permission: StoryPermission;
 };
@@ -572,7 +560,7 @@ export type StoryDetailPartsFragment = (
 
 export type StoryRulesPartsFragment = (
   { __typename?: 'StoryState' }
-  & Pick<StoryState, 'anyoneCanAdd' | 'collabs'>
+  & Pick<StoryState, 'collabs'>
 );
 
 export type StoryPermissionPartFragment = (
@@ -644,8 +632,6 @@ export type CreateStoryMutationVariables = Exact<{
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   isPublic: Scalars['Boolean'];
-  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
-  password?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -663,8 +649,6 @@ export type UpdateStoryMutationVariables = Exact<{
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['Upload']>;
-  anyoneCanAdd?: Maybe<Scalars['Boolean']>;
-  password?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -688,17 +672,6 @@ export type UpdateStoryMembershipMutationVariables = Exact<{
 export type UpdateStoryMembershipMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'updateStoryMembership'>
-);
-
-export type JoinPrivateStoryMutationVariables = Exact<{
-  id: Scalars['ID'];
-  password: Scalars['String'];
-}>;
-
-
-export type JoinPrivateStoryMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'joinPrivateStory'>
 );
 
 export type DeleteStoryMutationVariables = Exact<{
@@ -904,7 +877,6 @@ export const StoryDetailPartsFragmentDoc = gql`
     `;
 export const StoryRulesPartsFragmentDoc = gql`
     fragment StoryRulesParts on StoryState {
-  anyoneCanAdd
   collabs
 }
     `;
@@ -1140,14 +1112,8 @@ export function useSearchStoriesQuery(options: Omit<Urql.UseQueryArgs<SearchStor
   return Urql.useQuery<SearchStoriesQuery>({ query: SearchStoriesDocument, ...options });
 };
 export const CreateStoryDocument = gql`
-    mutation createStory($title: String!, $description: String, $isPublic: Boolean!, $anyoneCanAdd: Boolean, $password: String) {
-  createStory(
-    title: $title
-    description: $description
-    isPublic: $isPublic
-    anyoneCanAdd: $anyoneCanAdd
-    password: $password
-  ) {
+    mutation createStory($title: String!, $description: String, $isPublic: Boolean!) {
+  createStory(title: $title, description: $description, isPublic: $isPublic) {
     id
     ...StoryDetailParts
   }
@@ -1158,15 +1124,8 @@ export function useCreateStoryMutation() {
   return Urql.useMutation<CreateStoryMutation, CreateStoryMutationVariables>(CreateStoryDocument);
 };
 export const UpdateStoryDocument = gql`
-    mutation updateStory($id: ID!, $title: String, $description: String, $image: Upload, $anyoneCanAdd: Boolean, $password: String) {
-  updateStory(
-    id: $id
-    title: $title
-    description: $description
-    image: $image
-    anyoneCanAdd: $anyoneCanAdd
-    password: $password
-  ) {
+    mutation updateStory($id: ID!, $title: String, $description: String, $image: Upload) {
+  updateStory(id: $id, title: $title, description: $description, image: $image) {
     id
     ...StoryDetailParts
   }
@@ -1189,15 +1148,6 @@ export const UpdateStoryMembershipDocument = gql`
 
 export function useUpdateStoryMembershipMutation() {
   return Urql.useMutation<UpdateStoryMembershipMutation, UpdateStoryMembershipMutationVariables>(UpdateStoryMembershipDocument);
-};
-export const JoinPrivateStoryDocument = gql`
-    mutation joinPrivateStory($id: ID!, $password: String!) {
-  joinPrivateStory(id: $id, password: $password)
-}
-    `;
-
-export function useJoinPrivateStoryMutation() {
-  return Urql.useMutation<JoinPrivateStoryMutation, JoinPrivateStoryMutationVariables>(JoinPrivateStoryDocument);
 };
 export const DeleteStoryDocument = gql`
     mutation deleteStory($id: ID!) {

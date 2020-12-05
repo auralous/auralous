@@ -104,7 +104,6 @@
     },
     "addNew": {
       "title": "Create New Story",
-      "warnNoPass": "The story password is not set. Anyone with the link can enter the story and become a collaborator. Continue anyway?",
       "action": "Start Listening",
       "promptTitle": "How would you describe the story",
       "promptPrivacy": "Are you listening in public or private"
@@ -131,12 +130,7 @@
     "privacy": { "public": "Public", "private": "Private" },
     "main": {
       "private": {
-        "prompt": "Join Stereo to Enter a Private Story",
-        "password1": "Enter story password to join. Leave empty if it has no password.",
-        "password2": "You can also join by asking the host to add you as a collaborator",
-        "join": "Enter story",
-        "leave": "Leave",
-        "badPassword": "Incorrect story password"
+        "prompt": "Join Stereo to Enter a Private Story"
       },
       "loading": {
         "text": "Joining Story"
@@ -156,13 +150,7 @@
         "username": "Username"
       },
       "privacy": {
-        "title": "Privacy",
-        "publicAllowGuests": "Guests can add songs",
-        "publicAllowGuestsHelp": "If disabled, only story members can add songs",
-        "password": "Password",
-        "passwordHelp": "Anyone with a password will also become a collaborator",
-        "newPassword": "New Password",
-        "newPasswordHelp": "Current members are not required to enter new password"
+        "title": "Privacy"
       },
       "member": {
         "title": "Add a Member",
@@ -186,13 +174,6 @@
       },
       "updatedText": "Story Updated",
       "backToStory": "Go back to story"
-    },
-    "rules": {
-      "title": "Story Rules",
-      "shortTitle": "Rules",
-      "anyoneCanAdd": "Anyone can add songs",
-      "onlyMemberCanAdd": "Only member can add songs",
-      "ok": "Got it!"
     },
     "queue": {
       "title": "Queue",

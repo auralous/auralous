@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { Switch } from "@headlessui/react";
 import {
   QueueAction,
   Track,
@@ -34,8 +33,6 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
   const titleRef = useRef<HTMLInputElement>(null);
   const [isPublic, setIsPublic] = useState(true);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const [anyoneCanAdd, setAnyoneCanAdd] = useState(false);
 
   const [{ fetching }, createStory] = useCreateStoryMutation();
   const [, updateQueue] = useUpdateQueueMutation();
@@ -47,15 +44,9 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
       if (!user) return logIn();
 
-      if (!isPublic && !passwordRef.current?.value) {
-        if (!window.confirm(t("new.addNew.warnNoPass"))) return;
-      }
-
       const result = await createStory({
         title: (titleRef.current as HTMLInputElement).value,
         isPublic,
-        anyoneCanAdd: isPublic ? anyoneCanAdd : false,
-        password: passwordRef.current?.value ?? (isPublic ? undefined : ""),
       });
 
       if (result.data?.createStory) {
@@ -70,13 +61,11 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       }
     },
     [
-      t,
       initTracks,
       router,
       fetching,
       isPublic,
       createStory,
-      anyoneCanAdd,
       updateQueue,
       logIn,
       user,
@@ -140,49 +129,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         </div>
       </CreateStoryFormGroup>
       <div className="px-4 py-2 h-28 rounded-lg bg-background-secondary">
-        <CreateStoryFormGroup>
-          {isPublic ? (
-            <>
-              <CreateStoryLabel htmlFor="storyAnyoneCanAdd">
-                {t("story.settings.privacy.publicAllowGuests")}
-              </CreateStoryLabel>
-              <Switch
-                checked={anyoneCanAdd}
-                onChange={setAnyoneCanAdd}
-                className={`${
-                  anyoneCanAdd ? "bg-success" : "bg-background-tertiary"
-                } relative inline-flex h-6 rounded-full w-12 mb-1`}
-                aria-labelledby="storyAnyoneCanAdd"
-              >
-                <span
-                  className={`${
-                    anyoneCanAdd ? "translate-x-6" : "translate-x-0"
-                  } inline-block w-6 h-6 transform bg-white rounded-full transition-transform`}
-                />
-              </Switch>
-              <p className="text-xs text-foreground-tertiary px-1">
-                {t("story.settings.privacy.publicAllowGuestsHelp")}
-              </p>
-            </>
-          ) : (
-            <>
-              <CreateStoryLabel htmlFor="password">
-                {t("story.settings.privacy.password")}
-              </CreateStoryLabel>
-              <input
-                type="password"
-                id="password"
-                aria-label={t("story.settings.privacy.password")}
-                ref={passwordRef}
-                className="input mb-1"
-                maxLength={16}
-              />
-              <p className="text-xs text-foreground-tertiary px-1">
-                {t("story.settings.privacy.passwordHelp")}
-              </p>
-            </>
-          )}
-        </CreateStoryFormGroup>
+        <CreateStoryFormGroup></CreateStoryFormGroup>
       </div>
       <button
         className="btn btn-success rounded-full mt-8"
