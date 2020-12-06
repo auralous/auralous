@@ -78,7 +78,7 @@
   "listen": {
     "title": "Listen Now",
     "description": "Listening to music does not have to be a passive. Stereo brings forward a brand new experience of listening together.",
-    "comingSoon": "This experience is coming soon. In the meantime, check out Browse page to listen together."
+    "comingSoon": "This experience is coming soon. In the meantime, check out discover page to listen together."
   },
   "new": {
     "title": "Start listening together",
@@ -115,8 +115,8 @@
     },
     "backText": "Go back"
   },
-  "browse": {
-    "title": "Browse",
+  "discover": {
+    "title": "Discover",
     "titleRandom": "Random Stories",
     "titleMy": "My Stories",
     "playlist": {

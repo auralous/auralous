@@ -14,7 +14,7 @@ const StoryPublish: React.FC<{ story: Story }> = ({ story }) => {
   const onDelete = () => {
     deleteStory({ id: story.id }).then(() => {
       toast.success(t("story.settings.dangerZone.delete.deleted"));
-      router.replace("/browse");
+      router.replace("/discover");
     });
   };
 

@@ -66,8 +66,8 @@ const StorySection: React.FC = () => {
         return (
           <>
             <TabList className="flex-none flex mb-2 justify-center">
-              <Tab className={getClassName(0)}>{t("browse.titleRandom")}</Tab>
-              <Tab className={getClassName(1)}>{t("browse.titleMy")}</Tab>
+              <Tab className={getClassName(0)}>{t("discover.titleRandom")}</Tab>
+              <Tab className={getClassName(1)}>{t("discover.titleMy")}</Tab>
             </TabList>
             <TabPanels className="flex-1 overflow-hidden">
               <TabPanel>
@@ -84,14 +84,14 @@ const StorySection: React.FC = () => {
   );
 };
 
-const BrowsePage: NextPage = () => {
+const DiscoverPage: NextPage = () => {
   const { t } = useI18n();
   return (
     <>
-      <NextSeo title={t("browse.title")} />
+      <NextSeo title={t("discover.title")} />
       <StorySection />
     </>
   );
 };
 
-export default BrowsePage;
+export default DiscoverPage;

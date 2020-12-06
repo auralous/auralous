@@ -51,7 +51,7 @@ const Sidebar: React.FC = () => {
           </a>
         </Link>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
-        <SidebarItem href="/browse">{t("browse.title")}</SidebarItem>
+        <SidebarItem href="/discover">{t("discover.title")}</SidebarItem>
       </div>
       <div className="bg-white bg-opacity-5">
         {user ? (
@@ -117,9 +117,9 @@ const Appbar: React.FC = () => {
         <SvgPlay className="w-4 h-4 mb-1" />
         <span>{t("listen.title")}</span>
       </AppbarItem>
-      <AppbarItem href="/browse">
+      <AppbarItem href="/discover">
         <SvgSearch className="w-4 h-4 mb-1" />
-        <span>{t("browse.title")}</span>
+        <span>{t("discover.title")}</span>
       </AppbarItem>
       <AppbarItem href="/new">
         <SvgPlus className="w-4 h-4 mb-1" />

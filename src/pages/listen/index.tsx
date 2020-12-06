@@ -25,8 +25,8 @@ const ListenPage: NextPage = () => {
         <div className="text-sm text-foreground-secondary mb-4 max-w-sm text-center">
           {t("listen.comingSoon")}
         </div>
-        <Link href="/browse">
-          <a className="btn btn-success">{t("browse.title")}</a>
+        <Link href="/discover">
+          <a className="btn btn-success">{t("discover.title")}</a>
         </Link>
       </div>
     </>
