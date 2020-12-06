@@ -161,7 +161,7 @@
       "backToStory": "Go back to story"
     },
     "queue": {
-      "title": "Queue",
+      "title": "Tracks",
       "queue": { "title": "Queue" },
       "search": { "title": "Search" },
       "playlist": { "title": "Playlist" },
@@ -170,10 +170,10 @@
     "chat": {
       "title": "Chat",
       "authPrompt": "Say hi to each other",
-      "authPromptHook": "Listen to music with friends and chat no matter where they are with a Stereo account",
-      "listener": "Listeners"
+      "authPromptHook": "Listen to music with friends and chat no matter where they are with a Stereo account"
     },
-    "live": { "title": "Live" }
+    "live": { "title": "Live" },
+    "listeners": { "title": "Listeners" }
   },
   "nowPlaying": { "title": "Now Playing", "skipSong": "Skip song" },
   "player": {

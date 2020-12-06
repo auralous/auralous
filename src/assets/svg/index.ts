@@ -11,6 +11,7 @@ export { default as SvgChevronsRight } from "./chevrons-right.svg";
 export { default as SvgEdit2 } from "./edit-2.svg";
 export { default as SvgFacebook } from "./facebook.svg";
 export { default as SvgHeadphones } from "./headphones.svg";
+export { default as SvgHeart } from "./heart.svg";
 export { default as SvgGoogleColor } from "./google-color.svg";
 export { default as SvgGripVertical } from "./grip-vertical.svg";
 export { default as SvgLogo } from "./logo.svg";

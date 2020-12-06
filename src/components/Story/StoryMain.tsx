@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import dynamic from "next/dynamic";
-import {
-  usePlayer,
-  PlayerEmbeddedControl,
-  PlayerEmbeddedNotification,
-} from "~/components/Player/index";
-import { ShareDialog } from "~/components/Social/index";
-import { useModal } from "~/components/Modal/index";
-import { useCurrentUser } from "~/hooks/user";
+import Link from "next/link";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
+import { usePlayer } from "~/components/Player/index";
 import {
   Story,
   useStoryQuery,
@@ -17,10 +11,86 @@ import {
   StoryState,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
-import { SvgShare, SvgSettings, SvgMessageSquare, SvgX } from "~/assets/svg";
+import StoryHeader from "./StoryHeader";
+import StoryFooter from "./StoryFooter";
+import { ShareDialog } from "~/components/Social";
+import { useCurrentUser } from "~/hooks/user";
+import { useModal } from "~/components/Modal";
+import { SvgSettings, SvgShare } from "~/assets/svg";
 
 const StoryQueue = dynamic(() => import("./StoryQueue"), { ssr: false });
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
+const StoryListeners = dynamic(() => import("./StoryListeners"), {
+  ssr: false,
+});
+
+const StoryContent: React.FC<{ story: Story; storyState: StoryState }> = ({
+  story,
+  storyState,
+}) => {
+  const { t } = useI18n();
+  const { playStory } = usePlayer();
+  useEffect(() => {
+    playStory(story.id);
+  }, [story, playStory]);
+
+  const getClassName = (index: number) =>
+    `mx-4 text-xs py-2 uppercase font-bold border-b-2 ${
+      index === selectedIndex
+        ? "border-white text-foreground"
+        : "border-transparent text-foreground-secondary"
+    } transition-colors`;
+
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
+  return (
+    <>
+      <StoryHeader story={story} />
+      <Tabs
+        index={selectedIndex}
+        onChange={setSelectedIndex}
+        className="flex-1 h-0 flex flex-col"
+      >
+        <TabList className="bg-opacity-40 bg-black">
+          <Tab className={getClassName(0)}>{t("story.live.title")}</Tab>
+          <Tab className={getClassName(1)}>{t("story.queue.title")}</Tab>
+          <Tab
+            onClick={() => {
+              console.log("test");
+            }}
+            className={getClassName(2)}
+          >
+            {t("story.listeners.title")}
+          </Tab>
+        </TabList>
+        <TabPanels className="flex-1 h-0 relative">
+          <TabPanel className="absolute bottom-0 w-full h-96 max-h-full bg-gradient-to-t bg-opacity-40 from-black to-transparent">
+            <StoryChat story={story} storyState={storyState} />
+          </TabPanel>
+          <TabPanel className="h-full">
+            <StoryQueue storyState={storyState} story={story} />
+          </TabPanel>
+          <TabPanel className="h-full">
+            <StoryListeners storyState={storyState} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+      <StoryFooter story={story} />
+    </>
+  );
+};
+
+const StoryLoading: React.FC<{ story: Story }> = ({ story }) => {
+  const { t } = useI18n();
+  return (
+    <div className="w-full h-full flex flex-col flex-center">
+      <h1 className="text-2xl md:text-4xl font-black">{story.text}</h1>
+      <p className="text-sm md:text-md text-foreground-secondary animate-pulse">
+        {t("story.main.loading.text")}
+      </p>
+    </div>
+  );
+};
 
 const Navbar: React.FC<{
   story: Story;
@@ -33,29 +103,24 @@ const Navbar: React.FC<{
 
   return (
     <>
-      <div className="nav px-2 overflow-hidden">
+      <div className="px-2 flex overflow-hidden bg-black bg-opacity-40">
         <div className="flex flex-1 w-0 items-center justify-start h-full">
-          <img
-            alt={story.text}
-            src={story.image}
-            className="w-6 h-6 rounded-lg mr-2"
-          />
-          <h4 className="text-lg font-bold leading-tight truncate mr-2">
+          <h4 className="text-sm font-bold leading-tight truncate mr-2">
             {story.text}
           </h4>
         </div>
         <div className="flex items justify-end">
           <button onClick={openShare} className="btn p-2 mr-1">
-            <SvgShare width="14" height="14" className="sm:mr-1" />
-            <span className="text-sm sr-only sm:not-sr-only leading-none">
+            <SvgShare width="12" height="12" className="sm:mr-1" />
+            <span className="text-xs sr-only sm:not-sr-only leading-none">
               {t("share.title")}
             </span>
           </button>
           {story.creatorId === user?.id && (
             <Link href={`/story/${story.id}/settings`}>
               <a className="btn p-2">
-                <SvgSettings width="14" height="14" className="sm:mr-1" />
-                <span className="text-sm sr-only sm:not-sr-only leading-none">
+                <SvgSettings width="12" height="12" className="sm:mr-1" />
+                <span className="text-xs sr-only sm:not-sr-only leading-none">
                   {t("story.settings.shortTitle")}
                 </span>
               </a>
@@ -70,62 +135,6 @@ const Navbar: React.FC<{
         close={closeShare}
       />
     </>
-  );
-};
-
-const StoryContent: React.FC<{ story: Story; storyState: StoryState }> = ({
-  story,
-  storyState,
-}) => {
-  const { t } = useI18n();
-  const { playStory } = usePlayer();
-  useEffect(() => {
-    playStory(story.id);
-  }, [story, playStory]);
-
-  const [expandedChat, setExpandedChat] = useState(false);
-
-  return (
-    <div className="w-full h-full lg:pr-96 relative">
-      {/* Main */}
-      <div className="w-full h-full flex flex-col relative overflow-hidden p-2">
-        <div className="mb-1 bordered-box rounded-lg overflow-hidden">
-          <PlayerEmbeddedControl storyId={story.id} />
-        </div>
-        <PlayerEmbeddedNotification />
-        <div className="mt-1 bordered-box rounded-lg flex-1 overflow-hidden">
-          <StoryQueue storyState={storyState} story={story} />
-        </div>
-      </div>
-      {/* Chat */}
-      <button
-        aria-label={t("story.chat.title")}
-        className="btn w-14 h-14 p-1 rounded-full border-2 border-background-tertiary fixed z-40 right-2 bottom-12 md:bottom-2 lg:hidden"
-        onClick={() => setExpandedChat(!expandedChat)}
-      >
-        {expandedChat ? <SvgX /> : <SvgMessageSquare />}
-      </button>
-      <div
-        id="story-chat"
-        className={`absolute z-10 right-0 top-0 h-full w-full transform ${
-          expandedChat ? "traslate-y-0" : "translate-y-full lg:translate-y-0"
-        } lg:pb-0 lg:w-96 bg-blue bg-opacity-75 lg:bg-transparent backdrop-blur lg:backdrop-none transition-transform duration-500`}
-      >
-        <StoryChat story={story} storyState={storyState} />
-      </div>
-    </div>
-  );
-};
-
-const StoryLoading: React.FC<{ story: Story }> = ({ story }) => {
-  const { t } = useI18n();
-  return (
-    <div className="w-full h-full flex flex-col flex-center">
-      <h1 className="text-2xl md:text-4xl font-black">{story.text}</h1>
-      <p className="text-sm md:text-md text-foreground-secondary animate-pulse">
-        {t("story.main.loading.text")}
-      </p>
-    </div>
   );
 };
 
@@ -156,10 +165,22 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
     (prev, data) => data
   );
 
+  const {
+    state: { playerPlaying },
+  } = usePlayer();
+
   return (
     <>
-      <div className="h-screen-layout relative pt-12 overflow-hidden">
+      <div className="h-screen-layout relative overflow-hidden flex flex-col">
         <Navbar story={story} storyState={storyState} />
+        {playerPlaying && (
+          <img
+            src={playerPlaying.image}
+            alt={playerPlaying.title}
+            className="absolute w-full h-full object-cover"
+            style={{ zIndex: -1, filter: "blur(20px) brightness(0.3)" }}
+          />
+        )}
         {storyState ? (
           storyState.permission.isViewable ? (
             <StoryContent story={story} storyState={storyState} />

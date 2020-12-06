@@ -163,7 +163,7 @@
       "backToStory": "Trờ lại story"
     },
     "queue": {
-      "title": "Hàng chờ",
+      "title": "Nhạc",
       "queue": { "title": "Hàng chờ" },
       "search": { "title": "Tìm nhạc" },
       "playlist": { "title": "Playlist" },
@@ -172,10 +172,10 @@
     "chat": {
       "title": "Chat",
       "authPrompt": "Trò chuyện với nhau",
-      "authPromptHook": "Nghe nhạc và trò chuyện cùng bạn bè khắp mọi nơi với tài khoản Stereo",
-      "listener": "Người nghe"
+      "authPromptHook": "Nghe nhạc và trò chuyện cùng bạn bè khắp mọi nơi với tài khoản Stereo"
     },
-    "live": { "title": "Live" }
+    "live": { "title": "Live" },
+    "listeners": { "title": "Người nghe" }
   },
   "nowPlaying": { "title": "Đang phát", "skipSong": "Bỏ qua bài" },
   "player": {

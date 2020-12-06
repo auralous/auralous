@@ -48,9 +48,9 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const getClassName = (index: number) =>
-    `flex-1 p-2 text-sm font-bold ${
-      index === selectedIndex ? "bg-blue" : "bg-blue-secondary"
-    } transition duration-300`;
+    `rounded-full flex-1 text-xs p-2 uppercase font-bold ${
+      index === selectedIndex ? "bg-success" : "bg-background-secondary"
+    } transition-colors`;
 
   const tabPanelStyle0 = useSpring(
     0 === selectedIndex ? tabActiveStyle : tabInactiveStyle
@@ -71,7 +71,7 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
       onChange={setSelectedIndex}
       className="h-full flex flex-col overflow-hidden"
     >
-      <TabList className="flex flex-none">
+      <TabList className="flex flex-none py-1 gap-1">
         <Tab className={getClassName(0)}>{t("story.queue.queue.title")}</Tab>
         <Tab
           className={getClassName(1)}
