@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Swiper from "swiper/bundle";
 import ListenStoryView from "./ListenStoryView";
 import { usePlayer } from "~/components/Player";
-import { useStoryFeedQuery } from "~/graphql/gql.gen";
+import { useStoryFeedQuery, Story } from "~/graphql/gql.gen";
 import ListenStoryOverlay from "./ListenStoryOverlay";
 import { VirtualData } from "swiper/types/components/virtual";
 
@@ -13,10 +13,24 @@ const ListenMain: React.FC = () => {
 
   const [next, setNext] = useState<undefined | string>("");
 
+  const [stories, setStories] = useState<Story[]>([]);
+
   const [{ data }] = useStoryFeedQuery({
-    // skip is noop, only to work around simple pagination
+    // pagination is not working rn
     variables: { id: "PUBLIC", next, limit: LIMIT },
   });
+
+  useEffect(
+    () =>
+      setStories((ss) => {
+        const tempArr: Story[] = [];
+        data?.storyFeed.forEach(
+          (sf) => !ss.some((s) => s.id === sf.id) && tempArr.push(sf)
+        );
+        return ss.concat(tempArr);
+      }),
+    [data]
+  );
 
   const { playStory } = usePlayer();
 
@@ -40,16 +54,15 @@ const ListenMain: React.FC = () => {
 
   useEffect(() => {
     if (!currentSlide) return;
-    const storyFeed = data?.storyFeed;
-    if (!storyFeed) return;
-    playStory(storyFeed[currentSlide].id);
+    if (!stories.length) return;
+    playStory(stories[currentSlide].id);
 
     // Load more stories (pagination)
     // should start loading the next one if it is 5 slides away
-    if (storyFeed.length - currentSlide < 5) {
-      setNext(storyFeed[storyFeed.length - 1].id);
+    if (stories.length - currentSlide < 5) {
+      setNext(stories[stories.length - 1].id);
     }
-  }, [currentSlide, data, playStory]);
+  }, [currentSlide, stories, playStory]);
 
   useEffect(() => {
     const swiperInstance = (swiperRef.current.swiper =
@@ -66,18 +79,18 @@ const ListenMain: React.FC = () => {
       }));
 
     // update virtual slides
-    data?.storyFeed.forEach((s) => {
+    stories.forEach((s) => {
       if (!swiperInstance.virtual.slides.includes(s.id))
         swiperInstance.virtual.appendSlide(s.id);
     });
-  }, [playStory, data?.storyFeed]);
+  }, [playStory, stories]);
 
   const VirtualSlides = useMemo(() => {
     const els: JSX.Element[] = [];
-    if (!virtualData || !data?.storyFeed.length) return els;
+    if (!virtualData || !stories.length) return els;
 
     virtualData.slides.forEach((slide: string) => {
-      const story = data.storyFeed.find((s) => s.id === slide);
+      const story = stories.find((s) => s.id === slide);
       if (!story) return;
       els.push(
         <div
@@ -92,14 +105,14 @@ const ListenMain: React.FC = () => {
       );
     });
     return els;
-  }, [virtualData, data?.storyFeed]);
+  }, [virtualData, stories]);
 
   return (
     <div className="h-screen-layout w-full relative overflow-hidden select-none">
       <div className="swiper-container h-full" id="story-feed-swiper">
         <div className="swiper-wrapper">{VirtualSlides}</div>
       </div>
-      <ListenStoryOverlay storyFeed={data?.storyFeed} />
+      <ListenStoryOverlay storyFeed={stories} />
     </div>
   );
 };
