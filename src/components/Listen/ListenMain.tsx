@@ -9,9 +9,40 @@ import { VirtualData } from "swiper/types/components/virtual";
 const LIMIT = 10;
 
 const ListenMain: React.FC = () => {
+  const [next, setNext] = useState<undefined | string>("");
+
   const swiperRef = useRef<{ swiper: Swiper | null }>({ swiper: null });
 
-  const [next, setNext] = useState<undefined | string>("");
+  // Setup swiper
+  useEffect(() => {
+    const swiperInstance = (swiperRef.current.swiper =
+      swiperRef.current.swiper ||
+      new Swiper("#story-feed-swiper", {
+        spaceBetween: 0,
+        slidesPerView: 1,
+        virtual: { renderExternal: setVirtualData },
+        on: {
+          slideChange(swiper) {
+            setCurrentSlide(swiper.activeIndex);
+          },
+        },
+      }));
+
+    // scroll by keyboard
+    const onKeyPress = (e: KeyboardEvent) => {
+      const swiperInstance = swiperRef.current.swiper;
+      if (!swiperInstance) return;
+      if (e.key === "ArrowRight") swiperInstance.slideNext();
+      else if (e.key === "ArrowLeft") swiperInstance.slidePrev();
+    };
+    document.addEventListener("keydown", onKeyPress, true);
+
+    // cleanup
+    return function cleanupSwiper() {
+      document.removeEventListener("keydown", onKeyPress);
+      swiperInstance.destroy();
+    };
+  }, []);
 
   const [stories, setStories] = useState<Story[]>([]);
 
@@ -27,25 +58,19 @@ const ListenMain: React.FC = () => {
         data?.storyFeed.forEach(
           (sf) => !ss.some((s) => s.id === sf.id) && tempArr.push(sf)
         );
+
+        // update swiper slides
+        swiperRef.current.swiper?.virtual?.appendSlide(
+          tempArr.map((ta) => ta.id)
+        );
+
+        // update state
         return ss.concat(tempArr);
       }),
     [data]
   );
 
   const { playStory } = usePlayer();
-
-  // Scroll by keyboard
-  useEffect(() => {
-    // scroll by keyboard
-    const onKeyPress = (e: KeyboardEvent) => {
-      const swiperInstance = swiperRef.current.swiper;
-      if (!swiperInstance) return;
-      if (e.key === "ArrowRight") swiperInstance.slideNext();
-      else if (e.key === "ArrowLeft") swiperInstance.slidePrev();
-    };
-    document.addEventListener("keydown", onKeyPress, true);
-    return () => document.removeEventListener("keydown", onKeyPress);
-  }, []);
 
   const [virtualData, setVirtualData] = useState<VirtualData | null>(null);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -61,27 +86,6 @@ const ListenMain: React.FC = () => {
       setNext(stories[stories.length - 1].id);
     }
   }, [currentSlide, stories, playStory]);
-
-  useEffect(() => {
-    const swiperInstance = (swiperRef.current.swiper =
-      swiperRef.current.swiper ||
-      new Swiper("#story-feed-swiper", {
-        spaceBetween: 0,
-        slidesPerView: 1,
-        virtual: { renderExternal: setVirtualData },
-        on: {
-          slideChange(swiper) {
-            setCurrentSlide(swiper.activeIndex);
-          },
-        },
-      }));
-
-    // update virtual slides
-    stories.forEach((s) => {
-      if (!swiperInstance.virtual.slides.includes(s.id))
-        swiperInstance.virtual.appendSlide(s.id);
-    });
-  }, [playStory, stories]);
 
   const VirtualSlides = useMemo(() => {
     const els: JSX.Element[] = [];
