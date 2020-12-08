@@ -72,14 +72,15 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
         // These two requires user to log in
         if (!user) return showLogin();
         // ...and be allowed to add to queue
-        return toast.open({
-          type: "info",
-          message: t("story.queue.notAllowed"),
-        });
+        if (!isQueueable)
+          return toast.open({
+            type: "info",
+            message: t("story.queue.notAllowed"),
+          });
       }
       setSelectedIndex(index);
     },
-    [showLogin, user, t]
+    [showLogin, user, t, isQueueable]
   );
 
   return (

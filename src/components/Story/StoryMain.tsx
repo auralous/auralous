@@ -15,6 +15,7 @@ import StoryFooter from "./StoryFooter";
 import { ShareDialog } from "~/components/Social";
 import { useCurrentUser } from "~/hooks/user";
 import { useModal } from "~/components/Modal";
+import { useLogin } from "~/components/Auth";
 import { SvgShare } from "~/assets/svg";
 
 const StoryQueue = dynamic(() => import("./StoryQueue"), { ssr: false });
@@ -67,25 +68,23 @@ const StoryContent: React.FC<{ story: Story }> = ({ story }) => {
     (prev, data) => data
   );
 
+  const [, showLogin] = useLogin();
+
   return (
     <>
       <StoryHeader story={story} />
       <Tabs
         index={selectedIndex}
-        onChange={setSelectedIndex}
+        onChange={(index) => {
+          if (index === 2 && !user) return showLogin();
+          setSelectedIndex(index);
+        }}
         className="flex-1 h-0 flex flex-col"
       >
         <TabList className="bg-opacity-40 bg-black">
           <Tab className={getClassName(0)}>{t("story.live.title")}</Tab>
           <Tab className={getClassName(1)}>{t("story.queue.title")}</Tab>
-          <Tab
-            onClick={() => {
-              console.log("test");
-            }}
-            className={getClassName(2)}
-          >
-            {t("story.listeners.title")}
-          </Tab>
+          <Tab className={getClassName(2)}>{t("story.listeners.title")}</Tab>
         </TabList>
         <TabPanels className="flex-1 h-0 relative bg-gradient-to-t from-black to-transparent">
           <TabPanel className="absolute bottom-0 w-full h-96 max-h-full">
