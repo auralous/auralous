@@ -6,6 +6,7 @@ import { useCrossTracks } from "~/hooks/track";
 import { useI18n } from "~/i18n/index";
 import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
 import { parseMs } from "~/lib/editor-utils";
+import { defaultAvatar } from "~/lib/util";
 import {
   IndexParagraph,
   IndexSection,
@@ -52,7 +53,7 @@ const IndexListenUser: React.FC<{
     >
       <div
         className="relative bg-cover shadow-lg mb-1 w-10 h-10 mx-auto rounded-full flex flex-col flex-center"
-        style={{ background: `url(https://avatar.tobi.sh/${name})` }}
+        style={{ background: `url(${defaultAvatar(name)})` }}
       >
         <SvgUser className="w-4 h-4" />
         <span className="absolute overflow-visible shadow-lg -bottom-1 -right-1 bg-white h-5 w-5 flex flex-center rounded-full">
