@@ -177,8 +177,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           <img
             src={playerPlaying.image}
             alt={playerPlaying.title}
-            className="absolute w-full h-full object-cover"
-            style={{ zIndex: -1, filter: "blur(20px) brightness(0.3)" }}
+            className="story-bg"
           />
         )}
         {storyState ? (

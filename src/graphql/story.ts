@@ -5,6 +5,7 @@ export const FRAGMENT_STORY_DETAIL = /* GraphQL */ `
     createdAt
     isPublic
     creatorId
+    status
   }
 `;
 
@@ -43,19 +44,9 @@ export const QUERY_STORIES = /* GraphQL */ `
   ${FRAGMENT_STORY_DETAIL}
 `;
 
-export const QUERY_EXPLORE_STORIES_BY = /* GraphQL */ `
-  query exploreStories($by: String!) {
-    exploreStories(by: $by) {
-      id
-      ...StoryDetailParts
-    }
-  }
-  ${FRAGMENT_STORY_DETAIL}
-`;
-
-export const QUERY_SEARCH_STORIES = /* GraphQL */ `
-  query searchStories($query: String!, $limit: Int) {
-    searchStories(query: $query, limit: $limit) {
+export const QUERY_STORY_FEED = /* GraphQL */ `
+  query storyFeed($forMe: Boolean, $next: String) {
+    storyFeed(forMe: $forMe, next: $next) {
       id
       ...StoryDetailParts
     }

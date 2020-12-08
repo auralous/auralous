@@ -70,15 +70,15 @@
     "listening": {
       "title": "Listening on {{name}}",
       "withAuth": "Your Stereo account is connected to {{name}}. If you wish to switch",
-      "contactUs": "contact us",
-      "selectOne": "Select one"
+      "contactUs": "contact us"
     },
     "signOut": "Sign Out"
   },
   "listen": {
     "title": "Listen Now",
-    "description": "Listening to music does not have to be a passive. Stereo brings forward a brand new experience of listening together.",
-    "comingSoon": "This experience is coming soon. In the meantime, check out discover page to listen together."
+    "description": "Discover new songs that others are listening to and join them in real time",
+    "promptJoin": "Tune in to what {{username}} is listening to",
+    "actionJoin": "Join"
   },
   "new": {
     "title": "Start listening together",

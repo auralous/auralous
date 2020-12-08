@@ -70,15 +70,15 @@
     "listening": {
       "title": "Nghe nhạc trên {{name}}",
       "withAuth": "Tài khoản của bạn đang được kết nối với {{name}}. Nếu bạn muốn thay đổi",
-      "contactUs": "liên hệ chúng mình",
-      "selectOne": "Chọn ứng dụng"
+      "contactUs": "liên hệ chúng mình"
     },
     "signOut": "Đăng xuất"
   },
   "listen": {
     "title": "Nghe ngay",
-    "description": "Nghe nhạc không nhất thiết phải là một trải nghiệm thụ động. Stereo đem đến bạn một cảm giác mới mẻ khi nghe nhạc cùng nhau.",
-    "comingSoon": "Trải nghiệm này sẽ sớm có mặt. Trong thời gian chờ đợi, xem trang Duyệt qua để nghe cùng nhau."
+    "description": "Khám phá những bài hát mà người khác đang lắm nghe và tham gia cùng họ trong thời gian thực",
+    "promptJoin": "Mở xem {{username}} đang nghe gì",
+    "actionJoin": "Tham gia"
   },
   "new": {
     "title": "Bắt đầu nghe cùng nhau",

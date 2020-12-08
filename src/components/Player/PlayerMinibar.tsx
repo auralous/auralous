@@ -5,7 +5,7 @@ import usePlayer from "./usePlayer";
 import { useI18n } from "~/i18n/index";
 import { SvgX } from "~/assets/svg";
 
-const noPlayerMinibarRoutes = ["/story/[storyId]"];
+const noPlayerMinibarRoutes = ["/story/[storyId]", "/listen"];
 
 const PlayerMinibar: React.FC = () => {
   const { t } = useI18n();

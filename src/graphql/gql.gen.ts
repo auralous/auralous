@@ -35,8 +35,7 @@ export type Query = {
   story?: Maybe<Story>;
   storyState?: Maybe<StoryState>;
   stories?: Maybe<Array<Story>>;
-  exploreStories: Array<Story>;
-  searchStories: Array<Story>;
+  storyFeed: Array<Story>;
   track?: Maybe<Track>;
   crossTracks?: Maybe<CrossTracks>;
   searchTrack: Array<Track>;
@@ -82,14 +81,9 @@ export type QueryStoriesArgs = {
 };
 
 
-export type QueryExploreStoriesArgs = {
-  by: Scalars['String'];
-};
-
-
-export type QuerySearchStoriesArgs = {
-  query: Scalars['String'];
-  limit?: Maybe<Scalars['Int']>;
+export type QueryStoryFeedArgs = {
+  forMe?: Maybe<Scalars['Boolean']>;
+  next?: Maybe<Scalars['String']>;
 };
 
 
@@ -280,6 +274,7 @@ export type Story = {
   image: Scalars['String'];
   creatorId: Scalars['ID'];
   createdAt: Scalars['DateTime'];
+  status: StoryStatus;
 };
 
 export type StoryPermission = {
@@ -296,6 +291,12 @@ export type StoryState = {
   queueable: Array<Scalars['String']>;
   permission: StoryPermission;
 };
+
+export enum StoryStatus {
+  Published = 'published',
+  Unpublished = 'unpublished',
+  Live = 'live'
+}
 
 export enum PlatformName {
   Youtube = 'youtube',
@@ -529,7 +530,7 @@ export type OnQueueUpdatedSubscription = (
 
 export type StoryDetailPartsFragment = (
   { __typename?: 'Story' }
-  & Pick<Story, 'text' | 'image' | 'createdAt' | 'isPublic' | 'creatorId'>
+  & Pick<Story, 'text' | 'image' | 'createdAt' | 'isPublic' | 'creatorId' | 'status'>
 );
 
 export type StoryRulesPartsFragment = (
@@ -573,29 +574,15 @@ export type StoriesQuery = (
   )>> }
 );
 
-export type ExploreStoriesQueryVariables = Exact<{
-  by: Scalars['String'];
+export type StoryFeedQueryVariables = Exact<{
+  forMe?: Maybe<Scalars['Boolean']>;
+  next?: Maybe<Scalars['String']>;
 }>;
 
 
-export type ExploreStoriesQuery = (
+export type StoryFeedQuery = (
   { __typename?: 'Query' }
-  & { exploreStories: Array<(
-    { __typename?: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  )> }
-);
-
-export type SearchStoriesQueryVariables = Exact<{
-  query: Scalars['String'];
-  limit?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type SearchStoriesQuery = (
-  { __typename?: 'Query' }
-  & { searchStories: Array<(
+  & { storyFeed: Array<(
     { __typename?: 'Story' }
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
@@ -815,6 +802,7 @@ export const StoryDetailPartsFragmentDoc = gql`
   createdAt
   isPublic
   creatorId
+  status
 }
     `;
 export const StoryRulesPartsFragmentDoc = gql`
@@ -1028,29 +1016,17 @@ export const StoriesDocument = gql`
 export function useStoriesQuery(options: Omit<Urql.UseQueryArgs<StoriesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<StoriesQuery>({ query: StoriesDocument, ...options });
 };
-export const ExploreStoriesDocument = gql`
-    query exploreStories($by: String!) {
-  exploreStories(by: $by) {
+export const StoryFeedDocument = gql`
+    query storyFeed($forMe: Boolean, $next: String) {
+  storyFeed(forMe: $forMe, next: $next) {
     id
     ...StoryDetailParts
   }
 }
     ${StoryDetailPartsFragmentDoc}`;
 
-export function useExploreStoriesQuery(options: Omit<Urql.UseQueryArgs<ExploreStoriesQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<ExploreStoriesQuery>({ query: ExploreStoriesDocument, ...options });
-};
-export const SearchStoriesDocument = gql`
-    query searchStories($query: String!, $limit: Int) {
-  searchStories(query: $query, limit: $limit) {
-    id
-    ...StoryDetailParts
-  }
-}
-    ${StoryDetailPartsFragmentDoc}`;
-
-export function useSearchStoriesQuery(options: Omit<Urql.UseQueryArgs<SearchStoriesQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<SearchStoriesQuery>({ query: SearchStoriesDocument, ...options });
+export function useStoryFeedQuery(options: Omit<Urql.UseQueryArgs<StoryFeedQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<StoryFeedQuery>({ query: StoryFeedDocument, ...options });
 };
 export const CreateStoryDocument = gql`
     mutation createStory($text: String!, $isPublic: Boolean!) {

@@ -12,6 +12,7 @@ import { I18n } from "~/i18n/index";
 import { createUrqlClient } from "~/graphql/urql";
 import "~/styles/index.css";
 import "notyf/notyf.min.css";
+import "swiper/swiper.scss";
 
 // polyfill
 import "intersection-observer";
