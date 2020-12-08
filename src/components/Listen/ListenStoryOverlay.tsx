@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import Link from "next/link";
-import { useTransition, animated, config as springConfig } from "react-spring";
 import { usePlayer } from "~/components/Player";
 import { Story, useUserQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
-import StoryNav from "../Story/StoryNav";
+import StoryNav from "~/components/Story/StoryNav";
+import StoryBg from "~/components/Story/StoryBg";
 
 const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
   storyFeed,
@@ -26,30 +26,12 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
     pause: !playingStory,
   });
 
-  const transitionImage = useTransition(playerPlaying?.image, null, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-    config: springConfig.slow,
-  });
-
   return (
     <>
       <div className="z-10 absolute top-0 p-2">
         {playingStory && <StoryNav story={playingStory} />}
       </div>
-      {transitionImage.map(
-        ({ item, key, props }) =>
-          item && (
-            <animated.img
-              style={props}
-              key={key}
-              alt={t("nowPlaying.title")}
-              src={item}
-              className="story-bg"
-            />
-          )
-      )}
+      <StoryBg image={playerPlaying?.image} />
       <div className="absolute z-10 px-2 py-4 bottom-0 w-full bg-gradient-to-t from-background to-transparent">
         <p className="text-sm text-foreground-secondary text-center mb-1">
           {t("listen.promptJoin", { username: user?.username || "" })}

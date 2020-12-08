@@ -48,13 +48,11 @@ const ListenMain: React.FC = () => {
   }, []);
 
   const [virtualData, setVirtualData] = useState<VirtualData | null>(null);
-  const [currentSlide, setCurrentSlide] = useState<number | undefined>(
-    undefined
-  );
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   useEffect(() => {
-    if (!currentSlide) return;
     if (!stories.length) return;
+
     playStory(stories[currentSlide].id);
 
     // Load more stories (pagination)

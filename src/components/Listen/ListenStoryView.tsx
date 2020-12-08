@@ -40,7 +40,6 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <div className="w-full h-full box-border overflow-hidden px-4 py-24 flex flex-col">
       <div className="p-2 flex-1 h-0 flex flex-col flex-center">
-        {story.text}
         <div className="relative mx-auto w-48 h-48 md:w-64 md:h-64 rounded overflow-hidden mb-3">
           {track ? (
             <img

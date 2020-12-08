@@ -10,11 +10,12 @@ import {
   useOnStoryUsersUpdatedSubscription,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
+import StoryNav from "./StoryNav";
+import StoryBg from "./StoryBg";
 import StoryHeader from "./StoryHeader";
 import StoryFooter from "./StoryFooter";
 import { useCurrentUser } from "~/hooks/user";
 import { useLogin } from "~/components/Auth";
-import StoryNav from "./StoryNav";
 
 const StoryQueue = dynamic(() => import("./StoryQueue"), { ssr: false });
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
@@ -119,13 +120,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
         <div className="pt-2 px-2 bg-opacity-40 bg-black">
           <StoryNav story={story} />
         </div>
-        {playerPlaying && (
-          <img
-            src={playerPlaying.image}
-            alt={playerPlaying.title}
-            className="story-bg"
-          />
-        )}
+        <StoryBg image={playerPlaying?.image} />
         <StoryContent story={story} />
       </div>
     </>
