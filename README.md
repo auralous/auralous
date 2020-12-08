@@ -69,3 +69,14 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation. See [LICENSE](LICENSE) file in this repository for the full text.
+
+## Acknowledgements
+
+This project is not possible without:
+
+- [All the libraries and their amazing maintainers](package.json)
+- [Feather Icons](https://feathericons.com/)
+- [Odesli API](https://odesli.co/)
+- [Noun Project](https://thenounproject.com/)
+- [tobiaslins/avatar](https://github.com/tobiaslins/avatar)
+- last but not least... **you**
