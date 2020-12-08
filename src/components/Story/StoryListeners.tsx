@@ -20,7 +20,7 @@ const CurrentUser: React.FC<{
                 title={data.user.username}
               />
             </div>
-            <div className="font-semibold text-sm text-center px-2 bg-success text-white rounded-full leading-5 mt-1">
+            <div className="font-semibold text-sm text-center px-2 bg-success text-white rounded-full leading-5 mt-1 w-full truncate">
               {data.user.username}
             </div>
           </>

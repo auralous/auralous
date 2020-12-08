@@ -77,8 +77,8 @@ const StoryContent: React.FC<{ story: Story; storyState: StoryState }> = ({
             {t("story.listeners.title")}
           </Tab>
         </TabList>
-        <TabPanels className="flex-1 h-0 relative">
-          <TabPanel className="absolute bottom-0 w-full h-96 max-h-full bg-gradient-to-t bg-opacity-40 from-black to-transparent">
+        <TabPanels className="flex-1 h-0 relative bg-gradient-to-t from-black to-transparent">
+          <TabPanel className="absolute bottom-0 w-full h-96 max-h-full">
             <StoryChat story={story} storyState={storyState} />
           </TabPanel>
           <TabPanel className="h-full">
