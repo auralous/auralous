@@ -43,11 +43,7 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
   return (
     <>
       {transitionTop.map(({ key, props, item }) => (
-        <animated.div
-          key={key}
-          className="z-10 absolute px-2 py-4"
-          style={props}
-        >
+        <animated.div key={key} className="z-10 absolute p-2" style={props}>
           {item && <StoryNav story={item} />}
         </animated.div>
       ))}

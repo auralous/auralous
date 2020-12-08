@@ -8,7 +8,8 @@ const StoryNav: React.FC<{ story: Story }> = ({ story }) => {
   });
 
   const dateStr = useMemo(() => {
-    return ms(Date.now() - story.createdAt.getTime());
+    const d = Date.now() - story.createdAt.getTime();
+    return d ? ms(d) : "";
   }, [story]);
 
   return (

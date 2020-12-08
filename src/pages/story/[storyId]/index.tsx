@@ -13,6 +13,7 @@ const StoryPage: NextPage<{
 }> = ({ story }) => {
   const initialStory = useMemo<Story | null>(() => {
     if (!story) return null;
+    // FIXME: Sometimes createdAt is Invalid Date
     return {
       ...story,
       createdAt: new Date(story.createdAt),
