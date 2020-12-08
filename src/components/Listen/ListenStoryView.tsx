@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SvgPlay } from "~/assets/svg";
 import { usePlayer } from "~/components/Player";
-import {
-  Story,
-  useNowPlayingQuery,
-  useStoryStateQuery,
-  useTrackQuery,
-  useUserQuery,
-} from "~/graphql/gql.gen";
+import { Story, useNowPlayingQuery, useTrackQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
 const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
@@ -27,10 +21,6 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
     };
   }, [player]);
 
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: story.creatorId },
-  });
-
   const [
     { data: { nowPlaying } = { nowPlaying: undefined } },
   ] = useNowPlayingQuery({ variables: { id: story.id } });
@@ -40,25 +30,8 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
     pause: !nowPlaying?.currentTrack,
   });
 
-  const [
-    { data: { storyState } = { storyState: undefined } },
-  ] = useStoryStateQuery({ variables: { id: story.id } });
-
   return (
-    <div className="w-full h-full box-border overflow-hidden p-4 flex flex-col">
-      <div className="flex">
-        <img
-          alt={user?.username}
-          className="w-10 h-10 rounded-full object-cover"
-          src={user?.profilePicture}
-        />
-        <div className="p-1 leading-4">
-          <div className="font-semibold">{user?.username}</div>
-          <div className="text-xs text-foreground-secondary">
-            {storyState?.userIds.length} {t("story.listeners.title")}
-          </div>
-        </div>
-      </div>
+    <div className="w-full h-full box-border overflow-hidden px-4 py-24 flex flex-col">
       <div className="p-2 flex-1 h-0 flex flex-col flex-center">
         <div className="relative mx-auto w-48 h-48 md:w-64 md:h-64 rounded overflow-hidden mb-1">
           {track && (
@@ -89,7 +62,6 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
           </>
         )}
       </div>
-      <div className="h-20" />
     </div>
   );
 };
