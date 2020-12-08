@@ -42,24 +42,28 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
       <div className="p-2 flex-1 h-0 flex flex-col flex-center">
         <div className="relative mx-auto w-48 h-48 md:w-64 md:h-64 rounded overflow-hidden mb-3">
           {track ? (
-            <img
-              alt={track.title}
-              className="absolute inset-0 object-cover"
-              src={track.image}
-            />
+            <>
+              <img
+                alt={track.title}
+                className="absolute inset-0 object-cover"
+                src={track.image}
+              />
+              {!isPlaying && (
+                <button
+                  aria-label={t("player.play")}
+                  onClick={() => player.play()}
+                  className="absolute inset-0 flex flex-center w-full bg-black bg-opacity-75 hover:bg-opacity-50 transition-colors"
+                >
+                  <SvgPlay className="fill-current w-10 h-10" />
+                </button>
+              )}
+            </>
           ) : (
-            fetching && (
-              <div className="absolute inset-0 object-cover bg-background-secondary animate-pulse" />
-            )
-          )}
-          {!isPlaying && (
-            <button
-              aria-label={t("player.play")}
-              onClick={() => player.play()}
-              className="absolute inset-0 flex flex-center w-full bg-black bg-opacity-75 hover:bg-opacity-50 transition-colors"
-            >
-              <SvgPlay className="fill-current w-10 h-10" />
-            </button>
+            <div
+              className={`absolute inset-0 object-cover bg-background-secondary ${
+                fetching ? "animate-pulse" : ""
+              }`}
+            />
           )}
         </div>
         <div className="h-16">
