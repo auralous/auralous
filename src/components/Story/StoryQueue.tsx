@@ -6,27 +6,26 @@ import {
   TrackAdderPlaylist,
   TrackAdderSearch,
 } from "~/components/Track/TrackAdder";
-import {
-  QueueAction,
-  Story,
-  useUpdateQueueMutation,
-  StoryState,
-} from "~/graphql/gql.gen";
+import { useCurrentUser } from "~/hooks/user";
+import { QueueAction, Story, useUpdateQueueMutation } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgClock } from "~/assets/svg";
+import { useLogin } from "../Auth";
+import { toast } from "~/lib/toast";
 
 const AnimatedTabPanel = animated(TabPanel);
 const tabInactiveStyle = { opacity: 0, transform: "translate3d(0px,40px,0px)" };
 const tabActiveStyle = { opacity: 1, transform: "translate3d(0px,0px,0px)" };
 
-const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
-  story,
-  storyState,
-}) => {
+const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
 
-  const [, updateQueue] = useUpdateQueueMutation();
+  const user = useCurrentUser();
+  const isQueueable = Boolean(
+    user && (story.creatorId === user.id || story.queueable.includes(user.id))
+  );
 
+  const [, updateQueue] = useUpdateQueueMutation();
   const [queue] = useQueue(story.id);
 
   const addedTracks = useMemo(() => {
@@ -65,26 +64,34 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
     3 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
 
+  const [, showLogin] = useLogin();
+
+  const onTabChange = useCallback(
+    (index: number) => {
+      if (index === 1 || index === 2) {
+        // These two requires user to log in
+        if (!user) return showLogin();
+        // ...and be allowed to add to queue
+        return toast.open({
+          type: "info",
+          message: t("story.queue.notAllowed"),
+        });
+      }
+      setSelectedIndex(index);
+    },
+    [showLogin, user, t]
+  );
+
   return (
     <Tabs
+      onChange={onTabChange}
       index={selectedIndex}
-      onChange={setSelectedIndex}
       className="h-full flex flex-col overflow-hidden"
     >
       <TabList className="flex flex-none py-1 gap-1">
         <Tab className={getClassName(0)}>{t("story.queue.queue.title")}</Tab>
-        <Tab
-          className={getClassName(1)}
-          disabled={!storyState.permission.isQueueable}
-        >
-          {t("story.queue.search.title")}
-        </Tab>
-        <Tab
-          className={getClassName(2)}
-          disabled={!storyState.permission.isQueueable}
-        >
-          {t("story.queue.playlist.title")}
-        </Tab>
+        <Tab className={getClassName(1)}>{t("story.queue.search.title")}</Tab>
+        <Tab className={getClassName(2)}>{t("story.queue.playlist.title")}</Tab>
         <Tab
           className={`${getClassName(3)} flex-grow-0`}
           title={t("story.queue.played.title")}
@@ -95,7 +102,7 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
       <TabPanels className="flex-1 h-0">
         <AnimatedTabPanel style={tabPanelStyle0} className="h-full" as="div">
           <QueueManager
-            permission={storyState.permission}
+            isQueueable={isQueueable}
             queueId={story.id}
             onEmptyAddClick={() => setSelectedIndex(1)}
           />
@@ -112,7 +119,7 @@ const StoryQueue: React.FC<{ story: Story; storyState: StoryState }> = ({
         </AnimatedTabPanel>
         <AnimatedTabPanel style={tabPanelStyle3} className="h-full" as="div">
           <QueueViewer
-            onAdd={storyState.permission.isQueueable ? onAddTracks : undefined}
+            onAdd={isQueueable ? onAddTracks : undefined}
             queueId={`${story.id}:played`}
             reverse
             queryOpts={selectedIndex === 3 ? undefined : { pause: true }}

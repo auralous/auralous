@@ -14,7 +14,11 @@ const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({
   htmlFor,
   children,
 }) => (
-  <label className="label text-foreground text-center" htmlFor={htmlFor}>
+  <label
+    id={`${htmlFor}-label`}
+    className="label text-foreground text-center"
+    htmlFor={htmlFor}
+  >
     {children}
   </label>
 );
@@ -84,8 +88,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         </CreateStoryLabel>
         <input
           id="storyText"
-          aria-label={t("story.settings.info.textHelp")}
-          placeholder={t("story.settings.info.textHelp")}
+          aria-labelledby="storyText-label"
           required
           className="input w-full text-center"
           type="text"

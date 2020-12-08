@@ -108,11 +108,6 @@
       "promptText": "How would you describe the story",
       "promptPrivacy": "Are you listening in public or private"
     },
-    "addExisted": {
-      "title": "Continue in Existed Story",
-      "prompt": "Select a story to continue listening",
-      "authPrompt": "Join Stereo to continue listening"
-    },
     "backText": "Go back"
   },
   "discover": {
@@ -128,44 +123,13 @@
     "label": "Story",
     "description": "Join {{title}} on Stereo and listen to music together.",
     "privacy": { "public": "Public", "private": "Private" },
-    "main": {
-      "private": {
-        "prompt": "Join Stereo to Enter a Private Story"
-      },
-      "loading": {
-        "text": "Joining Story"
-      }
-    },
-    "settings": {
-      "title": "Story Settings",
-      "shortTitle": "Settings",
-      "titleInfo": "Story Info",
-      "titleRules": "Story Rules and Access",
-      "info": {
-        "textHelp": "Describe your story"
-      },
-      "privacy": {
-        "title": "Privacy"
-      },
-      "dangerZone": {
-        "title": "Danger Zone",
-        "delete": {
-          "title": "Delete this story",
-          "description": "This will remove this story",
-          "action": "Yes, delete story",
-          "cancel": "Nevermind",
-          "deleted": "Story deleted"
-        }
-      },
-      "updatedText": "Story Updated",
-      "backToStory": "Go back to story"
-    },
     "queue": {
       "title": "Tracks",
       "queue": { "title": "Queue" },
       "search": { "title": "Search" },
       "playlist": { "title": "Playlist" },
-      "played": { "title": "Recently Played" }
+      "played": { "title": "Recently Played" },
+      "notAllowed": "You are not allowed to add songs to this story"
     },
     "chat": {
       "title": "Chat",
@@ -235,7 +199,6 @@
       "addAction": "Add song",
       "removedTrackText": "Removed {{title}}",
       "removeTrackText": "Remove Track",
-      "authPrompt": "Join to Add Songs and Listen Together",
       "emptyText": "It's lonely around here... Let's add a song!",
       "notAllowedText": "You are not allowed to contribute. See"
     }

@@ -6,21 +6,7 @@ export const FRAGMENT_STORY_DETAIL = /* GraphQL */ `
     isPublic
     creatorId
     status
-  }
-`;
-
-export const FRAGMENT_STORY_RULES = /* GraphQL */ `
-  fragment StoryRulesParts on StoryState {
     queueable
-  }
-`;
-
-export const FRAGMENT_STORY_PERMISSION = /* GraphQL */ `
-  fragment StoryPermissionPart on StoryState {
-    permission {
-      isQueueable
-      isViewable
-    }
   }
 `;
 
@@ -70,17 +56,10 @@ export const MUTATION_DELETE_STORY = /* GraphQL */ `
   }
 `;
 
-export const QUERY_STORY_STATE = /* GraphQL */ `
-  query storyState($id: ID!) {
-    storyState(id: $id) {
-      id
-      userIds
-      ...StoryRulesParts
-      ...StoryPermissionPart
-    }
+export const QUERY_STORY_USERS = /* GraphQL */ `
+  query storyUsers($id: ID!) {
+    storyUsers(id: $id)
   }
-  ${FRAGMENT_STORY_RULES}
-  ${FRAGMENT_STORY_PERMISSION}
 `;
 
 export const MUTATION_PING_STORY = /* GraphQL */ `
@@ -89,15 +68,8 @@ export const MUTATION_PING_STORY = /* GraphQL */ `
   }
 `;
 
-export const SUBSCRIPTION_STORY_STATE = /* GraphQL */ `
-  subscription onStoryStateUpdated($id: ID!) {
-    storyStateUpdated(id: $id) {
-      id
-      userIds
-      ...StoryRulesParts
-      ...StoryPermissionPart
-    }
+export const SUBSCRIPTION_STORY_USERS = /* GraphQL */ `
+  subscription onStoryUsersUpdated($id: ID!) {
+    storyUsersUpdated(id: $id)
   }
-  ${FRAGMENT_STORY_RULES}
-  ${FRAGMENT_STORY_PERMISSION}
 `;

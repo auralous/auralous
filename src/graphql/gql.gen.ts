@@ -33,7 +33,7 @@ export type Query = {
   nowPlayingReactions?: Maybe<NowPlayingReaction>;
   queue?: Maybe<Queue>;
   story?: Maybe<Story>;
-  storyState?: Maybe<StoryState>;
+  storyUsers?: Maybe<Array<Scalars['String']>>;
   stories?: Maybe<Array<Story>>;
   storyFeed: Array<Story>;
   track?: Maybe<Track>;
@@ -71,7 +71,7 @@ export type QueryStoryArgs = {
 };
 
 
-export type QueryStoryStateArgs = {
+export type QueryStoryUsersArgs = {
   id: Scalars['ID'];
 };
 
@@ -177,7 +177,7 @@ export type Subscription = {
   nowPlayingUpdated?: Maybe<NowPlaying>;
   nowPlayingReactionsUpdated?: Maybe<NowPlayingReaction>;
   queueUpdated: Queue;
-  storyStateUpdated?: Maybe<StoryState>;
+  storyUsersUpdated: Array<Scalars['String']>;
 };
 
 
@@ -201,7 +201,7 @@ export type SubscriptionQueueUpdatedArgs = {
 };
 
 
-export type SubscriptionStoryStateUpdatedArgs = {
+export type SubscriptionStoryUsersUpdatedArgs = {
   id: Scalars['ID'];
 };
 
@@ -275,21 +275,13 @@ export type Story = {
   creatorId: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   status: StoryStatus;
+  queueable: Array<Scalars['String']>;
 };
 
 export type StoryPermission = {
   __typename?: 'StoryPermission';
   isViewable: Scalars['Boolean'];
   isQueueable: Scalars['Boolean'];
-};
-
-export type StoryState = {
-  __typename?: 'StoryState';
-  id: Scalars['ID'];
-  userIds: Array<Scalars['String']>;
-  /** Settings */
-  queueable: Array<Scalars['String']>;
-  permission: StoryPermission;
 };
 
 export enum StoryStatus {
@@ -530,20 +522,7 @@ export type OnQueueUpdatedSubscription = (
 
 export type StoryDetailPartsFragment = (
   { __typename?: 'Story' }
-  & Pick<Story, 'text' | 'image' | 'createdAt' | 'isPublic' | 'creatorId' | 'status'>
-);
-
-export type StoryRulesPartsFragment = (
-  { __typename?: 'StoryState' }
-  & Pick<StoryState, 'queueable'>
-);
-
-export type StoryPermissionPartFragment = (
-  { __typename?: 'StoryState' }
-  & { permission: (
-    { __typename?: 'StoryPermission' }
-    & Pick<StoryPermission, 'isQueueable' | 'isViewable'>
-  ) }
+  & Pick<Story, 'text' | 'image' | 'createdAt' | 'isPublic' | 'creatorId' | 'status' | 'queueable'>
 );
 
 export type StoryQueryVariables = Exact<{
@@ -614,19 +593,14 @@ export type DeleteStoryMutation = (
   & Pick<Mutation, 'deleteStory'>
 );
 
-export type StoryStateQueryVariables = Exact<{
+export type StoryUsersQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryStateQuery = (
+export type StoryUsersQuery = (
   { __typename?: 'Query' }
-  & { storyState?: Maybe<(
-    { __typename?: 'StoryState' }
-    & Pick<StoryState, 'id' | 'userIds'>
-    & StoryRulesPartsFragment
-    & StoryPermissionPartFragment
-  )> }
+  & Pick<Query, 'storyUsers'>
 );
 
 export type PingStoryMutationVariables = Exact<{
@@ -639,19 +613,14 @@ export type PingStoryMutation = (
   & Pick<Mutation, 'pingStory'>
 );
 
-export type OnStoryStateUpdatedSubscriptionVariables = Exact<{
+export type OnStoryUsersUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnStoryStateUpdatedSubscription = (
+export type OnStoryUsersUpdatedSubscription = (
   { __typename?: 'Subscription' }
-  & { storyStateUpdated?: Maybe<(
-    { __typename?: 'StoryState' }
-    & Pick<StoryState, 'id' | 'userIds'>
-    & StoryRulesPartsFragment
-    & StoryPermissionPartFragment
-  )> }
+  & Pick<Subscription, 'storyUsersUpdated'>
 );
 
 export type ArtistPartsFragment = (
@@ -803,19 +772,7 @@ export const StoryDetailPartsFragmentDoc = gql`
   isPublic
   creatorId
   status
-}
-    `;
-export const StoryRulesPartsFragmentDoc = gql`
-    fragment StoryRulesParts on StoryState {
   queueable
-}
-    `;
-export const StoryPermissionPartFragmentDoc = gql`
-    fragment StoryPermissionPart on StoryState {
-  permission {
-    isQueueable
-    isViewable
-  }
 }
     `;
 export const ArtistPartsFragmentDoc = gql`
@@ -1049,20 +1006,14 @@ export const DeleteStoryDocument = gql`
 export function useDeleteStoryMutation() {
   return Urql.useMutation<DeleteStoryMutation, DeleteStoryMutationVariables>(DeleteStoryDocument);
 };
-export const StoryStateDocument = gql`
-    query storyState($id: ID!) {
-  storyState(id: $id) {
-    id
-    userIds
-    ...StoryRulesParts
-    ...StoryPermissionPart
-  }
+export const StoryUsersDocument = gql`
+    query storyUsers($id: ID!) {
+  storyUsers(id: $id)
 }
-    ${StoryRulesPartsFragmentDoc}
-${StoryPermissionPartFragmentDoc}`;
+    `;
 
-export function useStoryStateQuery(options: Omit<Urql.UseQueryArgs<StoryStateQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoryStateQuery>({ query: StoryStateDocument, ...options });
+export function useStoryUsersQuery(options: Omit<Urql.UseQueryArgs<StoryUsersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<StoryUsersQuery>({ query: StoryUsersDocument, ...options });
 };
 export const PingStoryDocument = gql`
     mutation pingStory($id: ID!) {
@@ -1073,20 +1024,14 @@ export const PingStoryDocument = gql`
 export function usePingStoryMutation() {
   return Urql.useMutation<PingStoryMutation, PingStoryMutationVariables>(PingStoryDocument);
 };
-export const OnStoryStateUpdatedDocument = gql`
-    subscription onStoryStateUpdated($id: ID!) {
-  storyStateUpdated(id: $id) {
-    id
-    userIds
-    ...StoryRulesParts
-    ...StoryPermissionPart
-  }
+export const OnStoryUsersUpdatedDocument = gql`
+    subscription onStoryUsersUpdated($id: ID!) {
+  storyUsersUpdated(id: $id)
 }
-    ${StoryRulesPartsFragmentDoc}
-${StoryPermissionPartFragmentDoc}`;
+    `;
 
-export function useOnStoryStateUpdatedSubscription<TData = OnStoryStateUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnStoryStateUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnStoryStateUpdatedSubscription, TData>) {
-  return Urql.useSubscription<OnStoryStateUpdatedSubscription, TData, OnStoryStateUpdatedSubscriptionVariables>({ query: OnStoryStateUpdatedDocument, ...options }, handler);
+export function useOnStoryUsersUpdatedSubscription<TData = OnStoryUsersUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnStoryUsersUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnStoryUsersUpdatedSubscription, TData>) {
+  return Urql.useSubscription<OnStoryUsersUpdatedSubscription, TData, OnStoryUsersUpdatedSubscriptionVariables>({ query: OnStoryUsersUpdatedDocument, ...options }, handler);
 };
 export const TrackDocument = gql`
     query track($id: ID!) {

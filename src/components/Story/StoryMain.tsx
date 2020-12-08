@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { usePlayer } from "~/components/Player/index";
 import {
   Story,
   useStoryQuery,
-  useStoryStateQuery,
-  useOnStoryStateUpdatedSubscription,
+  useStoryUsersQuery,
   usePingStoryMutation,
-  StoryState,
+  useOnStoryUsersUpdatedSubscription,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import StoryHeader from "./StoryHeader";
 import StoryFooter from "./StoryFooter";
 import { ShareDialog } from "~/components/Social";
-import { useCurrentUser, useMAuth } from "~/hooks/user";
+import { useCurrentUser } from "~/hooks/user";
 import { useModal } from "~/components/Modal";
-import { SvgSettings, SvgShare } from "~/assets/svg";
+import { SvgShare } from "~/assets/svg";
 
 const StoryQueue = dynamic(() => import("./StoryQueue"), { ssr: false });
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
@@ -25,10 +23,7 @@ const StoryListeners = dynamic(() => import("./StoryListeners"), {
   ssr: false,
 });
 
-const StoryContent: React.FC<{ story: Story; storyState: StoryState }> = ({
-  story,
-  storyState,
-}) => {
+const StoryContent: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   const { playStory } = usePlayer();
   useEffect(() => {
@@ -44,18 +39,33 @@ const StoryContent: React.FC<{ story: Story; storyState: StoryState }> = ({
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-  const { data: mAuth } = useMAuth();
+  const user = useCurrentUser();
 
   // This informs that the user is present in story
   const [, pingStory] = usePingStoryMutation();
   useEffect(() => {
-    if (mAuth) {
+    if (user) {
       const pingInterval = window.setInterval(() => {
         pingStory({ id: story.id });
       }, 30 * 1000);
       return () => window.clearInterval(pingInterval);
     }
-  }, [story, mAuth, pingStory]);
+  }, [story, user, pingStory]);
+
+  // get current users in story
+  const [
+    { data: { storyUsers } = { storyUsers: undefined } },
+  ] = useStoryUsersQuery({
+    variables: { id: story.id },
+    pollInterval: 60 * 1000,
+    requestPolicy: "cache-and-network",
+    pause: !user,
+  });
+
+  useOnStoryUsersUpdatedSubscription(
+    { variables: { id: story.id || "" }, pause: !storyUsers },
+    (prev, data) => data
+  );
 
   return (
     <>
@@ -79,13 +89,13 @@ const StoryContent: React.FC<{ story: Story; storyState: StoryState }> = ({
         </TabList>
         <TabPanels className="flex-1 h-0 relative bg-gradient-to-t from-black to-transparent">
           <TabPanel className="absolute bottom-0 w-full h-96 max-h-full">
-            <StoryChat story={story} storyState={storyState} />
+            <StoryChat story={story} />
           </TabPanel>
           <TabPanel className="h-full">
-            <StoryQueue storyState={storyState} story={story} />
+            <StoryQueue story={story} />
           </TabPanel>
           <TabPanel className="h-full">
-            <StoryListeners storyState={storyState} />
+            <StoryListeners userIds={storyUsers || []} />
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -94,25 +104,11 @@ const StoryContent: React.FC<{ story: Story; storyState: StoryState }> = ({
   );
 };
 
-const StoryLoading: React.FC<{ story: Story }> = ({ story }) => {
-  const { t } = useI18n();
-  return (
-    <div className="w-full h-full flex flex-col flex-center">
-      <h1 className="text-2xl md:text-4xl font-black">{story.text}</h1>
-      <p className="text-sm md:text-md text-foreground-secondary animate-pulse">
-        {t("story.main.loading.text")}
-      </p>
-    </div>
-  );
-};
-
 const Navbar: React.FC<{
   story: Story;
-  storyState: StoryState | null | undefined;
 }> = ({ story }) => {
   const { t } = useI18n();
 
-  const user = useCurrentUser();
   const [activeShare, openShare, closeShare] = useModal();
 
   return (
@@ -130,16 +126,6 @@ const Navbar: React.FC<{
               {t("share.title")}
             </span>
           </button>
-          {story.creatorId === user?.id && (
-            <Link href={`/story/${story.id}/settings`}>
-              <a className="btn p-2">
-                <SvgSettings width="12" height="12" className="sm:mr-1" />
-                <span className="text-xs sr-only sm:not-sr-only leading-none">
-                  {t("story.settings.shortTitle")}
-                </span>
-              </a>
-            </Link>
-          )}
         </div>
       </div>
       <ShareDialog
@@ -153,31 +139,12 @@ const Navbar: React.FC<{
 };
 
 const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
-  const { t } = useI18n();
   // initialStory is the same as story, only might be a outdated version
   // so it can be used as backup
   const [{ data }] = useStoryQuery({
     variables: { id: initialStory.id as string },
   });
   const story = data?.story || initialStory;
-  const [
-    {
-      data: { storyState } = { storyState: undefined },
-      fetching: fetchingStoryState,
-    },
-  ] = useStoryStateQuery({
-    variables: { id: story.id },
-    pollInterval: 60 * 1000,
-    requestPolicy: "cache-and-network",
-  });
-
-  useOnStoryStateUpdatedSubscription(
-    {
-      variables: { id: story.id || "" },
-      pause: !storyState?.permission.isViewable,
-    },
-    (prev, data) => data
-  );
 
   const {
     state: { playerPlaying },
@@ -186,7 +153,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   return (
     <>
       <div className="h-screen-layout relative overflow-hidden flex flex-col">
-        <Navbar story={story} storyState={storyState} />
+        <Navbar story={story} />
         {playerPlaying && (
           <img
             src={playerPlaying.image}
@@ -194,15 +161,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
             className="story-bg"
           />
         )}
-        {storyState ? (
-          storyState.permission.isViewable ? (
-            <StoryContent story={story} storyState={storyState} />
-          ) : (
-            <p>{t("main.private.prompt")}</p>
-          )
-        ) : (
-          fetchingStoryState && <StoryLoading story={story} />
-        )}
+        <StoryContent story={story} />
       </div>
     </>
   );

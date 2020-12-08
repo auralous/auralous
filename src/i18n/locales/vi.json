@@ -109,11 +109,6 @@
       "promptText": "Bạn sẽ miêu tả story của mình thế nào",
       "promptPrivacy": "Bạn định nghe công khai hay riêng tư"
     },
-    "addExisted": {
-      "title": "Tiếp tục ở story hiện có",
-      "prompt": "Chọn một story để tiếp tục nghe nhạc",
-      "authPrompt": "Đăng nhập Stereo để tiếp tục nghe"
-    },
     "backText": "Trở về"
   },
   "discover": {
@@ -129,45 +124,13 @@
     "label": "Story",
     "description": "Tham gia cùng {{title}} trên Stereo và nghe nhạc cùng nhau.",
     "privacy": { "public": "Công khai", "private": "Riêng tư" },
-    "main": {
-      "private": {
-        "prompt": "Đăng nhập đề vào story riêng tư"
-      },
-      "loading": {
-        "text": "Đang vào story"
-      }
-    },
-    "settings": {
-      "title": "Cài đặt story",
-      "titleInfo": "Thông tin story",
-      "titleRules": "Luật lệ và truy cập",
-      "shortTitle": "Cài đặt",
-      "info": {
-        "textHelp": "Miêu tả story của bạn"
-
-      },
-      "privacy": {
-        "title": "Công khai"
-      },
-      "dangerZone": {
-        "title": "Khu vực nguy hiểm",
-        "delete": {
-          "title": "Xoá Story này",
-          "description": "Thao tác sẽ xoá story",
-          "action": "Xoá story",
-          "cancel": "Thôi",
-          "deleted": "Story đã bị xoá"
-        }
-      },
-      "updatedText": "Story đã được cập nhật",
-      "backToStory": "Trờ lại story"
-    },
     "queue": {
       "title": "Nhạc",
       "queue": { "title": "Hàng chờ" },
       "search": { "title": "Tìm nhạc" },
       "playlist": { "title": "Playlist" },
-      "played": { "title": "Đã phát gần đây" }
+      "played": { "title": "Đã phát gần đây" },
+      "notAllowed": "Bạn không được phép thêm nhạc vào story này"
     },
     "chat": {
       "title": "Chat",
@@ -237,7 +200,6 @@
       "addAction": "Thêm nhạc",
       "removedTrackText": "Đã xoá {{title}}",
       "removeTrackText": "Xoá bài hát",
-      "authPrompt": "Tham gia Stereo để thêm nhạc",
       "emptyText": "Ở đây cô đơn quá... Thêm một bài cho nóng nào!",
       "notAllowedText": "Bạn không được phép thêm nhạc. Xem"
     }

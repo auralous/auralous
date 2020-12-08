@@ -14,7 +14,7 @@ import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { devtoolsExchange } from "@urql/devtools";
 import { toast } from "~/lib/toast";
 // import { default as schemaIntrospection } from "./introspection.json";
-import { Story, StoryDocument } from "~/graphql/gql.gen";
+import { Story, StoryDocument, StoryUsersDocument } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 
 const subscriptionClient =
@@ -104,6 +104,19 @@ const cacheExchange = createCacheExchange({
       },
       deleteMe: () => {
         window.resetUrqlClient();
+      },
+    },
+    Subscription: {
+      storyUsersUpdated: (result, args, cache) => {
+        if (result.storyUsersUpdated) {
+          cache.updateQuery(
+            {
+              query: StoryUsersDocument,
+              variables: { id: args.id },
+            },
+            () => ({ storyUsers: result.storyUsersUpdated })
+          );
+        }
       },
     },
   },

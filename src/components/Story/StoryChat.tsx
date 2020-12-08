@@ -1,13 +1,11 @@
 import React from "react";
 import { Messenger } from "~/components/Message/index";
-import { Story, StoryState } from "~/graphql/gql.gen";
+import { Story } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 import { AuthBanner } from "~/components/Auth";
 
-const StoryChat: React.FC<{ story: Story; storyState: StoryState }> = ({
-  story,
-}) => {
+const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   const user = useCurrentUser();
 
@@ -20,6 +18,7 @@ const StoryChat: React.FC<{ story: Story; storyState: StoryState }> = ({
         />
       </div>
     );
+
   return (
     <div className="h-full">
       <Messenger id={`story:${story.id}`} />

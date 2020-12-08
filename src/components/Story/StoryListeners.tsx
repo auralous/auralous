@@ -1,6 +1,5 @@
 import React from "react";
-import { StoryState, useUserQuery } from "~/graphql/gql.gen";
-import { useCurrentUser } from "~/hooks/user";
+import { useUserQuery } from "~/graphql/gql.gen";
 
 const CurrentUser: React.FC<{
   userId: string;
@@ -36,13 +35,11 @@ const CurrentUser: React.FC<{
 };
 
 const StoryListeners: React.FC<{
-  storyState: StoryState;
-}> = ({ storyState }) => {
-  const user = useCurrentUser();
-  if (!user) return null;
+  userIds: string[];
+}> = ({ userIds }) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-      {storyState.userIds.map((userId) => (
+      {userIds.map((userId) => (
         // TODO: react-window
         <CurrentUser key={userId} userId={userId} />
       ))}
