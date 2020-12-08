@@ -33,7 +33,7 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <div className="w-full h-full box-border overflow-hidden px-4 py-24 flex flex-col">
       <div className="p-2 flex-1 h-0 flex flex-col flex-center">
-        <div className="relative mx-auto w-48 h-48 md:w-64 md:h-64 rounded overflow-hidden mb-1">
+        <div className="relative mx-auto w-48 h-48 md:w-64 md:h-64 rounded overflow-hidden mb-3">
           {track && (
             <>
               <img
@@ -55,8 +55,10 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
         </div>
         {track && (
           <>
-            <h4 className="font-bold text-2xl text-center">{track.title}</h4>
-            <div className="text-foreground-secondary text-center">
+            <h4 className="w-full font-bold text-2xl text-center truncate">
+              {track.title}
+            </h4>
+            <div className="w-full text-foreground-secondary text-center truncate">
               {track.artists.map((artist) => artist.name).join(", ")}
             </div>
           </>
