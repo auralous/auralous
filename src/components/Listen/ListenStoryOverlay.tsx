@@ -26,13 +26,6 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
     pause: !playingStory,
   });
 
-  const transitionTop = useTransition(playingStory, null, {
-    from: { opacity: 0, top: "-1rem" },
-    enter: { opacity: 1, top: "0rem" },
-    leave: { opacity: 0, top: "-1rem" },
-    config: springConfig.slow,
-  });
-
   const transitionImage = useTransition(playerPlaying?.image, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
@@ -42,11 +35,9 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
 
   return (
     <>
-      {transitionTop.map(({ key, props, item }) => (
-        <animated.div key={key} className="z-10 absolute p-2" style={props}>
-          {item && <StoryNav story={item} />}
-        </animated.div>
-      ))}
+      <div className="z-10 absolute top-0 p-2">
+        {playingStory && <StoryNav story={playingStory} />}
+      </div>
       {transitionImage.map(
         ({ item, key, props }) =>
           item && (
