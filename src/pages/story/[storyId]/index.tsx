@@ -43,11 +43,12 @@ export const getServerSideProps: GetServerSideProps<{
     ).trim()}&variables=${JSON.stringify({ id: params?.storyId })}`,
     { headers: forwardSSRHeaders(req) }
   ).then((response) => response.json());
-  const story = result.data?.story || null;
+  const story: Story | null = result.data?.story || null;
   if (!story) res.statusCode = 404;
   else {
     story.createdAt = JSON.stringify(story.createdAt);
-    res.setHeader("cache-control", `public, max-age=${CONFIG.storyMaxAge}`);
+    if (story.isPublic)
+      res.setHeader("cache-control", `public, max-age=${CONFIG.storyMaxAge}`);
   }
   return { props: { story } };
 };
