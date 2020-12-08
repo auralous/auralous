@@ -15,9 +15,9 @@ const ListenMain: React.FC = () => {
 
   // Setup swiper
   useEffect(() => {
-    const swiperInstance = (swiperRef.current.swiper =
-      swiperRef.current.swiper ||
-      new Swiper("#story-feed-swiper", {
+    const swiperInstance = (swiperRef.current.swiper = new Swiper(
+      "#story-feed-swiper",
+      {
         spaceBetween: 0,
         slidesPerView: 1,
         virtual: { renderExternal: setVirtualData },
@@ -26,20 +26,22 @@ const ListenMain: React.FC = () => {
             setCurrentSlide(swiper.activeIndex);
           },
         },
-      }));
+      }
+    ));
 
     // scroll by keyboard
     const onKeyPress = (e: KeyboardEvent) => {
       const swiperInstance = swiperRef.current.swiper;
       if (!swiperInstance) return;
-      if (e.key === "ArrowRight") swiperInstance.slideNext();
-      else if (e.key === "ArrowLeft") swiperInstance.slidePrev();
+      if (e.key === "ArrowRight") swiperInstance.slideNext(600);
+      else if (e.key === "ArrowLeft") swiperInstance.slidePrev(600);
     };
     document.addEventListener("keydown", onKeyPress, true);
 
     // cleanup
     return function cleanupSwiper() {
       document.removeEventListener("keydown", onKeyPress);
+      swiperInstance.detachEvents();
       swiperInstance.destroy();
     };
   }, []);
