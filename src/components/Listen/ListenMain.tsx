@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperClass } from "swiper";
 import ListenStoryView from "./ListenStoryView";
@@ -6,12 +6,21 @@ import { usePlayer } from "~/components/Player";
 import { useStoryFeedQuery } from "~/graphql/gql.gen";
 import ListenStoryOverlay from "./ListenStoryOverlay";
 
+const LIMIT = 10;
+
 const ListenMain: React.FC = () => {
   const swiperRef = useRef<{ swiper: SwiperClass | null }>({ swiper: null });
 
-  const [{ data }] = useStoryFeedQuery();
+  const [next, setNext] = useState<undefined | string>("");
+
+  const [{ data }] = useStoryFeedQuery({
+    // skip is noop, only to work around simple pagination
+    variables: { id: "PUBLIC", next, limit: LIMIT },
+  });
+
   const { playStory } = usePlayer();
 
+  // Scroll by keyboard
   useEffect(() => {
     // scroll by keyboard
     const onKeyPress = (e: KeyboardEvent) => {
@@ -24,6 +33,7 @@ const ListenMain: React.FC = () => {
     return () => document.removeEventListener("keydown", onKeyPress);
   }, []);
 
+  // Play story on scroll
   useEffect(() => {
     const swiperInstance = swiperRef.current.swiper;
     const storyFeed = data?.storyFeed;
@@ -33,6 +43,10 @@ const ListenMain: React.FC = () => {
 
     const onSlideChange: NonNullable<Swiper["onSwiper"]> = (swiper) => {
       playStory(storyFeed[swiper.activeIndex]?.id);
+      if (storyFeed.length - swiper.activeIndex < 5) {
+        // should start loading the next one
+        setNext(storyFeed[storyFeed.length - 1].id);
+      }
     };
 
     swiperInstance.on("slideChange", onSlideChange);

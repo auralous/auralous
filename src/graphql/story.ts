@@ -31,8 +31,8 @@ export const QUERY_STORIES = /* GraphQL */ `
 `;
 
 export const QUERY_STORY_FEED = /* GraphQL */ `
-  query storyFeed($forMe: Boolean, $next: String) {
-    storyFeed(forMe: $forMe, next: $next) {
+  query storyFeed($id: ID!, $next: String, $limit: Int!) {
+    storyFeed(id: $id, next: $next, limit: $limit) {
       id
       ...StoryDetailParts
     }

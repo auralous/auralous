@@ -82,8 +82,9 @@ export type QueryStoriesArgs = {
 
 
 export type QueryStoryFeedArgs = {
-  forMe?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
   next?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
 };
 
 
@@ -276,12 +277,6 @@ export type Story = {
   createdAt: Scalars['DateTime'];
   status: StoryStatus;
   queueable: Array<Scalars['String']>;
-};
-
-export type StoryPermission = {
-  __typename?: 'StoryPermission';
-  isViewable: Scalars['Boolean'];
-  isQueueable: Scalars['Boolean'];
 };
 
 export enum StoryStatus {
@@ -554,8 +549,9 @@ export type StoriesQuery = (
 );
 
 export type StoryFeedQueryVariables = Exact<{
-  forMe?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
   next?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
 }>;
 
 
@@ -974,8 +970,8 @@ export function useStoriesQuery(options: Omit<Urql.UseQueryArgs<StoriesQueryVari
   return Urql.useQuery<StoriesQuery>({ query: StoriesDocument, ...options });
 };
 export const StoryFeedDocument = gql`
-    query storyFeed($forMe: Boolean, $next: String) {
-  storyFeed(forMe: $forMe, next: $next) {
+    query storyFeed($id: ID!, $next: String, $limit: Int!) {
+  storyFeed(id: $id, next: $next, limit: $limit) {
     id
     ...StoryDetailParts
   }

@@ -62,6 +62,11 @@ const cacheExchange = createCacheExchange({
         offsetArgument: "offset",
         mergeMode: "before",
       }),
+      storyFeed: simplePagination({
+        // We are patch-package to allow offset arg to be type `string`
+        // Compare string works in this case due to natural order of bson
+        offsetArgument: "next",
+      }),
     },
     Message: {
       // @ts-ignore
