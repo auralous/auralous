@@ -8,13 +8,14 @@ import {
   useStoryQuery,
   useStoryStateQuery,
   useOnStoryStateUpdatedSubscription,
+  usePingStoryMutation,
   StoryState,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import StoryHeader from "./StoryHeader";
 import StoryFooter from "./StoryFooter";
 import { ShareDialog } from "~/components/Social";
-import { useCurrentUser } from "~/hooks/user";
+import { useCurrentUser, useMAuth } from "~/hooks/user";
 import { useModal } from "~/components/Modal";
 import { SvgSettings, SvgShare } from "~/assets/svg";
 
@@ -42,6 +43,19 @@ const StoryContent: React.FC<{ story: Story; storyState: StoryState }> = ({
     } transition-colors`;
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
+  const { data: mAuth } = useMAuth();
+
+  // This informs that the user is present in story
+  const [, pingStory] = usePingStoryMutation();
+  useEffect(() => {
+    if (mAuth) {
+      const pingInterval = window.setInterval(() => {
+        pingStory({ id: story.id });
+      }, 30 * 1000);
+      return () => window.clearInterval(pingInterval);
+    }
+  }, [story, mAuth, pingStory]);
 
   return (
     <>

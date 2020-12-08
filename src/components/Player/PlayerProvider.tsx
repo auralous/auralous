@@ -4,7 +4,7 @@ import Portal from "@reach/portal";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
 import { useNowPlaying } from "~/components/NowPlaying/index";
-import { PlatformName, usePingStoryMutation } from "~/graphql/gql.gen";
+import { PlatformName } from "~/graphql/gql.gen";
 import { useMAuth } from "~/hooks/user";
 import { useCrossTracks } from "~/hooks/track";
 import { IPlayerContext, PlayerPlaying } from "./types";
@@ -46,17 +46,6 @@ const PlayerProvider: React.FC = ({ children }) => {
   }, [playingStoryId]);
 
   const [nowPlaying, { fetching: fetchingNP }] = useNowPlaying(playingStoryId);
-
-  const [, pingStory] = usePingStoryMutation();
-  useEffect(() => {
-    if (playingStoryId && mAuth) {
-      const pingInterval = window.setInterval(() => {
-        // tell server that user is still in story
-        pingStory({ id: playingStoryId });
-      }, 30 * 1000);
-      return () => window.clearInterval(pingInterval);
-    }
-  }, [playingStoryId, mAuth, pingStory]);
 
   const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
     nowPlaying?.currentTrack?.trackId
