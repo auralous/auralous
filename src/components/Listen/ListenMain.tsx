@@ -13,6 +13,18 @@ const ListenMain: React.FC = () => {
   const { playStory } = usePlayer();
 
   useEffect(() => {
+    // scroll by keyboard
+    const onKeyPress = (e: KeyboardEvent) => {
+      const swiperInstance = swiperRef.current.swiper;
+      if (!swiperInstance) return;
+      if (e.key === "ArrowRight") swiperInstance.slideNext();
+      else if (e.key === "ArrowLeft") swiperInstance.slidePrev();
+    };
+    document.addEventListener("keydown", onKeyPress, true);
+    return () => document.removeEventListener("keydown", onKeyPress);
+  }, []);
+
+  useEffect(() => {
     const swiperInstance = swiperRef.current.swiper;
     const storyFeed = data?.storyFeed;
     if (!swiperInstance || !storyFeed) return;
@@ -28,12 +40,11 @@ const ListenMain: React.FC = () => {
   }, [data, playStory]);
 
   return (
-    <div className="h-screen-layout w-full relative overflow-hidden">
+    <div className="h-screen-layout w-full relative overflow-hidden select-none">
       <Swiper
         spaceBetween={0}
         slidesPerView={1}
         onSwiper={(swiper) => (swiperRef.current.swiper = swiper)}
-        mousewheel={true}
         className="h-full"
       >
         {data?.storyFeed.map((story) => {
