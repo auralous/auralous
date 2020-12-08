@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import StoryMain from "~/components/Story/StoryMain";
@@ -11,24 +11,33 @@ import { CONFIG } from "~/lib/constants";
 const StoryPage: NextPage<{
   story: Story | null;
 }> = ({ story }) => {
-  if (!story) return <NotFoundPage />;
+  const initialStory = useMemo<Story | null>(() => {
+    if (!story) return null;
+    return {
+      ...story,
+      createdAt: new Date(story.createdAt),
+    };
+  }, [story]);
+
+  if (!initialStory) return <NotFoundPage />;
+
   return (
     <>
       <NextSeo
-        title={story.text}
-        description={story.text}
-        canonical={`${process.env.APP_URI}/story/${story.id}`}
+        title={initialStory.text}
+        description={initialStory.text}
+        canonical={`${process.env.APP_URI}/story/${initialStory.id}`}
         openGraph={{
           images: [
             {
-              url: story.image,
-              alt: story.text,
+              url: initialStory.image,
+              alt: initialStory.text,
             },
           ],
         }}
-        noindex={!story.isPublic}
+        noindex={!initialStory.isPublic}
       />
-      <StoryMain initialStory={story} />
+      <StoryMain initialStory={initialStory} />
     </>
   );
 };
@@ -46,7 +55,6 @@ export const getServerSideProps: GetServerSideProps<{
   const story: Story | null = result.data?.story || null;
   if (!story) res.statusCode = 404;
   else {
-    story.createdAt = JSON.stringify(story.createdAt);
     if (story.isPublic)
       res.setHeader("cache-control", `public, max-age=${CONFIG.storyMaxAge}`);
   }

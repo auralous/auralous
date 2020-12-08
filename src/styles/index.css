@@ -126,7 +126,7 @@
   }
 
   .story-bg {
-    @apply absolute inset-0 w-full h-full transform scale-110;
+    @apply absolute inset-0 w-full h-full transform scale-110 object-cover;
     z-index: -1;
     filter: blur(20px) brightness(0.5);
   }

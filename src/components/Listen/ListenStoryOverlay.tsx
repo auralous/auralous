@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import Link from "next/link";
 import { useTransition, animated, config as springConfig } from "react-spring";
-import ms from "ms";
 import { usePlayer } from "~/components/Player";
 import { Story, useUserQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
+import StoryNav from "../Story/StoryNav";
 
 const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
   storyFeed,
@@ -26,7 +26,7 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
     pause: !playingStory,
   });
 
-  const transitionTop = useTransition(playingStoryId, null, {
+  const transitionTop = useTransition(playingStory, null, {
     from: { opacity: 0, top: "-1rem" },
     enter: { opacity: 1, top: "0rem" },
     leave: { opacity: 0, top: "-1rem" },
@@ -40,41 +40,15 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
     config: springConfig.slow,
   });
 
-  const dateStr = useMemo(() => {
-    if (!playingStory) return "";
-    return ms(Date.now() - playingStory.createdAt.getTime());
-  }, [playingStory]);
-
   return (
     <>
-      {transitionTop.map(({ key, props }) => (
+      {transitionTop.map(({ key, props, item }) => (
         <animated.div
           key={key}
           className="z-10 absolute px-2 py-4"
           style={props}
         >
-          <div className="flex">
-            {user ? (
-              <img
-                alt={user?.username}
-                className="w-10 h-10 rounded-full object-cover"
-                src={user?.profilePicture}
-              />
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-white bg-opacity-25" />
-            )}
-            <div className="p-1 leading-4">
-              <div>
-                <span className="font-semibold mr-2">{user?.username}</span>{" "}
-                <span className="text-xs text-foreground-secondary">
-                  {dateStr}
-                </span>
-              </div>
-              <div className="text-sm text-foreground-secondary">
-                {playingStory?.text}
-              </div>
-            </div>
-          </div>
+          {item && <StoryNav story={item} />}
         </animated.div>
       ))}
       {transitionImage.map(

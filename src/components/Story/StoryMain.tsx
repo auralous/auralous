@@ -12,11 +12,9 @@ import {
 import { useI18n } from "~/i18n/index";
 import StoryHeader from "./StoryHeader";
 import StoryFooter from "./StoryFooter";
-import { ShareDialog } from "~/components/Social";
 import { useCurrentUser } from "~/hooks/user";
-import { useModal } from "~/components/Modal";
 import { useLogin } from "~/components/Auth";
-import { SvgShare } from "~/assets/svg";
+import StoryNav from "./StoryNav";
 
 const StoryQueue = dynamic(() => import("./StoryQueue"), { ssr: false });
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
@@ -103,40 +101,6 @@ const StoryContent: React.FC<{ story: Story }> = ({ story }) => {
   );
 };
 
-const Navbar: React.FC<{
-  story: Story;
-}> = ({ story }) => {
-  const { t } = useI18n();
-
-  const [activeShare, openShare, closeShare] = useModal();
-
-  return (
-    <>
-      <div className="px-2 flex overflow-hidden bg-black bg-opacity-40">
-        <div className="flex flex-1 w-0 items-center justify-start h-full">
-          <h4 className="text-sm font-bold leading-tight truncate mr-2">
-            {story.text}
-          </h4>
-        </div>
-        <div className="flex items justify-end">
-          <button onClick={openShare} className="btn p-2 mr-1">
-            <SvgShare width="12" height="12" className="sm:mr-1" />
-            <span className="text-xs sr-only sm:not-sr-only leading-none">
-              {t("share.title")}
-            </span>
-          </button>
-        </div>
-      </div>
-      <ShareDialog
-        uri={`/story/${story.id}`}
-        name={story.text}
-        active={activeShare}
-        close={closeShare}
-      />
-    </>
-  );
-};
-
 const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   // initialStory is the same as story, only might be a outdated version
   // so it can be used as backup
@@ -152,7 +116,9 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   return (
     <>
       <div className="h-screen-layout relative overflow-hidden flex flex-col">
-        <Navbar story={story} />
+        <div className="pt-2 px-2 bg-opacity-40 bg-black">
+          <StoryNav story={story} />
+        </div>
         {playerPlaying && (
           <img
             src={playerPlaying.image}
