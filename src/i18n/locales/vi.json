@@ -138,7 +138,17 @@
       "authPromptHook": "Nghe nhạc và trò chuyện cùng bạn bè khắp mọi nơi với tài khoản Stereo"
     },
     "live": { "title": "Live" },
-    "listeners": { "title": "Người nghe" }
+    "listeners": { "title": "Người nghe" },
+    "menu": {
+      "handle": "Tùy chọn Story"
+    },
+    "delete": {
+      "title": "Xoá story",
+      "confirmPrompt": "Bạn có chắc chắn muốn xoá story này?",
+      "success": "Story đã được xoá",
+      "action": "Xoá",
+      "cancel": "Thôi"
+    }
   },
   "user": {
     "profile": "Hồ sơ",

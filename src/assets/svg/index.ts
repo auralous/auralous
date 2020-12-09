@@ -25,6 +25,7 @@ export { default as SvgMenu } from "./menu.svg";
 export { default as SvgMinus } from "./minus.svg";
 export { default as SvgMusic } from "./music.svg";
 export { default as SvgMoreHorizontal } from "./more-horizontal.svg";
+export { default as SvgMoreVertical } from "./more-vertical.svg";
 export { default as SvgPause } from "./pause.svg";
 export { default as SvgPlay } from "./play.svg";
 export { default as SvgPlus } from "./plus.svg";

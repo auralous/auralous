@@ -137,7 +137,17 @@
       "authPromptHook": "Listen to music with friends and chat no matter where they are with a Stereo account"
     },
     "live": { "title": "Live" },
-    "listeners": { "title": "Listeners" }
+    "listeners": { "title": "Listeners" },
+    "menu": {
+      "handle": "Story menu"
+    },
+    "delete": {
+      "title": "Delete story",
+      "confirmPrompt": "Are you sure you want to delete this story?",
+      "success": "The story has been deleted",
+      "action": "Delete",
+      "cancel": "Nevermind"
+    }
   },
   "user": {
     "profile": "Profile",
