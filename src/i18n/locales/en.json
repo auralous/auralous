@@ -82,6 +82,7 @@
     "title": "Listen Now",
     "description": "Discover new songs that others are listening to and join them in real time",
     "promptJoin": "Tune in to what {{username}} is listening to",
+    "promptJoinNolive": "Tune in to what {{username}} listened to",
     "actionJoin": "Join"
   },
   "new": {
@@ -292,7 +293,8 @@
     "save": "Save",
     "saved": "Saved",
     "startListening": "Start Listening",
-    "newStory": "Create Story"
+    "newStory": "Create Story",
+    "live": "live"
   },
   "error": {
     "sorry": "We are sorry for the inconvenience",

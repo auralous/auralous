@@ -82,6 +82,7 @@
     "title": "Nghe ngay",
     "description": "Khám phá những bài hát mà người khác đang lắm nghe và tham gia cùng họ trong thời gian thực",
     "promptJoin": "Mở xem {{username}} đang nghe gì",
+    "promptJoinNolive": "Mở xem {{username}} đã nghe gì",
     "actionJoin": "Tham gia"
   },
   "new": {
@@ -293,7 +294,8 @@
     "save": "Lưu",
     "saved": "Đã lưu",
     "startListening": "Nghe nào",
-    "newStory": "Tạo story"
+    "newStory": "Tạo story",
+    "live": "live"
   },
   "error": {
     "sorry": "Chúng mình xin lỗi vì sự bất tiện",

@@ -50,6 +50,20 @@ export const MUTATION_CREATE_STORY = /* GraphQL */ `
   ${FRAGMENT_STORY_DETAIL}
 `;
 
+export const MUTATION_CHANGE_STORY_QUEUEABLE = /* GraphQL */ `
+  mutation changeStoryQueueable(
+    $id: ID!
+    $userId: String!
+    $isRemoving: Boolean!
+  ) {
+    changeStoryQueueable(id: $id, userId: $userId, isRemoving: $isRemoving) {
+      id
+      ...StoryDetailParts
+    }
+  }
+  ${FRAGMENT_STORY_DETAIL}
+`;
+
 export const MUTATION_DELETE_STORY = /* GraphQL */ `
   mutation deleteStory($id: ID!) {
     deleteStory(id: $id)

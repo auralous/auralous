@@ -117,6 +117,7 @@ export type Mutation = {
   updateQueue: Scalars['Boolean'];
   createStory: Story;
   deleteStory: Scalars['ID'];
+  changeStoryQueueable: Story;
   pingStory: Scalars['Boolean'];
   me?: Maybe<User>;
   deleteMe: Scalars['Boolean'];
@@ -157,6 +158,13 @@ export type MutationCreateStoryArgs = {
 
 export type MutationDeleteStoryArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationChangeStoryQueueableArgs = {
+  id: Scalars['ID'];
+  userId: Scalars['String'];
+  isRemoving: Scalars['Boolean'];
 };
 
 
@@ -567,6 +575,22 @@ export type CreateStoryMutationVariables = Exact<{
 export type CreateStoryMutation = (
   { __typename?: 'Mutation' }
   & { createStory: (
+    { __typename?: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
+  ) }
+);
+
+export type ChangeStoryQueueableMutationVariables = Exact<{
+  id: Scalars['ID'];
+  userId: Scalars['String'];
+  isRemoving: Scalars['Boolean'];
+}>;
+
+
+export type ChangeStoryQueueableMutation = (
+  { __typename?: 'Mutation' }
+  & { changeStoryQueueable: (
     { __typename?: 'Story' }
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
@@ -986,6 +1010,18 @@ export const CreateStoryDocument = gql`
 
 export function useCreateStoryMutation() {
   return Urql.useMutation<CreateStoryMutation, CreateStoryMutationVariables>(CreateStoryDocument);
+};
+export const ChangeStoryQueueableDocument = gql`
+    mutation changeStoryQueueable($id: ID!, $userId: String!, $isRemoving: Boolean!) {
+  changeStoryQueueable(id: $id, userId: $userId, isRemoving: $isRemoving) {
+    id
+    ...StoryDetailParts
+  }
+}
+    ${StoryDetailPartsFragmentDoc}`;
+
+export function useChangeStoryQueueableMutation() {
+  return Urql.useMutation<ChangeStoryQueueableMutation, ChangeStoryQueueableMutationVariables>(ChangeStoryQueueableDocument);
 };
 export const DeleteStoryDocument = gql`
     mutation deleteStory($id: ID!) {
