@@ -21,7 +21,7 @@ const StoryBg: React.FC<{ image: string | undefined }> = ({ image }) => {
             >
               <div
                 style={{ backgroundImage: `url(${item})` }}
-                className="w-full h-full opacity-25 bg-cover"
+                className="w-full h-full opacity-25 bg-cover bg-center"
               />
             </animated.div>
           )
