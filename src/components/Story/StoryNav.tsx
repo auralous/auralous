@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import Link from "next/link";
 import ms from "ms";
 import { useUserQuery, Story } from "~/graphql/gql.gen";
 
@@ -25,7 +26,9 @@ const StoryNav: React.FC<{ story: Story }> = ({ story }) => {
       )}
       <div className="p-1 leading-4">
         <div>
-          <span className="font-semibold mr-2">{user?.username}</span>{" "}
+          <Link href={`/user/${user?.username}`}>
+            <a className="font-semibold mr-2">{user?.username}</a>
+          </Link>{" "}
           <span className="text-xs text-foreground-secondary">{dateStr}</span>
         </div>
         <div className="text-sm text-foreground-secondary">{story.text}</div>

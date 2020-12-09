@@ -139,6 +139,10 @@
     "live": { "title": "Live" },
     "listeners": { "title": "Listeners" }
   },
+  "user": {
+    "profile": "Profile",
+    "description": "Join {{username}} on Stereo and listen along to the music with friends around the globe."
+  },
   "nowPlaying": { "title": "Now Playing", "skipSong": "Skip song" },
   "player": {
     "label": { "nameAndArtist": "Track name and artists" },

@@ -140,6 +140,10 @@
     "live": { "title": "Live" },
     "listeners": { "title": "Người nghe" }
   },
+  "user": {
+    "profile": "Hồ sơ",
+    "description": "Tham gia Stereo cùng {{username}} và nghe nhạc cùng với bạn bè khắp năm châu."
+  },
   "nowPlaying": { "title": "Đang phát", "skipSong": "Bỏ qua bài" },
   "player": {
     "label": { "nameAndArtist": "Tên bài hát và nghệ sĩ" },

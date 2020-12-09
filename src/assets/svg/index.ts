@@ -1,6 +1,7 @@
 export { default as SvgAlertCircle } from "./alert-circle.svg";
 export { default as SvgBookOpen } from "./book-open.svg";
 export { default as SvgClock } from "./clock.svg";
+export { default as SvgCircle } from "./circle.svg";
 export { default as SvgCheck } from "./check.svg";
 export { default as SvgChevronDown } from "./chevron-down.svg";
 export { default as SvgChevronLeft } from "./chevron-left.svg";
@@ -32,6 +33,7 @@ export { default as SvgSearch } from "./search.svg";
 export { default as SvgSettings } from "./settings.svg";
 export { default as SvgShare } from "./share.svg";
 export { default as SvgSkipForward } from "./skip-forward.svg";
+export { default as SvgSquare } from "./square.svg";
 export { default as SvgTwitter } from "./twitter.svg";
 export { default as SvgUser } from "./user.svg";
 export { default as SvgUserGroup } from "./user-group.svg";

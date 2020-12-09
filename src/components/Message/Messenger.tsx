@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
+import Link from "next/link";
 import ms from "ms";
 import { useCurrentUser } from "~/hooks/user";
 import {
@@ -74,8 +75,8 @@ const MessageItemPlay: React.FC<{
         rel="noreferrer"
         className="text-foreground-secondary hover:text-foreground transition-colors"
       >
-        {track?.title} -{" "}
-        <i>{track?.artists.map(({ name }) => name).join(", ")}</i>
+        <i>{track?.artists.map(({ name }) => name).join(", ")}</i> -{" "}
+        {track?.title}
       </a>{" "}
       <span className="text-foreground-tertiary opacity-50 ml-1">
         {"• "}
@@ -112,15 +113,17 @@ const MessageItem: React.FC<{
             alt={sender?.username}
           />{" "}
           <div className="flex items-center text-foreground text-opacity-75 pt-1">
-            <span
-              className={`${
-                isCurrentUser
-                  ? "bg-success-light leading-tight text-opacity-75 rounded-lg px-1"
-                  : "text-white"
-              } font-bold`}
-            >
-              {sender?.username || ""}
-            </span>
+            <Link href={`/user/${sender?.username}`}>
+              <a
+                className={`${
+                  isCurrentUser
+                    ? "bg-success-light leading-tight text-opacity-75 rounded-lg px-1"
+                    : "text-white"
+                } font-bold`}
+              >
+                {sender?.username}
+              </a>
+            </Link>
             <span className="text-foreground-tertiary text-sm opacity-50 ml-1">
               {" • "}
               {dateDiffTxt}

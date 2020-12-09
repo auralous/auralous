@@ -48,7 +48,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
 
   const getClassName = (index: number) =>
     `rounded-full flex-1 text-xs p-2 uppercase font-bold ${
-      index === selectedIndex ? "bg-success" : "bg-background-secondary"
+      index === selectedIndex ? "bg-pink" : "bg-background-secondary"
     } transition-colors`;
 
   const tabPanelStyle0 = useSpring(

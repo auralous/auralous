@@ -62,8 +62,13 @@ const Sidebar: React.FC = () => {
                 alt={user.username}
                 className="w-8 h-8 rounded-full"
               />
-              <div className="w-0 flex-1 text-foreground-secondary py-1 px-3 truncate">
-                <span className="font-medium text-sm">{user.username}</span>
+              <div className="w-0 flex-1 text-foreground-secondary py-1 px-3 truncate leading-none">
+                <div className="font-medium text-sm">{user.username}</div>
+                <Link href={`/user/${user.username}`}>
+                  <a className="text-xs text-pink hover:text-pink-dark">
+                    {t("user.profile")}
+                  </a>
+                </Link>
               </div>
               <Link href="/settings">
                 <a
@@ -88,11 +93,15 @@ const Sidebar: React.FC = () => {
   );
 };
 
-const AppbarItem: React.FC<{ href: string }> = ({ children, href }) => {
+const AppbarItem: React.FC<{ href: string; as?: string }> = ({
+  children,
+  href,
+  as,
+}) => {
   const router = useRouter();
   const isActive = router.pathname === href;
   return (
-    <Link href={href}>
+    <Link href={href} as={as}>
       <a
         className={`btn btn-transparent text-foreground border-pink py-1 font-light flex-col flex-1 rounded-none ${
           isActive ? "bg-blue border-b-2" : ""
@@ -126,7 +135,7 @@ const Appbar: React.FC = () => {
         <span>{t("common.newStory")}</span>
       </AppbarItem>
       {user ? (
-        <AppbarItem href="/settings">
+        <AppbarItem href="/user/[username]" as={`/user/${user.username}`}>
           <img
             alt={user.username}
             src={user.profilePicture}
