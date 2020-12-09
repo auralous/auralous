@@ -8,7 +8,12 @@ const NewPage: NextPage = () => {
   const { t } = useI18n();
   return (
     <>
-      <NextSeo title={t("new.title")} noindex />
+      <NextSeo
+        title={t("new.title")}
+        noindex
+        openGraph={{}}
+        canonical={`${process.env.APP_URI}/new`}
+      />
       <NewMain />
     </>
   );

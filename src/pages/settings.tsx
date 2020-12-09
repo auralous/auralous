@@ -318,7 +318,12 @@ const SettingsPage: NextPage = () => {
   const { t } = useI18n();
   return (
     <>
-      <NextSeo title={t("settings.title")} noindex />
+      <NextSeo
+        title={t("settings.title")}
+        noindex
+        openGraph={{}}
+        canonical={`${process.env.APP_URI}/settings`}
+      />
       <div className="container relative">
         <h1 className="sticky top-0 left-0 px-4 pt-6 pb-2 font-bold text-4xl mb-2 bg-gradient-to-b from-blue to-transparent">
           {t("settings.title")}

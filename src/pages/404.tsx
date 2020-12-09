@@ -9,7 +9,7 @@ const NotFoundPage: NextPage = () => {
 
   return (
     <>
-      <NextSeo noindex title={t("404.title")} />
+      <NextSeo noindex title={t("404.title")} openGraph={{}} />
       <div className="flex flex-col flex-center w-full h-full fixed inset-0 z-20 bg-background p-2">
         <h1 className="font-black text-9xl leading-none">{t("404.title")}</h1>
         <p className="text-xl text-center text-foreground-tertiary py-2 mb-4">

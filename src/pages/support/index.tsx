@@ -28,7 +28,8 @@ const SupportPage: NextPage<{
     <>
       <NextSeo
         title={t("support.title")}
-        description="The team behind Stereo would love to hear about your feedbacks and questions."
+        openGraph={{}}
+        canonical={`${process.env.APP_URI}/support`}
       />
       <div className="py-16 container leading-loose text-lg">
         <h1 className="text-center text-5xl text-foreground-secondary font-bold max-w-xl mx-auto leading-none">

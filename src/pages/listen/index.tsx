@@ -11,6 +11,8 @@ const ListenPage: NextPage = () => {
       <NextSeo
         title={t("listen.title")}
         description={t("listen.description")}
+        openGraph={{}}
+        canonical={`${process.env.APP_URI}/listen`}
       />
       <h1>
         <span className="sr-only">{t("listen.title")}</span>

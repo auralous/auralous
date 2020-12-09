@@ -11,7 +11,11 @@ import { SupportArticle } from "~/types/index";
 const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
   return (
     <>
-      <NextSeo title={`${page.title} - ${page.subtitle}`} />
+      <NextSeo
+        title={`${page.title} - ${page.subtitle}`}
+        openGraph={{}}
+        canonical={`${process.env.APP_URI}/support/${page.slug}`}
+      />
       <div className="py-12 px-2">
         <div className="text-center">
           <h1 className="font-bold">

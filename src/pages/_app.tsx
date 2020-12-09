@@ -69,25 +69,24 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
         <UrqlProvider value={urqlClient}>
           <LogInProvider>
             <PlayerProvider>
+              <DefaultSeo
+                titleTemplate="%s · Stereo"
+                facebook={{ appId: process.env.FACEBOOK_APP_ID || "" }}
+                openGraph={{
+                  type: "website",
+                  locale: "en_US",
+                  site_name: "Stereo",
+                  images: [
+                    {
+                      url: `${process.env.APP_URI}/images/banner.png`,
+                      width: 2400,
+                      height: 1260,
+                      alt: "Stereo",
+                    },
+                  ],
+                }}
+              />
               <Layout>
-                <DefaultSeo
-                  title=" "
-                  titleTemplate="%s · Stereo"
-                  facebook={{ appId: process.env.FACEBOOK_APP_ID || "" }}
-                  openGraph={{
-                    type: "website",
-                    locale: "en_US",
-                    site_name: "Stereo",
-                    images: [
-                      {
-                        url: `${process.env.APP_URI}/images/banner.png`,
-                        width: 2400,
-                        height: 1260,
-                        alt: "Stereo",
-                      },
-                    ],
-                  }}
-                />
                 <Component {...pageProps} />
               </Layout>
             </PlayerProvider>

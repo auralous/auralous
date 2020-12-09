@@ -11,6 +11,8 @@ const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {
       <NextSeo
         title="Privacy Policy"
         description="Here on Stereo, you share your music, not your data. Learn more about our privacy policy."
+        openGraph={{}}
+        canonical={`${process.env.APP_URI}/privacy`}
       />
       <div className="py-12 px-2">
         <div className="text-center">

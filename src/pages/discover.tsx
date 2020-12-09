@@ -7,7 +7,12 @@ const DiscoverPage: NextPage = () => {
   const { t } = useI18n();
   return (
     <>
-      <NextSeo title={t("discover.title")} />
+      <NextSeo
+        title={t("discover.title")}
+        description={t("discover.description")}
+        openGraph={{}}
+        canonical={`${process.env.APP_URI}/discover`}
+      />
     </>
   );
 };

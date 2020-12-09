@@ -17,7 +17,8 @@ const IndexPage: React.FC = () => {
         title="Stereo"
         titleTemplate={`%s · ${t("motto")}`}
         description={t("description")}
-        canonical={`${process.env.APP_URI}/`}
+        canonical={`${process.env.APP_URI}`}
+        openGraph={{}}
       />
       <IndexHero />
       <IndexListen />
