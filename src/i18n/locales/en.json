@@ -19,11 +19,15 @@
       "p2": "Have a good playlist to share with friends, or did your favorite artists just release their new album? All you need is a link!",
       "action": "Go"
     },
-    "rules": {
-      "title": "Your Room. Your Rule.",
-      "p1": "Listen either in public or private rooms. Set a password to avoid unwelcome guests. Everyone can chat and react, but only collaborators can add songs.",
-      "p2": "Invite your close friends to be moderators. Ban uncivil listeneres. Customize room rules so everyone know what songs will fit.",
-      "p2Bold": "You are in control"
+    "story": {
+      "title": "Music is to be shared",
+      "p1": "Each of your listening sessions is a story worth sharing. Discover new tracks in music stories from people around the world.",
+      "p2": "Invite your friends to listen along. Everyone can chat, add songs, and react to others' plays.",
+      "p2end": "Music is better when we listen together.",
+      "storyText": "Just music with my best buds 💗",
+      "storyMsg1": "nice one ️‍🔥 thanks for playing!",
+      "storyMsg2": "👋 welcome",
+      "storyMsg3": "let's listen to some great tracks together ❤️"
     }
   },
   "support": {
@@ -51,7 +55,7 @@
         "action": "Deactivate Account",
         "modal": {
           "title": "Sad to See You Go...",
-          "description": "Deactivating your account will remove all of your information, rooms.",
+          "description": "Deactivating your account will remove all of your information, stories.",
           "enterName": "Enter your username to continue"
         },
         "cancel": "Nevermind",
@@ -64,21 +68,22 @@
     },
     "username": {
       "label": "Username",
-      "helpText": "15 characters max, lowercase, no space or special characters"
+      "helpText": "{{maxLength}} characters max, lowercase, no space or special characters"
     },
     "profilePicture": { "label": "Profile picture" },
     "listening": {
       "title": "Listening on {{name}}",
       "withAuth": "Your Stereo account is connected to {{name}}. If you wish to switch",
-      "contactUs": "contact us",
-      "selectOne": "Select one"
+      "contactUs": "contact us"
     },
     "signOut": "Sign Out"
   },
   "listen": {
     "title": "Listen Now",
-    "description": "Listening to music does not have to be a passive. Stereo brings forward a brand new experience of listening together.",
-    "comingSoon": "This experience is coming soon. In the meantime, check out Browse page to listen together."
+    "description": "Discover new songs that others are listening to and join them in real time",
+    "promptJoin": "Tune in to what {{username}} is listening to",
+    "promptJoinNolive": "Tune in to what {{username}} listened to",
+    "actionJoin": "Join"
   },
   "new": {
     "title": "Start listening together",
@@ -103,111 +108,58 @@
       "featuring": "featuring"
     },
     "addNew": {
-      "title": "Create New Room",
-      "warnNoPass": "The room password is not set. Anyone with the link can enter the room and become a collaborator. Continue anyway?",
+      "title": "Create New Story",
       "action": "Start Listening",
-      "promptTitle": "How would you describe the room",
+      "promptText": "How would you describe the story",
+      "textHelp": "Max {{maxLength}} characters",
       "promptPrivacy": "Are you listening in public or private"
-    },
-    "addExisted": {
-      "title": "Continue in Existed Room",
-      "prompt": "Select a room to continue listening",
-      "authPrompt": "Join Stereo to continue listening"
     },
     "backText": "Go back"
   },
-  "browse": {
-    "title": "Browse",
-    "titleRandom": "Random Rooms",
-    "titleMy": "My Rooms",
+  "discover": {
+    "title": "Discover",
+    "titleRandom": "Random Stories",
+    "titleMy": "My Stories",
     "playlist": {
       "title": "Start Listening Together",
       "description": "Have an awesome playlist to listen together with friends? Just enter its link below."
     }
   },
-  "room": {
-    "label": "Room",
+  "story": {
+    "label": "Story",
     "description": "Join {{title}} on Stereo and listen to music together.",
     "privacy": { "public": "Public", "private": "Private" },
-    "main": {
-      "private": {
-        "prompt": "Join Stereo to Enter a Private Room",
-        "password1": "Enter room password to join. Leave empty if it has no password.",
-        "password2": "You can also join by asking the host to add you as a collaborator",
-        "join": "Enter room",
-        "leave": "Leave",
-        "badPassword": "Incorrect room password"
-      },
-      "loading": {
-        "text": "Joining Room"
-      }
-    },
-    "settings": {
-      "title": "Room Settings",
-      "shortTitle": "Settings",
-      "titleInfo": "Room Info",
-      "titleRules": "Room Rules and Access",
-      "titleMembers": "Room Members",
-      "info": {
-        "title": "Title",
-        "description": "Description",
-        "titleHelp": "Enter a title for the room",
-        "descriptionHelp": "Enter a description for the room",
-        "username": "Username"
-      },
-      "privacy": {
-        "title": "Privacy",
-        "publicAllowGuests": "Guests can add songs",
-        "publicAllowGuestsHelp": "If disabled, only room members can add songs",
-        "password": "Password",
-        "passwordHelp": "Anyone with a password will also become a collaborator",
-        "newPassword": "New Password",
-        "newPasswordHelp": "Current members are not required to enter new password"
-      },
-      "member": {
-        "title": "Add a Member",
-        "helpText": "Enter the username of the one you want to add",
-        "action": "Search",
-        "addedText": "{{username}} is now a {{role}}",
-        "removedText": "{{username}} is no longer a member",
-        "userNotFound": "User Not Found",
-        "offline": "Offline"
-      },
-      "dangerZone": {
-        "title": "Danger Zone",
-        "delete": {
-          "title": "Delete {{title}}",
-          "description": "This will remove this room along with its data",
-          "enterName": "Enter the room name to continue",
-          "action": "Yes, delete room",
-          "cancel": "Nevermind",
-          "deleted": "Room deleted"
-        }
-      },
-      "updatedText": "Room Updated",
-      "backToRoom": "Go back to room"
-    },
-    "rules": {
-      "title": "Room Rules",
-      "shortTitle": "Rules",
-      "anyoneCanAdd": "Anyone can add songs",
-      "onlyMemberCanAdd": "Only member can add songs",
-      "ok": "Got it!"
-    },
     "queue": {
-      "title": "Queue",
+      "title": "Tracks",
       "queue": { "title": "Queue" },
       "search": { "title": "Search" },
       "playlist": { "title": "Playlist" },
-      "played": { "title": "Recently Played" }
+      "played": { "title": "Recently Played" },
+      "notAllowed": "You are not allowed to add songs to this story",
+      "adderTitle": "Add songs",
+      "adderClose": "Done"
     },
     "chat": {
       "title": "Chat",
       "authPrompt": "Say hi to each other",
-      "authPromptHook": "Listen to music with friends and chat no matter where they are with a Stereo account",
-      "listener": "Listeners"
+      "authPromptHook": "Listen to music with friends and chat no matter where they are with a Stereo account"
     },
-    "live": { "title": "Live" }
+    "live": { "title": "Live" },
+    "listeners": { "title": "Listeners" },
+    "menu": {
+      "handle": "Story menu"
+    },
+    "delete": {
+      "title": "Delete story",
+      "confirmPrompt": "Are you sure you want to delete this story?",
+      "success": "The story has been deleted",
+      "action": "Delete",
+      "cancel": "Nevermind"
+    }
+  },
+  "user": {
+    "profile": "Profile",
+    "description": "Join {{username}} on Stereo and listen along to the music with friends around the globe."
   },
   "nowPlaying": { "title": "Now Playing", "skipSong": "Skip song" },
   "player": {
@@ -269,7 +221,6 @@
       "addAction": "Add song",
       "removedTrackText": "Removed {{title}}",
       "removeTrackText": "Remove Track",
-      "authPrompt": "Join to Add Songs and Listen Together",
       "emptyText": "It's lonely around here... Let's add a song!",
       "notAllowedText": "You are not allowed to contribute. See"
     }
@@ -313,7 +264,7 @@
     }
   },
   "auth": {
-    "hookDefault": "Start listening to music in sync with friends in public or private rooms. All you need is an YouTube, Spotify, or Apple Music account.",
+    "hookDefault": "Start listening to music in sync with friends in public or private stories. All you need is an YouTube, Spotify, or Apple Music account.",
     "action": "Join now",
     "label": "Sign in to Stereo",
     "listenOn": "Listen on",
@@ -336,13 +287,14 @@
   },
   "common": {
     "backToHome": "Back to home",
-    "signIn": "Join",
+    "signIn": "Sign in",
     "dangerousActionText": "This process is immediate and cannot be undone",
     "tracks": "songs",
     "save": "Save",
     "saved": "Saved",
     "startListening": "Start Listening",
-    "newRoom": "Create Room"
+    "newStory": "Create Story",
+    "live": "live"
   },
   "error": {
     "sorry": "We are sorry for the inconvenience",

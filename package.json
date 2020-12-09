@@ -45,6 +45,8 @@
     "react-window": "^1.8.6",
     "redaxios": "^0.3.0",
     "rosetta": "^1.1.0",
+    "sass": "^1.30.0",
+    "swiper": "^6.3.5",
     "tailwindcss": "^2.0.1",
     "urql": "^1.11.4"
   },

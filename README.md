@@ -6,7 +6,7 @@
 
 > Music is always better when we listen together
 
-Stereo is a free project that lets you play & listen to music in sync with friends in public or private rooms.
+Stereo is a free project that lets you play & listen to music in sync with friends in public or private stories.
 
 Stereo currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/). We hope to add support for [Apple Music](https://www.apple.com/apple-music/) soon.
 

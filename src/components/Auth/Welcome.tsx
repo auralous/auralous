@@ -3,6 +3,7 @@ import { useUpdateMeMutation } from "~/graphql/gql.gen";
 import { toast } from "~/lib/toast";
 import { useI18n } from "~/i18n/index";
 import { Modal } from "../Modal";
+import { CONFIG } from "~/lib/constants";
 
 const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   active,
@@ -44,10 +45,12 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
             aria-label={t("settings.username.label")}
             className="input w-full"
             required
-            maxLength={15}
+            maxLength={CONFIG.usernameMaxLength}
           />
           <p className="text-xs text-foreground-secondary text-center">
-            {t("settings.username.helpText")}
+            {t("settings.username.helpText", {
+              maxLength: CONFIG.usernameMaxLength,
+            })}
           </p>
         </div>
         <button className="btn w-full" disabled={fetching}>

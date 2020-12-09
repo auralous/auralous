@@ -1,4 +1,4 @@
-import { PlatformName, RoomMembership } from "~/graphql/gql.gen";
+import { PlatformName } from "~/graphql/gql.gen";
 import { SvgYoutube, SvgSpotify } from "~/assets/svg/index";
 import { Locale } from "~/i18n/types";
 
@@ -8,14 +8,11 @@ export const PLATFORM_FULLNAMES: Record<PlatformName, string> = {
 };
 
 export const CONFIG = {
-  roomMaxAge: 4 * 60 * 60,
+  storyMaxAge: 4 * 60 * 60,
+  userMaxAge: 4 * 60 * 60,
+  usernameMaxLength: 15,
+  storyTextMaxLength: 60,
 } as const;
-
-export const MEMBERSHIP_NAMES: Record<RoomMembership | "", string> = {
-  [RoomMembership.Collab]: "Collaborator",
-  [RoomMembership.Host]: "Host",
-  "": "Guest",
-};
 
 export const SvgByPlatformName: Record<
   PlatformName,

@@ -28,15 +28,6 @@ const TrackMenu: React.FC<{
         className="px-6 py-8 max-w-xl flex flex-row"
       >
         <img
-          className="w-full h-full absolute"
-          src={track?.image}
-          alt={track?.title}
-          style={{
-            zIndex: -1,
-            filter: "blur(20px) brightness(.6)",
-          }}
-        />
-        <img
           className="w-32 h-32 rounded shadow-lg mr-4"
           src={track?.image}
           alt={track?.title}

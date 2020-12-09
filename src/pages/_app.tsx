@@ -12,6 +12,7 @@ import { I18n } from "~/i18n/index";
 import { createUrqlClient } from "~/graphql/urql";
 import "~/styles/index.css";
 import "notyf/notyf.min.css";
+import "swiper/swiper.scss";
 
 // polyfill
 import "intersection-observer";
@@ -45,12 +46,13 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
   const Layout = useMemo(() => {
     if (
       [
-        "/browse",
-        "/room/[roomId]",
-        "/room/[roomId]/settings",
+        "/discover",
+        "/story/[storyId]",
+        "/story/[storyId]/settings",
         "/settings",
         "/new",
         "/listen",
+        "/user/[username]",
       ].includes(router.pathname)
     )
       return LayoutApp;

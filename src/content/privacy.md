@@ -21,7 +21,7 @@ Our guiding principle is to collect only what we need. Here’s what that means 
 
 ### Identity & access
 
-Sign up is not required to use [withstereo.com](/) (the "Application"). When you do, we ask for only your profile photo and email. Your email is **never** visible to others across the Application, and there is no option to make it visible to anyone. That&apos;s just so we can send you updates on your rooms and other lovely updates. We also give you the option to add a profile picture that displays in the app, but we do not normally look at or access that picture. We’ll never sell your personal info to third parties, and we won’t use your name or company in marketing statements without your permission, either. You are free to delete your information at any time, and we make it at your best comfort in doing so.
+Sign up is not required to use [withstereo.com](/) (the "Application"). When you do, we ask for only your profile photo and email. Your email is **never** visible to others across the Application, and there is no option to make it visible to anyone. That&apos;s just so we can send you updates on your stories and other lovely updates. We also give you the option to add a profile picture that displays in the app, but we do not normally look at or access that picture. We’ll never sell your personal info to third parties, and we won’t use your name or company in marketing statements without your permission, either. You are free to delete your information at any time, and we make it at your best comfort in doing so.
 
 ### Geolocation data
 

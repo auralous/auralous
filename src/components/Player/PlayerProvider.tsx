@@ -4,7 +4,7 @@ import Portal from "@reach/portal";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
 import { useNowPlaying } from "~/components/NowPlaying/index";
-import { PlatformName, usePingRoomMutation } from "~/graphql/gql.gen";
+import { PlatformName } from "~/graphql/gql.gen";
 import { useMAuth } from "~/hooks/user";
 import { useCrossTracks } from "~/hooks/track";
 import { IPlayerContext, PlayerPlaying } from "./types";
@@ -38,25 +38,14 @@ const PlayerProvider: React.FC = ({ children }) => {
     [mAuth]
   );
 
-  // Player Control: To play a room or a track
-  const [playingRoomId, playRoom] = useState<string>("");
+  // Player Control: To play a story or a track
+  const [playingStoryId, playStory] = useState<string>("");
 
   useEffect(() => {
-    if (playingRoomId) player.wasPlaying = true;
-  }, [playingRoomId]);
+    if (playingStoryId) player.wasPlaying = true;
+  }, [playingStoryId]);
 
-  const [nowPlaying, { fetching: fetchingNP }] = useNowPlaying(playingRoomId);
-
-  const [, pingRoom] = usePingRoomMutation();
-  useEffect(() => {
-    if (playingRoomId && mAuth) {
-      const pingInterval = window.setInterval(() => {
-        // tell server that user is still in room
-        pingRoom({ id: playingRoomId });
-      }, 30 * 1000);
-      return () => window.clearInterval(pingInterval);
-    }
-  }, [playingRoomId, mAuth, pingRoom]);
+  const [nowPlaying, { fetching: fetchingNP }] = useNowPlaying(playingStoryId);
 
   const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
     nowPlaying?.currentTrack?.trackId
@@ -136,16 +125,16 @@ const PlayerProvider: React.FC = ({ children }) => {
     return {
       state: {
         playerPlaying,
-        playingRoomId,
+        playingStoryId,
         crossTracks,
         playingPlatform,
         fetching,
       },
-      playRoom,
-      stopPlaying: () => playRoom(""),
+      playStory,
+      stopPlaying: () => playStory(""),
       player,
     };
-  }, [fetching, playerPlaying, playingRoomId, crossTracks, playingPlatform]);
+  }, [fetching, playerPlaying, playingStoryId, crossTracks, playingPlatform]);
 
   return (
     <PlayerContext.Provider value={playerContextValue}>

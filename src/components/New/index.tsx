@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useI18n } from "~/i18n/index";
-import CreateRoom from "./CreateRoom";
-import AddToExisted from "./AddToExisted";
+import CreateStory from "./CreateStory";
 import SelectFromSearch from "./SelectFromSearch";
 import { Track } from "~/graphql/gql.gen";
 import SelectFromPlaylists from "./SelectFromPlaylists";
@@ -99,57 +98,27 @@ const SelectTracksView: React.FC<{
   );
 };
 
-const CreateRoomView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
+const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const { t } = useI18n();
   const router = useRouter();
-
-  const [addExisted, setAddExisted] = useState(false);
 
   return (
     <>
       <div className="text-lg text-center text-foreground-secondary pb-6">
         {initTracks.length ? (
-          <>
-            <p>
-              {t("new.fromResult.startListeningTo")}{" "}
-              <b className="text-foreground">
-                {initTracks.length} {t("common.tracks")}
-              </b>{" "}
-              {t("new.fromResult.featuring")}{" "}
-              <i className="text-foreground">
-                {getFeaturedArtists(initTracks).join(", ")}
-              </i>
-            </p>
-            <div className="flex justify-center py-1">
-              <button
-                className={`p-1 mx-1 text-xs ${
-                  addExisted
-                    ? "text-foreground-tertiary"
-                    : "text-foreground-secondary font-bold"
-                } focus:outline-none focus:text-foreground-secondary`}
-                onClick={() => setAddExisted(false)}
-              >
-                {t("new.addNew.title")}
-              </button>
-              <button
-                className={`p-1 mx-1 text-xs ${
-                  !addExisted
-                    ? "text-foreground-tertiary"
-                    : "text-foreground-secondary font-bold"
-                } focus:outline-none focus:text-foreground-secondary`}
-                onClick={() => setAddExisted(true)}
-              >
-                {t("new.addExisted.title")}
-              </button>
-            </div>
-          </>
+          <p>
+            {t("new.fromResult.startListeningTo")}{" "}
+            <b className="text-foreground">
+              {initTracks.length} {t("common.tracks")}
+            </b>{" "}
+            {t("new.fromResult.featuring")}{" "}
+            <i className="text-foreground">
+              {getFeaturedArtists(initTracks).join(", ")}
+            </i>
+          </p>
         ) : null}
       </div>
-      {addExisted ? (
-        <AddToExisted initTracks={initTracks} />
-      ) : (
-        <CreateRoom initTracks={initTracks} />
-      )}
+      <CreateStory initTracks={initTracks} />
       <div className="w-full flex mt-1 justify-center">
         <button
           className="py-1 font-bold text-sm text-foreground-secondary hover:text-foreground transition-colors"
@@ -184,7 +153,7 @@ const NewMain: React.FC = () => {
         {transitionsCreate.map(({ item: doneSelected, key, props }) =>
           doneSelected ? (
             <animated.div key={key} style={props} className="w-full">
-              <CreateRoomView initTracks={initTracks || []} />
+              <CreateStoryView initTracks={initTracks || []} />
             </animated.div>
           ) : (
             <animated.div key={key} style={props} className="w-full">

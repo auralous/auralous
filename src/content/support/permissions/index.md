@@ -21,7 +21,7 @@ This allows us to retrieve your *name* and *profile picture*. **No** other infor
 
 #### View your email address
 
-This allows us to send you emails on invites to room or updates from followed people. You can opt-out from this at any time.
+This allows us to send you emails on invites to story or updates from followed people. You can opt-out from this at any time.
 
 #### View your YouTube account
 
@@ -39,7 +39,7 @@ You **may** deny this permission by unchecking the box on the prompted page, kno
 
 This allows us to retrieve your *name* and *profile picture*. **No** other information (even public ones) is collected. This also allows us to remember your Spotify account for use in authentication into the app.
 
-Your email is also collected for us to send you emails on invites to room or updates from followed people. You can opt-out from this at any time.
+Your email is also collected for us to send you emails on invites to story or updates from followed people. You can opt-out from this at any time.
 
 #### View your activity on Spotify
 

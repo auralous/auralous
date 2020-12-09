@@ -15,9 +15,7 @@ import {
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TrackItem } from "~/components/Track/index";
 import { toast } from "~/lib/toast";
-import { useLogin } from "~/components/Auth/index";
 import useQueue from "./useQueue";
-import { useCurrentUser } from "~/hooks/user";
 import {
   useUpdateQueueMutation,
   QueueAction,
@@ -26,19 +24,18 @@ import {
   Queue,
 } from "~/graphql/gql.gen";
 import { TrackDocument } from "~/graphql/gql.gen";
-import { QueuePermission } from "./types";
-import { SvgBookOpen, SvgGripVertical } from "~/assets/svg/index";
+import { SvgGripVertical } from "~/assets/svg/index";
 import QueueAddedBy from "./QueueAddedBy";
 import { useI18n } from "~/i18n/index";
 
 const QueueDraggableItem: React.FC<{
-  removable: boolean;
+  isQueueable: boolean;
   provided: DraggableProvided;
   index: number;
   isDragging?: boolean;
   queue: Queue;
   style?: Partial<React.CSSProperties>;
-}> = ({ removable, provided, isDragging, queue, index, style }) => {
+}> = ({ isQueueable, provided, isDragging, queue, index, style }) => {
   const { t } = useI18n();
 
   const urqlClient = useClient();
@@ -79,6 +76,7 @@ const QueueDraggableItem: React.FC<{
       <div
         className="focus:outline-none hover:text-foreground-secondary focus:text-foreground-secondary mr-1"
         {...provided.dragHandleProps}
+        hidden={!isQueueable}
       >
         <SvgGripVertical />
       </div>
@@ -90,28 +88,29 @@ const QueueDraggableItem: React.FC<{
         />
       </div>
       <div className="flex content-end items-center ml-2">
-        <button
-          title={t("queue.manager.removeTrackText")}
-          className={`btn ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
-          onClick={removeItem}
-          disabled={!removable}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            className="stroke-current"
+        {isQueueable && (
+          <button
+            title={t("queue.manager.removeTrackText")}
+            className={`btn ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
+            onClick={removeItem}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={8}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              className="stroke-current"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={8}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        )}
       </div>
     </div>
   );
@@ -121,8 +120,7 @@ const Row = React.memo<
   Pick<ListChildComponentProps, "index" | "style"> & {
     data: {
       queue: Queue;
-      permission: QueuePermission;
-      userId: string | undefined;
+      isQueueable: boolean;
     };
   }
 >(function Row({ data, index, style }) {
@@ -131,18 +129,12 @@ const Row = React.memo<
       key={data.queue.items[index].id}
       draggableId={data.queue.items[index].id}
       index={index}
-      isDragDisabled={!data.permission.queueCanManage}
     >
       {(provided1) => (
         <QueueDraggableItem
           style={style}
           provided={provided1}
-          removable={
-            data.permission.queueCanManage ||
-            Boolean(
-              data.userId && data.queue.items[index].creatorId === data.userId
-            )
-          }
+          isQueueable={data.isQueueable}
           queue={data.queue}
           index={index}
           isDragging={false}
@@ -154,12 +146,11 @@ const Row = React.memo<
 
 const QueueManager: React.FC<{
   queueId: string;
-  permission: QueuePermission;
+  isQueueable: boolean;
   onEmptyAddClick?: () => void;
-}> = ({ queueId, permission, onEmptyAddClick }) => {
+}> = ({ queueId, isQueueable, onEmptyAddClick }) => {
   const { t } = useI18n();
 
-  const user = useCurrentUser();
   const [queue] = useQueue(queueId, { requestPolicy: "cache-and-network" });
   const [, updateQueue] = useUpdateQueueMutation();
 
@@ -183,37 +174,23 @@ const QueueManager: React.FC<{
     [queue, updateQueue]
   );
 
-  const [, showLogin] = useLogin();
-
   const itemData = useMemo(
     () => ({
       queue,
-      permission,
-      userId: user?.id,
+      isQueueable,
     }),
-    [queue, permission, user]
+    [queue, isQueueable]
   );
 
   if (!queue) return null;
 
   return (
     <div className="h-full w-full flex flex-col justify-between">
-      {!user && (
-        <button
-          onClick={showLogin}
-          className="btn bg-blue-secondary py-4 opacity-90 hover:opacity-100 transition rounded-none absolute bottom-0 w-full text-lg z-10"
-          style={{
-            background: 'url("/images/topography.svg")',
-          }}
-        >
-          {t("queue.manager.authPrompt")}
-        </button>
-      )}
       <div className="w-full h-full">
         {queue.items?.length === 0 && (
           <div className="h-full flex flex-col flex-center text-lg text-foreground-tertiary p-4">
             <p className="text-center">{t("queue.manager.emptyText")}</p>
-            {permission.queueCanAdd && (
+            {isQueueable && (
               <button
                 onClick={onEmptyAddClick}
                 className="py-2 px-4 rounded-lg text-success-light hover:bg-success-light hover:bg-opacity-10 transition-colors font-bold mt-1"
@@ -230,7 +207,7 @@ const QueueManager: React.FC<{
             renderClone={(provided, snapshot, rubric) => (
               <QueueDraggableItem
                 provided={provided}
-                removable={false}
+                isQueueable={true}
                 queue={queue}
                 index={rubric.source.index}
                 isDragging={snapshot.isDragging}
@@ -255,24 +232,6 @@ const QueueManager: React.FC<{
             )}
           </Droppable>
         </DragDropContext>
-      </div>
-      <div className="text-foreground-tertiary text-xs px-2 py-1">
-        {permission.queueCanAdd
-          ? null
-          : user && (
-              <p>
-                {t("queue.manager.notAllowedText")}{" "}
-                <span className="bg-background-secondary p-1 rounded-lg font-bold">
-                  <SvgBookOpen
-                    className="inline"
-                    width="14"
-                    height="14"
-                    title={t("room.rules.title")}
-                  />{" "}
-                  {t("room.rules.shortTitle")}
-                </span>
-              </p>
-            )}
       </div>
     </div>
   );

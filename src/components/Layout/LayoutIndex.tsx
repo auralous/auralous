@@ -175,39 +175,6 @@ const Footer: React.FC = () => {
         </a>
         .
       </p>
-      <p
-        className="text-foreground-tertiary px-4 leading-tight"
-        style={{ fontSize: "0.6rem" }}
-      >
-        Music data provided by{" "}
-        <a
-          className="italic"
-          rel="noreferrer nofollow"
-          target="_blank"
-          href="https://www.youtube.com/"
-        >
-          YouTube
-        </a>{" "}
-        and{" "}
-        <a
-          className="italic"
-          rel="noreferrer nofollow"
-          target="_blank"
-          href="https://www.spotify.com/"
-        >
-          Spotify
-        </a>
-        . Cross-platform link powered by{" "}
-        <a
-          className="italic"
-          rel="noreferrer nofollow"
-          target="_blank"
-          href="https://odesli.co/"
-        >
-          Odesli
-        </a>
-        .
-      </p>
     </footer>
   );
 };
