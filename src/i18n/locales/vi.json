@@ -135,7 +135,9 @@
       "search": { "title": "Tìm nhạc" },
       "playlist": { "title": "Playlist" },
       "played": { "title": "Đã phát gần đây" },
-      "notAllowed": "Bạn không được phép thêm nhạc vào story này"
+      "notAllowed": "Bạn không được phép thêm nhạc vào story này",
+      "adderTitle": "Thêm nhạc",
+      "adderClose": "Xong"
     },
     "chat": {
       "title": "Chat",

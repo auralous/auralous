@@ -134,7 +134,9 @@
       "search": { "title": "Search" },
       "playlist": { "title": "Playlist" },
       "played": { "title": "Recently Played" },
-      "notAllowed": "You are not allowed to add songs to this story"
+      "notAllowed": "You are not allowed to add songs to this story",
+      "adderTitle": "Add songs",
+      "adderClose": "Done"
     },
     "chat": {
       "title": "Chat",
