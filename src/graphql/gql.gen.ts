@@ -275,15 +275,9 @@ export type Story = {
   image: Scalars['String'];
   creatorId: Scalars['ID'];
   createdAt: Scalars['DateTime'];
-  status: StoryStatus;
+  isLive: Scalars['Boolean'];
   queueable: Array<Scalars['String']>;
 };
-
-export enum StoryStatus {
-  Published = 'published',
-  Unpublished = 'unpublished',
-  Live = 'live'
-}
 
 export enum PlatformName {
   Youtube = 'youtube',
@@ -517,7 +511,7 @@ export type OnQueueUpdatedSubscription = (
 
 export type StoryDetailPartsFragment = (
   { __typename?: 'Story' }
-  & Pick<Story, 'text' | 'image' | 'createdAt' | 'isPublic' | 'creatorId' | 'status' | 'queueable'>
+  & Pick<Story, 'text' | 'image' | 'createdAt' | 'isPublic' | 'isLive' | 'creatorId' | 'queueable'>
 );
 
 export type StoryQueryVariables = Exact<{
@@ -766,8 +760,8 @@ export const StoryDetailPartsFragmentDoc = gql`
   image
   createdAt
   isPublic
+  isLive
   creatorId
-  status
   queueable
 }
     `;

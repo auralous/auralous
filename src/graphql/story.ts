@@ -4,8 +4,8 @@ export const FRAGMENT_STORY_DETAIL = /* GraphQL */ `
     image
     createdAt
     isPublic
+    isLive
     creatorId
-    status
     queueable
   }
 `;
