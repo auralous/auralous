@@ -4,7 +4,7 @@ import {
   IndexHero,
   IndexListen,
   IndexPlaylist,
-  IndexStoryRules,
+  IndexStory,
   IndexEnd,
 } from "~/components/Index";
 import { useI18n } from "~/i18n/index";
@@ -22,7 +22,7 @@ const IndexPage: React.FC = () => {
       <IndexHero />
       <IndexListen />
       <IndexPlaylist />
-      <IndexStoryRules />
+      <IndexStory />
       <IndexEnd />
     </>
   );

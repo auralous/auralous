@@ -19,11 +19,15 @@
       "p2": "Have a good playlist to share with friends, or did your favorite artists just release their new album? All you need is a link!",
       "action": "Go"
     },
-    "rules": {
-      "title": "Your Story. Your Rule.",
-      "p1": "Listen either in public or private stories. Set a password to avoid unwelcome guests. Everyone can chat and react, but only collaborators can add songs.",
-      "p2": "Invite your close friends to be moderators. Ban uncivil listeneres. Customize story rules so everyone know what songs will fit.",
-      "p2Bold": "You are in control"
+    "story": {
+      "title": "Music is to be shared",
+      "p1": "Each of your listening sessions is a story worth sharing. Discover new tracks in music stories from people around the world.",
+      "p2": "Invite your friends to listen along. Everyone can chat, add songs, and react to others' plays.",
+      "p2end": "Music is better when we listen together.",
+      "storyText": "Just music with my best buds 💗",
+      "storyMsg1": "nice one ️‍🔥 thanks for playing!",
+      "storyMsg2": "👋 welcome",
+      "storyMsg3": "let's listen to some great tracks together ❤️"
     }
   },
   "support": {

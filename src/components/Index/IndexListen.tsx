@@ -107,10 +107,9 @@ const IndexListenFakePlayer: React.FC<{ trackId: string }> = ({ trackId }) => {
   return (
     <div className="relative overflow-hidden w-full h-60 rounded-lg bg-blue shadow-lg">
       <img
-        className="absolute w-full h-full object-cover transform scale-125"
+        className="story-bg z-0"
         alt={`${t("nowPlaying.title")}: ${crossTracks?.original?.title}`}
         src={crossTracks?.original?.image}
-        style={{ filter: "blur(20px) brightness(.7)" }}
       />
       <div className="p-4 relative w-full">
         <p className="text-foreground-tertiary font-bold text-xs mb-2">
@@ -182,7 +181,7 @@ const IndexListen: React.FC = () => {
         <animated.div
           ref={ref2}
           style={style2}
-          className="py-2 px-2 md:px-8 text-center md:text-left md:w-5/12"
+          className="py-2 px-2 md:px-8 text-center md:text-left md:w-7/12"
         >
           <IndexTitle>{t("intro.listen.title")}</IndexTitle>
           <IndexParagraph>{t("intro.listen.description")}</IndexParagraph>

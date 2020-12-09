@@ -19,11 +19,15 @@
       "p2": "Bạn có playlist độc lạ sao, hay nhạc sĩ yêu thích của bạn mới ra album mới? Chỉ cần một đường link là có nghe liền!",
       "action": "Nghe ngay"
     },
-    "rules": {
-      "title": "Story của bạn. Quy tắc của bạn.",
-      "p1": "Nghe nhạc riêng tư hoặc công ngai tùy ý bạn. Đặt mật khẩu để tránh những vị khách không mời. Ai cùng có thể trò chuyện và thả cảm xúc nhưng chỉ thành viên mới có thể thêm nhạc.",
-      "p2": "Mời bạn bè làm quản trị viên. Chặn những người nghe xấu tính. Tùy chỉnh luật lệ story để mọi người thể cùng thêm bài hát phù hợp.",
-      "p2Bold": "Bạn luôn nắm quyền"
+    "story": {
+      "title": "Chia Sẻ âm nhạc của bạn",
+      "p1": "Mỗi phiên nghe nhạc của bạn là một story đáng được chia sẻ. Khám phá những bài hát mới trong story từ bạn bè khắp thế giới.",
+      "p2": "Mời bạn bè nghe cùng bạn. Mọi người có thể trò chuyện, thêm nhạc, và bày tỏ cảm xúc với bài hát của người khác.",
+      "p2end": "Âm nhạc luôn tuyệt hơn khi ta nghe cùng nhau.",
+      "storyText": "Nghe nhạc cùng đám bạn 💗",
+      "storyMsg1": "được đấy ️‍🔥 cảm ơn đã thêm nhạc!",
+      "storyMsg2": "👋 chào mừng",
+      "storyMsg3": "nghe vài bài nhạc cực hay cùng nhau nào ❤️"
     }
   },
   "support": {
@@ -117,7 +121,7 @@
     "titleMy": "Của bạn",
     "playlist": {
       "title": "Nghe thôi",
-      "description": "Bạn có một playlist độc đáo muốn chia sẽ với bạn bè? Hãy dán đường link dưới đây."
+      "description": "Bạn có một playlist độc đáo muốn chia sẻ với bạn bè? Hãy dán đường link dưới đây."
     }
   },
   "story": {
@@ -238,10 +242,10 @@
     }
   },
   "share": {
-    "title": "Chia sẽ",
+    "title": "Chia sẻ",
     "copy": "Copy",
     "copied": "Đã copy",
-    "via": "Chia sẽ tới"
+    "via": "Chia sẻ tới"
   },
   "message": {
     "inputLabel": "Nhập tin nhắn",
