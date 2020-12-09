@@ -108,7 +108,7 @@ const IndexListenFakePlayer: React.FC<{ trackId: string }> = ({ trackId }) => {
     <div className="relative overflow-hidden w-full h-60 rounded-lg bg-blue shadow-lg">
       <img
         className="story-bg z-0 absolute inset-0 w-full h-full object-cover transform scale-110"
-        style={{ filter: "blur(5px) brightness(0.4)" }}
+        style={{ filter: "brightness(0.4)" }}
         alt={`${t("nowPlaying.title")}: ${crossTracks?.original?.title}`}
         src={crossTracks?.original?.image}
       />
