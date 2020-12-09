@@ -22,7 +22,7 @@ const ListenMain: React.FC = () => {
         slidesPerView: 1,
         virtual: { renderExternal: setVirtualData },
         on: {
-          slideChange(swiper) {
+          transitionEnd(swiper) {
             setCurrentSlide(swiper.activeIndex);
           },
         },
