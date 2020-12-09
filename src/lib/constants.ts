@@ -10,6 +10,8 @@ export const PLATFORM_FULLNAMES: Record<PlatformName, string> = {
 export const CONFIG = {
   storyMaxAge: 4 * 60 * 60,
   userMaxAge: 4 * 60 * 60,
+  usernameMaxLength: 15,
+  storyTextMaxLength: 60,
 } as const;
 
 export const SvgByPlatformName: Record<

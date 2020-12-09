@@ -9,6 +9,7 @@ import {
 import { useI18n } from "~/i18n/index";
 import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
+import { CONFIG } from "~/lib/constants";
 
 const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({
   htmlFor,
@@ -92,9 +93,13 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
           required
           className="input w-full text-center"
           type="text"
+          maxLength={CONFIG.storyTextMaxLength}
           ref={textRef}
           disabled={fetching}
         />
+        <p className="text-xs text-foreground-tertiary mt-1">
+          {t("new.addNew.textHelp", { maxLength: CONFIG.storyTextMaxLength })}
+        </p>
       </CreateStoryFormGroup>
       <CreateStoryFormGroup>
         <CreateStoryLabel htmlFor="storyPrivacy">

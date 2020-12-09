@@ -68,7 +68,7 @@
     },
     "username": {
       "label": "Tên người dùng",
-      "helpText": "Tối đa 15 kí tự, viết thường, không khoảng cách và kí tự đặc biệt"
+      "helpText": "Tối đa {{maxLength}} kí tự, viết thường, không khoảng cách và kí tự đặc biệt"
     },
     "profilePicture": { "label": "Ảnh đại diện" },
     "listening": {
@@ -111,6 +111,7 @@
       "warnNoPass": "Mật khẩu story chưa được đặt. Bất cứ ai với đường link sẽ được trở thành của story. Vẫn tiếp tục?",
       "action": "Nghe nào",
       "promptText": "Bạn sẽ miêu tả story của mình thế nào",
+      "textHelp": "Tối đa {{maxLength}} kí tự",
       "promptPrivacy": "Bạn định nghe công khai hay riêng tư"
     },
     "backText": "Trở về"

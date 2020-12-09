@@ -68,7 +68,7 @@
     },
     "username": {
       "label": "Username",
-      "helpText": "15 characters max, lowercase, no space or special characters"
+      "helpText": "{{maxLength}} characters max, lowercase, no space or special characters"
     },
     "profilePicture": { "label": "Profile picture" },
     "listening": {
@@ -110,6 +110,7 @@
       "title": "Create New Story",
       "action": "Start Listening",
       "promptText": "How would you describe the story",
+      "textHelp": "Max {{maxLength}} characters",
       "promptPrivacy": "Are you listening in public or private"
     },
     "backText": "Go back"

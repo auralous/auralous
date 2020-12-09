@@ -19,6 +19,7 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import {
+  CONFIG,
   LANGUAGES,
   PLATFORM_FULLNAMES,
   SvgByPlatformName,
@@ -30,7 +31,7 @@ const SettingTitle: React.FC = ({ children }) => (
 );
 
 const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
-  const [, deleteUser] = useDeleteMeMutation();
+  const [{ fetching }, deleteUser] = useDeleteMeMutation();
   const [confirmUsername, setConfirmUsername] = useState("");
   const [activeDelete, openDelete, close] = useModal();
   const { t } = useI18n();
@@ -41,8 +42,9 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
   }
 
   function onDelete() {
-    deleteUser().then(() => {
-      toast.success(t("settings.dangerZone.delete.deleted"));
+    deleteUser().then((result) => {
+      result.data?.deleteMe &&
+        toast.success(t("settings.dangerZone.delete.deleted"));
     });
   }
 
@@ -76,11 +78,15 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           <button
             className="btn btn-transparent text-danger-light"
             onClick={onDelete}
-            disabled={confirmUsername !== user.username}
+            disabled={confirmUsername !== user.username || fetching}
           >
             {t("settings.dangerZone.delete.action")}
           </button>
-          <button onClick={closeDelete} className="btn btn-success">
+          <button
+            onClick={closeDelete}
+            className="btn btn-success"
+            disabled={fetching}
+          >
             {t("settings.dangerZone.delete.cancel")}
           </button>
         </Modal.Footer>
@@ -145,7 +151,6 @@ const LeftSection: React.FC = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(toast);
     updateUser({
       username: (usernameRef.current as HTMLInputElement).value,
       profilePicture: (profilePictureRef.current as HTMLInputElement)
@@ -183,11 +188,13 @@ const LeftSection: React.FC = () => {
                 id="usernameInput"
                 className="input w-full"
                 ref={usernameRef}
-                maxLength={15}
+                maxLength={CONFIG.usernameMaxLength}
                 required
               />
-              <p className="text-xs text-foreground-secondary">
-                {t("settings.username.helpText")}
+              <p className="text-xs text-foreground-secondary mt-1">
+                {t("settings.username.helpText", {
+                  maxLength: CONFIG.usernameMaxLength,
+                })}
               </p>
             </div>
             <div className="mt-4">
