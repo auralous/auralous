@@ -37,7 +37,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const router = useRouter();
 
   const textRef = useRef<HTMLInputElement>(null);
-  const [isPublic, setIsPublic] = useState(true);
+  const [isPublic] = useState(true);
 
   const [{ fetching }, createStory] = useCreateStoryMutation();
   const [, updateQueue] = useUpdateQueueMutation();
@@ -101,7 +101,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
           {t("new.addNew.textHelp", { maxLength: CONFIG.storyTextMaxLength })}
         </p>
       </CreateStoryFormGroup>
-      <CreateStoryFormGroup>
+      {/* <CreateStoryFormGroup>
         <CreateStoryLabel htmlFor="storyPrivacy">
           {t("new.addNew.promptPrivacy")}
         </CreateStoryLabel>
@@ -135,10 +135,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
             </label>
           </div>
         </div>
-      </CreateStoryFormGroup>
-      <div className="px-4 py-2 h-28 rounded-lg bg-background-secondary">
-        <CreateStoryFormGroup></CreateStoryFormGroup>
-      </div>
+      </CreateStoryFormGroup> */}
       <button
         className="btn btn-success rounded-full mt-8"
         type="submit"
