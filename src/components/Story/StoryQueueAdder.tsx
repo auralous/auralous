@@ -42,10 +42,13 @@ const StoryQueueAdder: React.FC<{
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-  const getClassName = (index: number) =>
-    `rounded-full flex-1 text-xs p-2 uppercase font-bold ${
-      index === selectedIndex ? "bg-pink" : "bg-background-secondary"
-    } transition-colors`;
+  const getClassName = useCallback(
+    (index: number) =>
+      `rounded-full flex-1 text-xs p-2 uppercase font-bold ${
+        index === selectedIndex ? "bg-primary" : "bg-background-secondary"
+      } transition-colors`,
+    [selectedIndex]
+  );
 
   const tabPanelStyle0 = useSpring(
     0 === selectedIndex ? tabActiveStyle : tabInactiveStyle
@@ -58,7 +61,11 @@ const StoryQueueAdder: React.FC<{
   );
 
   return (
-    <Modal.Modal active={active} onOutsideClick={close}>
+    <Modal.Modal
+      title={t("story.queue.adderTitle")}
+      active={active}
+      close={close}
+    >
       <Modal.Content className="h-screen-layout">
         <Tabs
           onChange={setSelectedIndex}
@@ -72,7 +79,7 @@ const StoryQueueAdder: React.FC<{
             <Tab className={getClassName(1)}>
               {t("story.queue.playlist.title")}
             </Tab>
-            <Tab className={`${getClassName(2)}`}>
+            <Tab className={getClassName(2)}>
               {t("story.queue.played.title")}
             </Tab>
           </TabList>
@@ -96,7 +103,7 @@ const StoryQueueAdder: React.FC<{
                 callback={onAddTracks}
                 addedTracks={addedTracks}
                 queryConfig={
-                  selectedIndex === 2 ? undefined : { enabled: false }
+                  selectedIndex === 1 ? undefined : { enabled: false }
                 }
               />
             </AnimatedTabPanel>

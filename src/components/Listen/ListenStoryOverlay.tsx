@@ -44,13 +44,7 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
           )}
         </p>
         <Link href={`/story/${playingStory?.id}`}>
-          <a
-            className={`btn ${
-              playingStory?.isLive ? "btn-primary" : ""
-            } w-full`}
-          >
-            {t("listen.actionJoin")}
-          </a>
+          <a className="btn btn-primary w-full">{t("listen.actionJoin")}</a>
         </Link>
       </div>
     </>

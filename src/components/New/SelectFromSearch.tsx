@@ -72,8 +72,7 @@ const SelectFromSearch: React.FC<{
         <button
           type="submit"
           title={t("new.fromSearch.action")}
-          className="btn bg-pink hover:bg-pink-dark w-12 h-10"
-          aria-label={t("story.queue.search")}
+          className="btn btn-primary w-12 h-10"
           disabled={formDisabled}
         >
           {formDisabled ? <LoadingDots /> : <SvgSearch />}

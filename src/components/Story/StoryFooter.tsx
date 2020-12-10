@@ -37,7 +37,7 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <button
       className={`mx-2 flex flex-center w-10 h-10 rounded-full ${
-        nowPlayingReactions?.mine ? "text-pink" : ""
+        nowPlayingReactions?.mine ? "text-primary" : ""
       } opacity-100`}
       onClick={react}
       disabled={!(!!nowPlaying?.currentTrack && !nowPlayingReactions?.mine)}

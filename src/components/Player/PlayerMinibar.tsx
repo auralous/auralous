@@ -26,7 +26,7 @@ const PlayerMinibar: React.FC = () => {
       } fixed bordered-box items-center h-16 z-10 w-full sm:w-96 sm:rounded-lg sm:right-2 bottom-10 sm:bottom-2`}
     >
       <Link href={`/story/${playingStoryId}`}>
-        <a className={`flex-1 w-0 flex items-center`}>
+        <a className="flex-1 w-0 flex items-center">
           <div className="w-16 h-16 p-2">
             {playerPlaying && (
               <img
@@ -50,7 +50,7 @@ const PlayerMinibar: React.FC = () => {
       <button
         onClick={stopPlaying}
         className="btn btn-transparent p-2"
-        aria-label={t("player.stopPlaying")}
+        title={t("player.stopPlaying")}
       >
         <SvgX />
       </button>

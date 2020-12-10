@@ -53,7 +53,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
       <Modal.Modal
         title={t("settings.dangerZone.delete.label")}
         active={activeDelete}
-        onOutsideClick={closeDelete}
+        close={closeDelete}
       >
         <Modal.Header>
           <Modal.Title>
@@ -221,7 +221,7 @@ const LeftSection: React.FC = () => {
             </button>
           </form>
           <div className="mt-8 border-t-2 py-4 border-background-secondary">
-            <button className="btn btn-light w-full" onClick={signOut}>
+            <button className="btn w-full" onClick={signOut}>
               {t("settings.signOut")}
             </button>
           </div>
@@ -247,7 +247,7 @@ const MusicConnection: React.FC = () => {
 
   const [, logIn] = useLogin();
 
-  const platform = mAuth?.platform || PlatformName.Youtube || undefined;
+  const platform = mAuth?.platform || PlatformName.Youtube;
   const name = platform ? PLATFORM_FULLNAMES[platform] : null;
   const PlatformSvg = platform ? SvgByPlatformName[platform] : null;
 
@@ -255,11 +255,7 @@ const MusicConnection: React.FC = () => {
     <>
       <SettingTitle>{t("settings.connection.title")}</SettingTitle>
       <div
-        className={`${
-          platform
-            ? `bg-${platform} text-${platform}-label`
-            : "bg-background-secondary"
-        } p-4 rounded-lg flex items-center`}
+        className={`bg-${platform} text-${platform}-label p-4 rounded-lg flex items-center`}
       >
         {PlatformSvg && (
           <PlatformSvg width="40" height="40" className="fill-current" />
@@ -268,20 +264,20 @@ const MusicConnection: React.FC = () => {
           <div className="mb-1">{t("settings.listening.title", { name })}</div>
           <p className="text-sm leading-tight">
             {mAuth ? (
-              <span className="opacity-75">
+              <span className="text-foreground-secondary">
                 {t("settings.listening.withAuth", { name })},{" "}
-                <a target="_blank" href="/support" className="underline">
+                <a target="_blank" href="/support" className="font-bold">
                   {t("settings.listening.contactUs")}
                 </a>
               </span>
             ) : (
               <>
-                <span className="opacity-75 mr-1">
+                <span className="text-foreground-secondary mr-1">
                   {t("player.signInSuggest")}
                 </span>
                 <br />
                 <button
-                  className="p-1 pl-0 font-bold hover:opacity-75"
+                  className="p-1 pl-0 font-bold hover:text-foreground-secondary"
                   onClick={logIn}
                 >
                   {t("common.signIn")}
@@ -325,7 +321,7 @@ const SettingsPage: NextPage = () => {
         canonical={`${process.env.APP_URI}/settings`}
       />
       <div className="container relative">
-        <h1 className="sticky top-0 left-0 px-4 pt-6 pb-2 font-bold text-4xl mb-2 bg-gradient-to-b from-blue to-transparent">
+        <h1 className="sticky top-0 left-0 px-4 pt-6 pb-2 font-bold text-4xl mb-2 bg-gradient-to-b from-background to-transparent">
           {t("settings.title")}
         </h1>
         <div className="flex flex-wrap">

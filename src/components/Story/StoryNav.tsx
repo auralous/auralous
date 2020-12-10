@@ -25,15 +25,17 @@ const StoryNav: React.FC<{ story: Story }> = ({ story }) => {
           src={user.profilePicture}
         />
       ) : (
-        <div className="w-10 h-10 rounded-full bg-white bg-opacity-25" />
+        <div className="box-skeleton w-10 h-10" />
       )}
       <div className="p-1 leading-4">
         <div>
           <Link href={`/user/${user?.username}`}>
-            <a className="font-semibold mr-2">{user?.username}</a>
+            <a className="text-inline-link font-semibold mr-2">
+              {user?.username}
+            </a>
           </Link>{" "}
           {story.isLive ? (
-            <span className="font-semibold text-xs bg-pink animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
+            <span className="font-semibold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
               {t("common.live")}
             </span>
           ) : (

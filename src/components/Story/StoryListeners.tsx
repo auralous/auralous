@@ -25,8 +25,8 @@ const CurrentUser: React.FC<{
           </>
         ) : (
           <>
-            <div className="mx-2 flex-none w-12 h-12 rounded-full bg-background-secondary animate-pulse" />
-            <div className="h-4 w-12 bg-background-secondary animate-pulse rounded-full mt-1" />
+            <div className="block-skeleton mx-2 flex-none w-12 h-12" />
+            <div className="block-skeleton h-4 w-12 mt-1" />
           </>
         )
       }

@@ -7,8 +7,6 @@
 - 🍪 We have **zero** cookies that track you. The only cookie is for authentication.
 - 👻 You can easily delete **all** of your data at any time.
 
-Don't believe us? [Check out the source code](https://github.com/hoangvvo/stereo-web)
-
 ---
 
 *Last updated: Jun 18, 2020*

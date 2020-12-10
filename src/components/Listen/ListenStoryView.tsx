@@ -40,12 +40,12 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <div className="w-full h-full box-border overflow-hidden px-4 py-24 flex flex-col">
       <div className="p-2 flex-1 h-0 flex flex-col flex-center">
-        <div className="relative mx-auto w-48 h-48 md:w-64 md:h-64 rounded overflow-hidden mb-3">
+        <div className="relative mx-auto w-48 h-48 md:w-64 md:h-64 overflow-hidden mb-3">
           {track ? (
             <>
               <img
                 alt={track.title}
-                className="absolute inset-0 object-cover"
+                className="absolute rounded inset-0 object-cover"
                 src={track.image}
               />
               {!isPlaying && (
@@ -59,23 +59,28 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
               )}
             </>
           ) : (
-            <div
-              className={`absolute inset-0 object-cover bg-background-secondary ${
-                fetching ? "animate-pulse" : ""
-              }`}
-            />
+            fetching && (
+              <div className="block-skeleton rounded absolute inset-0 object-cover" />
+            )
           )}
         </div>
-        <div className="h-16">
-          {track && (
+        <div className="h-16 max-w-full">
+          {track ? (
             <>
-              <h4 className="w-full font-bold text-2xl text-center truncate">
+              <h4 className="w-full font-bold text-2xl text-center truncate leading-none mb-1">
                 {track.title}
               </h4>
-              <div className="w-full text-foreground-secondary text-center truncate">
+              <div className="w-full text-foreground-secondary text-center truncate leading-none">
                 {track.artists.map((artist) => artist.name).join(", ")}
               </div>
             </>
+          ) : (
+            fetching && (
+              <>
+                <div className="block-skeleton h-6 w-40 mb-1 mx-auto" />
+                <div className="block-skeleton h-4 w-24 mx-auto" />
+              </>
+            )
           )}
         </div>
       </div>

@@ -28,6 +28,7 @@ export { default as SvgMoreHorizontal } from "./more-horizontal.svg";
 export { default as SvgMoreVertical } from "./more-vertical.svg";
 export { default as SvgPause } from "./pause.svg";
 export { default as SvgPlay } from "./play.svg";
+export { default as SvgPlayCircle } from "./play-circle.svg";
 export { default as SvgPlus } from "./plus.svg";
 export { default as SvgReddit } from "./reddit.svg";
 export { default as SvgSearch } from "./search.svg";

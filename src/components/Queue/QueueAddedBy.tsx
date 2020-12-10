@@ -14,7 +14,7 @@ const QueueAddedBy: React.FC<{ userId: string }> = ({ userId }) => {
     <span className="ml-1 flex-none">
       {t("queue.addedBy")}{" "}
       <Link href={`/user/${user?.username}`}>
-        <a className="text-foreground font-semibold text-opacity-75">
+        <a className="text-foreground text-opacity-80 font-semibold text-inline-link">
           {user?.username || ""}
         </a>
       </Link>

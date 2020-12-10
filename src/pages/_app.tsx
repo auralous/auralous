@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { AppProps } from "next/app";
 import Router from "next/router";
+import NProgress from "nprogress";
 import * as Fathom from "fathom-client";
 import { DefaultSeo } from "next-seo";
 import { Provider as UrqlProvider } from "urql";
@@ -13,6 +14,12 @@ import { createUrqlClient } from "~/graphql/urql";
 import "~/styles/index.css";
 import "notyf/notyf.min.css";
 import "swiper/swiper.scss";
+
+// nprogress
+import "nprogress/nprogress.css";
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 // polyfill
 import "intersection-observer";

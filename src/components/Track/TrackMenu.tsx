@@ -23,17 +23,20 @@ const TrackMenu: React.FC<{
   return (
     <>
       <Modal.Modal
+        title={`${track?.artists.map(({ name }) => name).join(", ")} - ${
+          track?.title
+        }`}
         active={active}
-        onOutsideClick={close}
-        className="px-6 py-8 max-w-xl flex flex-row"
+        close={close}
+        className="px-6 py-8 max-w-xl flex-center flex flex-col sm:flex-row"
       >
         <img
           className="w-32 h-32 rounded shadow-lg mr-4"
           src={track?.image}
           alt={track?.title}
         />
-        <div className="w-0 flex-1">
-          <div className="py-2 mb-2">
+        <div className="w-full sm:w-0 flex-1">
+          <div className="py-2 mb-2 text-center sm:text-left">
             <div className="text-md mb-1 leading-tight font-bold truncate">
               {track?.title}
             </div>
@@ -41,9 +44,9 @@ const TrackMenu: React.FC<{
               {track?.artists.map(({ name }) => name).join(", ")}
             </div>
           </div>
-          <div className="flex overflow-auto">
+          <div className="flex flex-wrap justify-center sm:justify-start">
             <button
-              className="btn text-xs mr-2"
+              className="btn text-xs m-1"
               onClick={() => setOpenAddPlaylist(true)}
             >
               <SvgPlus width="20" className="mr-1" /> {t("track.addToPlaylist")}
@@ -52,7 +55,7 @@ const TrackMenu: React.FC<{
               href={track?.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn text-xs"
+              className="btn text-xs m-1"
             >
               {SvgPlatformName && (
                 <SvgPlatformName width="20" className="fill-current" />

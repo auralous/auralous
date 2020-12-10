@@ -7,7 +7,7 @@ import { useI18n } from "~/i18n/index";
 import {
   SvgLogIn,
   SvgLogo,
-  SvgPlay,
+  SvgPlayCircle,
   SvgPlus,
   SvgSearch,
   SvgSettings,
@@ -21,7 +21,7 @@ const SidebarItem: React.FC<{ href: string }> = ({ children, href }) => {
     <Link href={href}>
       <a
         className={`btn btn-transparent rounded-full font-medium text-sm ${
-          isActive ? "bg-white bg-opacity-10" : ""
+          isActive ? "bg-background-secondary" : ""
         } w-full mb-2`}
       >
         {children}
@@ -39,21 +39,21 @@ const Sidebar: React.FC = () => {
   return (
     <div
       className="hidden sm:flex flex-col justify-between w-48 fixed left-0 top-0 h-full shadow-lg"
-      style={{ backgroundColor: "#0b0f17" }}
+      style={{ backgroundColor: "#121218" }}
     >
       <div className="p-2">
         <div className="py-4">
           <SvgLogo title="Stereo" className="w-32 h-12 mx-auto fill-current" />
         </div>
         <Link href="/new">
-          <a className="inline-flex flex-center w-full px-6 py-2 text-sm font-bold rounded-full border-2 border-pink hover:border-white transition duration-300 mb-2">
+          <a className="btn btn-primary w-full px-6 py-2 text-sm rounded-full mb-2">
             {t("common.newStory")}
           </a>
         </Link>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
         <SidebarItem href="/discover">{t("discover.title")}</SidebarItem>
       </div>
-      <div className="bg-white bg-opacity-5">
+      <div className="bg-background-secondary">
         {user ? (
           <div className="p-2">
             <div className="p-1 flex items-center">
@@ -65,14 +65,14 @@ const Sidebar: React.FC = () => {
               <div className="w-0 flex-1 text-foreground-secondary py-1 px-3 truncate leading-none">
                 <div className="font-medium text-sm">{user.username}</div>
                 <Link href={`/user/${user.username}`}>
-                  <a className="text-xs text-pink hover:text-pink-dark">
+                  <a className="text-xs text-primary hover:text-primary-dark">
                     {t("user.profile")}
                   </a>
                 </Link>
               </div>
               <Link href="/settings">
                 <a
-                  className="btn p-1.5 bg-white bg-opacity-25 btn-transparent opacity-75"
+                  className="btn p-1.5 bg-foreground-backdrop btn-transparent"
                   title={t("settings.title")}
                 >
                   <SvgSettings className="w-3 h-3" />
@@ -83,9 +83,9 @@ const Sidebar: React.FC = () => {
         ) : (
           <button
             onClick={logIn}
-            className="btn btn-transparent rounded-none bg-pink hover:text-foreground text-sm w-full py-3"
+            className="btn btn-transparent rounded-none bg-primary hover:text-foreground text-sm w-full py-3"
           >
-            {t("common.signIn")} Stereo
+            {t("common.signIn")}
           </button>
         )}
       </div>
@@ -93,20 +93,21 @@ const Sidebar: React.FC = () => {
   );
 };
 
-const AppbarItem: React.FC<{ href: string; as?: string }> = ({
+const AppbarItem: React.FC<{ title: string; href: string; as?: string }> = ({
   children,
   href,
   as,
+  title,
 }) => {
   const router = useRouter();
   const isActive = router.pathname === href;
   return (
     <Link href={href} as={as}>
       <a
-        className={`btn btn-transparent text-foreground border-pink py-1 font-light flex-col flex-1 rounded-none ${
-          isActive ? "bg-blue border-b-2" : ""
+        className={`btn btn-transparent text-foreground border-primary py-1 font-light flex-col flex-1 rounded-none ${
+          isActive ? "bg-background border-b-2" : ""
         } truncate`}
-        style={{ fontSize: ".6rem" }}
+        title={title}
       >
         {children}
       </a>
@@ -121,36 +122,35 @@ const Appbar: React.FC = () => {
   const [, logIn] = useLogin();
 
   return (
-    <div className="flex z-10 sm:hidden fixed bottom-0 left-0 w-full bg-blue-tertiary h-10 overflow-hidden">
-      <AppbarItem href="/listen">
-        <SvgPlay className="w-4 h-4 mb-1" />
-        <span>{t("listen.title")}</span>
+    <div className="flex z-10 sm:hidden fixed bottom-0 left-0 w-full bg-background-tertiary h-10 overflow-hidden">
+      <AppbarItem href="/listen" title={t("listen.title")}>
+        <SvgPlayCircle className="w-4 h-4" />
       </AppbarItem>
-      <AppbarItem href="/discover">
-        <SvgSearch className="w-4 h-4 mb-1" />
-        <span>{t("discover.title")}</span>
+      <AppbarItem href="/discover" title={t("discover.title")}>
+        <SvgSearch className="w-4 h-4" />
       </AppbarItem>
-      <AppbarItem href="/new">
-        <SvgPlus className="w-4 h-4 mb-1" />
-        <span>{t("common.newStory")}</span>
+      <AppbarItem href="/new" title={t("common.newStory")}>
+        <SvgPlus className="w-4 h-4" />
       </AppbarItem>
       {user ? (
-        <AppbarItem href="/user/[username]" as={`/user/${user.username}`}>
+        <AppbarItem
+          href="/user/[username]"
+          as={`/user/${user.username}`}
+          title={user.username}
+        >
           <img
             alt={user.username}
             src={user.profilePicture}
-            className="h-4 w-4 shadow-md rounded-full mb-1"
+            className="h-4 w-4 shadow-md rounded-full"
           />
-          <span>{user.username}</span>
         </AppbarItem>
       ) : (
         <button
           onClick={logIn}
-          className="btn btn-transparent bg-pink-dark text-foreground py-1 font-light flex-col flex-1 rounded-none truncate"
-          style={{ fontSize: ".6rem" }}
+          className="btn btn-transparent bg-primary text-primary-label py-1 font-light flex-col flex-1 rounded-none truncate"
+          title={t("common.signIn")}
         >
-          <SvgLogIn className="w-4 h-4 mb-1" />
-          <span>{t("common.signIn")}</span>
+          <SvgLogIn className="w-4 h-4" />
         </button>
       )}
     </div>

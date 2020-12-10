@@ -10,7 +10,7 @@ import { SvgLogo, SvgMenu, SvgX } from "~/assets/svg";
 const baseNavbarClassname = `text-center mx-1 focus:outline-none transition duration-300`;
 
 const navBarClassName = `${baseNavbarClassname} py-3 font-medium px-2 opacity-50 focus:opacity-100 hover:opacity-100`;
-const importantNavItemClassName = `${baseNavbarClassname} font-bold py-2 px-6 border-2 border-pink hover:border-white rounded-full`;
+const importantNavItemClassName = `${baseNavbarClassname} font-bold py-2 px-6 border-2 border-primary hover:border-white rounded-full`;
 
 const NavbarLanguageSelector: React.FC = () => {
   const { t, locale, setLocale } = useI18n();
@@ -68,13 +68,13 @@ const Navbar: React.FC = () => {
   return (
     <>
       <animated.nav
-        className="w-full z-20 py-4 bg-gradient-to-b from-blue to-transparent bg-opacity-50 fixed top-0"
+        className="w-full z-20 py-4 bg-gradient-to-b from-background to-transparent bg-opacity-50 fixed top-0"
         style={styles}
       >
         <div className="container flex items-center justify-between">
           <div className="flex items-center content-start overflow-hidden">
             <Link href="/">
-              <a className="ml-2 mr-6 z-10" aria-label={t("common.backToHome")}>
+              <a className="ml-2 mr-6 z-10" title={t("common.backToHome")}>
                 <SvgLogo
                   className="mx-auto fill-current"
                   width="112"
@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
           <div
             className={`${
               expanded
-                ? "flex py-4 w-full absolute justify-center bg-blue bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur"
+                ? "flex py-4 w-full absolute justify-center bg-background bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur"
                 : "hidden"
             } sm:flex content-end sm:items-center flex-none`}
           >
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
 const Footer: React.FC = () => {
   const { t } = useI18n();
   return (
-    <footer className="text-center mt-20 py-12 w-full mx-auto bg-gradient-to-t from-blue-secondary to-blue">
+    <footer className="text-center mt-20 py-12 w-full mx-auto">
       <div className="mb-1 text-sm overflow-auto opacity-75">
         <a
           href="https://www.facebook.com/withstereo/"

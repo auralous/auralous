@@ -117,13 +117,7 @@
     "backText": "Go back"
   },
   "discover": {
-    "title": "Discover",
-    "titleRandom": "Random Stories",
-    "titleMy": "My Stories",
-    "playlist": {
-      "title": "Start Listening Together",
-      "description": "Have an awesome playlist to listen together with friends? Just enter its link below."
-    }
+    "title": "Discover"
   },
   "story": {
     "label": "Story",
@@ -163,7 +157,6 @@
   },
   "nowPlaying": { "title": "Now Playing", "skipSong": "Skip song" },
   "player": {
-    "label": { "nameAndArtist": "Track name and artists" },
     "pause": "Pause",
     "play": "Play",
     "noneText": "Nothing is playing",

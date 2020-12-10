@@ -28,16 +28,14 @@ const NowPlayingMeta: React.FC<{
         <div className="truncate text-foreground-secondary text-xs max-w-full">
           {storyPlayingStarted ? (
             fetching ? (
-              <span className="block h-3 w-32 bg-foreground-tertiary rounded-full animate-pulse" />
+              <div className="block-skeleton h-3 w-32" />
             ) : track ? (
               <>
                 {track.artists.map(({ name }) => name).join(", ")}
                 {nowPlaying?.currentTrack && (
                   <>
                     {" •"}
-                    <QueueAddedBy
-                      userId={nowPlaying?.currentTrack?.creatorId}
-                    />
+                    <QueueAddedBy userId={nowPlaying.currentTrack.creatorId} />
                   </>
                 )}
               </>
@@ -50,7 +48,7 @@ const NowPlayingMeta: React.FC<{
         </div>
         <div
           role="link"
-          className="font-bold text-lg leading-tight truncate cursor-pointer hover:bg-background-secondary focus:outline-none max-w-full"
+          className="text-inline-link font-bold text-lg leading-tight truncate max-w-full"
           onClick={() => track && openMenu()}
           tabIndex={0}
           onKeyDown={({ key }) => key === "Enter" && track && openMenu()}
@@ -58,7 +56,7 @@ const NowPlayingMeta: React.FC<{
           {storyPlayingStarted
             ? track?.title ||
               (fetching ? (
-                <span className="block mt-1 h-5 w-40 bg-foreground-tertiary rounded-full animate-pulse" />
+                <div className="block-skeleton mt-1 h-5 w-40" />
               ) : (
                 t("player.noneText")
               ))
@@ -87,7 +85,7 @@ const StoryHeader: React.FC<{ story: Story }> = ({ story }) => {
   );
 
   return (
-    <div className="flex px-6 py-6 bg-black bg-opacity-40">
+    <div className="flex p-2">
       <div className="w-12 h-12 bg-background-secondary rounded-lg overflow-hidden">
         {track && (
           <img
@@ -97,10 +95,7 @@ const StoryHeader: React.FC<{ story: Story }> = ({ story }) => {
           />
         )}
       </div>
-      <div
-        aria-label={t("player.label.nameAndArtist")}
-        className="flex-1 w-0 px-2 flex flex-col justify-center relative"
-      >
+      <div className="flex-1 w-0 px-2 flex flex-col justify-center relative">
         <NowPlayingMeta storyId={story.id} track={track} />
       </div>
     </div>

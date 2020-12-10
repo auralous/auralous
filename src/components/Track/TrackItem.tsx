@@ -8,8 +8,7 @@ import { SvgByPlatformName } from "~/lib/constants";
 export const TrackItem: React.FC<{
   id: string;
   extraInfo?: string | React.ReactElement;
-  showMenu?: boolean;
-}> = ({ id, extraInfo, showMenu }) => {
+}> = ({ id, extraInfo }) => {
   const [{ data: { track } = { track: null } }] = useTrackQuery({
     variables: { id },
   });
@@ -27,7 +26,7 @@ export const TrackItem: React.FC<{
             src={track.image}
           />
         ) : (
-          <div className="h-12 w-12 rounded-lg flex-none overflow-hidden mr-3 animate-pulse bg-white bg-opacity-25" />
+          <div className="block-skeleton rounded-lg h-12 w-12 flex-none mr-3" />
         )}
         <div className="w-full overflow-hidden">
           {track ? (
@@ -38,16 +37,15 @@ export const TrackItem: React.FC<{
                     <SvgPlatformName width="16" className="fill-current" />
                   )}
                 </span>{" "}
-                <h4
-                  className={`inline align-middle font-bold text-sm ${
-                    showMenu
-                      ? "cursor-pointer hover:bg-background-secondary rounded py-1"
-                      : ""
-                  }`}
-                  {...(showMenu && { onClick: openMenu })}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={({ key }) => key === "Enter" && openMenu()}
+                  className="text-inline-link inline align-middle font-bold text-sm"
+                  onClick={openMenu}
                 >
                   {track.title}
-                </h4>
+                </div>
               </div>
               <div className="flex text-xs text-foreground-secondary">
                 <span className="mr-1 flex-none">
@@ -70,13 +68,13 @@ export const TrackItem: React.FC<{
             </>
           ) : (
             <>
-              <div className="h-6 animate-pulse bg-white bg-opacity-25 rounded-lg mb-1" />
-              <div className="h-4 animate-pulse bg-white bg-opacity-25 rounded-lg w-3/4" />
+              <div className="block-skeleton h-6 mb-1" />
+              <div className="block-skeleton h-4 w-3/4" />
             </>
           )}
         </div>
       </div>
-      {showMenu && <TrackMenu id={id} active={activeMenu} close={closeMenu} />}
+      <TrackMenu id={id} active={activeMenu} close={closeMenu} />
     </>
   );
 };

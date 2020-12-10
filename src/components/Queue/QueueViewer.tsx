@@ -1,17 +1,20 @@
 import React, { useMemo, useState } from "react";
 import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { UseQueryArgs } from "urql";
 import useQueue from "./useQueue";
 import { TrackItem } from "~/components/Track/index";
 import { SvgPlus } from "~/assets/svg";
 import QueueAddedBy from "./QueueAddedBy";
-import { UseQueryArgs } from "urql";
+import { useI18n } from "~/i18n/index";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
   data,
   index,
   style,
 }) {
+  const { t } = useI18n();
+
   // Only if !!data.onAdd
   const [isAdding, setIsAdding] = useState(false);
 
@@ -25,12 +28,11 @@ const Row = React.memo<ListChildComponentProps>(function Row({
         <TrackItem
           id={data.items[index].trackId}
           extraInfo={<QueueAddedBy userId={data.items[index].creatorId} />}
-          showMenu
         />
         <div className="flex content-end items-center ml-2">
           {data.onAdd && (
             <button
-              aria-label="Add track"
+              aria-label={t("queue.manager.addAction")}
               className="btn p-0 h-10 w-10"
               onClick={async () => {
                 setIsAdding(true);

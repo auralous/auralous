@@ -2,42 +2,11 @@ import React, { useMemo, useState } from "react";
 import { QueryConfig } from "react-query";
 import { SvgChevronLeft } from "~/assets/svg";
 import { default as TrackAdderResults } from "./TrackAdderResults";
+import { PlaylistItem } from "~/components/Playlist";
 import { useMyPlaylistsQuery } from "~/hooks/playlist";
 import { useI18n } from "~/i18n/index";
 import { Playlist } from "~/types/index";
 import { TrackAdderCallbackFn } from "./types";
-
-const PlaylistItem: React.FC<{
-  playlist: Playlist;
-  handleSelect: (pl: Playlist) => void;
-}> = ({ playlist, handleSelect }) => {
-  const { t } = useI18n();
-
-  return (
-    <div
-      role="button"
-      title={t("track.adder.playlist.selectSongFrom", {
-        title: playlist.title,
-      })}
-      onKeyDown={({ key }) => key === "Enter" && handleSelect(playlist)}
-      tabIndex={0}
-      className="btn rounded-none p-2 w-full justify-start font-normal bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
-      onClick={() => handleSelect(playlist)}
-    >
-      <img
-        className="w-12 h-12 rounded-lg object-cover"
-        src={playlist.image}
-        alt={playlist.title}
-      />
-      <div className="ml-2 text-left">
-        <p>{playlist.title}</p>
-        <p className="text-foreground-secondary text-sm">
-          {playlist.tracks.length} {t("common.tracks")}
-        </p>
-      </div>
-    </div>
-  );
-};
 
 const TrackAdderPlaylist: React.FC<{
   addedTracks: string[];
@@ -94,19 +63,23 @@ const TrackAdderPlaylist: React.FC<{
           results={queryResults || []}
         />
       ) : (
-        <div className="flex-1 h-0 overflow-auto">
+        <div className="flex-1 h-0 overflow-auto space-y-1">
           {isLoading && (
             <p className="px-2 py-6 text-center font-bold text-foreground-tertiary animate-pulse">
               {t("track.adder.playlist.loading")}
             </p>
           )}
           {myPlaylists?.map((playlist) => (
-            // TODO: react-window
-            <PlaylistItem
+            <button
               key={playlist.id}
-              playlist={playlist}
-              handleSelect={handleSelect}
-            />
+              title={t("track.adder.playlist.selectSongFrom", {
+                title: playlist.title,
+              })}
+              className="p-2 rounded-lg w-full focus:outline-none hover:bg-background-secondary focus:bg-background-secondary"
+              onClick={() => handleSelect(playlist)}
+            >
+              <PlaylistItem playlist={playlist} />
+            </button>
           ))}
         </div>
       )}

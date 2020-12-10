@@ -10,46 +10,43 @@ module.exports = {
   theme: {
     colors: {
       background: {
-        DEFAULT: "#0f141d",
-        secondary: "rgba(255,255,255,.1)",
-        tertiary: "rgba(255,255,255,.2)",
+        DEFAULT: "hsl(223,14%,10%)",
+        secondary: "hsl(232,12%,13%)",
+        tertiary: "hsl(228,13%,15%)",
+        backdrop: "hsla(218,80%,2%,0.8)",
       },
       foreground: {
-        DEFAULT: "#fff",
-        secondary: "rgba(255,255,255,.6)",
-        tertiary: "rgba(255,255,255,.4)",
+        DEFAULT: "hsl(0,0%,100%)",
+        secondary: "hsla(0,0%,100%,.6)",
+        tertiary: "hsla(0,0%,100%,.4)",
+        backdrop: "hsla(0,0%,100%,.2)",
       },
       danger: {
-        DEFAULT: "#e00",
-        light: "#ff1a1a",
-        dark: "#c00",
+        DEFAULT: "hsl(0,100%,47%)",
+        light: "hsl(0,100%,55%)",
+        dark: "hsl(0,100%,40%)",
         label: "#fff",
       },
       success: {
-        DEFAULT: "#0070f3",
-        light: "#3291ff",
-        dark: "#0366d6",
+        DEFAULT: "hsl(212,100%,48%)",
+        light: "hsl(212,100%,60%)",
+        dark: "hsl(212, 97%, 43%)",
         label: "#fff",
       },
       warning: {
-        DEFAULT: "#f5a623",
-        light: "#f7b955",
-        dark: "#f49b0b",
+        DEFAULT: "hsl(37,91%,55%)",
+        light: "hsl(37,91%,65%)",
+        dark: "hsl(37,91%,50%)",
         label: "#000",
       },
-      pink: {
-        DEFAULT: "#d74d49",
-        dark: "#ce4a4a",
+      primary: {
+        DEFAULT: "hsl(2,64%,56%)",
+        dark: "hsl(2,58%,50%)",
         label: "#fff",
       },
       black: "#000",
       white: "#fff",
       transparent: "transparent",
-      blue: {
-        DEFAULT: "#121822",
-        secondary: "#171f2d",
-        tertiary: "#202a3b",
-      },
       youtube: {
         DEFAULT: "#f00",
         label: "#fff",
@@ -57,15 +54,6 @@ module.exports = {
       spotify: {
         DEFAULT: "#1db954",
         label: "#fff",
-      },
-    },
-    extend: {
-      spacing: {
-        full: "100%",
-        "4/3": "133.33%",
-      },
-      animation: {
-        "spin-slow": "spin 9s linear infinite",
       },
     },
   },

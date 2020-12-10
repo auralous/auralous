@@ -5,7 +5,6 @@ import { default as TrackAdderResults } from "./TrackAdderResults";
 import { PlatformName, Track, SearchTrackDocument } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { TrackAdderCallbackFn } from "./types";
-import { SvgX } from "~/assets/svg";
 
 const TrackAdderSearch: React.FC<{
   callback: TrackAdderCallbackFn;
@@ -57,19 +56,6 @@ const TrackAdderSearch: React.FC<{
             placeholder={t("track.adder.search.placeholder")}
             required
           />
-          <button
-            title="Remove search results"
-            type="button"
-            className="absolute-center left-auto right-0"
-            onClick={() => {
-              formRef.current?.reset();
-              setIsEmpty(true);
-              setQueryResults([]);
-            }}
-            hidden={isEmpty}
-          >
-            <SvgX />
-          </button>
         </div>
       </form>
       {(isEmpty || isSearching) && (

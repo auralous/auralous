@@ -36,7 +36,7 @@ const IndexStoryJoin: React.FC = () => {
 
   return (
     <animated.div
-      className="inline-block z-10 w-48 h-64 mx-1 bg-blue rounded-lg shadow-lg relative p-2 whitespace-normal"
+      className="inline-block z-10 w-48 h-64 mx-1 bg-background-secondary rounded-lg shadow-lg relative p-2 whitespace-normal"
       style={style}
       ref={ref}
     >
@@ -61,15 +61,15 @@ const IndexStoryJoin: React.FC = () => {
         src={track?.image}
         alt={track?.title}
       />
-      <div className="absolute z-10 px-2 py-4 bottom-0 w-full bg-gradient-to-t from-background to-transparent">
-        <div className="btn btn-primary w-full">{t("listen.actionJoin")}</div>
+      <div className="absolute left-0 z-10 bottom-0 btn btn-primary rounded-t-none w-full">
+        {t("listen.actionJoin")}
       </div>
     </animated.div>
   );
 };
 
 const IndexStoryMessage: React.FC = ({ children }) => (
-  <div className="w-full text-left text-sm mt-3 hover:bg-background-secondary p-1 whitespace-normal">
+  <div className="w-full text-left text-sm mt-3 hover:bg-foreground-backdrop p-1 whitespace-normal">
     {children}
   </div>
 );
@@ -94,7 +94,7 @@ const IndexStorySocial: React.FC = () => {
       ref={ref}
     >
       <IndexStoryMessage>
-        <SvgMusic className="inline w-6 h-6 mr-2 bg-background-secondary p-1 rounded-full" />
+        <SvgMusic className="inline w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
         <span className="text-foreground-tertiary">
           {t("message.play.text", { username: username2 })}
         </span>{" "}
@@ -112,7 +112,7 @@ const IndexStorySocial: React.FC = () => {
         <b>{username}</b> {t("intro.story.storyMsg1")}
       </IndexStoryMessage>
       <IndexStoryMessage>
-        <SvgLogIn className="inline w-6 h-6 mr-2 bg-background-secondary p-1 rounded-full" />
+        <SvgLogIn className="inline w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
         <span className="text-foreground-tertiary">
           {t("message.join.text", { username: username1 })}
         </span>

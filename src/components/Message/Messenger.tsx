@@ -7,6 +7,8 @@ import React, {
 } from "react";
 import Link from "next/link";
 import ms from "ms";
+import { useModal } from "~/components/Modal";
+import { TrackMenu } from "~/components/Track";
 import { useCurrentUser } from "~/hooks/user";
 import {
   useMessagesQuery,
@@ -32,11 +34,8 @@ const MessageItemJoin: React.FC<{
   const dateDiff = Date.now() - message.createdAt;
   const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
   return (
-    <div
-      role="listitem"
-      className="w-full text-left text-sm mt-3 truncate hover:bg-background-secondary p-1"
-    >
-      <SvgLogIn className="inline w-6 h-6 mr-2 bg-background-secondary p-1 rounded-full" />
+    <div role="listitem" className="w-full text-left text-sm mt-3 truncate p-1">
+      <SvgLogIn className="inline w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
       <span className="text-foreground-tertiary">
         {t("message.join.text", { username: user?.username || "" })}
       </span>{" "}
@@ -60,28 +59,25 @@ const MessageItemPlay: React.FC<{
   });
   const dateDiff = Date.now() - message.createdAt;
   const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
+  const [active, show, close] = useModal();
   return (
-    <div
-      role="listitem"
-      className="w-full text-left text-sm mt-3 truncate hover:bg-background-secondary p-1"
-    >
-      <SvgMusic className="inline w-6 h-6 mr-2 bg-background-secondary p-1 rounded-full" />
+    <div role="listitem" className="w-full text-left text-sm mt-3 truncate p-1">
+      <SvgMusic className="inline w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
       <span className="text-foreground-tertiary">
         {t("message.play.text", { username: user?.username || "" })}
       </span>{" "}
-      <a
-        href={track?.url}
-        target="_blank"
-        rel="noreferrer"
-        className="text-foreground-secondary hover:text-foreground transition-colors"
+      <button
+        className="text-inline-link inline text-foreground"
+        onClick={show}
       >
         <i>{track?.artists.map(({ name }) => name).join(", ")}</i> -{" "}
         {track?.title}
-      </a>{" "}
+      </button>{" "}
       <span className="text-foreground-tertiary opacity-50 ml-1">
         {"• "}
         {dateDiffTxt}
       </span>
+      <TrackMenu id={message.text as string} active={active} close={close} />
     </div>
   );
 };
@@ -101,9 +97,7 @@ const MessageItem: React.FC<{
   return (
     <div
       role="listitem"
-      className={`relative w-full pl-12 pr-8 hover:bg-background-secondary ${
-        isGrouped ? "" : "mt-3"
-      }`}
+      className={`relative w-full pl-12 pr-8 ${isGrouped ? "" : "mt-3"}`}
     >
       {!isGrouped && (
         <>
@@ -207,7 +201,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
         <button
           onClick={() => setOffset(messages.length)}
           disabled={fetching}
-          className="btn w-full text-xs p-1"
+          className="btn btn-transparent bg-foreground-backdrop w-full text-xs p-1"
         >
           {t("message.loadOlder")}
         </button>

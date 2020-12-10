@@ -102,11 +102,11 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
       <Modal.Modal
         title={t("auth.label")}
         active={active}
-        onOutsideClick={close}
+        close={close}
         className="border-none"
       >
         <div
-          className="p-4 bg-blue-tertiary bg-opacity-50 bg-repeat"
+          className="p-4 bg-background-tertiary bg-opacity-50 bg-repeat"
           style={{
             background: `url("/images/topography.svg")`,
           }}

@@ -105,24 +105,26 @@ const IndexListenFakePlayer: React.FC<{ trackId: string }> = ({ trackId }) => {
   );
 
   return (
-    <div className="relative overflow-hidden w-full h-60 rounded-lg bg-blue shadow-lg">
-      <img
-        className="story-bg z-0 absolute inset-0 w-full h-full object-cover transform scale-110"
-        style={{ filter: "brightness(0.4)" }}
-        alt={`${t("nowPlaying.title")}: ${crossTracks?.original?.title}`}
-        src={crossTracks?.original?.image}
-      />
-      <div className="p-4 relative w-full">
-        <p className="text-foreground-tertiary font-bold text-xs mb-2">
-          Now Playing
+    <div className="relative overflow-hidden w-full h-60 rounded-lg bg-background-secondary shadow-lg">
+      <div className="relative w-full">
+        {crossTracks?.original && (
+          <img
+            className="absolute z-0 inset-0 w-full h-full object-cover pointer-events-none"
+            style={{ filter: "brightness(0.4)" }}
+            alt={`${t("nowPlaying.title")}: ${crossTracks.original.title}`}
+            src={crossTracks.original.image}
+          />
+        )}
+        <p className="relative z-10 text-foreground-tertiary font-bold text-xs p-4 pb-2">
+          {t("nowPlaying.title")}
         </p>
-        <div className="relative h-20">
+        <div className="relative h-24">
           {transitions.map(
             ({ item, key, props }) =>
               item && (
                 <animated.div
                   key={key}
-                  className="flex flex-col items-start w-full absolute"
+                  className="flex flex-col items-start w-full absolute px-4"
                   style={props}
                 >
                   <IndexListenFakePlayerContent track={item} />
@@ -130,34 +132,37 @@ const IndexListenFakePlayer: React.FC<{ trackId: string }> = ({ trackId }) => {
               )
           )}
         </div>
-        <div className="relative mb-6 w-full bg-background-secondary h-2 rounded-lg">
+        <div className="relative w-full bg-background-tertiary h-2">
           <div
-            className="absolute top-0 left-0 h-2 bg-background-tertiary rounded-lg"
+            className="absolute top-0 left-0 h-2 bg-primary"
             style={{
               width: `${(ms / (crossTracks?.original?.duration || 1)) * 100}%`,
             }}
           />
-          <span className="text-xs text-foreground-tertiary absolute top-2 left-0">
-            {timeNow[1]}:{timeNow[0]}
-          </span>
-          <span className="text-xs text-foreground-tertiary absolute top-2 right-0">
-            -{timeTill[1]}:{timeTill[0]}
-          </span>
         </div>
-        <div className="flex">
-          <IndexListenUser
-            name="mikouwu"
-            platform={PlatformName.Spotify}
-            currPlatform={platform}
-            setCurrPlatform={setPlatform}
-          />
-          <IndexListenUser
-            name="johnny570"
-            platform={PlatformName.Youtube}
-            currPlatform={platform}
-            setCurrPlatform={setPlatform}
-          />
-        </div>
+      </div>
+      <div className="flex justify-between text-xs text-foreground-tertiary p-1">
+        <span>
+          {timeNow[1]}:{timeNow[0]}
+        </span>
+        <span>
+          -{timeTill[1]}:{timeTill[0]}
+        </span>
+      </div>
+
+      <div className="flex">
+        <IndexListenUser
+          name="mikouwu"
+          platform={PlatformName.Spotify}
+          currPlatform={platform}
+          setCurrPlatform={setPlatform}
+        />
+        <IndexListenUser
+          name="johnny570"
+          platform={PlatformName.Youtube}
+          currPlatform={platform}
+          setCurrPlatform={setPlatform}
+        />
       </div>
     </div>
   );

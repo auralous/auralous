@@ -30,7 +30,7 @@ const DeleteStory: React.FC<{
       <Modal.Modal
         title={t("story.delete.title")}
         active={active}
-        onOutsideClick={close}
+        close={close}
       >
         <Modal.Header>
           <Modal.Title>{t("story.delete.title")}</Modal.Title>

@@ -45,19 +45,13 @@ const SupportPage: NextPage<{
           {t("support.how")}
         </h1>
         <div className="flex flex-col items-center py-10">
-          <h2 className="text-3xl font-bold text-foreground opacity-75">
-            <span aria-label="Book" role="img">
-              📚
-            </span>{" "}
-            {t("support.articles.title")}{" "}
-            <span aria-label="Magnifier" role="img">
-              🔎
-            </span>
+          <h2 className="text-3xl font-bold text-foreground-secondary">
+            {t("support.articles.title")}
           </h2>
           {pages.map((page, index) => (
             <Link key={page.slug} href={`/support/${page.slug}`}>
               <a className="mb-2 flex items-center opacity-75 hover:opacity-100 transition-opacity">
-                <span className="flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-pink text-white">
+                <span className="flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-primary text-white">
                   {index + 1}
                 </span>
                 <h4 className="p-4 leading-snug">
@@ -70,7 +64,9 @@ const SupportPage: NextPage<{
             </Link>
           ))}
         </div>
-        <p className="text-sm opacity-75 text-center mt-10">{t("support.p")}</p>
+        <p className="text-sm text-foreground-tertiary text-center mt-10">
+          {t("support.p")}
+        </p>
         <div className="flex flex-wrap justify-center py-6">
           <ContactLink href="mailto:yo@withstereo.com">
             <SvgMail className="mx-2" />

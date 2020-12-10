@@ -43,7 +43,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
         <button
           title={t("story.queue.adderTitle")}
           onClick={onAddButtonClick}
-          className="z-40 btn btn-primary rounded-full absolute bottom-2 right-2 sm:bottom-4 sm:right-4 w-12 h-12 md:w-16 md:h-16 p-1"
+          className="z-40 btn btn-primary rounded-full absolute bottom-2 right-2 w-12 h-12 p-1"
         >
           <SvgPlus />
         </button>

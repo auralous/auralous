@@ -79,7 +79,12 @@ const ListenMain: React.FC = () => {
 
   useEffect(() => {
     if (!stories.length) return;
+    // FIXME: This indicate an error
+    // We try to scroll backward to recover
+    if (currentSlide > stories.length - 1)
+      return swiperRef.current.swiper?.slidePrev(600);
 
+    // Play the story
     playStory(stories[currentSlide].id);
 
     // Load more stories (pagination)
@@ -100,9 +105,7 @@ const ListenMain: React.FC = () => {
         <div
           key={story.id}
           className="swiper-slide h-screen-layout"
-          style={{
-            left: `${virtualData.offset}px`,
-          }}
+          style={{ left: `${virtualData.offset}px` }}
         >
           <ListenStoryView story={story} />
         </div>

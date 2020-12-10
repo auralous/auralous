@@ -21,11 +21,7 @@ const ShareDialog: React.FC<{
   }
 
   return (
-    <Modal.Modal
-      title={t("share.title")}
-      active={active}
-      onOutsideClick={close}
-    >
+    <Modal.Modal title={t("share.title")} active={active} close={close}>
       <Modal.Header>
         <Modal.Title>{name}</Modal.Title>
       </Modal.Header>

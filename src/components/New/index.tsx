@@ -89,7 +89,7 @@ const SelectTracksView: React.FC<{
         </button>
         <button
           onClick={() => setInitTracks([])}
-          className="py-2 px-4 text-sm underline text-foreground-secondary hover:text-foreground transition-colors"
+          className="opacity-75 py-2 px-4 text-sm text-inline-link"
         >
           {t("new.startEmpty")}
         </button>
@@ -121,7 +121,7 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       <CreateStory initTracks={initTracks} />
       <div className="w-full flex mt-1 justify-center">
         <button
-          className="py-1 font-bold text-sm text-foreground-secondary hover:text-foreground transition-colors"
+          className="py-1 font-bold text-sm text-inline-link"
           onClick={() => router.replace("/new")}
         >
           {t("new.backText")}

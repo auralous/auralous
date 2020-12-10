@@ -10,50 +10,8 @@ import {
 import { Track, PlatformName, useTrackQuery } from "~/graphql/gql.gen";
 import { Playlist } from "~/types/index";
 import { SvgCheck, SvgPlus, SvgX } from "~/assets/svg";
-import { SvgByPlatformName } from "~/lib/constants";
 import { useI18n } from "~/i18n/index";
-
-const PlaylistItem: React.FC<{
-  playlist: Playlist;
-  handleAdd: (pl: Playlist) => void;
-  added: boolean;
-  track: Track;
-}> = ({ playlist, handleAdd, added, track }) => {
-  const { t } = useI18n();
-  if (playlist.platform !== track.platform) return null;
-  const SvgPlatformName = SvgByPlatformName[playlist.platform];
-  return (
-    <div
-      role="button"
-      title={t("playlist.add.title", { title: playlist.title })}
-      onKeyDown={({ key }) => key === "Enter" && handleAdd(playlist)}
-      tabIndex={0}
-      className={`btn w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary`}
-      onClick={() => handleAdd(playlist)}
-    >
-      <img
-        className="w-12 h-12 rounded-lg object-cover"
-        src={playlist.image}
-        alt={playlist.title}
-      />
-      <div className="ml-2 text-left">
-        <p>
-          <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
-            <SvgPlatformName
-              className="inline fill-current stroke-0"
-              width="18"
-            />
-          </span>
-          {playlist.title}
-        </p>
-        <p className="text-foreground-tertiary text-sm">
-          {playlist.tracks.length} {t("common.tracks")}
-          {added && `(${t("playlist.add.addedText")})`}
-        </p>
-      </div>
-    </div>
-  );
-};
+import PlaylistItem from "./PlaylistItem";
 
 const CreatePlaylist: React.FC<{
   track: Track;
@@ -133,7 +91,7 @@ const CreatePlaylist: React.FC<{
     </>
   ) : (
     <button
-      className="btn w-full justify-start font-normal mb-1 p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
+      className="btn w-full justify-start font-normal mb-1 p-2"
       onClick={() => setIsCreatingPlaylist(true)}
     >
       <div className="w-12 h-12 border-2 border-foreground flex flex-center rounded-lg">
@@ -178,16 +136,25 @@ const AddToExistingPlaylist: React.FC<{
   );
 
   return (
-    <div className={fetching ? "cursor-not-allowed opacity-50" : ""}>
+    <div className={fetching ? "cursor-not-allowed opacity-50" : "space-y-1"}>
       {myPlaylists?.map((playlist) => (
         // TODO: react-window
-        <PlaylistItem
+        <button
           key={playlist.id}
-          playlist={playlist}
-          handleAdd={handleAdd}
-          track={track}
-          added={playlist.tracks.some((plTrackId) => plTrackId === track.id)}
-        />
+          title={t("playlist.add.title", { title: playlist.title })}
+          className="btn justify-start w-full p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
+          onClick={() => handleAdd(playlist)}
+          disabled={playlist.platform !== track.platform}
+        >
+          <PlaylistItem
+            playlist={playlist}
+            extraInfo={
+              playlist.tracks.some((plTrackId) => plTrackId === track.id)
+                ? `(${t("playlist.add.addedText")})`
+                : undefined
+            }
+          />
+        </button>
       ))}
     </div>
   );
@@ -204,11 +171,7 @@ const AddToPlaylist: React.FC<{
   const { t } = useI18n();
   const user = useCurrentUser();
   return (
-    <Modal.Modal
-      title={t("playlist.addTitle")}
-      active={active}
-      onOutsideClick={close}
-    >
+    <Modal.Modal title={t("playlist.addTitle")} active={active} close={close}>
       <Modal.Header>
         <Modal.Title>
           <div>

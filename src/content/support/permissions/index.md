@@ -5,7 +5,7 @@ subtitle: "Why asking for such permissions from my Google, Spotify, Apple Music 
 
 First of all, it is great that you are aware of permissions you grant to other applications. Doing so helps keep your account secure.
 
-We would like to be transparent on how we use the requested permissions to provide you the best experience at Stereo. You can also [check out our source code](https://github.com/hoangvvo/stereo-web) too.
+We would like to be transparent on how we use the requested permissions to provide you the best experience at Stereo.
 
 As a reminder, our [Privacy Policy](/privacy) enables you to delete your information at any time. You can also withdraw the following permissions using the account settings page from Google, Spotify, and Apple Music.
 

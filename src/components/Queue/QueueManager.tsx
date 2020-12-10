@@ -74,7 +74,7 @@ const QueueDraggableItem: React.FC<{
       }`}
     >
       <div
-        className="focus:outline-none hover:text-foreground-secondary focus:text-foreground-secondary mr-1"
+        className="text-inline-link mr-1"
         {...provided.dragHandleProps}
         hidden={!isQueueable}
       >
@@ -84,14 +84,13 @@ const QueueDraggableItem: React.FC<{
         <TrackItem
           id={queue.items[index].trackId}
           extraInfo={<QueueAddedBy userId={queue.items[index].creatorId} />}
-          showMenu
         />
       </div>
       <div className="flex content-end items-center ml-2">
         {isQueueable && (
           <button
             title={t("queue.manager.removeTrackText")}
-            className={`btn ${isDragging ? "hidden" : ""} p-0 h-10 w-10`}
+            className="btn btn-transparent p-0 h-10 w-10"
             onClick={removeItem}
           >
             <svg
@@ -193,7 +192,7 @@ const QueueManager: React.FC<{
             {isQueueable && (
               <button
                 onClick={onEmptyAddClick}
-                className="py-2 px-4 rounded-lg text-success-light hover:bg-success-light hover:bg-opacity-10 transition-colors font-bold mt-1"
+                className="py-2 px-4 rounded-lg text-primary hover:bg-primary hover:bg-opacity-10 transition-colors font-bold mt-1"
               >
                 {t("queue.manager.addAction")}
               </button>

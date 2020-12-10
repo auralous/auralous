@@ -34,15 +34,15 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   );
 
   return (
-    <Modal.Modal aria-label="Welcome to Stereo" active={active}>
+    <Modal.Modal title="Welcome to Stereo" active={active}>
       <form className="py-8 px-16" onSubmit={onSubmit}>
         <div className="mb-4">
-          <p className="text-center mb-2 font-bold">
+          <p id="welcomeUsernameLabel" className="text-center mb-2 font-bold">
             {t("settings.username.label")}
           </p>
           <input
             ref={usernameRef}
-            aria-label={t("settings.username.label")}
+            aria-labelledby="welcomeUsernameLabel"
             className="input w-full"
             required
             maxLength={CONFIG.usernameMaxLength}

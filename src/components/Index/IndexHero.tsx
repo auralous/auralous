@@ -10,7 +10,7 @@ const AppLinks = () => {
   return (
     <div className="flex flex-col mb-16">
       <Link href="/listen">
-        <a className="btn text-center px-10 py-5 rounded-full mb-2 bg-pink hover:opacity-75 transition-opacity">
+        <a className="btn text-center px-10 py-5 rounded-full mb-2 bg-primary hover:opacity-75 transition-opacity">
           {t("intro.use.action")}
         </a>
       </Link>
@@ -19,7 +19,7 @@ const AppLinks = () => {
         className="btn btn-transparent font-medium text-foreground-secondary hover:text-foreground"
       >
         {t("intro.use.watch")}{" "}
-        <SvgPlay className="text-pink fill-current ml-2 w-3 h-3" />
+        <SvgPlay className="text-primary fill-current ml-2 w-3 h-3" />
       </button>
     </div>
   );
@@ -35,7 +35,7 @@ const IndexHero: React.FC = () => {
       <animated.section
         ref={ref}
         style={style}
-        className="relative -mt-24 pt-36 pb-16 w-full bg-gradient-to-b from-blue-tertiary to-blue"
+        className="relative -mt-24 pt-36 pb-16 w-full bg-background-secondary"
       >
         <div className="relative z-10 h-full flex flex-col flex-center">
           <h1 className="font-black leading-none text-center">
@@ -46,10 +46,7 @@ const IndexHero: React.FC = () => {
               className="mx-auto fill-current max-w-full"
             />
           </h1>
-          <h2
-            className="font-black text-2xl mt-2 mb-4"
-            style={{ color: "#ff2f56" }}
-          >
+          <h2 className="font-black text-2xl mt-2 mb-4 text-primary-dark">
             {t("motto")}
           </h2>
           <p className="px-4 mb-8 font-medium text-center max-w-2xl text-foreground-tertiary">

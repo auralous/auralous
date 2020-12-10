@@ -8,7 +8,7 @@
 
 @layer utilities {
   .bordered-box {
-    @apply bg-blue border-blue-tertiary;
+    @apply bg-background border-background-tertiary;
     border-width: 1px;
   }
   .nav {
@@ -45,10 +45,10 @@
       }
     }
     &.btn-primary {
-      @apply text-pink-label bg-pink;
+      @apply text-primary-label bg-primary;
       &:not([disabled]) {
         &:hover, &:focus {
-          @apply bg-pink-dark;
+          @apply bg-primary-dark;
         }
       }
     }
@@ -87,14 +87,6 @@
         }
       }
     }
-    &.btn-light {
-      @apply text-foreground bg-foreground bg-opacity-25;
-      &:not([disabled]) {
-        &:hover, &:focus {
-          @apply bg-foreground bg-opacity-50;
-        }
-      }
-    }
     &.btn-transparent {
       @apply text-foreground bg-transparent;
       &:not([disabled]) {
@@ -103,6 +95,10 @@
         }
       }
     }
+  }
+
+  .text-inline-link {
+    @apply hover:opacity-50 focus:opacity-50 focus:outline-none transition-opacity cursor-pointer;
   }
 
   @variants responsive {
@@ -123,6 +119,10 @@
       height: calc(100vh - theme('spacing.10'));
       @apply sm:h-screen;
     }
+  }
+
+  .block-skeleton {
+    @apply animate-pulse rounded-full bg-foreground-backdrop;
   }
 }
 
@@ -155,13 +155,12 @@ html {
 }
 
 [data-reach-dialog-overlay] {
-  @apply fixed w-full h-full inset-0 flex flex-center z-40 bg-black bg-opacity-75;
+  @apply fixed w-full h-full inset-0 flex flex-center z-40 bg-background-backdrop;
   [data-reach-dialog-content] {
-    background: #000814;
     width: theme('maxWidth.5xl');
     max-width: calc(100vw - 1rem);
     max-height: calc(100vh - 1rem);
-    @apply rounded-lg text-foreground overflow-hidden m-0 p-0 border-2 border-background-secondary;
+    @apply bg-background rounded-lg text-foreground overflow-hidden m-0 p-0 border-2 border-background-secondary;
     @apply relative flex flex-col;
     @apply transition;
   }
@@ -212,7 +211,7 @@ html {
     @apply mb-4 leading-loose;
   }
   a {
-    @apply text-pink transition;
+    @apply text-primary transition;
     &:hover {
       @apply text-opacity-75;
     }

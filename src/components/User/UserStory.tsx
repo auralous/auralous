@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import { Menu } from "@headlessui/react";
 import { useCurrentUser } from "~/hooks/user";
-import { Story, useNowPlayingQuery, useTrackQuery } from "~/graphql/gql.gen";
+import { Story, useNowPlayingQuery } from "~/graphql/gql.gen";
 import { usePlayer } from "~/components/Player";
 import { useModal } from "~/components/Modal";
 import DeleteStory from "~/components/Story/StoryDelete";
@@ -18,15 +18,18 @@ const UserStoryMenu: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <>
       <Menu>
-        <Menu.Button className="" title={t("story.menu.handle")}>
+        <Menu.Button
+          className="text-inline-link"
+          title={t("story.menu.handle")}
+        >
           <SvgMoreVertical />
         </Menu.Button>
-        <Menu.Items className="absolute right-0 w-32 bg-blue rounded-lg overflow-hidden">
+        <Menu.Items className="absolute right-2 w-32 bg-background border-background-tertiary border-2 rounded-lg overflow-hidden outline-none">
           <Menu.Item>
             {({ active }) => (
               <button
-                className={`w-full p-2 truncate focus:border-none ${
-                  active ? "bg-pink" : ""
+                className={`w-full text-xs p-2 truncate focus:outline-none ${
+                  active ? "bg-primary" : ""
                 }`}
                 onClick={openDelete}
               >
@@ -64,17 +67,12 @@ const UserStory: React.FC<{ story: Story }> = ({ story }) => {
     pause: !inView,
   });
 
-  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
-    variables: { id: nowPlaying?.currentTrack?.trackId || "" },
-    pause: !nowPlaying?.currentTrack,
-  });
-
   const user = useCurrentUser();
 
   return (
     <div
       ref={ref}
-      className="relative flex items-start rounded-lg p-4 h-24 bg-blue-secondary mb-2"
+      className="relative flex items-start rounded-lg p-4 h-24 bg-background-secondary mb-2"
     >
       {user?.id === story.creatorId && (
         <div className="absolute top-2 right-2">
@@ -84,6 +82,9 @@ const UserStory: React.FC<{ story: Story }> = ({ story }) => {
       <button
         onClick={onPlayClick}
         className="btn btn-primary w-12 h-12 p-2 rounded-full"
+        aria-label={
+          playingStoryId === story.id ? t("player.pause") : t("player.play")
+        }
       >
         {playingStoryId === story.id ? (
           <SvgSquare className="fill-current" />
@@ -93,8 +94,8 @@ const UserStory: React.FC<{ story: Story }> = ({ story }) => {
       </button>
       <div className="pl-4 flex-1 w-0 flex flex-col items-start">
         <Link href={`/story/${story.id}`}>
-          <a className="w-full">
-            <h3 className="font-bold text-lg hover:opacity-75 transition-opacity truncate">
+          <a className="text-inline-link max-w-full">
+            <h3 className="font-bold text-lg text-foreground truncate">
               {story.text}
             </h3>
           </a>
@@ -102,14 +103,11 @@ const UserStory: React.FC<{ story: Story }> = ({ story }) => {
         <div className="text-xs text-foreground-secondary">
           {story.createdAt.toLocaleDateString()}
         </div>
-        {track && (
+        {nowPlaying?.currentTrack && (
           <div className="mt-2 text-foreground-secondary leading-none max-w-full flex items-center">
-            <span className="flex-none inline-block py-1 px-2 bg-blue text-xs rounded-full leading-none align-middle">
-              <SvgCircle className="text-pink fill-current w-3 h-3 inline mr-1 animate-pulse" />
+            <span className="flex-none inline-block py-1 px-2 bg-background text-xs rounded-full leading-none align-middle">
+              <SvgCircle className="text-primary fill-current w-3 h-3 inline mr-1 animate-pulse" />
               {t("nowPlaying.title")}
-            </span>
-            <span className="py-1 px-2 text-sm truncate">
-              <b>{track.title}</b>
             </span>
           </div>
         )}

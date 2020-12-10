@@ -109,7 +109,6 @@
     },
     "addNew": {
       "title": "Tạo story mới",
-      "warnNoPass": "Mật khẩu story chưa được đặt. Bất cứ ai với đường link sẽ được trở thành của story. Vẫn tiếp tục?",
       "action": "Nghe nào",
       "promptText": "Bạn sẽ miêu tả story của mình thế nào",
       "textHelp": "Tối đa {{maxLength}} kí tự",
@@ -118,13 +117,7 @@
     "backText": "Trở về"
   },
   "discover": {
-    "title": "Khám phá",
-    "titleRandom": "Ngẫu nhiên",
-    "titleMy": "Của bạn",
-    "playlist": {
-      "title": "Nghe thôi",
-      "description": "Bạn có một playlist độc đáo muốn chia sẻ với bạn bè? Hãy dán đường link dưới đây."
-    }
+    "title": "Khám phá"
   },
   "story": {
     "label": "Story",
@@ -164,7 +157,6 @@
   },
   "nowPlaying": { "title": "Đang phát", "skipSong": "Bỏ qua bài" },
   "player": {
-    "label": { "nameAndArtist": "Tên bài hát và nghệ sĩ" },
     "pause": "Tạm dừng",
     "play": "Phát nhạc",
     "noneText": "Không có bài hát",

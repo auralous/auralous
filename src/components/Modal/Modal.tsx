@@ -42,11 +42,11 @@ const AnimatedDialogOverlay = animated(DialogOverlay);
 const AnimatedDialogContent = animated(DialogContent);
 
 const Modal: React.FC<{
-  title?: string;
+  title: string;
   active: boolean;
-  onOutsideClick?: () => void;
+  close?: () => void;
   className?: string;
-}> = ({ title, children, active, onOutsideClick, className }) => {
+}> = ({ title, children, active, close, className }) => {
   const transitions = useTransition(active, null, {
     from: {
       opacity: 0,
@@ -69,23 +69,24 @@ const Modal: React.FC<{
         ({ item, key, props: style }) =>
           item && (
             <AnimatedDialogOverlay
-              aria-label={title ?? "Dialog"}
               isOpen={style.opacity !== 0}
-              onDismiss={() => onOutsideClick && onOutsideClick()}
+              onDismiss={() => close && close()}
               key={key}
               style={{ opacity: style.opacity }}
               as="div"
             >
+              {/* FIXME: possibly upstream, aria-label tag not passed along */}
               <AnimatedDialogContent
                 style={{ transform: style.transform }}
                 className={className}
                 as="div"
+                aria-label={title}
               >
                 {children}
-                {onOutsideClick && (
+                {close && (
                   <button
                     className="btn btn-transparent absolute p-2 top-2 right-2"
-                    onClick={onOutsideClick}
+                    onClick={close}
                   >
                     <SvgX />
                   </button>
