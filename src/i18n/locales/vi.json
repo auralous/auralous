@@ -258,8 +258,7 @@
   "share": {
     "title": "Chia sẻ",
     "copy": "Copy",
-    "copied": "Đã copy",
-    "via": "Chia sẻ tới"
+    "copied": "Đã copy"
   },
   "message": {
     "inputLabel": "Nhập tin nhắn",

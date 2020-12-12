@@ -35,6 +35,7 @@ export { default as SvgReddit } from "./reddit.svg";
 export { default as SvgSearch } from "./search.svg";
 export { default as SvgSettings } from "./settings.svg";
 export { default as SvgShare } from "./share.svg";
+export { default as SvgShare2 } from "./share-2.svg";
 export { default as SvgSkipForward } from "./skip-forward.svg";
 export { default as SvgSquare } from "./square.svg";
 export { default as SvgTwitter } from "./twitter.svg";

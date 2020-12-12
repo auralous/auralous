@@ -259,8 +259,7 @@
   "share": {
     "title": "Share",
     "copy": "Copy",
-    "copied": "Copied",
-    "via": "Share this via"
+    "copied": "Copied"
   },
   "message": {
     "inputLabel": "Enter chat message",

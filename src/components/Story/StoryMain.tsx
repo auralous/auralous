@@ -17,10 +17,11 @@ import StoryHeader from "./StoryHeader";
 import StoryFooter from "./StoryFooter";
 import StoryQueue from "./StoryQueue";
 import StoryListeners from "./StoryListeners";
+import StoryQueueable from "./StoryQueueable";
+import StoryShare from "./StoryShare";
 import { Modal, useModal } from "~/components/Modal";
 import { useCurrentUser } from "~/hooks/user";
-import { SvgHeadphones, SvgPlus } from "~/assets/svg";
-import StoryQueueable from "./StoryQueueable";
+import { SvgUserPlus, SvgShare2 } from "~/assets/svg";
 
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
 
@@ -40,15 +41,11 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
         {user?.id === story.creatorId && (
           <>
             <button
-              className="btn mr-1 flex-none btn-transparent bg-primary relative overflow-hidden inline-flex flex-center w-8 h-8 rounded-full p-0"
+              className="btn mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
               title={t("story.queueable.title")}
               onClick={open}
             >
-              <SvgHeadphones className="w-5 h-5" />
-              <SvgPlus
-                strokeWidth={4}
-                className="w-3 h-3 absolute top-1 right-1 bg-primary"
-              />
+              <SvgUserPlus className="w-4 h-4" />
             </button>
             <Modal.Modal
               active={active}
@@ -71,6 +68,43 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
           <StoryListeners userIds={story.queueable} />
         </div>
       </div>
+    </>
+  );
+};
+
+const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
+  story,
+  userIds,
+}) => {
+  const { t } = useI18n();
+  const [active, open, close] = useModal();
+
+  return (
+    <>
+      <div className="px-4 py-1 flex">
+        <button
+          className="btn mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
+          title={t("story.queueable.title")}
+          onClick={open}
+        >
+          <SvgShare2 className="w-4 h-4" />
+        </button>
+        <div className="flex-1">
+          <StoryListeners userIds={userIds} />
+        </div>
+      </div>
+      <Modal.Modal
+        active={active}
+        close={close}
+        title={t("story.queueable.title")}
+      >
+        <Modal.Header>
+          <Modal.Title>{t("story.share.title")}</Modal.Title>
+        </Modal.Header>
+        <Modal.Content>
+          <StoryShare story={story} />
+        </Modal.Content>
+      </Modal.Modal>
     </>
   );
 };
@@ -168,9 +202,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
               } flex-col h-full`}
               as="div"
             >
-              <div className="px-4 py-1 flex">
-                <StoryListeners userIds={storyUsers || []} />
-              </div>
+              <StoryUsers userIds={storyUsers || []} story={story} />
               <div className="flex-1 h-0">
                 <StoryChat story={story} />
               </div>
