@@ -131,7 +131,7 @@
       "played": { "title": "Đã phát gần đây" },
       "notAllowed": "Bạn không được phép thêm nhạc vào story này",
       "adderTitle": "Thêm nhạc",
-      "adderClose": "Xong"
+      "done": "Xong"
     },
     "chat": {
       "title": "Chat",
@@ -149,11 +149,29 @@
       "success": "Story đã được xoá",
       "action": "Xoá",
       "cancel": "Thôi"
+    },
+    "share": {
+      "title": "Mời bạn bè"
+    },
+    "queueable": {
+      "title": "Thêm cộng tác viên",
+      "done": "Xong",
+      "add": "Thêm",
+      "remove": "Xoá {{username}} khỏi danh sách cộng tác viên",
+      "addExisted": "{{username}} đã nằm trong danh sách cộng tác viên",
+      "addSuccess": "{{username}} sẽ có thể thêm nhạc",
+      "removeSuccess": "{{username}} sẽ không thể thêm nhạc"
     }
   },
   "user": {
     "profile": "Hồ sơ",
-    "description": "Tham gia Stereo cùng {{username}} và nghe nhạc cùng với bạn bè khắp năm châu."
+    "description": "Tham gia Stereo cùng {{username}} và nghe nhạc cùng với bạn bè khắp năm châu.",
+    "following": {
+      "selfNoFollowing": "Bạn không theo dõi bất kì ai"
+    },
+    "search": {
+      "notFound": "Không tìm thấy người dùng"
+    }
   },
   "nowPlaying": { "title": "Đang phát", "skipSong": "Bỏ qua bài" },
   "player": {
@@ -237,11 +255,13 @@
       "load": "Không thể tải playlist của bạn"
     }
   },
+  "modal": {
+    "close": "Đóng"
+  },
   "share": {
     "title": "Chia sẻ",
     "copy": "Copy",
-    "copied": "Đã copy",
-    "via": "Chia sẻ tới"
+    "copied": "Đã copy"
   },
   "message": {
     "inputLabel": "Nhập tin nhắn",

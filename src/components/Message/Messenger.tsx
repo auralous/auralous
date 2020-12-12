@@ -34,7 +34,7 @@ const MessageItemJoin: React.FC<{
   const dateDiff = Date.now() - message.createdAt;
   const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
   return (
-    <div role="listitem" className="w-full text-left text-sm mt-3 truncate p-1">
+    <div role="listitem" className="w-full text-left text-sm mt-3 p-1">
       <SvgLogIn className="inline w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
       <span className="text-foreground-tertiary">
         {t("message.join.text", { username: user?.username || "" })}
@@ -61,22 +61,26 @@ const MessageItemPlay: React.FC<{
   const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
   const [active, show, close] = useModal();
   return (
-    <div role="listitem" className="w-full text-left text-sm mt-3 truncate p-1">
-      <SvgMusic className="inline w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
-      <span className="text-foreground-tertiary">
-        {t("message.play.text", { username: user?.username || "" })}
-      </span>{" "}
-      <button
-        className="text-inline-link inline text-foreground"
-        onClick={show}
-      >
-        <i>{track?.artists.map(({ name }) => name).join(", ")}</i> -{" "}
-        {track?.title}
-      </button>{" "}
-      <span className="text-foreground-tertiary opacity-50 ml-1">
-        {"• "}
-        {dateDiffTxt}
-      </span>
+    <div role="listitem" className="w-full flex text-sm mt-3 p-1">
+      <SvgMusic className="flex-none w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
+      <div>
+        <span className="text-foreground-tertiary">
+          {t("message.play.text", { username: user?.username || "" })}
+        </span>
+        <span className="text-foreground-tertiary opacity-50 ml-1">
+          {" • "}
+          {dateDiffTxt}
+        </span>
+        {track && (
+          <button
+            className="block font-semibold opacity-75 text-inline-link text-left text-foreground leading-tight"
+            onClick={show}
+          >
+            <i>{track.artists.map(({ name }) => name).join(", ")}</i> -{" "}
+            {track.title}
+          </button>
+        )}
+      </div>
       <TrackMenu id={message.text as string} active={active} close={close} />
     </div>
   );
@@ -97,7 +101,7 @@ const MessageItem: React.FC<{
   return (
     <div
       role="listitem"
-      className={`relative w-full pl-12 pr-8 ${isGrouped ? "" : "mt-3"}`}
+      className={`relative w-full pl-10 pr-8 ${isGrouped ? "" : "mt-3"}`}
     >
       {!isGrouped && (
         <>
@@ -113,7 +117,7 @@ const MessageItem: React.FC<{
                   isCurrentUser
                     ? "bg-success-light leading-tight text-opacity-75 rounded-lg px-1"
                     : "text-white"
-                } font-bold`}
+                } text-sm font-bold`}
               >
                 {sender?.username}
               </a>
@@ -125,7 +129,7 @@ const MessageItem: React.FC<{
           </div>
         </>
       )}
-      <p className="text-white leading-relaxed text-opacity-75">
+      <p className="text-white leading-tight text-sm text-opacity-75">
         {message.text}
       </p>
     </div>

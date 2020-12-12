@@ -34,7 +34,7 @@
     }
   }
   .btn {
-    @apply inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
+    @apply inline-flex items-center justify-center font-semibold py-2 px-4 whitespace-nowrap rounded-lg;
     @apply transition-colors;
     /* Theme */
     @apply bg-background-secondary text-foreground;
@@ -164,8 +164,8 @@ html {
     @apply relative flex flex-col;
     @apply transition;
   }
-  .modal-footer > .btn {
-    @apply flex-1 rounded-none;
+  .modal-footer {
+    @apply flex items-center justify-end space-x-2 px-4 py-3 border-background-secondary border-t-2;
   }
 }
 

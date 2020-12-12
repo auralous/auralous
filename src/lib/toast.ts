@@ -9,7 +9,7 @@ export const toast =
         types: [
           {
             type: "info",
-            background: "blue",
+            background: "rgb(18, 18, 24)",
             icon: false,
           },
         ],

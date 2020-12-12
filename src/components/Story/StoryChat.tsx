@@ -19,11 +19,7 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
       </div>
     );
 
-  return (
-    <div className="h-full">
-      <Messenger id={`story:${story.id}`} />
-    </div>
-  );
+  return <Messenger id={`story:${story.id}`} />;
 };
 
 export default StoryChat;

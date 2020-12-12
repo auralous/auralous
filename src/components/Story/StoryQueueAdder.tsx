@@ -64,9 +64,9 @@ const StoryQueueAdder: React.FC<{
     <Modal.Modal
       title={t("story.queue.adderTitle")}
       active={active}
-      close={close}
+      isFullHeight
     >
-      <Modal.Content className="h-screen-layout">
+      <Modal.Content>
         <Tabs
           onChange={setSelectedIndex}
           index={selectedIndex}
@@ -123,8 +123,8 @@ const StoryQueueAdder: React.FC<{
         </Tabs>
       </Modal.Content>
       <Modal.Footer>
-        <button onClick={close} className="btn w-full">
-          {t("story.queue.adderClose")}
+        <button onClick={close} className="btn">
+          {t("story.queue.done")}
         </button>
       </Modal.Footer>
     </Modal.Modal>

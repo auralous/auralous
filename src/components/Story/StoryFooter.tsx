@@ -118,7 +118,7 @@ const StoryPlay: React.FC<{ story: Story }> = ({ story }) => {
 
 const StoryFooter: React.FC<{ story: Story }> = ({ story }) => {
   return (
-    <div className="flex flex-center py-2 bg-black">
+    <div className="w-full fixed sm:absolute bottom-10 sm:bottom-0 h-16 flex flex-center py-2 bg-black">
       <StoryReaction story={story} />
       <StoryPlay story={story} />
       <StorySkip story={story} />

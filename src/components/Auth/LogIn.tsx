@@ -99,12 +99,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
 
   return (
     <>
-      <Modal.Modal
-        title={t("auth.label")}
-        active={active}
-        close={close}
-        className="border-none"
-      >
+      <Modal.Modal title={t("auth.label")} active={active} close={close}>
         <div
           className="p-4 bg-background-tertiary bg-opacity-50 bg-repeat"
           style={{
