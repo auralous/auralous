@@ -123,8 +123,8 @@ const StoryQueueAdder: React.FC<{
         </Tabs>
       </Modal.Content>
       <Modal.Footer>
-        <button onClick={close} className="btn w-full">
-          {t("story.queue.adderClose")}
+        <button onClick={close} className="btn">
+          {t("story.queue.done")}
         </button>
       </Modal.Footer>
     </Modal.Modal>

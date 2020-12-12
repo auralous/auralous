@@ -131,7 +131,7 @@
       "played": { "title": "Đã phát gần đây" },
       "notAllowed": "Bạn không được phép thêm nhạc vào story này",
       "adderTitle": "Thêm nhạc",
-      "adderClose": "Xong"
+      "done": "Xong"
     },
     "chat": {
       "title": "Chat",
@@ -155,7 +155,7 @@
     },
     "queueable": {
       "title": "Thêm cộng tác viên",
-      "done": "Hoàn thành thêm cộng tác viên",
+      "done": "Xong",
       "add": "Thêm",
       "remove": "Xoá {{username}} khỏi danh sách cộng tác viên",
       "addExisted": "{{username}} đã nằm trong danh sách cộng tác viên",
@@ -254,6 +254,9 @@
     "error": {
       "load": "Không thể tải playlist của bạn"
     }
+  },
+  "modal": {
+    "close": "Đóng"
   },
   "share": {
     "title": "Chia sẻ",

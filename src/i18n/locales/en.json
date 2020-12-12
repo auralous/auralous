@@ -131,7 +131,7 @@
       "played": { "title": "Recently Played" },
       "notAllowed": "You are not allowed to add songs to this story",
       "adderTitle": "Add songs",
-      "adderClose": "Done"
+      "done": "Done"
     },
     "chat": {
       "title": "Chat",
@@ -156,7 +156,7 @@
     "queueable": {
       "title": "Add collaborators",
       "withOthers": "By {{creatorName}} and {{count}} other collaborators",
-      "done": "Finish adding collaborators",
+      "done": "Done",
       "add": "Add",
       "remove": "Remove {{username}} from collaborators",
       "addExisted": "{{username}} is already a collaborator",
@@ -255,6 +255,9 @@
     "error": {
       "load": "Unable to retrieve your playlists"
     }
+  },
+  "modal": {
+    "close": "Close"
   },
   "share": {
     "title": "Share",

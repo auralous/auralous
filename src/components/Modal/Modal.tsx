@@ -1,7 +1,8 @@
 import React from "react";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
-import { SvgX } from "~/assets/svg";
 import { useTransition, animated, config as springConfig } from "react-spring";
+import { SvgX } from "~/assets/svg";
+import { useI18n } from "~/i18n/index";
 
 const ModalHeader: React.FC<{ className?: string }> = ({
   children,
@@ -17,7 +18,7 @@ const ModalHeader: React.FC<{ className?: string }> = ({
 );
 
 const ModalTitle: React.FC = ({ children }) => (
-  <h4 className="text-lg font-bold flex items-center">{children}</h4>
+  <h4 className="text-lg font-medium flex items-center">{children}</h4>
 );
 
 const ModalContent: React.FC<{ className?: string; noPadding?: boolean }> = ({
@@ -35,7 +36,7 @@ const ModalContent: React.FC<{ className?: string; noPadding?: boolean }> = ({
 );
 
 const ModalFooter: React.FC = ({ children }) => (
-  <div className="flex modal-footer h-12">{children}</div>
+  <div className="modal-footer">{children}</div>
 );
 
 const AnimatedDialogOverlay = animated(DialogOverlay);
@@ -47,6 +48,8 @@ const Modal: React.FC<{
   close?: () => void;
   className?: string;
 }> = ({ title, children, active, close, className }) => {
+  const { t } = useI18n();
+
   const transitions = useTransition(active, null, {
     from: {
       opacity: 0,
@@ -85,10 +88,11 @@ const Modal: React.FC<{
                 {children}
                 {close && (
                   <button
-                    className="btn btn-transparent absolute p-2 top-2 right-2"
+                    className="btn absolute top-4 right-3 p-1.5 rounded-full"
                     onClick={close}
+                    aria-label={t("modal.close")}
                   >
-                    <SvgX />
+                    <SvgX className="w-4 h-4" />
                   </button>
                 )}
               </AnimatedDialogContent>

@@ -41,7 +41,7 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
         {user?.id === story.creatorId && (
           <>
             <button
-              className="btn mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
+              className="btn btn-primary mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
               title={t("story.queueable.title")}
               onClick={open}
             >
@@ -83,7 +83,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
     <>
       <div className="px-4 py-1 flex">
         <button
-          className="btn mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
+          className="btn btn-primary mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
           title={t("story.queueable.title")}
           onClick={open}
         >
@@ -202,7 +202,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
               } flex-col h-full`}
               as="div"
             >
-              <StoryUsers userIds={storyUsers || []} story={story} />
+              {user && <StoryUsers userIds={storyUsers || []} story={story} />}
               <div className="flex-1 h-0">
                 <StoryChat story={story} />
               </div>
