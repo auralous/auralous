@@ -200,7 +200,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
               } flex-col h-full`}
               as="div"
             >
-              {user && <StoryUsers userIds={storyUsers || []} story={story} />}
+              <StoryUsers userIds={storyUsers || []} story={story} />
               <div className="flex-1 h-0">
                 <StoryChat story={story} />
               </div>
