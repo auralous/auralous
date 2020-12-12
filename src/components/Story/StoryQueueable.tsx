@@ -23,10 +23,10 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
   const onUserAdd = useCallback(
     async (ev: React.FormEvent<HTMLFormElement>) => {
       ev.preventDefault();
+      const username = ev.currentTarget.username.value.trim();
+      if (!username) return;
       const result = await client
-        .query<UserQuery, UserQueryVariables>(UserDocument, {
-          username: ev.currentTarget.username.value,
-        })
+        .query<UserQuery, UserQueryVariables>(UserDocument, { username })
         .toPromise();
       if (!result.data?.user) return toast.error(t("user.search.notFound"));
       if (story.queueable.includes(result.data.user.id))
