@@ -149,11 +149,30 @@
       "success": "The story has been deleted",
       "action": "Delete",
       "cancel": "Nevermind"
+    },
+    "share": {
+      "title": "Invite friends"
+    },
+    "queueable": {
+      "title": "Add collaborators",
+      "withOthers": "By {{creatorName}} and {{count}} other collaborators",
+      "done": "Finish adding collaborators",
+      "add": "Add",
+      "remove": "Remove {{username}} from collaborators",
+      "addExisted": "{{username}} is already a collaborator",
+      "addSuccess": "{{username}} can now add songs",
+      "removeSuccess": "{{username}} can no longer add songs"
     }
   },
   "user": {
     "profile": "Profile",
-    "description": "Join {{username}} on Stereo and listen along to the music with friends around the globe."
+    "description": "Join {{username}} on Stereo and listen along to the music with friends around the globe.",
+    "following": {
+      "selfNoFollowing": "You are not following anyone"
+    },
+    "search": {
+      "notFound": "User is not found"
+    }
   },
   "nowPlaying": { "title": "Now Playing", "skipSong": "Skip song" },
   "player": {
