@@ -7,107 +7,7 @@
 /* purgecss start ignore */
 
 @layer utilities {
-  .bordered-box {
-    @apply bg-background border-background-tertiary;
-    border-width: 1px;
-  }
-  .nav {
-    @apply absolute top-0 h-12 w-full z-30 overflow-x-auto flex justify-between items-center;
-  }
-
-  .label {
-    @apply block text-foreground-secondary text-sm font-bold mb-2;
-  }
-
-  .btn, .label, .input {
-    &:focus {
-      outline: none;
-    }
-  }
-
-  .input {
-    @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
-    &:not([disabled]) {
-      &:focus {
-        @apply border-background-tertiary;
-      }
-    }
-  }
-  .btn {
-    @apply inline-flex items-center justify-center font-semibold py-2 px-4 whitespace-nowrap rounded-lg;
-    @apply transition-colors;
-    /* Theme */
-    @apply bg-background-secondary text-foreground;
-    &:not([disabled]) {
-      &:hover, &:focus {
-        @apply bg-background-tertiary;
-        @apply border-0;
-      }
-    }
-    &.btn-primary {
-      @apply text-primary-label bg-primary;
-      &:not([disabled]) {
-        &:hover, &:focus {
-          @apply bg-primary-dark;
-        }
-      }
-    }
-    &.btn-danger {
-      @apply text-danger-label;
-      @apply bg-danger;
-      &:not([disabled]) {
-        &:hover, &:focus {
-          @apply bg-danger-dark;
-        }
-      }
-    }
-    &.btn-success {
-      @apply text-success-label;
-      @apply bg-success;
-      &:not([disabled]) {
-        &:hover, &:focus {
-          @apply bg-success-dark;
-        }
-      }
-    }
-    &.btn-warning {
-      @apply text-warning-label;
-      @apply bg-warning;
-      &:not([disabled]) {
-        &:hover, &:focus {
-          @apply bg-warning-dark;
-        }
-      }
-    }
-    &.btn-foreground {
-      @apply text-background bg-foreground;
-      &:not([disabled]) {
-        &:hover, &:focus {
-          @apply text-background bg-foreground-secondary;
-        }
-      }
-    }
-    &.btn-transparent {
-      @apply text-foreground bg-transparent;
-      &:not([disabled]) {
-        &:hover, &:focus {
-          @apply bg-transparent text-foreground text-opacity-50;
-        }
-      }
-    }
-  }
-
-  .text-inline-link {
-    @apply hover:opacity-50 focus:opacity-50 focus:outline-none transition-opacity cursor-pointer;
-  }
-
   @variants responsive {
-    .backdrop-blur {
-      backdrop-filter: blur(20px);
-    }
-    .backdrop-none {
-      backdrop-filter: none;
-    }
     .absolute-center {
       @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
     }
@@ -119,10 +19,6 @@
       height: calc(100vh - theme('spacing.10'));
       @apply sm:h-screen;
     }
-  }
-
-  .block-skeleton {
-    @apply animate-pulse rounded-full bg-foreground-backdrop;
   }
 }
 
@@ -152,6 +48,113 @@ html {
 
 [role=button]:disabled, button:disabled, input:disabled {
   @apply cursor-not-allowed opacity-50;
+}
+
+.label {
+  @apply block text-foreground-secondary text-sm font-bold mb-2;
+}
+
+.btn, .label, .input {
+  &:focus {
+    outline: none;
+  }
+}
+
+.input {
+  @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
+  &:not([disabled]) {
+    &:focus {
+      @apply border-background-tertiary;
+    }
+  }
+}
+
+.btn {
+  @apply inline-flex items-center justify-center font-semibold py-2 px-4 whitespace-nowrap rounded-lg;
+  @apply transition-colors;
+  /* Theme */
+  @apply bg-background-secondary text-foreground;
+  &:not([disabled]) {
+    &:hover, &:focus {
+      @apply bg-background-tertiary;
+      @apply border-0;
+    }
+  }
+  &.btn-primary {
+    @apply text-primary-label bg-primary;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-primary-dark;
+      }
+    }
+  }
+  &.btn-danger {
+    @apply text-danger-label;
+    @apply bg-danger;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-danger-dark;
+      }
+    }
+  }
+  &.btn-success {
+    @apply text-success-label;
+    @apply bg-success;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-success-dark;
+      }
+    }
+  }
+  &.btn-warning {
+    @apply text-warning-label;
+    @apply bg-warning;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-warning-dark;
+      }
+    }
+  }
+  &.btn-foreground {
+    @apply text-background bg-foreground;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply text-background bg-foreground-secondary;
+      }
+    }
+  }
+  &.btn-transparent {
+    @apply text-foreground bg-transparent;
+    &:not([disabled]) {
+      &:hover, &:focus {
+        @apply bg-transparent text-foreground text-opacity-50;
+      }
+    }
+  }
+}
+
+.block-skeleton {
+  @apply animate-pulse rounded-full bg-foreground-backdrop;
+}
+
+.backdrop-blur {
+  backdrop-filter: blur(20px);
+}
+.backdrop-none {
+  backdrop-filter: none;
+}
+
+.bordered-box {
+  @apply bg-background border-background-tertiary;
+  border-width: 1px;
+}
+
+.nav {
+  @apply absolute top-0 h-12 w-full z-30 overflow-x-auto flex justify-between items-center;
+}
+
+.text-inline-link {
+  @apply hover:opacity-50 focus:opacity-50 focus:outline-none transition-opacity cursor-pointer;
 }
 
 [data-reach-dialog-overlay] {
