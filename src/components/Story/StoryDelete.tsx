@@ -35,8 +35,8 @@ const DeleteStory: React.FC<{
         <Modal.Header>
           <Modal.Title>{t("story.delete.title")}</Modal.Title>
         </Modal.Header>
-        <Modal.Content className="text-center">
-          <p className="mb-4">
+        <Modal.Content>
+          <p className="text-center">
             {t("story.delete.confirmPrompt")}
             <br />
             <b>{t("common.dangerousActionText")}</b>.

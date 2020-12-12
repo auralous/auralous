@@ -60,19 +60,21 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
             {t("settings.dangerZone.delete.modal.title")}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Content className="text-center">
-          <p className="mb-4">
+        <Modal.Content>
+          <p className="mb-4 text-center">
             {t("settings.dangerZone.delete.modal.description")}
             <br />
             <b>{t("common.dangerousActionText")}</b>.
           </p>
-          <input
-            aria-label={t("settings.dangerZone.delete.modal.enterName")}
-            value={confirmUsername}
-            placeholder={t("settings.dangerZone.delete.modal.enterName")}
-            onChange={(e) => setConfirmUsername(e.target.value)}
-            className="input py-2 px-4 ml-2 w-96 max-w-full"
-          />
+          <div className="text-center">
+            <input
+              aria-label={t("settings.dangerZone.delete.modal.enterName")}
+              value={confirmUsername}
+              placeholder={t("settings.dangerZone.delete.modal.enterName")}
+              onChange={(e) => setConfirmUsername(e.target.value)}
+              className="input py-2 px-4 ml-2 w-96 max-w-full"
+            />
+          </div>
         </Modal.Content>
         <Modal.Footer>
           <button

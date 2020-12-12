@@ -59,7 +59,9 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
                 <StoryQueueable story={story} />
               </Modal.Content>
               <Modal.Footer>
-                <button className="btn">{t("story.queueable.done")}</button>
+                <button className="btn" onClick={close}>
+                  {t("story.queueable.done")}
+                </button>
               </Modal.Footer>
             </Modal.Modal>
           </>
@@ -93,11 +95,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
           <StoryListeners userIds={userIds} />
         </div>
       </div>
-      <Modal.Modal
-        active={active}
-        close={close}
-        title={t("story.queueable.title")}
-      >
+      <Modal.Modal active={active} close={close} title={t("story.share.title")}>
         <Modal.Header>
           <Modal.Title>{t("story.share.title")}</Modal.Title>
         </Modal.Header>

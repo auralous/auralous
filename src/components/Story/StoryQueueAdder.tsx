@@ -64,9 +64,9 @@ const StoryQueueAdder: React.FC<{
     <Modal.Modal
       title={t("story.queue.adderTitle")}
       active={active}
-      close={close}
+      isFullHeight
     >
-      <Modal.Content className="h-screen-layout">
+      <Modal.Content>
         <Tabs
           onChange={setSelectedIndex}
           index={selectedIndex}

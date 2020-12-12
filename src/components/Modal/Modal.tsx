@@ -4,33 +4,18 @@ import { useTransition, animated, config as springConfig } from "react-spring";
 import { SvgX } from "~/assets/svg";
 import { useI18n } from "~/i18n/index";
 
-const ModalHeader: React.FC<{ className?: string }> = ({
-  children,
-  className,
-}) => (
-  <div
-    className={`p-4 border-b-2 border-opacity-10 border-white ${
-      className || ""
-    }`}
-  >
-    {children}
-  </div>
+const ModalHeader: React.FC = ({ children }) => (
+  <div className="p-4 border-b-2 border-background-secondary">{children}</div>
 );
 
 const ModalTitle: React.FC = ({ children }) => (
   <h4 className="text-lg font-medium flex items-center">{children}</h4>
 );
 
-const ModalContent: React.FC<{ className?: string; noPadding?: boolean }> = ({
-  children,
-  className,
-  noPadding,
-}) => (
-  <div
-    className={`${noPadding ? "" : "px-4 py-8"} flex-1 overflow-auto ${
-      className || ""
-    }`}
-  >
+const ModalContent: React.FC<{
+  noPadding?: boolean;
+}> = ({ children, noPadding }) => (
+  <div className={`${noPadding ? "" : "px-4 py-8"} flex-1 overflow-auto`}>
     {children}
   </div>
 );
@@ -46,8 +31,8 @@ const Modal: React.FC<{
   title: string;
   active: boolean;
   close?: () => void;
-  className?: string;
-}> = ({ title, children, active, close, className }) => {
+  isFullHeight?: boolean;
+}> = ({ title, children, active, close, isFullHeight }) => {
   const { t } = useI18n();
 
   const transitions = useTransition(active, null, {
@@ -80,8 +65,10 @@ const Modal: React.FC<{
             >
               {/* FIXME: possibly upstream, aria-label tag not passed along */}
               <AnimatedDialogContent
-                style={{ transform: style.transform }}
-                className={className}
+                style={{
+                  transform: style.transform,
+                  ...(isFullHeight && { height: "100%" }),
+                }}
                 as="div"
                 aria-label={title}
               >
