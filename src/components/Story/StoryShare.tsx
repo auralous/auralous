@@ -13,7 +13,7 @@ import {
 const StoryShare: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   const shareUri = `${process.env.APP_URI}/story/${story.id}`;
-
+  const name = story.text;
   return (
     <div>
       <div className="flex flex-wrap flex-center space-x-1 space-y-1">

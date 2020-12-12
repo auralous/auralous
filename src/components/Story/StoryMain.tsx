@@ -174,7 +174,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
 
   return (
     <>
-      <div className="h-screen-layout relative overflow-hidden flex flex-col">
+      <div className="h-screen-layout pb-16 relative overflow-hidden flex flex-col">
         <div className="lg:flex justify-between bg-background bg-opacity-50 backdrop-blur">
           <div className="p-2 pb-0 lg:pb-2 flex-1">
             <StoryNav story={story} />
