@@ -28,7 +28,7 @@ const NowPlayingMeta: React.FC<{
         <div className="truncate text-foreground-secondary text-xs max-w-full">
           {storyPlayingStarted ? (
             fetching ? (
-              <div className="block-skeleton h-3 w-32" />
+              <div className="block-skeleton rounded h-3 w-32" />
             ) : track ? (
               <>
                 {track.artists.map(({ name }) => name).join(", ")}
@@ -56,7 +56,7 @@ const NowPlayingMeta: React.FC<{
           {storyPlayingStarted
             ? track?.title ||
               (fetching ? (
-                <div className="block-skeleton mt-1 h-5 w-40" />
+                <div className="block-skeleton rounded mt-1 h-5 w-40" />
               ) : (
                 t("player.noneText")
               ))
@@ -86,7 +86,7 @@ const StoryHeader: React.FC<{ story: Story }> = ({ story }) => {
 
   return (
     <div className="flex p-2">
-      <div className="w-12 h-12 bg-background-secondary rounded-lg overflow-hidden">
+      <div className="w-12 h-12 bg-background-secondary rounded overflow-hidden">
         {track && (
           <img
             className="w-full h-full object-cover"

@@ -86,7 +86,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
       <div className="px-4 py-1 flex">
         <button
           className="btn btn-primary mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
-          title={t("story.queueable.title")}
+          title={t("story.share.title")}
           onClick={open}
         >
           <SvgShare2 className="w-4 h-4" />

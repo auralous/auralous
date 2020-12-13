@@ -77,8 +77,8 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
           ) : (
             fetching && (
               <>
-                <div className="block-skeleton h-6 w-40 mb-1 mx-auto" />
-                <div className="block-skeleton h-4 w-24 mx-auto" />
+                <div className="block-skeleton rounded h-6 w-40 mb-1 mx-auto" />
+                <div className="block-skeleton rounded h-4 w-24 mx-auto" />
               </>
             )
           )}

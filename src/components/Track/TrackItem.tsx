@@ -22,11 +22,11 @@ export const TrackItem: React.FC<{
         {track ? (
           <img
             alt={track.title}
-            className="h-12 w-12 rounded-lg flex-none overflow-hidden mr-3"
+            className="h-12 w-12 rounded flex-none overflow-hidden mr-3"
             src={track.image}
           />
         ) : (
-          <div className="block-skeleton rounded-lg h-12 w-12 flex-none mr-3" />
+          <div className="block-skeleton rounded h-12 w-12 flex-none mr-3" />
         )}
         <div className="w-full overflow-hidden">
           {track ? (
@@ -68,8 +68,8 @@ export const TrackItem: React.FC<{
             </>
           ) : (
             <>
-              <div className="block-skeleton h-6 mb-1" />
-              <div className="block-skeleton h-4 w-3/4" />
+              <div className="block-skeleton rounded h-6 mb-1" />
+              <div className="block-skeleton rounded h-4 w-3/4" />
             </>
           )}
         </div>
