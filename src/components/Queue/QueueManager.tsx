@@ -150,7 +150,7 @@ const QueueManager: React.FC<{
 }> = ({ queueId, isQueueable, onEmptyAddClick }) => {
   const { t } = useI18n();
 
-  const [queue] = useQueue(queueId, { requestPolicy: "cache-and-network" });
+  const [queue] = useQueue(queueId);
   const [, updateQueue] = useUpdateQueueMutation();
 
   const onDragEnd = useCallback(
