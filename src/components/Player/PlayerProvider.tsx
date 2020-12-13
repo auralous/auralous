@@ -93,7 +93,7 @@ const usePlayFromQueue = (story: Story | null) => {
 
   const [currQueueIndex, setCurrQueueIndex] = useState(0);
   useEffect(() => {
-    // reset queue position on queue change
+    // reset queue position on queue/story change
     setCurrQueueIndex(0);
   }, [story?.id]);
 
@@ -120,7 +120,7 @@ const usePlayFromQueue = (story: Story | null) => {
   }, [skipForward]);
 
   return [
-    queue?.items[currQueueIndex].trackId,
+    queue?.items[currQueueIndex]?.trackId,
     { fetching, skipBackward, skipForward },
   ] as const;
 };
