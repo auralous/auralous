@@ -10,7 +10,7 @@ const SkipButton: React.FC<{
   title: string;
 }> = ({ children, onClick, disabled, title }) => (
   <button
-    className="mx-2 flex flex-center w-10 h-10 rounded-full"
+    className="btn btn-transparent p-2"
     onClick={onClick}
     disabled={disabled}
     title={title}
@@ -46,7 +46,7 @@ const StoryPlay: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <button
       aria-label={isPlaying ? t("player.pause") : t("player.play")}
-      className="mx-2 flex flex-center w-10 h-10 rounded-full bg-success text-white"
+      className="btn btn-primary w-10 h-10 rounded-full p-2"
       onClick={() => {
         if (!storyPlayingStarted) return playStory(story.id);
         isPlaying ? player.pause() : player.play();
@@ -66,13 +66,13 @@ const StoryFooter: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   const { skipForward, skipBackward } = usePlayer();
   return (
-    <div className="w-full fixed sm:absolute bottom-10 sm:bottom-0 h-16 flex flex-center py-2 bg-black">
+    <div className="gap-2 w-full fixed sm:absolute bottom-10 sm:bottom-0 h-16 flex flex-center py-2 bg-black">
       <SkipButton
         title={t("player.skipBackward")}
         onClick={skipBackward}
         disabled={!skipBackward}
       >
-        <SvgSkipBack />
+        <SvgSkipBack className="w-4 h-4 fill-current stroke-current" />
       </SkipButton>
       <StoryPlay story={story} />
       <SkipButton
@@ -80,7 +80,7 @@ const StoryFooter: React.FC<{ story: Story }> = ({ story }) => {
         onClick={skipForward}
         disabled={!skipForward}
       >
-        <SvgSkipForward />
+        <SvgSkipForward className="w-4 h-4 fill-current stroke-current" />
       </SkipButton>
     </div>
   );
