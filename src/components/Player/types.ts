@@ -14,5 +14,7 @@ export interface IPlayerContext {
   };
   playStory: (storyId: string) => void;
   stopPlaying: () => void;
+  skipForward?: () => void;
+  skipBackward?: () => void;
   player: Player;
 }

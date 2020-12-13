@@ -173,7 +173,7 @@
       "notFound": "Không tìm thấy người dùng"
     }
   },
-  "nowPlaying": { "title": "Đang phát", "skipSong": "Bỏ qua bài" },
+  "nowPlaying": { "title": "Đang phát" },
   "player": {
     "pause": "Tạm dừng",
     "play": "Phát nhạc",
@@ -203,7 +203,9 @@
     "contactSupportText": "Liên hệ hỗ trợ",
     "retryText": "Thử lại",
     "trackInfo": "Chi tiết bài hát",
-    "signInSuggest": "Đăng nhập để sử dụng ứng dụng nghe nhạc của riêng bạn"
+    "signInSuggest": "Đăng nhập để sử dụng ứng dụng nghe nhạc của riêng bạn",
+    "skipForward": "Bỏ qua bài",
+    "skipBackward": "Phát bài trước"
   },
   "track": {
     "addToPlaylist": "Thêm vào playlist",

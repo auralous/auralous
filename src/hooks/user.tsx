@@ -23,8 +23,6 @@ export function useMAuth() {
       if (data?.expiredAt) data.expiredAt = new Date(data.expiredAt);
       return data || null;
     },
-    {
-      staleTime: 30 * 1000 * 1000,
-    }
+    { staleTime: 30 * 1000 * 1000 }
   );
 }

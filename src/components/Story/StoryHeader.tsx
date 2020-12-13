@@ -1,10 +1,64 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import { usePlayer } from "~/components/Player/index";
 import { useModal } from "~/components/Modal/index";
-import { Story, Track, useNowPlayingQuery } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+import {
+  NowPlayingReactionType,
+  Story,
+  Track,
+  useNowPlayingQuery,
+  useNowPlayingReactionsQuery,
+  useOnNowPlayingReactionsUpdatedSubscription,
+  useReactNowPlayingMutation,
+} from "~/graphql/gql.gen";
 import { TrackMenu } from "~/components/Track";
-import QueueAddedBy from "../Queue/QueueAddedBy";
+import QueueAddedBy from "~/components/Queue/QueueAddedBy";
+import { useCurrentUser } from "~/hooks/user";
+import { toast } from "~/lib/toast";
+import { useI18n } from "~/i18n/index";
+import { SvgHeart } from "~/assets/svg";
+
+const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
+  const user = useCurrentUser();
+
+  const [
+    { data: { nowPlaying } = { nowPlaying: undefined } },
+  ] = useNowPlayingQuery({ variables: { id: story.id } });
+
+  const [
+    { data: { nowPlayingReactions } = { nowPlayingReactions: undefined } },
+  ] = useNowPlayingReactionsQuery({
+    variables: { id: story.id },
+    requestPolicy: "cache-and-network",
+  });
+
+  useOnNowPlayingReactionsUpdatedSubscription({
+    variables: { id: story.id },
+    pause: !story.isLive,
+  });
+
+  const [, reactNowPlaying] = useReactNowPlayingMutation();
+
+  const reacted = Boolean(nowPlayingReactions?.mine);
+
+  const react = useCallback(() => {
+    if (reacted) return;
+    if (user)
+      reactNowPlaying({ id: story.id, reaction: NowPlayingReactionType.Heart });
+    else toast.open({ type: "info", message: "Join to Add Your Reaction" });
+  }, [story, reactNowPlaying, user, reacted]);
+
+  return (
+    <button
+      className="btn btn-transparent p-2 flex flex-center rounded-full"
+      onClick={react}
+      disabled={!nowPlaying?.currentTrack}
+    >
+      <SvgHeart
+        className={`w-6 h-6 ${reacted ? "text-primary fill-current" : ""}`}
+      />
+    </button>
+  );
+};
 
 const NowPlayingMeta: React.FC<{
   storyId: string;
@@ -98,6 +152,7 @@ const StoryHeader: React.FC<{ story: Story }> = ({ story }) => {
       <div className="flex-1 w-0 px-2 flex flex-col justify-center relative">
         <NowPlayingMeta storyId={story.id} track={track} />
       </div>
+      <StoryReaction story={story} />
     </div>
   );
 };

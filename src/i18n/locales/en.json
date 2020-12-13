@@ -174,7 +174,7 @@
       "notFound": "User is not found"
     }
   },
-  "nowPlaying": { "title": "Now Playing", "skipSong": "Skip song" },
+  "nowPlaying": { "title": "Now Playing" },
   "player": {
     "pause": "Pause",
     "play": "Play",
@@ -204,7 +204,9 @@
     "contactSupportText": "Contact Support",
     "retryText": "Try again",
     "trackInfo": "Track detail",
-    "signInSuggest": "Sign in to use your own music application"
+    "signInSuggest": "Sign in to use your own music application",
+    "skipForward": "Skip forward",
+    "skipBackward": "Skip backward"
   },
   "track": {
     "addToPlaylist": "Add to playlist",
