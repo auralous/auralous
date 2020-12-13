@@ -187,7 +187,8 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   // Get track data
   const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
-    currQueueTrackId || nowPlayingTrackId
+    currQueueTrackId || nowPlayingTrackId,
+    playingPlatform
   );
 
   // The track that is playing
