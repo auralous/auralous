@@ -35,6 +35,8 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
 
   const user = useCurrentUser();
 
+  if (!story.isLive) return null;
+
   return (
     <>
       <div className="px-4 py-1 flex">
