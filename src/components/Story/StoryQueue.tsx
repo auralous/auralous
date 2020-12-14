@@ -6,6 +6,7 @@ import { Story } from "~/graphql/gql.gen";
 import { useLogin } from "~/components/Auth";
 import { toast } from "~/lib/toast";
 import { Modal, useModal } from "~/components/Modal";
+import { usePlayer } from "~/components/Player";
 import { SvgPlus, SvgUserPlus } from "~/assets/svg";
 import { useI18n } from "~/i18n/index";
 import StoryListeners from "./StoryListeners";
@@ -67,6 +68,8 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
 const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
 
+  const { playQueueItem } = usePlayer();
+
   const user = useCurrentUser();
   const isQueueable = Boolean(
     user && (story.creatorId === user.id || story.queueable.includes(user.id))
@@ -109,7 +112,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
     <div className="h-full flex flex-col">
       <StoryQueueableManager story={story} />
       <div className="flex-1 h-0">
-        <QueueViewer queueId={`${story.id}:played`} />
+        <QueueViewer queueId={`${story.id}:played`} onClick={playQueueItem} />
       </div>
     </div>
   );

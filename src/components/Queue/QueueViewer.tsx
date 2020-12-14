@@ -2,40 +2,40 @@ import React, { useMemo } from "react";
 import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import useQueue from "./useQueue";
-import { TrackItem } from "~/components/Track/index";
 import QueueAddedBy from "./QueueAddedBy";
+import { TrackItem } from "~/components/Track/index";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
-  data: items,
+  data,
   index,
   style,
 }) {
   return (
-    <div
-      className="px-2 flex items-center justify-between"
+    <button
+      className="btn btn-transparent px-2"
       style={style}
-      key={items[index].id}
+      key={data.items[index].id}
+      onClick={() => data.onClick(data.items[index].id)}
     >
       <TrackItem
-        id={items[index].trackId}
-        extraInfo={<QueueAddedBy userId={items[index].creatorId} />}
+        id={data.items[index].trackId}
+        extraInfo={<QueueAddedBy userId={data.items[index].creatorId} />}
       />
-    </div>
+    </button>
   );
 },
 areEqual);
 
 const QueueViewer: React.FC<{
   queueId: string;
-  reverse?: boolean;
-}> = ({ queueId, reverse }) => {
+  onClick?: (id: string) => void;
+}> = ({ queueId, onClick }) => {
   const [queue] = useQueue(queueId, true);
 
-  const items = useMemo(() => {
-    if (!queue) return [];
-    if (!reverse) return queue.items;
-    return [...queue.items].reverse();
-  }, [queue, reverse]);
+  const itemData = useMemo(() => ({ items: queue?.items || [], onClick }), [
+    onClick,
+    queue,
+  ]);
 
   return (
     <AutoSizer defaultHeight={1} defaultWidth={1}>
@@ -43,9 +43,9 @@ const QueueViewer: React.FC<{
         <FixedSizeList
           height={height}
           width={width}
-          itemCount={items.length}
+          itemCount={itemData.items.length}
           itemSize={64}
-          itemData={items}
+          itemData={itemData}
         >
           {Row}
         </FixedSizeList>

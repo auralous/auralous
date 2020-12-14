@@ -111,6 +111,13 @@ const usePlayFromQueue = (story: Story | null) => {
     return () => setCurrQueueIndex(currQueueIndex + 1);
   }, [currQueueIndex, queue]);
 
+  const playQueueItem = useMemo(() => {
+    if (!queue) return;
+    return (queueItemId: string) => {
+      setCurrQueueIndex(queue.items.findIndex((i) => i.id === queueItemId));
+    };
+  }, [queue]);
+
   useEffect(() => {
     if (!skipForward) return undefined;
     player.on("ended", skipForward);
@@ -119,9 +126,13 @@ const usePlayFromQueue = (story: Story | null) => {
     };
   }, [skipForward]);
 
+  useEffect(() => {
+    return;
+  }, []);
+
   return [
     queue?.items[currQueueIndex]?.trackId,
-    { fetching, skipBackward, skipForward },
+    { fetching, skipBackward, skipForward, playQueueItem },
   ] as const;
 };
 
@@ -182,6 +193,7 @@ const PlayerProvider: React.FC = ({ children }) => {
       fetching: fetchingQueue,
       skipBackward: skipBackwardQueue,
       skipForward: skipForwardQueue,
+      playQueueItem,
     },
   ] = usePlayFromQueue(story);
 
@@ -249,6 +261,7 @@ const PlayerProvider: React.FC = ({ children }) => {
       player,
       skipBackward: skipBackwardQueue,
       skipForward: skipForwardNP || skipForwardQueue,
+      playQueueItem,
     };
   }, [
     skipBackwardQueue,
@@ -259,6 +272,7 @@ const PlayerProvider: React.FC = ({ children }) => {
     playingStoryId,
     crossTracks,
     playingPlatform,
+    playQueueItem,
   ]);
 
   return (
