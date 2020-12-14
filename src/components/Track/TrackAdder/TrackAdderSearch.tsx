@@ -59,7 +59,7 @@ const TrackAdderSearch: React.FC<{
         </div>
       </form>
       {(isEmpty || isSearching) && (
-        <div className="p-2 flex flex-col text-lg text-center flex-center w-full h-full text-foreground-secondary">
+        <div className="px-2 flex flex-col text-lg text-center flex-center w-full h-full text-foreground-secondary">
           {isSearching && (
             <b className="animate-pulse">{t("track.adder.search.loading")}</b>
           )}

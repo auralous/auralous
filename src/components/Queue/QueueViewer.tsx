@@ -13,7 +13,7 @@ const Row = React.memo<ListChildComponentProps>(function Row({
   return (
     <>
       <div
-        className="p-2 flex items-center justify-between"
+        className="px-2 flex items-center justify-between"
         style={style}
         key={items[index].id}
       >
@@ -46,7 +46,7 @@ const QueueViewer: React.FC<{
           height={height}
           width={width}
           itemCount={items.length}
-          itemSize={72}
+          itemSize={64}
           itemData={items}
         >
           {Row}

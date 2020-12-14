@@ -69,7 +69,7 @@ const QueueDraggableItem: React.FC<{
         ...provided.draggableProps.style,
         ...style,
       }}
-      className={`select-none flex p-2 items-center ${
+      className={`select-none flex px-2 items-center ${
         isDragging ? "opacity-75" : ""
       }`}
     >
@@ -80,7 +80,7 @@ const QueueDraggableItem: React.FC<{
       >
         <SvgGripVertical />
       </div>
-      <div className="overflow-hidden h-full w-0 flex-1">
+      <div className="px-2 flex items-center overflow-hidden h-full w-0 flex-1">
         <TrackItem
           id={queue.items[index].trackId}
           extraInfo={<QueueAddedBy userId={queue.items[index].creatorId} />}
@@ -220,7 +220,7 @@ const QueueManager: React.FC<{
                     height={height}
                     width={width}
                     itemCount={queue.items.length}
-                    itemSize={72}
+                    itemSize={64}
                     itemData={itemData}
                     outerRef={droppableProvided.innerRef}
                   >
