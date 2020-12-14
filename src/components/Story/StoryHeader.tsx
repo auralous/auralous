@@ -18,6 +18,7 @@ import { useI18n } from "~/i18n/index";
 import { SvgHeart } from "~/assets/svg";
 
 const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
+  // We are only using HEART reaction right now
   const user = useCurrentUser();
 
   const [
@@ -49,13 +50,16 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
 
   return (
     <button
-      className="btn btn-transparent p-2 flex flex-center rounded-full"
+      className="btn flex-col btn-transparent p-2 flex flex-center rounded-full"
       onClick={react}
       disabled={!nowPlaying?.currentTrack}
     >
       <SvgHeart
         className={`w-6 h-6 ${reacted ? "text-primary fill-current" : ""}`}
       />
+      <span className="text-xs font-mono">
+        {nowPlayingReactions?.heart || 0}
+      </span>
     </button>
   );
 };
