@@ -11,18 +11,16 @@ const Row = React.memo<ListChildComponentProps>(function Row({
   style,
 }) {
   return (
-    <>
-      <div
-        className="px-2 flex items-center justify-between"
-        style={style}
-        key={items[index].id}
-      >
-        <TrackItem
-          id={items[index].trackId}
-          extraInfo={<QueueAddedBy userId={items[index].creatorId} />}
-        />
-      </div>
-    </>
+    <div
+      className="px-2 flex items-center justify-between"
+      style={style}
+      key={items[index].id}
+    >
+      <TrackItem
+        id={items[index].trackId}
+        extraInfo={<QueueAddedBy userId={items[index].creatorId} />}
+      />
+    </div>
   );
 },
 areEqual);
