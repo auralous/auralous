@@ -1,7 +1,5 @@
 import React from "react";
 import { parseMs } from "~/lib/editor-utils";
-import TrackMenu from "./TrackMenu";
-import { useModal } from "~/components/Modal/index";
 import { useTrackQuery } from "~/graphql/gql.gen";
 import { SvgByPlatformName } from "~/lib/constants";
 
@@ -12,10 +10,11 @@ export const TrackItem: React.FC<{
   const [{ data: { track } = { track: null } }] = useTrackQuery({
     variables: { id },
   });
-  const [activeMenu, openMenu, closeMenu] = useModal();
+
   const SvgPlatformName = track?.platform
     ? SvgByPlatformName[track.platform]
     : null;
+
   return (
     <>
       <div className="flex items-center overflow-hidden w-full">
@@ -37,13 +36,7 @@ export const TrackItem: React.FC<{
                     <SvgPlatformName width="16" className="fill-current" />
                   )}
                 </span>{" "}
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={({ key }) => key === "Enter" && openMenu()}
-                  className="text-inline-link inline align-middle font-bold text-sm"
-                  onClick={openMenu}
-                >
+                <div className="inline align-middle font-bold text-sm">
                   {track.title}
                 </div>
               </div>
@@ -74,7 +67,6 @@ export const TrackItem: React.FC<{
           )}
         </div>
       </div>
-      <TrackMenu id={id} active={activeMenu} close={closeMenu} />
     </>
   );
 };
