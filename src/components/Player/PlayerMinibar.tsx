@@ -32,7 +32,7 @@ const PlayerMinibar: React.FC = () => {
               <img
                 alt={t("nowPlaying.title")}
                 src={playerPlaying.image}
-                className="h-12 w-16 object-cover rounded-lg"
+                className="h-12 w-16 object-cover rounded"
               />
             )}
           </div>

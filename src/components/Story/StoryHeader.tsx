@@ -1,10 +1,81 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
+import { animated } from "react-spring";
 import { usePlayer } from "~/components/Player/index";
 import { useModal } from "~/components/Modal/index";
-import { Story, Track, useNowPlayingQuery } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+import {
+  NowPlayingReactionType,
+  Story,
+  Track,
+  useNowPlayingQuery,
+  useNowPlayingReactionsQuery,
+  useOnNowPlayingReactionsUpdatedSubscription,
+  useReactNowPlayingMutation,
+} from "~/graphql/gql.gen";
 import { TrackMenu } from "~/components/Track";
-import QueueAddedBy from "../Queue/QueueAddedBy";
+import QueueAddedBy from "~/components/Queue/QueueAddedBy";
+import { useCurrentUser } from "~/hooks/user";
+import { useBoop } from "~/hooks/animation";
+import { toast } from "~/lib/toast";
+import { useI18n } from "~/i18n/index";
+import { SvgHeart } from "~/assets/svg";
+
+const AnimatedSvgHeart = animated(SvgHeart);
+
+const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
+  // We are only using HEART reaction right now
+  const user = useCurrentUser();
+
+  const [
+    { data: { nowPlaying } = { nowPlaying: undefined } },
+  ] = useNowPlayingQuery({ variables: { id: story.id } });
+
+  const [
+    { data: { nowPlayingReactions } = { nowPlayingReactions: undefined } },
+  ] = useNowPlayingReactionsQuery({
+    variables: { id: story.id },
+    requestPolicy: "cache-and-network",
+  });
+
+  const [animatedStyles, triggerAnimated] = useBoop({
+    rotation: 20,
+    scale: 1.1,
+  });
+
+  useOnNowPlayingReactionsUpdatedSubscription(
+    { variables: { id: story.id }, pause: !story.isLive },
+    (prev, data) => {
+      triggerAnimated();
+      return data;
+    }
+  );
+
+  const [, reactNowPlaying] = useReactNowPlayingMutation();
+
+  const reacted = Boolean(nowPlayingReactions?.mine);
+
+  const react = useCallback(() => {
+    if (reacted) return;
+    if (user)
+      reactNowPlaying({ id: story.id, reaction: NowPlayingReactionType.Heart });
+    else toast.open({ type: "info", message: "Join to Add Your Reaction" });
+  }, [story, reactNowPlaying, user, reacted]);
+
+  return (
+    <button
+      className="btn flex-col btn-transparent p-2 flex flex-center rounded-full"
+      onClick={react}
+      disabled={!nowPlaying?.currentTrack}
+    >
+      <AnimatedSvgHeart
+        className={`w-6 h-6 ${reacted ? "text-primary fill-current" : ""}`}
+        style={animatedStyles}
+      />
+      <span className="text-xs font-mono">
+        {nowPlayingReactions?.heart || 0}
+      </span>
+    </button>
+  );
+};
 
 const NowPlayingMeta: React.FC<{
   storyId: string;
@@ -28,7 +99,7 @@ const NowPlayingMeta: React.FC<{
         <div className="truncate text-foreground-secondary text-xs max-w-full">
           {storyPlayingStarted ? (
             fetching ? (
-              <div className="block-skeleton h-3 w-32" />
+              <div className="block-skeleton rounded h-3 w-32" />
             ) : track ? (
               <>
                 {track.artists.map(({ name }) => name).join(", ")}
@@ -56,7 +127,7 @@ const NowPlayingMeta: React.FC<{
           {storyPlayingStarted
             ? track?.title ||
               (fetching ? (
-                <div className="block-skeleton mt-1 h-5 w-40" />
+                <div className="block-skeleton rounded mt-1 h-5 w-40" />
               ) : (
                 t("player.noneText")
               ))
@@ -86,7 +157,7 @@ const StoryHeader: React.FC<{ story: Story }> = ({ story }) => {
 
   return (
     <div className="flex p-2">
-      <div className="w-12 h-12 bg-background-secondary rounded-lg overflow-hidden">
+      <div className="w-12 h-12 bg-background-secondary rounded overflow-hidden">
         {track && (
           <img
             className="w-full h-full object-cover"
@@ -98,6 +169,7 @@ const StoryHeader: React.FC<{ story: Story }> = ({ story }) => {
       <div className="flex-1 w-0 px-2 flex flex-col justify-center relative">
         <NowPlayingMeta storyId={story.id} track={track} />
       </div>
+      <StoryReaction story={story} />
     </div>
   );
 };

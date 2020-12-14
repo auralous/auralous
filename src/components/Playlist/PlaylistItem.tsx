@@ -12,13 +12,13 @@ const PlaylistItem: React.FC<{
   return (
     <div className="flex justify-start font-normal">
       <img
-        className="w-12 h-12 rounded-lg object-cover"
+        className="w-12 h-12 rounded object-cover"
         src={playlist.image}
         alt={playlist.title}
       />
       <div className="ml-2 text-left">
         <p>
-          <span className="mr-1 align-middle rounded-lg text-white text-opacity-50">
+          <span className="mr-1 align-middle text-white text-opacity-50">
             <SvgPlatformName
               className="inline fill-current stroke-0"
               width="18"

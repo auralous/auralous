@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { animated, useSpring } from "react-spring";
-import { QueueViewer, useQueue } from "~/components/Queue";
+import { useQueue } from "~/components/Queue";
 import {
   TrackAdderPlaylist,
   TrackAdderSearch,
@@ -56,9 +56,6 @@ const StoryQueueAdder: React.FC<{
   const tabPanelStyle1 = useSpring(
     1 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
-  const tabPanelStyle2 = useSpring(
-    2 === selectedIndex ? tabActiveStyle : tabInactiveStyle
-  );
 
   return (
     <Modal.Modal
@@ -78,9 +75,6 @@ const StoryQueueAdder: React.FC<{
             </Tab>
             <Tab className={getClassName(1)}>
               {t("story.queue.playlist.title")}
-            </Tab>
-            <Tab className={getClassName(2)}>
-              {t("story.queue.played.title")}
             </Tab>
           </TabList>
           <TabPanels className="flex-1 h-0">
@@ -105,18 +99,6 @@ const StoryQueueAdder: React.FC<{
                 queryConfig={
                   selectedIndex === 1 ? undefined : { enabled: false }
                 }
-              />
-            </AnimatedTabPanel>
-            <AnimatedTabPanel
-              style={tabPanelStyle2}
-              className="h-full"
-              as="div"
-            >
-              <QueueViewer
-                onAdd={onAddTracks}
-                queueId={`${story.id}:played`}
-                reverse
-                queryOpts={selectedIndex === 2 ? undefined : { pause: true }}
               />
             </AnimatedTabPanel>
           </TabPanels>

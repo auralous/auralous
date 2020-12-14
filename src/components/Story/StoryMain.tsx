@@ -3,109 +3,20 @@ import dynamic from "next/dynamic";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { animated, useSpring } from "react-spring";
 import { usePlayer } from "~/components/Player/index";
-import {
-  Story,
-  useStoryQuery,
-  useStoryUsersQuery,
-  usePingStoryMutation,
-  useOnStoryUsersUpdatedSubscription,
-} from "~/graphql/gql.gen";
+import { Story, useStoryQuery, usePingStoryMutation } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import StoryNav from "./StoryNav";
 import StoryBg from "./StoryBg";
 import StoryHeader from "./StoryHeader";
 import StoryFooter from "./StoryFooter";
 import StoryQueue from "./StoryQueue";
-import StoryListeners from "./StoryListeners";
-import StoryQueueable from "./StoryQueueable";
-import StoryShare from "./StoryShare";
-import { Modal, useModal } from "~/components/Modal";
 import { useCurrentUser } from "~/hooks/user";
-import { SvgUserPlus, SvgShare2 } from "~/assets/svg";
 
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
 
 const tabInactiveStyle = { opacity: 0, transform: "translate3d(0px,40px,0px)" };
 const tabActiveStyle = { opacity: 1, transform: "translate3d(0px,0px,0px)" };
 const AnimatedTabPanel = animated(TabPanel);
-
-const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
-  const { t } = useI18n();
-  const [active, open, close] = useModal();
-
-  const user = useCurrentUser();
-
-  return (
-    <>
-      <div className="px-4 py-1 flex">
-        {user?.id === story.creatorId && (
-          <>
-            <button
-              className="btn btn-primary mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
-              title={t("story.queueable.title")}
-              onClick={open}
-            >
-              <SvgUserPlus className="w-4 h-4" />
-            </button>
-            <Modal.Modal
-              active={active}
-              close={close}
-              title={t("story.queueable.title")}
-            >
-              <Modal.Header>
-                <Modal.Title>{t("story.queueable.title")}</Modal.Title>
-              </Modal.Header>
-              <Modal.Content>
-                <StoryQueueable story={story} />
-              </Modal.Content>
-              <Modal.Footer>
-                <button className="btn" onClick={close}>
-                  {t("story.queueable.done")}
-                </button>
-              </Modal.Footer>
-            </Modal.Modal>
-          </>
-        )}
-        <div className="flex-1">
-          <StoryListeners userIds={story.queueable} />
-        </div>
-      </div>
-    </>
-  );
-};
-
-const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
-  story,
-  userIds,
-}) => {
-  const { t } = useI18n();
-  const [active, open, close] = useModal();
-
-  return (
-    <>
-      <div className="px-4 py-1 flex">
-        <button
-          className="btn btn-primary mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
-          title={t("story.queueable.title")}
-          onClick={open}
-        >
-          <SvgShare2 className="w-4 h-4" />
-        </button>
-        <div className="flex-1">
-          <StoryListeners userIds={userIds} />
-        </div>
-      </div>
-      <Modal.Modal active={active} close={close} title={t("story.share.title")}>
-        <Modal.Header>
-          <Modal.Title>{t("story.share.title")}</Modal.Title>
-        </Modal.Header>
-        <Modal.Content>
-          <StoryShare story={story} />
-        </Modal.Content>
-      </Modal.Modal>
-    </>
-  );
-};
 
 const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   // initialStory is the same as story, only might be a outdated version
@@ -139,21 +50,6 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
       return () => window.clearInterval(pingInterval);
     }
   }, [story, user, pingStory]);
-
-  // get current users in story
-  const [
-    { data: { storyUsers } = { storyUsers: undefined } },
-  ] = useStoryUsersQuery({
-    variables: { id: story.id },
-    pollInterval: 60 * 1000,
-    requestPolicy: "cache-and-network",
-    pause: !user,
-  });
-
-  useOnStoryUsersUpdatedSubscription(
-    { variables: { id: story.id || "" }, pause: !storyUsers },
-    (prev, data) => data
-  );
 
   const getClassName = useCallback(
     (index: number) =>
@@ -195,27 +91,17 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           <TabPanels className="flex-1 h-0 relative bg-gradient-to-t from-black to-transparent">
             <AnimatedTabPanel
               style={tabPanel0Style}
-              className={`${
-                selectedIndex === 0 ? "flex" : "hidden"
-              } flex-col h-full`}
+              className="h-full"
               as="div"
             >
-              <StoryUsers userIds={storyUsers || []} story={story} />
-              <div className="flex-1 h-0">
-                <StoryChat story={story} />
-              </div>
+              <StoryChat story={story} />
             </AnimatedTabPanel>
             <AnimatedTabPanel
               style={tabPanel1Style}
-              className={`${
-                selectedIndex === 1 ? "flex" : "hidden"
-              } flex-col h-full`}
+              className="h-full"
               as="div"
             >
-              <StoryQueueableManager story={story} />
-              <div className="flex-1 h-0">
-                <StoryQueue story={story} />
-              </div>
+              <StoryQueue story={story} />
             </AnimatedTabPanel>
           </TabPanels>
         </Tabs>

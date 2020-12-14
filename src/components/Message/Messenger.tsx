@@ -160,10 +160,14 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
     }
   );
 
-  const messages = useMemo(
-    () => [...(prevMessages || []), ...(newMessages || [])],
-    [prevMessages, newMessages]
-  );
+  const messages = useMemo(() => {
+    const allMessages = Array.from(prevMessages || []);
+    newMessages?.forEach((nM) => {
+      // Filter out messages from new that already exist in prev
+      if (!allMessages.some((m) => m.id === nM.id)) allMessages.push(nM);
+    });
+    return allMessages;
+  }, [prevMessages, newMessages]);
 
   const messageListRef = useRef<HTMLDivElement>(null);
 

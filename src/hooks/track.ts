@@ -1,7 +1,12 @@
 import { useMemo } from "react";
-import { Track, useCrossTracksQuery, useTrackQuery } from "~/graphql/gql.gen";
+import {
+  Track,
+  useCrossTracksQuery,
+  useTrackQuery,
+  PlatformName,
+} from "~/graphql/gql.gen";
 
-export const useCrossTracks = (id?: string) => {
+export const useCrossTracks = (id?: string, partial?: PlatformName) => {
   const [
     {
       data: { crossTracks } = { crossTracks: undefined },
@@ -16,14 +21,16 @@ export const useCrossTracks = (id?: string) => {
     { data: { track: youtube } = { track: undefined }, fetching: fetchingYT },
   ] = useTrackQuery({
     variables: { id: `youtube:${crossTracks?.youtube}` },
-    pause: !crossTracks?.youtube,
+    pause:
+      !crossTracks?.youtube || (!!partial && partial !== PlatformName.Youtube),
   });
 
   const [
     { data: { track: spotify } = { track: undefined }, fetching: fetchingS },
   ] = useTrackQuery({
     variables: { id: `spotify:${crossTracks?.spotify}` },
-    pause: !crossTracks?.spotify,
+    pause:
+      !crossTracks?.spotify || (!!partial && partial !== PlatformName.Spotify),
   });
 
   const fetching = fetchingCross || fetchingYT || fetchingS;

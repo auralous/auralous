@@ -22,7 +22,7 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
 
   return (
     <div
-      className="p-2 flex items-center justify-between"
+      className="px-2 flex items-center justify-between"
       role="presentation"
       key={data.items[index]}
       style={style}
@@ -67,7 +67,7 @@ const TrackAdderResults: React.FC<{
             height={height}
             width={width}
             itemCount={results.length}
-            itemSize={72}
+            itemSize={64}
             itemData={{ items: results, callback, addedTracks }}
           >
             {SearchResultRow}
