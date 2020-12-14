@@ -38,13 +38,15 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
             playingStory?.isLive
               ? "listen.promptJoin"
               : "listen.promptJoinNolive",
-            {
-              username: user?.username || "",
-            }
+            { username: user?.username || "" }
           )}
         </p>
         <Link href={`/story/${playingStory?.id}`}>
-          <a className="btn btn-primary w-full">{t("listen.actionJoin")}</a>
+          <a className="btn btn-primary w-full">
+            {playingStory?.isLive
+              ? t("listen.actionJoin")
+              : t("listen.actionJoinNoLive")}
+          </a>
         </Link>
       </div>
     </>

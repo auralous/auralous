@@ -83,7 +83,8 @@
     "description": "Discover new songs that others are listening to and join them in real time",
     "promptJoin": "Tune in to what {{username}} is listening to",
     "promptJoinNolive": "Tune in to what {{username}} listened to",
-    "actionJoin": "Join"
+    "actionJoin": "Join",
+    "actionJoinNoLive": "Replay"
   },
   "new": {
     "title": "Start listening together",

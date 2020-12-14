@@ -8,7 +8,7 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   const {
     player,
-    state: { fetching: fetchingPlayer },
+    state: { fetching: fetchingPlayer, playerPlaying, playingStoryId },
   } = usePlayer();
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
@@ -26,16 +26,25 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
 
   const [
     { data: { nowPlaying } = { nowPlaying: undefined } },
-  ] = useNowPlayingQuery({ variables: { id: story.id } });
+  ] = useNowPlayingQuery({ variables: { id: story.id }, pause: !story.isLive });
 
-  const [
-    { data: { track } = { track: undefined }, fetching: fetchingTrack },
-  ] = useTrackQuery({
+  const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
     variables: { id: nowPlaying?.currentTrack?.trackId || "" },
     pause: !nowPlaying?.currentTrack,
   });
 
-  const fetching = fetchingTrack || fetchingPlayer;
+  // story.isLive === false means fetching because
+  // we do not know what is the current track unless
+  // user start tuning in (allowing us to know the queue item)
+  const fetching = fetchingTrack || fetchingPlayer || story.isLive === false;
+
+  // if story.isLive, show current nowPlaying track
+  // otherwise, show playerPlaying (which is queue item)
+  const track = story.isLive
+    ? dataTrack?.track
+    : !fetchingPlayer && playingStoryId === story.id
+    ? playerPlaying
+    : undefined;
 
   return (
     <div className="w-full h-full box-border overflow-hidden px-4 py-24 flex flex-col">
