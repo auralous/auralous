@@ -24,8 +24,6 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
 
   const user = useCurrentUser();
 
-  if (!story.isLive) return null;
-
   return (
     <>
       <div className="px-4 py-1 flex">
@@ -91,7 +89,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
 
   if (story.isLive)
     return (
-      <div className="h-full relative">
+      <div className="h-full flex flex-col">
         <button
           title={t("story.queue.adderTitle")}
           onClick={onAddButtonClick}
@@ -99,23 +97,19 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
         >
           <SvgPlus />
         </button>
-        <QueueManager
-          isQueueable={isQueueable}
-          queueId={story.id}
-          onEmptyAddClick={open}
-        />
         <StoryQueueAdder story={story} active={active} close={close} />
+        <StoryQueueableManager story={story} />
+        <div className="flex-1 h-0">
+          <QueueManager
+            isQueueable={isQueueable}
+            queueId={story.id}
+            onEmptyAddClick={open}
+          />
+        </div>
       </div>
     );
 
-  return (
-    <div className="h-full flex flex-col">
-      <StoryQueueableManager story={story} />
-      <div className="flex-1 h-0">
-        <QueueViewer queueId={`${story.id}:played`} onClick={playQueueItem} />
-      </div>
-    </div>
-  );
+  return <QueueViewer queueId={`${story.id}:played`} onClick={playQueueItem} />;
 };
 
 export default StoryQueue;
