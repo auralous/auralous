@@ -1,4 +1,5 @@
 import React, { useMemo, useCallback } from "react";
+import { animated } from "react-spring";
 import { usePlayer } from "~/components/Player/index";
 import { useModal } from "~/components/Modal/index";
 import {
@@ -13,9 +14,12 @@ import {
 import { TrackMenu } from "~/components/Track";
 import QueueAddedBy from "~/components/Queue/QueueAddedBy";
 import { useCurrentUser } from "~/hooks/user";
+import { useBoop } from "~/hooks/animation";
 import { toast } from "~/lib/toast";
 import { useI18n } from "~/i18n/index";
 import { SvgHeart } from "~/assets/svg";
+
+const AnimatedSvgHeart = animated(SvgHeart);
 
 const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
   // We are only using HEART reaction right now
@@ -32,10 +36,18 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
     requestPolicy: "cache-and-network",
   });
 
-  useOnNowPlayingReactionsUpdatedSubscription({
-    variables: { id: story.id },
-    pause: !story.isLive,
+  const [animatedStyles, triggerAnimated] = useBoop({
+    rotation: 20,
+    scale: 1.1,
   });
+
+  useOnNowPlayingReactionsUpdatedSubscription(
+    { variables: { id: story.id }, pause: !story.isLive },
+    (prev, data) => {
+      triggerAnimated();
+      return data;
+    }
+  );
 
   const [, reactNowPlaying] = useReactNowPlayingMutation();
 
@@ -54,8 +66,9 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
       onClick={react}
       disabled={!nowPlaying?.currentTrack}
     >
-      <SvgHeart
+      <AnimatedSvgHeart
         className={`w-6 h-6 ${reacted ? "text-primary fill-current" : ""}`}
+        style={animatedStyles}
       />
       <span className="text-xs font-mono">
         {nowPlayingReactions?.heart || 0}
