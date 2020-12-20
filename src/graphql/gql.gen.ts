@@ -118,6 +118,7 @@ export type Mutation = {
   createStory: Story;
   deleteStory: Scalars['ID'];
   changeStoryQueueable: Story;
+  unliveStory: Scalars['Boolean'];
   pingStory: Scalars['Boolean'];
   me?: Maybe<User>;
   deleteMe: Scalars['Boolean'];
@@ -165,6 +166,11 @@ export type MutationChangeStoryQueueableArgs = {
   id: Scalars['ID'];
   userId: Scalars['String'];
   isRemoving: Scalars['Boolean'];
+};
+
+
+export type MutationUnliveStoryArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -607,6 +613,16 @@ export type DeleteStoryMutation = (
   & Pick<Mutation, 'deleteStory'>
 );
 
+export type UnliveStoryMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UnliveStoryMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'unliveStory'>
+);
+
 export type StoryUsersQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1031,6 +1047,15 @@ export const DeleteStoryDocument = gql`
 
 export function useDeleteStoryMutation() {
   return Urql.useMutation<DeleteStoryMutation, DeleteStoryMutationVariables>(DeleteStoryDocument);
+};
+export const UnliveStoryDocument = gql`
+    mutation unliveStory($id: ID!) {
+  unliveStory(id: $id)
+}
+    `;
+
+export function useUnliveStoryMutation() {
+  return Urql.useMutation<UnliveStoryMutation, UnliveStoryMutationVariables>(UnliveStoryDocument);
 };
 export const StoryUsersDocument = gql`
     query storyUsers($id: ID!) {

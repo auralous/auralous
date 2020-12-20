@@ -70,6 +70,12 @@ export const MUTATION_DELETE_STORY = /* GraphQL */ `
   }
 `;
 
+export const MUTATION_UNLIVE_STORY = /* GraphQL */ `
+  mutation unliveStory($id: ID!) {
+    unliveStory(id: $id)
+  }
+`;
+
 export const QUERY_STORY_USERS = /* GraphQL */ `
   query storyUsers($id: ID!) {
     storyUsers(id: $id)

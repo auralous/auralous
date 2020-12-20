@@ -151,6 +151,13 @@
       "action": "Xoá",
       "cancel": "Thôi"
     },
+    "end": {
+      "title": "Kết thúc Story",
+      "explain": "Bạn sẽ không thể thêm nhạc mới vào story này nhưng có thể phát lại những bài đã thêm bất cứ lúc nào.",
+      "confirm": "Kết thúc",
+      "cancel": "Tiếp tục",
+      "endSuccess": "The story has been ended"
+    },
     "share": {
       "title": "Mời bạn bè"
     },
