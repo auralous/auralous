@@ -3,7 +3,12 @@ import dynamic from "next/dynamic";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { animated, useSpring } from "react-spring";
 import { usePlayer } from "~/components/Player/index";
-import { Story, useStoryQuery, usePingStoryMutation } from "~/graphql/gql.gen";
+import {
+  Story,
+  useStoryQuery,
+  usePingStoryMutation,
+  useStoryUpdatedSubscription,
+} from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import StoryNav from "./StoryNav";
 import StoryBg from "./StoryBg";
@@ -22,8 +27,15 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   // initialStory is the same as story, only might be a outdated version
   // so it can be used as backup
   const [{ data }] = useStoryQuery({
-    variables: { id: initialStory.id as string },
+    variables: { id: initialStory.id },
+    requestPolicy: "cache-and-network",
   });
+
+  useStoryUpdatedSubscription(
+    { variables: { id: initialStory.id } },
+    (prev, data) => data
+  );
+
   const story = data?.story || initialStory;
 
   const {

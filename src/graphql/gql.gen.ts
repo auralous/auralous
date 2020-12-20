@@ -117,7 +117,7 @@ export type Mutation = {
   updateQueue: Scalars['Boolean'];
   createStory: Story;
   deleteStory: Scalars['ID'];
-  changeStoryQueueable: Story;
+  changeStoryQueueable: Scalars['Boolean'];
   unliveStory: Scalars['Boolean'];
   pingStory: Scalars['Boolean'];
   me?: Maybe<User>;
@@ -192,6 +192,7 @@ export type Subscription = {
   nowPlayingUpdated?: Maybe<NowPlaying>;
   nowPlayingReactionsUpdated?: Maybe<NowPlayingReaction>;
   queueUpdated: Queue;
+  storyUpdated: Story;
   storyUsersUpdated: Array<Scalars['String']>;
 };
 
@@ -212,6 +213,11 @@ export type SubscriptionNowPlayingReactionsUpdatedArgs = {
 
 
 export type SubscriptionQueueUpdatedArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type SubscriptionStoryUpdatedArgs = {
   id: Scalars['ID'];
 };
 
@@ -596,11 +602,7 @@ export type ChangeStoryQueueableMutationVariables = Exact<{
 
 export type ChangeStoryQueueableMutation = (
   { __typename?: 'Mutation' }
-  & { changeStoryQueueable: (
-    { __typename?: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  ) }
+  & Pick<Mutation, 'changeStoryQueueable'>
 );
 
 export type DeleteStoryMutationVariables = Exact<{
@@ -641,6 +643,20 @@ export type PingStoryMutationVariables = Exact<{
 export type PingStoryMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'pingStory'>
+);
+
+export type StoryUpdatedSubscriptionVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type StoryUpdatedSubscription = (
+  { __typename?: 'Subscription' }
+  & { storyUpdated: (
+    { __typename?: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
+  ) }
 );
 
 export type OnStoryUsersUpdatedSubscriptionVariables = Exact<{
@@ -1029,12 +1045,9 @@ export function useCreateStoryMutation() {
 };
 export const ChangeStoryQueueableDocument = gql`
     mutation changeStoryQueueable($id: ID!, $userId: String!, $isRemoving: Boolean!) {
-  changeStoryQueueable(id: $id, userId: $userId, isRemoving: $isRemoving) {
-    id
-    ...StoryDetailParts
-  }
+  changeStoryQueueable(id: $id, userId: $userId, isRemoving: $isRemoving)
 }
-    ${StoryDetailPartsFragmentDoc}`;
+    `;
 
 export function useChangeStoryQueueableMutation() {
   return Urql.useMutation<ChangeStoryQueueableMutation, ChangeStoryQueueableMutationVariables>(ChangeStoryQueueableDocument);
@@ -1074,6 +1087,18 @@ export const PingStoryDocument = gql`
 
 export function usePingStoryMutation() {
   return Urql.useMutation<PingStoryMutation, PingStoryMutationVariables>(PingStoryDocument);
+};
+export const StoryUpdatedDocument = gql`
+    subscription storyUpdated($id: ID!) {
+  storyUpdated(id: $id) {
+    id
+    ...StoryDetailParts
+  }
+}
+    ${StoryDetailPartsFragmentDoc}`;
+
+export function useStoryUpdatedSubscription<TData = StoryUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<StoryUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<StoryUpdatedSubscription, TData>) {
+  return Urql.useSubscription<StoryUpdatedSubscription, TData, StoryUpdatedSubscriptionVariables>({ query: StoryUpdatedDocument, ...options }, handler);
 };
 export const OnStoryUsersUpdatedDocument = gql`
     subscription onStoryUsersUpdated($id: ID!) {

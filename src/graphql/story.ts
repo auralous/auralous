@@ -56,12 +56,8 @@ export const MUTATION_CHANGE_STORY_QUEUEABLE = /* GraphQL */ `
     $userId: String!
     $isRemoving: Boolean!
   ) {
-    changeStoryQueueable(id: $id, userId: $userId, isRemoving: $isRemoving) {
-      id
-      ...StoryDetailParts
-    }
+    changeStoryQueueable(id: $id, userId: $userId, isRemoving: $isRemoving)
   }
-  ${FRAGMENT_STORY_DETAIL}
 `;
 
 export const MUTATION_DELETE_STORY = /* GraphQL */ `
@@ -86,6 +82,16 @@ export const MUTATION_PING_STORY = /* GraphQL */ `
   mutation pingStory($id: ID!) {
     pingStory(id: $id)
   }
+`;
+
+export const SUBSCRIPTION_STORY = /* GraphQL */ `
+  subscription storyUpdated($id: ID!) {
+    storyUpdated(id: $id) {
+      id
+      ...StoryDetailParts
+    }
+  }
+  ${FRAGMENT_STORY_DETAIL}
 `;
 
 export const SUBSCRIPTION_STORY_USERS = /* GraphQL */ `
