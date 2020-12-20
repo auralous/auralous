@@ -8,6 +8,7 @@ import {
   UserDocument,
   UserQuery,
   UserQueryVariables,
+  useStoryUpdatedSubscription,
 } from "~/graphql/gql.gen";
 import { CONFIG } from "~/lib/constants";
 import { SvgUserPlus, SvgX } from "~/assets/svg";
@@ -136,6 +137,10 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
 };
 
 const StoryQueueable: React.FC<{ story: Story }> = ({ story }) => {
+  useStoryUpdatedSubscription(
+    { variables: { id: story.id } },
+    (prev, data) => data
+  );
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
       <StoryQueueableAdder story={story} />

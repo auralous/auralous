@@ -151,6 +151,17 @@
       "action": "Delete",
       "cancel": "Nevermind"
     },
+    "end": {
+      "title": "End story",
+      "explain": "You will not be able to add any new songs to this story but will be able to replay played songs at any time later.",
+      "confirm": "End now",
+      "cancel": "Continue",
+      "endSuccess": "The story has been ended"
+    },
+    "ongoing": {
+      "title": "You have an ongoing live story. Would you like to get back to it?",
+      "goto": "Go to story"
+    },
     "share": {
       "title": "Invite friends"
     },

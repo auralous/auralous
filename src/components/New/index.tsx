@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { animated, useTransition, config as springConfig } from "react-spring";
 import { useI18n } from "~/i18n/index";
 import CreateStory from "./CreateStory";
 import SelectFromSearch from "./SelectFromSearch";
 import { Track } from "~/graphql/gql.gen";
 import SelectFromPlaylists from "./SelectFromPlaylists";
-import { animated, useTransition, config as springConfig } from "react-spring";
+import { usePlayer } from "~/components/Player";
 
 const getFeaturedArtists = (tracks: Track[]): string[] => {
   const o: Record<string, number> = {};
@@ -133,10 +134,16 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
 const NewMain: React.FC = () => {
   const { t } = useI18n();
+  const { playStory } = usePlayer();
 
   const [initTracks, setInitTracks] = useState<Track[] | null>(null);
 
   const router = useRouter();
+
+  useEffect(() => {
+    // stop ongoing story
+    playStory("");
+  }, [playStory]);
 
   useEffect(() => {
     if (router.asPath === "/new") setInitTracks(null);

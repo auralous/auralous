@@ -8,6 +8,7 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { useLogin } from "~/components/Auth";
+import { usePlayer } from "~/components/Player";
 import { useCurrentUser } from "~/hooks/user";
 import { CONFIG } from "~/lib/constants";
 
@@ -30,6 +31,8 @@ const CreateStoryFormGroup: React.FC = ({ children }) => (
 
 const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const { t } = useI18n();
+
+  const { playStory } = usePlayer();
 
   const [, logIn] = useLogin();
   const user = useCurrentUser();
@@ -55,6 +58,8 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       });
 
       if (result.data?.createStory) {
+        playStory(result.data.createStory.id);
+
         if (initTracks?.length)
           await updateQueue({
             id: result.data.createStory.id,
@@ -74,6 +79,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       updateQueue,
       logIn,
       user,
+      playStory,
     ]
   );
 
