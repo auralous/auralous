@@ -8,7 +8,7 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   const {
     player,
-    state: { fetching: fetchingPlayer, playerPlaying, playingStoryId },
+    state: { fetching: fetchingPlayer, crossTracks, playingStoryId },
   } = usePlayer();
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
@@ -39,11 +39,11 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
   const fetching = fetchingTrack || fetchingPlayer || story.isLive === false;
 
   // if story.isLive, show current nowPlaying track
-  // otherwise, show playerPlaying (which is queue item)
+  // otherwise, show playerPlaying/crossTracks (which is queue item)
   const track = story.isLive
     ? dataTrack?.track
     : !fetchingPlayer && playingStoryId === story.id
-    ? playerPlaying
+    ? crossTracks?.original
     : undefined;
 
   return (

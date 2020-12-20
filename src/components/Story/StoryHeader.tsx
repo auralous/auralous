@@ -145,14 +145,14 @@ const StoryHeader: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
 
   const {
-    state: { playerPlaying, crossTracks, playingStoryId },
+    state: { crossTracks, playingStoryId },
   } = usePlayer();
 
   const storyPlayingStarted = playingStoryId === story.id;
 
   const track = useMemo(
-    () => (storyPlayingStarted ? playerPlaying || crossTracks?.original : null),
-    [playerPlaying, crossTracks, storyPlayingStarted]
+    () => (storyPlayingStarted ? crossTracks?.original : null),
+    [crossTracks, storyPlayingStarted]
   );
 
   return (

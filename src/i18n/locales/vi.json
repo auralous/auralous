@@ -193,7 +193,7 @@
     "noneHelpText": "Thêm nhạc vào danh sách phát để nghe cùng nhau",
     "pausedText": "Âm nhạc đã dừng",
     "pausedHelpText": "Nhấn vào nút phát để bắt đầu nghe",
-    "noCrossTrackText": "không có sẵn trên",
+    "noCrossTrack": "Bài hát này không có sẵn trên {{platformName}}",
     "platformChooser": {
       "title": "Đăng nhập hoặc nghe ẩn danh",
       "listenAsGuest": "Nghe không đăng nhập",

@@ -85,9 +85,10 @@ export default function YouTubePlayer() {
 
   useEffect(() => {
     // Add a padding to body to add the youtube video
-    const mainDom = document.querySelector("main");
-    mainDom?.classList.add("pt-youtube");
-    return () => mainDom?.classList.remove("pt-youtube");
+    const bodyDom = document.querySelector("body");
+    if (!bodyDom) return;
+    bodyDom.classList.add("pt-youtube");
+    return () => bodyDom.classList.remove("pt-youtube");
   }, []);
 
   const [posIsTop, setPosIsTop] = useState(false);

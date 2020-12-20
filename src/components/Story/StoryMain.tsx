@@ -13,7 +13,6 @@ import { useI18n } from "~/i18n/index";
 import StoryNav from "./StoryNav";
 import StoryBg from "./StoryBg";
 import StoryHeader from "./StoryHeader";
-import StoryFooter from "./StoryFooter";
 import StoryQueue from "./StoryQueue";
 import { useCurrentUser } from "~/hooks/user";
 
@@ -82,8 +81,8 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
 
   return (
     <>
-      <div className="h-screen-layout pb-16 relative overflow-hidden flex flex-col">
-        <div className="lg:flex justify-between bg-background bg-opacity-50 backdrop-blur">
+      <div className="h-screen-layout pb-14 relative overflow-hidden flex flex-col">
+        <div className="lg:flex justify-between bg-background bg-opacity-25">
           <div className="p-2 pb-0 lg:pb-2 flex-1">
             <StoryNav story={story} />
           </div>
@@ -100,7 +99,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
             <Tab className={getClassName(0)}>{t("story.live.title")}</Tab>
             <Tab className={getClassName(1)}>{t("story.queue.title")}</Tab>
           </TabList>
-          <TabPanels className="flex-1 h-0 relative bg-gradient-to-t from-black to-transparent">
+          <TabPanels className="flex-1 h-0 relative">
             <AnimatedTabPanel
               style={tabPanel0Style}
               className="h-full"
@@ -117,7 +116,6 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
             </AnimatedTabPanel>
           </TabPanels>
         </Tabs>
-        <StoryFooter story={story} />
         <StoryBg image={playerPlaying?.image} />
       </div>
     </>

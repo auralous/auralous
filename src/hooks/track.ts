@@ -1,12 +1,7 @@
 import { useMemo } from "react";
-import {
-  Track,
-  useCrossTracksQuery,
-  useTrackQuery,
-  PlatformName,
-} from "~/graphql/gql.gen";
+import { Track, useCrossTracksQuery, useTrackQuery } from "~/graphql/gql.gen";
 
-export const useCrossTracks = (id?: string, partial?: PlatformName) => {
+export const useCrossTracks = (id?: string) => {
   const [
     {
       data: { crossTracks } = { crossTracks: undefined },
@@ -21,16 +16,14 @@ export const useCrossTracks = (id?: string, partial?: PlatformName) => {
     { data: { track: youtube } = { track: undefined }, fetching: fetchingYT },
   ] = useTrackQuery({
     variables: { id: `youtube:${crossTracks?.youtube}` },
-    pause:
-      !crossTracks?.youtube || (!!partial && partial !== PlatformName.Youtube),
+    pause: !crossTracks?.youtube,
   });
 
   const [
     { data: { track: spotify } = { track: undefined }, fetching: fetchingS },
   ] = useTrackQuery({
     variables: { id: `spotify:${crossTracks?.spotify}` },
-    pause:
-      !crossTracks?.spotify || (!!partial && partial !== PlatformName.Spotify),
+    pause: !crossTracks?.spotify,
   });
 
   const fetching = fetchingCross || fetchingYT || fetchingS;
@@ -39,9 +32,9 @@ export const useCrossTracks = (id?: string, partial?: PlatformName) => {
   const data = useMemo<
     | {
         id: string;
-        original: Track | null;
-        youtube: Track | null;
-        spotify: Track | null;
+        original: Track | null | undefined;
+        youtube: Track | null | undefined;
+        spotify: Track | null | undefined;
       }
     | undefined
   >(() => {
@@ -52,7 +45,7 @@ export const useCrossTracks = (id?: string, partial?: PlatformName) => {
     if (spotify?.id === crossTracks.id) original = spotify;
     else if (youtube?.id === crossTracks.id) original = youtube;
 
-    return { id, original, youtube: youtube || null, spotify: spotify || null };
+    return { id, original, youtube, spotify };
   }, [id, fetching, crossTracks, youtube, spotify]);
 
   return [data, { fetching }] as const;

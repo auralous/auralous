@@ -14,6 +14,9 @@ import {
 import { useMAuth, useCurrentUser } from "~/hooks/user";
 import { useCrossTracks } from "~/hooks/track";
 import { IPlayerContext, PlayerPlaying } from "./types";
+import { toast } from "~/lib/toast";
+import { t } from "~/i18n/index";
+import { PLATFORM_FULLNAMES } from "~/lib/constants";
 
 const YouTubePlayer = dynamic(() => import("./YouTubePlayer"), { ssr: false });
 const SpotifyPlayer = dynamic(() => import("./SpotifyPlayer"), { ssr: false });
@@ -197,16 +200,35 @@ const PlayerProvider: React.FC = ({ children }) => {
     },
   ] = usePlayFromQueue(story);
 
+  const currTrackId = currQueueTrackId || nowPlayingTrackId;
+
   // Get track data
   const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
-    currQueueTrackId || nowPlayingTrackId,
-    playingPlatform
+    currTrackId
   );
 
   // The track that is playing
   const playerPlaying = useMemo<PlayerPlaying>(() => {
     if (!crossTracks) return (player.playerPlaying = null);
     return (player.playerPlaying = crossTracks[playingPlatform] || null);
+  }, [crossTracks, playingPlatform]);
+
+  // Fetching status of everything
+  const fetching =
+    fetchingMAuth || fetchingCrossTracks || fetchingNP || fetchingQueue;
+
+  // Show a message if track is not found
+  useEffect(() => {
+    if (crossTracks?.[playingPlatform] === null) {
+      const tt = toast.error({
+        message: t("player.noCrossTrack", {
+          platformName: PLATFORM_FULLNAMES[playingPlatform],
+        }),
+        duration: 69420,
+        type: "error",
+      });
+      return () => toast.dismiss(tt);
+    }
   }, [crossTracks, playingPlatform]);
 
   // Player Component
@@ -243,9 +265,6 @@ const PlayerProvider: React.FC = ({ children }) => {
       return () => player.off("playing", handlePlayerChange);
     }
   }, [playerPlaying?.platform, playerPlaying?.externalId, fetchingCrossTracks]);
-
-  const fetching =
-    fetchingMAuth || fetchingCrossTracks || fetchingNP || fetchingQueue;
 
   const playerContextValue = useMemo<IPlayerContext>(() => {
     return {

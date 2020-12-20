@@ -21,12 +21,11 @@ const playlistData = [
     platform: PlatformName.Spotify,
   },
   {
-    title: "Hip Hop Essentials",
-    description:
-      "The most popular and most lit hip hop tracks from the last 5 years.",
-    image: "https://i.imgur.com/ZII5uar.png",
+    title: "ChilledCow - Albums",
+    description: "The chillest cow in the world.",
+    image: "https://i.ytimg.com/vi/Mu3BfD6wmPg/hqdefault.jpg",
     url:
-      "https://www.youtube.com/playlist?list=RDCLAK5uy_mVRuj5egfh21e-pXyA3ymx_0p4Xlg-c0I",
+      "https://www.youtube.com/playlist?list=PL6NdkXsPL07IOu1AZ2Y2lGNYfjDStyT6O",
     platform: PlatformName.Youtube,
   },
 ];
@@ -131,7 +130,7 @@ const IndexPlaylist: React.FC = () => {
             <animated.div
               key={playlistData[index].title}
               style={style}
-              className="flex mb-2 w-full bordered-box rounded-lg shadow-lg p-2"
+              className="flex mb-2 w-full bordered-box rounded-lg p-2"
             >
               <IndexPlaylistShowcase {...playlistData[index]} />
             </animated.div>

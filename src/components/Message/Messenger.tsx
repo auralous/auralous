@@ -260,7 +260,7 @@ const MessageInput: React.FC<{ id: string }> = ({ id }) => {
       <input
         aria-label={t("message.inputLabel")}
         placeholder={t("message.inputPlaceholder")}
-        className="w-full input bg-background-secondary border-none focus:bg-background-tertiary"
+        className="w-full input bg-background-secondary bg-opacity-50 border-none focus:bg-opacity-75"
         value={messageContent}
         onChange={(e) => setMessageList(e.target.value)}
       />

@@ -11,18 +11,27 @@ import {
   SvgPlus,
   SvgSearch,
   SvgSettings,
+  SvgUser,
 } from "~/assets/svg";
 import { useRouter } from "next/router";
 
-const SidebarItem: React.FC<{ href: string }> = ({ children, href }) => {
+const sidebarColor = "rgb(18, 18, 24)";
+
+const boldClasses = "bg-gradient-to-l from-warning to-primary";
+
+const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
+  children,
+  href,
+  isBold,
+}) => {
   const router = useRouter();
   const isActive = router.pathname === href;
   return (
     <Link href={href}>
       <a
-        className={`btn btn-transparent rounded-full font-medium text-sm ${
+        className={`btn btn-transparent font-medium text-sm ${
           isActive ? "bg-background-secondary" : ""
-        } w-full mb-2`}
+        } ${isBold ? boldClasses : ""} w-full mb-2`}
       >
         {children}
       </a>
@@ -33,29 +42,26 @@ const SidebarItem: React.FC<{ href: string }> = ({ children, href }) => {
 const Sidebar: React.FC = () => {
   const { t } = useI18n();
   const user = useCurrentUser();
-
   const [, logIn] = useLogin();
 
   return (
     <div
-      className="hidden sm:flex flex-col justify-between w-48 fixed left-0 top-0 h-full shadow-lg"
-      style={{ backgroundColor: "#121218" }}
+      className="hidden sm:block w-48 fixed left-0 top-0 h-full"
+      style={{ backgroundColor: sidebarColor }}
     >
       <div className="p-2">
         <div className="py-4">
           <SvgLogo title="Stereo" className="w-32 h-12 mx-auto fill-current" />
         </div>
-        <Link href="/new">
-          <a className="btn btn-primary w-full px-6 py-2 text-sm rounded-full mb-2">
-            {t("common.newStory")}
-          </a>
-        </Link>
+        <SidebarItem href="/new" isBold>
+          {t("common.newStory")}
+        </SidebarItem>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
         <SidebarItem href="/discover">{t("discover.title")}</SidebarItem>
       </div>
-      <div className="bg-background-secondary">
+      <div className="p-1 rounded-lg">
         {user ? (
-          <div className="p-2">
+          <div className="px-2 py-1 border-t-2 border-background-secondary">
             <div className="p-1 flex items-center">
               <img
                 src={user.profilePicture}
@@ -83,7 +89,7 @@ const Sidebar: React.FC = () => {
         ) : (
           <button
             onClick={logIn}
-            className="btn btn-transparent rounded-none bg-primary hover:text-foreground text-sm w-full py-3"
+            className="btn btn-transparent rounded-none border-t-2 border-background-secondary text-sm w-full py-3"
           >
             {t("common.signIn")}
           </button>
@@ -93,20 +99,20 @@ const Sidebar: React.FC = () => {
   );
 };
 
-const AppbarItem: React.FC<{ title: string; href: string; as?: string }> = ({
-  children,
-  href,
-  as,
-  title,
-}) => {
+const AppbarItem: React.FC<{
+  title: string;
+  href: string;
+  as?: string;
+  isBold?: boolean;
+}> = ({ children, href, as, title, isBold }) => {
   const router = useRouter();
   const isActive = router.pathname === href;
   return (
     <Link href={href} as={as}>
       <a
-        className={`btn btn-transparent text-foreground border-primary py-1 font-light flex-col flex-1 rounded-none ${
-          isActive ? "bg-background border-b-2" : ""
-        } truncate`}
+        className={`btn btn-transparent text-foreground border-primary py-1 font-light flex-1 rounded-none ${
+          isActive && !isBold ? "border-b-2" : ""
+        } ${isBold ? boldClasses : ""}`}
         title={title}
       >
         {children}
@@ -122,15 +128,20 @@ const Appbar: React.FC = () => {
   const [, logIn] = useLogin();
 
   return (
-    <div className="flex z-10 sm:hidden fixed bottom-0 left-0 w-full bg-background-tertiary h-10 overflow-hidden">
+    <div
+      className="flex z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden"
+      style={{
+        backgroundColor: sidebarColor,
+      }}
+    >
       <AppbarItem href="/listen" title={t("listen.title")}>
         <SvgPlayCircle className="w-4 h-4" />
       </AppbarItem>
       <AppbarItem href="/discover" title={t("discover.title")}>
         <SvgSearch className="w-4 h-4" />
       </AppbarItem>
-      <AppbarItem href="/new" title={t("common.newStory")}>
-        <SvgPlus className="w-4 h-4" />
+      <AppbarItem isBold href="/new" title={t("common.newStory")}>
+        <SvgPlus className="w-6 h-6" />
       </AppbarItem>
       {user ? (
         <AppbarItem
@@ -138,16 +149,12 @@ const Appbar: React.FC = () => {
           as={`/user/${user.username}`}
           title={user.username}
         >
-          <img
-            alt={user.username}
-            src={user.profilePicture}
-            className="h-4 w-4 shadow-md rounded-full"
-          />
+          <SvgUser className="w-4 h-4" />
         </AppbarItem>
       ) : (
         <button
           onClick={logIn}
-          className="btn btn-transparent bg-primary text-primary-label py-1 font-light flex-col flex-1 rounded-none truncate"
+          className="btn btn-transparent text-foreground py-1 font-light flex-1 rounded-none"
           title={t("common.signIn")}
         >
           <SvgLogIn className="w-4 h-4" />

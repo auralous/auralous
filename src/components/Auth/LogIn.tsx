@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import Welcome from "./Welcome";
 import { Modal, useModal } from "~/components/Modal/index";
@@ -144,14 +143,16 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               {t("auth.createNotice")}.
             </p>
             <p className="text-xs p-2 rounded-lg text-warning-light max-w-xl mx-auto">
-              <Link href="/support/permissions">
-                <a className="hover:underline">
-                  <span role="img" aria-label="Light Bulb">
-                    💡
-                  </span>{" "}
-                  {t("auth.permissionLink")}
-                </a>
-              </Link>
+              <a
+                href="/support/permissions"
+                target="_blank"
+                className="hover:underline"
+              >
+                <span role="img" aria-label="Light Bulb">
+                  💡
+                </span>{" "}
+                {t("auth.permissionLink")}
+              </a>
             </p>
           </div>
           <p className="mx-auto w-96 max-w-full p-4 pt-0 text-foreground-tertiary text-xs text-center">

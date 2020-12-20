@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSpring, animated } from "react-spring";
-import { PlayerMinibar } from "~/components/Player/index";
+import { usePlayer } from "~/components/Player/index";
 import { LANGUAGES } from "~/lib/constants";
 import { useI18n } from "~/i18n/index";
 import { Locale } from "~/i18n/types";
@@ -180,10 +180,12 @@ const Footer: React.FC = () => {
 };
 
 const IndexLayout: React.FC = ({ children }) => {
+  const { playStory } = usePlayer();
+  // Stop playing since we have existed app pages
+  useEffect(() => playStory(""), [playStory]);
   return (
     <>
       <Navbar />
-      <PlayerMinibar />
       <main className="pt-24">{children}</main>
       <Footer />
     </>

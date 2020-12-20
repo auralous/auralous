@@ -194,7 +194,7 @@
     "noneHelpText": "Add a song to listen together",
     "pausedText": "Music has been paused",
     "pausedHelpText": "Press play to start listening",
-    "noCrossTrackText": "is not available on",
+    "noCrossTrack": "This song is not available on {{platformName}}",
     "platformChooser": {
       "title": "Join or Listen as Guest",
       "listenAsGuest": "Listen as guest",

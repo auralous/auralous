@@ -22,9 +22,9 @@ module.exports = {
         backdrop: "hsla(0,0%,100%,.2)",
       },
       danger: {
-        DEFAULT: "hsl(0,100%,47%)",
-        light: "hsl(0,100%,55%)",
-        dark: "hsl(0,100%,40%)",
+        DEFAULT: "#d7373f",
+        light: "#e34850",
+        dark: "#c9252d",
         label: "#fff",
       },
       success: {
@@ -40,8 +40,8 @@ module.exports = {
         label: "#000",
       },
       primary: {
-        DEFAULT: "hsl(2,64%,56%)",
-        dark: "hsl(2,58%,50%)",
+        DEFAULT: "hsl(349,100%,59%)",
+        dark: "hsl(349,67%,49%)",
         label: "#fff",
       },
       black: "#000",

@@ -15,13 +15,13 @@ const StoryBg: React.FC<{ image: string | undefined }> = ({ image }) => {
         ({ item, key, props }) =>
           item && (
             <animated.div
-              className="absolute inset-0 w-full h-full"
+              className="absolute inset-0 w-full h-full pointer-events-none"
               style={{ zIndex: -1, ...props }}
               key={key}
             >
               <div
                 style={{ backgroundImage: `url(${item})` }}
-                className="w-full h-full opacity-25 bg-cover bg-center"
+                className="w-full h-full opacity-10 bg-cover bg-center"
               />
             </animated.div>
           )
