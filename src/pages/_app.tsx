@@ -23,7 +23,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 // polyfill
 import "intersection-observer";
-import StoryLiveWatcher from "~/components/Story/StoryOngoingWatcher";
+import StoryOngoingWatcher from "~/components/Story/StoryOngoingWatcher";
 
 const queryCache = new QueryCache();
 
@@ -97,7 +97,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
               <Layout>
                 <Component {...pageProps} />
               </Layout>
-              <StoryLiveWatcher />
+              <StoryOngoingWatcher />
             </PlayerProvider>
           </LogInProvider>
         </UrqlProvider>

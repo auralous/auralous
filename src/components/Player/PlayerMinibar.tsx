@@ -12,7 +12,7 @@ const PlayerMinibar: React.FC = () => {
   const router = useRouter();
   const {
     state: { playingStoryId, playerPlaying },
-    stopPlaying,
+    playStory,
   } = usePlayer();
   const shouldHide = useMemo(
     () => !playingStoryId || noPlayerMinibarRoutes.includes(router.pathname),
@@ -48,7 +48,7 @@ const PlayerMinibar: React.FC = () => {
         </a>
       </Link>
       <button
-        onClick={stopPlaying}
+        onClick={() => playStory("")}
         className="btn btn-transparent p-2"
         title={t("player.stopPlaying")}
       >

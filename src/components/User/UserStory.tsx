@@ -52,12 +52,11 @@ const UserStory: React.FC<{ story: Story }> = ({ story }) => {
   const {
     state: { playingStoryId },
     playStory,
-    stopPlaying,
   } = usePlayer();
 
   const onPlayClick = () => {
     if (playingStoryId !== story.id) return playStory(story.id);
-    else stopPlaying();
+    else playStory("");
   };
 
   const [

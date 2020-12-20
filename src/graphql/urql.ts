@@ -20,6 +20,9 @@ import {
   StoryUsersDocument,
   StoriesQuery,
   StoryUsersQuery,
+  StoryQuery,
+  StoryDocument,
+  StoryQueryVariables,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 
@@ -105,6 +108,18 @@ const cacheExchange = createCacheExchange({
                       .concat([newStory]),
                   }
                 : { stories: [newStory] }
+          );
+        }
+      },
+      unliveStory: (result, args, cache) => {
+        if (result.unliveStory) {
+          cache.updateQuery<StoryQuery, StoryQueryVariables>(
+            {
+              query: StoryDocument,
+              variables: { id: args.id as string },
+            },
+            (data) =>
+              data?.story ? { story: { ...data.story, isLive: false } } : null
           );
         }
       },

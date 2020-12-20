@@ -12,14 +12,14 @@ const DeleteStory: React.FC<{
 }> = ({ story, active, close }) => {
   const {
     state: { playingStoryId },
-    stopPlaying,
+    playStory,
   } = usePlayer();
 
   const [{ fetching }, deleteStory] = useDeleteStoryMutation();
   const { t } = useI18n();
 
   function onDelete() {
-    if (playingStoryId === story.id) stopPlaying();
+    if (playingStoryId === story.id) playStory("");
     deleteStory({ id: story.id }).then(() => {
       toast.success(t("story.delete.success"));
     });

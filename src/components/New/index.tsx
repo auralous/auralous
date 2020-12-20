@@ -134,7 +134,7 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
 const NewMain: React.FC = () => {
   const { t } = useI18n();
-  const { stopPlaying } = usePlayer();
+  const { playStory } = usePlayer();
 
   const [initTracks, setInitTracks] = useState<Track[] | null>(null);
 
@@ -142,8 +142,8 @@ const NewMain: React.FC = () => {
 
   useEffect(() => {
     // stop ongoing story
-    stopPlaying();
-  }, [stopPlaying]);
+    playStory("");
+  }, [playStory]);
 
   useEffect(() => {
     if (router.asPath === "/new") setInitTracks(null);
