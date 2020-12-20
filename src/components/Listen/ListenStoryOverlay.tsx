@@ -28,7 +28,7 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
 
   return (
     <>
-      <div className="z-10 absolute top-0 p-2">
+      <div className="z-10 absolute top-0 p-2 w-full">
         {playingStory && <StoryNav story={playingStory} />}
       </div>
       <StoryBg image={playerPlaying?.image} />

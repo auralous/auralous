@@ -14,7 +14,13 @@ import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { devtoolsExchange } from "@urql/devtools";
 import { toast } from "~/lib/toast";
 // import { default as schemaIntrospection } from "./introspection.json";
-import { Story, StoryDocument, StoryUsersDocument } from "~/graphql/gql.gen";
+import {
+  Story,
+  StoriesDocument,
+  StoryUsersDocument,
+  StoriesQuery,
+  StoryUsersQuery,
+} from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 
 const subscriptionClient =
@@ -83,23 +89,29 @@ const cacheExchange = createCacheExchange({
   updates: {
     Mutation: {
       createStory: (result, args, cache) => {
-        if (result.createStory) {
-          cache.updateQuery(
+        const newStory = result.createStory as Story | null;
+        if (newStory) {
+          cache.updateQuery<StoriesQuery>(
             {
-              query: StoryDocument,
-              // @ts-ignore
-              variables: { creatorId: result.createStory.creatorId },
+              query: StoriesDocument,
+              variables: { creatorId: newStory.creatorId },
             },
-            // @ts-ignore
-            () => ({ story: result.createStory })
+            (data) =>
+              data?.stories
+                ? {
+                    stories: data.stories
+                      // Set all previous story to unlive
+                      .map((s) => ({ ...s, isLive: false }))
+                      .concat([newStory]),
+                  }
+                : { stories: [newStory] }
           );
         }
       },
       deleteStory: (result, args, cache) => {
         cache.invalidate({
           __typename: "Story",
-          // @ts-ignore
-          id: result.deleteStory,
+          id: result.deleteStory as string,
         });
       },
       deleteMe: () => {
@@ -109,12 +121,12 @@ const cacheExchange = createCacheExchange({
     Subscription: {
       storyUsersUpdated: (result, args, cache) => {
         if (result.storyUsersUpdated) {
-          cache.updateQuery(
+          cache.updateQuery<StoryUsersQuery>(
             {
               query: StoryUsersDocument,
               variables: { id: args.id },
             },
-            () => ({ storyUsers: result.storyUsersUpdated })
+            () => ({ storyUsers: result.storyUsersUpdated as string[] })
           );
         }
       },
