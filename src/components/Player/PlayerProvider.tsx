@@ -257,7 +257,6 @@ const PlayerProvider: React.FC = ({ children }) => {
         fetching,
       },
       playStory,
-      stopPlaying: () => playStory(""),
       player,
       skipBackward: skipBackwardQueue,
       skipForward: skipForwardNP || skipForwardQueue,
