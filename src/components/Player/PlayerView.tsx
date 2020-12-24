@@ -7,24 +7,8 @@ import usePlayer from "./usePlayer";
 const EMPTYIMAGE = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP87wMAAlABTQluYBcAAAAASUVORK5CYII=
 `;
 
-const SkipButton: React.FC<{
-  onClick?: () => void;
-  disabled?: boolean;
-  title: string;
-}> = ({ children, onClick, disabled, title }) => (
-  <button
-    className="btn btn-transparent p-3"
-    onClick={onClick}
-    disabled={disabled}
-    title={title}
-  >
-    {children}
-  </button>
-);
-
-const PlayButton: React.FC = () => {
+export const PlayerControl: React.FC = () => {
   const { t } = useI18n();
-
   const {
     player,
     state: { playerPlaying },
@@ -42,45 +26,39 @@ const PlayButton: React.FC = () => {
       player.off("paused", onPaused);
     };
   }, [player]);
-
-  return (
-    <button
-      aria-label={isPlaying ? t("player.pause") : t("player.play")}
-      className="btn btn-primary w-14 h-14 rounded-full"
-      onClick={() => (isPlaying ? player.pause() : player.play())}
-      disabled={!playerPlaying}
-    >
-      {isPlaying ? (
-        <SvgPause className="w-6 h-6 fill-current" />
-      ) : (
-        <SvgPlay className="w-6 h-6 fill-current" />
-      )}
-    </button>
-  );
-};
-
-const PlayerControl: React.FC = () => {
-  const { t } = useI18n();
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <>
-      <SkipButton
+    <div className="my-4 gap-4 flex flex-center">
+      <button
+        className="btn btn-transparent p-3"
         title={t("player.skipBackward")}
         onClick={skipBackward}
         disabled={!skipBackward}
       >
         <SvgSkipBack className="w-6 h-6 fill-current stroke-current" />
-      </SkipButton>
-      <PlayButton />
-      <SkipButton
+      </button>
+      <button
+        aria-label={isPlaying ? t("player.pause") : t("player.play")}
+        className="btn btn-primary w-14 h-14 rounded-full"
+        onClick={() => (isPlaying ? player.pause() : player.play())}
+        disabled={!playerPlaying}
+      >
+        {isPlaying ? (
+          <SvgPause className="w-6 h-6 fill-current" />
+        ) : (
+          <SvgPlay className="w-6 h-6 fill-current" />
+        )}
+      </button>
+      <button
+        className="btn btn-transparent p-3"
         title={t("player.skipForward")}
         onClick={skipForward}
         disabled={!skipForward}
       >
         <SvgSkipForward className="w-6 h-6 fill-current stroke-current" />
-      </SkipButton>
-    </>
+      </button>
+    </div>
   );
 };
 
@@ -120,8 +98,8 @@ const PlayerView: React.FC<{
   return (
     <div className="w-full h-full flex flex-col p-6">
       <div className="w-full h-16 overflow-hidden">{Header}</div>
-      <div className="w-full h-0 flex-1 flex flex-col sm:flex-row justify-center sm:justify-start sm:items-center">
-        <div className="w-full my-6 flex-1 h-0 sm:mr-4 sm:flex-none sm:h-48 sm:w-48">
+      <div className="w-full h-0 flex-1 flex flex-col justify-center">
+        <div className="w-full my-6 flex-1 h-0 mx-auto sm:flex-none sm:h-48 sm:w-48">
           <div
             className="object-contain h-full"
             role="img"
@@ -135,15 +113,11 @@ const PlayerView: React.FC<{
             }}
           />
         </div>
-        <div className="w-full sm:w-0 sm:flex-1 py-4">
+        <div className="w-full py-4">
           <PlayerMeta track={track} fetching={fetching} />
         </div>
       </div>
-      <div
-        className={`inset-0 my-4 gap-4 flex flex-center ${
-          hideControl ? "opacity-0 pointer-events-none" : ""
-        }`}
-      >
+      <div className={hideControl ? "opacity-0 pointer-events-none" : ""}>
         <PlayerControl />
       </div>
     </div>

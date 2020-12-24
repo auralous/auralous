@@ -14,6 +14,7 @@ import StoryNav from "./StoryNav";
 import StoryHeader from "./StoryHeader";
 import StoryQueue from "./StoryQueue";
 import { useCurrentUser } from "~/hooks/user";
+import { PlayerControl } from "../Player/PlayerView";
 
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
 
@@ -76,7 +77,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
 
   return (
     <>
-      <div className="h-screen-layout pb-14 relative overflow-hidden flex flex-col">
+      <div className="h-screen-layout relative overflow-hidden flex flex-col">
         <div className="lg:flex justify-between">
           <div className="p-2 pb-0 lg:pb-2 flex-1">
             <StoryNav story={story} />
@@ -111,6 +112,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
             </AnimatedTabPanel>
           </TabPanels>
         </Tabs>
+        <PlayerControl />
       </div>
     </>
   );
