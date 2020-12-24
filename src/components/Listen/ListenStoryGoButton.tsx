@@ -26,7 +26,7 @@ const ListenStoryGoButton: React.FC<{ storyFeed: Story[] | undefined }> = ({
 
   return (
     <>
-      <div className="px-2 py-4 absolute z-10 bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-xl">
+      <div className="px-2 py-4 absolute z-10 bottom-0 w-full">
         <p className="text-lg text-foreground-secondary text-center mb-1">
           {t(
             playingStory?.isLive

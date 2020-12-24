@@ -5,6 +5,7 @@ import { usePlayer } from "~/components/Player";
 import { useStoryFeedQuery, Story } from "~/graphql/gql.gen";
 import ListenStoryOverlay from "./ListenStoryGoButton";
 import { VirtualData } from "swiper/types/components/virtual";
+import { SvgChevronLeft, SvgChevronRight } from "~/assets/svg";
 
 const LIMIT = 10;
 
@@ -29,18 +30,8 @@ const ListenMain: React.FC = () => {
       }
     ));
 
-    // scroll by keyboard
-    const onKeyPress = (e: KeyboardEvent) => {
-      const swiperInstance = swiperRef.current.swiper;
-      if (!swiperInstance) return;
-      if (e.key === "ArrowRight") swiperInstance.slideNext(600);
-      else if (e.key === "ArrowLeft") swiperInstance.slidePrev(600);
-    };
-    document.addEventListener("keydown", onKeyPress, true);
-
     // cleanup
     return function cleanupSwiper() {
-      document.removeEventListener("keydown", onKeyPress);
       swiperInstance.detachEvents();
       swiperInstance.destroy();
     };
@@ -116,10 +107,22 @@ const ListenMain: React.FC = () => {
   }, [virtualData, stories]);
 
   return (
-    <div className="h-screen-layout w-full relative overflow-hidden select-none">
+    <div className="h-screen-layout mx-auto max-w-xl w-full relative select-none">
       <div className="swiper-container h-full" id="story-feed-swiper">
         <div className="swiper-wrapper">{VirtualSlides}</div>
       </div>
+      <button
+        onClick={() => swiperRef.current.swiper?.slidePrev()}
+        className="btn hidden sm:flex rounded-full absolute z-10 top-1/2 left-2 h-12 w-12"
+      >
+        <SvgChevronLeft />
+      </button>
+      <button
+        onClick={() => swiperRef.current.swiper?.slideNext()}
+        className="btn hidden sm:flex rounded-full absolute z-10 top-1/2 right-2 h-12 w-12"
+      >
+        <SvgChevronRight />
+      </button>
       <ListenStoryOverlay storyFeed={stories} />
     </div>
   );

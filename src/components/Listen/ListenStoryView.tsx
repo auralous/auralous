@@ -33,7 +33,7 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
 
   return (
     <>
-      <div className="w-full max-w-xl mx-auto h-full box-border">
+      <div className="w-full mx-auto h-full box-border">
         <PlayerView
           Header={<StoryNav story={story} />}
           hideControl
