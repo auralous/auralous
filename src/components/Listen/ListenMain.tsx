@@ -3,7 +3,7 @@ import Swiper from "swiper/bundle";
 import ListenStoryView from "./ListenStoryView";
 import { usePlayer } from "~/components/Player";
 import { useStoryFeedQuery, Story } from "~/graphql/gql.gen";
-import ListenStoryOverlay from "./ListenStoryOverlay";
+import ListenStoryOverlay from "./ListenStoryGoButton";
 import { VirtualData } from "swiper/types/components/virtual";
 
 const LIMIT = 10;
@@ -111,6 +111,7 @@ const ListenMain: React.FC = () => {
         </div>
       );
     });
+
     return els;
   }, [virtualData, stories]);
 

@@ -3,9 +3,8 @@ import Link from "next/link";
 import { usePlayer } from "~/components/Player";
 import { Story, useUserQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
-import StoryNav from "~/components/Story/StoryNav";
 
-const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
+const ListenStoryGoButton: React.FC<{ storyFeed: Story[] | undefined }> = ({
   storyFeed,
 }) => {
   const { t } = useI18n();
@@ -27,10 +26,7 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
 
   return (
     <>
-      <div className="z-10 absolute top-0 p-2 w-full">
-        {playingStory && <StoryNav story={playingStory} />}
-      </div>
-      <div className="absolute z-10 px-2 py-4 bottom-0 w-full bg-gradient-to-t from-background to-transparent">
+      <div className="px-2 py-4 absolute z-10 bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-xl">
         <p className="text-lg text-foreground-secondary text-center mb-1">
           {t(
             playingStory?.isLive
@@ -51,4 +47,4 @@ const ListenStoryOverlay: React.FC<{ storyFeed: Story[] | undefined }> = ({
   );
 };
 
-export default ListenStoryOverlay;
+export default ListenStoryGoButton;
