@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
 import { verifyScript } from "~/lib/script-utils";
 import { useI18n } from "~/i18n/index";
-import { SvgChevronDown, SvgChevronUp } from "~/assets/svg";
+import { SvgMove } from "~/assets/svg";
 /// <reference path="youtube" />
 
 const YT_PLAYER_VARS = {
@@ -83,44 +83,29 @@ export default function YouTubePlayer() {
     };
   }, [player]);
 
-  useEffect(() => {
-    // Add a padding to body to add the youtube video
-    const bodyDom = document.querySelector("body");
-    if (!bodyDom) return;
-    bodyDom.classList.add("pt-youtube");
-    return () => bodyDom.classList.remove("pt-youtube");
-  }, []);
-
   const [posIsTop, setPosIsTop] = useState(false);
 
   return (
     <div
-      className={`absolute sm:fixed top-0 right-0 z-20 sm:z-30 w-screen ${
-        posIsTop ? "" : "sm:bottom-0 sm:top-auto"
-      } sm:w-72 h-48`}
+      className={`fixed z-20 sm:z-30 ${
+        posIsTop ? "top-2 right-2" : "bottom-2 right-2"
+      } w-56 h-36 sm:w-72 sm:h-48 rounded-lg overflow-hidden transition-transform`}
     >
+      <button
+        className="btn absolute z-30 bottom-2 left-2 opacity-50 hover:opacity-75 focus:opacity-70 p-2"
+        onClick={() => setPosIsTop(!posIsTop)}
+        title={`${t("player.youtube.moveTo.title")} ${
+          posIsTop
+            ? t("player.youtube.moveTo.bottomRight")
+            : t("player.youtube.moveTo.topRight")
+        }`}
+      >
+        <SvgMove className="w-6 h-6" />
+      </button>
       <div
-        className="absolute bottom-0 right-0 sm:bottom-2 sm:right-2 w-full h-full sm:rounded-lg sm:shadow-xl overflow-hidden"
+        className="bottom-0 left-0 absolute w-full h-full sm:rounded-lg sm:shadow-xl overflow-hidden"
         id="ytPlayer"
       />
-      <div className="absolute bottom-0 left-0 -ml-2 mb-2 p-2 hidden sm:block">
-        <button
-          className="btn btn-success rounded-r-none p-1"
-          onClick={() => setPosIsTop(true)}
-          disabled={posIsTop}
-          title={t("player.youtube.moveToTop")}
-        >
-          <SvgChevronUp width="14" height="14" />
-        </button>
-        <button
-          className="btn btn-success rounded-l-none p-1"
-          onClick={() => setPosIsTop(false)}
-          disabled={!posIsTop}
-          title={t("player.youtube.moveToBottom")}
-        >
-          <SvgChevronDown width="14" height="14" />
-        </button>
-      </div>
     </div>
   );
 }

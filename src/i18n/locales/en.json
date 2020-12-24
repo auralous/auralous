@@ -205,8 +205,11 @@
     },
     "stopPlaying": "Stop Playing",
     "youtube": {
-      "moveToTop": "Move Player to Top",
-      "moveToBottom": "Move Player to Bottom",
+      "moveTo": {
+        "title": "Move to",
+        "topRight": "Top Right",
+        "bottomRight": "Bottom Right"
+      },
       "footerText": "YouTube Premium lets you enjoy ad-free and background play. See",
       "footerTextAfter": "for more info"
     },

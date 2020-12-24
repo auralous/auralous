@@ -204,8 +204,11 @@
     },
     "stopPlaying": "Dừng Phát",
     "youtube": {
-      "moveToTop": "Chuyển trình chơi lên trên",
-      "moveToBottom": "Chuyển trình chơi xuống dưới",
+      "moveTo": {
+        "title": "Di chuyển",
+        "topRight": "Phải Trên",
+        "bottomRight": "Phải Trên Dưới"
+      },
       "footerText": "YouTube Premium cho phép bạn nghe nhạc không quảng cáo và trong nền. Xem",
       "footerTextAfter": "để biết thêm"
     },

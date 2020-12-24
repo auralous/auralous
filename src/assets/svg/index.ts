@@ -20,6 +20,7 @@ export { default as SvgLogo } from "./logo.svg";
 export { default as SvgLock } from "./lock.svg";
 export { default as SvgLogIn } from "./log-in.svg";
 export { default as SvgMail } from "./mail.svg";
+export { default as SvgMove } from "./move.svg";
 export { default as SvgMessageSquare } from "./message-square.svg";
 export { default as SvgMaximize2 } from "./maximize-2.svg";
 export { default as SvgMenu } from "./menu.svg";
