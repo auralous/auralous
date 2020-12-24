@@ -20,7 +20,7 @@ const SkipButton: React.FC<{
   title: string;
 }> = ({ children, onClick, disabled, title }) => (
   <button
-    className="btn btn-transparent p-2"
+    className="btn btn-transparent p-3"
     onClick={onClick}
     disabled={disabled}
     title={title}
@@ -72,7 +72,7 @@ const PlayerMinibarStory: React.FC<{ style: React.CSSProperties }> = ({
   const { t } = useI18n();
   const { skipForward, skipBackward } = usePlayer();
   return (
-    <div className="w-full h-full inset-0 gap-2 flex flex-center" style={style}>
+    <div className="w-full h-full inset-0 gap-4 flex flex-center" style={style}>
       <SkipButton
         title={t("player.skipBackward")}
         onClick={skipBackward}
@@ -160,7 +160,7 @@ const PlayerMinibar: React.FC = () => {
   return (
     <div
       hidden={show === ""}
-      className="fixed bordered-box h-14 z-10 w-full bottom-10 sm:bottom-0"
+      className="fixed sm:pl-48 h-14 z-10 w-full bottom-10 sm:bottom-0"
     >
       {transitions.map(({ props, key }) =>
         show === "app" ? (

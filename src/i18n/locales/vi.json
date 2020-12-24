@@ -8,21 +8,21 @@
   "intro": {
     "use": { "action": "Truy cập Stereo", "watch": "Xem giới thiệu" },
     "listen": {
-      "title": "Nghe nhạc mọi nơi",
-      "description": "Stereo tích hợp với ứng dụng nghe nhạc quen thuộc với bạn. Bạn không cần gì ngoài một tài khoản YouTube, Spotify, hay Apple Music.",
-      "p": "Bạn bè bạn không dùng chung ứng dụng nghe nhạc? Không sao, Stereo sẽ tìm bài hát tương ứng trên ứng dụng mà bạn sở hữu.",
+      "title": "Ba nền tảng. Một trải nghiệm.",
+      "description": "Tích hợp với ứng dụng nghe nhạc YouTube, Spotify, or Apple Music quen thuộc.",
+      "p": "Nghe cùng một bài hát, cùng một thời điểm, cùng bạn bè trên bất kể nên tảng nào.",
       "action": "Cùng nghe nào"
     },
     "playlist": {
-      "title": "Bắt đầu ngay",
-      "p1": "Bắt đầu nghe nhạc cùng nhau trong chưa đầy 30 giây. Đu đưa ngay cùng những bản nhạc trong thư viện của bạn.",
-      "p2": "Bạn có playlist độc lạ sao, hay nhạc sĩ yêu thích của bạn mới ra album mới? Chỉ cần một đường link là có nghe liền!",
-      "action": "Nghe ngay"
+      "title": "Âm nhạc luôn có sẵn",
+      "p1": "Phát nhạc ngay từ trong thư viện của bạn hay từ danh sách của cộng đồng.",
+      "p2": "Chúng mình giúp bạn chia sẽ playlist yêu thích, album mới một cách dễ dàng!",
+      "action": "Thử liền"
     },
     "story": {
-      "title": "Chia Sẻ âm nhạc của bạn",
-      "p1": "Mỗi phiên nghe nhạc của bạn là một story đáng được chia sẻ. Khám phá những bài hát mới trong story từ bạn bè khắp thế giới.",
-      "p2": "Mời bạn bè nghe cùng bạn. Mọi người có thể trò chuyện, thêm nhạc, và bày tỏ cảm xúc với bài hát của người khác.",
+      "title": "Khám phá âm nhạc, cùng nhau!",
+      "p1": "Mỗi phiên nghe nhạc của bạn là một story. Khám phá những bài hát mới trong story từ bạn bè khắp thế giới.",
+      "p2": "Mời bạn bè nghe cùng, trò chuyện, thêm nhạc, và bày tỏ cảm xúc với bài hát của người khác.",
       "p2end": "Âm nhạc luôn tuyệt hơn khi ta nghe cùng nhau.",
       "storyText": "Nghe nhạc cùng đám bạn 💗",
       "storyMsg1": "được đấy ️‍🔥 cảm ơn đã thêm nhạc!",
@@ -119,6 +119,9 @@
   },
   "discover": {
     "title": "Khám phá"
+  },
+  "map": {
+    "title": "Bản đồ"
   },
   "story": {
     "label": "Story",
