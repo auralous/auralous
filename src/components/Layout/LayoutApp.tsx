@@ -7,9 +7,9 @@ import { useI18n } from "~/i18n/index";
 import {
   SvgLogIn,
   SvgLogo,
+  SvgMapPin,
   SvgPlayCircle,
   SvgPlus,
-  SvgSearch,
   SvgSettings,
   SvgUser,
 } from "~/assets/svg";
@@ -57,7 +57,7 @@ const Sidebar: React.FC = () => {
           {t("common.newStory")}
         </SidebarItem>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
-        <SidebarItem href="/discover">{t("discover.title")}</SidebarItem>
+        <SidebarItem href="/map">{t("map.title")}</SidebarItem>
       </div>
       <div className="p-1 rounded-lg">
         {user ? (
@@ -137,11 +137,11 @@ const Appbar: React.FC = () => {
       <AppbarItem href="/listen" title={t("listen.title")}>
         <SvgPlayCircle className="w-4 h-4" />
       </AppbarItem>
-      <AppbarItem href="/discover" title={t("discover.title")}>
-        <SvgSearch className="w-4 h-4" />
-      </AppbarItem>
       <AppbarItem isBold href="/new" title={t("common.newStory")}>
         <SvgPlus className="w-6 h-6" />
+      </AppbarItem>
+      <AppbarItem href="/map" title={t("map.title")}>
+        <SvgMapPin className="w-4 h-4" />
       </AppbarItem>
       {user ? (
         <AppbarItem

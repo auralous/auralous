@@ -117,11 +117,9 @@
     },
     "backText": "Trở về"
   },
-  "discover": {
-    "title": "Khám phá"
-  },
   "map": {
-    "title": "Bản đồ"
+    "title": "Bản đồ",
+    "description": "Một trải nghiệm khám phá âm nhạc theo địa lý"
   },
   "story": {
     "label": "Story",

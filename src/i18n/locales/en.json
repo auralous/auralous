@@ -117,11 +117,9 @@
     },
     "backText": "Go back"
   },
-  "discover": {
-    "title": "Discover"
-  },
   "map": {
-    "title": "Map"
+    "title": "Map",
+    "description": "A geographical song discovery experience"
   },
   "story": {
     "label": "Story",

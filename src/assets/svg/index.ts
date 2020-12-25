@@ -19,6 +19,7 @@ export { default as SvgLink } from "./link.svg";
 export { default as SvgLogo } from "./logo.svg";
 export { default as SvgLock } from "./lock.svg";
 export { default as SvgLogIn } from "./log-in.svg";
+export { default as SvgMapPin } from "./map-pin.svg";
 export { default as SvgMail } from "./mail.svg";
 export { default as SvgMove } from "./move.svg";
 export { default as SvgMessageSquare } from "./message-square.svg";
