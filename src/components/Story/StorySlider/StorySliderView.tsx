@@ -25,7 +25,7 @@ const StorySliderAction: React.FC<{ story: Story }> = ({ story }) => {
         })}
       </p>
       <Link href={`/story/${story?.id}`}>
-        <a className="btn btn-primary w-full">
+        <a className="btn bg-opacity-50 w-full">
           {story?.isLive
             ? t("listen.actionJoin")
             : t("listen.actionJoinNoLive")}
