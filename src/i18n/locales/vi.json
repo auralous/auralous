@@ -174,7 +174,8 @@
       "addExisted": "{{username}} đã nằm trong danh sách cộng tác viên",
       "addSuccess": "{{username}} sẽ có thể thêm nhạc",
       "removeSuccess": "{{username}} sẽ không thể thêm nhạc"
-    }
+    },
+    "play": "Phát story"
   },
   "user": {
     "profile": "Hồ sơ",

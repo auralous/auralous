@@ -34,8 +34,7 @@ export type Query = {
   queue?: Maybe<Queue>;
   story?: Maybe<Story>;
   storyUsers?: Maybe<Array<Scalars['String']>>;
-  stories?: Maybe<Array<Story>>;
-  storyFeed: Array<Story>;
+  stories: Array<Story>;
   track?: Maybe<Track>;
   crossTracks?: Maybe<CrossTracks>;
   searchTrack: Array<Track>;
@@ -77,11 +76,6 @@ export type QueryStoryUsersArgs = {
 
 
 export type QueryStoriesArgs = {
-  creatorId?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryStoryFeedArgs = {
   id: Scalars['ID'];
   next?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
@@ -549,29 +543,15 @@ export type StoryQuery = (
 );
 
 export type StoriesQueryVariables = Exact<{
-  creatorId?: Maybe<Scalars['String']>;
-}>;
-
-
-export type StoriesQuery = (
-  { __typename?: 'Query' }
-  & { stories?: Maybe<Array<(
-    { __typename?: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  )>> }
-);
-
-export type StoryFeedQueryVariables = Exact<{
   id: Scalars['ID'];
   next?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
 }>;
 
 
-export type StoryFeedQuery = (
+export type StoriesQuery = (
   { __typename?: 'Query' }
-  & { storyFeed: Array<(
+  & { stories: Array<(
     { __typename?: 'Story' }
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
@@ -1008,8 +988,8 @@ export function useStoryQuery(options: Omit<Urql.UseQueryArgs<StoryQueryVariable
   return Urql.useQuery<StoryQuery>({ query: StoryDocument, ...options });
 };
 export const StoriesDocument = gql`
-    query stories($creatorId: String) {
-  stories(creatorId: $creatorId) {
+    query stories($id: ID!, $next: String, $limit: Int!) {
+  stories(id: $id, next: $next, limit: $limit) {
     id
     ...StoryDetailParts
   }
@@ -1018,18 +998,6 @@ export const StoriesDocument = gql`
 
 export function useStoriesQuery(options: Omit<Urql.UseQueryArgs<StoriesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<StoriesQuery>({ query: StoriesDocument, ...options });
-};
-export const StoryFeedDocument = gql`
-    query storyFeed($id: ID!, $next: String, $limit: Int!) {
-  storyFeed(id: $id, next: $next, limit: $limit) {
-    id
-    ...StoryDetailParts
-  }
-}
-    ${StoryDetailPartsFragmentDoc}`;
-
-export function useStoryFeedQuery(options: Omit<Urql.UseQueryArgs<StoryFeedQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoryFeedQuery>({ query: StoryFeedDocument, ...options });
 };
 export const CreateStoryDocument = gql`
     mutation createStory($text: String!, $isPublic: Boolean!) {

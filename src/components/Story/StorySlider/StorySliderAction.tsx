@@ -4,8 +4,8 @@ import { usePlayer } from "~/components/Player";
 import { Story, useUserQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
-const StorySliderAction: React.FC<{ storyFeed: Story[] | undefined }> = ({
-  storyFeed,
+const StorySliderAction: React.FC<{ stories: Story[] | undefined }> = ({
+  stories,
 }) => {
   const { t } = useI18n();
   const {
@@ -14,9 +14,8 @@ const StorySliderAction: React.FC<{ storyFeed: Story[] | undefined }> = ({
 
   const playingStory = useMemo<Story | null>(
     () =>
-      (playingStoryId && storyFeed?.find((s) => s.id === playingStoryId)) ||
-      null,
-    [playingStoryId, storyFeed]
+      (playingStoryId && stories?.find((s) => s.id === playingStoryId)) || null,
+    [playingStoryId, stories]
   );
 
   const [{ data: { user } = { user: undefined } }] = useUserQuery({

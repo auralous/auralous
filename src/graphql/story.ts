@@ -21,18 +21,8 @@ export const QUERY_STORY = /* GraphQL */ `
 `;
 
 export const QUERY_STORIES = /* GraphQL */ `
-  query stories($creatorId: String) {
-    stories(creatorId: $creatorId) {
-      id
-      ...StoryDetailParts
-    }
-  }
-  ${FRAGMENT_STORY_DETAIL}
-`;
-
-export const QUERY_STORY_FEED = /* GraphQL */ `
-  query storyFeed($id: ID!, $next: String, $limit: Int!) {
-    storyFeed(id: $id, next: $next, limit: $limit) {
+  query stories($id: ID!, $next: String, $limit: Int!) {
+    stories(id: $id, next: $next, limit: $limit) {
       id
       ...StoryDetailParts
     }

@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { DialogOverlay } from "@reach/dialog";
-import { usePlayer } from "~/components/Player";
-import StorySlider from "~/components/Story/StorySlider";
-import { useCurrentUser } from "~/hooks/user";
-import { SvgChevronDown } from "~/assets/svg";
-import { useI18n } from "~/i18n/index";
 import { useLogin } from "~/components/Auth";
+import StoryFeed from "~/components/Story/StoryFeed";
+import { useCurrentUser } from "~/hooks/user";
+import { useI18n } from "~/i18n/index";
 
 const ListenMain: React.FC = () => {
   const { t } = useI18n();
-  const [id, setId] = useState<string | undefined>();
-  const { playStory } = usePlayer();
 
   const user = useCurrentUser();
   const [, logIn] = useLogin();
@@ -45,24 +40,9 @@ const ListenMain: React.FC = () => {
           </button>
         )}
       </div>
-      <div className="container relative">
-        <button onClick={() => setId("PUBLIC")}>Click me</button>
+      <div className="container mx-auto">
+        <StoryFeed id="PUBLIC" />
       </div>
-      {id && (
-        <DialogOverlay isOpen style={{ zIndex: 10 }}>
-          <button
-            className="btn absolute top-4 z-20 right-3 p-1.5 rounded-full"
-            onClick={() => {
-              playStory("");
-              setId(undefined);
-            }}
-            aria-label={t("modal.close")}
-          >
-            <SvgChevronDown className="w-4 h-4" />
-          </button>
-          <StorySlider id={id} />
-        </DialogOverlay>
-      )}
     </>
   );
 };

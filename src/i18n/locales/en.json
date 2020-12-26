@@ -175,7 +175,8 @@
       "addExisted": "{{username}} is already a collaborator",
       "addSuccess": "{{username}} can now add songs",
       "removeSuccess": "{{username}} can no longer add songs"
-    }
+    },
+    "play": "Play story"
   },
   "user": {
     "profile": "Profile",
