@@ -6,7 +6,6 @@ import ListenStoryView from "./StorySliderView";
 import StorySliderInstruction from "./StorySliderInstruction";
 import { usePlayer } from "~/components/Player";
 import { Story } from "~/graphql/gql.gen";
-import ListenStoryOverlay from "./StorySliderAction";
 import { SvgChevronDown } from "~/assets/svg";
 import { useI18n } from "~/i18n/index";
 
@@ -84,25 +83,22 @@ const StorySliderContent: React.FC<{
   }, []);
 
   return (
-    <>
-      <div className="swiper-container h-full" id="story-feed-swiper">
-        <div className="swiper-wrapper">
-          {virtualData?.slides?.map((slide) => {
-            const story = stories?.find((s) => s.id === slide);
-            return (
-              <div
-                key={slide}
-                className="swiper-slide h-screen-layout"
-                style={{ top: `${virtualData.offset}px` }}
-              >
-                {story && <ListenStoryView story={story} />}
-              </div>
-            );
-          })}
-        </div>
+    <div className="swiper-container h-full" id="story-feed-swiper">
+      <div className="swiper-wrapper">
+        {virtualData?.slides?.map((slide) => {
+          const story = stories?.find((s) => s.id === slide);
+          return (
+            <div
+              key={slide}
+              className="swiper-slide h-screen-layout"
+              style={{ top: `${virtualData.offset}px` }}
+            >
+              {story && <ListenStoryView story={story} />}
+            </div>
+          );
+        })}
       </div>
-      <ListenStoryOverlay stories={stories} />
-    </>
+    </div>
   );
 };
 
