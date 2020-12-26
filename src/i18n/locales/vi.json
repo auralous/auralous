@@ -79,7 +79,7 @@
     "signOut": "Đăng xuất"
   },
   "listen": {
-    "title": "Nghe ngay",
+    "title": "Nghe nhạc",
     "description": "Khám phá những bài hát mà người khác đang lắm nghe và tham gia cùng họ trong thời gian thực",
     "promptJoin": "Mở xem {{username}} đang nghe gì",
     "promptJoinNolive": "Mở xem {{username}} đã nghe gì",

@@ -4,7 +4,7 @@ import { usePlayer } from "~/components/Player";
 import { Story, useUserQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
-const ListenStoryGoButton: React.FC<{ storyFeed: Story[] | undefined }> = ({
+const StorySliderAction: React.FC<{ storyFeed: Story[] | undefined }> = ({
   storyFeed,
 }) => {
   const { t } = useI18n();
@@ -47,4 +47,4 @@ const ListenStoryGoButton: React.FC<{ storyFeed: Story[] | undefined }> = ({
   );
 };
 
-export default ListenStoryGoButton;
+export default StorySliderAction;

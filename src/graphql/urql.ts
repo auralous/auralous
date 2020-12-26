@@ -25,6 +25,7 @@ import {
   StoryQueryVariables,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
+import { storySliderPagination } from "./_pagination";
 
 const subscriptionClient =
   typeof window !== "undefined"
@@ -71,6 +72,7 @@ const cacheExchange = createCacheExchange({
         offsetArgument: "offset",
         mergeMode: "before",
       }),
+      storyFeed: storySliderPagination(),
     },
     Message: {
       // @ts-ignore

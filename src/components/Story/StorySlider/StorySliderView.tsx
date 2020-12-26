@@ -4,7 +4,7 @@ import { Story, useNowPlayingQuery, useTrackQuery } from "~/graphql/gql.gen";
 import PlayerView from "~/components/Player/PlayerView";
 import StoryNav from "~/components/Story/StoryNav";
 
-const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
+const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
   const {
     state: { fetching: fetchingPlayer, crossTracks, playingStoryId },
   } = usePlayer();
@@ -45,4 +45,4 @@ const ListenStoryView: React.FC<{ story: Story }> = ({ story }) => {
   );
 };
 
-export default ListenStoryView;
+export default StorySliderView;

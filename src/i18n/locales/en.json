@@ -79,7 +79,7 @@
     "signOut": "Sign Out"
   },
   "listen": {
-    "title": "Listen Now",
+    "title": "Listen",
     "description": "Discover new songs that others are listening to and join them in real time",
     "promptJoin": "Tune in to what {{username}} is listening to",
     "promptJoinNolive": "Tune in to what {{username}} listened to",
