@@ -100,13 +100,13 @@ const StorySliderContent: React.FC<{
       </div>
       <button
         onClick={() => swiperRef.current.swiper?.slidePrev()}
-        className="btn btn-transparent hidden sm:flex rounded-full absolute z-10 top-1/2 left-2 p-0 h-16 w-16"
+        className="btn btn-transparent hidden sm:flex rounded-full absolute z-10 top-1/2 -left-12 p-0 h-16 w-16"
       >
         <SvgChevronLeft className="w-10 h-10" />
       </button>
       <button
         onClick={() => swiperRef.current.swiper?.slideNext()}
-        className="btn btn-transparent hidden sm:flex rounded-full absolute z-10 top-1/2 right-2 p-0 h-16 w-16"
+        className="btn btn-transparent hidden sm:flex rounded-full absolute z-10 top-1/2 -right-12 p-0 h-16 w-16"
       >
         <SvgChevronRight className="w-10 h-10" />
       </button>
@@ -129,7 +129,7 @@ const StorySlider: React.FC<{
       isOpen={active}
       style={{ zIndex: 10, backdropFilter: "blur(2px)" }}
     >
-      <div className="h-full w-full max-w-xl mx-auto relative select-none">
+      <div className="h-full w-full max-w-lg mx-auto relative select-none">
         <button
           className="btn absolute top-6 z-20 right-6 p-1.5 rounded-full"
           onClick={() => {

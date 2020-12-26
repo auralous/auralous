@@ -5,8 +5,6 @@ import usePlayer from "./usePlayer";
 import { useI18n } from "~/i18n/index";
 import { SvgX } from "~/assets/svg";
 
-const noPlayerMinibarRoutes = ["/listen", "/story/[storyId]"];
-
 const PlayerMinibarBar: React.FC = () => {
   const { t } = useI18n();
   const {
@@ -56,9 +54,7 @@ const PlayerMinibar: React.FC = () => {
 
   return (
     <div
-      hidden={
-        !playingStoryId || noPlayerMinibarRoutes.includes(router.pathname)
-      }
+      hidden={!playingStoryId || router.pathname === "/story/[storyId]"}
       className="fixed h-14 z-10 w-full bottom-10 sm:bottom-0 border-t-4 border-primary"
       style={{
         background: "linear-gradient(180deg, hsl(232,12%,13%), rgb(18 18 24))",

@@ -1,10 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import ms from "ms";
-import StorySlider from "./StorySlider";
+import { useInView } from "react-intersection-observer";
+import dynamic from "next/dynamic";
 import { useModal } from "~/components/Modal";
 import { Story, useStoriesQuery, useUserQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
-import { useInView } from "react-intersection-observer";
+
+const StorySlider = dynamic(() => import("./StorySlider"));
 
 const LIMIT = 10;
 
