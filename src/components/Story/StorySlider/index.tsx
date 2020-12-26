@@ -81,7 +81,7 @@ const StorySliderContent: React.FC<{
   }, []);
 
   return (
-    <div className="h-full w-full max-w-xl mx-auto relative select-none">
+    <>
       <div className="swiper-container h-full" id="story-feed-swiper">
         <div className="swiper-wrapper">
           {virtualData?.slides?.map((slide) => {
@@ -100,18 +100,18 @@ const StorySliderContent: React.FC<{
       </div>
       <button
         onClick={() => swiperRef.current.swiper?.slidePrev()}
-        className="btn hidden sm:flex rounded-full absolute z-10 top-1/2 left-2 h-12 w-12"
+        className="btn btn-transparent hidden sm:flex rounded-full absolute z-10 top-1/2 left-2 p-0 h-16 w-16"
       >
-        <SvgChevronLeft />
+        <SvgChevronLeft className="w-10 h-10" />
       </button>
       <button
         onClick={() => swiperRef.current.swiper?.slideNext()}
-        className="btn hidden sm:flex rounded-full absolute z-10 top-1/2 right-2 h-12 w-12"
+        className="btn btn-transparent hidden sm:flex rounded-full absolute z-10 top-1/2 right-2 p-0 h-16 w-16"
       >
-        <SvgChevronRight />
+        <SvgChevronRight className="w-10 h-10" />
       </button>
       <ListenStoryOverlay stories={stories} />
-    </div>
+    </>
   );
 };
 
@@ -129,20 +129,22 @@ const StorySlider: React.FC<{
       isOpen={active}
       style={{ zIndex: 10, backdropFilter: "blur(2px)" }}
     >
-      <button
-        className="btn absolute top-4 z-20 right-3 p-1.5 rounded-full"
-        onClick={() => {
-          close();
-        }}
-        aria-label={t("modal.close")}
-      >
-        <SvgChevronDown className="w-6 h-6" />
-      </button>
-      <StorySliderContent
-        intialSlide={intialSlide}
-        stories={stories}
-        setNext={setNext}
-      />
+      <div className="h-full w-full max-w-xl mx-auto relative select-none">
+        <button
+          className="btn absolute top-6 z-20 right-6 p-1.5 rounded-full"
+          onClick={() => {
+            close();
+          }}
+          aria-label={t("modal.close")}
+        >
+          <SvgChevronDown className="w-6 h-6" />
+        </button>
+        <StorySliderContent
+          intialSlide={intialSlide}
+          stories={stories}
+          setNext={setNext}
+        />
+      </div>
     </DialogOverlay>
   );
 };
