@@ -77,6 +77,5 @@ This project is not possible without:
 - [All the libraries and their amazing maintainers](package.json)
 - [Feather Icons](https://feathericons.com/)
 - [Odesli API](https://odesli.co/)
-- [Noun Project](https://thenounproject.com/)
 - [tobiaslins/avatar](https://github.com/tobiaslins/avatar)
 - last but not least... **you**

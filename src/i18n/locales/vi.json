@@ -175,7 +175,11 @@
       "addSuccess": "{{username}} sẽ có thể thêm nhạc",
       "removeSuccess": "{{username}} sẽ không thể thêm nhạc"
     },
-    "play": "Phát story"
+    "play": "Phát story",
+    "feed": {
+      "title": "Dòng story",
+      "instruction": "Chạm hai lần để phát bài tiếp theo. Cuộn chuột hoặc vuốt lên để khám phá thêm Story."
+    }
   },
   "user": {
     "profile": "Hồ sơ",

@@ -176,7 +176,11 @@
       "addSuccess": "{{username}} can now add songs",
       "removeSuccess": "{{username}} can no longer add songs"
     },
-    "play": "Play story"
+    "play": "Play story",
+    "feed": {
+      "title": "Story feed",
+      "instruction": "Double tap to play next songs. Scroll or swipe to discover more stories."
+    }
   },
   "user": {
     "profile": "Profile",

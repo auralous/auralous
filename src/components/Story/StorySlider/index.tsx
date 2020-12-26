@@ -3,10 +3,11 @@ import { DialogOverlay } from "@reach/dialog";
 import Swiper from "swiper/bundle";
 import { VirtualData } from "swiper/types/components/virtual";
 import ListenStoryView from "./StorySliderView";
+import StorySliderInstruction from "./StorySliderInstruction";
 import { usePlayer } from "~/components/Player";
 import { Story } from "~/graphql/gql.gen";
 import ListenStoryOverlay from "./StorySliderAction";
-import { SvgChevronDown, SvgChevronLeft, SvgChevronRight } from "~/assets/svg";
+import { SvgChevronDown } from "~/assets/svg";
 import { useI18n } from "~/i18n/index";
 
 const StorySliderContent: React.FC<{
@@ -59,6 +60,8 @@ const StorySliderContent: React.FC<{
         spaceBetween: 0,
         slidesPerView: 1,
         initialSlide: intialSlide,
+        direction: "vertical",
+        mousewheel: true,
         virtual: {
           slides: stories?.map((story) => story.id) || [],
           renderExternal: setVirtualData,
@@ -90,7 +93,7 @@ const StorySliderContent: React.FC<{
               <div
                 key={slide}
                 className="swiper-slide h-screen-layout"
-                style={{ left: `${virtualData.offset}px` }}
+                style={{ top: `${virtualData.offset}px` }}
               >
                 {story && <ListenStoryView story={story} />}
               </div>
@@ -98,18 +101,6 @@ const StorySliderContent: React.FC<{
           })}
         </div>
       </div>
-      <button
-        onClick={() => swiperRef.current.swiper?.slidePrev()}
-        className="btn btn-transparent hidden sm:flex rounded-full absolute z-10 top-1/2 -left-12 p-0 h-16 w-16"
-      >
-        <SvgChevronLeft className="w-10 h-10" />
-      </button>
-      <button
-        onClick={() => swiperRef.current.swiper?.slideNext()}
-        className="btn btn-transparent hidden sm:flex rounded-full absolute z-10 top-1/2 -right-12 p-0 h-16 w-16"
-      >
-        <SvgChevronRight className="w-10 h-10" />
-      </button>
       <ListenStoryOverlay stories={stories} />
     </>
   );
@@ -128,6 +119,7 @@ const StorySlider: React.FC<{
     <DialogOverlay
       isOpen={active}
       style={{ zIndex: 10, backdropFilter: "blur(2px)" }}
+      aria-label={t("story.feed.title")}
     >
       <div className="h-full w-full max-w-lg mx-auto relative select-none">
         <button
@@ -145,6 +137,7 @@ const StorySlider: React.FC<{
           setNext={setNext}
         />
       </div>
+      <StorySliderInstruction />
     </DialogOverlay>
   );
 };
