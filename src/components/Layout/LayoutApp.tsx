@@ -5,13 +5,11 @@ import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 import {
-  SvgLogIn,
   SvgLogo,
   SvgMapPin,
   SvgPlayCircle,
   SvgPlus,
   SvgSettings,
-  SvgUser,
 } from "~/assets/svg";
 import { useRouter } from "next/router";
 
@@ -123,9 +121,6 @@ const AppbarItem: React.FC<{
 
 const Appbar: React.FC = () => {
   const { t } = useI18n();
-  const user = useCurrentUser();
-
-  const [, logIn] = useLogin();
 
   return (
     <div
@@ -143,23 +138,6 @@ const Appbar: React.FC = () => {
       <AppbarItem href="/map" title={t("map.title")}>
         <SvgMapPin className="w-4 h-4" />
       </AppbarItem>
-      {user ? (
-        <AppbarItem
-          href="/user/[username]"
-          as={`/user/${user.username}`}
-          title={user.username}
-        >
-          <SvgUser className="w-4 h-4" />
-        </AppbarItem>
-      ) : (
-        <button
-          onClick={logIn}
-          className="btn btn-transparent text-foreground py-1 font-light flex-1 rounded-none"
-          title={t("common.signIn")}
-        >
-          <SvgLogIn className="w-4 h-4" />
-        </button>
-      )}
     </div>
   );
 };
