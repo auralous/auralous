@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 
 const sidebarColor = "rgb(18, 18, 24)";
 
-const boldClasses = "bg-gradient-to-l from-warning to-primary";
+const boldClasses = "bg-gradient-to-l from-warning to-primary flex-none px-8";
 
 const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
   children,
@@ -108,9 +108,9 @@ const AppbarItem: React.FC<{
   return (
     <Link href={href} as={as}>
       <a
-        className={`btn btn-transparent text-foreground border-primary py-1 font-light flex-1 rounded-none ${
+        className={`btn btn-transparent text-foreground border-primary py-1 font-light rounded-none ${
           isActive && !isBold ? "border-b-2" : ""
-        } ${isBold ? boldClasses : ""}`}
+        } ${isBold ? boldClasses : "flex-1"}`}
         title={title}
       >
         {children}
