@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { useMeQuery, User } from "~/graphql/gql.gen";
+import { useMeQuery, User, useUserFollowingsQuery } from "~/graphql/gql.gen";
 import axios from "redaxios";
 import { MAuth } from "~/types/index";
 
@@ -7,6 +7,14 @@ export function useCurrentUser(): User | null | undefined {
   const [{ data, fetching }] = useMeQuery();
   if (fetching) return undefined;
   return data?.me;
+}
+
+export function useMeFollowings() {
+  const user = useCurrentUser();
+  return useUserFollowingsQuery({
+    variables: { id: user?.id || "" },
+    pause: !user,
+  });
 }
 
 export function useMAuth() {

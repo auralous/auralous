@@ -26,6 +26,14 @@ import {
   NowPlayingReactionsQuery,
   NowPlayingReactionsDocument,
   NowPlayingReactionType,
+  UserFollowingsQuery,
+  MeQuery,
+  MeDocument,
+  UserFollowingsDocument,
+  UserFollowingsQueryVariables,
+  UserStatQuery,
+  UserStatQueryVariables,
+  UserStatDocument,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 import { storySliderPagination } from "./_pagination";
@@ -136,6 +144,83 @@ const cacheExchange = createCacheExchange({
       },
       deleteMe: () => {
         window.resetUrqlClient();
+      },
+      followUser: (result, args, cache) => {
+        if (result.followUser === true) {
+          const followedId = args.id as string;
+
+          const meCache = cache.readQuery<MeQuery>({ query: MeDocument });
+          // Possibly invalid state
+          if (!meCache?.me)
+            throw new Error("Bad state: should have been authenticated");
+
+          // Update current user following
+          cache.updateQuery<UserFollowingsQuery, UserFollowingsQueryVariables>(
+            {
+              query: UserFollowingsDocument,
+              variables: { id: meCache.me.id },
+            },
+            (data) => ({
+              userFollowings: (data?.userFollowings
+                ? [followedId, ...data.userFollowings]
+                : [followedId]) as string[],
+            })
+          );
+
+          // Update followed user stat if available
+          cache.updateQuery<UserStatQuery, UserStatQueryVariables>(
+            { query: UserStatDocument, variables: { id: followedId } },
+            (data) =>
+              data?.userStat
+                ? {
+                    userStat: {
+                      ...data.userStat,
+                      followerCount: data.userStat.followerCount + 1,
+                    },
+                  }
+                : data
+          );
+        }
+      },
+      unfollowUser: (result, args, cache) => {
+        if (result.unfollowUser === true) {
+          const unfollowedId = args.id as string;
+
+          const meCache = cache.readQuery<MeQuery>({ query: MeDocument });
+          // Possibly invalid state
+          if (!meCache?.me)
+            throw new Error("Bad state: should have been authenticated");
+
+          // Update current user following
+          cache.updateQuery<UserFollowingsQuery, UserFollowingsQueryVariables>(
+            {
+              query: UserFollowingsDocument,
+              variables: { id: meCache.me.id },
+            },
+            (data) =>
+              data?.userFollowings
+                ? {
+                    userFollowings: data.userFollowings.filter(
+                      (uf) => uf !== unfollowedId
+                    ),
+                  }
+                : data
+          );
+
+          // Update followed user stat if available
+          cache.updateQuery<UserStatQuery, UserStatQueryVariables>(
+            { query: UserStatDocument, variables: { id: unfollowedId } },
+            (data) =>
+              data?.userStat
+                ? {
+                    userStat: {
+                      ...data.userStat,
+                      followerCount: data.userStat.followerCount - 1,
+                    },
+                  }
+                : data
+          );
+        }
       },
     },
     Subscription: {
