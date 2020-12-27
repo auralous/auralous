@@ -1,4 +1,4 @@
-import { Track, PlatformName } from "~/graphql/gql.gen";
+import { Track } from "~/graphql/gql.gen";
 import Player from "./Player";
 import { useCrossTracks } from "~/hooks/track";
 
@@ -9,7 +9,6 @@ export interface IPlayerContext {
     playerPlaying: PlayerPlaying;
     playingStoryId: string;
     crossTracks: ReturnType<typeof useCrossTracks>[0];
-    playingPlatform: PlatformName;
     fetching: boolean;
   };
   playStory: (storyId: string) => void;

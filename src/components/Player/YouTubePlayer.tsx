@@ -21,13 +21,17 @@ declare global {
 
 export default function YouTubePlayer() {
   const { t } = useI18n();
-  const { player } = usePlayer();
+  const {
+    player,
+    state: { playerPlaying },
+  } = usePlayer();
 
   useEffect(() => {
     let ytPlayer: YT.Player;
     let durationInterval: number; // setInterval
 
-    function playById(externalId: string) {
+    function playByExternalId(externalId: string | null) {
+      if (!externalId) return ytPlayer.pauseVideo();
       ytPlayer.loadVideoById(externalId);
       ytPlayer.playVideo();
     }
@@ -51,14 +55,11 @@ export default function YouTubePlayer() {
                   player.emit("seeked");
                 },
                 pause: () => ytPlayer.pauseVideo(),
-                loadById: playById,
+                playByExternalId,
                 setVolume: (p) => ytPlayer.setVolume(p * 100),
                 isPlaying: () =>
                   ytPlayer.getPlayerState() === window.YT.PlayerState.PLAYING,
               });
-              // durationInterval = window.setInterval(() => {
-              //   player.emit("time", ytPlayer.getCurrentTime() * 1000);
-              // }, 1000);
             },
             onStateChange(event) {
               event.data === window.YT.PlayerState.PAUSED
@@ -87,7 +88,7 @@ export default function YouTubePlayer() {
 
   return (
     <div
-      className={`fixed z-20 sm:z-30 ${
+      className={`${playerPlaying ? "" : "hidden"} fixed z-20 sm:z-30 ${
         posIsTop ? "top-2 right-2" : "bottom-2 right-2"
       } w-56 h-36 sm:w-72 sm:h-48 rounded-lg overflow-hidden transition-transform`}
     >

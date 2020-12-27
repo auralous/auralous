@@ -14,7 +14,6 @@ export function useMAuth() {
   return useQuery(
     `mauth:${user?.id || ""}`,
     async () => {
-      if (!user) return null;
       const data = await axios
         .get<MAuth | undefined>(`${process.env.API_URI}/auth/mauth`, {
           withCredentials: true,

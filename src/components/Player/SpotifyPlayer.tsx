@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import axios from "redaxios";
 import { toast } from "~/lib/toast";
 import usePlayer from "./usePlayer";
-import { sleep } from "~/lib/util";
 import { verifyScript } from "~/lib/script-utils";
 import { useMAuth } from "~/hooks/user";
 import { t } from "~/i18n/index";
@@ -10,7 +9,7 @@ import { t } from "~/i18n/index";
 
 const BASE_URL = "https://api.spotify.com/v1";
 
-export type SpotifyPlayerStatus = "WAIT" | "OK" | "NO_PREMIUM" | "NO_SUPPORT";
+const onError = (e: Spotify.Error) => toast.error(e.message);
 
 export default function SpotifyPlayer() {
   const { player } = usePlayer();
@@ -19,38 +18,23 @@ export default function SpotifyPlayer() {
   useEffect(() => {
     let spotifyPlayer: Spotify.SpotifyPlayer | null = null;
     let spotifyState: Spotify.PlaybackState | null = null;
+    let deviceId: string | null = null;
 
-    const onError = (e: Spotify.Error) => toast.error(e.message);
-    const onReady: Spotify.PlaybackInstanceListener = ({ device_id }) => {
-      player.registerPlayer({
-        play: () => spotifyPlayer?.resume(),
-        seek: (ms) => spotifyPlayer?.seek(ms).then(() => player.emit("seeked")),
-        pause: () => spotifyPlayer?.pause(),
-        loadById: playById.bind(undefined, device_id),
-        setVolume: (p) => spotifyPlayer?.setVolume(p),
-        // Note: It is impossible to determine spotify without a promise
-        isPlaying: () => !spotifyState?.paused,
-      });
-      // get duration
-      // durationInterval = window.setInterval(async () => {
-      //   player.emit(
-      //     "time",
-      //     (await spotifyPlayer?.getCurrentState())?.position || 0
-      //   );
-      // }, 1000);
-    };
-    const instance: typeof axios = axios.create({
-      headers: { Authorization: `Bearer ${mAuth?.accessToken}` },
-    });
-    const playById = async (device_id: string, externalId: string) => {
+    const playByExternalId = async (externalId: string | null) => {
+      if (!externalId)
+        return (
+          spotifyState?.track_window.current_track && spotifyPlayer?.pause()
+        );
+
       const resp = await instance.put(
         `${BASE_URL}/me/player/play`,
         { uris: [`spotify:track:${externalId}`] },
         {
           validateStatus: () => true,
-          params: { device_id },
+          params: { device_id: deviceId },
         }
       );
+
       if (resp.status !== 204 && resp.data?.error) {
         if (resp.data.error.reason === "PREMIUM_REQUIRED")
           return toast.error({
@@ -59,13 +43,29 @@ export default function SpotifyPlayer() {
           });
         else onError(resp.data.error);
       }
-      await sleep(500);
-      spotifyPlayer?.resume();
     };
+
+    const onReady: Spotify.PlaybackInstanceListener = ({ device_id }) => {
+      deviceId = device_id;
+      player.registerPlayer({
+        play: () => spotifyPlayer?.resume(),
+        seek: (ms) => spotifyPlayer?.seek(ms).then(() => player.emit("seeked")),
+        pause: () => spotifyPlayer?.pause(),
+        playByExternalId: playByExternalId,
+        setVolume: (p) => spotifyPlayer?.setVolume(p),
+        // Note: It is impossible to determine spotify without a promise
+        isPlaying: () => !spotifyState?.paused,
+      });
+    };
+
+    const instance: typeof axios = axios.create({
+      headers: { Authorization: `Bearer ${mAuth?.accessToken}` },
+    });
+
     const onState: Spotify.PlaybackStateListener = (state) => {
       if (!state) return;
       state.paused ? player.emit("paused") : player.emit("playing");
-      // FIXME: Temporary workaround only https://github.com/spotify/web-playback-sdk/issues/35#issuecomment-509159445
+      // FIXME: Temporary workaround for END state https://github.com/spotify/web-playback-sdk/issues/35#issuecomment-509159445
       if (
         spotifyState &&
         state.track_window.previous_tracks[0]?.id ===
@@ -78,8 +78,6 @@ export default function SpotifyPlayer() {
       }
       spotifyState = state;
     };
-
-    let durationInterval: number; // ID of setInterval
 
     async function init() {
       if (!window.Spotify?.Player || spotifyPlayer || !mAuth?.accessToken)
@@ -110,8 +108,7 @@ export default function SpotifyPlayer() {
     window.onSpotifyWebPlaybackSDKReady = init;
     verifyScript("https://sdk.scdn.co/spotify-player.js").then(init);
 
-    return function cleanup() {
-      window.clearInterval(durationInterval);
+    return function cleanupSpotifyPlayer() {
       // @ts-expect-error: DT defines this as non null
       window.onSpotifyWebPlaybackSDKReady = null;
       player.unregisterPlayer();

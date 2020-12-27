@@ -26,9 +26,6 @@ export const useCrossTracks = (id?: string) => {
     pause: !crossTracks?.spotify,
   });
 
-  const fetching = fetchingCross || fetchingYT || fetchingS;
-
-  // TODO: Investigate while this returns differently on render
   const data = useMemo<
     | {
         id: string;
@@ -38,7 +35,26 @@ export const useCrossTracks = (id?: string) => {
       }
     | undefined
   >(() => {
-    if (!id || !crossTracks || fetching) return undefined;
+    if (!id) return undefined;
+
+    // fetching IS NOT RELIABLE!! so we check specifically
+    // if respective responses are for id arg and return
+    // undefined if not matched (possibly fetching)
+    if (crossTracks?.id !== id) return undefined;
+
+    if (
+      !!crossTracks.youtube &&
+      !!youtube &&
+      youtube.externalId !== crossTracks.youtube
+    )
+      return undefined;
+
+    if (
+      !!crossTracks.spotify &&
+      !!spotify &&
+      spotify.externalId !== crossTracks.spotify
+    )
+      return undefined;
 
     // Find the original tracks among crossTracks
     let original: Track | null = null;
@@ -46,7 +62,10 @@ export const useCrossTracks = (id?: string) => {
     else if (youtube?.id === crossTracks.id) original = youtube;
 
     return { id, original, youtube, spotify };
-  }, [id, fetching, crossTracks, youtube, spotify]);
+  }, [id, crossTracks, youtube, spotify]);
 
-  return [data, { fetching }] as const;
+  return [
+    data,
+    { fetching: fetchingCross || fetchingYT || fetchingS },
+  ] as const;
 };

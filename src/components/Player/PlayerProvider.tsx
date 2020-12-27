@@ -162,11 +162,15 @@ const PlayerProvider: React.FC = ({ children }) => {
     return () => window.clearTimeout(t);
   }, [mAuth, mAuthRefetch]);
 
-  // Preferred platform to use by user
-  const playingPlatform = useMemo<PlatformName>(
-    () => mAuth?.platform || PlatformName.Youtube,
-    [mAuth]
-  );
+  // playingPlatform: Preferred platform to use by user
+  // If the user is not sign in, defaulting to YouTube
+  // However, we always wait for the result of mAuth
+  // so that not to load unneccessary sdks
+  const playingPlatform = useMemo<PlatformName | null>(() => {
+    // if mAuth === undefined, it has not fetched
+    if (mAuth === undefined) return null;
+    return mAuth?.platform || PlatformName.Youtube;
+  }, [mAuth]);
 
   // Player Control: To play a story or a track
   const [playingStoryId, playStory] = useState<string>("");
@@ -209,16 +213,14 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   // The track that is playing
   const playerPlaying = useMemo<PlayerPlaying>(() => {
+    if (!playingPlatform) return null;
     if (!crossTracks) return (player.playerPlaying = null);
     return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
 
-  // Fetching status of everything
-  const fetching =
-    fetchingMAuth || fetchingCrossTracks || fetchingNP || fetchingQueue;
-
   // Show a message if track is not found
   useEffect(() => {
+    if (!playingPlatform) return;
     if (crossTracks?.[playingPlatform] === null) {
       const tt = toast.error({
         message: t("player.noCrossTrack", {
@@ -232,39 +234,31 @@ const PlayerProvider: React.FC = ({ children }) => {
   }, [crossTracks, playingPlatform]);
 
   // Player Component
-  const [
-    DynamicPlayer,
-    setDynamicPlayer,
-  ] = useState<React.ComponentType | null>(null);
+  const DynamicPlayer = useMemo(() => {
+    if (!playingPlatform) return null;
+    if (playingPlatform === PlatformName.Youtube) return YouTubePlayer;
+    return SpotifyPlayer;
+  }, [playingPlatform]);
 
   useEffect(() => {
-    const handlePlayerChange = () => {
-      if (fetchingCrossTracks) return;
-      if (player.comparePlatform(playerPlaying?.platform || null)) {
-        if (playerPlaying?.externalId)
-          player.loadByExternalId(playerPlaying.externalId);
-      } else {
-        switch (playerPlaying?.platform) {
-          case PlatformName.Youtube:
-            setDynamicPlayer(YouTubePlayer);
-            break;
-          case PlatformName.Spotify:
-            setDynamicPlayer(SpotifyPlayer);
-            break;
-          default:
-            setDynamicPlayer(null);
-        }
-      }
-    };
-    // If the user pause the track before playerPlaying change,
-    // delay the switch until they press play again
+    const handlePlayerChange = () =>
+      player.playByExternalId(playerPlaying?.externalId || null);
+    // If the user paused the track before playerPlaying change,
+    // delay the switch until they press play again to avoid
+    // unexpected play
     if (player.wasPlaying) {
       handlePlayerChange();
     } else {
       player.on("playing", handlePlayerChange);
       return () => player.off("playing", handlePlayerChange);
     }
-  }, [playerPlaying?.platform, playerPlaying?.externalId, fetchingCrossTracks]);
+  }, [playerPlaying?.externalId]);
+
+  // Fetching status of everything
+  // It is not reliable on changes of arg
+  // (might show stale vdata)
+  const fetching =
+    fetchingMAuth || fetchingCrossTracks || fetchingNP || fetchingQueue;
 
   const playerContextValue = useMemo<IPlayerContext>(() => {
     return {
@@ -272,7 +266,6 @@ const PlayerProvider: React.FC = ({ children }) => {
         playerPlaying,
         playingStoryId,
         crossTracks,
-        playingPlatform,
         fetching,
       },
       playStory,
@@ -289,7 +282,6 @@ const PlayerProvider: React.FC = ({ children }) => {
     skipForwardNP,
     playingStoryId,
     crossTracks,
-    playingPlatform,
     playQueueItem,
   ]);
 

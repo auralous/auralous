@@ -1,4 +1,3 @@
-import { PlatformName } from "~/graphql/gql.gen";
 import { PlayerPlaying } from "./types";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -9,7 +8,7 @@ interface PlayerHandle {
   seek: (ms: number) => void;
   isPlaying: () => boolean;
   pause: () => void;
-  loadById: (externalId: string) => void;
+  playByExternalId: (externalId: string | null) => void;
   setVolume: (p: number) => void;
 }
 
@@ -18,20 +17,16 @@ interface Player {
   on(state: "playing", fn: () => void): void;
   on(state: "paused", fn: () => void): void;
   on(state: "seeked", fn: () => void): void;
-  on(state: "time", fn: (ms: number) => void): void;
   on(state: "ended", fn: () => void): void;
   // off
   off(state: "playing", fn: () => void): void;
   off(state: "paused", fn: () => void): void;
   off(state: "seeked", fn: () => void): void;
-  off(state: "time", fn: (ms: number) => void): void;
   off(state: "ended", fn: () => void): void;
 }
 
 class Player {
   private ee: Record<string, HandlerFn[]>;
-  private _lastPlatform: PlatformName | undefined | null;
-  currentMs: number;
   private playerFn: PlayerHandle | null;
   wasPlaying = false;
   playerPlaying: PlayerPlaying = null;
@@ -39,11 +34,7 @@ class Player {
   constructor() {
     // developit/mitt
     this.ee = Object.create(null);
-    this.currentMs = 0;
     this.playerFn = null;
-    this.on("time", (ms: number) => {
-      this.currentMs = ms;
-    });
   }
 
   on(state: string, handler: HandlerFn) {
@@ -67,7 +58,7 @@ class Player {
     this.playerFn = registerHandle;
     // start playing after register
     this.playerPlaying &&
-      registerHandle.loadById(this.playerPlaying.externalId);
+      registerHandle.playByExternalId(this.playerPlaying.externalId);
   }
 
   unregisterPlayer() {
@@ -96,14 +87,8 @@ class Player {
     this.playerFn?.setVolume(p);
   }
 
-  loadByExternalId(externalId: string) {
-    this.playerFn?.loadById(externalId);
-  }
-
-  comparePlatform(platform: PlatformName | null): boolean {
-    const isSamePlatform = !!platform && this._lastPlatform === platform;
-    this._lastPlatform = platform;
-    return isSamePlatform;
+  playByExternalId(externalId: string | null) {
+    this.playerFn?.playByExternalId(externalId);
   }
 }
 
