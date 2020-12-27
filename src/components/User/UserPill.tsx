@@ -9,8 +9,8 @@ const UserPill: React.FC<{ id: string }> = ({ id }) => {
   });
 
   return (
-    <div className="flex items-center rounded-full bg-background-secondary p-1">
-      <div className="flex-none w-10 h-10 mr-2 rounded-full overflow-hidden">
+    <div className="flex items-center p-1">
+      <div className="flex-none w-8 h-8 mr-2 rounded-full overflow-hidden">
         {user ? (
           <img
             className="w-full h-full object-cover"
@@ -23,7 +23,7 @@ const UserPill: React.FC<{ id: string }> = ({ id }) => {
       </div>
       <div className="mr-2">
         {user ? (
-          <Link href={`/user/[userId]`}>
+          <Link href={`/user/${id}`}>
             <a className="font-semibold truncate text-inline-link">
               {user.username}
             </a>
