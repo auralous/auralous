@@ -3,9 +3,72 @@ import Link from "next/link";
 import UserFollowButton from "./UserFollowButton";
 import StoryFeed from "~/components/Story/StoryFeed";
 import { useCurrentUser } from "~/hooks/user";
-import { User, useUserQuery, useUserStatQuery } from "~/graphql/gql.gen";
+import {
+  User,
+  useUserFollowersQuery,
+  useUserFollowingsQuery,
+  useUserQuery,
+  useUserStatQuery,
+} from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgSettings } from "~/assets/svg";
+import { Modal, useModal } from "../Modal";
+import UserList from "./UserList";
+import { onEnterKeyClick } from "~/lib/util";
+
+const UserFollowingModals: React.FC<{
+  id: string;
+  active: boolean;
+  close(): void;
+}> = ({ id, active, close }) => {
+  const { t } = useI18n();
+
+  const [
+    { data: { userFollowings } = { userFollowings: undefined } },
+  ] = useUserFollowingsQuery({
+    variables: { id },
+    pause: !active,
+    requestPolicy: "cache-and-network",
+  });
+
+  return (
+    <Modal.Modal title={t("user.following")} active={active} close={close}>
+      <Modal.Header>
+        <Modal.Title>{t("user.following")}</Modal.Title>
+      </Modal.Header>
+      <Modal.Content>
+        <UserList userIds={userFollowings || []} />
+      </Modal.Content>
+    </Modal.Modal>
+  );
+};
+
+const UserFollowerModals: React.FC<{
+  id: string;
+  active: boolean;
+  close(): void;
+}> = ({ id, active, close }) => {
+  const { t } = useI18n();
+
+  const [
+    { data: { userFollowers } = { userFollowers: undefined } },
+  ] = useUserFollowersQuery({
+    variables: { id },
+    pause: !active,
+    requestPolicy: "cache-and-network",
+  });
+
+  return (
+    <Modal.Modal title={t("user.followers")} active={active} close={close}>
+      <Modal.Header>
+        <Modal.Title>{t("user.followers")}</Modal.Title>
+      </Modal.Header>
+      <Modal.Content>
+        <UserList userIds={userFollowers || []} />
+      </Modal.Content>
+    </Modal.Modal>
+  );
+};
 
 const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
   const { t } = useI18n();
@@ -21,6 +84,9 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
     variables: { id: user.id },
     requestPolicy: "cache-and-network",
   });
+
+  const [activeFollower, openFollower, closeFollower] = useModal();
+  const [activeFollowing, openFollowing, closeFollowing] = useModal();
 
   return (
     <>
@@ -42,10 +108,22 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           <UserFollowButton id={user.id} />
         </div>
         <div className="flex flex-center text-sm space-x-8 text-foreground-secondary">
-          <div>
+          <div
+            role="link"
+            tabIndex={0}
+            onKeyPress={onEnterKeyClick}
+            className="p-1 text-inline-link"
+            onClick={openFollowing}
+          >
             <b>{userStat?.followingCount}</b> {t("user.following")}
           </div>
-          <div>
+          <div
+            role="link"
+            tabIndex={0}
+            onKeyPress={onEnterKeyClick}
+            className="p-1 text-inline-link"
+            onClick={openFollower}
+          >
             <b>{userStat?.followerCount}</b> {t("user.followers")}
           </div>
         </div>
@@ -63,6 +141,16 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
       <div className="container mx-auto py-4">
         <StoryFeed id={`creatorId:${user.id}`} />
       </div>
+      <UserFollowingModals
+        id={user.id}
+        active={activeFollowing}
+        close={closeFollowing}
+      />
+      <UserFollowerModals
+        id={user.id}
+        active={activeFollower}
+        close={closeFollower}
+      />
     </>
   );
 };

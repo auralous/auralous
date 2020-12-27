@@ -6,7 +6,10 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
-const UserFollowButton: React.FC<{ id: string }> = ({ id }) => {
+const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
+  id,
+  isTiny,
+}) => {
   const { t } = useI18n();
 
   const user = useCurrentUser();
@@ -28,7 +31,9 @@ const UserFollowButton: React.FC<{ id: string }> = ({ id }) => {
       <button
         onClick={() => unfollowUser({ id })}
         disabled={fetchingUnfollow}
-        className="btn btn-transparent text-primary bg-transparent border-2 border-primary text-sm rounded-full"
+        className={`btn btn-transparent text-primary bg-transparent border-2 border-primary rounded-full leading-none ${
+          isTiny ? "text-xs px-2 py-1" : "text-sm"
+        }`}
       >
         {t("user.unfollow")}
       </button>
@@ -38,7 +43,9 @@ const UserFollowButton: React.FC<{ id: string }> = ({ id }) => {
     <button
       onClick={() => followUser({ id })}
       disabled={fetchingFollow || user?.id === id}
-      className="btn btn-primary border-2 border-transparent text-sm rounded-full"
+      className={`btn btn-primary border-2 border-transparent rounded-full leading-none ${
+        isTiny ? "text-xs px-2 py-1" : "text-sm"
+      }`}
     >
       {t("user.follow")}
     </button>
