@@ -31,9 +31,6 @@ import {
   MeDocument,
   UserFollowingsDocument,
   UserFollowingsQueryVariables,
-  UserStatQuery,
-  UserStatQueryVariables,
-  UserStatDocument,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 import { storySliderPagination } from "./_pagination";
@@ -167,19 +164,15 @@ const cacheExchange = createCacheExchange({
             })
           );
 
-          // Update followed user stat if available
-          cache.updateQuery<UserStatQuery, UserStatQueryVariables>(
-            { query: UserStatDocument, variables: { id: followedId } },
-            (data) =>
-              data?.userStat
-                ? {
-                    userStat: {
-                      ...data.userStat,
-                      followerCount: data.userStat.followerCount + 1,
-                    },
-                  }
-                : data
-          );
+          // Invalidate user stat of both entity
+          cache.invalidate({
+            __typename: "UserStat",
+            id: followedId,
+          });
+          cache.invalidate({
+            __typename: "UserStat",
+            id: meCache.me.id,
+          });
         }
       },
       unfollowUser: (result, args, cache) => {
@@ -207,19 +200,15 @@ const cacheExchange = createCacheExchange({
                 : data
           );
 
-          // Update followed user stat if available
-          cache.updateQuery<UserStatQuery, UserStatQueryVariables>(
-            { query: UserStatDocument, variables: { id: unfollowedId } },
-            (data) =>
-              data?.userStat
-                ? {
-                    userStat: {
-                      ...data.userStat,
-                      followerCount: data.userStat.followerCount - 1,
-                    },
-                  }
-                : data
-          );
+          // Invalidate user stat of both entity
+          cache.invalidate({
+            __typename: "UserStat",
+            id: unfollowedId,
+          });
+          cache.invalidate({
+            __typename: "UserStat",
+            id: meCache.me.id,
+          });
         }
       },
     },
