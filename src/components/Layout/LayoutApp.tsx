@@ -120,6 +120,8 @@ const AppbarItem: React.FC<{
   );
 };
 
+const noAppbarPathname = ["/story/[storyId]", "/new"];
+
 const Appbar: React.FC = () => {
   const { t } = useI18n();
   const router = useRouter();
@@ -127,12 +129,12 @@ const Appbar: React.FC = () => {
     <>
       <div
         className={`${
-          router.pathname === "/story/[storyId]" ? "hidden" : ""
+          noAppbarPathname.includes(router.pathname) ? "hidden" : ""
         } h-10 w-full `}
       />
       <div
         className={`${
-          router.pathname === "/story/[storyId]" ? "hidden" : "flex"
+          noAppbarPathname.includes(router.pathname) ? "hidden" : "flex"
         } z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
         style={{ backgroundColor: sidebarColor }}
       >
