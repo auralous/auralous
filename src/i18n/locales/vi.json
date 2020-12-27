@@ -8,21 +8,21 @@
   "intro": {
     "use": { "action": "Truy cập Stereo", "watch": "Xem giới thiệu" },
     "listen": {
-      "title": "Nghe nhạc mọi nơi",
-      "description": "Stereo tích hợp với ứng dụng nghe nhạc quen thuộc với bạn. Bạn không cần gì ngoài một tài khoản YouTube, Spotify, hay Apple Music.",
-      "p": "Bạn bè bạn không dùng chung ứng dụng nghe nhạc? Không sao, Stereo sẽ tìm bài hát tương ứng trên ứng dụng mà bạn sở hữu.",
+      "title": "Ba nền tảng. Một trải nghiệm.",
+      "description": "Tích hợp với ứng dụng nghe nhạc YouTube, Spotify, or Apple Music quen thuộc.",
+      "p": "Nghe cùng một bài hát, cùng một thời điểm, cùng bạn bè trên bất kể nên tảng nào.",
       "action": "Cùng nghe nào"
     },
     "playlist": {
-      "title": "Bắt đầu ngay",
-      "p1": "Bắt đầu nghe nhạc cùng nhau trong chưa đầy 30 giây. Đu đưa ngay cùng những bản nhạc trong thư viện của bạn.",
-      "p2": "Bạn có playlist độc lạ sao, hay nhạc sĩ yêu thích của bạn mới ra album mới? Chỉ cần một đường link là có nghe liền!",
-      "action": "Nghe ngay"
+      "title": "Âm nhạc luôn có sẵn",
+      "p1": "Phát nhạc ngay từ trong thư viện của bạn hay từ danh sách của cộng đồng.",
+      "p2": "Chúng mình giúp bạn chia sẽ playlist yêu thích, album mới một cách dễ dàng!",
+      "action": "Thử liền"
     },
     "story": {
-      "title": "Chia Sẻ âm nhạc của bạn",
-      "p1": "Mỗi phiên nghe nhạc của bạn là một story đáng được chia sẻ. Khám phá những bài hát mới trong story từ bạn bè khắp thế giới.",
-      "p2": "Mời bạn bè nghe cùng bạn. Mọi người có thể trò chuyện, thêm nhạc, và bày tỏ cảm xúc với bài hát của người khác.",
+      "title": "Khám phá âm nhạc, cùng nhau!",
+      "p1": "Mỗi phiên nghe nhạc của bạn là một story. Khám phá những bài hát mới trong story từ bạn bè khắp thế giới.",
+      "p2": "Mời bạn bè nghe cùng, trò chuyện, thêm nhạc, và bày tỏ cảm xúc với bài hát của người khác.",
       "p2end": "Âm nhạc luôn tuyệt hơn khi ta nghe cùng nhau.",
       "storyText": "Nghe nhạc cùng đám bạn 💗",
       "storyMsg1": "được đấy ️‍🔥 cảm ơn đã thêm nhạc!",
@@ -79,7 +79,7 @@
     "signOut": "Đăng xuất"
   },
   "listen": {
-    "title": "Nghe ngay",
+    "title": "Nghe nhạc",
     "description": "Khám phá những bài hát mà người khác đang lắm nghe và tham gia cùng họ trong thời gian thực",
     "promptJoin": "Mở xem {{username}} đang nghe gì",
     "promptJoinNolive": "Mở xem {{username}} đã nghe gì",
@@ -117,8 +117,9 @@
     },
     "backText": "Trở về"
   },
-  "discover": {
-    "title": "Khám phá"
+  "map": {
+    "title": "Bản đồ",
+    "description": "Một trải nghiệm khám phá âm nhạc theo địa lý"
   },
   "story": {
     "label": "Story",
@@ -173,6 +174,11 @@
       "addExisted": "{{username}} đã nằm trong danh sách cộng tác viên",
       "addSuccess": "{{username}} sẽ có thể thêm nhạc",
       "removeSuccess": "{{username}} sẽ không thể thêm nhạc"
+    },
+    "play": "Phát story",
+    "feed": {
+      "title": "Dòng story",
+      "instruction": "Chạm để phát bài tiếp theo. Cuộn hoặc vuốt lên để khám phá thêm Story."
     }
   },
   "user": {
@@ -201,8 +207,11 @@
     },
     "stopPlaying": "Dừng Phát",
     "youtube": {
-      "moveToTop": "Chuyển trình chơi lên trên",
-      "moveToBottom": "Chuyển trình chơi xuống dưới",
+      "moveTo": {
+        "title": "Di chuyển",
+        "topRight": "Phải Trên",
+        "bottomRight": "Phải Trên Dưới"
+      },
       "footerText": "YouTube Premium cho phép bạn nghe nhạc không quảng cáo và trong nền. Xem",
       "footerTextAfter": "để biết thêm"
     },
@@ -246,8 +255,7 @@
       "addAction": "Thêm nhạc",
       "removedTrackText": "Đã xoá {{title}}",
       "removeTrackText": "Xoá bài hát",
-      "emptyText": "Ở đây cô đơn quá... Thêm một bài cho nóng nào!",
-      "notAllowedText": "Bạn không được phép thêm nhạc. Xem"
+      "emptyText": "Ở đây cô đơn quá... Thêm một bài nào!"
     }
   },
   "playlist": {
@@ -313,7 +321,7 @@
     "support": "Liên hệ"
   },
   "common": {
-    "backToHome": "Trở về",
+    "back": "Trở về",
     "signIn": "Đăng nhập",
     "dangerousActionText": "Thao tác này sẽ có hiệu lực tức thì và không thể hoàn tác",
     "tracks": "bài hát",

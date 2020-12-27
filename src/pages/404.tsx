@@ -17,7 +17,7 @@ const NotFoundPage: NextPage = () => {
         </p>
         <Link href="/">
           <a className="py-3 px-6 font-bold border-2 border-foreground-secondary  hover:border-foreground rounded-lg text-sm">
-            ← {t("common.backToHome")}
+            ← {t("common.back")}
           </a>
         </Link>
       </div>

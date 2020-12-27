@@ -1,126 +1,47 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import Swiper from "swiper/bundle";
-import ListenStoryView from "./ListenStoryView";
-import { usePlayer } from "~/components/Player";
-import { useStoryFeedQuery, Story } from "~/graphql/gql.gen";
-import ListenStoryOverlay from "./ListenStoryOverlay";
-import { VirtualData } from "swiper/types/components/virtual";
-
-const LIMIT = 10;
+import React from "react";
+import Link from "next/link";
+import { useLogin } from "~/components/Auth";
+import StoryFeed from "~/components/Story/StoryFeed";
+import { useCurrentUser } from "~/hooks/user";
+import { useI18n } from "~/i18n/index";
 
 const ListenMain: React.FC = () => {
-  const [next, setNext] = useState<undefined | string>("");
+  const { t } = useI18n();
 
-  const swiperRef = useRef<{ swiper: Swiper | null }>({ swiper: null });
-
-  // Setup swiper
-  useEffect(() => {
-    const swiperInstance = (swiperRef.current.swiper = new Swiper(
-      "#story-feed-swiper",
-      {
-        spaceBetween: 0,
-        slidesPerView: 1,
-        virtual: { renderExternal: setVirtualData },
-        on: {
-          transitionEnd(swiper) {
-            setCurrentSlide(swiper.activeIndex);
-          },
-        },
-      }
-    ));
-
-    // scroll by keyboard
-    const onKeyPress = (e: KeyboardEvent) => {
-      const swiperInstance = swiperRef.current.swiper;
-      if (!swiperInstance) return;
-      if (e.key === "ArrowRight") swiperInstance.slideNext(600);
-      else if (e.key === "ArrowLeft") swiperInstance.slidePrev(600);
-    };
-    document.addEventListener("keydown", onKeyPress, true);
-
-    // cleanup
-    return function cleanupSwiper() {
-      document.removeEventListener("keydown", onKeyPress);
-      swiperInstance.detachEvents();
-      swiperInstance.destroy();
-    };
-  }, []);
-
-  const [stories, setStories] = useState<Story[]>([]);
-
-  const [{ data }] = useStoryFeedQuery({
-    // pagination is not working rn
-    variables: { id: "PUBLIC", next, limit: LIMIT },
-  });
-
-  useEffect(
-    () =>
-      setStories((ss) => {
-        const tempArr: Story[] = [];
-        data?.storyFeed.forEach(
-          (sf) => !ss.some((s) => s.id === sf.id) && tempArr.push(sf)
-        );
-
-        // update swiper slides
-        swiperRef.current.swiper?.virtual?.appendSlide(
-          tempArr.map((ta) => ta.id)
-        );
-
-        // update state
-        return ss.concat(tempArr);
-      }),
-    [data]
-  );
-
-  const { playStory } = usePlayer();
-
-  const [virtualData, setVirtualData] = useState<VirtualData | null>(null);
-  const [currentSlide, setCurrentSlide] = useState<number>(0);
-
-  useEffect(() => {
-    if (!stories.length) return;
-    // FIXME: This indicate an error
-    // We try to scroll backward to recover
-    if (currentSlide > stories.length - 1)
-      return swiperRef.current.swiper?.slidePrev(600);
-
-    // Play the story
-    playStory(stories[currentSlide].id);
-
-    // Load more stories (pagination)
-    // should start loading the next one if it is 5 slides away
-    if (stories.length - currentSlide < 5) {
-      setNext(stories[stories.length - 1].id);
-    }
-  }, [currentSlide, stories, playStory]);
-
-  const VirtualSlides = useMemo(() => {
-    const els: JSX.Element[] = [];
-    if (!virtualData || !stories.length) return els;
-
-    virtualData.slides.forEach((slide: string) => {
-      const story = stories.find((s) => s.id === slide);
-      if (!story) return;
-      els.push(
-        <div
-          key={story.id}
-          className="swiper-slide h-screen-layout"
-          style={{ left: `${virtualData.offset}px` }}
-        >
-          <ListenStoryView story={story} />
-        </div>
-      );
-    });
-    return els;
-  }, [virtualData, stories]);
+  const user = useCurrentUser();
+  const [, logIn] = useLogin();
 
   return (
-    <div className="h-screen-layout w-full relative overflow-hidden select-none">
-      <div className="swiper-container h-full" id="story-feed-swiper">
-        <div className="swiper-wrapper">{VirtualSlides}</div>
+    <>
+      <div className="flex px-4 pt-6 pb-2 items-center">
+        <h1 className="w-0 flex-1 font-bold text-4xl">{t("listen.title")}</h1>
+        {user ? (
+          <Link href={`/user/${user.username}`}>
+            <a
+              className="btn w-10 h-10 p-0.5 rounded-full text-primary border-2 overflow-hidden"
+              title={user.username}
+            >
+              <img
+                src={user.profilePicture}
+                alt={user.username}
+                className="w-full h-full rounded-full"
+              />
+            </a>
+          </Link>
+        ) : (
+          <button
+            onClick={logIn}
+            className="btn h-10 px-4 rounded-full p-0 text-primary border-2 overflow-hidden"
+            title={t("common.signIn")}
+          >
+            {t("common.signIn")}
+          </button>
+        )}
       </div>
-      <ListenStoryOverlay storyFeed={stories} />
-    </div>
+      <div className="container mx-auto">
+        <StoryFeed id="PUBLIC" />
+      </div>
+    </>
   );
 };
 

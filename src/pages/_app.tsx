@@ -54,7 +54,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
   const Layout = useMemo(() => {
     if (
       [
-        "/discover",
+        "/map",
         "/story/[storyId]",
         "/story/[storyId]/settings",
         "/settings",

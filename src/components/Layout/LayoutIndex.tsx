@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
         <div className="container flex items-center justify-between">
           <div className="flex items-center content-start overflow-hidden">
             <Link href="/">
-              <a className="ml-2 mr-6 z-10" title={t("common.backToHome")}>
+              <a className="ml-2 mr-6 z-10" title={t("common.back")}>
                 <SvgLogo
                   className="mx-auto fill-current"
                   width="112"

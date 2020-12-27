@@ -25,6 +25,7 @@ import {
   StoryQueryVariables,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
+import { storySliderPagination } from "./_pagination";
 
 const subscriptionClient =
   typeof window !== "undefined"
@@ -71,6 +72,7 @@ const cacheExchange = createCacheExchange({
         offsetArgument: "offset",
         mergeMode: "before",
       }),
+      stories: storySliderPagination(),
     },
     Message: {
       // @ts-ignore
@@ -97,17 +99,17 @@ const cacheExchange = createCacheExchange({
           cache.updateQuery<StoriesQuery>(
             {
               query: StoriesDocument,
-              variables: { creatorId: newStory.creatorId },
+              variables: { id: `creatorId:${newStory.creatorId}` },
             },
-            (data) =>
-              data?.stories
-                ? {
-                    stories: data.stories
-                      // Set all previous story to unlive
-                      .map((s) => ({ ...s, isLive: false }))
-                      .concat([newStory]),
-                  }
-                : { stories: [newStory] }
+            (data) => {
+              const stories = data?.stories
+                ? [
+                    newStory, // Set all previous story to unlive
+                    ...data.stories.map((s) => ({ ...s, isLive: false })),
+                  ]
+                : [newStory];
+              return { stories };
+            }
           );
         }
       },

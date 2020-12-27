@@ -1,23 +1,22 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import LayoutContext from "./LayoutContext";
 import { PlayerMinibar } from "~/components/Player/index";
 import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 import {
-  SvgLogIn,
   SvgLogo,
+  SvgMapPin,
   SvgPlayCircle,
   SvgPlus,
-  SvgSearch,
   SvgSettings,
-  SvgUser,
 } from "~/assets/svg";
-import { useRouter } from "next/router";
 
 const sidebarColor = "rgb(18, 18, 24)";
 
-const boldClasses = "bg-gradient-to-l from-warning to-primary";
+const boldClasses = "bg-gradient-to-l from-warning to-primary flex-none px-8";
 
 const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
   children,
@@ -57,7 +56,7 @@ const Sidebar: React.FC = () => {
           {t("common.newStory")}
         </SidebarItem>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
-        <SidebarItem href="/discover">{t("discover.title")}</SidebarItem>
+        <SidebarItem href="/map">{t("map.title")}</SidebarItem>
       </div>
       <div className="p-1 rounded-lg">
         {user ? (
@@ -110,9 +109,9 @@ const AppbarItem: React.FC<{
   return (
     <Link href={href} as={as}>
       <a
-        className={`btn btn-transparent text-foreground border-primary py-1 font-light flex-1 rounded-none ${
+        className={`btn btn-transparent text-foreground border-primary py-1 font-light rounded-none ${
           isActive && !isBold ? "border-b-2" : ""
-        } ${isBold ? boldClasses : ""}`}
+        } ${isBold ? boldClasses : "flex-1"}`}
         title={title}
       >
         {children}
@@ -121,57 +120,58 @@ const AppbarItem: React.FC<{
   );
 };
 
+const noAppbarPathname = ["/story/[storyId]", "/new"];
+
 const Appbar: React.FC = () => {
   const { t } = useI18n();
-  const user = useCurrentUser();
-
-  const [, logIn] = useLogin();
-
+  const router = useRouter();
   return (
-    <div
-      className="flex z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden"
-      style={{
-        backgroundColor: sidebarColor,
-      }}
-    >
-      <AppbarItem href="/listen" title={t("listen.title")}>
-        <SvgPlayCircle className="w-4 h-4" />
-      </AppbarItem>
-      <AppbarItem href="/discover" title={t("discover.title")}>
-        <SvgSearch className="w-4 h-4" />
-      </AppbarItem>
-      <AppbarItem isBold href="/new" title={t("common.newStory")}>
-        <SvgPlus className="w-6 h-6" />
-      </AppbarItem>
-      {user ? (
-        <AppbarItem
-          href="/user/[username]"
-          as={`/user/${user.username}`}
-          title={user.username}
-        >
-          <SvgUser className="w-4 h-4" />
+    <>
+      <div
+        className={`${
+          noAppbarPathname.includes(router.pathname) ? "hidden" : ""
+        } h-10 w-full `}
+      />
+      <div
+        className={`${
+          noAppbarPathname.includes(router.pathname) ? "hidden" : "flex"
+        } z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
+        style={{ backgroundColor: sidebarColor }}
+      >
+        <AppbarItem href="/listen" title={t("listen.title")}>
+          <SvgPlayCircle className="w-4 h-4" />
         </AppbarItem>
-      ) : (
-        <button
-          onClick={logIn}
-          className="btn btn-transparent text-foreground py-1 font-light flex-1 rounded-none"
-          title={t("common.signIn")}
-        >
-          <SvgLogIn className="w-4 h-4" />
-        </button>
-      )}
-    </div>
+        <AppbarItem isBold href="/new" title={t("common.newStory")}>
+          <SvgPlus className="w-6 h-6" />
+        </AppbarItem>
+        <AppbarItem href="/map" title={t("map.title")}>
+          <SvgMapPin className="w-4 h-4" />
+        </AppbarItem>
+      </div>
+    </>
   );
 };
 
 const LayoutApp: React.FC = ({ children }) => {
+  const prevPathnameRef = useRef<string>("");
+
+  const router = useRouter();
+  useEffect(() => {
+    const onRouteChangeComplete = (url: string) => {
+      prevPathnameRef.current = url;
+    };
+    router.events.on("routeChangeComplete", onRouteChangeComplete);
+    return () =>
+      router.events.off("routeChangeComplete", onRouteChangeComplete);
+  }, [router]);
+
   return (
-    <>
+    <LayoutContext.Provider value={{ prevPathname: prevPathnameRef }}>
       <PlayerMinibar />
-      <main className="pb-10 sm:pb-0 sm:pl-48">{children}</main>
+      <main className="sm:pl-48">{children}</main>
       <Sidebar />
       <Appbar />
-    </>
+    </LayoutContext.Provider>
   );
 };
 

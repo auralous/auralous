@@ -7,6 +7,7 @@ import SelectFromSearch from "./SelectFromSearch";
 import { Track } from "~/graphql/gql.gen";
 import SelectFromPlaylists from "./SelectFromPlaylists";
 import { usePlayer } from "~/components/Player";
+import LayoutBackButton from "~/components/Layout/LayoutBackButton";
 
 const getFeaturedArtists = (tracks: Track[]): string[] => {
   const o: Record<string, number> = {};
@@ -152,24 +153,29 @@ const NewMain: React.FC = () => {
   const transitionsCreate = useTransition(!!initTracks, null, transitionConfig);
 
   return (
-    <div className="px-4 max-w-xl mx-auto">
-      <h2 className="font-bold text-4xl text-center mb-6 pt-8">
-        {initTracks ? t("new.promptAlmost") : t("new.prompt")}
-      </h2>
-      <div className="relative pb-8">
-        {transitionsCreate.map(({ item: doneSelected, key, props }) =>
-          doneSelected ? (
-            <animated.div key={key} style={props} className="w-full">
-              <CreateStoryView initTracks={initTracks || []} />
-            </animated.div>
-          ) : (
-            <animated.div key={key} style={props} className="w-full">
-              <SelectTracksView setInitTracks={setInitTracks} />
-            </animated.div>
-          )
-        )}
+    <>
+      <div className="h-10 p-2 w-full">
+        <LayoutBackButton />
       </div>
-    </div>
+      <div className="px-4 max-w-xl mx-auto">
+        <h2 className="font-bold text-4xl text-center py-6">
+          {initTracks ? t("new.promptAlmost") : t("new.prompt")}
+        </h2>
+        <div className="relative pb-8">
+          {transitionsCreate.map(({ item: doneSelected, key, props }) =>
+            doneSelected ? (
+              <animated.div key={key} style={props} className="w-full">
+                <CreateStoryView initTracks={initTracks || []} />
+              </animated.div>
+            ) : (
+              <animated.div key={key} style={props} className="w-full">
+                <SelectTracksView setInitTracks={setInitTracks} />
+              </animated.div>
+            )
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 

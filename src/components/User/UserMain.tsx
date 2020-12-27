@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import UserStory from "./UserStory";
+import StoryFeed from "~/components/Story/StoryFeed";
 import { useCurrentUser } from "~/hooks/user";
-import { User, useStoriesQuery, useUserQuery } from "~/graphql/gql.gen";
+import { User, useUserQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgSettings } from "~/assets/svg";
 
@@ -14,18 +14,11 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
   });
   const user = data?.user || initialUser;
 
-  const [{ data: { stories } = { stories: undefined } }] = useStoriesQuery({
-    variables: {
-      creatorId: user.id,
-    },
-  });
-
   const me = useCurrentUser();
 
   return (
-    <div className="max-w-xl mx-auto p-4 relative">
-      <div className="h-12"></div>
-      <div className="px-4 py-8">
+    <div className="p-4 relative">
+      <div className="px-4 py-8 max-w-xl mx-auto">
         <img
           className="w-24 h-24 md:w-40 md:h-40 rounded-full mx-auto mb-2"
           src={user.profilePicture}
@@ -45,9 +38,9 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           </a>
         </Link>
       )}
-      {stories?.map((story) => (
-        <UserStory key={story.id} story={story} />
-      ))}
+      <div className="container mx-auto">
+        <StoryFeed id={`creatorId:${user.id}`} />
+      </div>
     </div>
   );
 };

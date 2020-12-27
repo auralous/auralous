@@ -11,9 +11,11 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import StoryNav from "./StoryNav";
-import StoryBg from "./StoryBg";
 import StoryHeader from "./StoryHeader";
 import StoryQueue from "./StoryQueue";
+import StoryEnd from "./StoryEnd";
+import LayoutBackButton from "~/components/Layout/LayoutBackButton";
+import { PlayerControl } from "~/components/Player/PlayerView";
 import { useCurrentUser } from "~/hooks/user";
 
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
@@ -36,10 +38,6 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   );
 
   const story = data?.story || initialStory;
-
-  const {
-    state: { playerPlaying },
-  } = usePlayer();
 
   const { t } = useI18n();
   const { playStory } = usePlayer();
@@ -64,9 +62,9 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
 
   const getClassName = useCallback(
     (index: number) =>
-      `mx-4 text-xs py-2 uppercase font-bold border-b-2 ${
+      `mx-1 px-3 text-xs py-1 rounded-full uppercase font-bold ${
         index === selectedIndex
-          ? "border-white text-foreground"
+          ? "text-foreground bg-primary-dark"
           : "border-transparent text-foreground-secondary"
       } transition-colors`,
     [selectedIndex]
@@ -81,10 +79,26 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
 
   return (
     <>
-      <div className="h-screen-layout pb-14 relative overflow-hidden flex flex-col">
-        <div className="lg:flex justify-between bg-background bg-opacity-25">
-          <div className="p-2 pb-0 lg:pb-2 flex-1">
+      <div className="h-screen relative overflow-hidden flex flex-col">
+        <div
+          className="lg:flex justify-between border-b-4 border-primary"
+          style={{ backgroundColor: "rgb(18, 18, 24)" }}
+        >
+          <div className="p-2 pb-0 lg:pb-2 flex-1 flex items-center">
+            <LayoutBackButton />
             <StoryNav story={story} />
+            <div className="self-center">
+              <StoryEnd story={story}>
+                {(openEnd) => (
+                  <button
+                    onClick={openEnd}
+                    className="btn text-sm bg-opacity-25"
+                  >
+                    {t("story.end.title")}
+                  </button>
+                )}
+              </StoryEnd>
+            </div>
           </div>
           <div className="flex-1">
             <StoryHeader story={story} />
@@ -95,7 +109,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           onChange={setSelectedIndex}
           className="flex-1 h-0 flex flex-col"
         >
-          <TabList className="bg-background bg-opacity-25">
+          <TabList className="py-1">
             <Tab className={getClassName(0)}>{t("story.live.title")}</Tab>
             <Tab className={getClassName(1)}>{t("story.queue.title")}</Tab>
           </TabList>
@@ -116,7 +130,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
             </AnimatedTabPanel>
           </TabPanels>
         </Tabs>
-        <StoryBg image={playerPlaying?.image} />
+        <PlayerControl />
       </div>
     </>
   );

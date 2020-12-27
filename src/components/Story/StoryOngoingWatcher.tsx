@@ -17,7 +17,7 @@ const StoryOngoingWatcher: React.FC = () => {
   } = usePlayer();
   const user = useCurrentUser();
   const [{ data }] = useStoriesQuery({
-    variables: { creatorId: user?.id || "" },
+    variables: { id: `creatorId:${user?.id}`, limit: 1 },
     pause: !user,
   });
   const ongoingStory = useMemo(() => {
