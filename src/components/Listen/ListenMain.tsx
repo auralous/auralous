@@ -14,9 +14,7 @@ const ListenMain: React.FC = () => {
   return (
     <>
       <div className="flex px-4 pt-6 pb-2 items-center">
-        <h1 className="w-0 flex-1 font-bold text-4xl bg-gradient-to-b from-background to-transparent">
-          {t("listen.title")}
-        </h1>
+        <h1 className="w-0 flex-1 font-bold text-4xl">{t("listen.title")}</h1>
         {user ? (
           <Link href={`/user/${user.username}`}>
             <a
