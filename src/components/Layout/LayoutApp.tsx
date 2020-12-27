@@ -124,22 +124,29 @@ const Appbar: React.FC = () => {
   const { t } = useI18n();
   const router = useRouter();
   return (
-    <div
-      className={`${
-        router.pathname === "/story/[storyId]" ? "hidden" : "flex"
-      } z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
-      style={{ backgroundColor: sidebarColor }}
-    >
-      <AppbarItem href="/listen" title={t("listen.title")}>
-        <SvgPlayCircle className="w-4 h-4" />
-      </AppbarItem>
-      <AppbarItem isBold href="/new" title={t("common.newStory")}>
-        <SvgPlus className="w-6 h-6" />
-      </AppbarItem>
-      <AppbarItem href="/map" title={t("map.title")}>
-        <SvgMapPin className="w-4 h-4" />
-      </AppbarItem>
-    </div>
+    <>
+      <div
+        className={`${
+          router.pathname === "/story/[storyId]" ? "hidden" : ""
+        } h-10 w-full `}
+      />
+      <div
+        className={`${
+          router.pathname === "/story/[storyId]" ? "hidden" : "flex"
+        } z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
+        style={{ backgroundColor: sidebarColor }}
+      >
+        <AppbarItem href="/listen" title={t("listen.title")}>
+          <SvgPlayCircle className="w-4 h-4" />
+        </AppbarItem>
+        <AppbarItem isBold href="/new" title={t("common.newStory")}>
+          <SvgPlus className="w-6 h-6" />
+        </AppbarItem>
+        <AppbarItem href="/map" title={t("map.title")}>
+          <SvgMapPin className="w-4 h-4" />
+        </AppbarItem>
+      </div>
+    </>
   );
 };
 
@@ -159,7 +166,7 @@ const LayoutApp: React.FC = ({ children }) => {
   return (
     <LayoutContext.Provider value={{ prevPathname: prevPathnameRef }}>
       <PlayerMinibar />
-      <main className="pb-10 sm:pb-0 sm:pl-48">{children}</main>
+      <main className="sm:pl-48">{children}</main>
       <Sidebar />
       <Appbar />
     </LayoutContext.Provider>
