@@ -37,33 +37,22 @@ export const SUBSCRIPTION_NOW_PLAYING = /* GraphQL */ `
   ${FRAGMENT_NOW_PLAYING_QUEUE}
 `;
 
-const FRAGMENT_NOW_PLAYING_REACTION = /* GraphQL */ `
-  fragment NowPlayingReactionParts on NowPlayingReaction {
-    id
-    heart
-    cry
-    joy
-    fire
-    mine
-  }
-`;
-
 export const QUERY_NOW_PLAYING_REACTION = /* GraphQL */ `
   query nowPlayingReactions($id: ID!) {
     nowPlayingReactions(id: $id) {
-      ...NowPlayingReactionParts
+      reaction
+      userId
     }
   }
-  ${FRAGMENT_NOW_PLAYING_REACTION}
 `;
 
 export const SUBSCRIPTION_NOW_PLAYING_REACTION = /* GraphQL */ `
-  subscription onNowPlayingReactionsUpdated($id: ID!) {
+  subscription nowPlayingReactionsUpdated($id: ID!) {
     nowPlayingReactionsUpdated(id: $id) {
-      ...NowPlayingReactionParts
+      reaction
+      userId
     }
   }
-  ${FRAGMENT_NOW_PLAYING_REACTION}
 `;
 
 export const MUTATION_REACT_NOW_PLAYING = /* GraphQL */ `

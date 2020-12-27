@@ -30,7 +30,7 @@ export type Query = {
   __typename?: 'Query';
   messages?: Maybe<Array<Message>>;
   nowPlaying?: Maybe<NowPlaying>;
-  nowPlayingReactions?: Maybe<NowPlayingReaction>;
+  nowPlayingReactions?: Maybe<Array<NowPlayingReactionItem>>;
   queue?: Maybe<Queue>;
   story?: Maybe<Story>;
   storyUsers?: Maybe<Array<Scalars['String']>>;
@@ -184,7 +184,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   messageAdded: Message;
   nowPlayingUpdated?: Maybe<NowPlaying>;
-  nowPlayingReactionsUpdated?: Maybe<NowPlayingReaction>;
+  nowPlayingReactionsUpdated?: Maybe<Array<NowPlayingReactionItem>>;
   queueUpdated: Queue;
   storyUpdated: Story;
   storyUsersUpdated: Array<Scalars['String']>;
@@ -251,14 +251,10 @@ export type NowPlaying = {
   currentTrack?: Maybe<NowPlayingQueueItem>;
 };
 
-export type NowPlayingReaction = {
-  __typename?: 'NowPlayingReaction';
-  id: Scalars['ID'];
-  mine?: Maybe<NowPlayingReactionType>;
-  heart: Scalars['Int'];
-  cry: Scalars['Int'];
-  joy: Scalars['Int'];
-  fire: Scalars['Int'];
+export type NowPlayingReactionItem = {
+  __typename?: 'NowPlayingReactionItem';
+  userId: Scalars['String'];
+  reaction: NowPlayingReactionType;
 };
 
 export enum QueueAction {
@@ -428,11 +424,6 @@ export type OnNowPlayingUpdatedSubscription = (
   )> }
 );
 
-export type NowPlayingReactionPartsFragment = (
-  { __typename?: 'NowPlayingReaction' }
-  & Pick<NowPlayingReaction, 'id' | 'heart' | 'cry' | 'joy' | 'fire' | 'mine'>
-);
-
 export type NowPlayingReactionsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -440,23 +431,23 @@ export type NowPlayingReactionsQueryVariables = Exact<{
 
 export type NowPlayingReactionsQuery = (
   { __typename?: 'Query' }
-  & { nowPlayingReactions?: Maybe<(
-    { __typename?: 'NowPlayingReaction' }
-    & NowPlayingReactionPartsFragment
-  )> }
+  & { nowPlayingReactions?: Maybe<Array<(
+    { __typename?: 'NowPlayingReactionItem' }
+    & Pick<NowPlayingReactionItem, 'reaction' | 'userId'>
+  )>> }
 );
 
-export type OnNowPlayingReactionsUpdatedSubscriptionVariables = Exact<{
+export type NowPlayingReactionsUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnNowPlayingReactionsUpdatedSubscription = (
+export type NowPlayingReactionsUpdatedSubscription = (
   { __typename?: 'Subscription' }
-  & { nowPlayingReactionsUpdated?: Maybe<(
-    { __typename?: 'NowPlayingReaction' }
-    & NowPlayingReactionPartsFragment
-  )> }
+  & { nowPlayingReactionsUpdated?: Maybe<Array<(
+    { __typename?: 'NowPlayingReactionItem' }
+    & Pick<NowPlayingReactionItem, 'reaction' | 'userId'>
+  )>> }
 );
 
 export type ReactNowPlayingMutationVariables = Exact<{
@@ -773,16 +764,6 @@ export const NowPlayingQueuePartsFragmentDoc = gql`
   creatorId
 }
     `;
-export const NowPlayingReactionPartsFragmentDoc = gql`
-    fragment NowPlayingReactionParts on NowPlayingReaction {
-  id
-  heart
-  cry
-  joy
-  fire
-  mine
-}
-    `;
 export const QueueItemPartsFragmentDoc = gql`
     fragment QueueItemParts on QueueItem {
   id
@@ -904,24 +885,26 @@ export function useOnNowPlayingUpdatedSubscription<TData = OnNowPlayingUpdatedSu
 export const NowPlayingReactionsDocument = gql`
     query nowPlayingReactions($id: ID!) {
   nowPlayingReactions(id: $id) {
-    ...NowPlayingReactionParts
+    reaction
+    userId
   }
 }
-    ${NowPlayingReactionPartsFragmentDoc}`;
+    `;
 
 export function useNowPlayingReactionsQuery(options: Omit<Urql.UseQueryArgs<NowPlayingReactionsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<NowPlayingReactionsQuery>({ query: NowPlayingReactionsDocument, ...options });
 };
-export const OnNowPlayingReactionsUpdatedDocument = gql`
-    subscription onNowPlayingReactionsUpdated($id: ID!) {
+export const NowPlayingReactionsUpdatedDocument = gql`
+    subscription nowPlayingReactionsUpdated($id: ID!) {
   nowPlayingReactionsUpdated(id: $id) {
-    ...NowPlayingReactionParts
+    reaction
+    userId
   }
 }
-    ${NowPlayingReactionPartsFragmentDoc}`;
+    `;
 
-export function useOnNowPlayingReactionsUpdatedSubscription<TData = OnNowPlayingReactionsUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnNowPlayingReactionsUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnNowPlayingReactionsUpdatedSubscription, TData>) {
-  return Urql.useSubscription<OnNowPlayingReactionsUpdatedSubscription, TData, OnNowPlayingReactionsUpdatedSubscriptionVariables>({ query: OnNowPlayingReactionsUpdatedDocument, ...options }, handler);
+export function useNowPlayingReactionsUpdatedSubscription<TData = NowPlayingReactionsUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<NowPlayingReactionsUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<NowPlayingReactionsUpdatedSubscription, TData>) {
+  return Urql.useSubscription<NowPlayingReactionsUpdatedSubscription, TData, NowPlayingReactionsUpdatedSubscriptionVariables>({ query: NowPlayingReactionsUpdatedDocument, ...options }, handler);
 };
 export const ReactNowPlayingDocument = gql`
     mutation reactNowPlaying($id: ID!, $reaction: NowPlayingReactionType!) {

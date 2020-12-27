@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useEffect } from "react";
 import { animated } from "react-spring";
 import { usePlayer } from "~/components/Player/index";
 import { useModal } from "~/components/Modal/index";
@@ -8,7 +8,6 @@ import {
   Track,
   useNowPlayingQuery,
   useNowPlayingReactionsQuery,
-  useOnNowPlayingReactionsUpdatedSubscription,
   useReactNowPlayingMutation,
 } from "~/graphql/gql.gen";
 import { TrackMenu } from "~/components/Track";
@@ -26,32 +25,36 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
   const user = useCurrentUser();
 
   const [
-    { data: { nowPlaying } = { nowPlaying: undefined } },
-  ] = useNowPlayingQuery({ variables: { id: story.id } });
-
-  const [
     { data: { nowPlayingReactions } = { nowPlayingReactions: undefined } },
+    refetchingNowPlayingReactions,
   ] = useNowPlayingReactionsQuery({
     variables: { id: story.id },
     requestPolicy: "cache-and-network",
   });
+
+  const [
+    { data: { nowPlaying } = { nowPlaying: undefined } },
+  ] = useNowPlayingQuery({ variables: { id: story.id } });
+
+  useEffect(refetchingNowPlayingReactions, [
+    nowPlaying,
+    refetchingNowPlayingReactions,
+  ]);
 
   const [animatedStyles, triggerAnimated] = useBoop({
     rotation: 20,
     scale: 1.1,
   });
 
-  useOnNowPlayingReactionsUpdatedSubscription(
-    { variables: { id: story.id }, pause: !story.isLive },
-    (prev, data) => {
-      triggerAnimated();
-      return data;
-    }
-  );
-
   const [, reactNowPlaying] = useReactNowPlayingMutation();
 
-  const reacted = Boolean(nowPlayingReactions?.mine);
+  useEffect(triggerAnimated, [nowPlayingReactions, triggerAnimated]);
+
+  const reacted = useMemo<boolean>(
+    () =>
+      !!user && !!nowPlayingReactions?.some((npr) => npr.userId === user.id),
+    [user, nowPlayingReactions]
+  );
 
   const react = useCallback(() => {
     if (reacted) return;
@@ -71,7 +74,7 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
         style={animatedStyles}
       />
       <span className="text-xs font-mono">
-        {nowPlayingReactions?.heart || 0}
+        {nowPlayingReactions?.length || 0}
       </span>
     </button>
   );

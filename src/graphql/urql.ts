@@ -23,6 +23,9 @@ import {
   StoryQuery,
   StoryDocument,
   StoryQueryVariables,
+  NowPlayingReactionsQuery,
+  NowPlayingReactionsDocument,
+  NowPlayingReactionType,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 import { storySliderPagination } from "./_pagination";
@@ -144,6 +147,22 @@ const cacheExchange = createCacheExchange({
               variables: { id: args.id },
             },
             () => ({ storyUsers: result.storyUsersUpdated as string[] })
+          );
+        }
+      },
+      nowPlayingReactionsUpdated: (result, args, cache) => {
+        if (result.nowPlayingReactionsUpdated) {
+          cache.updateQuery<NowPlayingReactionsQuery>(
+            {
+              query: NowPlayingReactionsDocument,
+              variables: { id: args.id },
+            },
+            () => ({
+              nowPlayingReactions: result.nowPlayingReactionsUpdated as {
+                userId: string;
+                reaction: NowPlayingReactionType;
+              }[],
+            })
           );
         }
       },

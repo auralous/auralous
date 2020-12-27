@@ -8,6 +8,7 @@ import {
   useStoryQuery,
   usePingStoryMutation,
   useStoryUpdatedSubscription,
+  useNowPlayingReactionsUpdatedSubscription,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import StoryNav from "./StoryNav";
@@ -32,12 +33,17 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
     requestPolicy: "cache-and-network",
   });
 
+  const story = data?.story || initialStory;
+
   useStoryUpdatedSubscription(
-    { variables: { id: initialStory.id } },
+    { variables: { id: story.id }, pause: !story.isLive },
     (prev, data) => data
   );
 
-  const story = data?.story || initialStory;
+  useNowPlayingReactionsUpdatedSubscription(
+    { variables: { id: story.id }, pause: !story.isLive },
+    (prev, data) => data
+  );
 
   const { t } = useI18n();
   const { playStory } = usePlayer();
