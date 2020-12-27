@@ -55,7 +55,7 @@ const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
   );
 };
 
-const StoryFeed: React.FC<{ id: string }> = () => {
+const StoryFeed: React.FC<{ id: string }> = ({ id }) => {
   const { t } = useI18n();
 
   const [active, open, close] = useModal();
@@ -64,7 +64,7 @@ const StoryFeed: React.FC<{ id: string }> = () => {
   // Pagination
   const [next, setNext] = useState<undefined | string>("");
   const [{ data: { stories } = { stories: undefined } }] = useStoriesQuery({
-    variables: { id: "PUBLIC", next, limit: LIMIT },
+    variables: { id, next, limit: LIMIT },
   });
 
   // Load more stories
