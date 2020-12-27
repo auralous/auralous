@@ -3,7 +3,6 @@ import Link from "next/link";
 import ms from "ms";
 import { useUserQuery, Story } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
-import StoryEnd from "./StoryEnd";
 
 const StoryNav: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
@@ -28,7 +27,7 @@ const StoryNav: React.FC<{ story: Story }> = ({ story }) => {
       ) : (
         <div className="box-skeleton w-10 h-10" />
       )}
-      <div className="p-1 w-0 flex-1 leading-4">
+      <div className="px-1 pt-0.5 w-0 flex-1 leading-4">
         <div>
           <Link href={`/user/${user?.username}`}>
             <a className="text-inline-link font-semibold mr-2">
@@ -44,15 +43,6 @@ const StoryNav: React.FC<{ story: Story }> = ({ story }) => {
           )}
         </div>
         <div className="text-sm text-foreground-secondary">{story.text}</div>
-      </div>
-      <div className="self-center">
-        <StoryEnd story={story}>
-          {(openEnd) => (
-            <button onClick={openEnd} className="btn text-sm bg-opacity-25">
-              {t("story.end.title")}
-            </button>
-          )}
-        </StoryEnd>
       </div>
     </div>
   );

@@ -255,8 +255,7 @@
       "addAction": "Thêm nhạc",
       "removedTrackText": "Đã xoá {{title}}",
       "removeTrackText": "Xoá bài hát",
-      "emptyText": "Ở đây cô đơn quá... Thêm một bài cho nóng nào!",
-      "notAllowedText": "Bạn không được phép thêm nhạc. Xem"
+      "emptyText": "Ở đây cô đơn quá... Thêm một bài nào!"
     }
   },
   "playlist": {
@@ -322,7 +321,7 @@
     "support": "Liên hệ"
   },
   "common": {
-    "backToHome": "Trở về",
+    "back": "Trở về",
     "signIn": "Đăng nhập",
     "dangerousActionText": "Thao tác này sẽ có hiệu lực tức thì và không thể hoàn tác",
     "tracks": "bài hát",

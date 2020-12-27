@@ -256,8 +256,7 @@
       "addAction": "Add song",
       "removedTrackText": "Removed {{title}}",
       "removeTrackText": "Remove Track",
-      "emptyText": "It's lonely around here... Let's add a song!",
-      "notAllowedText": "You are not allowed to contribute. See"
+      "emptyText": "It's lonely around here... Let's add a song!"
     }
   },
   "playlist": {
@@ -323,7 +322,7 @@
     "support": "Support"
   },
   "common": {
-    "backToHome": "Back to home",
+    "back": "Back",
     "signIn": "Sign in",
     "dangerousActionText": "This process is immediate and cannot be undone",
     "tracks": "songs",

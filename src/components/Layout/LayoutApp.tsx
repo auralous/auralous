@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import LayoutContext from "./LayoutContext";
 import { PlayerMinibar } from "~/components/Player/index";
 import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
@@ -11,7 +13,6 @@ import {
   SvgPlus,
   SvgSettings,
 } from "~/assets/svg";
-import { useRouter } from "next/router";
 
 const sidebarColor = "rgb(18, 18, 24)";
 
@@ -121,13 +122,13 @@ const AppbarItem: React.FC<{
 
 const Appbar: React.FC = () => {
   const { t } = useI18n();
-
+  const router = useRouter();
   return (
     <div
-      className="flex z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden"
-      style={{
-        backgroundColor: sidebarColor,
-      }}
+      className={`${
+        router.pathname === "/story/[storyId]" ? "hidden" : "flex"
+      } z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
+      style={{ backgroundColor: sidebarColor }}
     >
       <AppbarItem href="/listen" title={t("listen.title")}>
         <SvgPlayCircle className="w-4 h-4" />
@@ -143,13 +144,25 @@ const Appbar: React.FC = () => {
 };
 
 const LayoutApp: React.FC = ({ children }) => {
+  const prevPathnameRef = useRef<string>("");
+
+  const router = useRouter();
+  useEffect(() => {
+    const onRouteChangeComplete = (url: string) => {
+      prevPathnameRef.current = url;
+    };
+    router.events.on("routeChangeComplete", onRouteChangeComplete);
+    return () =>
+      router.events.off("routeChangeComplete", onRouteChangeComplete);
+  }, [router]);
+
   return (
-    <>
+    <LayoutContext.Provider value={{ prevPathname: prevPathnameRef }}>
       <PlayerMinibar />
       <main className="pb-10 sm:pb-0 sm:pl-48">{children}</main>
       <Sidebar />
       <Appbar />
-    </>
+    </LayoutContext.Provider>
   );
 };
 
