@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePlayer } from "~/components/Player";
-import PlayerView from "~/components/Player/PlayerView";
+import { PlayerImage, PlayerMeta } from "~/components/Player/PlayerView";
 import StoryNav from "~/components/Story/StoryNav";
 import {
   Story,
@@ -10,30 +10,6 @@ import {
   useUserQuery,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
-
-const StorySliderAction: React.FC<{ story: Story }> = ({ story }) => {
-  const { t } = useI18n();
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: story.creatorId },
-  });
-
-  return (
-    <div className="px-2 py-4 absolute z-10 bottom-0 w-full">
-      <p className="text-lg text-foreground-secondary text-center mb-1">
-        {t(story?.isLive ? "listen.promptJoin" : "listen.promptJoinNolive", {
-          username: user?.username || "",
-        })}
-      </p>
-      <Link href={`/story/${story?.id}`}>
-        <a className="btn bg-opacity-75 w-full">
-          {story?.isLive
-            ? t("listen.actionJoin")
-            : t("listen.actionJoinNoLive")}
-        </a>
-      </Link>
-    </div>
-  );
-};
 
 const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
@@ -64,30 +40,42 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
     ? crossTracks?.original
     : undefined;
 
+  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+    variables: { id: story.creatorId },
+  });
+
   return (
-    <>
-      <div className="relative w-full h-full box-border">
-        <PlayerView
-          Header={<StoryNav story={story} />}
-          hideControl
-          track={track}
-          fetching={fetching}
-        />
-        {/* TODO: a11y */}
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-        <div
-          role="button"
-          tabIndex={0}
-          className="absolute top-24 w-full opacity-0"
-          aria-label={t("player.skipForward")}
-          onClick={skipForward}
-          style={{
-            height: "calc(100% - 14rem)",
-          }}
-        />
-        <StorySliderAction story={story} />
+    <div className="p-6 relative box-border w-full h-full flex flex-col justify-center">
+      <StoryNav story={story} />
+      <PlayerImage track={track} />
+      <PlayerMeta track={track} fetching={fetching} />
+      <div className="w-full">
+        <p className="text-lg text-foreground-secondary text-center mb-1 truncate">
+          {t(story?.isLive ? "listen.promptJoin" : "listen.promptJoinNolive", {
+            username: user?.username || "",
+          })}
+        </p>
+        <Link href={`/story/${story?.id}`}>
+          <a className="btn bg-opacity-75 w-full">
+            {story?.isLive
+              ? t("listen.actionJoin")
+              : t("listen.actionJoinNoLive")}
+          </a>
+        </Link>
       </div>
-    </>
+      {/* TODO: a11y */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+      <div
+        role="button"
+        tabIndex={0}
+        className="absolute top-24 left-0 w-full opacity-0"
+        aria-label={t("player.skipForward")}
+        onClick={skipForward}
+        style={{
+          height: "calc(100% - 14rem)",
+        }}
+      />
+    </div>
   );
 };
 

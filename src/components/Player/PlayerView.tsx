@@ -62,18 +62,39 @@ export const PlayerControl: React.FC = () => {
   );
 };
 
-const PlayerMeta: React.FC<{
+export const PlayerImage: React.FC<{
+  track: Track | null | undefined;
+}> = ({ track }) => {
+  return (
+    <div className="w-full my-6 flex-1 h-0">
+      <div
+        className="object-contain h-full"
+        role="img"
+        title={track?.title}
+        style={{
+          background: `url(${
+            track?.image || EMPTYIMAGE
+          }) center center / contain no-repeat`,
+          filter:
+            "drop-shadow(rgba(0, 0, 0, 0.1) 0px 0px 1px) drop-shadow(rgba(0, 0, 0, 0.1) 0px 0px 10px)",
+        }}
+      />
+    </div>
+  );
+};
+
+export const PlayerMeta: React.FC<{
   fetching: boolean;
   track: Track | null | undefined;
 }> = ({ fetching, track }) => {
   return (
-    <>
+    <div className="w-full py-4">
       {track ? (
         <>
-          <h4 className="w-full font-bold text-3xl truncate leading-none mb-1">
+          <h4 className="w-full font-bold text-2xl truncate leading-none mb-1">
             {track.title}
           </h4>
-          <div className="w-full text-lg text-foreground-secondary truncate leading-none">
+          <div className="w-full text-foreground-secondary truncate leading-none">
             {track.artists.map((artist) => artist.name).join(", ")}
           </div>
         </>
@@ -85,41 +106,21 @@ const PlayerMeta: React.FC<{
           </>
         )
       )}
-    </>
+    </div>
   );
 };
 
 const PlayerView: React.FC<{
   fetching: boolean;
   track: Track | null | undefined;
-  hideControl?: boolean;
-  Header?: JSX.Element;
-}> = ({ track, fetching, hideControl, Header }) => {
+}> = ({ track, fetching }) => {
   return (
     <div className="w-full h-full flex flex-col p-6">
-      <div className="w-full h-16 overflow-hidden">{Header}</div>
       <div className="w-full h-0 flex-1 flex flex-col justify-center">
-        <div className="w-full my-6 flex-1 h-0 mx-auto sm:flex-none sm:h-48 sm:w-48">
-          <div
-            className="object-contain h-full"
-            role="img"
-            title={track?.title}
-            style={{
-              background: `url(${
-                track?.image || EMPTYIMAGE
-              }) center center / contain no-repeat`,
-              filter:
-                "drop-shadow(rgba(0, 0, 0, 0.1) 0px 0px 1px) drop-shadow(rgba(0, 0, 0, 0.1) 0px 0px 10px)",
-            }}
-          />
-        </div>
-        <div className="w-full py-4">
-          <PlayerMeta track={track} fetching={fetching} />
-        </div>
+        <PlayerImage track={track} />
+        <PlayerMeta track={track} fetching={fetching} />
       </div>
-      <div className={hideControl ? "opacity-0 pointer-events-none" : ""}>
-        <PlayerControl />
-      </div>
+      <PlayerControl />
     </div>
   );
 };
