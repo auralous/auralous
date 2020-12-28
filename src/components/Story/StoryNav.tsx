@@ -30,7 +30,7 @@ const StoryNav: React.FC<{ story: Story }> = ({ story }) => {
       <div className="px-1 pt-0.5 w-0 flex-1 leading-4">
         <div>
           <Link href={`/user/${user?.username}`}>
-            <a className="text-inline-link font-semibold mr-2">
+            <a className="text-inline-link font-semibold mr-1">
               {user?.username}
             </a>
           </Link>{" "}
