@@ -87,24 +87,26 @@ export const PlayerMeta: React.FC<{
   fetching: boolean;
   track: Track | null | undefined;
 }> = ({ fetching, track }) => {
+  const { t } = useI18n();
+
   return (
-    <div className="w-full py-4">
-      {track ? (
+    <div className="w-full py-4 h-20">
+      {fetching ? (
         <>
-          <h4 className="w-full font-bold text-2xl truncate leading-none mb-1">
-            {track.title}
-          </h4>
-          <div className="w-full text-foreground-secondary truncate leading-none">
-            {track.artists.map((artist) => artist.name).join(", ")}
-          </div>
+          <div className="block-skeleton rounded h-6 w-40 mb-1" />
+          <div className="block-skeleton rounded h-4 w-24" />
         </>
       ) : (
-        fetching && (
-          <>
-            <div className="block-skeleton rounded h-6 w-40 mb-1" />
-            <div className="block-skeleton rounded h-4 w-24" />
-          </>
-        )
+        <>
+          <h4 className="w-full font-bold text-2xl truncate leading-none mb-1">
+            {track ? track.title : t("player.noneText")}
+          </h4>
+          <div className="w-full text-foreground-secondary truncate leading-none">
+            {track
+              ? track.artists.map((artist) => artist.name).join(", ")
+              : t("player.noneHelpText")}
+          </div>
+        </>
       )}
     </div>
   );

@@ -194,6 +194,7 @@
   },
   "nowPlaying": { "title": "Đang phát" },
   "player": {
+    "player": "Trình phát",
     "pause": "Tạm dừng",
     "play": "Phát nhạc",
     "noneText": "Không có bài hát",

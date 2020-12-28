@@ -194,6 +194,7 @@
   },
   "nowPlaying": { "title": "Now Playing" },
   "player": {
+    "title": "Player",
     "pause": "Pause",
     "play": "Play",
     "noneText": "Nothing is playing",
