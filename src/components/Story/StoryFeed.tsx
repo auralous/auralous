@@ -70,7 +70,8 @@ const StoryFeed: React.FC<{ id: string }> = ({ id }) => {
   // Load more stories
   const { ref: refLoadMore, inView: inViewLoadMore } = useInView();
   useEffect(() => {
-    if (inViewLoadMore && stories) setNext(stories[stories.length - 1].id);
+    if (inViewLoadMore && stories?.length)
+      setNext(stories[stories.length - 1].id);
   }, [inViewLoadMore, stories]);
 
   return (

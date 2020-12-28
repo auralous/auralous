@@ -26,6 +26,11 @@ import {
   NowPlayingReactionsQuery,
   NowPlayingReactionsDocument,
   NowPlayingReactionType,
+  UserFollowingsQuery,
+  MeQuery,
+  MeDocument,
+  UserFollowingsDocument,
+  UserFollowingsQueryVariables,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 import { storySliderPagination } from "./_pagination";
@@ -136,6 +141,75 @@ const cacheExchange = createCacheExchange({
       },
       deleteMe: () => {
         window.resetUrqlClient();
+      },
+      followUser: (result, args, cache) => {
+        if (result.followUser === true) {
+          const followedId = args.id as string;
+
+          const meCache = cache.readQuery<MeQuery>({ query: MeDocument });
+          // Possibly invalid state
+          if (!meCache?.me)
+            throw new Error("Bad state: should have been authenticated");
+
+          // Update current user following
+          cache.updateQuery<UserFollowingsQuery, UserFollowingsQueryVariables>(
+            {
+              query: UserFollowingsDocument,
+              variables: { id: meCache.me.id },
+            },
+            (data) => ({
+              userFollowings: (data?.userFollowings
+                ? [followedId, ...data.userFollowings]
+                : [followedId]) as string[],
+            })
+          );
+
+          // Invalidate user stat of both entity
+          cache.invalidate({
+            __typename: "UserStat",
+            id: followedId,
+          });
+          cache.invalidate({
+            __typename: "UserStat",
+            id: meCache.me.id,
+          });
+        }
+      },
+      unfollowUser: (result, args, cache) => {
+        if (result.unfollowUser === true) {
+          const unfollowedId = args.id as string;
+
+          const meCache = cache.readQuery<MeQuery>({ query: MeDocument });
+          // Possibly invalid state
+          if (!meCache?.me)
+            throw new Error("Bad state: should have been authenticated");
+
+          // Update current user following
+          cache.updateQuery<UserFollowingsQuery, UserFollowingsQueryVariables>(
+            {
+              query: UserFollowingsDocument,
+              variables: { id: meCache.me.id },
+            },
+            (data) =>
+              data?.userFollowings
+                ? {
+                    userFollowings: data.userFollowings.filter(
+                      (uf) => uf !== unfollowedId
+                    ),
+                  }
+                : data
+          );
+
+          // Invalidate user stat of both entity
+          cache.invalidate({
+            __typename: "UserStat",
+            id: unfollowedId,
+          });
+          cache.invalidate({
+            __typename: "UserStat",
+            id: meCache.me.id,
+          });
+        }
       },
     },
     Subscription: {

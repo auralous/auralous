@@ -40,6 +40,9 @@ export type Query = {
   searchTrack: Array<Track>;
   me?: Maybe<User>;
   user?: Maybe<User>;
+  userStat?: Maybe<UserStat>;
+  userFollowers: Array<Scalars['String']>;
+  userFollowings: Array<Scalars['String']>;
 };
 
 
@@ -103,6 +106,21 @@ export type QueryUserArgs = {
   id?: Maybe<Scalars['ID']>;
 };
 
+
+export type QueryUserStatArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryUserFollowersArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryUserFollowingsArgs = {
+  id: Scalars['ID'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addMessage: Scalars['Boolean'];
@@ -115,6 +133,8 @@ export type Mutation = {
   unliveStory: Scalars['Boolean'];
   pingStory: Scalars['Boolean'];
   me?: Maybe<User>;
+  followUser: Scalars['Boolean'];
+  unfollowUser: Scalars['Boolean'];
   deleteMe: Scalars['Boolean'];
 };
 
@@ -178,6 +198,16 @@ export type MutationMeArgs = {
   username?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   profilePicture?: Maybe<Scalars['Upload']>;
+};
+
+
+export type MutationFollowUserArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationUnfollowUserArgs = {
+  id: Scalars['ID'];
 };
 
 export type Subscription = {
@@ -329,6 +359,13 @@ export type User = {
   username: Scalars['String'];
   bio?: Maybe<Scalars['String']>;
   profilePicture: Scalars['String'];
+};
+
+export type UserStat = {
+  __typename?: 'UserStat';
+  id: Scalars['ID'];
+  followerCount: Scalars['Int'];
+  followingCount: Scalars['Int'];
 };
 
 export type MessagePartsFragment = (
@@ -724,6 +761,59 @@ export type UserQuery = (
   )> }
 );
 
+export type UserStatQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UserStatQuery = (
+  { __typename?: 'Query' }
+  & { userStat?: Maybe<(
+    { __typename?: 'UserStat' }
+    & Pick<UserStat, 'id' | 'followerCount' | 'followingCount'>
+  )> }
+);
+
+export type UserFollowersQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UserFollowersQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'userFollowers'>
+);
+
+export type UserFollowingsQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UserFollowingsQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'userFollowings'>
+);
+
+export type FollowUserMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type FollowUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'followUser'>
+);
+
+export type UnfollowUserMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UnfollowUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'unfollowUser'>
+);
+
 export type UpdateMeMutationVariables = Exact<{
   name?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
@@ -1116,6 +1206,55 @@ export const UserDocument = gql`
 
 export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
+};
+export const UserStatDocument = gql`
+    query userStat($id: ID!) {
+  userStat(id: $id) {
+    id
+    followerCount
+    followingCount
+  }
+}
+    `;
+
+export function useUserStatQuery(options: Omit<Urql.UseQueryArgs<UserStatQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<UserStatQuery>({ query: UserStatDocument, ...options });
+};
+export const UserFollowersDocument = gql`
+    query userFollowers($id: ID!) {
+  userFollowers(id: $id)
+}
+    `;
+
+export function useUserFollowersQuery(options: Omit<Urql.UseQueryArgs<UserFollowersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<UserFollowersQuery>({ query: UserFollowersDocument, ...options });
+};
+export const UserFollowingsDocument = gql`
+    query userFollowings($id: ID!) {
+  userFollowings(id: $id)
+}
+    `;
+
+export function useUserFollowingsQuery(options: Omit<Urql.UseQueryArgs<UserFollowingsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<UserFollowingsQuery>({ query: UserFollowingsDocument, ...options });
+};
+export const FollowUserDocument = gql`
+    mutation followUser($id: ID!) {
+  followUser(id: $id)
+}
+    `;
+
+export function useFollowUserMutation() {
+  return Urql.useMutation<FollowUserMutation, FollowUserMutationVariables>(FollowUserDocument);
+};
+export const UnfollowUserDocument = gql`
+    mutation unfollowUser($id: ID!) {
+  unfollowUser(id: $id)
+}
+    `;
+
+export function useUnfollowUserMutation() {
+  return Urql.useMutation<UnfollowUserMutation, UnfollowUserMutationVariables>(UnfollowUserDocument);
 };
 export const UpdateMeDocument = gql`
     mutation updateMe($name: String, $username: String, $profilePicture: Upload) {

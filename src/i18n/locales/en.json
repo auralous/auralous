@@ -185,12 +185,13 @@
   "user": {
     "profile": "Profile",
     "description": "Join {{username}} on Stereo and listen along to the music with friends around the globe.",
-    "following": {
-      "selfNoFollowing": "You are not following anyone"
-    },
     "search": {
       "notFound": "User is not found"
-    }
+    },
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": "Followers",
+    "following": "Following"
   },
   "nowPlaying": { "title": "Now Playing" },
   "player": {
