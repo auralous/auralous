@@ -29,7 +29,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <div className="my-4 gap-4 flex flex-center">
+    <div className="my-2 gap-4 flex flex-center">
       <button
         className="btn btn-transparent p-3"
         title={t("player.skipBackward")}
@@ -111,20 +111,3 @@ export const PlayerMeta: React.FC<{
     </div>
   );
 };
-
-const PlayerView: React.FC<{
-  fetching: boolean;
-  track: Track | null | undefined;
-}> = ({ track, fetching }) => {
-  return (
-    <div className="w-full h-full flex flex-col p-6">
-      <div className="w-full h-0 flex-1 flex flex-col justify-center">
-        <PlayerImage track={track} />
-        <PlayerMeta track={track} fetching={fetching} />
-      </div>
-      <PlayerControl />
-    </div>
-  );
-};
-
-export default PlayerView;

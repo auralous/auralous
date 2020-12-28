@@ -17,6 +17,7 @@ import StoryPlayer from "./StoryPlayer";
 import LayoutBackButton from "~/components/Layout/LayoutBackButton";
 import { PlayerControl } from "~/components/Player/PlayerView";
 import { useCurrentUser } from "~/hooks/user";
+import { useInnerHeightResizeRef } from "~/hooks/sizing";
 import { useI18n } from "~/i18n/index";
 
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
@@ -86,9 +87,14 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
     2 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
 
+  const resizeRef = useInnerHeightResizeRef();
+
   return (
     <>
-      <div className="p-6 relative h-screen overflow-hidden flex flex-col justify-center">
+      <div
+        ref={resizeRef}
+        className="p-4 overflow-hidden flex flex-col justify-center"
+      >
         <div className="flex items-center mb-1">
           <LayoutBackButton />
           <StoryNav story={story} />

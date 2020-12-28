@@ -45,7 +45,7 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
   });
 
   return (
-    <div className="p-6 relative box-border w-full h-full flex flex-col justify-center">
+    <div className="p-4 relative box-border w-full h-full flex flex-col justify-center">
       <StoryNav story={story} />
       <PlayerImage track={track} />
       <PlayerMeta track={track} fetching={fetching} />
