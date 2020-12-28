@@ -22,6 +22,28 @@
   }
 }
 
+:root {
+  font-size: 16px;
+}
+
+@screen xl {
+  :root {
+    font-size: 18px;
+  }
+}
+
+@screen 2xl {
+  :root {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    font-size: 27px;
+  }
+}
+
 body {
   @apply text-foreground bg-background font-sans;
 }

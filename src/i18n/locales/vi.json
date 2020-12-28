@@ -184,12 +184,13 @@
   "user": {
     "profile": "Hồ sơ",
     "description": "Tham gia Stereo cùng {{username}} và nghe nhạc cùng với bạn bè khắp năm châu.",
-    "following": {
-      "selfNoFollowing": "Bạn không theo dõi bất kì ai"
-    },
     "search": {
       "notFound": "Không tìm thấy người dùng"
-    }
+    },
+    "follow": "Theo dõi",
+    "unfollow": "Bỏ theo dõi",
+    "followers": "Người theo dõi",
+    "following": "Đang theo dõi"
   },
   "nowPlaying": { "title": "Đang phát" },
   "player": {
@@ -200,11 +201,6 @@
     "pausedText": "Âm nhạc đã dừng",
     "pausedHelpText": "Nhấn vào nút phát để bắt đầu nghe",
     "noCrossTrack": "Bài hát này không có sẵn trên {{platformName}}",
-    "platformChooser": {
-      "title": "Đăng nhập hoặc nghe ẩn danh",
-      "listenAsGuest": "Nghe không đăng nhập",
-      "helpText": "Bạn có thể nghe nhạc ẩn danh hoặc tham gia Stereo cho trải nghiệm toàn diện. Tùy chỉnh trong"
-    },
     "stopPlaying": "Dừng Phát",
     "youtube": {
       "moveTo": {

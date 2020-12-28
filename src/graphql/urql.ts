@@ -62,7 +62,7 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
             console.error(error);
             message = t("error.internalError");
           }
-          if (code === "UNAUTHENTICATED") message = t("error.authenticated");
+          if (code === "UNAUTHENTICATED") message = t("error.unauthenticated");
           if (typeof window !== "undefined") toast.error(message);
         });
       }

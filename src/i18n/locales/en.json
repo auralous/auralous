@@ -168,7 +168,6 @@
     },
     "queueable": {
       "title": "Add collaborators",
-      "withOthers": "By {{creatorName}} and {{count}} other collaborators",
       "done": "Done",
       "add": "Add",
       "remove": "Remove {{username}} from collaborators",
@@ -202,11 +201,6 @@
     "pausedText": "Music has been paused",
     "pausedHelpText": "Press play to start listening",
     "noCrossTrack": "This song is not available on {{platformName}}",
-    "platformChooser": {
-      "title": "Join or Listen as Guest",
-      "listenAsGuest": "Listen as guest",
-      "helpText": "You can listen as guest or join Stereo for full experience. Change your preference in"
-    },
     "stopPlaying": "Stop Playing",
     "youtube": {
       "moveTo": {
