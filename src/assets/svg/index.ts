@@ -45,6 +45,7 @@ export { default as SvgTwitter } from "./twitter.svg";
 export { default as SvgUser } from "./user.svg";
 export { default as SvgUserGroup } from "./user-group.svg";
 export { default as SvgUserPlus } from "./user-plus.svg";
+export { default as SvgTrash } from "./trash.svg";
 export { default as SvgX } from "./x.svg";
 export { default as SvgYoutube } from "./youtube.svg";
 export { default as SvgSpotify } from "./spotify.svg";

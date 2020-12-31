@@ -5,7 +5,7 @@ import { Story, useDeleteStoryMutation } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { usePlayer } from "../Player";
 
-const DeleteStory: React.FC<{
+const StoryDelete: React.FC<{
   story: Story;
   active: boolean;
   close(): void;
@@ -22,6 +22,7 @@ const DeleteStory: React.FC<{
     if (playingStoryId === story.id) playStory("");
     deleteStory({ id: story.id }).then(() => {
       toast.success(t("story.delete.success"));
+      close();
     });
   }
 
@@ -63,4 +64,4 @@ const DeleteStory: React.FC<{
   );
 };
 
-export default DeleteStory;
+export default StoryDelete;

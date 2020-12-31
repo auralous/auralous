@@ -4,7 +4,9 @@ import ms from "ms";
 import { DialogOverlay } from "@reach/dialog";
 import StoryShare from "./StoryShare";
 import StoryEnd from "./StoryEnd";
+import StoryDelete from "./StoryDelete";
 import { useModal } from "~/components/Modal";
+import { useCurrentUser } from "~/hooks/user";
 import { useUserQuery, Story } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import {
@@ -12,6 +14,7 @@ import {
   SvgMoreHorizontal,
   SvgShare2,
   SvgSquare,
+  SvgTrash,
   SvgUser,
   SvgX,
 } from "~/assets/svg";
@@ -28,10 +31,13 @@ const StoryNavMenu: React.FC<{
   });
 
   const [activeShare, openShare, closeShare] = useModal();
+  const [activeDelete, openDelete, closeDelete] = useModal();
+
+  const me = useCurrentUser();
 
   return (
     <>
-      <DialogOverlay isOpen={active}>
+      <DialogOverlay isOpen={active} className="backdrop-blur">
         <div className="w-full max-w-2xl h-64 flex flex-col items-center space-y-2">
           {user && (
             <div className="flex mb-4">
@@ -69,6 +75,19 @@ const StoryNavMenu: React.FC<{
               </button>
             )}
           </StoryEnd>
+          {story.isLive === false && me?.id === story.creatorId && (
+            <>
+              <button onClick={openDelete} className="btn btn-transparent">
+                <SvgTrash className="w-5 h-5 mr-2" />
+                {t("story.delete.title")}
+              </button>
+              <StoryDelete
+                active={activeDelete}
+                close={closeDelete}
+                story={story}
+              />
+            </>
+          )}
         </div>
         <button
           className="btn btn-transparent absolute top-4 right-4 p-1.5"
