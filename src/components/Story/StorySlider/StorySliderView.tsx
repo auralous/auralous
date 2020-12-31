@@ -56,7 +56,7 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
           })}
         </p>
         <Link href={`/story/${story?.id}`}>
-          <a className="btn bg-opacity-75 w-full">
+          <a className="btn btn-primary w-full">
             {story?.isLive
               ? t("listen.actionJoin")
               : t("listen.actionJoinNoLive")}
@@ -72,7 +72,7 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
         aria-label={t("player.skipForward")}
         onClick={skipForward}
         style={{
-          height: "calc(100% - 14rem)",
+          height: "calc(100% - 16rem)",
         }}
       />
     </div>
