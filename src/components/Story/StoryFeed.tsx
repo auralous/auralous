@@ -27,7 +27,11 @@ const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
       className="w-full relative h-0 bg-background-secondary rounded-lg"
       style={{ paddingBottom: "150%" }}
     >
-      <div className="border-4 border-background-tertiary w-12 h-12 rounded-full overflow-hidden absolute top-4 left-4">
+      <div
+        className="absolute w-full h-full bg-cover bg-center opacity-40"
+        style={{ background: `url(${story.image})` }}
+      />
+      <div className="w-12 h-12 rounded-full overflow-hidden absolute top-4 left-4 shadow-xl">
         {user ? (
           <img
             alt={user.username}
