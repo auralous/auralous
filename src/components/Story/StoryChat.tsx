@@ -8,7 +8,7 @@ import {
 import { useCurrentUser } from "~/hooks/user";
 import { AuthBanner } from "~/components/Auth";
 import StoryListeners from "./StoryListeners";
-import { Modal, useModal } from "~/components/Modal";
+import { useModal } from "~/components/Modal";
 import { useI18n } from "~/i18n/index";
 import { SvgShare2 } from "~/assets/svg";
 import StoryShare from "./StoryShare";
