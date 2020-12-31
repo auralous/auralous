@@ -114,7 +114,7 @@ const StorySlider: React.FC<{
   return (
     <DialogOverlay
       isOpen={active}
-      style={{ zIndex: 10, backdropFilter: "blur(2px)" }}
+      style={{ zIndex: 10, backgroundColor: "rgb(18, 18, 24)" }}
       aria-label={t("story.feed.title")}
     >
       <div className="h-full w-full max-w-lg mx-auto relative select-none">

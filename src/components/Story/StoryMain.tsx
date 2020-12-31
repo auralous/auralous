@@ -94,6 +94,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
       <div
         ref={resizeRef}
         className="p-4 overflow-hidden flex flex-col justify-center"
+        style={{ backgroundColor: "rgb(18, 18, 24)" }}
       >
         <div className="flex items-center mb-1">
           <LayoutBackButton />
@@ -113,11 +114,6 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           onChange={setSelectedIndex}
           className="flex-1 h-0 flex flex-col"
         >
-          <TabList className="py-1 text-center">
-            <Tab className={getClassName(0)}>{t("player.title")}</Tab>
-            <Tab className={getClassName(1)}>{t("story.live.title")}</Tab>
-            <Tab className={getClassName(2)}>{t("story.queue.title")}</Tab>
-          </TabList>
           <TabPanels className="flex-1 h-0 relative">
             <AnimatedTabPanel
               style={tabPanel0Style}
@@ -141,6 +137,11 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
               <StoryQueue story={story} />
             </AnimatedTabPanel>
           </TabPanels>
+          <TabList className="py-1 text-center">
+            <Tab className={getClassName(0)}>{t("player.title")}</Tab>
+            <Tab className={getClassName(1)}>{t("story.live.title")}</Tab>
+            <Tab className={getClassName(2)}>{t("story.queue.title")}</Tab>
+          </TabList>
         </Tabs>
         <PlayerControl />
       </div>
