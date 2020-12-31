@@ -136,7 +136,7 @@ const StorySlider: React.FC<{
         className="h-full w-full max-w-lg mx-auto relative select-none"
       >
         <button
-          className="btn btn-transparent absolute top-3 right-4 z-20 p-1 rounded-full"
+          className="btn btn-transparent absolute top-4 left-4 z-20 p-1 rounded-full"
           onClick={() => {
             close();
           }}
