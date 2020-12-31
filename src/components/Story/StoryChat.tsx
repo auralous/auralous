@@ -34,14 +34,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
           <StoryListeners userIds={userIds} />
         </div>
       </div>
-      <Modal.Modal active={active} close={close} title={t("story.share.title")}>
-        <Modal.Header>
-          <Modal.Title>{t("story.share.title")}</Modal.Title>
-        </Modal.Header>
-        <Modal.Content>
-          <StoryShare story={story} />
-        </Modal.Content>
-      </Modal.Modal>
+      <StoryShare active={active} close={close} story={story} />
     </>
   );
 };
