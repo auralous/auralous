@@ -21,11 +21,11 @@ const StoryNav: React.FC<{ story: Story }> = ({ story }) => {
       {user ? (
         <img
           alt={user.username}
-          className="w-10 h-10 rounded-full object-cover"
+          className="w-8 h-8 rounded-full object-cover"
           src={user.profilePicture}
         />
       ) : (
-        <div className="box-skeleton w-10 h-10" />
+        <div className="box-skeleton w-8 h-8" />
       )}
       <div className="px-1 pt-0.5 w-0 flex-1 leading-4">
         <div className="whitespace-nowrap">

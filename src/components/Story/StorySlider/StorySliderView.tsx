@@ -48,7 +48,7 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
     <div className="p-4 relative box-border w-full h-full flex flex-col justify-center">
       <StoryNav story={story} />
       <PlayerImage track={track} />
-      <PlayerMeta track={track} fetching={fetching} />
+      <PlayerMeta track={track} fetching={fetching && !track} />
       <div className="w-full">
         <p className="text-lg text-foreground-secondary text-center mb-1 truncate">
           {t(story?.isLive ? "listen.promptJoin" : "listen.promptJoinNolive", {

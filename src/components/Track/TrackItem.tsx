@@ -40,7 +40,7 @@ export const TrackItem: React.FC<{
                   {track.title}
                 </div>
               </div>
-              <div className="flex text-xs text-foreground-secondary">
+              <div className="flex text-xs text-foreground-secondary font-normal">
                 <span className="mr-1 flex-none">
                   {(() => {
                     const [sec, min] = parseMs(track.duration, true);

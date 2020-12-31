@@ -25,7 +25,7 @@ const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <div
       className="w-full relative h-0 bg-background-secondary rounded-lg"
-      style={{ paddingBottom: "100%" }}
+      style={{ paddingBottom: "150%" }}
     >
       <div className="border-4 border-background-tertiary w-12 h-12 rounded-full overflow-hidden absolute top-4 left-4">
         {user ? (
