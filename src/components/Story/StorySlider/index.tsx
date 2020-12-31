@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { DialogOverlay } from "@reach/dialog";
+import { animated, useSpring } from "react-spring";
 import Swiper from "swiper/bundle";
 import { VirtualData } from "swiper/types/components/virtual";
 import ListenStoryView from "./StorySliderView";
@@ -111,13 +112,24 @@ const StorySlider: React.FC<{
 }> = ({ stories, setNext, intialSlide, active, close }) => {
   const { t } = useI18n();
 
+  const transitions = useSpring(
+    active ? { transform: "translateY(0%)" } : { transform: "translateY(100%)" }
+  );
+
   return (
     <DialogOverlay
       isOpen={active}
-      style={{ zIndex: 10, backgroundColor: "rgb(18, 18, 24)" }}
+      style={{
+        zIndex: 10,
+        backgroundColor: "rgb(18, 18, 24)",
+        overflow: "hidden",
+      }}
       aria-label={t("story.feed.title")}
     >
-      <div className="h-full w-full max-w-lg mx-auto relative select-none">
+      <animated.div
+        style={transitions}
+        className="h-full w-full max-w-lg mx-auto relative select-none"
+      >
         <button
           className="btn absolute top-4 right-4 z-20 p-1.5 rounded-full"
           onClick={() => {
@@ -132,7 +144,7 @@ const StorySlider: React.FC<{
           stories={stories}
           setNext={setNext}
         />
-      </div>
+      </animated.div>
       <StorySliderInstruction />
     </DialogOverlay>
   );
