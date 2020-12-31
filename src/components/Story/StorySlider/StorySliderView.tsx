@@ -10,6 +10,7 @@ import {
   useUserQuery,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
+import { onEnterKeyClick } from "~/lib/util";
 
 const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
@@ -64,13 +65,13 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
         </Link>
       </div>
       {/* TODO: a11y */}
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
         role="button"
         tabIndex={0}
         className="absolute top-24 left-0 w-full opacity-0"
         aria-label={t("player.skipForward")}
         onClick={skipForward}
+        onKeyPress={onEnterKeyClick}
         style={{
           height: "calc(100% - 16rem)",
         }}

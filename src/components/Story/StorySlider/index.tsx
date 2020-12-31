@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { DialogOverlay } from "@reach/dialog";
-import { animated, useSpring } from "react-spring";
+import { animated, useSpring, config as springConfig } from "react-spring";
 import Swiper from "swiper/bundle";
 import { VirtualData } from "swiper/types/components/virtual";
 import ListenStoryView from "./StorySliderView";
@@ -114,11 +114,11 @@ const StorySlider: React.FC<{
 }> = ({ stories, setNext, intialSlide, active, close }) => {
   const { t } = useI18n();
 
-  const transitions = useSpring(
-    active
-      ? { opacity: 1, transform: "translateY(0%)" }
-      : { opacity: 0, transform: "translateY(100%)" }
-  );
+  const transitions = useSpring({
+    opacity: active ? 1 : 0,
+    transform: active ? "translateY(0%)" : "translateY(100%)",
+    config: springConfig.slow,
+  });
 
   return (
     <AnimatedDialogOverlay
