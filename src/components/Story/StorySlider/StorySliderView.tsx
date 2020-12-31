@@ -12,7 +12,10 @@ import {
 import { useI18n } from "~/i18n/index";
 import { onEnterKeyClick } from "~/lib/util";
 
-const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
+const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
+  story,
+  close,
+}) => {
   const { t } = useI18n();
   const {
     state: { fetching: fetchingPlayer, crossTracks, playingStoryId },
@@ -47,9 +50,7 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
 
   return (
     <div className="p-4 relative box-border w-full h-full flex flex-col justify-center">
-      <div className="pl-12">
-        <StoryNav story={story} />
-      </div>
+      <StoryNav onClose={close} story={story} />
       <PlayerImage track={track} />
       <PlayerMeta track={track} fetching={fetching && !track} />
       <div className="w-full">

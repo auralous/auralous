@@ -3,18 +3,18 @@ import { DialogOverlay } from "@reach/dialog";
 import { animated, useSpring, config as springConfig } from "react-spring";
 import Swiper from "swiper/bundle";
 import { VirtualData } from "swiper/types/components/virtual";
-import ListenStoryView from "./StorySliderView";
+import StorySliderView from "./StorySliderView";
 import StorySliderInstruction from "./StorySliderInstruction";
 import { usePlayer } from "~/components/Player";
 import { Story } from "~/graphql/gql.gen";
-import { SvgChevronDown } from "~/assets/svg";
 import { useI18n } from "~/i18n/index";
 
 const StorySliderContent: React.FC<{
   stories?: Story[];
   setNext: (id: string) => void;
   intialSlide: number;
-}> = ({ stories, setNext, intialSlide }) => {
+  close: () => void;
+}> = ({ stories, setNext, intialSlide, close }) => {
   const swiperRef = useRef<{ swiper: Swiper | null }>({ swiper: null });
 
   useEffect(
@@ -94,7 +94,7 @@ const StorySliderContent: React.FC<{
               className="swiper-slide h-screen-layout"
               style={{ top: `${virtualData.offset}px` }}
             >
-              {story && <ListenStoryView story={story} />}
+              {story && <StorySliderView close={close} story={story} />}
             </div>
           );
         })}
@@ -135,19 +135,11 @@ const StorySlider: React.FC<{
         style={{ transform: transitions.transform }}
         className="h-full w-full max-w-lg mx-auto relative select-none"
       >
-        <button
-          className="btn btn-transparent absolute top-4 left-4 z-20 p-1 rounded-full"
-          onClick={() => {
-            close();
-          }}
-          aria-label={t("modal.close")}
-        >
-          <SvgChevronDown className="w-8 h-8" />
-        </button>
         <StorySliderContent
           intialSlide={intialSlide}
           stories={stories}
           setNext={setNext}
+          close={close}
         />
       </animated.div>
       <StorySliderInstruction />

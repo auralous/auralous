@@ -179,7 +179,8 @@
     "feed": {
       "title": "Story feed",
       "instruction": "Tap to play next songs. Scroll or swipe to discover more stories."
-    }
+    },
+    "ofUsername": "{{username}}'s story"
   },
   "user": {
     "profile": "Profile",

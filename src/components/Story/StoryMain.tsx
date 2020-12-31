@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { animated, useSpring } from "react-spring";
-import { usePlayer } from "~/components/Player/index";
+import { useRouter } from "next/router";
 import {
   Story,
   useStoryQuery,
@@ -12,10 +12,10 @@ import {
 } from "~/graphql/gql.gen";
 import StoryNav from "./StoryNav";
 import StoryQueue from "./StoryQueue";
-import StoryEnd from "./StoryEnd";
 import StoryPlayer from "./StoryPlayer";
-import LayoutBackButton from "~/components/Layout/LayoutBackButton";
+import { usePlayer } from "~/components/Player/index";
 import { PlayerControl } from "~/components/Player/PlayerView";
+import LayoutContext from "~/components/Layout/LayoutContext";
 import { useCurrentUser } from "~/hooks/user";
 import { useInnerHeightResizeRef } from "~/hooks/sizing";
 import { useI18n } from "~/i18n/index";
@@ -89,6 +89,13 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
 
   const resizeRef = useInnerHeightResizeRef();
 
+  const router = useRouter();
+  const { prevPathname } = useContext(LayoutContext);
+  const onClose = useCallback(
+    () => (prevPathname.current ? router.back() : router.replace("/listen")),
+    [router, prevPathname]
+  );
+
   return (
     <>
       <div
@@ -96,19 +103,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
         className="p-4 overflow-hidden flex flex-col justify-center"
         style={{ backgroundColor: "rgb(18, 18, 24)" }}
       >
-        <div className="flex items-center mb-1">
-          <LayoutBackButton />
-          <StoryNav story={story} />
-          <div className="self-center">
-            <StoryEnd story={story}>
-              {(openEnd) => (
-                <button onClick={openEnd} className="btn text-sm bg-opacity-25">
-                  {t("story.end.title")}
-                </button>
-              )}
-            </StoryEnd>
-          </div>
-        </div>
+        <StoryNav onClose={onClose} story={story} />
         <Tabs
           index={selectedIndex}
           onChange={setSelectedIndex}

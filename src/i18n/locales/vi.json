@@ -179,7 +179,8 @@
     "feed": {
       "title": "Dòng story",
       "instruction": "Chạm để phát bài tiếp theo. Cuộn hoặc vuốt lên để khám phá thêm Story."
-    }
+    },
+    "ofUsername": "Story của {{username}}"
   },
   "user": {
     "profile": "Hồ sơ",
