@@ -187,7 +187,7 @@ const QueueManager: React.FC<{
     <div className="h-full w-full flex flex-col justify-between">
       <div className="w-full h-full">
         {queue.items?.length === 0 && (
-          <div className="h-full flex flex-col flex-center text-lg text-foreground-tertiary p-4">
+          <div className="absolute-center z-10 w-full text-center text-lg text-foreground-tertiary p-4">
             <p className="text-center">{t("queue.manager.emptyText")}</p>
             {isQueueable && (
               <button
