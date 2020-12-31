@@ -103,6 +103,8 @@ const StorySliderContent: React.FC<{
   );
 };
 
+const AnimatedDialogOverlay = animated(DialogOverlay);
+
 const StorySlider: React.FC<{
   stories?: Story[];
   setNext: (id: string) => void;
@@ -113,21 +115,24 @@ const StorySlider: React.FC<{
   const { t } = useI18n();
 
   const transitions = useSpring(
-    active ? { transform: "translateY(0%)" } : { transform: "translateY(100%)" }
+    active
+      ? { opacity: 1, transform: "translateY(0%)" }
+      : { opacity: 0, transform: "translateY(100%)" }
   );
 
   return (
-    <DialogOverlay
+    <AnimatedDialogOverlay
       isOpen={active}
       style={{
-        zIndex: 10,
-        backgroundColor: "rgb(18, 18, 24)",
-        overflow: "hidden",
+        backgroundColor: "rgba(18, 18, 24)",
+        opacity: transitions.opacity,
       }}
       aria-label={t("story.feed.title")}
+      className="overflow-hidden z-10"
+      as="div"
     >
       <animated.div
-        style={transitions}
+        style={{ transform: transitions.transform }}
         className="h-full w-full max-w-lg mx-auto relative select-none"
       >
         <button
@@ -146,7 +151,7 @@ const StorySlider: React.FC<{
         />
       </animated.div>
       <StorySliderInstruction />
-    </DialogOverlay>
+    </AnimatedDialogOverlay>
   );
 };
 
