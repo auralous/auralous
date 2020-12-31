@@ -29,7 +29,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <div className="my-4 gap-4 flex flex-center">
+    <div className="my-2 gap-4 flex flex-center">
       <button
         className="btn btn-transparent p-3"
         title={t("player.skipBackward")}
@@ -87,42 +87,27 @@ export const PlayerMeta: React.FC<{
   fetching: boolean;
   track: Track | null | undefined;
 }> = ({ fetching, track }) => {
+  const { t } = useI18n();
+
   return (
-    <div className="w-full py-4">
-      {track ? (
+    <div className="w-full py-4 h-20">
+      {fetching ? (
         <>
-          <h4 className="w-full font-bold text-2xl truncate leading-none mb-1">
-            {track.title}
-          </h4>
-          <div className="w-full text-foreground-secondary truncate leading-none">
-            {track.artists.map((artist) => artist.name).join(", ")}
-          </div>
+          <div className="block-skeleton rounded h-6 w-40 mb-1" />
+          <div className="block-skeleton rounded h-4 w-24" />
         </>
       ) : (
-        fetching && (
-          <>
-            <div className="block-skeleton rounded h-6 w-40 mb-1" />
-            <div className="block-skeleton rounded h-4 w-24" />
-          </>
-        )
+        <>
+          <h4 className="w-full font-bold text-2xl truncate leading-none mb-1">
+            {track ? track.title : t("player.noneText")}
+          </h4>
+          <div className="w-full text-foreground-secondary truncate leading-none">
+            {track
+              ? track.artists.map((artist) => artist.name).join(", ")
+              : t("player.noneHelpText")}
+          </div>
+        </>
       )}
     </div>
   );
 };
-
-const PlayerView: React.FC<{
-  fetching: boolean;
-  track: Track | null | undefined;
-}> = ({ track, fetching }) => {
-  return (
-    <div className="w-full h-full flex flex-col p-6">
-      <div className="w-full h-0 flex-1 flex flex-col justify-center">
-        <PlayerImage track={track} />
-        <PlayerMeta track={track} fetching={fetching} />
-      </div>
-      <PlayerControl />
-    </div>
-  );
-};
-
-export default PlayerView;

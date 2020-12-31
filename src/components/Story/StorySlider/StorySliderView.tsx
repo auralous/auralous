@@ -10,8 +10,12 @@ import {
   useUserQuery,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
+import { onEnterKeyClick } from "~/lib/util";
 
-const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
+const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
+  story,
+  close,
+}) => {
   const { t } = useI18n();
   const {
     state: { fetching: fetchingPlayer, crossTracks, playingStoryId },
@@ -45,10 +49,10 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
   });
 
   return (
-    <div className="p-6 relative box-border w-full h-full flex flex-col justify-center">
-      <StoryNav story={story} />
+    <div className="p-4 relative box-border w-full h-full flex flex-col justify-center">
+      <StoryNav onClose={close} story={story} />
       <PlayerImage track={track} />
-      <PlayerMeta track={track} fetching={fetching} />
+      <PlayerMeta track={track} fetching={fetching && !track} />
       <div className="w-full">
         <p className="text-lg text-foreground-secondary text-center mb-1 truncate">
           {t(story?.isLive ? "listen.promptJoin" : "listen.promptJoinNolive", {
@@ -56,7 +60,7 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
           })}
         </p>
         <Link href={`/story/${story?.id}`}>
-          <a className="btn bg-opacity-75 w-full">
+          <a className="btn btn-primary w-full">
             {story?.isLive
               ? t("listen.actionJoin")
               : t("listen.actionJoinNoLive")}
@@ -64,15 +68,15 @@ const StorySliderView: React.FC<{ story: Story }> = ({ story }) => {
         </Link>
       </div>
       {/* TODO: a11y */}
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
         role="button"
         tabIndex={0}
         className="absolute top-24 left-0 w-full opacity-0"
         aria-label={t("player.skipForward")}
         onClick={skipForward}
+        onKeyPress={onEnterKeyClick}
         style={{
-          height: "calc(100% - 14rem)",
+          height: "calc(100% - 16rem)",
         }}
       />
     </div>

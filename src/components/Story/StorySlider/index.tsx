@@ -1,19 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import { DialogOverlay } from "@reach/dialog";
+import { animated, useSpring, config as springConfig } from "react-spring";
 import Swiper from "swiper/bundle";
 import { VirtualData } from "swiper/types/components/virtual";
-import ListenStoryView from "./StorySliderView";
+import StorySliderView from "./StorySliderView";
 import StorySliderInstruction from "./StorySliderInstruction";
 import { usePlayer } from "~/components/Player";
 import { Story } from "~/graphql/gql.gen";
-import { SvgChevronDown } from "~/assets/svg";
 import { useI18n } from "~/i18n/index";
 
 const StorySliderContent: React.FC<{
   stories?: Story[];
   setNext: (id: string) => void;
   intialSlide: number;
-}> = ({ stories, setNext, intialSlide }) => {
+  close: () => void;
+}> = ({ stories, setNext, intialSlide, close }) => {
   const swiperRef = useRef<{ swiper: Swiper | null }>({ swiper: null });
 
   useEffect(
@@ -93,7 +94,7 @@ const StorySliderContent: React.FC<{
               className="swiper-slide h-screen-layout"
               style={{ top: `${virtualData.offset}px` }}
             >
-              {story && <ListenStoryView story={story} />}
+              {story && <StorySliderView close={close} story={story} />}
             </div>
           );
         })}
@@ -101,6 +102,8 @@ const StorySliderContent: React.FC<{
     </div>
   );
 };
+
+const AnimatedDialogOverlay = animated(DialogOverlay);
 
 const StorySlider: React.FC<{
   stories?: Story[];
@@ -111,30 +114,36 @@ const StorySlider: React.FC<{
 }> = ({ stories, setNext, intialSlide, active, close }) => {
   const { t } = useI18n();
 
+  const transitions = useSpring({
+    opacity: active ? 1 : 0,
+    transform: active ? "translateY(0%)" : "translateY(100%)",
+    config: springConfig.slow,
+  });
+
   return (
-    <DialogOverlay
+    <AnimatedDialogOverlay
       isOpen={active}
-      style={{ zIndex: 10, backdropFilter: "blur(2px)" }}
+      style={{
+        backgroundColor: "rgba(18, 18, 24)",
+        opacity: transitions.opacity,
+      }}
       aria-label={t("story.feed.title")}
+      className="overflow-hidden z-10"
+      as="div"
     >
-      <div className="h-full w-full max-w-lg mx-auto relative select-none">
-        <button
-          className="btn absolute top-6 z-20 right-6 p-1.5 rounded-full"
-          onClick={() => {
-            close();
-          }}
-          aria-label={t("modal.close")}
-        >
-          <SvgChevronDown className="w-6 h-6" />
-        </button>
+      <animated.div
+        style={{ transform: transitions.transform }}
+        className="h-full w-full max-w-lg mx-auto relative select-none"
+      >
         <StorySliderContent
           intialSlide={intialSlide}
           stories={stories}
           setNext={setNext}
+          close={close}
         />
-      </div>
+      </animated.div>
       <StorySliderInstruction />
-    </DialogOverlay>
+    </AnimatedDialogOverlay>
   );
 };
 

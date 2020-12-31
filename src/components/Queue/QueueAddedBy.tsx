@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { useUserQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
@@ -13,11 +12,7 @@ const QueueAddedBy: React.FC<{ userId: string }> = ({ userId }) => {
   return (
     <span className="ml-1 flex-none">
       {t("queue.addedBy")}{" "}
-      <Link href={`/user/${user?.username}`}>
-        <a className="text-foreground text-opacity-80 font-semibold text-inline-link">
-          {user?.username || ""}
-        </a>
-      </Link>
+      <span className="font-semibold">{user?.username || ""}</span>
     </span>
   );
 };

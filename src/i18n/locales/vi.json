@@ -143,7 +143,8 @@
     "live": { "title": "Live" },
     "listeners": { "title": "Người nghe" },
     "menu": {
-      "handle": "Tùy chọn Story"
+      "handle": "Menu Story",
+      "viewCreator": "Xem người tạo"
     },
     "delete": {
       "title": "Xoá story",
@@ -179,7 +180,8 @@
     "feed": {
       "title": "Dòng story",
       "instruction": "Chạm để phát bài tiếp theo. Cuộn hoặc vuốt lên để khám phá thêm Story."
-    }
+    },
+    "ofUsername": "Story của {{username}}"
   },
   "user": {
     "profile": "Hồ sơ",
@@ -194,6 +196,7 @@
   },
   "nowPlaying": { "title": "Đang phát" },
   "player": {
+    "player": "Trình phát",
     "pause": "Tạm dừng",
     "play": "Phát nhạc",
     "noneText": "Không có bài hát",

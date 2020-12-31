@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { animated, useSpring } from "react-spring";
-import { usePlayer } from "~/components/Player/index";
+import { useRouter } from "next/router";
 import {
   Story,
   useStoryQuery,
@@ -10,14 +10,15 @@ import {
   useStoryUpdatedSubscription,
   useNowPlayingReactionsUpdatedSubscription,
 } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
 import StoryNav from "./StoryNav";
-import StoryHeader from "./StoryHeader";
 import StoryQueue from "./StoryQueue";
-import StoryEnd from "./StoryEnd";
-import LayoutBackButton from "~/components/Layout/LayoutBackButton";
+import StoryPlayer from "./StoryPlayer";
+import { usePlayer } from "~/components/Player/index";
 import { PlayerControl } from "~/components/Player/PlayerView";
+import LayoutContext from "~/components/Layout/LayoutContext";
 import { useCurrentUser } from "~/hooks/user";
+import { useInnerHeightResizeRef } from "~/hooks/sizing";
+import { useI18n } from "~/i18n/index";
 
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
 
@@ -82,59 +83,60 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   const tabPanel1Style = useSpring(
     1 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
+  const tabPanel2Style = useSpring(
+    2 === selectedIndex ? tabActiveStyle : tabInactiveStyle
+  );
+
+  const resizeRef = useInnerHeightResizeRef();
+
+  const router = useRouter();
+  const { prevPathname } = useContext(LayoutContext);
+  const onClose = useCallback(
+    () => (prevPathname.current ? router.back() : router.replace("/listen")),
+    [router, prevPathname]
+  );
 
   return (
     <>
-      <div className="h-screen relative overflow-hidden flex flex-col">
-        <div
-          className="lg:flex justify-between border-b-4 border-primary"
-          style={{ backgroundColor: "rgb(18, 18, 24)" }}
-        >
-          <div className="p-2 pb-0 lg:pb-2 flex-1 flex items-center">
-            <LayoutBackButton />
-            <StoryNav story={story} />
-            <div className="self-center">
-              <StoryEnd story={story}>
-                {(openEnd) => (
-                  <button
-                    onClick={openEnd}
-                    className="btn text-sm bg-opacity-25"
-                  >
-                    {t("story.end.title")}
-                  </button>
-                )}
-              </StoryEnd>
-            </div>
-          </div>
-          <div className="flex-1">
-            <StoryHeader story={story} />
-          </div>
-        </div>
+      <div
+        ref={resizeRef}
+        className="p-4 overflow-hidden flex flex-col justify-center"
+        style={{ backgroundColor: "rgb(18, 18, 24)" }}
+      >
+        <StoryNav onClose={onClose} story={story} />
         <Tabs
           index={selectedIndex}
           onChange={setSelectedIndex}
           className="flex-1 h-0 flex flex-col"
         >
-          <TabList className="py-1">
-            <Tab className={getClassName(0)}>{t("story.live.title")}</Tab>
-            <Tab className={getClassName(1)}>{t("story.queue.title")}</Tab>
-          </TabList>
           <TabPanels className="flex-1 h-0 relative">
             <AnimatedTabPanel
               style={tabPanel0Style}
               className="h-full"
               as="div"
             >
-              <StoryChat story={story} />
+              <StoryPlayer story={story} />
             </AnimatedTabPanel>
             <AnimatedTabPanel
               style={tabPanel1Style}
               className="h-full"
               as="div"
             >
+              <StoryChat story={story} />
+            </AnimatedTabPanel>
+            <AnimatedTabPanel
+              style={tabPanel2Style}
+              className="h-full"
+              as="div"
+            >
               <StoryQueue story={story} />
             </AnimatedTabPanel>
           </TabPanels>
+          <TabList className="py-1 text-center">
+            <Tab className={getClassName(0)}>{t("player.title")}</Tab>
+            <Tab className={getClassName(1)}>{t("story.live.title")}</Tab>
+            <Tab className={getClassName(2)}>{t("story.queue.title")}</Tab>
+          </TabList>
         </Tabs>
         <PlayerControl />
       </div>

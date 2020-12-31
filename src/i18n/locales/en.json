@@ -143,7 +143,8 @@
     "live": { "title": "Live" },
     "listeners": { "title": "Listeners" },
     "menu": {
-      "handle": "Story menu"
+      "handle": "Story menu",
+      "viewCreator": "View creator"
     },
     "delete": {
       "title": "Delete story",
@@ -179,7 +180,8 @@
     "feed": {
       "title": "Story feed",
       "instruction": "Tap to play next songs. Scroll or swipe to discover more stories."
-    }
+    },
+    "ofUsername": "{{username}}'s story"
   },
   "user": {
     "profile": "Profile",
@@ -194,6 +196,7 @@
   },
   "nowPlaying": { "title": "Now Playing" },
   "player": {
+    "title": "Player",
     "pause": "Pause",
     "play": "Play",
     "noneText": "Nothing is playing",
