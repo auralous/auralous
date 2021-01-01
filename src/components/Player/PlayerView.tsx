@@ -3,6 +3,8 @@ import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "~/assets/svg";
 import { Track } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import usePlayer from "./usePlayer";
+import { TrackMenu } from "~/components/Track";
+import { useModal } from "~/components/Modal";
 
 const EMPTYIMAGE = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP87wMAAlABTQluYBcAAAAASUVORK5CYII=
 `;
@@ -87,8 +89,12 @@ export const PlayerMeta: React.FC<{
 }> = ({ fetching, track }) => {
   const { t } = useI18n();
 
+  const [activeMenu, openMenu, closeMenu] = useModal();
+  useEffect(closeMenu, [track, closeMenu]);
+
   return (
-    <div className="w-full py-4 h-20">
+    // eslint-disable-next-line
+    <div className="py-4 h-20 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
       {fetching ? (
         <>
           <div className="block-skeleton rounded h-6 w-40 mb-1" />
@@ -104,6 +110,9 @@ export const PlayerMeta: React.FC<{
               ? track.artists.map((artist) => artist.name).join(", ")
               : t("player.noneHelpText")}
           </div>
+          {track && (
+            <TrackMenu active={activeMenu} close={closeMenu} id={track.id} />
+          )}
         </>
       )}
     </div>

@@ -59,7 +59,7 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
 
   return (
     <button
-      className="btn flex-col btn-transparent p-2 flex flex-center rounded-full"
+      className="btn flex-col flex-none btn-transparent p-2 flex flex-center rounded-full"
       onClick={react}
       disabled={!nowPlaying?.currentTrack}
     >

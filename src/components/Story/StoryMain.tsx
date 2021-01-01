@@ -59,6 +59,8 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   // This informs that the user is present in story
   const [, pingStory] = usePingStoryMutation();
   useEffect(() => {
+    // story presence does not apply to unlive story
+    if (!story.isLive) return;
     if (user) {
       const pingInterval = window.setInterval(() => {
         pingStory({ id: story.id });

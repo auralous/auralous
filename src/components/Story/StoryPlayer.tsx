@@ -12,11 +12,9 @@ const StoryPlayer: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <div className="h-full flex flex-col max-w-lg mx-auto">
       <PlayerImage track={crossTracks?.original} />
-      <div className="flex">
-        <div className="w-0 flex-1">
-          <PlayerMeta track={crossTracks?.original} fetching={fetching} />
-        </div>
-        <StoryReaction story={story} />
+      <div className="flex justify-between">
+        <PlayerMeta track={crossTracks?.original} fetching={fetching} />
+        {story.isLive && <StoryReaction story={story} />}
       </div>
     </div>
   );

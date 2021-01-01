@@ -50,11 +50,11 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
     variables: { id: story.id },
     pollInterval: 60 * 1000,
     requestPolicy: "cache-and-network",
-    pause: !user,
+    pause: !user || !story.isLive,
   });
 
   useOnStoryUsersUpdatedSubscription(
-    { variables: { id: story.id || "" }, pause: !storyUsers },
+    { variables: { id: story.id || "" }, pause: !storyUsers || !story.isLive },
     (prev, data) => data
   );
 
@@ -70,7 +70,7 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
 
   return (
     <div className="h-full flex flex-col">
-      <StoryUsers userIds={storyUsers || []} story={story} />
+      {story.isLive && <StoryUsers userIds={storyUsers || []} story={story} />}
       <div className="flex-1 h-0">
         <Messenger id={`story:${story.id}`} />
       </div>
