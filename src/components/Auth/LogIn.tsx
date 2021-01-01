@@ -184,7 +184,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
         <button
           className="btn btn-transparent absolute top-2 right-0"
           onClick={close}
-          title={t("auth.cancelText")}
+          title={t("modal.close")}
         >
           <SvgX />
         </button>

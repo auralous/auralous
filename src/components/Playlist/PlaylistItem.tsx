@@ -5,8 +5,7 @@ import { useI18n } from "~/i18n/index";
 
 const PlaylistItem: React.FC<{
   playlist: Playlist;
-  extraInfo?: string | React.ReactElement;
-}> = ({ playlist, extraInfo }) => {
+}> = ({ playlist }) => {
   const { t } = useI18n();
   const SvgPlatformName = SvgByPlatformName[playlist.platform];
   return (
@@ -28,12 +27,6 @@ const PlaylistItem: React.FC<{
         </p>
         <p className="text-foreground-tertiary text-sm">
           {playlist.tracks.length} {t("common.tracks")}
-          {extraInfo && (
-            <>
-              {" • "}
-              {extraInfo}
-            </>
-          )}
         </p>
       </div>
     </div>

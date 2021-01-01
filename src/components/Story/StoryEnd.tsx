@@ -16,7 +16,7 @@ const StoryEnd: React.FC<{
   const onEndStory = async () => {
     const result = await unliveStory({ id: story.id });
     if (result.data?.unliveStory) {
-      toast.success(t("story.end.endSuccess"));
+      toast.success(t("story.end.success"));
       close();
     }
   };
@@ -36,7 +36,7 @@ const StoryEnd: React.FC<{
             {t("story.end.confirm")}
           </button>
           <button onClick={close} className="btn" disabled={fetching}>
-            {t("story.end.cancel")}
+            {t("common.cancel")}
           </button>
         </Modal.Footer>
       </Modal.Modal>

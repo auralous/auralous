@@ -30,7 +30,7 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
       <TrackItem id={data.items[index]} />
       <div className="flex content-end items-center ml-2">
         <button
-          aria-label={t("queue.manager.addAction")}
+          aria-label={t("queue.manager.add")}
           className="btn p-0 h-10 w-10"
           onClick={async () => {
             if (added && !window.confirm(t("track.adder.result.confirmAdded")))

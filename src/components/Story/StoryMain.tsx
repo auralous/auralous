@@ -134,7 +134,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           </TabPanels>
           <TabList className="py-1 text-center">
             <Tab className={getClassName(0)}>{t("player.title")}</Tab>
-            <Tab className={getClassName(1)}>{t("story.live.title")}</Tab>
+            <Tab className={getClassName(1)}>{t("story.chat.title")}</Tab>
             <Tab className={getClassName(2)}>{t("story.queue.title")}</Tab>
           </TabList>
         </Tabs>

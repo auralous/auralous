@@ -49,14 +49,14 @@ const StoryDelete: React.FC<{
             onClick={onDelete}
             disabled={fetching}
           >
-            {t("story.delete.action")}
+            {t("story.delete.confirm")}
           </button>
           <button
             onClick={close}
             className="btn btn-success"
             disabled={fetching}
           >
-            {t("story.delete.cancel")}
+            {t("common.cancel")}
           </button>
         </Modal.Footer>
       </Modal.Modal>

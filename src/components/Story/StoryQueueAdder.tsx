@@ -106,7 +106,7 @@ const StoryQueueAdder: React.FC<{
       </Modal.Content>
       <Modal.Footer>
         <button onClick={close} className="btn">
-          {t("story.queue.done")}
+          {t("common.done")}
         </button>
       </Modal.Footer>
     </Modal.Modal>

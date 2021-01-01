@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
           <SvgLogo title="Stereo" className="w-32 h-12 mx-auto fill-current" />
         </div>
         <SidebarItem href="/new" isBold>
-          {t("common.newStory")}
+          {t("story.create")}
         </SidebarItem>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
         <SidebarItem href="/map">{t("map.title")}</SidebarItem>
@@ -141,7 +141,7 @@ const Appbar: React.FC = () => {
         <AppbarItem href="/listen" title={t("listen.title")}>
           <SvgPlayCircle className="w-4 h-4" />
         </AppbarItem>
-        <AppbarItem isBold href="/new" title={t("common.newStory")}>
+        <AppbarItem isBold href="/new" title={t("story.create")}>
           <SvgPlus className="w-6 h-6" />
         </AppbarItem>
         <AppbarItem href="/map" title={t("map.title")}>

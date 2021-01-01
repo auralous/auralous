@@ -44,7 +44,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
   function onDelete() {
     deleteUser().then((result) => {
       result.data?.deleteMe &&
-        toast.success(t("settings.dangerZone.delete.deleted"));
+        toast.success(t("settings.dangerZone.delete.success"));
     });
   }
 
@@ -82,14 +82,14 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
             onClick={onDelete}
             disabled={confirmUsername !== user.username || fetching}
           >
-            {t("settings.dangerZone.delete.action")}
+            {t("settings.dangerZone.delete.confirm")}
           </button>
           <button
             onClick={closeDelete}
             className="btn btn-success"
             disabled={fetching}
           >
-            {t("settings.dangerZone.delete.cancel")}
+            {t("common.cancel")}
           </button>
         </Modal.Footer>
       </Modal.Modal>
@@ -104,7 +104,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         </a>
       </p>
       <button className="btn btn-danger mt-2" onClick={openDelete}>
-        {t("settings.dangerZone.delete.action")}
+        {t("settings.dangerZone.delete.confirm")}
       </button>
     </>
   );
@@ -267,7 +267,7 @@ const MusicConnection: React.FC = () => {
           <p className="text-sm leading-tight">
             {mAuth ? (
               <span className="text-foreground-secondary">
-                {t("settings.listening.withAuth", { name })},{" "}
+                {t("settings.listening.connectedTo", { name })},{" "}
                 <a target="_blank" href="/support" className="font-bold">
                   {t("settings.listening.contactUs")}
                 </a>

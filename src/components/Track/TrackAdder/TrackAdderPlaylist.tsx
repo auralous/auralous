@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { QueryConfig } from "react-query";
-import { SvgChevronLeft } from "~/assets/svg";
+import { SvgChevronLeft, SvgLoadingAnimated } from "~/assets/svg";
 import { default as TrackAdderResults } from "./TrackAdderResults";
 import { PlaylistItem } from "~/components/Playlist";
 import { useMyPlaylistsQuery } from "~/hooks/playlist";
@@ -41,19 +41,15 @@ const TrackAdderPlaylist: React.FC<{
         >
           <SvgChevronLeft width="24" height="24" />
         </button>
-        {selectedPlaylist ? (
-          <>
-            <div className="inline-flex items-center">
-              <img
-                src={selectedPlaylist.image}
-                alt={selectedPlaylist.title}
-                className="w-6 h-6 mr-1 rounded"
-              />
-              {selectedPlaylist.title}
-            </div>
-          </>
-        ) : (
-          t("track.adder.playlist.selectOne")
+        {!!selectedPlaylist && (
+          <div className="inline-flex items-center">
+            <img
+              src={selectedPlaylist.image}
+              alt={selectedPlaylist.title}
+              className="w-6 h-6 mr-1 rounded"
+            />
+            {selectedPlaylist.title}
+          </div>
         )}
       </div>
       {selectedPlaylist ? (
@@ -63,12 +59,8 @@ const TrackAdderPlaylist: React.FC<{
           results={queryResults || []}
         />
       ) : (
-        <div className="flex-1 h-0 overflow-auto space-y-1">
-          {isLoading && (
-            <p className="px-2 py-6 text-center font-bold text-foreground-tertiary animate-pulse">
-              {t("track.adder.playlist.loading")}
-            </p>
-          )}
+        <div className="relative flex-1 h-0 overflow-auto space-y-1">
+          {isLoading && <SvgLoadingAnimated className="absolute-center" />}
           {myPlaylists?.map((playlist) => (
             <button
               key={playlist.id}

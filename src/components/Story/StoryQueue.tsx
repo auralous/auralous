@@ -49,7 +49,7 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
               </Modal.Content>
               <Modal.Footer>
                 <button className="btn" onClick={close}>
-                  {t("story.queueable.done")}
+                  {t("common.done")}
                 </button>
               </Modal.Footer>
             </Modal.Modal>

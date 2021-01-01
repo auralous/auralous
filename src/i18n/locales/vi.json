@@ -52,14 +52,13 @@
         "label": "Xoá tài khoản",
         "description": "Bạn có thể xoá tài khoản của mình bất cứ lúc nào.",
         "descriptionData": "Về dữ liệu của bạn khi vô hiệu hoá",
-        "action": "Xoá tài khoản",
+        "confirm": "Xoá tài khoản",
         "modal": {
           "title": "Chúng mình sẽ nhớ bạn...",
           "description": "Xoá tài khoản đồng nghĩa với việc xoá tất cả thông tin, story của bạn.",
           "enterName": "Nhập username để tiếp tục"
         },
-        "cancel": "Thôi",
-        "deleted": "Toàn bộ dữ liệu của bạn đã bị xoá. Hãy sớm quay lại nhé!"
+        "success": "Toàn bộ dữ liệu của bạn đã bị xoá. Hãy sớm quay lại nhé!"
       }
     },
     "profile": {
@@ -73,7 +72,7 @@
     "profilePicture": { "label": "Ảnh đại diện" },
     "listening": {
       "title": "Nghe nhạc trên {{name}}",
-      "withAuth": "Tài khoản của bạn đang được kết nối với {{name}}. Nếu bạn muốn thay đổi",
+      "connectedTo": "Tài khoản của bạn đang được kết nối với {{name}}. Nếu bạn muốn thay đổi",
       "contactUs": "liên hệ chúng mình"
     },
     "signOut": "Đăng xuất"
@@ -114,8 +113,7 @@
       "promptText": "Bạn sẽ miêu tả story của mình thế nào",
       "textHelp": "Tối đa {{maxLength}} kí tự",
       "promptPrivacy": "Bạn định nghe công khai hay riêng tư"
-    },
-    "backText": "Trở về"
+    }
   },
   "map": {
     "title": "Bản đồ",
@@ -123,6 +121,7 @@
   },
   "story": {
     "label": "Story",
+    "create": "Tạo story",
     "description": "Tham gia cùng {{title}} trên Stereo và nghe nhạc cùng nhau.",
     "privacy": { "public": "Công khai", "private": "Riêng tư" },
     "queue": {
@@ -132,15 +131,13 @@
       "playlist": { "title": "Playlist" },
       "played": { "title": "Đã phát gần đây" },
       "notAllowed": "Bạn không được phép thêm nhạc vào story này",
-      "adderTitle": "Thêm nhạc",
-      "done": "Xong"
+      "adderTitle": "Thêm nhạc"
     },
     "chat": {
       "title": "Chat",
       "authPrompt": "Trò chuyện với nhau",
       "authPromptHook": "Nghe nhạc và trò chuyện cùng bạn bè khắp mọi nơi với tài khoản Stereo"
     },
-    "live": { "title": "Live" },
     "listeners": { "title": "Người nghe" },
     "menu": {
       "handle": "Menu Story",
@@ -150,15 +147,13 @@
       "title": "Xoá story",
       "confirmPrompt": "Bạn có chắc chắn muốn xoá story này?",
       "success": "Story đã được xoá",
-      "action": "Xoá",
-      "cancel": "Thôi"
+      "confirm": "Xoá"
     },
     "end": {
       "title": "Kết thúc Story",
       "explain": "Bạn sẽ không thể thêm nhạc mới vào story này nhưng sẽ có thể phát lại những bài đã thêm bất cứ lúc nào.",
       "confirm": "Kết thúc",
-      "cancel": "Tiếp tục",
-      "endSuccess": "The story has been ended"
+      "success": "The story has been ended"
     },
     "ongoing": {
       "title": "Bạn đang có một story trực tiếp. Bạn có muốn trở lại với nó không?",
@@ -169,7 +164,6 @@
     },
     "queueable": {
       "title": "Thêm cộng tác viên",
-      "done": "Xong",
       "add": "Thêm",
       "remove": "Xoá {{username}} khỏi danh sách cộng tác viên",
       "addExisted": "{{username}} đã nằm trong danh sách cộng tác viên",
@@ -196,20 +190,19 @@
   },
   "nowPlaying": { "title": "Đang phát" },
   "player": {
-    "player": "Trình phát",
+    "title": "Trình phát",
     "pause": "Tạm dừng",
     "play": "Phát nhạc",
     "noneText": "Không có bài hát",
     "noneHelpText": "Thêm nhạc vào danh sách phát để nghe cùng nhau",
     "pausedText": "Âm nhạc đã dừng",
-    "pausedHelpText": "Nhấn vào nút phát để bắt đầu nghe",
     "noCrossTrack": "Bài hát này không có sẵn trên {{platformName}}",
     "stopPlaying": "Dừng Phát",
     "youtube": {
       "moveTo": {
         "title": "Di chuyển",
         "topRight": "Phải Trên",
-        "bottomRight": "Phải Trên Dưới"
+        "bottomRight": "Phải Dưới"
       },
       "footerText": "YouTube Premium cho phép bạn nghe nhạc không quảng cáo và trong nền. Xem",
       "footerTextAfter": "để biết thêm"
@@ -220,9 +213,6 @@
       "footerText": "Yêu cầu tài khoản Spotify Premium để chơi nhạc không giới hạn và không quảng cáo. Truy cập",
       "footerTextAfter": "để dùng thử miễn phí"
     },
-    "contactSupportText": "Liên hệ hỗ trợ",
-    "retryText": "Thử lại",
-    "trackInfo": "Chi tiết bài hát",
     "signInSuggest": "Đăng nhập để sử dụng ứng dụng nghe nhạc của riêng bạn",
     "skipForward": "Bỏ qua bài",
     "skipBackward": "Phát bài trước"
@@ -230,12 +220,9 @@
   "track": {
     "addToPlaylist": "Thêm vào playlist",
     "listenOn": "Nghe trên {{platform}}",
-    "close": "Đóng",
     "adder": {
       "playlist": {
-        "selectOne": "Chọn playlist",
-        "selectSongFrom": "Chọn bài hát từ {{title}}",
-        "loading": "Đang tải playlist"
+        "selectSongFrom": "Chọn bài hát từ {{title}}"
       },
       "result": {
         "confirmAdded": "Bài hát này đã được thêm. Thêm lại?"
@@ -243,7 +230,6 @@
       "search": {
         "title": "Tìm kiếm",
         "placeholder": "Tìm kiếm với từ khoá hoặc đường link",
-        "loading": "Đang tìm kiếm...",
         "helpText": "Để tìm kiếm, nhập từ khoá hoặc đường link của bài hát / playlist"
       }
     }
@@ -251,10 +237,10 @@
   "queue": {
     "addedBy": "Thêm bởi",
     "manager": {
-      "addAction": "Thêm nhạc",
-      "removedTrackText": "Đã xoá {{title}}",
-      "removeTrackText": "Xoá bài hát",
-      "emptyText": "Ở đây cô đơn quá... Thêm một bài nào!"
+      "add": "Thêm nhạc",
+      "removeSuccess": "Đã xoá {{title}}",
+      "remove": "Xoá bài hát",
+      "empty": "Ở đây cô đơn quá... Thêm một bài nào!"
     }
   },
   "playlist": {
@@ -262,18 +248,12 @@
     "authPrompt": "Tham gia Stereo để thêm vào playlist",
     "add": {
       "title": "Thêm vào {{title}}",
-      "addedText": "Đã thêm",
-      "okText": "Đã thêm {{trackTitle}} vào {{playlistTitle}}"
+      "success": "Đã thêm {{trackTitle}} vào {{playlistTitle}}"
     },
     "new": {
       "title": "Playlist mới",
-      "nameRequired": "Nhập tên playlist mới để tiếp tục",
-      "errorText": "Không thể tạo playlist",
-      "okText": "Đã tạo playlist {{title}}",
-      "youtubeHelpText": "Bạn sẽ cần một kênh YouTube hoặc tài khoản YouTube Music để tạo playlist"
-    },
-    "error": {
-      "load": "Không thể tải playlist của bạn"
+      "success": "Đã tạo playlist {{title}}",
+      "youtubeNotice": "Bạn sẽ cần một kênh YouTube hoặc tài khoản YouTube Music để tạo playlist"
     }
   },
   "modal": {
@@ -286,10 +266,8 @@
   },
   "message": {
     "inputLabel": "Nhập tin nhắn",
-    "inputPlaceholder": "Say something, I'm giving up on you 🎵",
     "listLabel": "Tin nhắn trong {{name}}",
     "loadOlder": "Tải tin nhắn cũ",
-    "loadLatest": "Xem tin nhắn mới nhất",
     "play": {
       "text": "{{username}} phát"
     },
@@ -302,7 +280,6 @@
     "action": "Đăng nhập",
     "label": "Đăng nhập vào Stereo",
     "listenOn": "Nghe trên",
-    "cancelText": "Trở về",
     "footerText": {
       "pre": "Khi tiếp tục, bạn đống ý với",
       "privacyPolicy": "Chính sách riêng tư",
@@ -322,17 +299,19 @@
   "common": {
     "back": "Trở về",
     "signIn": "Đăng nhập",
-    "dangerousActionText": "Thao tác này sẽ có hiệu lực tức thì và không thể hoàn tác",
     "tracks": "bài hát",
     "save": "Lưu",
     "saved": "Đã lưu",
+    "done": "Xong",
     "startListening": "Nghe nào",
-    "newStory": "Tạo story",
-    "live": "live"
+    "live": "live",
+    "dangerousActionText": "Thao tác này sẽ có hiệu lực tức thì và không thể hoàn tác",
+    "cancel": "Thôi"
   },
   "error": {
     "sorry": "Chúng mình xin lỗi vì sự bất tiện",
-    "internalError": "Thôi lỗi rồi:",
+    "unknown": "Có lỗi xảy ra",
+    "internal": "Thôi lỗi rồi",
     "unauthenticated": "Vui lòng đăng nhập lại"
   }
 }

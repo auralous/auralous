@@ -60,7 +60,7 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
           if (message.startsWith("Internal error:")) {
             // We log this error to console so dev can look into it
             console.error(error);
-            message = t("error.internalError");
+            message = t("error.internal");
           }
           if (code === "UNAUTHENTICATED") message = t("error.unauthenticated");
           if (typeof window !== "undefined") toast.error(message);

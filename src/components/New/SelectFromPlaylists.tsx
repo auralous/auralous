@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { LoadingDots, SelectingListItem } from "./common";
+import { SelectingListItem } from "./common";
 import { useLogin } from "~/components/Auth";
 import { PlaylistItem } from "~/components/Playlist";
 import { useMyPlaylistsQuery } from "~/hooks/playlist";
 import { useCurrentUser } from "~/hooks/user";
 import { Track } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
+import { SvgLoadingAnimated } from "~/assets/svg";
 
 const SelectFromPlaylists: React.FC<{
   onSelected(tracks: Track[]): void;
@@ -62,12 +63,11 @@ const SelectFromPlaylists: React.FC<{
   if (isLoading)
     return (
       <span className="text-xl font-black text-foreground-tertiary">
-        <LoadingDots />
+        <SvgLoadingAnimated />
       </span>
     );
 
-  if (isError)
-    return <p className="text-danger-light">{t("playlist.error.load")}</p>;
+  if (isError) return <p className="text-danger-light">{t("error.unknown")}</p>;
 
   return (
     <p className="text-foreground-secondary font-bold">

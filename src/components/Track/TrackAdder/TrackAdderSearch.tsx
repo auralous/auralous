@@ -5,6 +5,7 @@ import { default as TrackAdderResults } from "./TrackAdderResults";
 import { PlatformName, Track, SearchTrackDocument } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { TrackAdderCallbackFn } from "./types";
+import { SvgLoadingAnimated } from "~/assets/svg";
 
 const TrackAdderSearch: React.FC<{
   callback: TrackAdderCallbackFn;
@@ -40,7 +41,7 @@ const TrackAdderSearch: React.FC<{
   );
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col relative">
       <form
         ref={formRef}
         onSubmit={onSubmit}
@@ -58,14 +59,18 @@ const TrackAdderSearch: React.FC<{
           />
         </div>
       </form>
-      {(isEmpty || isSearching) && (
+      {isSearching && <SvgLoadingAnimated className="absolute-center" />}
+      {isEmpty && (
+        <p className="absolute-center w-full p-4 text-foreground-secondary text-center">
+          {t("track.adder.search.helpText")}
+        </p>
+      )}
+      {/* {(isEmpty || isSearching) && (
         <div className="px-2 flex flex-col text-lg text-center flex-center w-full h-full text-foreground-secondary">
-          {isSearching && (
-            <b className="animate-pulse">{t("track.adder.search.loading")}</b>
-          )}
+          {isSearching && <SvgLoadingAnimated className="absolute-center" />}
           {isEmpty && t("track.adder.search.helpText")}
         </div>
-      )}
+      )} */}
       <TrackAdderResults
         addedTracks={addedTracks}
         callback={callback}

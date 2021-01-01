@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { LoadingDots } from "./common";
 import { PlatformName, Track, useSearchTrackQuery } from "~/graphql/gql.gen";
 import { useMAuth } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
-import { SvgSearch } from "~/assets/svg";
+import { SvgLoadingAnimated, SvgSearch } from "~/assets/svg";
 
 const SelectFromSearch: React.FC<{
   onSelected(tracks: Track[]): void;
@@ -75,7 +74,7 @@ const SelectFromSearch: React.FC<{
           className="btn btn-primary w-12 h-10"
           disabled={formDisabled}
         >
-          {formDisabled ? <LoadingDots /> : <SvgSearch />}
+          {formDisabled ? <SvgLoadingAnimated /> : <SvgSearch />}
         </button>
       </form>
     </>

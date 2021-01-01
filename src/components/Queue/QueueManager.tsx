@@ -57,7 +57,7 @@ const QueueDraggableItem: React.FC<{
     });
     if (!error)
       toast.success(
-        t("queue.manager.removedTrackText", { title: deletingTrackName })
+        t("queue.manager.removeSuccess", { title: deletingTrackName })
       );
   }, [t, queue, updateQueue, urqlClient, index]);
 
@@ -89,7 +89,7 @@ const QueueDraggableItem: React.FC<{
       <div className="flex content-end items-center ml-2">
         {isQueueable && (
           <button
-            title={t("queue.manager.removeTrackText")}
+            title={t("queue.manager.remove")}
             className="btn btn-transparent p-0 h-10 w-10"
             onClick={removeItem}
           >
@@ -188,13 +188,13 @@ const QueueManager: React.FC<{
       <div className="w-full h-full">
         {queue.items?.length === 0 && (
           <div className="absolute-center z-10 w-full text-center text-lg text-foreground-tertiary p-4">
-            <p className="text-center">{t("queue.manager.emptyText")}</p>
+            <p className="text-center">{t("queue.manager.empty")}</p>
             {isQueueable && (
               <button
                 onClick={onEmptyAddClick}
                 className="py-2 px-4 rounded-lg text-primary hover:bg-primary hover:bg-opacity-10 transition-colors font-bold mt-1"
               >
-                {t("queue.manager.addAction")}
+                {t("queue.manager.add")}
               </button>
             )}
           </div>

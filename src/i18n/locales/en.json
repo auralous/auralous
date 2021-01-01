@@ -52,14 +52,13 @@
         "label": "Deactivate account",
         "description": "You can delete your account at any time.",
         "descriptionData": "About your data on deactivation",
-        "action": "Deactivate Account",
+        "confirm": "Deactivate Account",
         "modal": {
           "title": "Sad to See You Go...",
           "description": "Deactivating your account will remove all of your information, stories.",
           "enterName": "Enter your username to continue"
         },
-        "cancel": "Nevermind",
-        "deleted": "Your account and data has been removed. Feel free to come back at any time!"
+        "success": "Your account and data has been removed. Feel free to come back at any time!"
       }
     },
     "profile": {
@@ -73,7 +72,7 @@
     "profilePicture": { "label": "Profile picture" },
     "listening": {
       "title": "Listening on {{name}}",
-      "withAuth": "Your Stereo account is connected to {{name}}. If you wish to switch",
+      "connectedTo": "Your Stereo account is connected to {{name}}. If you wish to switch",
       "contactUs": "contact us"
     },
     "signOut": "Sign Out"
@@ -114,8 +113,7 @@
       "promptText": "How would you describe the story",
       "textHelp": "Max {{maxLength}} characters",
       "promptPrivacy": "Are you listening in public or private"
-    },
-    "backText": "Go back"
+    }
   },
   "map": {
     "title": "Map",
@@ -123,6 +121,7 @@
   },
   "story": {
     "label": "Story",
+    "create": "Create Story",
     "description": "Join {{title}} on Stereo and listen to music together.",
     "privacy": { "public": "Public", "private": "Private" },
     "queue": {
@@ -132,15 +131,13 @@
       "playlist": { "title": "Playlist" },
       "played": { "title": "Recently Played" },
       "notAllowed": "You are not allowed to add songs to this story",
-      "adderTitle": "Add songs",
-      "done": "Done"
+      "adderTitle": "Add songs"
     },
     "chat": {
       "title": "Chat",
       "authPrompt": "Say hi to each other",
       "authPromptHook": "Listen to music with friends and chat no matter where they are with a Stereo account"
     },
-    "live": { "title": "Live" },
     "listeners": { "title": "Listeners" },
     "menu": {
       "handle": "Story menu",
@@ -150,15 +147,13 @@
       "title": "Delete story",
       "confirmPrompt": "Are you sure you want to delete this story?",
       "success": "The story has been deleted",
-      "action": "Delete",
-      "cancel": "Nevermind"
+      "confirm": "Delete"
     },
     "end": {
       "title": "End story",
       "explain": "You will not be able to add any new songs to this story but will be able to replay played songs at any time later.",
       "confirm": "End now",
-      "cancel": "Continue",
-      "endSuccess": "The story has been ended"
+      "success": "The story has been ended"
     },
     "ongoing": {
       "title": "You have an ongoing live story. Would you like to get back to it?",
@@ -169,7 +164,6 @@
     },
     "queueable": {
       "title": "Add collaborators",
-      "done": "Done",
       "add": "Add",
       "remove": "Remove {{username}} from collaborators",
       "addExisted": "{{username}} is already a collaborator",
@@ -202,7 +196,6 @@
     "noneText": "Nothing is playing",
     "noneHelpText": "Add a song to listen together",
     "pausedText": "Music has been paused",
-    "pausedHelpText": "Press play to start listening",
     "noCrossTrack": "This song is not available on {{platformName}}",
     "stopPlaying": "Stop Playing",
     "youtube": {
@@ -220,9 +213,6 @@
       "footerText": "A Spotify subscription is required to play any track, ad-free. Go to",
       "footerTextAfter": "to try it for free"
     },
-    "contactSupportText": "Contact Support",
-    "retryText": "Try again",
-    "trackInfo": "Track detail",
     "signInSuggest": "Sign in to use your own music application",
     "skipForward": "Skip forward",
     "skipBackward": "Skip backward"
@@ -230,12 +220,9 @@
   "track": {
     "addToPlaylist": "Add to playlist",
     "listenOn": "Listen on {{platform}}",
-    "close": "Close",
     "adder": {
       "playlist": {
-        "selectOne": "Select a playlist",
-        "selectSongFrom": "Select songs from {{title}}",
-        "loading": "Loading playlist"
+        "selectSongFrom": "Select songs from {{title}}"
       },
       "result": {
         "confirmAdded": "This song has already been added. Add again?"
@@ -243,7 +230,6 @@
       "search": {
         "title": "Search",
         "placeholder": "Find by keywords or links",
-        "loading": "Searching...",
         "helpText": "To search, enter some keywords, a song link, or a playlist link"
       }
     }
@@ -251,10 +237,10 @@
   "queue": {
     "addedBy": "Added by",
     "manager": {
-      "addAction": "Add song",
-      "removedTrackText": "Removed {{title}}",
-      "removeTrackText": "Remove Track",
-      "emptyText": "It's lonely around here... Let's add a song!"
+      "add": "Add song",
+      "removeSuccess": "Removed {{title}}",
+      "remove": "Remove Track",
+      "empty": "It's lonely around here... Let's add a song!"
     }
   },
   "playlist": {
@@ -262,18 +248,12 @@
     "authPrompt": "Join Stereo to Add Songs to Playlists",
     "add": {
       "title": "Add to {{title}}",
-      "addedText": "Added",
-      "okText": "Added {{trackTitle}} to {{playlistTitle}}"
+      "success": "Added {{trackTitle}} to {{playlistTitle}}"
     },
     "new": {
       "title": "New Playlist",
-      "nameRequired": "Enter a playlist name to continue",
-      "errorText": "Cannot create new playlist",
-      "okText": "Created playlist {{title}}",
-      "youtubeHelpText": "You may need to have a YouTube channel or sign up for YouTube Music to create a playlist"
-    },
-    "error": {
-      "load": "Unable to retrieve your playlists"
+      "success": "Created playlist {{title}}",
+      "youtubeNotice": "You may need to have a YouTube channel or sign up for YouTube Music to create a playlist"
     }
   },
   "modal": {
@@ -286,10 +266,8 @@
   },
   "message": {
     "inputLabel": "Enter chat message",
-    "inputPlaceholder": "Say something, I'm giving up on you 🎵",
     "listLabel": "Messages in {{name}}",
     "loadOlder": "Load previous messages",
-    "loadLatest": "Latest messages",
     "play": {
       "text": "{{username}} played"
     },
@@ -302,7 +280,6 @@
     "action": "Join now",
     "label": "Sign in to Stereo",
     "listenOn": "Listen on",
-    "cancelText": "Go back",
     "footerText": {
       "pre": "By continuing, you agree to our friendly",
       "privacyPolicy": "Privacy Policy",
@@ -322,17 +299,19 @@
   "common": {
     "back": "Back",
     "signIn": "Sign in",
-    "dangerousActionText": "This process is immediate and cannot be undone",
     "tracks": "songs",
     "save": "Save",
     "saved": "Saved",
+    "done": "Done",
     "startListening": "Start Listening",
-    "newStory": "Create Story",
-    "live": "live"
+    "live": "live",
+    "dangerousActionText": "This process is immediate and cannot be undone",
+    "cancel": "Nevermind"
   },
   "error": {
     "sorry": "We are sorry for the inconvenience",
-    "internalError": "Oh no, an unexpected error:",
+    "unknown": "Something went wrong",
+    "internal": "Oh no, an unexpected error:",
     "unauthenticated": "Please sign in again."
   }
 }

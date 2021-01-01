@@ -35,7 +35,7 @@ const CreatePlaylist: React.FC<{
 
       const playlistTitle = inputRef.current?.value.trim();
 
-      if (!playlistTitle) return toast.error(t("playlist.new.nameRequired"));
+      if (!playlistTitle) return;
 
       const ok = await insertPlaylistTracks({
         name: playlistTitle,
@@ -43,11 +43,11 @@ const CreatePlaylist: React.FC<{
       });
 
       if (!ok) {
-        toast.error(t("playlist.new.errorText"));
+        toast.error(t("playlist.error.unknown"));
         return;
       }
 
-      toast.success(t("playlist.new.okText", { title: playlistTitle }));
+      toast.success(t("playlist.new.success", { title: playlistTitle }));
       done();
     },
     [t, fetching, done, track.id, insertPlaylistTracks]
@@ -74,7 +74,7 @@ const CreatePlaylist: React.FC<{
           <SvgCheck width="16" height="16" />
         </button>
         <button
-          aria-label={t("track.close")}
+          aria-label={t("modal.close")}
           type="submit"
           className="btn ml-1 flex-none"
           disabled={fetching}
@@ -85,7 +85,7 @@ const CreatePlaylist: React.FC<{
       </form>
       {track.platform === PlatformName.Youtube && (
         <small className="text-foreground-tertiary">
-          {t("playlist.new.youtubeHelpText")}.
+          {t("playlist.new.youtubeNotice")}.
         </small>
       )}
     </>
@@ -124,7 +124,7 @@ const AddToExistingPlaylist: React.FC<{
       });
       if (ok) {
         toast.success(
-          t("playlist.add.okText", {
+          t("playlist.add.success", {
             trackTitle: track.title,
             playlistTitle: playlist.title,
           })
@@ -146,14 +146,7 @@ const AddToExistingPlaylist: React.FC<{
           onClick={() => handleAdd(playlist)}
           disabled={playlist.platform !== track.platform}
         >
-          <PlaylistItem
-            playlist={playlist}
-            extraInfo={
-              playlist.tracks.some((plTrackId) => plTrackId === track.id)
-                ? `(${t("playlist.add.addedText")})`
-                : undefined
-            }
-          />
+          <PlaylistItem playlist={playlist} />
         </button>
       ))}
     </div>

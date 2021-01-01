@@ -126,7 +126,7 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
           className="py-1 font-bold text-sm text-inline-link"
           onClick={() => router.replace("/new")}
         >
-          {t("new.backText")}
+          {t("common.back")}
         </button>
       </div>
     </>
