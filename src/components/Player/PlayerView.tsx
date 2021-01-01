@@ -75,8 +75,6 @@ export const PlayerImage: React.FC<{
           background: `url(${
             track?.image || EMPTYIMAGE
           }) center center / contain no-repeat`,
-          filter:
-            "drop-shadow(rgba(0, 0, 0, 0.1) 0px 0px 1px) drop-shadow(rgba(0, 0, 0, 0.1) 0px 0px 10px)",
         }}
       />
     </div>

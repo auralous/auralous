@@ -8,6 +8,7 @@ export interface IPlayerContext {
   state: {
     playerPlaying: PlayerPlaying;
     playingStoryId: string;
+    playingQueueItemId: string | undefined;
     crossTracks: ReturnType<typeof useCrossTracks>[0];
     fetching: boolean;
   };

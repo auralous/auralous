@@ -1,4 +1,5 @@
 export { default as SvgAlertCircle } from "./alert-circle.svg";
+export { default as SvgAudioAnimated } from "./audio-animated.svg";
 export { default as SvgBookOpen } from "./book-open.svg";
 export { default as SvgClock } from "./clock.svg";
 export { default as SvgCircle } from "./circle.svg";

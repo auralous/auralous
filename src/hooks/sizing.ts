@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 // Optimize
 function debounce(fn: () => void, ms: number) {
@@ -15,7 +15,7 @@ function debounce(fn: () => void, ms: number) {
 export function useInnerHeightResizeRef() {
   const ref = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const divRef = ref.current;
     if (!divRef) return;
     divRef.style.height = `${window.innerHeight}px`;

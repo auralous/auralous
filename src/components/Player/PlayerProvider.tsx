@@ -77,10 +77,7 @@ const usePlayFromNowPlaying = (story: Story | null) => {
     return () => skipNowPlaying({ id: story.id });
   }, [story, nowPlaying, user, fetchingSkip, skipNowPlaying]);
 
-  return [
-    nowPlaying?.currentTrack?.trackId,
-    { fetching, skipForward },
-  ] as const;
+  return [nowPlaying?.currentTrack, { fetching, skipForward }] as const;
 };
 
 const usePlayFromQueue = (story: Story | null) => {
@@ -134,7 +131,7 @@ const usePlayFromQueue = (story: Story | null) => {
   }, []);
 
   return [
-    queue?.items[currQueueIndex]?.trackId,
+    queue?.items[currQueueIndex],
     { fetching, skipBackward, skipForward, playQueueItem },
   ] as const;
 };
@@ -187,15 +184,16 @@ const PlayerProvider: React.FC = ({ children }) => {
     () => (dataStory?.story?.id === playingStoryId ? dataStory.story : null),
     [dataStory, playingStoryId]
   );
+
   // For live story
   const [
-    nowPlayingTrackId,
+    nowPlayingTrack,
     { fetching: fetchingNP, skipForward: skipForwardNP },
   ] = usePlayFromNowPlaying(story);
 
   // For nonlive story
   const [
-    currQueueTrackId,
+    currQueueTrack,
     {
       fetching: fetchingQueue,
       skipBackward: skipBackwardQueue,
@@ -204,11 +202,14 @@ const PlayerProvider: React.FC = ({ children }) => {
     },
   ] = usePlayFromQueue(story);
 
-  const currTrackId = currQueueTrackId || nowPlayingTrackId;
+  const playingQueueItemId = nowPlayingTrack?.id || currQueueTrack?.id;
+
+  const skipBackward = skipBackwardQueue;
+  const skipForward = skipForwardNP || skipForwardQueue;
 
   // Get track data
   const [crossTracks, { fetching: fetchingCrossTracks }] = useCrossTracks(
-    currTrackId
+    currQueueTrack?.trackId || nowPlayingTrack?.trackId
   );
 
   // The track that is playing
@@ -234,11 +235,16 @@ const PlayerProvider: React.FC = ({ children }) => {
   }, [crossTracks, playingPlatform]);
 
   // Player Component
+  const [hasPlayed, setHasPlayed] = useState(false);
+  useEffect(() => {
+    // Avoid loading player lib before needed
+    if (playingStoryId) setHasPlayed(true);
+  }, [playingStoryId]);
   const DynamicPlayer = useMemo(() => {
-    if (!playingPlatform) return null;
+    if (!playingPlatform || !hasPlayed) return null;
     if (playingPlatform === PlatformName.Youtube) return YouTubePlayer;
     return SpotifyPlayer;
-  }, [playingPlatform]);
+  }, [playingPlatform, hasPlayed]);
 
   useEffect(() => {
     const handlePlayerChange = () =>
@@ -265,24 +271,25 @@ const PlayerProvider: React.FC = ({ children }) => {
       state: {
         playerPlaying,
         playingStoryId,
+        playingQueueItemId,
         crossTracks,
         fetching,
       },
       playStory,
       player,
-      skipBackward: skipBackwardQueue,
-      skipForward: skipForwardNP || skipForwardQueue,
+      skipBackward,
+      skipForward,
       playQueueItem,
     };
   }, [
-    skipBackwardQueue,
-    skipForwardQueue,
+    skipBackward,
+    skipForward,
     fetching,
     playerPlaying,
-    skipForwardNP,
     playingStoryId,
     crossTracks,
     playQueueItem,
+    playingQueueItemId,
   ]);
 
   return (
