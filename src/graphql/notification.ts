@@ -11,6 +11,10 @@ export const QUERY_NOTIFICATIONS = /* GraphQL */ `
         storyId
         inviterId
       }
+      ... on NotificationNewStory {
+        storyId
+        creatorId
+      }
     }
   }
 `;

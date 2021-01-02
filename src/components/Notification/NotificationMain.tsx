@@ -9,9 +9,41 @@ import {
   useStoryQuery,
   NotificationsQuery,
   useReadNotificationsMutation,
+  NotificationNewStory,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { useInView } from "react-intersection-observer";
+
+const NotificationItemStorySection: React.FC<{ id: string }> = ({ id }) => {
+  const { t } = useI18n();
+
+  const [{ data: { story } = { story: undefined } }] = useStoryQuery({
+    variables: { id },
+  });
+
+  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+    variables: { id: story?.creatorId || "" },
+    pause: !story,
+  });
+
+  return (
+    <Link href={`/story/${id}`}>
+      <a className="inline-flex p-2 my-1 rounded bg-background-tertiary text-inline-link">
+        <img
+          src={story?.image}
+          alt={story?.text}
+          className="w-8 h-8 rounded-sm object-cover"
+        />
+        <div className="px-2">
+          <p className="text-sm font-semibold leading-none">
+            {t("story.ofUsername", { username: user?.username })}
+          </p>
+          <p className="text-xs">{story?.text}</p>
+        </div>
+      </a>
+    </Link>
+  );
+};
 
 const NotificationItemFollow: React.FC<{
   notification: NotificationFollow;
@@ -41,10 +73,6 @@ const NotificationItemInvite: React.FC<{
     variables: { id: notification.inviterId },
   });
 
-  const [{ data: { story } = { story: undefined } }] = useStoryQuery({
-    variables: { id: notification.storyId },
-  });
-
   return (
     <>
       <p className="text-sm">
@@ -53,27 +81,34 @@ const NotificationItemInvite: React.FC<{
         </Link>{" "}
         {t("notification.invite.text")}
       </p>
-      <Link href={`/story/${notification.storyId}`}>
-        <a className="inline-flex p-2 my-1 rounded bg-background-tertiary text-inline-link">
-          <img
-            src={story?.image}
-            alt={story?.text}
-            className="w-8 h-8 rounded-sm object-cover"
-          />
-          <div className="px-2">
-            <p className="text-sm font-semibold leading-none">
-              {t("story.ofUsername", { username: user?.username })}
-            </p>
-            <p className="text-xs">{story?.text}</p>
-          </div>
-        </a>
-      </Link>
+      <NotificationItemStorySection id={notification.storyId} />
+    </>
+  );
+};
+
+const NotificationItemNewStory: React.FC<{
+  notification: NotificationNewStory;
+}> = ({ notification }) => {
+  const { t } = useI18n();
+  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+    variables: { id: notification.creatorId },
+  });
+
+  return (
+    <>
+      <p className="text-sm">
+        <Link href={`/user/${user?.username}`}>
+          <a className="font-bold">{user?.username}</a>
+        </Link>{" "}
+        {t("notification.newStory.text")}
+      </p>
+      <NotificationItemStorySection id={notification.storyId} />
     </>
   );
 };
 
 const NotificationItem: React.FC<{
-  notification: NotificationInvite | NotificationFollow;
+  notification: NotificationInvite | NotificationFollow | NotificationNewStory;
 }> = ({ notification }) => {
   const { t } = useI18n();
 
@@ -87,7 +122,9 @@ const NotificationItem: React.FC<{
   const NotificationComponent = useMemo(() => {
     if ("inviterId" in notification)
       return <NotificationItemInvite notification={notification} />;
-    return <NotificationItemFollow notification={notification} />;
+    else if ("followerId" in notification)
+      return <NotificationItemFollow notification={notification} />;
+    return <NotificationItemNewStory notification={notification} />;
   }, [notification]);
 
   return (

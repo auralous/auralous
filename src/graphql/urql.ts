@@ -109,6 +109,10 @@ const cacheExchange = createCacheExchange({
       // @ts-ignore
       createdAt: (parent) => new Date(parent.createdAt),
     },
+    NotificationNewStory: {
+      // @ts-ignore
+      createdAt: (parent) => new Date(parent.createdAt),
+    },
   },
   updates: {
     Mutation: {

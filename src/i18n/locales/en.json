@@ -126,6 +126,9 @@
     },
     "follow": {
       "text": "followed you"
+    },
+    "newStory": {
+      "text": "added a story"
     }
   },
   "story": {

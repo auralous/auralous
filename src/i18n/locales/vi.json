@@ -126,6 +126,9 @@
     },
     "follow": {
       "text": "đã theo dõi bạn"
+    },
+    "newStory": {
+      "text": "đã thêm một story"
     }
   },
   "story": {
@@ -170,6 +173,10 @@
     },
     "share": {
       "title": "Mời bạn bè"
+    },
+    "invite": {
+      "title": "Mời",
+      "success": "Đã gửi lời mời"
     },
     "queueable": {
       "title": "Thêm cộng tác viên",
