@@ -24,12 +24,12 @@ const StorySliderInstruction = () => {
       aria-label={t("story.feed.instruction")}
     >
       <div className="max-w-xl mx-auto p-4 text-opacity-75 text-center">
-        <p className="text-lg sm:text-2xl font-bold mb-4">
+        <p className="text-lg md:text-2xl font-bold mb-4">
           {t("story.feed.instruction")}
         </p>
         <button
           onClick={close}
-          className="btn btn-primary sm:text-lg rounded-full"
+          className="btn btn-primary md:text-lg rounded-full"
         >
           {t("common.startListening")}
         </button>

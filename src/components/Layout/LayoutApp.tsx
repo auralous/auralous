@@ -48,7 +48,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <div
-      className="hidden sm:block w-48 fixed left-0 top-0 h-full"
+      className="hidden md:block w-56 fixed left-0 top-0 h-full"
       style={{ backgroundColor: sidebarColor }}
     >
       <div className="p-2">
@@ -144,7 +144,7 @@ const Appbar: React.FC = () => {
       <div
         className={`${
           noAppbarPathname.includes(router.pathname) ? "hidden" : "flex"
-        } z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
+        } z-10 md:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
         style={{ backgroundColor: sidebarColor }}
       >
         <AppbarItem href="/listen" title={t("listen.title")}>
@@ -197,7 +197,7 @@ const LayoutApp: React.FC = ({ children }) => {
   return (
     <LayoutContext.Provider value={{ prevPathname: prevPathnameRef }}>
       <PlayerMinibar />
-      <main className="sm:pl-48">{children}</main>
+      <main className="md:pl-56">{children}</main>
       <Sidebar />
       <Appbar />
     </LayoutContext.Provider>

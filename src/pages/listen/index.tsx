@@ -14,9 +14,6 @@ const ListenPage: NextPage = () => {
         openGraph={{}}
         canonical={`${process.env.APP_URI}/listen`}
       />
-      <h1>
-        <span className="sr-only">{t("listen.title")}</span>
-      </h1>
       <ListenMain />
     </>
   );

@@ -130,7 +130,7 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
         {me?.id === user.id && (
           <Link href="/settings">
             <a
-              className="sm:hidden absolute top-2 right-0 btn btn-transparent"
+              className="md:hidden absolute top-2 right-0 btn btn-transparent"
               title={t("settings.title")}
             >
               <SvgSettings className="w-8 h-8 stroke-1" />
@@ -138,7 +138,7 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           </Link>
         )}
       </div>
-      <div className="container mx-auto py-4">
+      <div className="py-4">
         <StoryFeed id={`creatorId:${user.id}`} />
       </div>
       <UserFollowingModals

@@ -15,10 +15,6 @@
       align-items: center;
       justify-content: center;
     }
-    .h-screen-layout {
-      height: calc(100vh - theme('spacing.10'));
-      @apply sm:h-screen;
-    }
   }
 }
 
@@ -177,6 +173,10 @@ html {
 
 .text-inline-link {
   @apply hover:opacity-50 focus:opacity-50 focus:outline-none transition-opacity cursor-pointer;
+}
+
+.page-title {
+  @apply px-4 mb-2 mt-6 font-bold text-4xl;
 }
 
 [data-reach-dialog-overlay] {

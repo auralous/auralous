@@ -13,7 +13,7 @@ const MapPage: NextPage = () => {
         openGraph={{}}
         canonical={`${process.env.APP_URI}/map`}
       />
-      <h1 className="px-4 pb-2 pt-6 font-bold text-4xl">{t("map.title")}</h1>
+      <h1 className="page-title">{t("map.title")}</h1>
       <p className="px-4 text-lg text-foreground-secondary">
         {t("map.description")}
       </p>

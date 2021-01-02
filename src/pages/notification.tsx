@@ -8,9 +8,7 @@ const NotificationPage: NextPage = () => {
   return (
     <>
       <NextSeo noindex title={t("notification.title")} />
-      <h1 className="px-4 pt-6 pb-2 font-bold text-4xl mb-2">
-        {t("notification.title")}
-      </h1>
+      <h1 className="page-title">{t("notification.title")}</h1>
     </>
   );
 };

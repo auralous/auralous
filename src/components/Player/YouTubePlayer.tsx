@@ -84,13 +84,13 @@ export default function YouTubePlayer() {
     };
   }, [player]);
 
-  const [posIsTop, setPosIsTop] = useState(false);
+  const [posIsTop, setPosIsTop] = useState(true);
 
   return (
     <div
-      className={`${playerPlaying ? "" : "hidden"} fixed z-20 sm:z-30 ${
+      className={`${playerPlaying ? "" : "hidden"} fixed z-20 ${
         posIsTop ? "top-2 right-2" : "bottom-2 right-2"
-      } w-56 h-36 sm:w-72 sm:h-48 rounded-lg overflow-hidden transition-transform`}
+      } w-56 h-36 rounded-lg shadow-xl overflow-hidden transition-transform`}
     >
       <button
         className="btn absolute z-30 bottom-2 left-2 opacity-50 hover:opacity-75 focus:opacity-70 p-2"
@@ -104,7 +104,7 @@ export default function YouTubePlayer() {
         <SvgMove className="w-6 h-6" />
       </button>
       <div
-        className="bottom-0 left-0 absolute w-full h-full sm:rounded-lg sm:shadow-xl overflow-hidden"
+        className="bottom-0 left-0 absolute w-full h-full overflow-hidden"
         id="ytPlayer"
       />
     </div>

@@ -7,7 +7,7 @@ export const IndexParagraph: React.FC = ({ children }) => (
 );
 
 export const IndexTitle: React.FC = ({ children }) => (
-  <h2 className="font-bold text-4xl sm:text-5xl mb-6">{children}</h2>
+  <h2 className="font-bold text-4xl md:text-5xl mb-6">{children}</h2>
 );
 
 export const useFadeInOnScroll = () => {
