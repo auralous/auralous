@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import Link from "next/link";
 import ms from "ms";
 import {
-  Notification,
   NotificationInvite,
   NotificationFollow,
   useNotificationsQuery,
@@ -11,27 +10,7 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
-const NotificationItemWrapper: React.FC<{
-  notification: Notification;
-}> = ({ notification, children }) => {
-  const { t } = useI18n();
-
-  const dateStr = useMemo(() => {
-    const msDate = ms(Date.now() - notification.createdAt.getTime(), {
-      long: true,
-    });
-    return `${msDate} ${t("common.time.ago")}`;
-  }, [notification, t]);
-
-  return (
-    <div className="px-4 py-2 border-primary border-l-4 bg-background-secondary">
-      {children}
-      <div className="text-foreground-tertiary text-xs">{dateStr}</div>
-    </div>
-  );
-};
-
-const NotificationFollowItem: React.FC<{
+const NotificationItemFollow: React.FC<{
   notification: NotificationFollow;
 }> = ({ notification }) => {
   const { t } = useI18n();
@@ -40,18 +19,18 @@ const NotificationFollowItem: React.FC<{
   });
 
   return (
-    <NotificationItemWrapper notification={notification}>
+    <>
       <p className="text-sm">
         <Link href={`/user/${user?.username}`}>
           <a className="font-bold">{user?.username}</a>
         </Link>{" "}
         {t("notification.follow.text")}
       </p>
-    </NotificationItemWrapper>
+    </>
   );
 };
 
-const NotificationInviteItem: React.FC<{
+const NotificationItemInvite: React.FC<{
   notification: NotificationInvite;
 }> = ({ notification }) => {
   const { t } = useI18n();
@@ -64,7 +43,7 @@ const NotificationInviteItem: React.FC<{
   });
 
   return (
-    <NotificationItemWrapper notification={notification}>
+    <>
       <p className="text-sm">
         <Link href={`/user/${user?.username}`}>
           <a className="font-bold">{user?.username}</a>
@@ -86,39 +65,58 @@ const NotificationInviteItem: React.FC<{
           </div>
         </a>
       </Link>
-    </NotificationItemWrapper>
+    </>
+  );
+};
+
+const NotificationItem: React.FC<{
+  notification: NotificationInvite | NotificationFollow;
+}> = ({ notification }) => {
+  const { t } = useI18n();
+
+  const dateStr = useMemo(() => {
+    const msDate = ms(Date.now() - notification.createdAt.getTime(), {
+      long: true,
+    });
+    return `${msDate} ${t("common.time.ago")}`;
+  }, [notification, t]);
+
+  const NotificationComponent = useMemo(() => {
+    if ("inviterId" in notification)
+      return <NotificationItemInvite notification={notification} />;
+    return <NotificationItemFollow notification={notification} />;
+  }, [notification]);
+
+  return (
+    <div
+      className={`px-4 py-2 bg-background-secondary border-l-4 ${
+        notification.hasRead
+          ? "border-background-tertiary opacity-75"
+          : "border-primary"
+      }`}
+    >
+      {NotificationComponent}
+      <div className="text-foreground-tertiary text-xs">{dateStr}</div>
+    </div>
   );
 };
 
 const NotificationMain: React.FC = () => {
   const { t } = useI18n();
 
+  // FIXME: investigate an edge case in urql that causes
+  // __typename to dissapear upon cache read
   const [{ data }] = useNotificationsQuery({
-    variables: { limit: 30 },
-    requestPolicy: "cache-and-network",
+    variables: { limit: 10 },
   });
 
   return (
     <>
       <h1 className="page-title">{t("notification.title")}</h1>
       <div className="px-4 space-y-2">
-        {data?.notifications.map((notification) => {
-          if (notification.__typename === "NotificationInvite")
-            return (
-              <NotificationInviteItem
-                key={notification.id}
-                notification={notification}
-              />
-            );
-          else if (notification.__typename === "NotificationFollow")
-            return (
-              <NotificationFollowItem
-                key={notification.id}
-                notification={notification}
-              />
-            );
-          return null;
-        })}
+        {data?.notifications.map((notification) => (
+          <NotificationItem key={notification.id} notification={notification} />
+        ))}
       </div>
     </>
   );
