@@ -9,9 +9,4 @@ generates:
     config:
       withComponent: false
       withHooks: true
-  #     noGraphQLTag: true
-  # ./src/graphql/introspection.json:
-  #   plugins:
-  #     - introspection
-  #   config:
-  #     minify: true
+      noGraphQLTag: true

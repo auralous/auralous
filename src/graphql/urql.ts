@@ -1,3 +1,4 @@
+import { IntrospectionQuery } from "graphql";
 import {
   dedupExchange,
   createClient,
@@ -13,7 +14,7 @@ import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache"
 import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { devtoolsExchange } from "@urql/devtools";
 import { toast } from "~/lib/toast";
-// import { default as schemaIntrospection } from "./introspection.json";
+import schema from "./schema.json";
 import {
   Story,
   StoryUsersDocument,
@@ -71,7 +72,7 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
   );
 
 const cacheExchange = createCacheExchange({
-  // schema: schemaIntrospection as any,
+  schema: (schema as unknown) as IntrospectionQuery,
   keys: {
     QueueItem: () => null,
     NotificationFollow: () => null,

@@ -1203,14 +1203,6 @@
     "@graphql-tools/utils" "^6"
     tslib "~2.0.1"
 
-"@graphql-codegen/introspection@^1.18.1":
-  version "1.18.1"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/introspection/-/introspection-1.18.1.tgz#fe3f781b2b60cc69a0cf535a3cfe912c71e32770"
-  integrity sha512-M8kLUYF+YA/oj378RHh7BN5hO2wdplBfL2oyRL9sxjtNY30iYGn7To3TRijDCNoXaak5jLwgwUURZ0BZgX6IJA==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^1.18.2"
-    tslib "~2.0.1"
-
 "@graphql-codegen/plugin-helpers@^1.18.2":
   version "1.18.2"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-1.18.2.tgz#57011076cb8b8f5d04d37d226a5eda300c01be94"
@@ -2156,6 +2148,11 @@
   dependencies:
     "@urql/core" ">=1.14.0"
     wonka "^4.0.14"
+
+"@urql/introspection@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@urql/introspection/-/introspection-0.1.2.tgz#3d6fd5a79f9df6e379aaf2922fb753cc06f228fc"
+  integrity sha512-neUWngizFD2ajCrHJLT/KmkhB6dcJTvMn7cE3c2KB2Hk0y+bSXK/1KBQffaekAacHUwxgoLvYEL9Z68HkCuFvQ==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
