@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useRef } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import ms from "ms";
 import {
@@ -11,6 +11,7 @@ import {
   useReadNotificationsMutation,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
+import { useInView } from "react-intersection-observer";
 
 const NotificationItemFollow: React.FC<{
   notification: NotificationFollow;
@@ -107,10 +108,11 @@ const NotificationMain: React.FC = () => {
   const { t } = useI18n();
   const dataRef = useRef<NotificationsQuery | undefined>();
 
+  const [next, setNext] = useState<string | undefined>();
   // FIXME: investigate an edge case in urql that causes
   // __typename to dissapear upon cache read
   const [{ data }] = useNotificationsQuery({
-    variables: { limit: 10 },
+    variables: { limit: 5, next },
     requestPolicy: "cache-and-network",
   });
 
@@ -131,6 +133,14 @@ const NotificationMain: React.FC = () => {
     };
   }, [markRead]);
 
+  // Watch if user scroll to the end in which case
+  // we try to fetch more notifications
+  const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inView && data?.notifications)
+      setNext(data.notifications[data.notifications.length - 1].id);
+  }, [inView, data]);
+
   return (
     <>
       <h1 className="page-title">{t("notification.title")}</h1>
@@ -138,6 +148,7 @@ const NotificationMain: React.FC = () => {
         {data?.notifications.map((notification) => (
           <NotificationItem key={notification.id} notification={notification} />
         ))}
+        <div ref={ref} className="w-1 h-1" />
       </div>
     </>
   );
