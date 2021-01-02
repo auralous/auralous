@@ -171,6 +171,10 @@
     "share": {
       "title": "Invite friends"
     },
+    "invite": {
+      "title": "Invite",
+      "success": "Invite sent"
+    },
     "queueable": {
       "title": "Add collaborators",
       "add": "Add",

@@ -99,3 +99,9 @@ export const SUBSCRIPTION_STORY_USERS = /* GraphQL */ `
     storyUsersUpdated(id: $id)
   }
 `;
+
+export const MUTATION_SEND_STORY_INVITES = /* GraphQL */ `
+  mutation sendStoryInvites($id: ID!, $invitedIds: [String!]!) {
+    sendStoryInvites(id: $id, invitedIds: $invitedIds)
+  }
+`;

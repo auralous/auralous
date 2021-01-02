@@ -146,6 +146,7 @@ export type Mutation = {
   changeStoryQueueable: Scalars['Boolean'];
   unliveStory: Scalars['Boolean'];
   pingStory: Scalars['Boolean'];
+  sendStoryInvites: Scalars['Boolean'];
   me?: Maybe<User>;
   followUser: Scalars['Boolean'];
   unfollowUser: Scalars['Boolean'];
@@ -209,6 +210,12 @@ export type MutationUnliveStoryArgs = {
 
 export type MutationPingStoryArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationSendStoryInvitesArgs = {
+  id: Scalars['ID'];
+  invitedIds: Array<Scalars['String']>;
 };
 
 
@@ -760,6 +767,17 @@ export type OnStoryUsersUpdatedSubscription = (
   & Pick<Subscription, 'storyUsersUpdated'>
 );
 
+export type SendStoryInvitesMutationVariables = Exact<{
+  id: Scalars['ID'];
+  invitedIds: Array<Scalars['String']>;
+}>;
+
+
+export type SendStoryInvitesMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'sendStoryInvites'>
+);
+
 export type ArtistPartsFragment = (
   { __typename?: 'Artist' }
   & Pick<Artist, 'id' | 'platform' | 'externalId' | 'name' | 'image' | 'url'>
@@ -1051,6 +1069,11 @@ export const OnStoryUsersUpdatedDocument: DocumentNode = {"kind":"Document","def
 
 export function useOnStoryUsersUpdatedSubscription<TData = OnStoryUsersUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnStoryUsersUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnStoryUsersUpdatedSubscription, TData>) {
   return Urql.useSubscription<OnStoryUsersUpdatedSubscription, TData, OnStoryUsersUpdatedSubscriptionVariables>({ query: OnStoryUsersUpdatedDocument, ...options }, handler);
+};
+export const SendStoryInvitesDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sendStoryInvites"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"invitedIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendStoryInvites"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"invitedIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"invitedIds"}}}]}]}}]};
+
+export function useSendStoryInvitesMutation() {
+  return Urql.useMutation<SendStoryInvitesMutation, SendStoryInvitesMutationVariables>(SendStoryInvitesDocument);
 };
 export const TrackDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"track"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"track"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"artists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"}}]}}]}}]};
 
