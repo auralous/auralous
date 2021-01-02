@@ -1,7 +1,7 @@
 import { NullArray, Resolver, Variables } from "@urql/exchange-graphcache";
 import { stringifyVariables } from "urql";
 
-export const storySliderPagination = (): Resolver => {
+export const nextCursorPagination = (): Resolver => {
   const offsetArgument = "next";
   const limitArgument = "limit";
   const compareArgs = (

@@ -34,7 +34,7 @@ import {
   StoryLiveDocument,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
-import { storySliderPagination } from "./_pagination";
+import { nextCursorPagination } from "./_pagination";
 
 const subscriptionClient =
   typeof window !== "undefined"
@@ -74,6 +74,8 @@ const cacheExchange = createCacheExchange({
   // schema: schemaIntrospection as any,
   keys: {
     QueueItem: () => null,
+    NotificationFollow: () => null,
+    NotificationInvite: () => null,
   },
   resolvers: {
     Query: {
@@ -81,7 +83,8 @@ const cacheExchange = createCacheExchange({
         offsetArgument: "offset",
         mergeMode: "before",
       }),
-      stories: storySliderPagination(),
+      stories: nextCursorPagination(),
+      notifications: nextCursorPagination(),
     },
     Message: {
       // @ts-ignore
@@ -98,6 +101,14 @@ const cacheExchange = createCacheExchange({
     Story: {
       // @ts-ignore
       createdAt: (parent: Story) => new Date(parent.createdAt),
+    },
+    NotificationInvite: {
+      // @ts-ignore
+      createdAt: (parent) => new Date(parent.createdAt),
+    },
+    NotificationFollow: {
+      // @ts-ignore
+      createdAt: (parent) => new Date(parent.createdAt),
     },
   },
   updates: {

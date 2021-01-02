@@ -29,6 +29,7 @@ export enum MessageType {
 export type Query = {
   __typename?: 'Query';
   messages?: Maybe<Array<Message>>;
+  notifications: Array<Notification>;
   nowPlaying?: Maybe<NowPlaying>;
   nowPlayingReactions?: Maybe<Array<NowPlayingReactionItem>>;
   queue?: Maybe<Queue>;
@@ -51,6 +52,12 @@ export type QueryMessagesArgs = {
   id: Scalars['ID'];
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryNotificationsArgs = {
+  next?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
 };
 
 
@@ -265,6 +272,29 @@ export type Message = {
   type: MessageType;
 };
 
+export type Notification = {
+  id: Scalars['ID'];
+  hasRead: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+};
+
+export type NotificationInvite = Notification & {
+  __typename?: 'NotificationInvite';
+  id: Scalars['ID'];
+  hasRead: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  inviterId: Scalars['String'];
+  storyId: Scalars['String'];
+};
+
+export type NotificationFollow = Notification & {
+  __typename?: 'NotificationFollow';
+  id: Scalars['ID'];
+  hasRead: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  followerId: Scalars['String'];
+};
+
 export enum NowPlayingReactionType {
   Heart = 'heart',
   Joy = 'joy',
@@ -416,6 +446,23 @@ export type OnMessageAddedSubscription = (
     { __typename?: 'Message' }
     & MessagePartsFragment
   ) }
+);
+
+export type NotificationsQueryVariables = Exact<{
+  next?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+}>;
+
+
+export type NotificationsQuery = (
+  { __typename?: 'Query' }
+  & { notifications: Array<(
+    { __typename?: 'NotificationInvite' }
+    & Pick<NotificationInvite, 'storyId' | 'inviterId' | 'id' | 'createdAt' | 'hasRead'>
+  ) | (
+    { __typename?: 'NotificationFollow' }
+    & Pick<NotificationFollow, 'followerId' | 'id' | 'createdAt' | 'hasRead'>
+  )> }
 );
 
 export type NowPlayingQueuePartsFragment = (
@@ -954,6 +1001,26 @@ export const OnMessageAddedDocument = gql`
 
 export function useOnMessageAddedSubscription<TData = OnMessageAddedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnMessageAddedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnMessageAddedSubscription, TData>) {
   return Urql.useSubscription<OnMessageAddedSubscription, TData, OnMessageAddedSubscriptionVariables>({ query: OnMessageAddedDocument, ...options }, handler);
+};
+export const NotificationsDocument = gql`
+    query notifications($next: String, $limit: Int!) {
+  notifications(next: $next, limit: $limit) {
+    id
+    createdAt
+    hasRead
+    ... on NotificationFollow {
+      followerId
+    }
+    ... on NotificationInvite {
+      storyId
+      inviterId
+    }
+  }
+}
+    `;
+
+export function useNotificationsQuery(options: Omit<Urql.UseQueryArgs<NotificationsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<NotificationsQuery>({ query: NotificationsDocument, ...options });
 };
 export const NowPlayingDocument = gql`
     query nowPlaying($id: ID!) {

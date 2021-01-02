@@ -120,7 +120,13 @@
     "description": "A geographical song discovery experience"
   },
   "notification": {
-    "title": "Notification"
+    "title": "Notification",
+    "invite": {
+      "text": "invited you to listen"
+    },
+    "follow": {
+      "text": "followed you"
+    }
   },
   "story": {
     "label": "Story",
@@ -309,7 +315,10 @@
     "startListening": "Start Listening",
     "live": "live",
     "dangerousActionText": "This process is immediate and cannot be undone",
-    "cancel": "Nevermind"
+    "cancel": "Nevermind",
+    "time": {
+      "ago": "ago"
+    }
   },
   "error": {
     "sorry": "We are sorry for the inconvenience",
