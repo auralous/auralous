@@ -119,6 +119,9 @@
     "title": "Map",
     "description": "A geographical song discovery experience"
   },
+  "notification": {
+    "title": "Notification"
+  },
   "story": {
     "label": "Story",
     "create": "Create Story",

@@ -7,16 +7,19 @@ import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 import {
+  SvgLogIn,
   SvgLogo,
   SvgMapPin,
+  SvgMessageSquare,
   SvgPlayCircle,
   SvgPlus,
   SvgSettings,
+  SvgUser,
 } from "~/assets/svg";
 
 const sidebarColor = "rgb(18, 18, 24)";
 
-const boldClasses = "bg-gradient-to-l from-warning to-primary flex-none px-8";
+const boldClasses = "bg-gradient-to-l from-warning to-primary";
 
 const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
   children,
@@ -57,6 +60,9 @@ const Sidebar: React.FC = () => {
         </SidebarItem>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
         <SidebarItem href="/map">{t("map.title")}</SidebarItem>
+        <SidebarItem href="/notification">
+          {t("notification.title")}
+        </SidebarItem>
       </div>
       <div className="p-1 rounded-lg">
         {user ? (
@@ -109,9 +115,9 @@ const AppbarItem: React.FC<{
   return (
     <Link href={href} as={as}>
       <a
-        className={`btn btn-transparent text-foreground border-primary py-1 font-light rounded-none ${
+        className={`btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1 ${
           isActive && !isBold ? "border-b-2" : ""
-        } ${isBold ? boldClasses : "flex-1"}`}
+        } ${isBold ? boldClasses : ""}`}
         title={title}
       >
         {children}
@@ -125,6 +131,9 @@ const noAppbarPathname = ["/story/[storyId]", "/new"];
 const Appbar: React.FC = () => {
   const { t } = useI18n();
   const router = useRouter();
+  const user = useCurrentUser();
+  const [, logIn] = useLogin();
+
   return (
     <>
       <div
@@ -141,12 +150,32 @@ const Appbar: React.FC = () => {
         <AppbarItem href="/listen" title={t("listen.title")}>
           <SvgPlayCircle className="w-4 h-4" />
         </AppbarItem>
-        <AppbarItem isBold href="/new" title={t("story.create")}>
-          <SvgPlus className="w-6 h-6" />
-        </AppbarItem>
         <AppbarItem href="/map" title={t("map.title")}>
           <SvgMapPin className="w-4 h-4" />
         </AppbarItem>
+        <AppbarItem isBold href="/new" title={t("story.create")}>
+          <SvgPlus className="w-6 h-6" />
+        </AppbarItem>
+        <AppbarItem href="/notification" title={t("notification.title")}>
+          <SvgMessageSquare className="w-4 h-4" />
+        </AppbarItem>
+        {user ? (
+          <AppbarItem
+            as={`/user/${user.username}`}
+            href="/user/[username]"
+            title={t("user.profile")}
+          >
+            <SvgUser className="w-4 h-4" />
+          </AppbarItem>
+        ) : (
+          <button
+            className="btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1"
+            title={t("common.signIn")}
+            onClick={logIn}
+          >
+            <SvgLogIn className="w-4 h-4" />
+          </button>
+        )}
       </div>
     </>
   );

@@ -119,6 +119,9 @@
     "title": "Bản đồ",
     "description": "Một trải nghiệm khám phá âm nhạc theo địa lý"
   },
+  "notification": {
+    "title": "Thông báo"
+  },
   "story": {
     "label": "Story",
     "create": "Tạo story",
