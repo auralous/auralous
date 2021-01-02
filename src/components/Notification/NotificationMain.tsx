@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
 import ms from "ms";
 import {
@@ -7,6 +7,8 @@ import {
   useNotificationsQuery,
   useUserQuery,
   useStoryQuery,
+  NotificationsQuery,
+  useReadNotificationsMutation,
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 
@@ -103,12 +105,31 @@ const NotificationItem: React.FC<{
 
 const NotificationMain: React.FC = () => {
   const { t } = useI18n();
+  const dataRef = useRef<NotificationsQuery | undefined>();
 
   // FIXME: investigate an edge case in urql that causes
   // __typename to dissapear upon cache read
   const [{ data }] = useNotificationsQuery({
     variables: { limit: 10 },
+    requestPolicy: "cache-and-network",
   });
+
+  const [, markRead] = useReadNotificationsMutation();
+
+  useEffect(() => {
+    // dataRef is used on unmount useEffect below
+    dataRef.current = data;
+  }, [data]);
+
+  useEffect(() => {
+    return () => {
+      const readIds = dataRef.current?.notifications
+        .filter((notification) => notification.hasRead === false)
+        .map((notification) => notification.id);
+      // mark all notifications as read
+      if (readIds?.length) markRead({ ids: readIds });
+    };
+  }, [markRead]);
 
   return (
     <>

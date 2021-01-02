@@ -137,6 +137,7 @@ export type QueryUserFollowingsArgs = {
 export type Mutation = {
   __typename?: 'Mutation';
   addMessage: Scalars['Boolean'];
+  readNotifications: Scalars['Int'];
   reactNowPlaying?: Maybe<Scalars['Boolean']>;
   skipNowPlaying?: Maybe<Scalars['Boolean']>;
   updateQueue: Scalars['Boolean'];
@@ -155,6 +156,11 @@ export type Mutation = {
 export type MutationAddMessageArgs = {
   id: Scalars['ID'];
   text: Scalars['String'];
+};
+
+
+export type MutationReadNotificationsArgs = {
+  ids: Array<Scalars['ID']>;
 };
 
 
@@ -463,6 +469,16 @@ export type NotificationsQuery = (
     { __typename?: 'NotificationFollow' }
     & Pick<NotificationFollow, 'followerId' | 'id' | 'createdAt' | 'hasRead'>
   )> }
+);
+
+export type ReadNotificationsMutationVariables = Exact<{
+  ids: Array<Scalars['ID']>;
+}>;
+
+
+export type ReadNotificationsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'readNotifications'>
 );
 
 export type NowPlayingQueuePartsFragment = (
@@ -930,6 +946,11 @@ export const NotificationsDocument: DocumentNode = {"kind":"Document","definitio
 
 export function useNotificationsQuery(options: Omit<Urql.UseQueryArgs<NotificationsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<NotificationsQuery>({ query: NotificationsDocument, ...options });
+};
+export const ReadNotificationsDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"readNotifications"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"readNotifications"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}]}]}}]};
+
+export function useReadNotificationsMutation() {
+  return Urql.useMutation<ReadNotificationsMutation, ReadNotificationsMutationVariables>(ReadNotificationsDocument);
 };
 export const NowPlayingDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"nowPlaying"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlaying"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currentTrack"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NowPlayingQueueParts"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]};
 

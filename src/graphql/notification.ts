@@ -14,3 +14,9 @@ export const QUERY_NOTIFICATIONS = /* GraphQL */ `
     }
   }
 `;
+
+export const MUTATION_READ_NOTIFICATIONS = /* GraphQL */ `
+  mutation readNotifications($ids: [ID!]!) {
+    readNotifications(ids: $ids)
+  }
+`;
