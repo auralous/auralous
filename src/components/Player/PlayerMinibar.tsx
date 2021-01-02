@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import usePlayer from "./usePlayer";
 import { useI18n } from "~/i18n/index";
-import { SvgX } from "~/assets/svg";
+import { SvgX, SvgPause, SvgPlay } from "~/assets/svg";
 
 const PlayerMinibarBar: React.FC = () => {
   const { t } = useI18n();
   const {
     state: { playingStoryId, playerPlaying },
     playStory,
+    player,
   } = usePlayer();
+
+  useEffect(() => {
+    const onPlaying = () => setIsPlaying(true);
+    const onPaused = () => setIsPlaying(false);
+    player.on("playing", onPlaying);
+    player.on("paused", onPaused);
+    return () => {
+      player.off("playing", onPlaying);
+      player.off("paused", onPaused);
+    };
+  }, [player]);
+
+  const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
+
   return (
     <div className="w-full h-full inset-0 flex items-center">
       <Link href={`/story/${playingStoryId}`}>
@@ -36,9 +51,20 @@ const PlayerMinibarBar: React.FC = () => {
         </a>
       </Link>
       <button
-        onClick={() => playStory("")}
+        title={isPlaying ? t("player.pause") : t("player.play")}
         className="btn btn-transparent p-2"
+        onClick={() => (isPlaying ? player.pause() : player.play())}
+      >
+        {isPlaying ? (
+          <SvgPause className="fill-current" />
+        ) : (
+          <SvgPlay className="fill-current" />
+        )}
+      </button>
+      <button
         title={t("player.stopPlaying")}
+        className="btn btn-transparent p-2"
+        onClick={() => playStory("")}
       >
         <SvgX />
       </button>
