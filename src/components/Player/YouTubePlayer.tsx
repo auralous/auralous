@@ -84,7 +84,7 @@ export default function YouTubePlayer() {
     };
   }, [player]);
 
-  const [posIsTop, setPosIsTop] = useState(true);
+  const [posIsTop, setPosIsTop] = useState(false);
 
   return (
     <div
