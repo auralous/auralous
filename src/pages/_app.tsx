@@ -96,8 +96,8 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
               />
               <Layout>
                 <Component {...pageProps} />
+                <StoryOngoingWatcher />
               </Layout>
-              <StoryOngoingWatcher />
             </PlayerProvider>
           </LogInProvider>
         </UrqlProvider>

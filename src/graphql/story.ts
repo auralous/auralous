@@ -30,6 +30,16 @@ export const QUERY_STORIES = /* GraphQL */ `
   ${FRAGMENT_STORY_DETAIL}
 `;
 
+export const QUERY_STORY_LIVE = /* GraphQL */ `
+  query storyLive($creatorId: String) {
+    storyLive(creatorId: $creatorId) {
+      id
+      ...StoryDetailParts
+    }
+  }
+  ${FRAGMENT_STORY_DETAIL}
+`;
+
 export const MUTATION_CREATE_STORY = /* GraphQL */ `
   mutation createStory($text: String!, $isPublic: Boolean!) {
     createStory(text: $text, isPublic: $isPublic) {

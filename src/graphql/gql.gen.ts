@@ -35,6 +35,7 @@ export type Query = {
   story?: Maybe<Story>;
   storyUsers?: Maybe<Array<Scalars['String']>>;
   stories: Array<Story>;
+  storyLive?: Maybe<Story>;
   track?: Maybe<Track>;
   crossTracks?: Maybe<CrossTracks>;
   searchTrack: Array<Track>;
@@ -82,6 +83,11 @@ export type QueryStoriesArgs = {
   id: Scalars['ID'];
   next?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
+};
+
+
+export type QueryStoryLiveArgs = {
+  creatorId?: Maybe<Scalars['String']>;
 };
 
 
@@ -586,6 +592,20 @@ export type StoriesQuery = (
   )> }
 );
 
+export type StoryLiveQueryVariables = Exact<{
+  creatorId?: Maybe<Scalars['String']>;
+}>;
+
+
+export type StoryLiveQuery = (
+  { __typename?: 'Query' }
+  & { storyLive?: Maybe<(
+    { __typename?: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
+  )> }
+);
+
 export type CreateStoryMutationVariables = Exact<{
   text: Scalars['String'];
   isPublic: Scalars['Boolean'];
@@ -1071,6 +1091,18 @@ export const StoriesDocument = gql`
 
 export function useStoriesQuery(options: Omit<Urql.UseQueryArgs<StoriesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<StoriesQuery>({ query: StoriesDocument, ...options });
+};
+export const StoryLiveDocument = gql`
+    query storyLive($creatorId: String) {
+  storyLive(creatorId: $creatorId) {
+    id
+    ...StoryDetailParts
+  }
+}
+    ${StoryDetailPartsFragmentDoc}`;
+
+export function useStoryLiveQuery(options: Omit<Urql.UseQueryArgs<StoryLiveQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<StoryLiveQuery>({ query: StoryLiveDocument, ...options });
 };
 export const CreateStoryDocument = gql`
     mutation createStory($text: String!, $isPublic: Boolean!) {

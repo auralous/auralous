@@ -16,9 +16,7 @@ import { toast } from "~/lib/toast";
 // import { default as schemaIntrospection } from "./introspection.json";
 import {
   Story,
-  StoriesDocument,
   StoryUsersDocument,
-  StoriesQuery,
   StoryUsersQuery,
   StoryQuery,
   StoryDocument,
@@ -31,6 +29,9 @@ import {
   MeDocument,
   UserFollowingsDocument,
   UserFollowingsQueryVariables,
+  StoryLiveQuery,
+  StoryLiveQueryVariables,
+  StoryLiveDocument,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 import { storySliderPagination } from "./_pagination";
@@ -103,23 +104,14 @@ const cacheExchange = createCacheExchange({
     Mutation: {
       createStory: (result, args, cache) => {
         const newStory = result.createStory as Story | null;
-        if (newStory) {
-          cache.updateQuery<StoriesQuery>(
+        if (newStory)
+          cache.updateQuery<StoryLiveQuery, StoryLiveQueryVariables>(
             {
-              query: StoriesDocument,
-              variables: { id: `creatorId:${newStory.creatorId}` },
+              query: StoryLiveDocument,
+              variables: { creatorId: newStory.creatorId },
             },
-            (data) => {
-              const stories = data?.stories
-                ? [
-                    newStory, // Set all previous story to unlive
-                    ...data.stories.map((s) => ({ ...s, isLive: false })),
-                  ]
-                : [newStory];
-              return { stories };
-            }
+            () => ({ storyLive: newStory })
           );
-        }
       },
       unliveStory: (result, args, cache) => {
         if (result.unliveStory) {
