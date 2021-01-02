@@ -75,8 +75,6 @@ const cacheExchange = createCacheExchange({
   schema: (schema as unknown) as IntrospectionQuery,
   keys: {
     QueueItem: () => null,
-    NotificationFollow: () => null,
-    NotificationInvite: () => null,
   },
   resolvers: {
     Query: {
