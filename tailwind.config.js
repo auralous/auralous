@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     colors: {
       background: {
-        DEFAULT: "hsl(223,14%,10%)",
+        DEFAULT: "hsl(240,14%,10%)",
         secondary: "hsl(232,12%,13%)",
         tertiary: "hsl(228,13%,15%)",
         backdrop: "hsla(218,80%,2%,0.8)",

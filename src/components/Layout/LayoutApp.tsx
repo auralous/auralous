@@ -10,7 +10,7 @@ import {
   SvgLogIn,
   SvgLogo,
   SvgMapPin,
-  SvgMessageSquare,
+  SvgActivity,
   SvgPlayCircle,
   SvgPlus,
   SvgSettings,
@@ -157,7 +157,7 @@ const Appbar: React.FC = () => {
           <SvgPlus className="w-6 h-6" />
         </AppbarItem>
         <AppbarItem href="/notification" title={t("notification.title")}>
-          <SvgMessageSquare className="w-4 h-4" />
+          <SvgActivity className="w-4 h-4" />
         </AppbarItem>
         {user ? (
           <AppbarItem
