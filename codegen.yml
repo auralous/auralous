@@ -12,3 +12,4 @@ generates:
       withHooks: true
       documentMode: "documentNode"
       nonOptionalTypename: true
+      skipTypeNameForRoot: true

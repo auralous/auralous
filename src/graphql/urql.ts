@@ -24,7 +24,6 @@ import {
   StoryQueryVariables,
   NowPlayingReactionsQuery,
   NowPlayingReactionsDocument,
-  NowPlayingReactionType,
   UserFollowingsQuery,
   MeQuery,
   MeDocument,
@@ -33,6 +32,7 @@ import {
   StoryLiveQuery,
   StoryLiveQueryVariables,
   StoryLiveDocument,
+  NowPlayingReactionsUpdatedSubscription,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
 import { nextCursorPagination } from "./_pagination";
@@ -238,10 +238,8 @@ const cacheExchange = createCacheExchange({
               variables: { id: args.id },
             },
             () => ({
-              nowPlayingReactions: result.nowPlayingReactionsUpdated as {
-                userId: string;
-                reaction: NowPlayingReactionType;
-              }[],
+              nowPlayingReactions: (result as NowPlayingReactionsUpdatedSubscription)
+                .nowPlayingReactionsUpdated,
             })
           );
         }
