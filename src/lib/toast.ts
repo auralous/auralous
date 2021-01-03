@@ -14,8 +14,7 @@ export const toast =
           },
           {
             type: "noti",
-            background: "rgb(18, 18, 24)",
-            className: "cursor-pointer",
+            className: "cursor-pointer bg-primary",
             icon: {
               text: "👋",
               tagName: "span",
