@@ -83,9 +83,9 @@ export const nextCursorPagination = (): Resolver => {
 
       if (
         !prevOffset ||
-        !currentOffset ||
-        dateFromObjectId(currentOffset).getTime() <
-          dateFromObjectId(prevOffset).getTime()
+        (currentOffset &&
+          dateFromObjectId(currentOffset).getTime() <
+            dateFromObjectId(prevOffset).getTime())
       ) {
         result = [...result, ...tempResult];
       } else {

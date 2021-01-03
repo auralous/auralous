@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import LayoutContext from "./LayoutContext";
@@ -16,6 +16,22 @@ import {
   SvgSettings,
   SvgUser,
 } from "~/assets/svg";
+import { useNotificationAddedSubscription, User } from "~/graphql/gql.gen";
+
+const useHasNotification = (me: User | null | undefined) => {
+  const [hasNotification, setHasNotification] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    if (router.pathname === "/notification") setHasNotification(false);
+  }, [router]);
+  // return true if there is new notification and
+  // user is not on notification page
+  useNotificationAddedSubscription({ pause: !me }, (prev, data) => {
+    if (router.pathname !== "/notification") setHasNotification(true);
+    return data;
+  });
+  return hasNotification;
+};
 
 const sidebarColor = "rgb(18, 18, 24)";
 
@@ -46,6 +62,8 @@ const Sidebar: React.FC = () => {
   const user = useCurrentUser();
   const [, logIn] = useLogin();
 
+  const hasNotification = useHasNotification(user);
+
   return (
     <div
       className="hidden md:block w-56 fixed left-0 top-0 h-full"
@@ -62,6 +80,9 @@ const Sidebar: React.FC = () => {
         <SidebarItem href="/map">{t("map.title")}</SidebarItem>
         <SidebarItem href="/notification">
           {t("notification.title")}
+          {hasNotification && (
+            <span className="w-2 h-2 ml-1 rounded-full bg-primary animate-pulse" />
+          )}
         </SidebarItem>
       </div>
       <div className="p-1 rounded-lg">
@@ -115,7 +136,7 @@ const AppbarItem: React.FC<{
   return (
     <Link href={href} as={as}>
       <a
-        className={`btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1 ${
+        className={`relative btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1 ${
           isActive && !isBold ? "border-b-2" : ""
         } ${isBold ? boldClasses : ""}`}
         title={title}
@@ -133,6 +154,8 @@ const Appbar: React.FC = () => {
   const router = useRouter();
   const user = useCurrentUser();
   const [, logIn] = useLogin();
+
+  const hasNotification = useHasNotification(user);
 
   return (
     <>
@@ -158,6 +181,9 @@ const Appbar: React.FC = () => {
         </AppbarItem>
         <AppbarItem href="/notification" title={t("notification.title")}>
           <SvgActivity className="w-4 h-4" />
+          {hasNotification && (
+            <span className="w-2 h-2 rounded-full bg-primary absolute top-2 left-1/2 ml-2 animate-pulse" />
+          )}
         </AppbarItem>
         {user ? (
           <AppbarItem

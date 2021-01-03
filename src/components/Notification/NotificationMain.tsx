@@ -1,6 +1,8 @@
-import React, { useMemo, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import ms from "ms";
+import { useInView } from "react-intersection-observer";
+import { useCurrentUser } from "~/hooks/user";
 import {
   NotificationInvite,
   NotificationFollow,
@@ -10,9 +12,16 @@ import {
   NotificationsQuery,
   useReadNotificationsMutation,
   NotificationNewStory,
+  useNotificationAddedSubscription,
 } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { useInView } from "react-intersection-observer";
+import { useI18n, t } from "~/i18n/index";
+
+const getDateDiffTxt = (createdAt: Date) => {
+  const dateDiff = Date.now() - createdAt.getTime();
+  return dateDiff < 1000
+    ? t("common.time.justNow")
+    : `${ms(dateDiff, { long: true })} ${t("common.time.ago")}`;
+};
 
 const NotificationItemStorySection: React.FC<{ id: string }> = ({ id }) => {
   const { t } = useI18n();
@@ -110,15 +119,6 @@ const NotificationItemNewStory: React.FC<{
 const NotificationItem: React.FC<{
   notification: NotificationInvite | NotificationFollow | NotificationNewStory;
 }> = ({ notification }) => {
-  const { t } = useI18n();
-
-  const dateStr = useMemo(() => {
-    const msDate = ms(Date.now() - notification.createdAt.getTime(), {
-      long: true,
-    });
-    return `${msDate} ${t("common.time.ago")}`;
-  }, [notification, t]);
-
   return (
     <div
       className={`px-4 py-2 bg-background-secondary border-l-4 ${
@@ -134,7 +134,9 @@ const NotificationItem: React.FC<{
       ) : (
         <NotificationItemNewStory notification={notification} />
       )}
-      <div className="text-foreground-tertiary text-xs">{dateStr}</div>
+      <div className="text-foreground-tertiary text-xs">
+        {getDateDiffTxt(notification.createdAt)}
+      </div>
     </div>
   );
 };
@@ -145,11 +147,20 @@ const NotificationMain: React.FC = () => {
 
   const [next, setNext] = useState<string | undefined>();
 
+  const me = useCurrentUser();
+
   // FIXME: investigate an edge case where urql corrupts
   // data on pagination
-  const [{ data }] = useNotificationsQuery({
+  const [{ data }, fetchNotifications] = useNotificationsQuery({
     variables: { limit: 10, next },
     requestPolicy: "cache-and-network",
+    pause: !me,
+  });
+
+  useNotificationAddedSubscription({ pause: !me }, (prev, subData) => {
+    if (next !== undefined) setNext(undefined);
+    else fetchNotifications();
+    return subData;
   });
 
   const [, markRead] = useReadNotificationsMutation();

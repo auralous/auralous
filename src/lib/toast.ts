@@ -12,6 +12,16 @@ export const toast =
             background: "rgb(18, 18, 24)",
             icon: false,
           },
+          {
+            type: "noti",
+            background: "rgb(18, 18, 24)",
+            className: "cursor-pointer",
+            icon: {
+              text: "👋",
+              tagName: "span",
+              className: "text-white",
+            },
+          },
         ],
       })
     : ((null as unknown) as Notyf);

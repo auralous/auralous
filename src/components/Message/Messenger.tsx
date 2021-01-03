@@ -25,14 +25,18 @@ import { SvgMusic, SvgLogIn } from "~/assets/svg";
 const LIMIT = 20;
 const GROUPED_TIME_DIFF = 10 * 60 * 1000; // within 10 min should be grouped
 
+const getDateDiffTxt = (createdAt: Date) => {
+  const dateDiff = Date.now() - createdAt.getTime();
+  return dateDiff < 1000 ? t("common.time.justNow") : ms(dateDiff);
+};
+
 const MessageItemJoin: React.FC<{
   message: Message;
 }> = ({ message }) => {
   const [{ data: { user } = { user: undefined } }] = useUserQuery({
     variables: { id: message.creatorId },
   });
-  const dateDiff = Date.now() - message.createdAt;
-  const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
+
   return (
     <div role="listitem" className="w-full text-left text-sm mt-3 p-1">
       <SvgLogIn className="inline w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
@@ -41,7 +45,7 @@ const MessageItemJoin: React.FC<{
       </span>{" "}
       <span className="text-foreground-tertiary opacity-50 ml-1">
         {"• "}
-        {dateDiffTxt}
+        {getDateDiffTxt(message.createdAt)}
       </span>
     </div>
   );
@@ -57,8 +61,6 @@ const MessageItemPlay: React.FC<{
     variables: { id: message.text || "" },
     pause: !message.text,
   });
-  const dateDiff = Date.now() - message.createdAt;
-  const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
   const [active, show, close] = useModal();
   return (
     <div role="listitem" className="w-full flex text-sm mt-3 p-1">
@@ -69,7 +71,7 @@ const MessageItemPlay: React.FC<{
         </span>
         <span className="text-foreground-tertiary opacity-50 ml-1">
           {" • "}
-          {dateDiffTxt}
+          {getDateDiffTxt(message.createdAt)}
         </span>
         {track && (
           <button
@@ -92,8 +94,7 @@ const MessageItem: React.FC<{
 }> = ({ message, isGrouped }) => {
   const user = useCurrentUser();
   const isCurrentUser = user?.id === message.creatorId;
-  const dateDiff = Date.now() - message.createdAt;
-  const dateDiffTxt = dateDiff < 1000 ? "Just now" : ms(dateDiff);
+
   const [{ data: { user: sender } = { user: undefined } }] = useUserQuery({
     variables: { id: message.creatorId },
   });
@@ -124,7 +125,7 @@ const MessageItem: React.FC<{
             </Link>
             <span className="text-foreground-tertiary text-sm opacity-50 ml-1">
               {" • "}
-              {dateDiffTxt}
+              {getDateDiffTxt(message.createdAt)}
             </span>
           </div>
         </>
@@ -153,10 +154,13 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
   const [{ data: newMessages }] = useOnMessageAddedSubscription<Message[]>(
     { variables: { id }, pause: !prevMessages },
     (prev = [], response) => {
-      response.messageAdded.createdAt = new Date(
-        response.messageAdded.createdAt
-      );
-      return [...prev, response.messageAdded];
+      return [
+        ...prev,
+        {
+          ...response.messageAdded,
+          createdAt: new Date(response.messageAdded.createdAt),
+        },
+      ];
     }
   );
 
