@@ -60,7 +60,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
         "/story/[storyId]/settings",
         "/settings",
         "/new",
-        "/notification",
+        "/notifications",
         "/listen",
         "/user/[username]",
       ].includes(router.pathname)

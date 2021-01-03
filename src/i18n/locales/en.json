@@ -120,7 +120,7 @@
     "description": "A geographical song discovery experience"
   },
   "notification": {
-    "title": "Notification",
+    "title": "Notifications",
     "invite": {
       "text": "invited you to listen"
     },

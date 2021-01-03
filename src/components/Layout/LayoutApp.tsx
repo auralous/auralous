@@ -22,12 +22,12 @@ const useHasNotification = (me: User | null | undefined) => {
   const [hasNotification, setHasNotification] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    if (router.pathname === "/notification") setHasNotification(false);
+    if (router.pathname === "/notifications") setHasNotification(false);
   }, [router]);
   // return true if there is new notification and
   // user is not on notification page
   useNotificationAddedSubscription({ pause: !me }, (prev, data) => {
-    if (router.pathname !== "/notification") setHasNotification(true);
+    if (router.pathname !== "/notifications") setHasNotification(true);
     return data;
   });
   return hasNotification;
@@ -78,7 +78,7 @@ const Sidebar: React.FC = () => {
         </SidebarItem>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
         <SidebarItem href="/map">{t("map.title")}</SidebarItem>
-        <SidebarItem href="/notification">
+        <SidebarItem href="/notifications">
           {t("notification.title")}
           {hasNotification && (
             <span className="w-2 h-2 ml-1 rounded-full bg-primary animate-pulse" />
@@ -179,7 +179,7 @@ const Appbar: React.FC = () => {
         <AppbarItem isBold href="/new" title={t("story.create")}>
           <SvgPlus className="w-6 h-6" />
         </AppbarItem>
-        <AppbarItem href="/notification" title={t("notification.title")}>
+        <AppbarItem href="/notifications" title={t("notification.title")}>
           <SvgActivity className="w-4 h-4" />
           {hasNotification && (
             <span className="w-2 h-2 rounded-full bg-primary absolute top-2 left-1/2 ml-2 animate-pulse" />

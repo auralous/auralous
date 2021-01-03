@@ -40,7 +40,7 @@ const NotificationWatcher: React.FC = () => {
           message = `${username} ${t("notification.newStory.text")}`;
         }
         toast.open({ type: "noti", message }).on(NotyfEvent.Click, () => {
-          router.push("/notification");
+          router.push("/notifications");
         });
       })();
 
