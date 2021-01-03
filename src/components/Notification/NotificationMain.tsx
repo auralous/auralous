@@ -148,7 +148,7 @@ const NotificationMain: React.FC = () => {
   // FIXME: investigate an edge case where urql corrupts
   // data on pagination
   const [{ data }] = useNotificationsQuery({
-    variables: { limit: 12, next },
+    variables: { limit: 10, next },
     requestPolicy: "cache-and-network",
   });
 
@@ -173,7 +173,7 @@ const NotificationMain: React.FC = () => {
   // we try to fetch more notifications
   const { ref, inView } = useInView();
   useEffect(() => {
-    if (inView && data?.notifications)
+    if (inView && data?.notifications.length)
       setNext(data.notifications[data.notifications.length - 1].id);
   }, [inView, data]);
 
