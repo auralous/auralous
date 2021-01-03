@@ -131,10 +131,9 @@ const NotificationItem: React.FC<{
         <NotificationItemInvite notification={notification} />
       ) : notification.__typename === "NotificationFollow" ? (
         <NotificationItemFollow notification={notification} />
-      ) : notification.__typename === "NotificationNewStory" ? (
+      ) : (
         <NotificationItemNewStory notification={notification} />
-      ) : // FIXME: Temporary workaround for  https://github.com/FormidableLabs/urql/issues/1268
-      undefined}
+      )}
       <div className="text-foreground-tertiary text-xs">{dateStr}</div>
     </div>
   );
@@ -146,8 +145,6 @@ const NotificationMain: React.FC = () => {
 
   const [next, setNext] = useState<string | undefined>();
 
-  // FIXME: investigate an edge case in urql that causes
-  // __typename to dissapear upon cache read
   // FIXME: investigate an edge case where urql corrupts
   // data on pagination
   const [{ data }] = useNotificationsQuery({
