@@ -7,6 +7,8 @@ generates:
       - typescript-operations
       - typescript-urql
     config:
+      immutableTypes: true
       withComponent: false
       withHooks: true
-      noGraphQLTag: true
+      documentMode: "documentNode"
+      nonOptionalTypename: true

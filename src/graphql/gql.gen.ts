@@ -27,24 +27,24 @@ export enum MessageType {
 }
 
 export type Query = {
-  __typename?: 'Query';
-  messages?: Maybe<Array<Message>>;
-  notifications: Array<Notification>;
-  nowPlaying?: Maybe<NowPlaying>;
-  nowPlayingReactions?: Maybe<Array<NowPlayingReactionItem>>;
-  queue?: Maybe<Queue>;
-  story?: Maybe<Story>;
-  storyUsers?: Maybe<Array<Scalars['String']>>;
-  stories: Array<Story>;
-  storyLive?: Maybe<Story>;
-  track?: Maybe<Track>;
-  crossTracks?: Maybe<CrossTracks>;
-  searchTrack: Array<Track>;
-  me?: Maybe<User>;
-  user?: Maybe<User>;
-  userStat?: Maybe<UserStat>;
-  userFollowers: Array<Scalars['String']>;
-  userFollowings: Array<Scalars['String']>;
+  readonly __typename: 'Query';
+  readonly messages?: Maybe<ReadonlyArray<Message>>;
+  readonly notifications: ReadonlyArray<Notification>;
+  readonly nowPlaying?: Maybe<NowPlaying>;
+  readonly nowPlayingReactions?: Maybe<ReadonlyArray<NowPlayingReactionItem>>;
+  readonly queue?: Maybe<Queue>;
+  readonly story?: Maybe<Story>;
+  readonly storyUsers?: Maybe<ReadonlyArray<Scalars['String']>>;
+  readonly stories: ReadonlyArray<Story>;
+  readonly storyLive?: Maybe<Story>;
+  readonly track?: Maybe<Track>;
+  readonly crossTracks?: Maybe<CrossTracks>;
+  readonly searchTrack: ReadonlyArray<Track>;
+  readonly me?: Maybe<User>;
+  readonly user?: Maybe<User>;
+  readonly userStat?: Maybe<UserStat>;
+  readonly userFollowers: ReadonlyArray<Scalars['String']>;
+  readonly userFollowings: ReadonlyArray<Scalars['String']>;
 };
 
 
@@ -135,22 +135,22 @@ export type QueryUserFollowingsArgs = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  addMessage: Scalars['Boolean'];
-  readNotifications: Scalars['Int'];
-  reactNowPlaying?: Maybe<Scalars['Boolean']>;
-  skipNowPlaying?: Maybe<Scalars['Boolean']>;
-  updateQueue: Scalars['Boolean'];
-  createStory: Story;
-  deleteStory: Scalars['ID'];
-  changeStoryQueueable: Scalars['Boolean'];
-  unliveStory: Scalars['Boolean'];
-  pingStory: Scalars['Boolean'];
-  sendStoryInvites: Scalars['Boolean'];
-  me?: Maybe<User>;
-  followUser: Scalars['Boolean'];
-  unfollowUser: Scalars['Boolean'];
-  deleteMe: Scalars['Boolean'];
+  readonly __typename: 'Mutation';
+  readonly addMessage: Scalars['Boolean'];
+  readonly readNotifications: Scalars['Int'];
+  readonly reactNowPlaying?: Maybe<Scalars['Boolean']>;
+  readonly skipNowPlaying?: Maybe<Scalars['Boolean']>;
+  readonly updateQueue: Scalars['Boolean'];
+  readonly createStory: Story;
+  readonly deleteStory: Scalars['ID'];
+  readonly changeStoryQueueable: Scalars['Boolean'];
+  readonly unliveStory: Scalars['Boolean'];
+  readonly pingStory: Scalars['Boolean'];
+  readonly sendStoryInvites: Scalars['Boolean'];
+  readonly me?: Maybe<User>;
+  readonly followUser: Scalars['Boolean'];
+  readonly unfollowUser: Scalars['Boolean'];
+  readonly deleteMe: Scalars['Boolean'];
 };
 
 
@@ -161,7 +161,7 @@ export type MutationAddMessageArgs = {
 
 
 export type MutationReadNotificationsArgs = {
-  ids: Array<Scalars['ID']>;
+  ids: ReadonlyArray<Scalars['ID']>;
 };
 
 
@@ -179,7 +179,7 @@ export type MutationSkipNowPlayingArgs = {
 export type MutationUpdateQueueArgs = {
   id: Scalars['ID'];
   action: QueueAction;
-  tracks?: Maybe<Array<Scalars['ID']>>;
+  tracks?: Maybe<ReadonlyArray<Scalars['ID']>>;
   position?: Maybe<Scalars['Int']>;
   insertPosition?: Maybe<Scalars['Int']>;
 };
@@ -215,7 +215,7 @@ export type MutationPingStoryArgs = {
 
 export type MutationSendStoryInvitesArgs = {
   id: Scalars['ID'];
-  invitedIds: Array<Scalars['String']>;
+  invitedIds: ReadonlyArray<Scalars['String']>;
 };
 
 
@@ -237,13 +237,13 @@ export type MutationUnfollowUserArgs = {
 };
 
 export type Subscription = {
-  __typename?: 'Subscription';
-  messageAdded: Message;
-  nowPlayingUpdated?: Maybe<NowPlaying>;
-  nowPlayingReactionsUpdated?: Maybe<Array<NowPlayingReactionItem>>;
-  queueUpdated: Queue;
-  storyUpdated: Story;
-  storyUsersUpdated: Array<Scalars['String']>;
+  readonly __typename: 'Subscription';
+  readonly messageAdded: Message;
+  readonly nowPlayingUpdated?: Maybe<NowPlaying>;
+  readonly nowPlayingReactionsUpdated?: Maybe<ReadonlyArray<NowPlayingReactionItem>>;
+  readonly queueUpdated: Queue;
+  readonly storyUpdated: Story;
+  readonly storyUsersUpdated: ReadonlyArray<Scalars['String']>;
 };
 
 
@@ -277,44 +277,44 @@ export type SubscriptionStoryUsersUpdatedArgs = {
 };
 
 export type Message = {
-  __typename?: 'Message';
-  id: Scalars['ID'];
-  creatorId: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  text?: Maybe<Scalars['String']>;
-  type: MessageType;
+  readonly __typename: 'Message';
+  readonly id: Scalars['ID'];
+  readonly creatorId: Scalars['String'];
+  readonly createdAt: Scalars['DateTime'];
+  readonly text?: Maybe<Scalars['String']>;
+  readonly type: MessageType;
 };
 
 export type Notification = {
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
+  readonly id: Scalars['ID'];
+  readonly hasRead: Scalars['Boolean'];
+  readonly createdAt: Scalars['DateTime'];
 };
 
 export type NotificationInvite = Notification & {
-  __typename?: 'NotificationInvite';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  inviterId: Scalars['String'];
-  storyId: Scalars['String'];
+  readonly __typename: 'NotificationInvite';
+  readonly id: Scalars['ID'];
+  readonly hasRead: Scalars['Boolean'];
+  readonly createdAt: Scalars['DateTime'];
+  readonly inviterId: Scalars['String'];
+  readonly storyId: Scalars['String'];
 };
 
 export type NotificationFollow = Notification & {
-  __typename?: 'NotificationFollow';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  followerId: Scalars['String'];
+  readonly __typename: 'NotificationFollow';
+  readonly id: Scalars['ID'];
+  readonly hasRead: Scalars['Boolean'];
+  readonly createdAt: Scalars['DateTime'];
+  readonly followerId: Scalars['String'];
 };
 
 export type NotificationNewStory = Notification & {
-  __typename?: 'NotificationNewStory';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  storyId: Scalars['String'];
-  creatorId: Scalars['String'];
+  readonly __typename: 'NotificationNewStory';
+  readonly id: Scalars['ID'];
+  readonly hasRead: Scalars['Boolean'];
+  readonly createdAt: Scalars['DateTime'];
+  readonly storyId: Scalars['String'];
+  readonly creatorId: Scalars['String'];
 };
 
 export enum NowPlayingReactionType {
@@ -325,24 +325,24 @@ export enum NowPlayingReactionType {
 }
 
 export type NowPlayingQueueItem = {
-  __typename?: 'NowPlayingQueueItem';
-  id: Scalars['ID'];
-  trackId: Scalars['ID'];
-  playedAt: Scalars['DateTime'];
-  endedAt: Scalars['DateTime'];
-  creatorId: Scalars['ID'];
+  readonly __typename: 'NowPlayingQueueItem';
+  readonly id: Scalars['ID'];
+  readonly trackId: Scalars['ID'];
+  readonly playedAt: Scalars['DateTime'];
+  readonly endedAt: Scalars['DateTime'];
+  readonly creatorId: Scalars['ID'];
 };
 
 export type NowPlaying = {
-  __typename?: 'NowPlaying';
-  id: Scalars['ID'];
-  currentTrack?: Maybe<NowPlayingQueueItem>;
+  readonly __typename: 'NowPlaying';
+  readonly id: Scalars['ID'];
+  readonly currentTrack?: Maybe<NowPlayingQueueItem>;
 };
 
 export type NowPlayingReactionItem = {
-  __typename?: 'NowPlayingReactionItem';
-  userId: Scalars['String'];
-  reaction: NowPlayingReactionType;
+  readonly __typename: 'NowPlayingReactionItem';
+  readonly userId: Scalars['String'];
+  readonly reaction: NowPlayingReactionType;
 };
 
 export enum QueueAction {
@@ -353,28 +353,28 @@ export enum QueueAction {
 }
 
 export type QueueItem = {
-  __typename?: 'QueueItem';
-  id: Scalars['ID'];
-  trackId: Scalars['String'];
-  creatorId: Scalars['String'];
+  readonly __typename: 'QueueItem';
+  readonly id: Scalars['ID'];
+  readonly trackId: Scalars['String'];
+  readonly creatorId: Scalars['String'];
 };
 
 export type Queue = {
-  __typename?: 'Queue';
-  id: Scalars['ID'];
-  items: Array<QueueItem>;
+  readonly __typename: 'Queue';
+  readonly id: Scalars['ID'];
+  readonly items: ReadonlyArray<QueueItem>;
 };
 
 export type Story = {
-  __typename?: 'Story';
-  id: Scalars['ID'];
-  text: Scalars['String'];
-  isPublic: Scalars['Boolean'];
-  image: Scalars['String'];
-  creatorId: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  isLive: Scalars['Boolean'];
-  queueable: Array<Scalars['String']>;
+  readonly __typename: 'Story';
+  readonly id: Scalars['ID'];
+  readonly text: Scalars['String'];
+  readonly isPublic: Scalars['Boolean'];
+  readonly image: Scalars['String'];
+  readonly creatorId: Scalars['ID'];
+  readonly createdAt: Scalars['DateTime'];
+  readonly isLive: Scalars['Boolean'];
+  readonly queueable: ReadonlyArray<Scalars['String']>;
 };
 
 export enum PlatformName {
@@ -383,51 +383,51 @@ export enum PlatformName {
 }
 
 export type Track = {
-  __typename?: 'Track';
-  id: Scalars['ID'];
-  platform: PlatformName;
-  externalId: Scalars['ID'];
-  artists: Array<Artist>;
-  duration: Scalars['Int'];
-  title: Scalars['String'];
-  image: Scalars['String'];
-  url: Scalars['String'];
+  readonly __typename: 'Track';
+  readonly id: Scalars['ID'];
+  readonly platform: PlatformName;
+  readonly externalId: Scalars['ID'];
+  readonly artists: ReadonlyArray<Artist>;
+  readonly duration: Scalars['Int'];
+  readonly title: Scalars['String'];
+  readonly image: Scalars['String'];
+  readonly url: Scalars['String'];
 };
 
 export type CrossTracks = {
-  __typename?: 'CrossTracks';
-  id: Scalars['ID'];
-  youtube?: Maybe<Scalars['ID']>;
-  spotify?: Maybe<Scalars['ID']>;
+  readonly __typename: 'CrossTracks';
+  readonly id: Scalars['ID'];
+  readonly youtube?: Maybe<Scalars['ID']>;
+  readonly spotify?: Maybe<Scalars['ID']>;
 };
 
 export type Artist = {
-  __typename?: 'Artist';
-  id: Scalars['ID'];
-  platform: PlatformName;
-  externalId: Scalars['ID'];
-  name: Scalars['String'];
-  image: Scalars['String'];
-  url: Scalars['String'];
+  readonly __typename: 'Artist';
+  readonly id: Scalars['ID'];
+  readonly platform: PlatformName;
+  readonly externalId: Scalars['ID'];
+  readonly name: Scalars['String'];
+  readonly image: Scalars['String'];
+  readonly url: Scalars['String'];
 };
 
 export type User = {
-  __typename?: 'User';
-  id: Scalars['ID'];
-  username: Scalars['String'];
-  bio?: Maybe<Scalars['String']>;
-  profilePicture: Scalars['String'];
+  readonly __typename: 'User';
+  readonly id: Scalars['ID'];
+  readonly username: Scalars['String'];
+  readonly bio?: Maybe<Scalars['String']>;
+  readonly profilePicture: Scalars['String'];
 };
 
 export type UserStat = {
-  __typename?: 'UserStat';
-  id: Scalars['ID'];
-  followerCount: Scalars['Int'];
-  followingCount: Scalars['Int'];
+  readonly __typename: 'UserStat';
+  readonly id: Scalars['ID'];
+  readonly followerCount: Scalars['Int'];
+  readonly followingCount: Scalars['Int'];
 };
 
 export type MessagePartsFragment = (
-  { __typename?: 'Message' }
+  { readonly __typename: 'Message' }
   & Pick<Message, 'id' | 'creatorId' | 'createdAt' | 'text' | 'type'>
 );
 
@@ -439,9 +439,9 @@ export type MessagesQueryVariables = Exact<{
 
 
 export type MessagesQuery = (
-  { __typename?: 'Query' }
-  & { messages?: Maybe<Array<(
-    { __typename?: 'Message' }
+  { readonly __typename: 'Query' }
+  & { readonly messages?: Maybe<ReadonlyArray<(
+    { readonly __typename: 'Message' }
     & MessagePartsFragment
   )>> }
 );
@@ -453,7 +453,7 @@ export type AddMessageMutationVariables = Exact<{
 
 
 export type AddMessageMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'addMessage'>
 );
 
@@ -463,9 +463,9 @@ export type OnMessageAddedSubscriptionVariables = Exact<{
 
 
 export type OnMessageAddedSubscription = (
-  { __typename?: 'Subscription' }
-  & { messageAdded: (
-    { __typename?: 'Message' }
+  { readonly __typename: 'Subscription' }
+  & { readonly messageAdded: (
+    { readonly __typename: 'Message' }
     & MessagePartsFragment
   ) }
 );
@@ -477,31 +477,31 @@ export type NotificationsQueryVariables = Exact<{
 
 
 export type NotificationsQuery = (
-  { __typename?: 'Query' }
-  & { notifications: Array<(
-    { __typename?: 'NotificationInvite' }
+  { readonly __typename: 'Query' }
+  & { readonly notifications: ReadonlyArray<(
+    { readonly __typename: 'NotificationInvite' }
     & Pick<NotificationInvite, 'storyId' | 'inviterId' | 'id' | 'createdAt' | 'hasRead'>
   ) | (
-    { __typename?: 'NotificationFollow' }
+    { readonly __typename: 'NotificationFollow' }
     & Pick<NotificationFollow, 'followerId' | 'id' | 'createdAt' | 'hasRead'>
   ) | (
-    { __typename?: 'NotificationNewStory' }
+    { readonly __typename: 'NotificationNewStory' }
     & Pick<NotificationNewStory, 'storyId' | 'creatorId' | 'id' | 'createdAt' | 'hasRead'>
   )> }
 );
 
 export type ReadNotificationsMutationVariables = Exact<{
-  ids: Array<Scalars['ID']>;
+  ids: ReadonlyArray<Scalars['ID']>;
 }>;
 
 
 export type ReadNotificationsMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'readNotifications'>
 );
 
 export type NowPlayingQueuePartsFragment = (
-  { __typename?: 'NowPlayingQueueItem' }
+  { readonly __typename: 'NowPlayingQueueItem' }
   & Pick<NowPlayingQueueItem, 'id' | 'trackId' | 'playedAt' | 'creatorId'>
 );
 
@@ -511,12 +511,12 @@ export type NowPlayingQueryVariables = Exact<{
 
 
 export type NowPlayingQuery = (
-  { __typename?: 'Query' }
-  & { nowPlaying?: Maybe<(
-    { __typename?: 'NowPlaying' }
+  { readonly __typename: 'Query' }
+  & { readonly nowPlaying?: Maybe<(
+    { readonly __typename: 'NowPlaying' }
     & Pick<NowPlaying, 'id'>
-    & { currentTrack?: Maybe<(
-      { __typename?: 'NowPlayingQueueItem' }
+    & { readonly currentTrack?: Maybe<(
+      { readonly __typename: 'NowPlayingQueueItem' }
       & NowPlayingQueuePartsFragment
     )> }
   )> }
@@ -528,7 +528,7 @@ export type SkipNowPlayingMutationVariables = Exact<{
 
 
 export type SkipNowPlayingMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'skipNowPlaying'>
 );
 
@@ -538,12 +538,12 @@ export type OnNowPlayingUpdatedSubscriptionVariables = Exact<{
 
 
 export type OnNowPlayingUpdatedSubscription = (
-  { __typename?: 'Subscription' }
-  & { nowPlayingUpdated?: Maybe<(
-    { __typename?: 'NowPlaying' }
+  { readonly __typename: 'Subscription' }
+  & { readonly nowPlayingUpdated?: Maybe<(
+    { readonly __typename: 'NowPlaying' }
     & Pick<NowPlaying, 'id'>
-    & { currentTrack?: Maybe<(
-      { __typename?: 'NowPlayingQueueItem' }
+    & { readonly currentTrack?: Maybe<(
+      { readonly __typename: 'NowPlayingQueueItem' }
       & NowPlayingQueuePartsFragment
     )> }
   )> }
@@ -555,9 +555,9 @@ export type NowPlayingReactionsQueryVariables = Exact<{
 
 
 export type NowPlayingReactionsQuery = (
-  { __typename?: 'Query' }
-  & { nowPlayingReactions?: Maybe<Array<(
-    { __typename?: 'NowPlayingReactionItem' }
+  { readonly __typename: 'Query' }
+  & { readonly nowPlayingReactions?: Maybe<ReadonlyArray<(
+    { readonly __typename: 'NowPlayingReactionItem' }
     & Pick<NowPlayingReactionItem, 'reaction' | 'userId'>
   )>> }
 );
@@ -568,9 +568,9 @@ export type NowPlayingReactionsUpdatedSubscriptionVariables = Exact<{
 
 
 export type NowPlayingReactionsUpdatedSubscription = (
-  { __typename?: 'Subscription' }
-  & { nowPlayingReactionsUpdated?: Maybe<Array<(
-    { __typename?: 'NowPlayingReactionItem' }
+  { readonly __typename: 'Subscription' }
+  & { readonly nowPlayingReactionsUpdated?: Maybe<ReadonlyArray<(
+    { readonly __typename: 'NowPlayingReactionItem' }
     & Pick<NowPlayingReactionItem, 'reaction' | 'userId'>
   )>> }
 );
@@ -582,26 +582,26 @@ export type ReactNowPlayingMutationVariables = Exact<{
 
 
 export type ReactNowPlayingMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'reactNowPlaying'>
 );
 
 export type QueueItemPartsFragment = (
-  { __typename?: 'QueueItem' }
+  { readonly __typename: 'QueueItem' }
   & Pick<QueueItem, 'id' | 'trackId' | 'creatorId'>
 );
 
 export type UpdateQueueMutationVariables = Exact<{
   id: Scalars['ID'];
   action: QueueAction;
-  tracks?: Maybe<Array<Scalars['ID']>>;
+  tracks?: Maybe<ReadonlyArray<Scalars['ID']>>;
   position?: Maybe<Scalars['Int']>;
   insertPosition?: Maybe<Scalars['Int']>;
 }>;
 
 
 export type UpdateQueueMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'updateQueue'>
 );
 
@@ -611,12 +611,12 @@ export type QueueQueryVariables = Exact<{
 
 
 export type QueueQuery = (
-  { __typename?: 'Query' }
-  & { queue?: Maybe<(
-    { __typename?: 'Queue' }
+  { readonly __typename: 'Query' }
+  & { readonly queue?: Maybe<(
+    { readonly __typename: 'Queue' }
     & Pick<Queue, 'id'>
-    & { items: Array<(
-      { __typename?: 'QueueItem' }
+    & { readonly items: ReadonlyArray<(
+      { readonly __typename: 'QueueItem' }
       & QueueItemPartsFragment
     )> }
   )> }
@@ -628,19 +628,19 @@ export type OnQueueUpdatedSubscriptionVariables = Exact<{
 
 
 export type OnQueueUpdatedSubscription = (
-  { __typename?: 'Subscription' }
-  & { queueUpdated: (
-    { __typename?: 'Queue' }
+  { readonly __typename: 'Subscription' }
+  & { readonly queueUpdated: (
+    { readonly __typename: 'Queue' }
     & Pick<Queue, 'id'>
-    & { items: Array<(
-      { __typename?: 'QueueItem' }
+    & { readonly items: ReadonlyArray<(
+      { readonly __typename: 'QueueItem' }
       & QueueItemPartsFragment
     )> }
   ) }
 );
 
 export type StoryDetailPartsFragment = (
-  { __typename?: 'Story' }
+  { readonly __typename: 'Story' }
   & Pick<Story, 'text' | 'image' | 'createdAt' | 'isPublic' | 'isLive' | 'creatorId' | 'queueable'>
 );
 
@@ -650,9 +650,9 @@ export type StoryQueryVariables = Exact<{
 
 
 export type StoryQuery = (
-  { __typename?: 'Query' }
-  & { story?: Maybe<(
-    { __typename?: 'Story' }
+  { readonly __typename: 'Query' }
+  & { readonly story?: Maybe<(
+    { readonly __typename: 'Story' }
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
   )> }
@@ -666,9 +666,9 @@ export type StoriesQueryVariables = Exact<{
 
 
 export type StoriesQuery = (
-  { __typename?: 'Query' }
-  & { stories: Array<(
-    { __typename?: 'Story' }
+  { readonly __typename: 'Query' }
+  & { readonly stories: ReadonlyArray<(
+    { readonly __typename: 'Story' }
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
   )> }
@@ -680,9 +680,9 @@ export type StoryLiveQueryVariables = Exact<{
 
 
 export type StoryLiveQuery = (
-  { __typename?: 'Query' }
-  & { storyLive?: Maybe<(
-    { __typename?: 'Story' }
+  { readonly __typename: 'Query' }
+  & { readonly storyLive?: Maybe<(
+    { readonly __typename: 'Story' }
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
   )> }
@@ -695,9 +695,9 @@ export type CreateStoryMutationVariables = Exact<{
 
 
 export type CreateStoryMutation = (
-  { __typename?: 'Mutation' }
-  & { createStory: (
-    { __typename?: 'Story' }
+  { readonly __typename: 'Mutation' }
+  & { readonly createStory: (
+    { readonly __typename: 'Story' }
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
   ) }
@@ -711,7 +711,7 @@ export type ChangeStoryQueueableMutationVariables = Exact<{
 
 
 export type ChangeStoryQueueableMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'changeStoryQueueable'>
 );
 
@@ -721,7 +721,7 @@ export type DeleteStoryMutationVariables = Exact<{
 
 
 export type DeleteStoryMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'deleteStory'>
 );
 
@@ -731,7 +731,7 @@ export type UnliveStoryMutationVariables = Exact<{
 
 
 export type UnliveStoryMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'unliveStory'>
 );
 
@@ -741,7 +741,7 @@ export type StoryUsersQueryVariables = Exact<{
 
 
 export type StoryUsersQuery = (
-  { __typename?: 'Query' }
+  { readonly __typename: 'Query' }
   & Pick<Query, 'storyUsers'>
 );
 
@@ -751,7 +751,7 @@ export type PingStoryMutationVariables = Exact<{
 
 
 export type PingStoryMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'pingStory'>
 );
 
@@ -761,9 +761,9 @@ export type StoryUpdatedSubscriptionVariables = Exact<{
 
 
 export type StoryUpdatedSubscription = (
-  { __typename?: 'Subscription' }
-  & { storyUpdated: (
-    { __typename?: 'Story' }
+  { readonly __typename: 'Subscription' }
+  & { readonly storyUpdated: (
+    { readonly __typename: 'Story' }
     & Pick<Story, 'id'>
     & StoryDetailPartsFragment
   ) }
@@ -775,31 +775,31 @@ export type OnStoryUsersUpdatedSubscriptionVariables = Exact<{
 
 
 export type OnStoryUsersUpdatedSubscription = (
-  { __typename?: 'Subscription' }
+  { readonly __typename: 'Subscription' }
   & Pick<Subscription, 'storyUsersUpdated'>
 );
 
 export type SendStoryInvitesMutationVariables = Exact<{
   id: Scalars['ID'];
-  invitedIds: Array<Scalars['String']>;
+  invitedIds: ReadonlyArray<Scalars['String']>;
 }>;
 
 
 export type SendStoryInvitesMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'sendStoryInvites'>
 );
 
 export type ArtistPartsFragment = (
-  { __typename?: 'Artist' }
+  { readonly __typename: 'Artist' }
   & Pick<Artist, 'id' | 'platform' | 'externalId' | 'name' | 'image' | 'url'>
 );
 
 export type TrackPartsFragment = (
-  { __typename?: 'Track' }
+  { readonly __typename: 'Track' }
   & Pick<Track, 'id' | 'platform' | 'externalId' | 'title' | 'duration' | 'image' | 'url'>
-  & { artists: Array<(
-    { __typename?: 'Artist' }
+  & { readonly artists: ReadonlyArray<(
+    { readonly __typename: 'Artist' }
     & ArtistPartsFragment
   )> }
 );
@@ -810,9 +810,9 @@ export type TrackQueryVariables = Exact<{
 
 
 export type TrackQuery = (
-  { __typename?: 'Query' }
-  & { track?: Maybe<(
-    { __typename?: 'Track' }
+  { readonly __typename: 'Query' }
+  & { readonly track?: Maybe<(
+    { readonly __typename: 'Track' }
     & TrackPartsFragment
   )> }
 );
@@ -823,9 +823,9 @@ export type CrossTracksQueryVariables = Exact<{
 
 
 export type CrossTracksQuery = (
-  { __typename?: 'Query' }
-  & { crossTracks?: Maybe<(
-    { __typename?: 'CrossTracks' }
+  { readonly __typename: 'Query' }
+  & { readonly crossTracks?: Maybe<(
+    { readonly __typename: 'CrossTracks' }
     & Pick<CrossTracks, 'id' | 'youtube' | 'spotify'>
   )> }
 );
@@ -837,15 +837,15 @@ export type SearchTrackQueryVariables = Exact<{
 
 
 export type SearchTrackQuery = (
-  { __typename?: 'Query' }
-  & { searchTrack: Array<(
-    { __typename?: 'Track' }
+  { readonly __typename: 'Query' }
+  & { readonly searchTrack: ReadonlyArray<(
+    { readonly __typename: 'Track' }
     & TrackPartsFragment
   )> }
 );
 
 export type UserPublicPartsFragment = (
-  { __typename?: 'User' }
+  { readonly __typename: 'User' }
   & Pick<User, 'id' | 'username' | 'bio' | 'profilePicture'>
 );
 
@@ -853,9 +853,9 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = (
-  { __typename?: 'Query' }
-  & { me?: Maybe<(
-    { __typename?: 'User' }
+  { readonly __typename: 'Query' }
+  & { readonly me?: Maybe<(
+    { readonly __typename: 'User' }
     & UserPublicPartsFragment
   )> }
 );
@@ -867,9 +867,9 @@ export type UserQueryVariables = Exact<{
 
 
 export type UserQuery = (
-  { __typename?: 'Query' }
-  & { user?: Maybe<(
-    { __typename?: 'User' }
+  { readonly __typename: 'Query' }
+  & { readonly user?: Maybe<(
+    { readonly __typename: 'User' }
     & UserPublicPartsFragment
   )> }
 );
@@ -880,9 +880,9 @@ export type UserStatQueryVariables = Exact<{
 
 
 export type UserStatQuery = (
-  { __typename?: 'Query' }
-  & { userStat?: Maybe<(
-    { __typename?: 'UserStat' }
+  { readonly __typename: 'Query' }
+  & { readonly userStat?: Maybe<(
+    { readonly __typename: 'UserStat' }
     & Pick<UserStat, 'id' | 'followerCount' | 'followingCount'>
   )> }
 );
@@ -893,7 +893,7 @@ export type UserFollowersQueryVariables = Exact<{
 
 
 export type UserFollowersQuery = (
-  { __typename?: 'Query' }
+  { readonly __typename: 'Query' }
   & Pick<Query, 'userFollowers'>
 );
 
@@ -903,7 +903,7 @@ export type UserFollowingsQueryVariables = Exact<{
 
 
 export type UserFollowingsQuery = (
-  { __typename?: 'Query' }
+  { readonly __typename: 'Query' }
   & Pick<Query, 'userFollowings'>
 );
 
@@ -913,7 +913,7 @@ export type FollowUserMutationVariables = Exact<{
 
 
 export type FollowUserMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'followUser'>
 );
 
@@ -923,7 +923,7 @@ export type UnfollowUserMutationVariables = Exact<{
 
 
 export type UnfollowUserMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'unfollowUser'>
 );
 
@@ -935,9 +935,9 @@ export type UpdateMeMutationVariables = Exact<{
 
 
 export type UpdateMeMutation = (
-  { __typename?: 'Mutation' }
-  & { me?: Maybe<(
-    { __typename?: 'User' }
+  { readonly __typename: 'Mutation' }
+  & { readonly me?: Maybe<(
+    { readonly __typename: 'User' }
     & UserPublicPartsFragment
   )> }
 );
@@ -946,7 +946,7 @@ export type DeleteMeMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type DeleteMeMutation = (
-  { __typename?: 'Mutation' }
+  { readonly __typename: 'Mutation' }
   & Pick<Mutation, 'deleteMe'>
 );
 
