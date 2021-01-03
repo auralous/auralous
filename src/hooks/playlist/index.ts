@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useMutation, useQuery, useQueryCache, QueryConfig } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import PlaylistSpotify from "./PlaylistSpotify";
 import PlaylistYoutube from "./PlaylistYouTube";
 import { Playlist } from "~/types/index";
@@ -13,9 +13,7 @@ const playlistService = {
 
 const CACHE_PREFIX = "my-playlists";
 
-export const useMyPlaylistsQuery = (
-  queryConfig?: QueryConfig<Playlist[] | null, unknown>
-) => {
+export const useMyPlaylistsQuery = (options?: { disabled: boolean }) => {
   const { data: mAuth } = useMAuth();
   const cacheKey = CACHE_PREFIX + mAuth?.id;
 
@@ -34,12 +32,12 @@ export const useMyPlaylistsQuery = (
       return mAuth ? playlistService[mAuth.platform].getAll() : null;
     },
     {
-      enabled: !!mAuth,
+      enabled: !!mAuth && !options?.disabled,
       refetchOnMount: false,
       staleTime: Infinity,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
-      ...queryConfig,
+      retry: 0,
     }
   );
 };
@@ -47,7 +45,7 @@ export const useMyPlaylistsQuery = (
 export const useInsertPlaylistTracksMutation = () => {
   const { data: mAuth } = useMAuth();
   const cacheKey = CACHE_PREFIX + mAuth?.id;
-  const queryCache = useQueryCache();
+  const queryClient = useQueryClient();
   const insertPlaylistTracks = useCallback(
     async ({
       id,
@@ -66,7 +64,7 @@ export const useInsertPlaylistTracksMutation = () => {
             name || "Untitled Playlist"
           );
           if (createdPlaylist)
-            queryCache.setQueryData<Playlist[] | null>(
+            queryClient.setQueryData<Playlist[] | null>(
               cacheKey,
               (playlists) => [...(playlists || []), createdPlaylist]
             );
@@ -81,7 +79,7 @@ export const useInsertPlaylistTracksMutation = () => {
         tracks.map((trackId) => trackId.split(":")[1])
       );
       if (ok) {
-        queryCache.setQueryData<Playlist[] | null>(cacheKey, (playlists) => {
+        queryClient.setQueryData<Playlist[] | null>(cacheKey, (playlists) => {
           const playlist = (playlists || []).find((pl) => pl.id === id);
           playlist?.tracks.push(...tracks);
           return playlists || null;
@@ -89,7 +87,7 @@ export const useInsertPlaylistTracksMutation = () => {
       }
       return ok;
     },
-    [mAuth, queryCache, cacheKey]
+    [mAuth, queryClient, cacheKey]
   );
 
   return useMutation(insertPlaylistTracks);

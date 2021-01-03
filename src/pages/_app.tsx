@@ -5,7 +5,7 @@ import NProgress from "nprogress";
 import * as Fathom from "fathom-client";
 import { DefaultSeo } from "next-seo";
 import { Provider as UrqlProvider } from "urql";
-import { QueryCache, ReactQueryCacheProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { LayoutIndex, LayoutApp } from "~/components/Layout/index";
 import { PlayerProvider } from "~/components/Player/index";
 import { LogInProvider } from "~/components/Auth/index";
@@ -26,7 +26,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 // polyfill
 import "intersection-observer";
 
-const queryCache = new QueryCache();
+const queryClient = new QueryClient();
 
 export default function MyApp({ Component, pageProps, router }: AppProps) {
   // URQL
@@ -75,7 +75,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
 
   return (
     <I18n>
-      <ReactQueryCacheProvider queryCache={queryCache}>
+      <QueryClientProvider client={queryClient}>
         <UrqlProvider value={urqlClient}>
           <LogInProvider>
             <NotificationWatcher />
@@ -104,7 +104,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
             </PlayerProvider>
           </LogInProvider>
         </UrqlProvider>
-      </ReactQueryCacheProvider>
+      </QueryClientProvider>
     </I18n>
   );
 }

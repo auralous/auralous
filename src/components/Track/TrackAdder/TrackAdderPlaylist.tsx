@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { QueryConfig } from "react-query";
 import { SvgChevronLeft, SvgLoadingAnimated } from "~/assets/svg";
 import { default as TrackAdderResults } from "./TrackAdderResults";
 import { PlaylistItem } from "~/components/Playlist";
@@ -11,11 +10,13 @@ import { TrackAdderCallbackFn } from "./types";
 const TrackAdderPlaylist: React.FC<{
   addedTracks: string[];
   callback: TrackAdderCallbackFn;
-  queryConfig?: QueryConfig<Playlist[] | null, unknown>;
-}> = ({ addedTracks, callback, queryConfig }) => {
+  disabled?: boolean;
+}> = ({ addedTracks, callback, disabled }) => {
   const { t } = useI18n();
 
-  const { data: myPlaylists, isLoading } = useMyPlaylistsQuery(queryConfig);
+  const { data: myPlaylists, isLoading } = useMyPlaylistsQuery({
+    disabled: Boolean(disabled),
+  });
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<null | Playlist>(
     null

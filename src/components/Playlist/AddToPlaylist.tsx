@@ -22,10 +22,10 @@ const CreatePlaylist: React.FC<{
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [
-    insertPlaylistTracks,
-    { isLoading: fetching },
-  ] = useInsertPlaylistTracksMutation();
+  const {
+    isLoading: fetching,
+    mutateAsync: insertPlaylistTracks,
+  } = useInsertPlaylistTracksMutation();
 
   const handleCreatePlaylistAndAdd = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -110,10 +110,10 @@ const AddToExistingPlaylist: React.FC<{
 
   const { data: myPlaylists } = useMyPlaylistsQuery();
 
-  const [
-    insertPlaylistTracks,
-    { isLoading: fetching },
-  ] = useInsertPlaylistTracksMutation();
+  const {
+    isLoading: fetching,
+    mutateAsync: insertPlaylistTracks,
+  } = useInsertPlaylistTracksMutation();
 
   const handleAdd = useCallback(
     async (playlist: Playlist) => {
