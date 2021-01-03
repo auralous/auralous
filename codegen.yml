@@ -7,7 +7,7 @@ generates:
       - typescript-operations
       - typescript-urql
     config:
-      immutableTypes: true
+      # immutableTypes: true
       withComponent: false
       withHooks: true
       documentMode: "documentNode"
