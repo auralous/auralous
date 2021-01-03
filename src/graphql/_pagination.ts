@@ -1,6 +1,10 @@
 import { NullArray, Resolver, Variables } from "@urql/exchange-graphcache";
 import { stringifyVariables } from "urql";
 
+const dateFromObjectId = function (objectId: string) {
+  return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+};
+
 export const nextCursorPagination = (): Resolver => {
   const offsetArgument = "next";
   const limitArgument = "limit";
@@ -49,7 +53,7 @@ export const nextCursorPagination = (): Resolver => {
 
     const visited = new Set();
     let result: NullArray<string> = [];
-    // const prevOffset: number | null = null;
+    let prevOffset: string | null = null;
 
     for (let i = 0; i < size; i++) {
       const { fieldKey, arguments: args } = fieldInfos[i];
@@ -58,12 +62,12 @@ export const nextCursorPagination = (): Resolver => {
       }
 
       const links = cache.resolve(entityKey, fieldKey) as string[];
-      // const currentOffset = args[offsetArgument];
+      const currentOffset = (args[offsetArgument] as string | null) || null;
 
       if (
         links === null ||
-        links.length === 0
-        // typeof currentOffset !== "number"
+        links.length === 0 ||
+        (currentOffset && typeof currentOffset !== "string")
       ) {
         continue;
       }
@@ -77,8 +81,18 @@ export const nextCursorPagination = (): Resolver => {
         visited.add(link);
       }
 
-      // next always come after
-      result = [...result, ...tempResult];
+      if (
+        !prevOffset ||
+        !currentOffset ||
+        dateFromObjectId(currentOffset).getTime() <
+          dateFromObjectId(prevOffset).getTime()
+      ) {
+        result = [...result, ...tempResult];
+      } else {
+        result = [...tempResult, ...result];
+      }
+
+      prevOffset = currentOffset;
     }
 
     const hasCurrentPage = cache.resolve(entityKey, fieldName, fieldArgs);
