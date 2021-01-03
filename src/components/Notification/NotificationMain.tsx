@@ -119,14 +119,6 @@ const NotificationItem: React.FC<{
     return `${msDate} ${t("common.time.ago")}`;
   }, [notification, t]);
 
-  const NotificationComponent = useMemo(() => {
-    if ("inviterId" in notification)
-      return <NotificationItemInvite notification={notification} />;
-    else if ("followerId" in notification)
-      return <NotificationItemFollow notification={notification} />;
-    return <NotificationItemNewStory notification={notification} />;
-  }, [notification]);
-
   return (
     <div
       className={`px-4 py-2 bg-background-secondary border-l-4 ${
@@ -135,7 +127,14 @@ const NotificationItem: React.FC<{
           : "border-primary"
       }`}
     >
-      {NotificationComponent}
+      {notification.__typename === "NotificationInvite" ? (
+        <NotificationItemInvite notification={notification} />
+      ) : notification.__typename === "NotificationFollow" ? (
+        <NotificationItemFollow notification={notification} />
+      ) : notification.__typename === "NotificationNewStory" ? (
+        <NotificationItemNewStory notification={notification} />
+      ) : // FIXME: Temporary workaround for  https://github.com/FormidableLabs/urql/issues/1268
+      undefined}
       <div className="text-foreground-tertiary text-xs">{dateStr}</div>
     </div>
   );
@@ -146,10 +145,13 @@ const NotificationMain: React.FC = () => {
   const dataRef = useRef<NotificationsQuery | undefined>();
 
   const [next, setNext] = useState<string | undefined>();
+
   // FIXME: investigate an edge case in urql that causes
   // __typename to dissapear upon cache read
+  // FIXME: investigate an edge case where urql corrupts
+  // data on pagination
   const [{ data }] = useNotificationsQuery({
-    variables: { limit: 5, next },
+    variables: { limit: 12, next },
     requestPolicy: "cache-and-network",
   });
 
