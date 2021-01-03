@@ -16,7 +16,7 @@ import StoryPlayer from "./StoryPlayer";
 import { usePlayer } from "~/components/Player/index";
 import { PlayerControl } from "~/components/Player/PlayerView";
 import LayoutContext from "~/components/Layout/LayoutContext";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { useInnerHeightResizeRef } from "~/hooks/sizing";
 import { useI18n } from "~/i18n/index";
 
@@ -54,20 +54,20 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-  const user = useCurrentUser();
+  const me = useMe();
 
   // This informs that the user is present in story
   const [, pingStory] = usePingStoryMutation();
   useEffect(() => {
     // story presence does not apply to unlive story
     if (!story.isLive) return;
-    if (user) {
+    if (me) {
       const pingInterval = window.setInterval(() => {
         pingStory({ id: story.id });
       }, 30 * 1000);
       return () => window.clearInterval(pingInterval);
     }
-  }, [story, user, pingStory]);
+  }, [story, me, pingStory]);
 
   const getClassName = useCallback(
     (index: number) =>

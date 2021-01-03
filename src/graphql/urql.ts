@@ -75,6 +75,7 @@ const cacheExchange = createCacheExchange({
   schema: (schema as unknown) as IntrospectionQuery,
   keys: {
     QueueItem: () => null,
+    Me: () => null,
   },
   resolvers: {
     Query: {
@@ -112,6 +113,11 @@ const cacheExchange = createCacheExchange({
     NotificationNewStory: {
       // @ts-ignore
       createdAt: (parent) => new Date(parent.createdAt),
+    },
+    Me: {
+      expiredAt: (parent) =>
+        // @ts-ignore
+        parent.expiredAt ? new Date(parent.expiredAt) : parent.expiredAt,
     },
   },
   updates: {
@@ -161,7 +167,7 @@ const cacheExchange = createCacheExchange({
           cache.updateQuery<UserFollowingsQuery, UserFollowingsQueryVariables>(
             {
               query: UserFollowingsDocument,
-              variables: { id: meCache.me.id },
+              variables: { id: meCache.me.user.id },
             },
             (data) => ({
               userFollowings: (data?.userFollowings
@@ -177,7 +183,7 @@ const cacheExchange = createCacheExchange({
           });
           cache.invalidate({
             __typename: "UserStat",
-            id: meCache.me.id,
+            id: meCache.me.user.id,
           });
         }
       },
@@ -194,7 +200,7 @@ const cacheExchange = createCacheExchange({
           cache.updateQuery<UserFollowingsQuery, UserFollowingsQueryVariables>(
             {
               query: UserFollowingsDocument,
-              variables: { id: meCache.me.id },
+              variables: { id: meCache.me.user.id },
             },
             (data) =>
               data?.userFollowings
@@ -213,7 +219,7 @@ const cacheExchange = createCacheExchange({
           });
           cache.invalidate({
             __typename: "UserStat",
-            id: meCache.me.id,
+            id: meCache.me.user.id,
           });
         }
       },

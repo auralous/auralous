@@ -7,10 +7,16 @@ const FRAGMENT_USER_PUBLIC = /* GraphQL */ `
   }
 `;
 
-export const QUERY_CURRENT_USER = /* GraphQL */ `
+export const QUERY_ME = /* GraphQL */ `
   query me {
     me {
-      ...UserPublicParts
+      user {
+        ...UserPublicParts
+      }
+      oauthId
+      platform
+      accessToken
+      expiredAt
     }
   }
   ${FRAGMENT_USER_PUBLIC}

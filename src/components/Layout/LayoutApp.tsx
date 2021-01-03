@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import LayoutContext from "./LayoutContext";
 import { PlayerMinibar } from "~/components/Player/index";
 import { useLogin } from "~/components/Auth";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 import {
   SvgLogIn,
@@ -59,10 +59,10 @@ const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
 
 const Sidebar: React.FC = () => {
   const { t } = useI18n();
-  const user = useCurrentUser();
+  const me = useMe();
   const [, logIn] = useLogin();
 
-  const hasNotification = useHasNotification(user);
+  const hasNotification = useHasNotification(me?.user);
 
   return (
     <div
@@ -86,17 +86,17 @@ const Sidebar: React.FC = () => {
         </SidebarItem>
       </div>
       <div className="p-1 rounded-lg">
-        {user ? (
+        {me ? (
           <div className="px-2 py-1 border-t-2 border-background-secondary">
             <div className="p-1 flex items-center">
               <img
-                src={user.profilePicture}
-                alt={user.username}
+                src={me.user.profilePicture}
+                alt={me.user.username}
                 className="w-8 h-8 rounded-full"
               />
               <div className="w-0 flex-1 text-foreground-secondary py-1 px-3 truncate leading-none">
-                <div className="font-medium text-sm">{user.username}</div>
-                <Link href={`/user/${user.username}`}>
+                <div className="font-medium text-sm">{me.user.username}</div>
+                <Link href={`/user/${me.user.username}`}>
                   <a className="text-xs text-primary hover:text-primary-dark">
                     {t("user.profile")}
                   </a>
@@ -152,10 +152,10 @@ const noAppbarPathname = ["/story/[storyId]", "/new"];
 const Appbar: React.FC = () => {
   const { t } = useI18n();
   const router = useRouter();
-  const user = useCurrentUser();
+  const me = useMe();
   const [, logIn] = useLogin();
 
-  const hasNotification = useHasNotification(user);
+  const hasNotification = useHasNotification(me?.user);
 
   return (
     <>
@@ -185,9 +185,9 @@ const Appbar: React.FC = () => {
             <span className="w-2 h-2 rounded-full bg-primary absolute top-2 left-1/2 ml-2 animate-pulse" />
           )}
         </AppbarItem>
-        {user ? (
+        {me ? (
           <AppbarItem
-            as={`/user/${user.username}`}
+            as={`/user/${me.user.username}`}
             href="/user/[username]"
             title={t("user.profile")}
           >

@@ -9,7 +9,7 @@ import {
 import { useI18n } from "~/i18n/index";
 import { useLogin } from "~/components/Auth";
 import { usePlayer } from "~/components/Player";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { CONFIG } from "~/lib/constants";
 
 const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({
@@ -35,7 +35,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const { playStory } = usePlayer();
 
   const [, logIn] = useLogin();
-  const user = useCurrentUser();
+  const me = useMe();
 
   const router = useRouter();
 
@@ -50,7 +50,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       if (fetching) return;
       event.preventDefault();
 
-      if (!user) return logIn();
+      if (!me) return logIn();
 
       const result = await createStory({
         text: (textRef.current as HTMLInputElement).value,
@@ -78,7 +78,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       createStory,
       updateQueue,
       logIn,
-      user,
+      me,
       playStory,
     ]
   );

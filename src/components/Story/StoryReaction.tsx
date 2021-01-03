@@ -7,7 +7,7 @@ import {
   useNowPlayingReactionsQuery,
   useReactNowPlayingMutation,
 } from "~/graphql/gql.gen";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { useBoop } from "~/hooks/animation";
 import { toast } from "~/lib/toast";
 import { SvgHeart } from "~/assets/svg";
@@ -16,7 +16,7 @@ const AnimatedSvgHeart = animated(SvgHeart);
 
 const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
   // We are only using HEART reaction right now
-  const user = useCurrentUser();
+  const me = useMe();
 
   const [
     { data: { nowPlayingReactions } = { nowPlayingReactions: undefined } },
@@ -46,16 +46,16 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
 
   const reacted = useMemo<boolean>(
     () =>
-      !!user && !!nowPlayingReactions?.some((npr) => npr.userId === user.id),
-    [user, nowPlayingReactions]
+      !!me && !!nowPlayingReactions?.some((npr) => npr.userId === me.user.id),
+    [me, nowPlayingReactions]
   );
 
   const react = useCallback(() => {
     if (reacted) return;
-    if (user)
+    if (me)
       reactNowPlaying({ id: story.id, reaction: NowPlayingReactionType.Heart });
     else toast.open({ type: "info", message: "Join to Add Your Reaction" });
-  }, [story, reactNowPlaying, user, reacted]);
+  }, [story, reactNowPlaying, me, reacted]);
 
   return (
     <button

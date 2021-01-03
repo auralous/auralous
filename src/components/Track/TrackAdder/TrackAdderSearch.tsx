@@ -1,8 +1,17 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useClient } from "urql";
-import { useMAuth } from "~/hooks/user";
 import { default as TrackAdderResults } from "./TrackAdderResults";
-import { PlatformName, Track, SearchTrackDocument } from "~/graphql/gql.gen";
+import { maybeGetTrackOrPlaylistIdFromUri } from "~/lib/platform";
+import {
+  Track,
+  SearchTrackDocument,
+  PlaylistTracksDocument,
+  PlaylistTracksQuery,
+  PlaylistTracksQueryVariables,
+  TrackQuery,
+  TrackQueryVariables,
+  TrackDocument,
+} from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { TrackAdderCallbackFn } from "./types";
 import { SvgLoadingAnimated } from "~/assets/svg";
@@ -10,13 +19,10 @@ import { SvgLoadingAnimated } from "~/assets/svg";
 const TrackAdderSearch: React.FC<{
   callback: TrackAdderCallbackFn;
   addedTracks: string[];
-  platform?: PlatformName;
 }> = ({ addedTracks, callback }) => {
   const { t } = useI18n();
 
   const formRef = useRef<HTMLFormElement>(null);
-  const { data: mAuth } = useMAuth();
-  const platform = mAuth?.platform || PlatformName.Youtube;
   const urqlClient = useClient();
   const [queryResults, setQueryResults] = useState<Track[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -29,15 +35,41 @@ const TrackAdderSearch: React.FC<{
       if (!query || isSearching) return;
       setIsEmpty(false);
       setIsSearching(true);
-      urqlClient
-        .query(SearchTrackDocument, { platform, query })
-        .toPromise()
-        .then((response) => {
-          setQueryResults(response.data.searchTrack || []);
-          setIsSearching(false);
-        });
+
+      const possbleFromUri = maybeGetTrackOrPlaylistIdFromUri(query);
+
+      if (possbleFromUri?.type === "playlist") {
+        urqlClient
+          .query<PlaylistTracksQuery, PlaylistTracksQueryVariables>(
+            PlaylistTracksDocument,
+            { id: possbleFromUri.id }
+          )
+          .toPromise()
+          .then((response) => {
+            setQueryResults(response.data?.playlistTracks || []);
+            setIsSearching(false);
+          });
+      } else if (possbleFromUri?.type === "track") {
+        urqlClient
+          .query<TrackQuery, TrackQueryVariables>(TrackDocument, {
+            id: possbleFromUri.id,
+          })
+          .toPromise()
+          .then((response) => {
+            setQueryResults(response.data?.track ? [response.data.track] : []);
+            setIsSearching(false);
+          });
+      } else {
+        urqlClient
+          .query(SearchTrackDocument, { query })
+          .toPromise()
+          .then((response) => {
+            setQueryResults(response.data.searchTrack || []);
+            setIsSearching(false);
+          });
+      }
     },
-    [urqlClient, isSearching, platform]
+    [urqlClient, isSearching]
   );
 
   return (

@@ -2,14 +2,17 @@ import React, { useState, useRef, useCallback } from "react";
 import { Modal } from "~/components/Modal/index";
 import { toast } from "~/lib/toast";
 import { AuthBanner } from "~/components/Auth";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import {
+  Track,
+  PlatformName,
+  useTrackQuery,
+  Playlist,
   useMyPlaylistsQuery,
-  useInsertPlaylistTracksMutation,
-} from "~/hooks/playlist/index";
-import { Track, PlatformName, useTrackQuery } from "~/graphql/gql.gen";
-import { Playlist } from "~/types/index";
-import { SvgCheck, SvgPlus, SvgX } from "~/assets/svg";
+  useAddPlaylistTracksMutation,
+  useCreatePlaylistMutation,
+} from "~/graphql/gql.gen";
+import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "~/assets/svg";
 import { useI18n } from "~/i18n/index";
 import PlaylistItem from "./PlaylistItem";
 
@@ -22,10 +25,7 @@ const CreatePlaylist: React.FC<{
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const {
-    isLoading: fetching,
-    mutateAsync: insertPlaylistTracks,
-  } = useInsertPlaylistTracksMutation();
+  const [{ fetching }, createPlaylist] = useCreatePlaylistMutation();
 
   const handleCreatePlaylistAndAdd = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,20 +37,17 @@ const CreatePlaylist: React.FC<{
 
       if (!playlistTitle) return;
 
-      const ok = await insertPlaylistTracks({
+      const result = await createPlaylist({
         name: playlistTitle,
-        tracks: [track.id],
+        trackIds: [track.id],
       });
 
-      if (!ok) {
-        toast.error(t("playlist.error.unknown"));
-        return;
+      if (result.data?.createPlaylist) {
+        toast.success(t("playlist.new.success", { title: playlistTitle }));
+        done();
       }
-
-      toast.success(t("playlist.new.success", { title: playlistTitle }));
-      done();
     },
-    [t, fetching, done, track.id, insertPlaylistTracks]
+    [t, fetching, done, track, createPlaylist]
   );
 
   return isCreatingPlaylist ? (
@@ -108,25 +105,27 @@ const AddToExistingPlaylist: React.FC<{
 }> = ({ track, done }) => {
   const { t } = useI18n();
 
-  const { data: myPlaylists } = useMyPlaylistsQuery();
+  const [
+    {
+      data: { myPlaylists } = { myPlaylists: undefined },
+      fetching: fetchingPlaylists,
+    },
+  ] = useMyPlaylistsQuery();
 
-  const {
-    isLoading: fetching,
-    mutateAsync: insertPlaylistTracks,
-  } = useInsertPlaylistTracksMutation();
+  const [{ fetching }, insertPlaylistTracks] = useAddPlaylistTracksMutation();
 
   const handleAdd = useCallback(
     async (playlist: Playlist) => {
       if (fetching) return;
-      const ok = await insertPlaylistTracks({
+      const result = await insertPlaylistTracks({
         id: playlist.id,
-        tracks: [track.id],
+        trackIds: [track.id],
       });
-      if (ok) {
+      if (result.data?.addPlaylistTracks) {
         toast.success(
           t("playlist.add.success", {
             trackTitle: track.title,
-            playlistTitle: playlist.title,
+            playlistTitle: playlist.name,
           })
         );
         done();
@@ -141,14 +140,14 @@ const AddToExistingPlaylist: React.FC<{
         // TODO: react-window
         <button
           key={playlist.id}
-          title={t("playlist.add.title", { title: playlist.title })}
+          title={t("playlist.add.title", { title: playlist.name })}
           className="btn justify-start w-full p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
           onClick={() => handleAdd(playlist)}
-          disabled={playlist.platform !== track.platform}
         >
           <PlaylistItem playlist={playlist} />
         </button>
-      ))}
+      )) ||
+        (fetchingPlaylists && <SvgLoadingAnimated className="m-4 mx-auto" />)}
     </div>
   );
 };
@@ -162,7 +161,7 @@ const AddToPlaylist: React.FC<{
     variables: { id: trackId },
   });
   const { t } = useI18n();
-  const user = useCurrentUser();
+  const me = useMe();
   return (
     <Modal.Modal title={t("playlist.addTitle")} active={active} close={close}>
       <Modal.Header>
@@ -176,12 +175,19 @@ const AddToPlaylist: React.FC<{
         </Modal.Title>
       </Modal.Header>
       <Modal.Content>
-        {user ? (
-          track && (
+        {me ? (
+          track?.platform === me.platform ? (
             <>
               <CreatePlaylist track={track} done={close} />
               <AddToExistingPlaylist track={track} done={close} />
             </>
+          ) : (
+            <div>
+              <p className="text-foreground-secondary">
+                Adding tracks from a different platform is not yet supported.{" "}
+              </p>
+              <p className="text-foreground-tertiary">{t("error.sorry")}.</p>
+            </div>
           )
         ) : (
           <AuthBanner prompt={t("playlist.authPrompt")} />

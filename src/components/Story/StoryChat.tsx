@@ -5,7 +5,7 @@ import {
   useStoryUsersQuery,
   useOnStoryUsersUpdatedSubscription,
 } from "~/graphql/gql.gen";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { AuthBanner } from "~/components/Auth";
 import StoryListeners from "./StoryListeners";
 import { useModal } from "~/components/Modal";
@@ -41,7 +41,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
 
 const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
-  const user = useCurrentUser();
+  const me = useMe();
 
   // get current users in story
   const [
@@ -50,7 +50,7 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
     variables: { id: story.id },
     pollInterval: 60 * 1000,
     requestPolicy: "cache-and-network",
-    pause: !user || !story.isLive,
+    pause: !me || !story.isLive,
   });
 
   useOnStoryUsersUpdatedSubscription(
@@ -58,7 +58,7 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
     (prev, data) => data
   );
 
-  if (!user)
+  if (!me)
     return (
       <div className="h-full flex flex-center">
         <AuthBanner

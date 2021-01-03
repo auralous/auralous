@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import StoryEnd from "./StoryEnd";
 import { useStoryLiveQuery } from "~/graphql/gql.gen";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { Modal } from "~/components/Modal";
 import { usePlayer } from "~/components/Player";
 import { useI18n } from "~/i18n/index";
@@ -15,12 +15,12 @@ const StoryOngoingWatcher: React.FC = () => {
   const {
     state: { playingStoryId },
   } = usePlayer();
-  const user = useCurrentUser();
+  const me = useMe();
   const [
     { data: { storyLive } = { storyLive: undefined } },
   ] = useStoryLiveQuery({
-    variables: { creatorId: user?.id },
-    pause: !user,
+    variables: { creatorId: me?.user.id },
+    pause: !me,
   });
 
   return (

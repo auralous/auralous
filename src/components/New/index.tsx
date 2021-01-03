@@ -121,7 +121,7 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         ) : null}
       </div>
       <CreateStory initTracks={initTracks} />
-      <div className="w-full flex mt-1 justify-center">
+      <div className="w-full flex mt-2 justify-center">
         <button
           className="py-1 font-bold text-sm text-inline-link"
           onClick={() => router.replace("/new")}

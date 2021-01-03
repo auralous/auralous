@@ -2,7 +2,7 @@ import React from "react";
 import { Story, useUnliveStoryMutation } from "~/graphql/gql.gen";
 import { Modal, useModal } from "~/components/Modal";
 import { useI18n } from "~/i18n/index";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { toast } from "~/lib/toast";
 
 const StoryEnd: React.FC<{
@@ -11,7 +11,7 @@ const StoryEnd: React.FC<{
 }> = ({ story, children }) => {
   const { t } = useI18n();
   const [active, open, close] = useModal();
-  const user = useCurrentUser();
+  const me = useMe();
   const [{ fetching }, unliveStory] = useUnliveStoryMutation();
   const onEndStory = async () => {
     const result = await unliveStory({ id: story.id });
@@ -20,7 +20,7 @@ const StoryEnd: React.FC<{
       close();
     }
   };
-  if (user?.id !== story.creatorId || story.isLive === false) return null;
+  if (me?.user.id !== story.creatorId || story.isLive === false) return null;
   return (
     <>
       {children(open)}

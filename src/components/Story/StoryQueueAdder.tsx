@@ -96,7 +96,6 @@ const StoryQueueAdder: React.FC<{
               <TrackAdderPlaylist
                 callback={onAddTracks}
                 addedTracks={addedTracks}
-                disabled={selectedIndex === 1}
               />
             </AnimatedTabPanel>
           </TabPanels>

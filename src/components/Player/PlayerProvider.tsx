@@ -10,8 +10,9 @@ import {
   useQueueQuery,
   useStoryQuery,
   useSkipNowPlayingMutation,
+  useMeQuery,
 } from "~/graphql/gql.gen";
-import { useMAuth, useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { useCrossTracks } from "~/hooks/track";
 import { IPlayerContext, PlayerPlaying } from "./types";
 import { toast } from "~/lib/toast";
@@ -29,7 +30,7 @@ const usePlayFromNowPlaying = (story: Story | null) => {
     story?.isLive ? story.id : ""
   );
 
-  const user = useCurrentUser();
+  const me = useMe();
 
   const [
     { fetching: fetchingSkip },
@@ -69,13 +70,13 @@ const usePlayFromNowPlaying = (story: Story | null) => {
     if (!story?.isLive) return;
     if (fetchingSkip || !nowPlaying?.currentTrack) return undefined;
     if (
-      nowPlaying.currentTrack.creatorId !== user?.id &&
-      story.creatorId !== user?.id
+      nowPlaying.currentTrack.creatorId !== me?.user.id &&
+      story.creatorId !== me?.user.id
     )
       return undefined;
     // Is skippable, create skip fn
     return () => skipNowPlaying({ id: story.id });
-  }, [story, nowPlaying, user, fetchingSkip, skipNowPlaying]);
+  }, [story, nowPlaying, me, fetchingSkip, skipNowPlaying]);
 
   return [nowPlaying?.currentTrack, { fetching, skipForward }] as const;
 };
@@ -138,26 +139,27 @@ const usePlayFromQueue = (story: Story | null) => {
 
 const PlayerProvider: React.FC = ({ children }) => {
   /**
-   * mAuth
+   * me
    * Platform and token
    */
-  const {
-    data: mAuth,
-    isFetching: fetchingMAuth,
-    refetch: mAuthRefetch,
-  } = useMAuth();
+  const [
+    { data: { me } = { me: undefined }, fetching: fetchingMe },
+    refetchMe,
+  ] = useMeQuery({
+    requestPolicy: "cache-and-network",
+  });
 
   // We priodically get new tokens for services such as Spotify or Apple Music
   useEffect(() => {
     let t: number | undefined;
-    if (mAuth?.expiredAt) {
-      const tm = mAuth.expiredAt.getTime() - Date.now();
+    if (me?.expiredAt) {
+      const tm = me.expiredAt.getTime() - Date.now();
       // TODO: This indicates an error, report it
       if (tm < 0) return;
-      t = window.setTimeout(mAuthRefetch, tm);
+      t = window.setTimeout(refetchMe, tm);
     }
     return () => window.clearTimeout(t);
-  }, [mAuth, mAuthRefetch]);
+  }, [me, refetchMe]);
 
   // playingPlatform: Preferred platform to use by user
   // If the user is not sign in, defaulting to YouTube
@@ -165,9 +167,9 @@ const PlayerProvider: React.FC = ({ children }) => {
   // so that not to load unneccessary sdks
   const playingPlatform = useMemo<PlatformName | null>(() => {
     // if mAuth === undefined, it has not fetched
-    if (mAuth === undefined) return null;
-    return mAuth?.platform || PlatformName.Youtube;
-  }, [mAuth]);
+    if (me === undefined) return null;
+    return me?.platform || PlatformName.Youtube;
+  }, [me]);
 
   // Player Control: To play a story or a track
   const [playingStoryId, playStory] = useState<string>("");
@@ -264,7 +266,7 @@ const PlayerProvider: React.FC = ({ children }) => {
   // It is not reliable on changes of arg
   // (might show stale vdata)
   const fetching =
-    fetchingMAuth || fetchingCrossTracks || fetchingNP || fetchingQueue;
+    fetchingMe || fetchingCrossTracks || fetchingNP || fetchingQueue;
 
   const playerContextValue = useMemo<IPlayerContext>(() => {
     return {

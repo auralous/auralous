@@ -8,7 +8,7 @@ import {
 } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgFacebook, SvgTwitter, SvgReddit, SvgLink } from "~/assets/svg";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import UserList from "../User/UserList";
 import UserPill from "../User/UserPill";
 
@@ -21,11 +21,14 @@ const StoryShare: React.FC<{
   const shareUri = `${process.env.APP_URI}/story/${story.id}`;
   const name = story.text;
 
-  const me = useCurrentUser();
+  const me = useMe();
 
   const [
     { data: { userFollowings } = { userFollowings: undefined } },
-  ] = useUserFollowingsQuery({ variables: { id: me?.id || "" }, pause: !me });
+  ] = useUserFollowingsQuery({
+    variables: { id: me?.user.id || "" },
+    pause: !me,
+  });
 
   const InviteUserElement = useMemo(() => {
     const UserListInvitee: React.FC<{ id: string }> = ({ id }) => {

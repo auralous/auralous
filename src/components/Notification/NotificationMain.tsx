@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import ms from "ms";
 import { useInView } from "react-intersection-observer";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import {
   NotificationInvite,
   NotificationFollow,
@@ -147,7 +147,7 @@ const NotificationMain: React.FC = () => {
 
   const [next, setNext] = useState<string | undefined>();
 
-  const me = useCurrentUser();
+  const me = useMe();
 
   // FIXME: investigate an edge case where urql corrupts
   // data on pagination

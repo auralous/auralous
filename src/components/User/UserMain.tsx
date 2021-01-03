@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import UserFollowButton from "./UserFollowButton";
 import StoryFeed from "~/components/Story/StoryFeed";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import {
   User,
   useUserFollowersQuery,
@@ -78,7 +78,7 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
   });
   const user = data?.user || initialUser;
 
-  const me = useCurrentUser();
+  const me = useMe();
 
   const [{ data: { userStat } = { userStat: undefined } }] = useUserStatQuery({
     variables: { id: user.id },
@@ -127,7 +127,7 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
             <b>{userStat?.followerCount}</b> {t("user.followers")}
           </div>
         </div>
-        {me?.id === user.id && (
+        {me?.user.id === user.id && (
           <Link href="/settings">
             <a
               className="md:hidden absolute top-2 right-0 btn btn-transparent"

@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 import { useClient } from "urql";
 import { NotyfEvent } from "notyf";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { toast } from "~/lib/toast";
 import {
   useNotificationAddedSubscription,
@@ -13,7 +13,7 @@ import {
 import { t } from "~/i18n/index";
 
 const NotificationWatcher: React.FC = () => {
-  const me = useCurrentUser();
+  const me = useMe();
 
   const client = useClient();
   const router = useRouter();

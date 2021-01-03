@@ -10,7 +10,7 @@ import { NextPage } from "next";
 import { toast } from "~/lib/toast";
 import { Modal, useModal } from "~/components/Modal/index";
 import { useLogin } from "~/components/Auth/index";
-import { useCurrentUser, useMAuth } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import {
   useUpdateMeMutation,
   useDeleteMeMutation,
@@ -141,7 +141,7 @@ const LanguageSelect: React.FC = () => {
 const LeftSection: React.FC = () => {
   const { t } = useI18n();
 
-  const user = useCurrentUser();
+  const me = useMe();
 
   const [, updateUser] = useUpdateMeMutation();
 
@@ -161,11 +161,11 @@ const LeftSection: React.FC = () => {
   }
 
   useEffect(() => {
-    if (user) {
+    if (me) {
       (formRef.current as HTMLFormElement).reset();
-      (usernameRef.current as HTMLInputElement).value = user.username;
+      (usernameRef.current as HTMLInputElement).value = me.user.username;
     }
-  }, [user]);
+  }, [me]);
 
   const signOut = useCallback(async () => {
     await fetch(`${process.env.API_URI}/auth/logout`, {
@@ -179,7 +179,7 @@ const LeftSection: React.FC = () => {
   return (
     <>
       <SettingTitle>{t("settings.profile.title")}</SettingTitle>
-      {user ? (
+      {me ? (
         <>
           <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
             <div className="mt-4">
@@ -205,8 +205,8 @@ const LeftSection: React.FC = () => {
               </label>
               <div className="flex">
                 <img
-                  alt={user.username}
-                  src={user.profilePicture}
+                  alt={me.user.username}
+                  src={me.user.profilePicture}
                   className="w-16 h-16 bg-background-secondary rounded-full object-cover"
                 />
                 <input
@@ -245,11 +245,11 @@ const LeftSection: React.FC = () => {
 const MusicConnection: React.FC = () => {
   const { t } = useI18n();
   // Account
-  const { data: mAuth } = useMAuth();
+  const me = useMe();
 
   const [, logIn] = useLogin();
 
-  const platform = mAuth?.platform || PlatformName.Youtube;
+  const platform = me?.platform || PlatformName.Youtube;
   const name = platform ? PLATFORM_FULLNAMES[platform] : null;
   const PlatformSvg = platform ? SvgByPlatformName[platform] : null;
 
@@ -265,7 +265,7 @@ const MusicConnection: React.FC = () => {
         <div className="ml-4">
           <div className="mb-1">{t("settings.listening.title", { name })}</div>
           <p className="text-sm leading-tight">
-            {mAuth ? (
+            {me ? (
               <span className="text-foreground-secondary">
                 {t("settings.listening.connectedTo", { name })},{" "}
                 <a target="_blank" href="/support" className="font-bold">
@@ -295,16 +295,16 @@ const MusicConnection: React.FC = () => {
 
 const RightSection: React.FC = () => {
   const { t } = useI18n();
-  const user = useCurrentUser();
+  const me = useMe();
   return (
     <>
       <div>
         <MusicConnection />
         <LanguageSelect />
-        {user && (
+        {me && (
           <div className="mt-8">
             <SettingTitle>{t("settings.dangerZone.title")}</SettingTitle>
-            <DeleteAccount user={user} />
+            <DeleteAccount user={me.user} />
           </div>
         )}
       </div>

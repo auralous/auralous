@@ -1,6 +1,6 @@
 import React from "react";
 import { useLogin } from "~/components/Auth";
-import { useCurrentUser, useMeFollowings } from "~/hooks/user";
+import { useMe, useMeFollowings } from "~/hooks/user";
 import {
   useFollowUserMutation,
   useUnfollowUserMutation,
@@ -13,7 +13,7 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
 }) => {
   const { t } = useI18n();
 
-  const user = useCurrentUser();
+  const me = useMe();
   const [, logIn] = useLogin();
 
   const [
@@ -43,8 +43,8 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
 
   return (
     <button
-      onClick={() => (user ? followUser({ id }) : logIn())}
-      disabled={fetchingFollow || user?.id === id}
+      onClick={() => (me ? followUser({ id }) : logIn())}
+      disabled={fetchingFollow || me?.user.id === id}
       className={`btn btn-primary border-2 border-transparent rounded-full leading-none ${
         isTiny ? "text-xs px-2 py-1" : "text-sm"
       }`}

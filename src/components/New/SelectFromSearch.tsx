@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import { useRouter } from "next/router";
-import { PlatformName, Track, useSearchTrackQuery } from "~/graphql/gql.gen";
-import { useMAuth } from "~/hooks/user";
+import { Track, usePlaylistTracksQuery } from "~/graphql/gql.gen";
+import { maybeGetTrackOrPlaylistIdFromUri } from "~/lib/platform";
 import { useI18n } from "~/i18n/index";
 import { SvgLoadingAnimated, SvgSearch } from "~/assets/svg";
 
@@ -9,8 +9,6 @@ const SelectFromSearch: React.FC<{
   onSelected(tracks: Track[]): void;
 }> = ({ onSelected }) => {
   const { t } = useI18n();
-
-  const { data: mAuth } = useMAuth();
 
   const router = useRouter();
   const searchQuery = router.query.search as string | undefined;
@@ -21,32 +19,27 @@ const SelectFromSearch: React.FC<{
     if (inputRef.current) inputRef.current.value = searchQuery || "";
   }, [searchQuery]);
 
+  const platformUtilResult = useMemo(
+    () =>
+      searchQuery ? maybeGetTrackOrPlaylistIdFromUri(searchQuery) : undefined,
+    [searchQuery]
+  );
+
   const [
-    { data: { searchTrack } = { searchTrack: undefined }, fetching },
-  ] = useSearchTrackQuery({
-    variables: {
-      query: decodeURIComponent(searchQuery || ""),
-      platform: mAuth?.platform || PlatformName.Youtube,
-    },
-    pause: !searchQuery,
+    { data: { playlistTracks } = { playlistTracks: undefined }, fetching },
+  ] = usePlaylistTracksQuery({
+    variables: { id: platformUtilResult?.id || "" },
+    pause: platformUtilResult?.type !== "playlist",
   });
 
   useEffect(() => {
-    if (searchQuery && searchTrack && searchTrack.length > 0) {
-      const to = window.setTimeout(() => onSelected(searchTrack), 2000);
-      return () => window.clearTimeout(to);
-    }
-  }, [searchTrack, onSelected, searchQuery]);
-
-  // either show loading indicator when we are loading or just waiting to move on
-  const formDisabled = Boolean(
-    searchQuery && (fetching || searchTrack?.length)
-  );
+    playlistTracks?.length && onSelected(playlistTracks);
+  }, [playlistTracks, onSelected]);
 
   return (
     <>
       <p className="text-lg text-center text-foreground-secondary mb-2">
-        {!searchTrack?.length && !fetching && !!searchQuery
+        {!playlistTracks?.length && !fetching && !!searchQuery
           ? t("new.fromSearch.noResults")
           : t("new.fromSearch.helpText")}
       </p>
@@ -65,16 +58,16 @@ const SelectFromSearch: React.FC<{
           aria-label={t("new.fromSearch.altText")}
           className="input w-0 flex-1 mr-1"
           required
-          disabled={formDisabled}
+          disabled={fetching}
           type="url"
         />
         <button
           type="submit"
           title={t("new.fromSearch.action")}
           className="btn btn-primary w-12 h-10"
-          disabled={formDisabled}
+          disabled={fetching}
         >
-          {formDisabled ? <SvgLoadingAnimated /> : <SvgSearch />}
+          {fetching ? <SvgLoadingAnimated /> : <SvgSearch />}
         </button>
       </form>
     </>

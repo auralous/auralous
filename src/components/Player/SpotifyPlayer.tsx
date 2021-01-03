@@ -3,7 +3,7 @@ import axios from "redaxios";
 import { toast } from "~/lib/toast";
 import usePlayer from "./usePlayer";
 import { verifyScript } from "~/lib/script-utils";
-import { useMAuth } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { t } from "~/i18n/index";
 /// <reference path="spotify-web-playback-sdk" />
 
@@ -13,7 +13,7 @@ const onError = (e: Spotify.Error) => toast.error(e.message);
 
 export default function SpotifyPlayer() {
   const { player } = usePlayer();
-  const { data: mAuth } = useMAuth();
+  const me = useMe();
 
   useEffect(() => {
     let spotifyPlayer: Spotify.SpotifyPlayer | null = null;
@@ -59,7 +59,7 @@ export default function SpotifyPlayer() {
     };
 
     const instance: typeof axios = axios.create({
-      headers: { Authorization: `Bearer ${mAuth?.accessToken}` },
+      headers: { Authorization: `Bearer ${me?.accessToken}` },
     });
 
     const onState: Spotify.PlaybackStateListener = (state) => {
@@ -80,11 +80,10 @@ export default function SpotifyPlayer() {
     };
 
     async function init() {
-      if (!window.Spotify?.Player || spotifyPlayer || !mAuth?.accessToken)
-        return;
+      if (!window.Spotify?.Player || spotifyPlayer || !me?.accessToken) return;
       spotifyPlayer = new window.Spotify.Player({
         name: "Stereo Web Player",
-        getOAuthToken: (cb) => mAuth?.accessToken && cb(mAuth.accessToken),
+        getOAuthToken: (cb) => me?.accessToken && cb(me.accessToken),
       });
       // readiness
       spotifyPlayer.addListener("ready", onReady);
@@ -123,6 +122,6 @@ export default function SpotifyPlayer() {
       spotifyPlayer = null;
       spotifyState = null;
     };
-  }, [mAuth, player]);
+  }, [me?.accessToken, player]);
   return null;
 }

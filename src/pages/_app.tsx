@@ -5,7 +5,6 @@ import NProgress from "nprogress";
 import * as Fathom from "fathom-client";
 import { DefaultSeo } from "next-seo";
 import { Provider as UrqlProvider } from "urql";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { LayoutIndex, LayoutApp } from "~/components/Layout/index";
 import { PlayerProvider } from "~/components/Player/index";
 import { LogInProvider } from "~/components/Auth/index";
@@ -25,8 +24,6 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 // polyfill
 import "intersection-observer";
-
-const queryClient = new QueryClient();
 
 export default function MyApp({ Component, pageProps, router }: AppProps) {
   // URQL
@@ -75,36 +72,34 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
 
   return (
     <I18n>
-      <QueryClientProvider client={queryClient}>
-        <UrqlProvider value={urqlClient}>
-          <LogInProvider>
-            <NotificationWatcher />
-            <PlayerProvider>
-              <DefaultSeo
-                titleTemplate="%s · Stereo"
-                facebook={{ appId: process.env.FACEBOOK_APP_ID || "" }}
-                openGraph={{
-                  type: "website",
-                  locale: "en_US",
-                  site_name: "Stereo",
-                  images: [
-                    {
-                      url: `${process.env.APP_URI}/images/banner.png`,
-                      width: 2400,
-                      height: 1260,
-                      alt: "Stereo",
-                    },
-                  ],
-                }}
-              />
-              <Layout>
-                <Component {...pageProps} />
-                <StoryOngoingWatcher />
-              </Layout>
-            </PlayerProvider>
-          </LogInProvider>
-        </UrqlProvider>
-      </QueryClientProvider>
+      <UrqlProvider value={urqlClient}>
+        <LogInProvider>
+          <NotificationWatcher />
+          <PlayerProvider>
+            <DefaultSeo
+              titleTemplate="%s · Stereo"
+              facebook={{ appId: process.env.FACEBOOK_APP_ID || "" }}
+              openGraph={{
+                type: "website",
+                locale: "en_US",
+                site_name: "Stereo",
+                images: [
+                  {
+                    url: `${process.env.APP_URI}/images/banner.png`,
+                    width: 2400,
+                    height: 1260,
+                    alt: "Stereo",
+                  },
+                ],
+              }}
+            />
+            <Layout>
+              <Component {...pageProps} />
+              <StoryOngoingWatcher />
+            </Layout>
+          </PlayerProvider>
+        </LogInProvider>
+      </UrqlProvider>
     </I18n>
   );
 }

@@ -1,33 +1,22 @@
 import React from "react";
-import { Playlist } from "~/types/index";
-import { SvgByPlatformName } from "~/lib/constants";
-import { useI18n } from "~/i18n/index";
+import { Playlist } from "~/graphql/gql.gen";
+import { PLATFORM_FULLNAMES } from "~/lib/constants";
 
 const PlaylistItem: React.FC<{
   playlist: Playlist;
 }> = ({ playlist }) => {
-  const { t } = useI18n();
-  const SvgPlatformName = SvgByPlatformName[playlist.platform];
   return (
-    <div className="flex justify-start font-normal">
+    <div className="flex justify-start items-center">
       <img
-        className="w-12 h-12 rounded object-cover"
+        className="w-12 h-12 mr-3 rounded object-cover"
         src={playlist.image}
-        alt={playlist.title}
+        alt={playlist.name}
       />
-      <div className="ml-2 text-left">
-        <p>
-          <span className="mr-1 align-middle text-white text-opacity-50">
-            <SvgPlatformName
-              className="inline fill-current stroke-0"
-              width="18"
-            />
-          </span>
-          {playlist.title}
-        </p>
-        <p className="text-foreground-tertiary text-sm">
-          {playlist.tracks.length} {t("common.tracks")}
-        </p>
+      <div className="text-left">
+        <div className="font-bold text-sm">{playlist.name}</div>
+        <div className="font-normal text-xs text-foreground-secondary">
+          {PLATFORM_FULLNAMES[playlist.platform]}
+        </div>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import Link from "next/link";
 import ms from "ms";
 import { useModal } from "~/components/Modal";
 import { TrackMenu } from "~/components/Track";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import {
   useMessagesQuery,
   useAddMessageMutation,
@@ -92,8 +92,8 @@ const MessageItem: React.FC<{
   message: Message;
   isGrouped: boolean;
 }> = ({ message, isGrouped }) => {
-  const user = useCurrentUser();
-  const isCurrentUser = user?.id === message.creatorId;
+  const me = useMe();
+  const isCurrentUser = me?.user.id === message.creatorId;
 
   const [{ data: { user: sender } = { user: undefined } }] = useUserQuery({
     variables: { id: message.creatorId },

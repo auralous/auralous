@@ -3,9 +3,8 @@ import { useRouter } from "next/router";
 import { SelectingListItem } from "./common";
 import { useLogin } from "~/components/Auth";
 import { PlaylistItem } from "~/components/Playlist";
-import { useMyPlaylistsQuery } from "~/hooks/playlist";
-import { useCurrentUser } from "~/hooks/user";
-import { Track } from "~/graphql/gql.gen";
+import { useMe } from "~/hooks/user";
+import { Track, useMyPlaylistsQuery } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import { SvgLoadingAnimated } from "~/assets/svg";
 
@@ -14,10 +13,12 @@ const SelectFromPlaylists: React.FC<{
 }> = () => {
   const { t } = useI18n();
 
-  const user = useCurrentUser();
+  const me = useMe();
   const [, logIn] = useLogin();
 
-  const { data: myPlaylists, isLoading, isError } = useMyPlaylistsQuery();
+  const [
+    { data: { myPlaylists } = { myPlaylists: undefined }, fetching, error },
+  ] = useMyPlaylistsQuery();
 
   const router = useRouter();
 
@@ -34,7 +35,7 @@ const SelectFromPlaylists: React.FC<{
     }
   }, [router, myPlaylists]);
 
-  if (!user)
+  if (!me)
     return (
       <div className="flex flex-col items-center p-4 rounded-lg bg-background-tertiary">
         <p className="text-foreground-secondary mb-2cd ">
@@ -60,14 +61,14 @@ const SelectFromPlaylists: React.FC<{
       </div>
     );
 
-  if (isLoading)
+  if (fetching)
     return (
       <span className="text-xl font-black text-foreground-tertiary">
         <SvgLoadingAnimated />
       </span>
     );
 
-  if (isError) return <p className="text-danger-light">{t("error.unknown")}</p>;
+  if (error) return <p className="text-danger-light">{t("error.unknown")}</p>;
 
   return (
     <p className="text-foreground-secondary font-bold">

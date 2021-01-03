@@ -25,6 +25,17 @@ export const FRAGMENT_TRACK = /* GraphQL */ `
   ${FRAGMENT_ARTIST_DETAIL}
 `;
 
+export const FRAGMENT_PLAYLIST = /* GraphQL */ `
+  fragment PlaylistParts on Playlist {
+    id
+    platform
+    externalId
+    name
+    image
+    url
+  }
+`;
+
 export const QUERY_TRACK = /* GraphQL */ `
   query track($id: ID!) {
     track(id: $id) {
@@ -45,10 +56,52 @@ export const QUERY_CROSS_TRACKS = /* GraphQL */ `
 `;
 
 export const QUERY_SEARCH_TRACK = /* GraphQL */ `
-  query searchTrack($platform: PlatformName!, $query: String!) {
-    searchTrack(platform: $platform, query: $query) {
+  query searchTrack($query: String!) {
+    searchTrack(query: $query) {
       ...TrackParts
     }
   }
   ${FRAGMENT_TRACK}
+`;
+
+export const QUERY_PLAYLIST = /* GraphQL */ `
+  query playlist($id: ID!) {
+    playlist(id: $id) {
+      ...PlaylistParts
+    }
+  }
+  ${FRAGMENT_PLAYLIST}
+`;
+
+export const QUERY_MY_PLAYLISTS = /* GraphQL */ `
+  query myPlaylists {
+    myPlaylists {
+      ...PlaylistParts
+    }
+  }
+  ${FRAGMENT_PLAYLIST}
+`;
+
+export const QUERY_PLAYLIST_TRACKS = /* GraphQL */ `
+  query playlistTracks($id: ID!) {
+    playlistTracks(id: $id) {
+      ...TrackParts
+    }
+  }
+  ${FRAGMENT_TRACK}
+`;
+
+export const MUTATION_ADD_PLAYLIST_TRACKS = /* GraphQL */ `
+  mutation addPlaylistTracks($id: ID!, $trackIds: [String!]!) {
+    addPlaylistTracks(id: $id, trackIds: $trackIds)
+  }
+`;
+
+export const MUTATION_CREATE_PLAYLIST = /* GraphQL */ `
+  mutation createPlaylist($name: String!, $trackIds: [String!]!) {
+    createPlaylist(name: $name, trackIds: $trackIds) {
+      ...PlaylistParts
+    }
+  }
+  ${FRAGMENT_PLAYLIST}
 `;

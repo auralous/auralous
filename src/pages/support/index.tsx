@@ -2,7 +2,7 @@ import React from "react";
 import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 import { NextSeo } from "next-seo";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 import { SvgMail, SvgFacebook, SvgTwitter } from "~/assets/svg";
 import { getPages as getSupportPages } from "~/lib/content-support";
@@ -22,7 +22,7 @@ const ContactLink: React.FC<{ href: string }> = ({ href, children }) => (
 const SupportPage: NextPage<{
   pages: SupportArticle[];
 }> = ({ pages }) => {
-  const user = useCurrentUser();
+  const me = useMe();
   const { t } = useI18n();
   return (
     <>
@@ -34,10 +34,10 @@ const SupportPage: NextPage<{
       <div className="py-16 container leading-loose text-lg">
         <h1 className="text-center text-5xl text-foreground-secondary font-bold max-w-xl mx-auto leading-none">
           {t("support.hi")}{" "}
-          {user ? (
+          {me ? (
             <>
               {" "}
-              <span className="text-foreground">{user.username}</span>
+              <span className="text-foreground">{me.user.username}</span>
             </>
           ) : (
             t("support.there")

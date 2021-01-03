@@ -1,7 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import StoryQueueable from "./StoryQueueable";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { Story } from "~/graphql/gql.gen";
 import { useLogin } from "~/components/Auth";
 import { toast } from "~/lib/toast";
@@ -22,12 +22,12 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
   const [active, open, close] = useModal();
 
-  const user = useCurrentUser();
+  const me = useMe();
 
   return (
     <>
       <div className="px-4 py-1 flex">
-        {user?.id === story.creatorId && (
+        {me?.user.id === story.creatorId && (
           <>
             <button
               className="btn btn-primary mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
@@ -68,9 +68,11 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
 
   const { playQueueItem } = usePlayer();
 
-  const user = useCurrentUser();
+  const me = useMe();
+
   const isQueueable = Boolean(
-    user && (story.creatorId === user.id || story.queueable.includes(user.id))
+    me &&
+      (story.creatorId === me.user.id || story.queueable.includes(me.user.id))
   );
 
   const [, showLogin] = useLogin();
@@ -78,7 +80,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
   const [active, open, close] = useModal();
 
   const onAddButtonClick = () => {
-    if (!user) return showLogin();
+    if (!me) return showLogin();
     if (!isQueueable)
       return toast.open({
         type: "info",

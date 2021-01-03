@@ -6,7 +6,7 @@ import StoryShare from "./StoryShare";
 import StoryEnd from "./StoryEnd";
 import StoryDelete from "./StoryDelete";
 import { useModal } from "~/components/Modal";
-import { useCurrentUser } from "~/hooks/user";
+import { useMe } from "~/hooks/user";
 import { useUserQuery, Story } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
 import {
@@ -33,7 +33,7 @@ const StoryNavMenu: React.FC<{
   const [activeShare, openShare, closeShare] = useModal();
   const [activeDelete, openDelete, closeDelete] = useModal();
 
-  const me = useCurrentUser();
+  const me = useMe();
 
   return (
     <>
@@ -75,7 +75,7 @@ const StoryNavMenu: React.FC<{
               </button>
             )}
           </StoryEnd>
-          {story.isLive === false && me?.id === story.creatorId && (
+          {story.isLive === false && me?.user.id === story.creatorId && (
             <>
               <button onClick={openDelete} className="btn btn-transparent">
                 <SvgTrash className="w-5 h-5 mr-2" />
