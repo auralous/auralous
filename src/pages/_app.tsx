@@ -9,6 +9,8 @@ import { QueryCache, ReactQueryCacheProvider } from "react-query";
 import { LayoutIndex, LayoutApp } from "~/components/Layout/index";
 import { PlayerProvider } from "~/components/Player/index";
 import { LogInProvider } from "~/components/Auth/index";
+import StoryOngoingWatcher from "~/components/Story/StoryOngoingWatcher";
+import NotificationWatcher from "~/components/Notification/NotificationWatcher";
 import { I18n } from "~/i18n/index";
 import { createUrqlClient } from "~/graphql/urql";
 import "~/styles/index.css";
@@ -23,7 +25,6 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 // polyfill
 import "intersection-observer";
-import StoryOngoingWatcher from "~/components/Story/StoryOngoingWatcher";
 
 const queryCache = new QueryCache();
 
@@ -59,6 +60,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
         "/story/[storyId]/settings",
         "/settings",
         "/new",
+        "/notifications",
         "/listen",
         "/user/[username]",
       ].includes(router.pathname)
@@ -76,6 +78,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
       <ReactQueryCacheProvider queryCache={queryCache}>
         <UrqlProvider value={urqlClient}>
           <LogInProvider>
+            <NotificationWatcher />
             <PlayerProvider>
               <DefaultSeo
                 titleTemplate="%s · Stereo"
@@ -96,8 +99,8 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
               />
               <Layout>
                 <Component {...pageProps} />
+                <StoryOngoingWatcher />
               </Layout>
-              <StoryOngoingWatcher />
             </PlayerProvider>
           </LogInProvider>
         </UrqlProvider>

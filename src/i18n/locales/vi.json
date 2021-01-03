@@ -119,6 +119,18 @@
     "title": "Bản đồ",
     "description": "Một trải nghiệm khám phá âm nhạc theo địa lý"
   },
+  "notification": {
+    "title": "Thông báo",
+    "invite": {
+      "text": "mời bạn lắng nghe"
+    },
+    "follow": {
+      "text": "đã theo dõi bạn"
+    },
+    "newStory": {
+      "text": "đã thêm một story"
+    }
+  },
   "story": {
     "label": "Story",
     "create": "Tạo story",
@@ -161,6 +173,10 @@
     },
     "share": {
       "title": "Mời bạn bè"
+    },
+    "invite": {
+      "title": "Mời",
+      "success": "Đã gửi lời mời"
     },
     "queueable": {
       "title": "Thêm cộng tác viên",
@@ -306,7 +322,11 @@
     "startListening": "Nghe nào",
     "live": "live",
     "dangerousActionText": "Thao tác này sẽ có hiệu lực tức thì và không thể hoàn tác",
-    "cancel": "Thôi"
+    "cancel": "Thôi",
+    "time": {
+      "ago": "trước đó",
+      "justNow": "bây giờ"
+    }
   },
   "error": {
     "sorry": "Chúng mình xin lỗi vì sự bất tiện",

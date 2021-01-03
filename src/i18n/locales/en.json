@@ -119,6 +119,18 @@
     "title": "Map",
     "description": "A geographical song discovery experience"
   },
+  "notification": {
+    "title": "Notifications",
+    "invite": {
+      "text": "invited you to listen"
+    },
+    "follow": {
+      "text": "followed you"
+    },
+    "newStory": {
+      "text": "added a story"
+    }
+  },
   "story": {
     "label": "Story",
     "create": "Create Story",
@@ -161,6 +173,10 @@
     },
     "share": {
       "title": "Invite friends"
+    },
+    "invite": {
+      "title": "Invite",
+      "success": "Invite sent"
     },
     "queueable": {
       "title": "Add collaborators",
@@ -306,7 +322,11 @@
     "startListening": "Start Listening",
     "live": "live",
     "dangerousActionText": "This process is immediate and cannot be undone",
-    "cancel": "Nevermind"
+    "cancel": "Nevermind",
+    "time": {
+      "ago": "ago",
+      "justNow": "just now"
+    }
   },
   "error": {
     "sorry": "We are sorry for the inconvenience",

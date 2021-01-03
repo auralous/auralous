@@ -91,7 +91,7 @@ const StorySliderContent: React.FC<{
           return (
             <div
               key={slide}
-              className="swiper-slide h-screen-layout"
+              className="swiper-slide"
               style={{ top: `${virtualData.offset}px` }}
             >
               {story && <StorySliderView close={close} story={story} />}

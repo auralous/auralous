@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import LayoutContext from "./LayoutContext";
@@ -7,16 +7,35 @@ import { useLogin } from "~/components/Auth";
 import { useCurrentUser } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 import {
+  SvgLogIn,
   SvgLogo,
   SvgMapPin,
+  SvgActivity,
   SvgPlayCircle,
   SvgPlus,
   SvgSettings,
+  SvgUser,
 } from "~/assets/svg";
+import { useNotificationAddedSubscription, User } from "~/graphql/gql.gen";
+
+const useHasNotification = (me: User | null | undefined) => {
+  const [hasNotification, setHasNotification] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    if (router.pathname === "/notifications") setHasNotification(false);
+  }, [router]);
+  // return true if there is new notification and
+  // user is not on notification page
+  useNotificationAddedSubscription({ pause: !me }, (prev, data) => {
+    if (router.pathname !== "/notifications") setHasNotification(true);
+    return data;
+  });
+  return hasNotification;
+};
 
 const sidebarColor = "rgb(18, 18, 24)";
 
-const boldClasses = "bg-gradient-to-l from-warning to-primary flex-none px-8";
+const boldClasses = "bg-gradient-to-l from-warning to-primary";
 
 const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
   children,
@@ -43,9 +62,11 @@ const Sidebar: React.FC = () => {
   const user = useCurrentUser();
   const [, logIn] = useLogin();
 
+  const hasNotification = useHasNotification(user);
+
   return (
     <div
-      className="hidden sm:block w-48 fixed left-0 top-0 h-full"
+      className="hidden md:block w-56 fixed left-0 top-0 h-full"
       style={{ backgroundColor: sidebarColor }}
     >
       <div className="p-2">
@@ -57,6 +78,12 @@ const Sidebar: React.FC = () => {
         </SidebarItem>
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
         <SidebarItem href="/map">{t("map.title")}</SidebarItem>
+        <SidebarItem href="/notifications">
+          {t("notification.title")}
+          {hasNotification && (
+            <span className="w-2 h-2 ml-1 rounded-full bg-primary animate-pulse" />
+          )}
+        </SidebarItem>
       </div>
       <div className="p-1 rounded-lg">
         {user ? (
@@ -109,9 +136,9 @@ const AppbarItem: React.FC<{
   return (
     <Link href={href} as={as}>
       <a
-        className={`btn btn-transparent text-foreground border-primary py-1 font-light rounded-none ${
+        className={`relative btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1 ${
           isActive && !isBold ? "border-b-2" : ""
-        } ${isBold ? boldClasses : "flex-1"}`}
+        } ${isBold ? boldClasses : ""}`}
         title={title}
       >
         {children}
@@ -125,6 +152,11 @@ const noAppbarPathname = ["/story/[storyId]", "/new"];
 const Appbar: React.FC = () => {
   const { t } = useI18n();
   const router = useRouter();
+  const user = useCurrentUser();
+  const [, logIn] = useLogin();
+
+  const hasNotification = useHasNotification(user);
+
   return (
     <>
       <div
@@ -135,18 +167,41 @@ const Appbar: React.FC = () => {
       <div
         className={`${
           noAppbarPathname.includes(router.pathname) ? "hidden" : "flex"
-        } z-10 sm:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
+        } z-10 md:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
         style={{ backgroundColor: sidebarColor }}
       >
         <AppbarItem href="/listen" title={t("listen.title")}>
           <SvgPlayCircle className="w-4 h-4" />
         </AppbarItem>
-        <AppbarItem isBold href="/new" title={t("story.create")}>
-          <SvgPlus className="w-6 h-6" />
-        </AppbarItem>
         <AppbarItem href="/map" title={t("map.title")}>
           <SvgMapPin className="w-4 h-4" />
         </AppbarItem>
+        <AppbarItem isBold href="/new" title={t("story.create")}>
+          <SvgPlus className="w-6 h-6" />
+        </AppbarItem>
+        <AppbarItem href="/notifications" title={t("notification.title")}>
+          <SvgActivity className="w-4 h-4" />
+          {hasNotification && (
+            <span className="w-2 h-2 rounded-full bg-primary absolute top-2 left-1/2 ml-2 animate-pulse" />
+          )}
+        </AppbarItem>
+        {user ? (
+          <AppbarItem
+            as={`/user/${user.username}`}
+            href="/user/[username]"
+            title={t("user.profile")}
+          >
+            <SvgUser className="w-4 h-4" />
+          </AppbarItem>
+        ) : (
+          <button
+            className="btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1"
+            title={t("common.signIn")}
+            onClick={logIn}
+          >
+            <SvgLogIn className="w-4 h-4" />
+          </button>
+        )}
       </div>
     </>
   );
@@ -168,7 +223,7 @@ const LayoutApp: React.FC = ({ children }) => {
   return (
     <LayoutContext.Provider value={{ prevPathname: prevPathnameRef }}>
       <PlayerMinibar />
-      <main className="sm:pl-48">{children}</main>
+      <main className="md:pl-56">{children}</main>
       <Sidebar />
       <Appbar />
     </LayoutContext.Provider>

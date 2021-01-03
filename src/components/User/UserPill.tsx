@@ -1,9 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import UserFollowButton from "./UserFollowButton";
 import { useUserQuery } from "~/graphql/gql.gen";
 
-const UserPill: React.FC<{ id: string }> = ({ id }) => {
+const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
+  id,
+  rightEl,
+}) => {
   const [{ data: { user } = { user: undefined } }] = useUserQuery({
     variables: { id },
   });
@@ -32,7 +34,7 @@ const UserPill: React.FC<{ id: string }> = ({ id }) => {
           <div className="w-20 h-5 block-skeleton" />
         )}
       </div>
-      <UserFollowButton id={id} isTiny />
+      {rightEl}
     </div>
   );
 };

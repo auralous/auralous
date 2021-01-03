@@ -322,9 +322,7 @@ const SettingsPage: NextPage = () => {
         openGraph={{}}
         canonical={`${process.env.APP_URI}/settings`}
       />
-      <h1 className="px-4 pt-6 pb-2 font-bold text-4xl mb-2">
-        {t("settings.title")}
-      </h1>
+      <h1 className="page-title">{t("settings.title")}</h1>
       <div className="flex flex-wrap">
         <div className="w-full lg:flex-1 p-4">
           <LeftSection />

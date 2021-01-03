@@ -1,4 +1,5 @@
 import React from "react";
+import UserFollowButton from "./UserFollowButton";
 import UserPill from "./UserPill";
 
 const UserList: React.FC<{
@@ -8,7 +9,11 @@ const UserList: React.FC<{
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
       {userIds.map((userId) => (
-        <Element id={userId} key={userId} />
+        <Element
+          id={userId}
+          key={userId}
+          rightEl={<UserFollowButton id={userId} isTiny />}
+        />
       ))}
     </div>
   );

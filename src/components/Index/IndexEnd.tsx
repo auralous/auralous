@@ -17,7 +17,7 @@ const IndexEnd: React.FC = () => {
             className="btn bg-gradient-to-l from-warning to-primary py-8 px-16 rounded-full transform hover:scale-110 transition-transform duration-500"
             ref={ref}
           >
-            <span className="text-xl sm:text-3xl font-black text-white transition duration-500">
+            <span className="text-3xl font-black text-white transition duration-500">
               {t("common.startListening")}
             </span>
           </a>

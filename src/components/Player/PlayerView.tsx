@@ -94,7 +94,7 @@ export const PlayerMeta: React.FC<{
 
   return (
     // eslint-disable-next-line
-    <div className="py-4 h-20 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
+    <div className="my-4 h-12 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
       {fetching ? (
         <>
           <div className="block-skeleton rounded h-6 w-40 mb-1" />

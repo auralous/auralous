@@ -1,3 +1,4 @@
+import { IntrospectionQuery } from "graphql";
 import {
   dedupExchange,
   createClient,
@@ -13,27 +14,28 @@ import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache"
 import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { devtoolsExchange } from "@urql/devtools";
 import { toast } from "~/lib/toast";
-// import { default as schemaIntrospection } from "./introspection.json";
+import schema from "./schema.json";
 import {
   Story,
-  StoriesDocument,
   StoryUsersDocument,
-  StoriesQuery,
   StoryUsersQuery,
   StoryQuery,
   StoryDocument,
   StoryQueryVariables,
   NowPlayingReactionsQuery,
   NowPlayingReactionsDocument,
-  NowPlayingReactionType,
   UserFollowingsQuery,
   MeQuery,
   MeDocument,
   UserFollowingsDocument,
   UserFollowingsQueryVariables,
+  StoryLiveQuery,
+  StoryLiveQueryVariables,
+  StoryLiveDocument,
+  NowPlayingReactionsUpdatedSubscription,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
-import { storySliderPagination } from "./_pagination";
+import { nextCursorPagination } from "./_pagination";
 
 const subscriptionClient =
   typeof window !== "undefined"
@@ -70,7 +72,7 @@ const errorExchange: Exchange = ({ forward }) => (ops$) =>
   );
 
 const cacheExchange = createCacheExchange({
-  // schema: schemaIntrospection as any,
+  schema: (schema as unknown) as IntrospectionQuery,
   keys: {
     QueueItem: () => null,
   },
@@ -80,7 +82,8 @@ const cacheExchange = createCacheExchange({
         offsetArgument: "offset",
         mergeMode: "before",
       }),
-      stories: storySliderPagination(),
+      stories: nextCursorPagination(),
+      notifications: nextCursorPagination(),
     },
     Message: {
       // @ts-ignore
@@ -98,28 +101,31 @@ const cacheExchange = createCacheExchange({
       // @ts-ignore
       createdAt: (parent: Story) => new Date(parent.createdAt),
     },
+    NotificationInvite: {
+      // @ts-ignore
+      createdAt: (parent) => new Date(parent.createdAt),
+    },
+    NotificationFollow: {
+      // @ts-ignore
+      createdAt: (parent) => new Date(parent.createdAt),
+    },
+    NotificationNewStory: {
+      // @ts-ignore
+      createdAt: (parent) => new Date(parent.createdAt),
+    },
   },
   updates: {
     Mutation: {
       createStory: (result, args, cache) => {
         const newStory = result.createStory as Story | null;
-        if (newStory) {
-          cache.updateQuery<StoriesQuery>(
+        if (newStory)
+          cache.updateQuery<StoryLiveQuery, StoryLiveQueryVariables>(
             {
-              query: StoriesDocument,
-              variables: { id: `creatorId:${newStory.creatorId}` },
+              query: StoryLiveDocument,
+              variables: { creatorId: newStory.creatorId },
             },
-            (data) => {
-              const stories = data?.stories
-                ? [
-                    newStory, // Set all previous story to unlive
-                    ...data.stories.map((s) => ({ ...s, isLive: false })),
-                  ]
-                : [newStory];
-              return { stories };
-            }
+            () => ({ storyLive: newStory })
           );
-        }
       },
       unliveStory: (result, args, cache) => {
         if (result.unliveStory) {
@@ -232,10 +238,8 @@ const cacheExchange = createCacheExchange({
               variables: { id: args.id },
             },
             () => ({
-              nowPlayingReactions: result.nowPlayingReactionsUpdated as {
-                userId: string;
-                reaction: NowPlayingReactionType;
-              }[],
+              nowPlayingReactions: (result as NowPlayingReactionsUpdatedSubscription)
+                .nowPlayingReactionsUpdated,
             })
           );
         }

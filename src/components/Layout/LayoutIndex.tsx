@@ -84,7 +84,7 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
           <button
-            className="px-2 py-1 z-10 sm:hidden"
+            className="px-2 py-1 z-10 md:hidden"
             onClick={() => setExpanded(!expanded)}
           >
             {expanded ? <SvgX /> : <SvgMenu />}
@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
               expanded
                 ? "flex py-4 w-full absolute justify-center bg-background bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur"
                 : "hidden"
-            } sm:flex content-end sm:items-center flex-none`}
+            } md:flex content-end md:items-center flex-none`}
           >
             <Link href="/support">
               <a className={navBarClassName}>{t("support.title")}</a>

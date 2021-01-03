@@ -7,11 +7,9 @@ generates:
       - typescript-operations
       - typescript-urql
     config:
+      # immutableTypes: true
       withComponent: false
       withHooks: true
-  #     noGraphQLTag: true
-  # ./src/graphql/introspection.json:
-  #   plugins:
-  #     - introspection
-  #   config:
-  #     minify: true
+      documentMode: "documentNode"
+      nonOptionalTypename: true
+      skipTypeNameForRoot: true

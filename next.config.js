@@ -20,14 +20,13 @@ module.exports = withBundleAnalyzer({
   },
   experimental: {
     plugins: true,
-    productionBrowserSourceMaps: true,
   },
+  productionBrowserSourceMaps: true,
   webpack: (config, options) => {
     if (!options.isServer) {
       config.resolve.alias["@sentry/node"] = "@sentry/browser";
     }
     if (process.env.NODE_ENV === "production") {
-      config.devtool = "hidden-source-map";
       if (process.env.SENTRY_AUTH_TOKEN) {
         process.env.SENTRY_ORG = "hoangvvo";
         process.env.SENTRY_PROJECT = "stereo-web";
@@ -60,14 +59,5 @@ module.exports = withBundleAnalyzer({
   },
   devIndicators: {
     autoPrerender: false,
-  },
-  async redirects() {
-    return [
-      {
-        source: "/contact",
-        destination: "/support",
-        permanent: true,
-      },
-    ];
   },
 });

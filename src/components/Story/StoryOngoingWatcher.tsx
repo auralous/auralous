@@ -1,9 +1,9 @@
 // Check if current user has an ongoing story
 // and redirect them to it
-import React, { useMemo } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import StoryEnd from "./StoryEnd";
-import { useStoriesQuery } from "~/graphql/gql.gen";
+import { useStoryLiveQuery } from "~/graphql/gql.gen";
 import { useCurrentUser } from "~/hooks/user";
 import { Modal } from "~/components/Modal";
 import { usePlayer } from "~/components/Player";
@@ -16,20 +16,18 @@ const StoryOngoingWatcher: React.FC = () => {
     state: { playingStoryId },
   } = usePlayer();
   const user = useCurrentUser();
-  const [{ data }] = useStoriesQuery({
-    variables: { id: `creatorId:${user?.id}`, limit: 1 },
+  const [
+    { data: { storyLive } = { storyLive: undefined } },
+  ] = useStoryLiveQuery({
+    variables: { creatorId: user?.id },
     pause: !user,
   });
-  const ongoingStory = useMemo(() => {
-    if (!user) return null;
-    if (!data?.stories) return null;
-    return data.stories.find((story) => story.isLive);
-  }, [user, data]);
+
   return (
     <>
       <Modal.Modal
         title={t("story.ongoing.title")}
-        active={!!ongoingStory && playingStoryId !== ongoingStory.id}
+        active={!!storyLive?.isLive && playingStoryId !== storyLive.id}
       >
         <Modal.Content>
           <p className="mb-2 text-lg font-bold text-foreground-secondary">
@@ -40,16 +38,16 @@ const StoryOngoingWatcher: React.FC = () => {
               <span className="mr-1 animate-pulse uppercase text-xs font-bold p-1 bg-primary rounded">
                 {t("common.live")}
               </span>
-              {ongoingStory?.text}
+              {storyLive?.text}
             </div>
             <div className="text-xs text-foreground-secondary">
-              {ongoingStory?.createdAt.toLocaleDateString()}
+              {storyLive?.createdAt.toLocaleDateString()}
             </div>
           </div>
         </Modal.Content>
         <Modal.Footer>
-          {ongoingStory && (
-            <StoryEnd story={ongoingStory}>
+          {storyLive && (
+            <StoryEnd story={storyLive}>
               {(openDelete) => (
                 <button
                   className="btn btn-transparent text-danger"
@@ -62,7 +60,7 @@ const StoryOngoingWatcher: React.FC = () => {
           )}
           <button
             className="btn"
-            onClick={() => router.push(`/story/${ongoingStory?.id}`)}
+            onClick={() => router.push(`/story/${storyLive?.id}`)}
           >
             {t("story.ongoing.goto")}
           </button>
