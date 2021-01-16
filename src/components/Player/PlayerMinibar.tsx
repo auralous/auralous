@@ -5,8 +5,9 @@ import usePlayer from "./usePlayer";
 import { useI18n } from "~/i18n/index";
 import { SvgX, SvgPause, SvgPlay } from "~/assets/svg";
 
-const PlayerMinibarBar: React.FC = () => {
+const PlayerMinibar: React.FC = () => {
   const { t } = useI18n();
+  const router = useRouter();
   const {
     state: { playingStoryId, playerPlaying },
     playStory,
@@ -26,16 +27,23 @@ const PlayerMinibarBar: React.FC = () => {
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
 
+  if (!playingStoryId || router.pathname === "/story/[storyId]") return null;
+
   return (
-    <div className="w-full h-full inset-0 flex items-center">
+    <div
+      className={`flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content`}
+      style={{
+        background: "linear-gradient(180deg, hsl(232,12%,13%), rgb(18 18 24))",
+      }}
+    >
       <Link href={`/story/${playingStoryId}`}>
         <a className="flex-1 w-0 flex items-center">
-          <div className="w-14 h-14 p-2">
+          <div className="w-14 h-14">
             {playerPlaying && (
               <img
                 alt={t("nowPlaying.title")}
                 src={playerPlaying.image}
-                className="h-full w-full object-cover rounded"
+                className="h-full w-full object-cover"
               />
             )}
           </div>
@@ -68,25 +76,6 @@ const PlayerMinibarBar: React.FC = () => {
       >
         <SvgX />
       </button>
-    </div>
-  );
-};
-
-const PlayerMinibar: React.FC = () => {
-  const router = useRouter();
-  const {
-    state: { playingStoryId },
-  } = usePlayer();
-
-  return (
-    <div
-      hidden={!playingStoryId || router.pathname === "/story/[storyId]"}
-      className="fixed h-14 z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary"
-      style={{
-        background: "linear-gradient(180deg, hsl(232,12%,13%), rgb(18 18 24))",
-      }}
-    >
-      <PlayerMinibarBar />
     </div>
   );
 };

@@ -12,16 +12,12 @@ export const useCrossTracks = (id?: string) => {
     pause: !id,
   });
 
-  const [
-    { data: { track: youtube } = { track: undefined }, fetching: fetchingYT },
-  ] = useTrackQuery({
+  const [{ data: dataYoutube, fetching: fetchingYT }] = useTrackQuery({
     variables: { id: `youtube:${crossTracks?.youtube}` },
     pause: !crossTracks?.youtube,
   });
 
-  const [
-    { data: { track: spotify } = { track: undefined }, fetching: fetchingS },
-  ] = useTrackQuery({
+  const [{ data: dataSpotify, fetching: fetchingS }] = useTrackQuery({
     variables: { id: `spotify:${crossTracks?.spotify}` },
     pause: !crossTracks?.spotify,
   });
@@ -41,6 +37,9 @@ export const useCrossTracks = (id?: string) => {
     // if respective responses are for id arg and return
     // undefined if not matched (possibly fetching)
     if (crossTracks?.id !== id) return undefined;
+
+    const youtube = dataYoutube?.track;
+    const spotify = dataSpotify?.track;
 
     if (
       !!crossTracks.youtube &&
@@ -62,7 +61,7 @@ export const useCrossTracks = (id?: string) => {
     else if (youtube?.id === crossTracks.id) original = youtube;
 
     return { id, original, youtube, spotify };
-  }, [id, crossTracks, youtube, spotify]);
+  }, [id, crossTracks, dataYoutube, dataSpotify]);
 
   return [
     data,

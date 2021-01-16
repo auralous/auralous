@@ -31,7 +31,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <div className="my-2 gap-4 flex flex-center">
+    <div className="my-2 gap-6 flex flex-center">
       <button
         className="btn btn-transparent p-3"
         title={t("player.skipBackward")}
@@ -42,7 +42,7 @@ export const PlayerControl: React.FC = () => {
       </button>
       <button
         aria-label={isPlaying ? t("player.pause") : t("player.play")}
-        className="btn btn-primary w-14 h-14 rounded-full"
+        className="btn btn-foreground w-14 h-14 rounded-full"
         onClick={() => (isPlaying ? player.pause() : player.play())}
         disabled={!playerPlaying}
       >
