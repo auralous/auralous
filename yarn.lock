@@ -2855,11 +2855,6 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-benzene-ws-client@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/benzene-ws-client/-/benzene-ws-client-0.0.1.tgz#4c18e194a9b9c70432b7821aae37bbcdf7374491"
-  integrity sha512-8PiabMA58pC4Zt7MDqPXmvtJNjAVXeDILeGzeDCZS3FYmTu4SqxNBuxx5hCulcGb2VAnvkl/RyIIX13G4djfgA==
-
 big.js@^5.2.2:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-5.2.2.tgz#65f0af382f578bcdc742bd9c281e9cb2d7768328"
@@ -5182,6 +5177,11 @@ graphql-tag@^2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.11.0.tgz#1deb53a01c46a7eb401d6cb59dec86fa1cccbffd"
   integrity sha512-VmsD5pJqWJnQZMUeRwrDhfgoyqcfwEkvtpANqcoUG8/tOLkwNgU9mzub/Mc78OJMhHjx7gfAMTxzdG43VGg3bA==
+
+graphql-ws@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-4.1.2.tgz#e2653b9e65505e484eda5e00496783caffd0041d"
+  integrity sha512-c/iOE4kGW6J5h9hmHWaYvgsjAQacioae3ZXvq3JDuVw8uXo3Tbmky71Fzn0+emSKRaRNL1jQuzYtRqFKge2PIw==
 
 graphql@^15.4.0:
   version "15.4.0"

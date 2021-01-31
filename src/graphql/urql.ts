@@ -6,9 +6,9 @@ import {
   Exchange,
 } from "urql";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
-import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
+// import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
 import { refocusExchange } from "@urql/exchange-refocus";
-import { SubscriptionClient } from "benzene-ws-client";
+import { createClient as createWSClient } from "graphql-ws";
 import { pipe, onPush } from "wonka";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
@@ -37,11 +37,10 @@ import {
 import { t } from "~/i18n/index";
 import { nextCursorPagination } from "./_pagination";
 
-const subscriptionClient =
+const wsClient =
   typeof window !== "undefined"
-    ? new SubscriptionClient(`${process.env.WEBSOCKET_URI}/graphql`, {
-        genId: (params) => params.key,
-        reconnectionAttempts: Infinity,
+    ? createWSClient({
+        url: `${process.env.WEBSOCKET_URI}/graphql`,
       })
     : null;
 
@@ -267,14 +266,22 @@ export const createUrqlClient = () =>
       typeof window !== "undefined" && refocusExchange(),
       cacheExchange,
       errorExchange,
-      persistedFetchExchange({
-        preferGetForPersistedQueries: true,
-      }),
+      // persistedFetchExchange({
+      //   preferGetForPersistedQueries: true,
+      // }),
       multipartFetchExchange,
       subscriptionExchange({
         // @ts-ignore
         forwardSubscription(operation) {
-          return subscriptionClient?.request(operation);
+          if (!wsClient) return undefined;
+          return {
+            subscribe: (sink) => {
+              const dispose = wsClient.subscribe(operation, sink);
+              return {
+                unsubscribe: dispose,
+              };
+            },
+          };
         },
       }),
     ].filter(Boolean) as Exchange[],
