@@ -5,6 +5,7 @@ import { TrackItem } from "~/components/Track/index";
 import { useI18n } from "~/i18n/index";
 import { SvgCheck, SvgPlus } from "~/assets/svg";
 import { TrackAdderCallbackFn } from "./types";
+import { remToPx } from "~/lib/util";
 
 const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
   data,
@@ -22,7 +23,7 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
 
   return (
     <div
-      className="px-2 flex items-center justify-between"
+      className="p-2 flex items-center justify-between"
       role="presentation"
       key={data.items[index]}
       style={style}
@@ -67,7 +68,7 @@ const TrackAdderResults: React.FC<{
             height={height}
             width={width}
             itemCount={results.length}
-            itemSize={64}
+            itemSize={remToPx(4)}
             itemData={{ items: results, callback, addedTracks }}
           >
             {SearchResultRow}

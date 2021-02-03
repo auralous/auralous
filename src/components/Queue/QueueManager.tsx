@@ -27,6 +27,7 @@ import { TrackDocument } from "~/graphql/gql.gen";
 import { SvgGripVertical } from "~/assets/svg/index";
 import QueueAddedBy from "./QueueAddedBy";
 import { useI18n } from "~/i18n/index";
+import { remToPx } from "~/lib/util";
 
 const QueueDraggableItem: React.FC<{
   isQueueable: boolean;
@@ -69,7 +70,7 @@ const QueueDraggableItem: React.FC<{
         ...provided.draggableProps.style,
         ...style,
       }}
-      className={`select-none flex px-2 items-center ${
+      className={`select-none flex p-2 items-center ${
         isDragging ? "opacity-75" : ""
       }`}
     >
@@ -220,7 +221,7 @@ const QueueManager: React.FC<{
                     height={height}
                     width={width}
                     itemCount={queue.items.length}
-                    itemSize={64}
+                    itemSize={remToPx(4)}
                     itemData={itemData}
                     outerRef={droppableProvided.innerRef}
                   >

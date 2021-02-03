@@ -18,7 +18,9 @@ const SelectFromPlaylists: React.FC<{
 
   const [
     { data: { myPlaylists } = { myPlaylists: undefined }, fetching, error },
-  ] = useMyPlaylistsQuery();
+  ] = useMyPlaylistsQuery({
+    pause: !me,
+  });
 
   const router = useRouter();
 

@@ -13,7 +13,7 @@ export const PlayerControl: React.FC = () => {
   const { t } = useI18n();
   const {
     player,
-    state: { playerPlaying },
+    state: { playerPlaying, fetching },
   } = usePlayer();
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
@@ -31,7 +31,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <div className="my-2 gap-6 flex flex-center">
+    <div className="my-2 space-x-6 flex flex-center">
       <button
         className="btn btn-transparent p-3"
         title={t("player.skipBackward")}
@@ -42,7 +42,7 @@ export const PlayerControl: React.FC = () => {
       </button>
       <button
         aria-label={isPlaying ? t("player.pause") : t("player.play")}
-        className="btn btn-foreground w-14 h-14 rounded-full"
+        className="btn btn-foreground w-14 h-14 rounded-full relative"
         onClick={() => (isPlaying ? player.pause() : player.play())}
         disabled={!playerPlaying}
       >
@@ -51,6 +51,7 @@ export const PlayerControl: React.FC = () => {
         ) : (
           <SvgPlay className="w-6 h-6 fill-current" />
         )}
+        {fetching && <span className="spinning-border absolute inset-0" />}
       </button>
       <button
         className="btn btn-transparent p-3"

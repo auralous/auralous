@@ -69,7 +69,7 @@ const StoryQueueAdder: React.FC<{
           index={selectedIndex}
           className="h-full flex flex-col overflow-hidden"
         >
-          <TabList className="flex flex-none py-1 gap-1">
+          <TabList className="flex flex-none py-1 space-x-1">
             <Tab className={getClassName(0)}>
               {t("story.queue.search.title")}
             </Tab>

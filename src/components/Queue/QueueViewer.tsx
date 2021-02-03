@@ -6,6 +6,7 @@ import QueueAddedBy from "./QueueAddedBy";
 import { usePlayer } from "~/components/Player";
 import { TrackItem } from "~/components/Track/index";
 import { SvgAudioAnimated } from "~/assets/svg";
+import { remToPx } from "~/lib/util";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
   data,
@@ -52,7 +53,7 @@ const QueueViewer: React.FC<{
           height={height}
           width={width}
           itemCount={itemData.items.length}
-          itemSize={64}
+          itemSize={remToPx(4)}
           itemData={itemData}
         >
           {Row}

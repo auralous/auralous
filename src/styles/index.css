@@ -266,4 +266,23 @@ html {
   }
 }
 
+.spinning-border {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-left-color: rgb(29, 161, 242);
+  background: transparent;
+  animation: rotate-s-loader 1s linear infinite;
+}
+
+@keyframes rotate-s-loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* purgecss end ignore */
