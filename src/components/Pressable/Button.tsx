@@ -75,7 +75,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
           onClick={onClick}
         >
           {icon}
-          <span>{title}</span>
+          {title && <span>{title}</span>}
         </a>
       );
 
@@ -89,7 +89,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
         type={type}
       >
         {icon}
-        <span>{title}</span>
+        {title && <span>{title}</span>}
       </button>
     );
   }
