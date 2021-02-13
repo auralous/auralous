@@ -8,8 +8,8 @@ import {
   SvgUser,
   SvgX,
 } from "assets/svg";
-import { Button } from "components/Button";
 import { useModal } from "components/Modal";
+import { Button } from "components/Pressable";
 import { Story, useUserQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";

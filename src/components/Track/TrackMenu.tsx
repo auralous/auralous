@@ -1,7 +1,7 @@
 import { SvgPlus } from "assets/svg";
-import { Button } from "components/Button";
 import { Modal } from "components/Modal";
 import { AddToPlaylist } from "components/Playlist/index";
+import { Button } from "components/Pressable";
 import { useTrackQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import React, { useState } from "react";

@@ -1,6 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
-import { Button } from "components/Button";
 import { Modal } from "components/Modal";
+import { Button } from "components/Pressable";
 import { useQueue } from "components/Queue";
 import {
   TrackAdderPlaylist,

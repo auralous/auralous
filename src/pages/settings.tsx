@@ -1,6 +1,6 @@
 import { useLogin } from "components/Auth/index";
-import { Button } from "components/Button";
 import { Modal, useModal } from "components/Modal/index";
+import { Button } from "components/Pressable";
 import {
   PlatformName,
   useDeleteMeMutation,

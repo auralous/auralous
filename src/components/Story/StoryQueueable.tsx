@@ -1,5 +1,5 @@
 import { SvgUserPlus, SvgX } from "assets/svg";
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import {
   Story,
   useChangeStoryQueueableMutation,

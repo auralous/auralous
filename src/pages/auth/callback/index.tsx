@@ -1,4 +1,4 @@
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";

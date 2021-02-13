@@ -1,5 +1,5 @@
-import { Button } from "components/Button";
 import { Modal, useModal } from "components/Modal";
+import { Button } from "components/Pressable";
 import { Story, useUnliveStoryMutation } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";

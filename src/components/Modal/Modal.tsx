@@ -1,6 +1,6 @@
 import { DialogContent, DialogOverlay } from "@reach/dialog";
 import { SvgX } from "assets/svg";
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { useI18n } from "i18n/index";
 import React from "react";
 import { animated, config as springConfig, useTransition } from "react-spring";

@@ -1,6 +1,6 @@
-import { Button } from "components/Button";
 import { usePlayer } from "components/Player";
 import { PlayerImage, PlayerMeta } from "components/Player/PlayerView";
+import { Button } from "components/Pressable";
 import StoryNav from "components/Story/StoryNav";
 import {
   Story,

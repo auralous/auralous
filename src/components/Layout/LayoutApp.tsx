@@ -9,8 +9,8 @@ import {
   SvgUser,
 } from "assets/svg";
 import { useLogin } from "components/Auth";
-import { Button } from "components/Button";
 import { PlayerMinibar } from "components/Player/index";
+import { Button } from "components/Pressable";
 import { useNotificationAddedSubscription, User } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";

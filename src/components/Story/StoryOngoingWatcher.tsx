@@ -1,8 +1,8 @@
 // Check if current user has an ongoing story
 // and redirect them to it
-import { Button } from "components/Button";
 import { Modal } from "components/Modal";
 import { usePlayer } from "components/Player";
+import { Button } from "components/Pressable";
 import { useStoryLiveQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";

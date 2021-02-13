@@ -1,6 +1,6 @@
 import { SvgChevronLeft, SvgLoadingAnimated } from "assets/svg";
-import { Button } from "components/Button";
 import { PlaylistItem } from "components/Playlist";
+import { Button } from "components/Pressable";
 import {
   Playlist,
   useMyPlaylistsQuery,

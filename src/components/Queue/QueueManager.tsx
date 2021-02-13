@@ -1,5 +1,5 @@
 import { SvgGripVertical } from "assets/svg/index";
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { TrackItem } from "components/Track/index";
 import {
   Queue,

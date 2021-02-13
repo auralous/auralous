@@ -1,5 +1,5 @@
 import { SvgPause, SvgPlay, SvgX } from "assets/svg";
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useRouter } from "next/router";

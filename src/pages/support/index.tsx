@@ -1,5 +1,5 @@
 import { SvgFacebook, SvgMail, SvgTwitter } from "assets/svg";
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { GetStaticProps, NextPage } from "next";

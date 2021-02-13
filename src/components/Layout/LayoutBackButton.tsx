@@ -1,5 +1,5 @@
 import { SvgChevronDown } from "assets/svg";
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";

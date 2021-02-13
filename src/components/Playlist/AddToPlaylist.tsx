@@ -1,7 +1,7 @@
 import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "assets/svg";
 import { AuthBanner } from "components/Auth";
-import { Button } from "components/Button";
 import { Modal } from "components/Modal/index";
+import { Button } from "components/Pressable";
 import {
   PlatformName,
   Playlist,

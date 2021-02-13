@@ -1,5 +1,5 @@
-import { Button } from "components/Button";
 import { Modal } from "components/Modal";
+import { Button } from "components/Pressable";
 import { useUpdateMeMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import React, { useCallback, useRef } from "react";

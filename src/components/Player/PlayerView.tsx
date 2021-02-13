@@ -1,6 +1,6 @@
 import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
-import { Button } from "components/Button";
 import { useModal } from "components/Modal";
+import { Button } from "components/Pressable";
 import { TrackMenu } from "components/Track";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";

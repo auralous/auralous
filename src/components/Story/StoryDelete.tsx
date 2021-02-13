@@ -1,6 +1,6 @@
-import { Button } from "components/Button";
 import { Modal } from "components/Modal";
 import { usePlayer } from "components/Player";
+import { Button } from "components/Pressable";
 import { Story, useDeleteStoryMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import React from "react";

@@ -1,6 +1,6 @@
 import { SvgGoogleColor, SvgSpotify, SvgX } from "assets/svg";
-import { Button } from "components/Button";
 import { Modal, useModal } from "components/Modal/index";
+import { Button } from "components/Pressable";
 import { PlatformName } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";

@@ -1,5 +1,5 @@
 import { SvgCheck, SvgPlus } from "assets/svg";
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { TrackItem } from "components/Track/index";
 import { useI18n } from "i18n/index";
 import React, { useMemo, useState } from "react";

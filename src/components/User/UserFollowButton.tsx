@@ -1,5 +1,5 @@
 import { useLogin } from "components/Auth";
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { useFollowUserMutation, useUnfollowUserMutation } from "gql/gql.gen";
 import { useMe, useMeFollowings } from "hooks/user";
 import { useI18n } from "i18n/index";

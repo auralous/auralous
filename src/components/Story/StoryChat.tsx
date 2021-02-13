@@ -1,8 +1,8 @@
 import { SvgShare2 } from "assets/svg";
 import { AuthBanner } from "components/Auth";
-import { Button } from "components/Button";
 import { Messenger } from "components/Message/index";
 import { useModal } from "components/Modal";
+import { Button } from "components/Pressable";
 import {
   Story,
   useOnStoryUsersUpdatedSubscription,

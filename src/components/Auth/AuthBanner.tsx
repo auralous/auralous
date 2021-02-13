@@ -1,4 +1,4 @@
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { useI18n } from "i18n/index";
 import React from "react";
 import { useLogin } from "./LogIn";

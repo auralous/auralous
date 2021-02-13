@@ -1,5 +1,5 @@
 import { SvgLoadingAnimated, SvgSearch } from "assets/svg";
-import { Button } from "components/Button";
+import { Button } from "components/Pressable";
 import { Track, usePlaylistTracksQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";

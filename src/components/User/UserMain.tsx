@@ -1,6 +1,6 @@
 import { SvgSettings } from "assets/svg";
-import { Button } from "components/Button";
 import { Modal, useModal } from "components/Modal";
+import { Button } from "components/Pressable";
 import StoryFeed from "components/Story/StoryFeed";
 import {
   User,

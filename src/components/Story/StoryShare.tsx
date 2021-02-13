@@ -1,6 +1,6 @@
 import { SvgFacebook, SvgLink, SvgReddit, SvgTwitter } from "assets/svg";
-import { Button } from "components/Button";
 import { Modal } from "components/Modal";
+import { Button } from "components/Pressable";
 import UserList from "components/User/UserList";
 import UserPill from "components/User/UserPill";
 import {
