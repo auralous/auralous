@@ -1,4 +1,5 @@
 import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
+import { Button } from "components/Button";
 import { useModal } from "components/Modal";
 import { TrackMenu } from "components/Track";
 import { Track } from "gql/gql.gen";
@@ -32,35 +33,40 @@ export const PlayerControl: React.FC = () => {
 
   return (
     <div className="my-2 space-x-6 flex flex-center">
-      <button
-        className="btn btn-transparent p-3"
-        title={t("player.skipBackward")}
-        onClick={skipBackward}
+      <Button
+        accessibilityLabel={t("player.skipBackward")}
+        onPress={skipBackward}
         disabled={!skipBackward}
-      >
-        <SvgSkipBack className="w-6 h-6 fill-current stroke-current" />
-      </button>
-      <button
-        aria-label={isPlaying ? t("player.pause") : t("player.play")}
-        className="btn btn-foreground w-14 h-14 rounded-full relative"
-        onClick={() => (isPlaying ? player.pause() : player.play())}
-        disabled={!playerPlaying}
-      >
-        {isPlaying ? (
-          <SvgPause className="w-6 h-6 fill-current" />
-        ) : (
-          <SvgPlay className="w-6 h-6 fill-current" />
-        )}
+        icon={<SvgSkipBack className="w-6 h-6 fill-current stroke-current" />}
+        styling="link"
+      />
+      <div className="relative">
+        <Button
+          accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
+          icon={
+            isPlaying ? (
+              <SvgPause className="w-6 h-6 fill-current" />
+            ) : (
+              <SvgPlay className="w-6 h-6 fill-current" />
+            )
+          }
+          onPress={() => (isPlaying ? player.pause() : player.play())}
+          disabled={!playerPlaying}
+          color="foreground"
+          size="large"
+          shape="circle"
+        />
         {fetching && <span className="spinning-border absolute inset-0" />}
-      </button>
-      <button
-        className="btn btn-transparent p-3"
-        title={t("player.skipForward")}
-        onClick={skipForward}
+      </div>
+      <Button
+        accessibilityLabel={t("player.skipForward")}
+        onPress={skipForward}
         disabled={!skipForward}
-      >
-        <SvgSkipForward className="w-6 h-6 fill-current stroke-current" />
-      </button>
+        icon={
+          <SvgSkipForward className="w-6 h-6 fill-current stroke-current" />
+        }
+        styling="link"
+      />
     </div>
   );
 };

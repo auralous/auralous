@@ -1,4 +1,5 @@
 import { SvgPause, SvgPlay, SvgX } from "assets/svg";
+import { Button } from "components/Button";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -31,7 +32,7 @@ const PlayerMinibar: React.FC = () => {
 
   return (
     <div
-      className={`flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content`}
+      className={`flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content space-x-1`}
       style={{
         background: "linear-gradient(180deg, hsl(232,12%,13%), rgb(18 18 24))",
       }}
@@ -58,24 +59,24 @@ const PlayerMinibar: React.FC = () => {
           </div>
         </a>
       </Link>
-      <button
-        title={isPlaying ? t("player.pause") : t("player.play")}
-        className="btn btn-transparent p-2"
-        onClick={() => (isPlaying ? player.pause() : player.play())}
-      >
-        {isPlaying ? (
-          <SvgPause className="fill-current" />
-        ) : (
-          <SvgPlay className="fill-current" />
-        )}
-      </button>
-      <button
-        title={t("player.stopPlaying")}
-        className="btn btn-transparent p-2"
-        onClick={() => playStory("")}
-      >
-        <SvgX />
-      </button>
+      <Button
+        accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
+        onPress={() => (isPlaying ? player.pause() : player.play())}
+        icon={
+          isPlaying ? (
+            <SvgPause className="fill-current" />
+          ) : (
+            <SvgPlay className="fill-current" />
+          )
+        }
+        styling="link"
+      />
+      <Button
+        accessibilityLabel={t("player.stopPlaying")}
+        onPress={() => playStory("")}
+        icon={<SvgX />}
+        styling="link"
+      />
     </div>
   );
 };

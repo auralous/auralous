@@ -1,4 +1,5 @@
 import { SvgLogIn, SvgMusic } from "assets/svg";
+import { Button } from "components/Button";
 import { useModal } from "components/Modal";
 import { TrackMenu } from "components/Track";
 import {
@@ -210,13 +211,12 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
       aria-live="off"
     >
       {hasMore && (
-        <button
-          onClick={() => setOffset(messages.length)}
+        <Button
+          onPress={() => setOffset(messages.length)}
           disabled={fetching}
-          className="btn btn-transparent bg-foreground-backdrop w-full text-xs p-1"
-        >
-          {t("message.loadOlder")}
-        </button>
+          fullWidth
+          title={t("message.loadOlder")}
+        />
       )}
       {messages.map((message, index) => {
         if (message.type === MessageType.Play)

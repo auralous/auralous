@@ -93,13 +93,16 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
   if (story.isLive)
     return (
       <div className="h-full flex flex-col">
-        <button
-          title={t("story.queue.adderTitle")}
-          onClick={onAddButtonClick}
-          className="z-40 btn btn-primary rounded-full absolute bottom-2 right-2 w-12 h-12 p-1"
-        >
-          <SvgPlus />
-        </button>
+        <div className="absolute bottom-2 right-2">
+          <Button
+            accessibilityLabel={t("story.queue.adderTitle")}
+            icon={<SvgPlus />}
+            size="large"
+            color="primary"
+            onPress={onAddButtonClick}
+            shape="circle"
+          />
+        </div>
         <StoryQueueAdder story={story} active={active} close={close} />
         <StoryQueueableManager story={story} />
         <div className="flex-1 h-0">

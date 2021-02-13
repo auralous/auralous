@@ -54,7 +54,7 @@ const CreatePlaylist: React.FC<{
   return isCreatingPlaylist ? (
     <>
       <form
-        className="flex mb-1 p-2 h-16 space-x-1"
+        className="flex p-2 h-16 space-x-1"
         onSubmit={handleCreatePlaylistAndAdd}
       >
         <input
@@ -84,15 +84,12 @@ const CreatePlaylist: React.FC<{
       )}
     </>
   ) : (
-    <button
-      className="btn w-full justify-start font-normal mb-1 p-2"
-      onClick={() => setIsCreatingPlaylist(true)}
-    >
-      <div className="w-12 h-12 border-2 border-foreground flex flex-center rounded-lg">
-        <SvgPlus />
-      </div>
-      <span className="ml-2 font-bold">{t("playlist.new.title")}</span>
-    </button>
+    <Button
+      icon={<SvgPlus />}
+      title={t("playlist.new.title")}
+      onPress={() => setIsCreatingPlaylist(true)}
+      fullWidth
+    />
   );
 };
 
@@ -174,10 +171,10 @@ const AddToPlaylist: React.FC<{
       <Modal.Content>
         {me ? (
           track?.platform === me.platform ? (
-            <>
+            <div className="space-y-1">
               <CreatePlaylist track={track} done={close} />
               <AddToExistingPlaylist track={track} done={close} />
-            </>
+            </div>
           ) : (
             <div>
               <p className="text-foreground-secondary">

@@ -1,4 +1,5 @@
 import { SvgChevronLeft, SvgLoadingAnimated } from "assets/svg";
+import { Button } from "components/Button";
 import { PlaylistItem } from "components/Playlist";
 import {
   Playlist,
@@ -45,15 +46,14 @@ const TrackAdderPlaylist: React.FC<{
 
   return (
     <div className="flex flex-col w-full h-full relative">
-      <div className="text-sm px-2 h-10 flex items-center font-bold">
-        <button
-          onClick={() => setSelectedPlaylist(null)}
-          title="Select another playlist"
-          className="btn btn-transparent p-1 inline mr-2"
+      <div className="text-sm px-2 h-10 flex items-center font-bold space-x-2">
+        <Button
+          onPress={() => setSelectedPlaylist(null)}
+          accessibilityLabel={t("common.back")}
+          icon={<SvgChevronLeft className="w-8 h-8" />}
           disabled={!selectedPlaylist}
-        >
-          <SvgChevronLeft width="24" height="24" />
-        </button>
+          styling="link"
+        />
         {!!selectedPlaylist && (
           <div className="inline-flex items-center">
             <img

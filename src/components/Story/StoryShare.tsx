@@ -82,19 +82,19 @@ const StoryShare: React.FC<{
             accessibilityLabel={t("share.copy")}
           />
           <Button
-            externalLink={`https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&href=${shareUri}&display=popup`}
+            asLink={`https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&href=${shareUri}&display=popup`}
             icon={<SvgFacebook className="fill-current stroke-0" />}
             accessibilityLabel="Facebook"
           />
           <Button
-            externalLink={`https://twitter.com/intent/tweet?url=${shareUri}&text=${encodeURIComponent(
+            asLink={`https://twitter.com/intent/tweet?url=${shareUri}&text=${encodeURIComponent(
               name
             )}`}
             icon={<SvgTwitter className="fill-current stroke-0" />}
             accessibilityLabel="Twitter"
           />
           <Button
-            externalLink={`https://reddit.com/submit?url=${shareUri}&title=${encodeURIComponent(
+            asLink={`https://reddit.com/submit?url=${shareUri}&title=${encodeURIComponent(
               name
             )}`}
             icon={<SvgReddit width="24" className="fill-current stroke-0" />}

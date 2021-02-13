@@ -1,3 +1,4 @@
+import { Button } from "components/Button";
 import LayoutBackButton from "components/Layout/LayoutBackButton";
 import { usePlayer } from "components/Player";
 import { Track } from "gql/gql.gen";
@@ -75,20 +76,21 @@ const SelectTracksView: React.FC<{
           </animated.div>
         )
       )}
-      <div className="pt-48 flex flex-col items-center">
+      <div className="pt-48 flex flex-col items-center space-y-1">
         <span className="text-foreground-tertiary text-sm font-bold my-8 uppercase">
           {t("new.or")}
         </span>
-        <button
-          onClick={() =>
+        <Button
+          onPress={() =>
             from === "search" ? setFrom("playlist") : setFrom("search")
           }
-          className="btn btn-transparent text-sm rounded-full border-foreground-secondary border-2 mb-1"
-        >
-          {from === "search"
-            ? t("new.fromPlaylist.title")
-            : t("new.fromSearch.title")}
-        </button>
+          title={
+            from === "search"
+              ? t("new.fromPlaylist.title")
+              : t("new.fromSearch.title")
+          }
+          shape="circle"
+        />
         <button
           onClick={() => setInitTracks([])}
           className="opacity-75 py-2 px-4 text-sm text-inline-link"

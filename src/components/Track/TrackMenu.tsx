@@ -49,27 +49,22 @@ const TrackMenu: React.FC<{
               <div className="flex flex-wrap justify-center md:justify-start space-x-1">
                 <Button
                   onPress={() => setOpenAddPlaylist(true)}
-                  icon={<SvgPlus width="20" className="mr-1" />}
+                  icon={<SvgPlus width="20" />}
                   title={t("track.addToPlaylist")}
                 />
-                <a
-                  href={track?.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn text-xs m-1"
-                >
-                  {SvgPlatformName && (
-                    <SvgPlatformName width="20" className="fill-current" />
-                  )}
-                  <span className="ml-2">
-                    {t("track.listenOn", {
-                      platform:
-                        (track?.platform &&
-                          PLATFORM_FULLNAMES[track.platform]) ||
-                        "",
-                    })}
-                  </span>
-                </a>
+                <Button
+                  asLink={track?.url}
+                  icon={
+                    SvgPlatformName ? (
+                      <SvgPlatformName width="20" className="fill-current" />
+                    ) : undefined
+                  }
+                  title={t("track.listenOn", {
+                    platform:
+                      (track?.platform && PLATFORM_FULLNAMES[track.platform]) ||
+                      "",
+                  })}
+                />
               </div>
             </div>
           </div>

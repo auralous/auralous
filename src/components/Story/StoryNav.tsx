@@ -65,10 +65,11 @@ const StoryNavMenu: React.FC<{
           />
           <StoryShare active={activeShare} close={closeShare} story={story} />
           <Link href={`/user/${user?.username}`}>
-            <a className="btn btn-transparent">
-              <SvgUser className="w-5 h-5 mr-2" />
-              {t("story.menu.viewCreator")}
-            </a>
+            <Button
+              icon={<SvgUser className="w-5 h-5" />}
+              title={t("story.menu.viewCreator")}
+              styling="link"
+            />
           </Link>
           <StoryEnd story={story}>
             {(openEnd) => (
@@ -96,13 +97,14 @@ const StoryNavMenu: React.FC<{
             </>
           )}
         </div>
-        <button
-          className="btn btn-transparent absolute top-4 right-4 p-1.5"
-          onClick={close}
-          aria-label={t("modal.close")}
-        >
-          <SvgX className="w-8 h-8" />
-        </button>
+        <div className="absolute top-4 right-4 p-1.5">
+          <Button
+            accessibilityLabel={t("modal.close")}
+            onPress={close}
+            icon={<SvgX className="w-8 h-8" />}
+            styling="link"
+          />
+        </div>
       </DialogOverlay>
     </>
   );
@@ -127,13 +129,12 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
 
   return (
     <div className="flex items-center justify-between">
-      <button
-        className="btn btn-transparent p-0 w-8 h-8"
-        onClick={onClose}
-        aria-label={t("modal.close")}
-      >
-        <SvgChevronDown className="w-6 h-6" />
-      </button>
+      <Button
+        styling="link"
+        icon={<SvgChevronDown className="w-8 h-8" />}
+        accessibilityLabel={t("modal.close")}
+        onPress={onClose}
+      />
       <div className="flex w-0 flex-1 items-center justify-center">
         {user ? (
           <img
@@ -157,13 +158,12 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
           )}
         </div>
       </div>
-      <button
-        aria-label={t("story.menu.handle")}
-        className="btn btn-transparent p-0 w-8 h-8"
-        onClick={showMenu}
-      >
-        <SvgMoreHorizontal className="w-6 h-6" />
-      </button>
+      <Button
+        accessibilityLabel={t("story.menu.handle")}
+        icon={<SvgMoreHorizontal className="w-8 h-8" />}
+        onPress={showMenu}
+        styling="link"
+      />
       <StoryNavMenu story={story} active={activeMenu} close={closeMenu} />
     </div>
   );

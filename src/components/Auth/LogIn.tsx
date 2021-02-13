@@ -1,4 +1,5 @@
 import { SvgGoogleColor, SvgSpotify, SvgX } from "assets/svg";
+import { Button } from "components/Button";
 import { Modal, useModal } from "components/Modal/index";
 import { PlatformName } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
@@ -181,13 +182,13 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             {t("auth.footerText.whereApplicable")}.
           </p>
         </div>
-        <button
-          className="btn btn-transparent absolute top-2 right-0"
-          onClick={close}
-          title={t("modal.close")}
-        >
-          <SvgX />
-        </button>
+        <div className="absolute top-2 right-0">
+          <Button
+            accessibilityLabel={t("modal.close")}
+            icon={<SvgX />}
+            styling="link"
+          />
+        </div>
       </Modal.Modal>
       <Welcome active={activeWelcome} close={close} />
     </>

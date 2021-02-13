@@ -1,5 +1,5 @@
 import { SvgLoadingAnimated } from "assets/svg";
-import { useLogin } from "components/Auth";
+import { AuthBanner } from "components/Auth";
 import { PlaylistItem } from "components/Playlist";
 import { Track, useMyPlaylistsQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
@@ -14,7 +14,6 @@ const SelectFromPlaylists: React.FC<{
   const { t } = useI18n();
 
   const me = useMe();
-  const [, logIn] = useLogin();
 
   const [
     { data: { myPlaylists } = { myPlaylists: undefined }, fetching, error },
@@ -39,14 +38,10 @@ const SelectFromPlaylists: React.FC<{
 
   if (!me)
     return (
-      <div className="flex flex-col items-center p-4 rounded-lg bg-background-tertiary">
-        <p className="text-foreground-secondary mb-2cd ">
-          {t("new.fromPlaylist.authPrompt")}
-        </p>
-        <button onClick={logIn} className="btn btn-primary">
-          {t("common.signIn")}
-        </button>
-      </div>
+      <AuthBanner
+        prompt={t("new.fromPlaylist.title")}
+        hook={t("new.fromPlaylist.authPrompt")}
+      />
     );
 
   if (myPlaylists?.length)

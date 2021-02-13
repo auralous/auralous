@@ -1,4 +1,5 @@
 import { SvgFacebook, SvgMail, SvgTwitter } from "assets/svg";
+import { Button } from "components/Button";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { GetStaticProps, NextPage } from "next";
@@ -9,17 +10,6 @@ import {
   getPages as getSupportPages,
   SupportArticle,
 } from "utils/content-support";
-
-const ContactLink: React.FC<{ href: string }> = ({ href, children }) => (
-  <a
-    className="btn btn-foreground rounded-full m-1 py-3 px-6"
-    target="_blank"
-    rel="noreferrer"
-    href={href}
-  >
-    {children}
-  </a>
-);
 
 const SupportPage: NextPage<{
   pages: SupportArticle[];
@@ -69,19 +59,25 @@ const SupportPage: NextPage<{
         <p className="text-sm text-foreground-tertiary text-center mt-10">
           {t("support.p")}
         </p>
-        <div className="flex flex-wrap justify-center py-6">
-          <ContactLink href="mailto:yo@withstereo.com">
-            <SvgMail className="mx-2" />
-            yo@withstereo.com
-          </ContactLink>
-          <ContactLink href="https://www.facebook.com/withstereo/">
-            <SvgFacebook className="mx-2" />
-            withstereo
-          </ContactLink>
-          <ContactLink href="https://twitter.com/withstereo_">
-            <SvgTwitter className="mx-2" />
-            withstereo_
-          </ContactLink>
+        <div className="flex flex-wrap justify-center py-6 space-x-2">
+          <Button
+            icon={<SvgMail />}
+            title="yo@withstereo.com"
+            asLink="mailto:yo@withstereo.com"
+            shape="circle"
+          />
+          <Button
+            icon={<SvgFacebook />}
+            title="withstereo"
+            asLink="https://www.facebook.com/withstereo/"
+            shape="circle"
+          />
+          <Button
+            icon={<SvgTwitter />}
+            title="withstereo_"
+            asLink="https://twitter.com/withstereo_"
+            shape="circle"
+          />
         </div>
       </div>
     </>

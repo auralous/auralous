@@ -1,5 +1,6 @@
 import { DialogContent, DialogOverlay } from "@reach/dialog";
 import { SvgX } from "assets/svg";
+import { Button } from "components/Button";
 import { useI18n } from "i18n/index";
 import React from "react";
 import { animated, config as springConfig, useTransition } from "react-spring";
@@ -74,13 +75,15 @@ const Modal: React.FC<{
               >
                 {children}
                 {close && (
-                  <button
-                    className="btn absolute top-4 right-3 p-1.5 rounded-full"
-                    onClick={close}
-                    aria-label={t("modal.close")}
-                  >
-                    <SvgX className="w-4 h-4" />
-                  </button>
+                  <div className="absolute top-4 right-3">
+                    <Button
+                      accessibilityLabel={t("modal.close")}
+                      icon={<SvgX className="w-4 h-4" />}
+                      onPress={close}
+                      shape="circle"
+                      size="medium"
+                    />
+                  </div>
                 )}
               </AnimatedDialogContent>
             </AnimatedDialogOverlay>

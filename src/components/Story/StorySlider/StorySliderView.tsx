@@ -1,3 +1,4 @@
+import { Button } from "components/Button";
 import { usePlayer } from "components/Player";
 import { PlayerImage, PlayerMeta } from "components/Player/PlayerView";
 import StoryNav from "components/Story/StoryNav";
@@ -59,12 +60,17 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
             username: user?.username || "",
           })}
         </p>
-        <Link href={`/story/${story?.id}`}>
-          <a className="btn btn-primary w-full">
-            {story?.isLive
-              ? t("listen.actionJoin")
-              : t("listen.actionJoinNoLive")}
-          </a>
+        <Link href={`/story/${story?.id}`} passHref>
+          <Button
+            title={
+              story?.isLive
+                ? t("listen.actionJoin")
+                : t("listen.actionJoinNoLive")
+            }
+            fullWidth
+            color="primary"
+            asLink
+          />
         </Link>
       </div>
       {/* TODO: a11y */}

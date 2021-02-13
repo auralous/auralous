@@ -114,12 +114,12 @@ const Footer: React.FC = () => {
   const { t } = useI18n();
   return (
     <footer className="text-center mt-20 py-12 w-full mx-auto">
-      <div className="mb-1 text-sm overflow-auto opacity-75">
+      <div className="mb-1 text-sm overflow-auto opacity-75 space-x-4">
         <a
           href="https://www.facebook.com/withstereo/"
           target="_blank"
           rel="noreferrer"
-          className="btn btn-transparent p-0 mx-2"
+          className="text-inline-link font-medium"
         >
           Facebook
         </a>
@@ -127,23 +127,23 @@ const Footer: React.FC = () => {
           href="https://twitter.com/withstereo_"
           target="_blank"
           rel="noreferrer"
-          className="btn btn-transparent p-0 mx-2"
+          className="text-inline-link font-medium"
         >
           Twitter
         </a>
         <Link href="/privacy">
-          <a className="btn btn-transparent p-0 mx-2">{t("footer.privacy")}</a>
+          <a className="text-inline-link font-medium">{t("footer.privacy")}</a>
         </Link>
         <a
           href="https://github.com/hoangvvo/stereo-web"
           target="_blank"
           rel="noreferrer"
-          className="btn btn-transparent p-0 mx-2"
+          className="text-inline-link font-medium"
         >
           {t("footer.contribute")}
         </a>
         <Link href="/support">
-          <a className="btn btn-transparent p-0 mx-2">{t("footer.support")}</a>
+          <a className="text-inline-link font-medium">{t("footer.support")}</a>
         </Link>
       </div>
       <p className="text-center opacity-50 mb-2 text-xs">

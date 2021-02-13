@@ -1,4 +1,5 @@
 import { SvgSettings } from "assets/svg";
+import { Button } from "components/Button";
 import { Modal, useModal } from "components/Modal";
 import StoryFeed from "components/Story/StoryFeed";
 import {
@@ -128,14 +129,15 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           </div>
         </div>
         {me?.user.id === user.id && (
-          <Link href="/settings">
-            <a
-              className="md:hidden absolute top-2 right-0 btn btn-transparent"
-              title={t("settings.title")}
-            >
-              <SvgSettings className="w-8 h-8 stroke-1" />
-            </a>
-          </Link>
+          <div className="md:hidden absolute top-2 right-0">
+            <Link href="/settings">
+              <Button
+                styling="link"
+                icon={<SvgSettings className="w-8 h-8 stroke-1" />}
+                accessibilityLabel={t("settings.title")}
+              />
+            </Link>
+          </div>
         )}
       </div>
       <div className="py-4">

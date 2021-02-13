@@ -1,4 +1,5 @@
 import { SvgLoadingAnimated, SvgSearch } from "assets/svg";
+import { Button } from "components/Button";
 import { Track, usePlaylistTracksQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
@@ -61,14 +62,12 @@ const SelectFromSearch: React.FC<{
           disabled={fetching}
           type="url"
         />
-        <button
+        <Button
           type="submit"
-          title={t("new.fromSearch.action")}
-          className="btn btn-primary w-12 h-10"
+          accessibilityLabel={t("new.fromSearch.action")}
           disabled={fetching}
-        >
-          {fetching ? <SvgLoadingAnimated /> : <SvgSearch />}
-        </button>
+          icon={fetching ? <SvgLoadingAnimated /> : <SvgSearch />}
+        />
       </form>
     </>
   );
