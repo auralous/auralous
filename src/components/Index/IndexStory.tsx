@@ -1,4 +1,5 @@
 import { SvgLogIn, SvgMusic } from "assets/svg";
+import { Typography } from "components/Typography";
 import { useTrackQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import React from "react";
@@ -104,8 +105,10 @@ const IndexStorySocial: React.FC = () => {
           rel="noreferrer"
           className="text-foreground-secondary hover:text-foreground transition-colors"
         >
-          <i>{track?.artists.map(({ name }) => name).join(", ")}</i> -{" "}
-          {track?.title}
+          <Typography.Text emphasis>
+            {track?.artists.map(({ name }) => name).join(", ")}
+          </Typography.Text>{" "}
+          - {track?.title}
         </a>
       </IndexStoryMessage>
       <IndexStoryMessage>

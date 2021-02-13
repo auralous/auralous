@@ -2,6 +2,7 @@ import { SvgLogIn, SvgMusic } from "assets/svg";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { TrackMenu } from "components/Track";
+import { Typography } from "components/Typography";
 import {
   Message,
   MessageType,
@@ -79,8 +80,10 @@ const MessageItemPlay: React.FC<{
             className="block font-semibold opacity-75 text-inline-link text-left text-foreground leading-tight"
             onClick={show}
           >
-            <i>{track.artists.map(({ name }) => name).join(", ")}</i> -{" "}
-            {track.title}
+            <Typography.Text emphasis>
+              {track.artists.map(({ name }) => name).join(", ")}
+            </Typography.Text>{" "}
+            - {track.title}
           </button>
         )}
       </div>
@@ -131,9 +134,9 @@ const MessageItem: React.FC<{
           </div>
         </>
       )}
-      <p className="text-white leading-tight text-sm text-opacity-75">
+      <Typography.Paragraph paragraph={false} size="sm">
         {message.text}
-      </p>
+      </Typography.Paragraph>
     </div>
   );
 };

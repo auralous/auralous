@@ -1,5 +1,6 @@
 import { Modal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { useUpdateMeMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import React, { useCallback, useRef } from "react";
@@ -38,9 +39,9 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
     <Modal.Modal title="Welcome to Stereo" active={active}>
       <form className="py-8 px-16" onSubmit={onSubmit}>
         <div className="mb-4">
-          <p id="welcomeUsernameLabel" className="text-center mb-2 font-bold">
+          <Typography.Paragraph id="welcomeUsernameLabel" align="center">
             {t("settings.username.label")}
-          </p>
+          </Typography.Paragraph>
           <input
             ref={usernameRef}
             aria-labelledby="welcomeUsernameLabel"
@@ -48,11 +49,15 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
             required
             maxLength={CONFIG.usernameMaxLength}
           />
-          <p className="text-xs text-foreground-secondary text-center">
+          <Typography.Paragraph
+            color="foreground-secondary"
+            size="xs"
+            align="center"
+          >
             {t("settings.username.helpText", {
               maxLength: CONFIG.usernameMaxLength,
             })}
-          </p>
+          </Typography.Paragraph>
         </div>
         <Button disabled={fetching} title={t("common.save")} />
       </form>

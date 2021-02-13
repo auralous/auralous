@@ -1,5 +1,6 @@
 import { Modal, useModal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { Story, useUnliveStoryMutation } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -30,7 +31,7 @@ const StoryEnd: React.FC<{
           <Modal.Title>{t("story.end.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Content>
-          <p>{t("story.end.explain")}</p>
+          <Typography.Paragraph>{t("story.end.explain")}</Typography.Paragraph>
         </Modal.Content>
         <Modal.Footer>
           <Button

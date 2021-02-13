@@ -1,3 +1,4 @@
+import { Typography } from "components/Typography";
 import {
   NotificationFollow,
   NotificationInvite,
@@ -44,10 +45,12 @@ const NotificationItemStorySection: React.FC<{ id: string }> = ({ id }) => {
           className="w-8 h-8 rounded-sm object-cover"
         />
         <div className="px-2">
-          <p className="text-sm font-semibold leading-none">
+          <Typography.Paragraph size="sm" strong paragraph={false}>
             {t("story.ofUsername", { username: user?.username })}
-          </p>
-          <p className="text-xs">{story?.text}</p>
+          </Typography.Paragraph>
+          <Typography.Paragraph size="xs" paragraph={false}>
+            {story?.text}
+          </Typography.Paragraph>
         </div>
       </a>
     </Link>
@@ -64,12 +67,12 @@ const NotificationItemFollow: React.FC<{
 
   return (
     <>
-      <p className="text-sm">
+      <Typography.Paragraph paragraph={false} size="sm">
         <Link href={`/user/${user?.username}`}>
           <a className="font-bold">{user?.username}</a>
         </Link>{" "}
         {t("notification.follow.text")}
-      </p>
+      </Typography.Paragraph>
     </>
   );
 };
@@ -84,12 +87,12 @@ const NotificationItemInvite: React.FC<{
 
   return (
     <>
-      <p className="text-sm">
+      <Typography.Paragraph paragraph={false} size="sm">
         <Link href={`/user/${user?.username}`}>
           <a className="font-bold">{user?.username}</a>
         </Link>{" "}
         {t("notification.invite.text")}
-      </p>
+      </Typography.Paragraph>
       <NotificationItemStorySection id={notification.storyId} />
     </>
   );
@@ -105,12 +108,12 @@ const NotificationItemNewStory: React.FC<{
 
   return (
     <>
-      <p className="text-sm">
+      <Typography.Paragraph paragraph={false} size="sm">
         <Link href={`/user/${user?.username}`}>
           <a className="font-bold">{user?.username}</a>
         </Link>{" "}
         {t("notification.newStory.text")}
-      </p>
+      </Typography.Paragraph>
       <NotificationItemStorySection id={notification.storyId} />
     </>
   );

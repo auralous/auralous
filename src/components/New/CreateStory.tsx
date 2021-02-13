@@ -1,6 +1,7 @@
 import { useLogin } from "components/Auth";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import {
   QueueAction,
   Track,
@@ -98,17 +99,17 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
           id="storyText"
           aria-labelledby="storyText-label"
           required
-          className="input w-full text-center"
+          className="input w-full text-center mb-1"
           type="text"
           maxLength={CONFIG.storyTextMaxLength}
           ref={textRef}
           disabled={fetching}
         />
-        <p className="text-xs text-foreground-tertiary mt-1">
+        <Typography.Paragraph size="xs" color="foreground-tertiary">
           {t("new.addNew.textHelp", { maxLength: CONFIG.storyTextMaxLength })}
-        </p>
+        </Typography.Paragraph>
       </CreateStoryFormGroup>
-      <div className="mb-8" />
+      <div className="mb-4" />
       {/* <CreateStoryFormGroup>
         <CreateStoryLabel htmlFor="storyPrivacy">
           {t("new.addNew.promptPrivacy")}
@@ -149,6 +150,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         type="submit"
         disabled={fetching}
         title={t("new.addNew.action")}
+        shape="circle"
       />
     </form>
   );

@@ -2,6 +2,7 @@ import { SvgSettings } from "assets/svg";
 import { Modal, useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import StoryFeed from "components/Story/StoryFeed";
+import { Typography } from "components/Typography";
 import {
   User,
   useUserFollowersQuery,
@@ -116,7 +117,8 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
             className="p-1 text-inline-link"
             onClick={openFollowing}
           >
-            <b>{userStat?.followingCount}</b> {t("user.following")}
+            <Typography.Text strong>{userStat?.followingCount}</Typography.Text>{" "}
+            {t("user.following")}
           </div>
           <div
             role="link"
@@ -125,7 +127,8 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
             className="p-1 text-inline-link"
             onClick={openFollower}
           >
-            <b>{userStat?.followerCount}</b> {t("user.followers")}
+            <Typography.Text strong>{userStat?.followerCount}</Typography.Text>{" "}
+            {t("user.followers")}
           </div>
         </div>
         {me?.user.id === user.id && (

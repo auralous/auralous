@@ -1,6 +1,7 @@
 import { SvgGripVertical } from "assets/svg/index";
 import { Button } from "components/Pressable";
 import { TrackItem } from "components/Track/index";
+import { Typography } from "components/Typography";
 import {
   Queue,
   QueueAction,
@@ -190,8 +191,14 @@ const QueueManager: React.FC<{
     <div className="h-full w-full flex flex-col justify-between">
       <div className="w-full h-full">
         {queue.items?.length === 0 && (
-          <div className="absolute-center z-10 w-full text-center text-lg text-foreground-tertiary p-4">
-            <p className="text-center mb-2">{t("queue.manager.empty")}</p>
+          <div className="absolute-center z-10 w-full text-center p-4">
+            <Typography.Paragraph
+              align="center"
+              size="lg"
+              color="foreground-tertiary"
+            >
+              {t("queue.manager.empty")}
+            </Typography.Paragraph>
             {isQueueable && (
               <Button
                 color="primary"

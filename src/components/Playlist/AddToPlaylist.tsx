@@ -2,6 +2,7 @@ import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "assets/svg";
 import { AuthBanner } from "components/Auth";
 import { Modal } from "components/Modal/index";
 import { Button, PressableHighlight } from "components/Pressable";
+import { Typography } from "components/Typography";
 import {
   PlatformName,
   Playlist,
@@ -175,12 +176,10 @@ const AddToPlaylist: React.FC<{
               <AddToExistingPlaylist track={track} done={close} />
             </div>
           ) : (
-            <div>
-              <p className="text-foreground-secondary">
-                Adding tracks from a different platform is not yet supported.{" "}
-              </p>
-              <p className="text-foreground-tertiary">{t("error.sorry")}.</p>
-            </div>
+            <Typography.Paragraph color="foreground-secondary">
+              Adding tracks from a different platform is not yet supported.{" "}
+              {t("error.sorry")}.
+            </Typography.Paragraph>
           )
         ) : (
           <AuthBanner prompt={t("playlist.authPrompt")} />

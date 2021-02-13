@@ -1,6 +1,7 @@
 import LayoutBackButton from "components/Layout/LayoutBackButton";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
@@ -110,26 +111,26 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
     <>
       <div className="text-lg text-center text-foreground-secondary pb-6">
         {initTracks.length ? (
-          <p>
+          <Typography.Paragraph color="foreground-secondary">
             {t("new.fromResult.startListeningTo")}{" "}
-            <b className="text-foreground">
+            <Typography.Text strong color="foreground">
               {initTracks.length} {t("common.tracks")}
-            </b>{" "}
+            </Typography.Text>{" "}
             {t("new.fromResult.featuring")}{" "}
-            <i className="text-foreground">
+            <Typography.Text emphasis color="foreground">
               {getFeaturedArtists(initTracks).join(", ")}
-            </i>
-          </p>
+            </Typography.Text>
+          </Typography.Paragraph>
         ) : null}
       </div>
       <CreateStory initTracks={initTracks} />
       <div className="w-full flex mt-2 justify-center">
-        <button
-          className="py-1 font-bold text-sm text-inline-link"
-          onClick={() => router.replace("/new")}
-        >
-          {t("common.back")}
-        </button>
+        <Button
+          size="small"
+          styling="link"
+          onPress={() => router.replace("/new")}
+          title={t("common.back")}
+        />
       </div>
     </>
   );

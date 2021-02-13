@@ -1,6 +1,7 @@
 import { useLogin } from "components/Auth/index";
 import { Modal, useModal } from "components/Modal/index";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import {
   PlatformName,
   useDeleteMeMutation,
@@ -28,7 +29,9 @@ import {
 import { toast } from "utils/toast";
 
 const SettingTitle: React.FC = ({ children }) => (
-  <h3 className="text-lg font-bold mb-1">{children}</h3>
+  <Typography.Title size="lg" level={3}>
+    {children}
+  </Typography.Title>
 );
 
 const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
@@ -62,11 +65,14 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Content>
-          <p className="mb-4 text-center">
+          <Typography.Paragraph align="center">
             {t("settings.dangerZone.delete.modal.description")}
             <br />
-            <b>{t("common.dangerousActionText")}</b>.
-          </p>
+            <Typography.Text strong>
+              {t("common.dangerousActionText")}
+            </Typography.Text>
+            .
+          </Typography.Paragraph>
           <div className="text-center">
             <input
               aria-label={t("settings.dangerZone.delete.modal.enterName")}
@@ -91,7 +97,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           />
         </Modal.Footer>
       </Modal.Modal>
-      <p className="text-sm text-foreground-secondary mb-2">
+      <Typography.Paragraph size="sm" color="foreground-secondary">
         {t("settings.dangerZone.delete.description")}{" "}
         <a
           className="underline"
@@ -100,7 +106,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         >
           {t("settings.dangerZone.delete.descriptionData")}
         </a>
-      </p>
+      </Typography.Paragraph>
       <Button
         color="danger"
         onPress={openDelete}
@@ -193,11 +199,12 @@ const LeftSection: React.FC = () => {
                 maxLength={CONFIG.usernameMaxLength}
                 required
               />
-              <p className="text-xs text-foreground-secondary mt-1">
+              <div className="mt-1" />
+              <Typography.Paragraph size="xs" color="foreground-secondary">
                 {t("settings.username.helpText", {
                   maxLength: CONFIG.usernameMaxLength,
                 })}
-              </p>
+              </Typography.Paragraph>
             </div>
             <div className="mt-4 mb-2">
               <label className="label" htmlFor="profilePictureInput">
@@ -231,9 +238,9 @@ const LeftSection: React.FC = () => {
         </>
       ) : (
         <>
-          <p className="text-foreground-tertiary mb-2">
+          <Typography.Paragraph color="foreground-tertiary">
             {t("settings.profile.authPrompt")}
-          </p>
+          </Typography.Paragraph>
           <Button onPress={logIn} title={t("common.signIn")} />
         </>
       )}
@@ -261,22 +268,22 @@ const MusicConnection: React.FC = () => {
         )}
         <div className="ml-4">
           <div className="mb-1">{t("settings.listening.title", { name })}</div>
-          <p className="text-sm leading-tight">
+          <Typography.Paragraph paragraph={false} size="sm">
             {me ? (
-              <span className="text-foreground-secondary">
+              <Typography.Text color="foreground-secondary">
                 {t("settings.listening.connectedTo", { name })},{" "}
                 <a target="_blank" href="/support" className="font-bold">
                   {t("settings.listening.contactUs")}
                 </a>
-              </span>
+              </Typography.Text>
             ) : (
               <>
-                <span className="text-foreground-secondary mr-1">
+                <Typography.Text color="foreground-secondary">
                   {t("player.signInSuggest")}
-                </span>
+                </Typography.Text>
               </>
             )}
-          </p>
+          </Typography.Paragraph>
         </div>
       </div>
     </>

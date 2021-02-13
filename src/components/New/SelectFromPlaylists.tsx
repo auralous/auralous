@@ -2,6 +2,7 @@ import { SvgLoadingAnimated } from "assets/svg";
 import { AuthBanner } from "components/Auth";
 import { PlaylistItem } from "components/Playlist";
 import { PressableHighlight } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { Track, useMyPlaylistsQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -66,12 +67,17 @@ const SelectFromPlaylists: React.FC<{
       </span>
     );
 
-  if (error) return <p className="text-danger-light">{t("error.unknown")}</p>;
+  if (error)
+    return (
+      <Typography.Paragraph color="danger">
+        {t("error.unknown")}
+      </Typography.Paragraph>
+    );
 
   return (
-    <p className="text-foreground-secondary font-bold">
+    <Typography.Paragraph strong color="foreground-secondary">
       {t("new.fromPlaylist.empty")}
-    </p>
+    </Typography.Paragraph>
   );
 };
 

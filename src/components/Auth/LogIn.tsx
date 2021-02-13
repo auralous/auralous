@@ -1,6 +1,7 @@
 import { SvgGoogleColor, SvgSpotify, SvgX } from "assets/svg";
 import { Modal, useModal } from "components/Modal/index";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { PlatformName } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
@@ -106,13 +107,18 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             background: `url("/images/topography.svg")`,
           }}
         >
-          <div className="text-center flex flex-col items-center p-4">
-            <h1 className="text-3xl font-bold">Hellooo!</h1>
+          <div className="flex flex-col items-center p-4 space-y-2 max-w-full">
+            <Typography.Title align="center">Hellooo!</Typography.Title>
             <div className="flex flex-wrap flex-center">
-              <div className="m-1 p-1 flex flex-col">
-                <span className="text-foreground-secondary mb-1 text-xs">
-                  {t("auth.listenOn")} <b>YouTube</b>
-                </span>
+              <div className="m-1 p-1 flex flex-col space-y-1">
+                <Typography.Text
+                  size="xs"
+                  align="center"
+                  color="foreground-secondary"
+                >
+                  {t("auth.listenOn")}{" "}
+                  <Typography.Text strong>YouTube</Typography.Text>
+                </Typography.Text>
                 <button
                   onClick={() => logIn(PlatformName.Youtube)}
                   className="btn bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity rounded-full"
@@ -126,10 +132,15 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                   <span className="ml-4 text-sm">Continue with Google</span>
                 </button>
               </div>
-              <div className="m-1 p-1 flex flex-col">
-                <span className="text-foreground-secondary mb-1 text-xs">
-                  {t("auth.listenOn")} <b>Spotify</b>
-                </span>
+              <div className="m-1 p-1 flex flex-col space-y-1">
+                <Typography.Text
+                  size="xs"
+                  align="center"
+                  color="foreground-secondary"
+                >
+                  {t("auth.listenOn")}{" "}
+                  <Typography.Text strong>Spotify</Typography.Text>
+                </Typography.Text>
                 <button
                   onClick={() => logIn(PlatformName.Spotify)}
                   className="btn bg-spotify text-spotify-label h-12 hover:opacity-75 transition-opacity rounded-full"
@@ -140,10 +151,14 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </button>
               </div>
             </div>
-            <p className="mt-2 text-xs p-2 text-foreground-tertiary">
-              {t("auth.createNotice")}.
-            </p>
-            <p className="text-xs p-2 rounded-lg max-w-xl mx-auto">
+            <Typography.Paragraph
+              size="xs"
+              color="foreground-tertiary"
+              align="center"
+            >
+              {t("auth.createNotice")}
+            </Typography.Paragraph>
+            <Typography.Paragraph size="xs" align="center">
               <a
                 href="/support/permissions"
                 target="_blank"
@@ -154,9 +169,13 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </span>{" "}
                 {t("auth.permissionLink")}
               </a>
-            </p>
+            </Typography.Paragraph>
           </div>
-          <p className="mx-auto w-96 max-w-full p-4 pt-0 text-foreground-tertiary text-xs text-center">
+          <Typography.Paragraph
+            size="xs"
+            color="foreground-tertiary"
+            align="center"
+          >
             {t("auth.footerText.pre")}{" "}
             <a target="_blank" href="/privacy" className="underline">
               {t("auth.footerText.privacyPolicy")}
@@ -180,7 +199,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               {t("auth.footerText.spotifyTerm")}
             </a>{" "}
             {t("auth.footerText.whereApplicable")}.
-          </p>
+          </Typography.Paragraph>
         </div>
         <div className="absolute top-2 right-0">
           <Button

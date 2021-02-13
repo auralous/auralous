@@ -1,4 +1,5 @@
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -11,14 +12,14 @@ const AuthCallbackPage: NextPage = () => {
     <>
       <NextSeo title="Authenticated" nofollow noindex />
       <div className="flex flex-col flex-center p-8 w-screen h-screen">
-        <h1 className="text-2xl font-bold mb-2 text-center">
+        <Typography.Title>
           {isSuccess ? "You are in!" : "Oooops..."}
-        </h1>
-        <p className="text-center mb-4">
+        </Typography.Title>
+        <Typography.Paragraph>
           {isSuccess
             ? "We have successfully connected to your account. Let's jam!"
             : "We could not connect to your account. Let's give it another try!"}
-        </p>
+        </Typography.Paragraph>
         <Button title="Close window" fullWidth onPress={() => window.close()} />
       </div>
     </>

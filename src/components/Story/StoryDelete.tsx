@@ -1,6 +1,7 @@
 import { Modal } from "components/Modal";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { Story, useDeleteStoryMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import React from "react";
@@ -38,11 +39,14 @@ const StoryDelete: React.FC<{
           <Modal.Title>{t("story.delete.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Content>
-          <p className="text-center">
+          <Typography.Paragraph align="center">
             {t("story.delete.confirmPrompt")}
             <br />
-            <b>{t("common.dangerousActionText")}</b>.
-          </p>
+            <Typography.Text strong>
+              {t("common.dangerousActionText")}
+            </Typography.Text>
+            .
+          </Typography.Paragraph>
         </Modal.Content>
         <Modal.Footer>
           <Button

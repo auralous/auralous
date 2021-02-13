@@ -2,6 +2,7 @@ import { usePlayer } from "components/Player";
 import { PlayerImage, PlayerMeta } from "components/Player/PlayerView";
 import { Button } from "components/Pressable";
 import StoryNav from "components/Story/StoryNav";
+import { Typography } from "components/Typography";
 import {
   Story,
   useNowPlayingQuery,
@@ -54,12 +55,17 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
       <StoryNav onClose={close} story={story} />
       <PlayerImage track={track} />
       <PlayerMeta track={track} fetching={fetching && !track} />
-      <div className="w-full">
-        <p className="text-lg text-foreground-secondary text-center mb-1 truncate">
+      <div className="w-full space-y-1">
+        <Typography.Paragraph
+          size="lg"
+          color="foreground-secondary"
+          align="center"
+          paragraph={false}
+        >
           {t(story?.isLive ? "listen.promptJoin" : "listen.promptJoinNolive", {
             username: user?.username || "",
           })}
-        </p>
+        </Typography.Paragraph>
         <Link href={`/story/${story?.id}`} passHref>
           <Button
             title={

@@ -1,5 +1,6 @@
 import { DialogOverlay } from "@reach/dialog";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
 import React, { useEffect, useState } from "react";
 
@@ -25,9 +26,9 @@ const StorySliderInstruction = () => {
       aria-label={t("story.feed.instruction")}
     >
       <div className="max-w-xl mx-auto p-4 text-opacity-75 text-center">
-        <p className="text-lg md:text-2xl font-bold mb-4">
+        <Typography.Paragraph size="lg" strong>
           {t("story.feed.instruction")}
-        </p>
+        </Typography.Paragraph>
         <Button
           onPress={close}
           title={t("common.startListening")}

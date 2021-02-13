@@ -1,5 +1,6 @@
 import { SvgFacebook, SvgMail, SvgTwitter } from "assets/svg";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { GetStaticProps, NextPage } from "next";
@@ -24,41 +25,48 @@ const SupportPage: NextPage<{
         canonical={`${process.env.APP_URI}/support`}
       />
       <div className="py-16 container leading-loose text-lg">
-        <h1 className="text-center text-5xl text-foreground-secondary font-bold max-w-xl mx-auto leading-none">
-          {t("support.hi")}{" "}
-          {me ? (
-            <>
-              {" "}
-              <span className="text-foreground">{me.user.username}</span>
-            </>
-          ) : (
-            t("support.there")
-          )}
-          {t("support.how")}
-        </h1>
-        <div className="flex flex-col items-center py-10">
-          <h2 className="text-3xl font-bold text-foreground-secondary">
+        <div className="max-w-xl mx-auto">
+          <Typography.Title align="center">
+            {t("support.hi")}{" "}
+            {me ? (
+              <Typography.Text color="primary">
+                {me.user.username}
+              </Typography.Text>
+            ) : (
+              t("support.there")
+            )}
+            {t("support.how")}
+          </Typography.Title>
+        </div>
+        <div className="flex flex-col items-center py-10 space-y-2">
+          <Typography.Title level={2} size="xl" color="foreground-secondary">
             {t("support.articles.title")}
-          </h2>
+          </Typography.Title>
           {pages.map((page, index) => (
             <Link key={page.slug} href={`/support/${page.slug}`}>
-              <a className="mb-2 flex items-center opacity-75 hover:opacity-100 transition-opacity">
-                <span className="flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-primary text-white">
+              <a className="flex items-center opacity-75 hover:opacity-100 transition-opacity">
+                <span className="mr-2 flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-primary text-white">
                   {index + 1}
                 </span>
-                <h4 className="p-4 leading-snug">
-                  <span className="text-2xl font-bold leading-none mb-1 block">
+                <Typography.Title level={4} size="md" strong={false}>
+                  <Typography.Text size="2xl" strong>
                     {page.title}
-                  </span>
-                  {page.subtitle}
-                </h4>
+                  </Typography.Text>
+                  <div className="mb-2" />
+                  <Typography.Text>{page.subtitle}</Typography.Text>
+                </Typography.Title>
               </a>
             </Link>
           ))}
         </div>
-        <p className="text-sm text-foreground-tertiary text-center mt-10">
+        <Typography.Paragraph
+          size="sm"
+          color="foreground-tertiary"
+          align="center"
+          paragraph={false}
+        >
           {t("support.p")}
-        </p>
+        </Typography.Paragraph>
         <div className="flex flex-wrap justify-center py-6 space-x-2">
           <Button
             icon={<SvgMail />}

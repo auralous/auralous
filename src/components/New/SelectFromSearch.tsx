@@ -1,5 +1,6 @@
 import { SvgLoadingAnimated, SvgSearch } from "assets/svg";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { Track, usePlaylistTracksQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
@@ -39,11 +40,15 @@ const SelectFromSearch: React.FC<{
 
   return (
     <>
-      <p className="text-lg text-center text-foreground-secondary mb-2">
+      <Typography.Paragraph
+        size="lg"
+        color="foreground-secondary"
+        align="center"
+      >
         {!playlistTracks?.length && !fetching && !!searchQuery
           ? t("new.fromSearch.noResults")
           : t("new.fromSearch.helpText")}
-      </p>
+      </Typography.Paragraph>
       <form
         className="h-42 w-full flex items-center"
         onSubmit={(event) => {

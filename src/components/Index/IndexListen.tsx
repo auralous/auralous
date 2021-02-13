@@ -1,4 +1,5 @@
 import { SvgUser } from "assets/svg";
+import { Typography } from "components/Typography";
 import { PlatformName, Track } from "gql/gql.gen";
 import { useCrossTracks } from "hooks/track";
 import { useI18n } from "i18n/index";
@@ -28,10 +29,12 @@ const IndexListenFakePlayerContent: React.FC<{ track: Track }> = ({
       <div className="mb-1 truncate text-foreground-secondary text-sm max-w-full">
         {track.artists.map(({ name }) => name).join(", ")}
       </div>
-      <p className="text-foreground-tertiary text-xs">
+      <Typography.Paragraph color="foreground-tertiary" size="xs">
         Playing on <PlatformSvg className="inline w-4 h-4 fill-current" />{" "}
-        <b>{PLATFORM_FULLNAMES[track.platform]}</b>
-      </p>
+        <Typography.Text strong>
+          {PLATFORM_FULLNAMES[track.platform]}
+        </Typography.Text>
+      </Typography.Paragraph>
     </>
   );
 };

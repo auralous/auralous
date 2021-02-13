@@ -1,4 +1,5 @@
 import { SvgLogo, SvgPlay } from "assets/svg";
+import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import React from "react";
@@ -30,20 +31,18 @@ const IndexHero: React.FC = () => {
     <>
       <section className="relative -mt-24 pt-36 pb-16 w-full bg-background-secondary">
         <div className="relative z-10 h-full flex flex-col flex-center">
-          <h1 className="font-black leading-none text-center">
+          <Typography.Title>
             <span className="sr-only">Stereo</span>
-            <SvgLogo
-              width="400"
-              height="60"
-              className="mx-auto fill-current max-w-full"
-            />
-          </h1>
-          <h2 className="font-black text-2xl mt-2 mb-4 text-primary-dark">
+            <SvgLogo className="w-52 h-12 fill-current max-w-full" />
+          </Typography.Title>
+          <Typography.Title level={2} color="primary-dark" align="center">
             {t("motto")}
-          </h2>
-          <p className="px-4 mb-8 font-medium text-center max-w-2xl text-foreground-tertiary">
-            {t("description")}
-          </p>
+          </Typography.Title>
+          <div className="max-w-2xl mx-auto">
+            <Typography.Paragraph color="foreground-tertiary" align="center">
+              {t("description")}
+            </Typography.Paragraph>
+          </div>
           <AppLinks />
         </div>
         <svg

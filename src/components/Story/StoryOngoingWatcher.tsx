@@ -3,6 +3,7 @@
 import { Modal } from "components/Modal";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { useStoryLiveQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -31,9 +32,9 @@ const StoryOngoingWatcher: React.FC = () => {
         active={!!storyLive?.isLive && playingStoryId !== storyLive.id}
       >
         <Modal.Content>
-          <p className="mb-2 text-lg font-bold text-foreground-secondary">
+          <Typography.Paragraph size="lg" strong color="foreground-secondary">
             {t("story.ongoing.title")}
-          </p>
+          </Typography.Paragraph>
           <div className="py-6 px-8 rounded-lg bg-background-secondary border-background-tertiary mb-4">
             <div className="mb-2 leading-none font-bold text-lg text-foreground">
               <span className="mr-1 animate-pulse uppercase text-xs font-bold p-1 bg-primary rounded">

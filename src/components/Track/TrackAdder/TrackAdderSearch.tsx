@@ -1,4 +1,5 @@
 import { SvgLoadingAnimated } from "assets/svg";
+import { Typography } from "components/Typography";
 import {
   PlaylistTracksDocument,
   PlaylistTracksQuery,
@@ -93,9 +94,15 @@ const TrackAdderSearch: React.FC<{
       </form>
       {isSearching && <SvgLoadingAnimated className="absolute-center" />}
       {isEmpty && (
-        <p className="absolute-center w-full p-4 text-foreground-secondary text-center">
-          {t("track.adder.search.helpText")}
-        </p>
+        <div className="absolute-center p-4">
+          <Typography.Paragraph
+            paragraph={false}
+            color="foreground-secondary"
+            align="center"
+          >
+            {t("track.adder.search.helpText")}
+          </Typography.Paragraph>
+        </div>
       )}
       {/* {(isEmpty || isSearching) && (
         <div className="px-2 flex flex-col text-lg text-center flex-center w-full h-full text-foreground-secondary">
