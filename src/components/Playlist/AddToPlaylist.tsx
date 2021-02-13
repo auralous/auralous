@@ -1,7 +1,7 @@
 import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "assets/svg";
 import { AuthBanner } from "components/Auth";
 import { Modal } from "components/Modal/index";
-import { Button } from "components/Pressable";
+import { Button, PressableHighlight } from "components/Pressable";
 import {
   PlatformName,
   Playlist,
@@ -131,15 +131,14 @@ const AddToExistingPlaylist: React.FC<{
   return (
     <div className={fetching ? "cursor-not-allowed opacity-50" : "space-y-1"}>
       {myPlaylists?.map((playlist) => (
-        // TODO: react-window
-        <button
+        <PressableHighlight
           key={playlist.id}
-          title={t("playlist.add.title", { title: playlist.name })}
-          className="btn justify-start w-full p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
-          onClick={() => handleAdd(playlist)}
+          accessibilityLabel={t("playlist.add.title", { title: playlist.name })}
+          onPress={() => handleAdd(playlist)}
+          fullWidth
         >
           <PlaylistItem playlist={playlist} />
-        </button>
+        </PressableHighlight>
       )) ||
         (fetchingPlaylists && <SvgLoadingAnimated className="m-4 mx-auto" />)}
     </div>

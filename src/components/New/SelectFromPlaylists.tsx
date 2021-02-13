@@ -1,12 +1,12 @@
 import { SvgLoadingAnimated } from "assets/svg";
 import { AuthBanner } from "components/Auth";
 import { PlaylistItem } from "components/Playlist";
+import { PressableHighlight } from "components/Pressable";
 import { Track, useMyPlaylistsQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import { SelectingListItem } from "./common";
 
 const SelectFromPlaylists: React.FC<{
   onSelected(tracks: Track[]): void;
@@ -46,14 +46,15 @@ const SelectFromPlaylists: React.FC<{
 
   if (myPlaylists?.length)
     return (
-      <div className="h-full w-full overflow-auto bg-background-secondary rounded-lg shadow-lg">
+      <div className="h-full w-full overflow-auto border-2 border-background-tertiary p-2 rounded-lg shadow-lg">
         {myPlaylists.map((playlist) => (
-          <SelectingListItem
+          <PressableHighlight
             key={playlist.id}
-            onClick={() => router.replace(`/new?playlist=${playlist.id}`)}
+            onPress={() => router.replace(`/new?playlist=${playlist.id}`)}
+            fullWidth
           >
             <PlaylistItem playlist={playlist} />
-          </SelectingListItem>
+          </PressableHighlight>
         ))}
       </div>
     );
