@@ -117,7 +117,7 @@ const MessageItem: React.FC<{
               <a
                 className={`${
                   isCurrentUser
-                    ? "bg-success-light leading-tight text-opacity-75 rounded-lg px-1"
+                    ? "bg-primary-light leading-tight text-opacity-75 rounded-lg px-1"
                     : "text-white"
                 } text-sm font-bold`}
               >

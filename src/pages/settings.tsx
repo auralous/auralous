@@ -219,7 +219,7 @@ const LeftSection: React.FC = () => {
               </div>
             </div>
             <Button
-              color="success"
+              color="primary"
               type="submit"
               fullWidth
               title={t("common.save")}

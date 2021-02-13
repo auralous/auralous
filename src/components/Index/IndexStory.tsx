@@ -89,7 +89,7 @@ const IndexStorySocial: React.FC = () => {
 
   return (
     <animated.div
-      className="w-64 h-72 mt-10 mx-1 bg-warning-dark rounded-lg shadow-lg inline-flex flex-col flex-center p-1 text-foreground-secondary"
+      className="w-64 h-72 mt-10 mx-1 bg-secondary-dark rounded-lg shadow-lg inline-flex flex-col flex-center p-1 text-foreground-secondary"
       style={style}
       ref={ref}
     >

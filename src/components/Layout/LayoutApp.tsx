@@ -36,7 +36,7 @@ const useHasNotification = (me: User | null | undefined) => {
 
 const sidebarColor = "rgb(18, 18, 24)";
 
-const boldClasses = "bg-gradient-to-l from-warning to-primary";
+const boldClasses = "bg-gradient-to-l from-secondary to-primary";
 
 const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
   children,

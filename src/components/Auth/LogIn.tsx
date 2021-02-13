@@ -143,7 +143,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             <p className="mt-2 text-xs p-2 text-foreground-tertiary">
               {t("auth.createNotice")}.
             </p>
-            <p className="text-xs p-2 rounded-lg text-warning-light max-w-xl mx-auto">
+            <p className="text-xs p-2 rounded-lg max-w-xl mx-auto">
               <a
                 href="/support/permissions"
                 target="_blank"

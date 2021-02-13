@@ -145,7 +145,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         </div>
       </CreateStoryFormGroup> */}
       <Button
-        color="success"
+        color="primary"
         type="submit"
         disabled={fetching}
         title={t("new.addNew.action")}

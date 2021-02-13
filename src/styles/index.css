@@ -115,15 +115,6 @@ html {
       }
     }
   }
-  &.btn-success {
-    @apply text-success-label;
-    @apply bg-success;
-    &:not([disabled]) {
-      &:hover, &:focus {
-        @apply bg-success-dark;
-      }
-    }
-  }
   &.btn-transparent {
     @apply text-foreground bg-transparent;
     &:not([disabled]) {
@@ -243,9 +234,6 @@ html {
 .content-support {
   h2 {
     @apply text-center;
-  }
-  h4 {
-    @apply text-warning-light;
   }
 }
 

@@ -68,7 +68,7 @@ const CreatePlaylist: React.FC<{
           type="submit"
           disabled={fetching}
           icon={<SvgCheck className="w-4 h-4" />}
-          color="success"
+          color="primary"
         />
         <Button
           accessibilityLabel={t("modal.close")}

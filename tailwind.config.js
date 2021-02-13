@@ -27,22 +27,16 @@ module.exports = {
         dark: "#c9252d",
         label: "#fff",
       },
-      success: {
-        DEFAULT: "hsl(212,100%,48%)",
-        light: "hsl(212,100%,60%)",
-        dark: "hsl(212, 97%, 43%)",
-        label: "#fff",
-      },
-      warning: {
-        DEFAULT: "hsl(37,91%,55%)",
-        light: "hsl(37,91%,65%)",
-        dark: "hsl(37,91%,50%)",
-        label: "#000",
-      },
       primary: {
         DEFAULT: "hsl(349,100%,59%)",
         dark: "hsl(349,67%,49%)",
         label: "#fff",
+      },
+      secondary: {
+        DEFAULT: "hsl(37,91%,55%)",
+        light: "hsl(37,91%,65%)",
+        dark: "hsl(37,91%,50%)",
+        label: "#000",
       },
       black: "#000",
       white: "#fff",
