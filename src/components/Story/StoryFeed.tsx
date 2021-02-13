@@ -1,4 +1,5 @@
 import { useModal } from "components/Modal";
+import { Typography } from "components/Typography";
 import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import ms from "ms";
@@ -10,7 +11,10 @@ const StorySlider = dynamic(() => import("./StorySlider"));
 
 const LIMIT = 10;
 
-const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
+const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
+  story,
+  onClick,
+}) => {
   const { t } = useI18n();
 
   const [{ data: { user } = { user: undefined } }] = useUserQuery({
@@ -23,9 +27,13 @@ const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
   }, [story]);
 
   return (
-    <div
-      className="w-full relative h-0 bg-background-secondary rounded-lg"
+    <button
+      className="w-full relative h-0 bg-background-secondary hover:opacity-75 focus:outline-none focus:opacity-75 rounded-lg overflow-hidden transition-opacity"
       style={{ paddingBottom: "150%" }}
+      onClick={onClick}
+      aria-label={`${t("story.play")}: ${t("story.ofUsername", {
+        username: user?.username || "",
+      })} - ${story.text}`}
     >
       <div
         className="absolute w-full h-full bg-cover bg-center opacity-40"
@@ -43,25 +51,31 @@ const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
         )}
       </div>
       <div className="absolute p-4 bottom-0 w-full">
-        <div>
-          <span className="font-bold mr-1">{user?.username}</span>
+        <div className="space-x-1">
+          <Typography.Text strong>{user?.username}</Typography.Text>
           {story.isLive ? (
             <span className="font-semibold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
               {t("common.live")}
             </span>
           ) : (
-            <span className="text-xs text-foreground-secondary">{dateStr}</span>
+            <Typography.Text color="foreground-secondary" size="xs">
+              {dateStr}
+            </Typography.Text>
           )}
         </div>
-        <div className="text-foreground-secondary">{story.text}</div>
+        <Typography.Paragraph
+          truncate
+          paragraph={false}
+          color="foreground-secondary"
+        >
+          {story.text}
+        </Typography.Paragraph>
       </div>
-    </div>
+    </button>
   );
 };
 
 const StoryFeed: React.FC<{ id: string }> = ({ id }) => {
-  const { t } = useI18n();
-
   const [active, open, close] = useModal();
   const [intialSlide, setIntialSlide] = useState(0);
 
@@ -82,17 +96,14 @@ const StoryFeed: React.FC<{ id: string }> = ({ id }) => {
     <>
       <div className="w-full p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
         {stories?.map((story, index) => (
-          <div key={story.id} className="relative rounded-lg overflow-hidden">
-            <StoryItem story={story} />
-            <button
-              className="absolute inset-0 hover:bg-foreground-backdrop focus:bg-foreground-backdrop focus:outline-none w-full h-full"
-              aria-label={t("story.play")}
-              onClick={() => {
-                setIntialSlide(index);
-                open();
-              }}
-            />
-          </div>
+          <StoryItem
+            key={story.id}
+            story={story}
+            onClick={() => {
+              setIntialSlide(index);
+              open();
+            }}
+          />
         ))}
         {/* Load more observer */}
         <span className="w-1 h-1" ref={refLoadMore} />

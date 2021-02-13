@@ -17,6 +17,7 @@ interface TypographyProps {
   emphasis?: boolean;
   align?: "center";
   id?: string;
+  truncate?: boolean;
 }
 
 const commonClsx = (props: TypographyProps) =>
@@ -25,7 +26,8 @@ const commonClsx = (props: TypographyProps) =>
     props.strong && "font-bold",
     props.emphasis && "italic",
     props.align && `text-${props.align}`,
-    props.size && `text-${props.size}`
+    props.size && `text-${props.size}`,
+    props.truncate && "truncate"
   );
 
 const Text: React.FC<TypographyProps> = ({ children, ...props }) => {

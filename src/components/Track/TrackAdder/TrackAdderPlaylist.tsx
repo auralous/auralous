@@ -1,6 +1,6 @@
 import { SvgChevronLeft, SvgLoadingAnimated } from "assets/svg";
 import { PlaylistItem } from "components/Playlist";
-import { Button } from "components/Pressable";
+import { Button, PressableHighlight } from "components/Pressable";
 import {
   Playlist,
   useMyPlaylistsQuery,
@@ -74,16 +74,15 @@ const TrackAdderPlaylist: React.FC<{
       ) : (
         <div className="flex-1 h-0 overflow-auto space-y-1">
           {myPlaylists?.map((playlist) => (
-            <button
+            <PressableHighlight
               key={playlist.id}
-              title={t("track.adder.playlist.selectSongFrom", {
+              accessibilityLabel={t("track.adder.playlist.selectSongFrom", {
                 title: playlist.name,
               })}
-              className="p-2 rounded-lg w-full focus:outline-none hover:bg-background-secondary focus:bg-background-secondary"
-              onClick={() => handleSelect(playlist)}
+              onPress={() => handleSelect(playlist)}
             >
               <PlaylistItem playlist={playlist} />
-            </button>
+            </PressableHighlight>
           ))}
         </div>
       )}
