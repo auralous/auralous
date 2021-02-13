@@ -1,13 +1,13 @@
-import React from "react";
+import UserMain from "components/User/UserMain";
+import { User } from "gql/gql.gen";
+import { QUERY_USER } from "gql/user";
+import { useI18n } from "i18n/index";
 import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
-import UserMain from "~/components/User/UserMain";
-import { forwardSSRHeaders } from "~/lib/ssr-utils";
-import { CONFIG } from "~/lib/constants";
-import { User } from "~/graphql/gql.gen";
-import NotFoundPage from "../404";
-import { QUERY_USER } from "~/graphql/user";
-import { useI18n } from "~/i18n/index";
+import NotFoundPage from "pages/404";
+import React from "react";
+import { CONFIG } from "utils/constants";
+import { forwardSSRHeaders } from "utils/ssr-utils";
 
 const UserPage: NextPage<{ user: User | null }> = ({ user }) => {
   const { t } = useI18n();

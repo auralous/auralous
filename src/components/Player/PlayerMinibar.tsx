@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { SvgPause, SvgPlay, SvgX } from "assets/svg";
+import { useI18n } from "i18n/index";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
-import { useI18n } from "~/i18n/index";
-import { SvgX, SvgPause, SvgPlay } from "~/assets/svg";
 
 const PlayerMinibar: React.FC = () => {
   const { t } = useI18n();

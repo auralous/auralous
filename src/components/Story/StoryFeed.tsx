@@ -1,10 +1,10 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useModal } from "components/Modal";
+import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import ms from "ms";
-import { useInView } from "react-intersection-observer";
 import dynamic from "next/dynamic";
-import { useModal } from "~/components/Modal";
-import { Story, useStoriesQuery, useUserQuery } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+import React, { useEffect, useMemo, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const StorySlider = dynamic(() => import("./StorySlider"));
 

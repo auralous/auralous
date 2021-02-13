@@ -1,10 +1,10 @@
+import { Button } from "components/Button";
+import { Modal } from "components/Modal";
+import { usePlayer } from "components/Player";
+import { Story, useDeleteStoryMutation } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { Button } from "~/components/Button";
-import { Modal } from "~/components/Modal";
-import { Story, useDeleteStoryMutation } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { toast } from "~/lib/toast";
-import { usePlayer } from "../Player";
+import { toast } from "utils/toast";
 
 const StoryDelete: React.FC<{
   story: Story;

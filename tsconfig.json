@@ -1,17 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "./src",
-    "paths": {
-      "~/assets/*": ["assets/*"],
-      "~/components/*": ["components/*"],
-      "~/content/*": ["content/*"],
-      "~/graphql/*": ["graphql/*"],
-      "~/lib/*": ["lib/*"],
-      "~/hooks/*": ["hooks/*"],
-      "~/types/*": ["types/*"],
-      "~/i18n/*": ["i18n/*"],
-      "~/styles/*": ["styles/*"]
-    },
     "target": "es5",
     "lib": [
       "dom",

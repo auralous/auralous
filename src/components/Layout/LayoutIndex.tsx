@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { SvgLogo, SvgMenu, SvgX } from "assets/svg";
+import { usePlayer } from "components/Player/index";
+import { useI18n } from "i18n/index";
+import { Locale } from "i18n/types";
 import Link from "next/link";
-import { useSpring, animated } from "react-spring";
-import { usePlayer } from "~/components/Player/index";
-import { LANGUAGES } from "~/lib/constants";
-import { useI18n } from "~/i18n/index";
-import { Locale } from "~/i18n/types";
-import { SvgLogo, SvgMenu, SvgX } from "~/assets/svg";
+import React, { useEffect, useMemo, useState } from "react";
+import { animated, useSpring } from "react-spring";
+import { LANGUAGES } from "utils/constants";
 
 const baseNavbarClassname = `text-center mx-1 focus:outline-none transition duration-300`;
 

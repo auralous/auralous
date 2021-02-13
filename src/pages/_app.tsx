@@ -1,29 +1,28 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { LogInProvider } from "components/Auth/index";
+import { LayoutApp, LayoutIndex } from "components/Layout/index";
+import NotificationWatcher from "components/Notification/NotificationWatcher";
+import { PlayerProvider } from "components/Player/index";
+import StoryOngoingWatcher from "components/Story/StoryOngoingWatcher";
+import * as Fathom from "fathom-client";
+import { createUrqlClient } from "gql/urql";
+import { I18n } from "i18n/index";
+// polyfill
+import "intersection-observer";
+import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
 import Router from "next/router";
-import NProgress from "nprogress";
-import * as Fathom from "fathom-client";
-import { DefaultSeo } from "next-seo";
-import { Provider as UrqlProvider } from "urql";
-import { LayoutIndex, LayoutApp } from "~/components/Layout/index";
-import { PlayerProvider } from "~/components/Player/index";
-import { LogInProvider } from "~/components/Auth/index";
-import StoryOngoingWatcher from "~/components/Story/StoryOngoingWatcher";
-import NotificationWatcher from "~/components/Notification/NotificationWatcher";
-import { I18n } from "~/i18n/index";
-import { createUrqlClient } from "~/graphql/urql";
-import "~/styles/index.css";
 import "notyf/notyf.min.css";
-import "swiper/swiper.scss";
-
+import NProgress from "nprogress";
 // nprogress
 import "nprogress/nprogress.css";
+import React, { useEffect, useMemo, useState } from "react";
+import "styles/index.css";
+import "swiper/swiper.scss";
+import { Provider as UrqlProvider } from "urql";
+
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
-
-// polyfill
-import "intersection-observer";
 
 export default function MyApp({ Component, pageProps, router }: AppProps) {
   // URQL

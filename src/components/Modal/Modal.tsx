@@ -1,8 +1,8 @@
+import { DialogContent, DialogOverlay } from "@reach/dialog";
+import { SvgX } from "assets/svg";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { DialogOverlay, DialogContent } from "@reach/dialog";
-import { useTransition, animated, config as springConfig } from "react-spring";
-import { SvgX } from "~/assets/svg";
-import { useI18n } from "~/i18n/index";
+import { animated, config as springConfig, useTransition } from "react-spring";
 
 const ModalHeader: React.FC = ({ children }) => (
   <div className="p-4 border-b-2 border-background-secondary">{children}</div>

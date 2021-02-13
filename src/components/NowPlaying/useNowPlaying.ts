@@ -1,7 +1,7 @@
 import {
   useNowPlayingQuery,
   useOnNowPlayingUpdatedSubscription,
-} from "~/graphql/gql.gen";
+} from "gql/gql.gen";
 
 export default function useNowPlaying(id: string) {
   const [res] = useNowPlayingQuery({

@@ -1,3 +1,15 @@
+import { SvgGripVertical } from "assets/svg/index";
+import { Button } from "components/Button";
+import { TrackItem } from "components/Track/index";
+import {
+  Queue,
+  QueueAction,
+  TrackDocument,
+  TrackQuery,
+  TrackQueryVariables,
+  useUpdateQueueMutation,
+} from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React, { useCallback, useMemo } from "react";
 import {
   DragDropContext,
@@ -13,20 +25,8 @@ import {
   ListChildComponentProps,
 } from "react-window";
 import { useClient } from "urql";
-import { SvgGripVertical } from "~/assets/svg/index";
-import { Button } from "~/components/Button";
-import { TrackItem } from "~/components/Track/index";
-import {
-  Queue,
-  QueueAction,
-  TrackDocument,
-  TrackQuery,
-  TrackQueryVariables,
-  useUpdateQueueMutation,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { toast } from "~/lib/toast";
-import { remToPx } from "~/lib/util";
+import { toast } from "utils/toast";
+import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
 import useQueue from "./useQueue";
 

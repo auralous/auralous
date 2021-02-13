@@ -1,10 +1,10 @@
+import { useMe } from "hooks/user";
+import { t } from "i18n/index";
 import { useEffect } from "react";
 import axios from "redaxios";
-import { toast } from "~/lib/toast";
+import { verifyScript } from "utils/script-utils";
+import { toast } from "utils/toast";
 import usePlayer from "./usePlayer";
-import { verifyScript } from "~/lib/script-utils";
-import { useMe } from "~/hooks/user";
-import { t } from "~/i18n/index";
 /// <reference path="spotify-web-playback-sdk" />
 
 const BASE_URL = "https://api.spotify.com/v1";

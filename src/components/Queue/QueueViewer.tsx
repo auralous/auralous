@@ -1,12 +1,12 @@
+import { SvgAudioAnimated } from "assets/svg";
+import { usePlayer } from "components/Player";
+import { TrackItem } from "components/Track/index";
 import React, { useMemo } from "react";
-import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import useQueue from "./useQueue";
+import { areEqual, FixedSizeList, ListChildComponentProps } from "react-window";
+import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
-import { usePlayer } from "~/components/Player";
-import { TrackItem } from "~/components/Track/index";
-import { SvgAudioAnimated } from "~/assets/svg";
-import { remToPx } from "~/lib/util";
+import useQueue from "./useQueue";
 
 const Row = React.memo<ListChildComponentProps>(function Row({
   data,

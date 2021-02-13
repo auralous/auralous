@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import { SvgChevronLeft } from "assets/svg";
+import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import { SvgChevronLeft } from "~/assets/svg";
+import React, { useContext } from "react";
 import LayoutContext from "./LayoutContext";
-import { useI18n } from "~/i18n/index";
 
 const LayoutBackButton: React.FC = () => {
   const { t } = useI18n();

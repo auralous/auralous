@@ -1,11 +1,11 @@
+import { SvgCheck, SvgPlus } from "assets/svg";
+import { Button } from "components/Button";
+import { TrackItem } from "components/Track/index";
+import { useI18n } from "i18n/index";
 import React, { useMemo, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { areEqual, FixedSizeList, ListChildComponentProps } from "react-window";
-import { SvgCheck, SvgPlus } from "~/assets/svg";
-import { Button } from "~/components/Button";
-import { TrackItem } from "~/components/Track/index";
-import { useI18n } from "~/i18n/index";
-import { remToPx } from "~/lib/util";
+import { remToPx } from "utils/util";
 import { TrackAdderCallbackFn } from "./types";
 
 const SearchResultRow = React.memo<ListChildComponentProps>(function Row({

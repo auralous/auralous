@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
-import i18n, { supportedLocale } from "./rosetta";
+import React, { useCallback, useEffect, useState } from "react";
 import I18nContext from "./I18nContext";
+import i18n, { supportedLocale } from "./rosetta";
 import { Locale } from "./types";
 
 const localStorageKey = "settings.locale";

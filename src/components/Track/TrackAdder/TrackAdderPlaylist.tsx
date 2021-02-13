@@ -1,13 +1,13 @@
-import React, { useMemo, useState } from "react";
-import { SvgChevronLeft, SvgLoadingAnimated } from "~/assets/svg";
-import { default as TrackAdderResults } from "./TrackAdderResults";
-import { PlaylistItem } from "~/components/Playlist";
+import { SvgChevronLeft, SvgLoadingAnimated } from "assets/svg";
+import { PlaylistItem } from "components/Playlist";
 import {
   Playlist,
-  usePlaylistTracksQuery,
   useMyPlaylistsQuery,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+  usePlaylistTracksQuery,
+} from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import React, { useMemo, useState } from "react";
+import { default as TrackAdderResults } from "./TrackAdderResults";
 import { TrackAdderCallbackFn } from "./types";
 
 const TrackAdderPlaylist: React.FC<{

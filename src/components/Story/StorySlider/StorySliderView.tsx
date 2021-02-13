@@ -1,16 +1,16 @@
-import React from "react";
-import Link from "next/link";
-import { usePlayer } from "~/components/Player";
-import { PlayerImage, PlayerMeta } from "~/components/Player/PlayerView";
-import StoryNav from "~/components/Story/StoryNav";
+import { usePlayer } from "components/Player";
+import { PlayerImage, PlayerMeta } from "components/Player/PlayerView";
+import StoryNav from "components/Story/StoryNav";
 import {
   Story,
   useNowPlayingQuery,
   useTrackQuery,
   useUserQuery,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { onEnterKeyClick } from "~/lib/util";
+} from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import Link from "next/link";
+import React from "react";
+import { onEnterKeyClick } from "utils/util";
 
 const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
   story,

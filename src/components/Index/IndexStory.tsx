@@ -1,16 +1,16 @@
+import { SvgLogIn, SvgMusic } from "assets/svg";
+import { useTrackQuery } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { useSpring, animated } from "react-spring";
 import { useInView } from "react-intersection-observer";
+import { animated, useSpring } from "react-spring";
+import { defaultAvatar } from "utils/util";
 import {
   IndexParagraph,
   IndexSection,
   IndexTitle,
   useFadeInOnScroll,
 } from "./common";
-import { useI18n } from "~/i18n/index";
-import { defaultAvatar } from "~/lib/util";
-import { useTrackQuery } from "~/graphql/gql.gen";
-import { SvgLogIn, SvgMusic } from "~/assets/svg";
 
 const intialStyle = { opacity: 0, transform: "skewY(0deg) translateY(0px)" };
 

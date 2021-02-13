@@ -1,3 +1,7 @@
+import { SvgGoogleColor, SvgSpotify, SvgX } from "assets/svg";
+import { Modal, useModal } from "components/Modal/index";
+import { PlatformName } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
 import React, {
   createContext,
@@ -7,10 +11,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { SvgGoogleColor, SvgSpotify, SvgX } from "~/assets/svg";
-import { Modal, useModal } from "~/components/Modal/index";
-import { PlatformName } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
 import Welcome from "./Welcome";
 
 const SignInContext = createContext<[boolean, () => void]>([

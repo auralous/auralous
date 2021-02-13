@@ -1,5 +1,5 @@
+import { useUserQuery } from "gql/gql.gen";
 import React from "react";
-import { useUserQuery } from "~/graphql/gql.gen";
 
 const CurrentUser: React.FC<{
   userId: string;

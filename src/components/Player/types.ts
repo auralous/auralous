@@ -1,6 +1,6 @@
-import { Track } from "~/graphql/gql.gen";
+import { Track } from "gql/gql.gen";
+import { useCrossTracks } from "hooks/track";
 import Player from "./Player";
-import { useCrossTracks } from "~/hooks/track";
 
 export type PlayerPlaying = Track | null;
 

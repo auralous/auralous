@@ -1,3 +1,15 @@
+import { useLogin } from "components/Auth/index";
+import { Button } from "components/Button";
+import { Modal, useModal } from "components/Modal/index";
+import {
+  PlatformName,
+  useDeleteMeMutation,
+  User,
+  useUpdateMeMutation,
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import { Locale } from "i18n/types";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
 import React, {
@@ -7,25 +19,13 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useLogin } from "~/components/Auth/index";
-import { Button } from "~/components/Button";
-import { Modal, useModal } from "~/components/Modal/index";
-import {
-  PlatformName,
-  useDeleteMeMutation,
-  User,
-  useUpdateMeMutation,
-} from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
-import { Locale } from "~/i18n/types";
 import {
   CONFIG,
   LANGUAGES,
   PLATFORM_FULLNAMES,
   SvgByPlatformName,
-} from "~/lib/constants";
-import { toast } from "~/lib/toast";
+} from "utils/constants";
+import { toast } from "utils/toast";
 
 const SettingTitle: React.FC = ({ children }) => (
   <h3 className="text-lg font-bold mb-1">{children}</h3>

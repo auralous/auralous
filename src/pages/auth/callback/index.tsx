@@ -1,8 +1,8 @@
+import { Button } from "components/Button";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import React from "react";
-import { Button } from "~/components/Button";
 
 const AuthCallbackPage: NextPage = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const AuthCallbackPage: NextPage = () => {
             ? "We have successfully connected to your account. Let's jam!"
             : "We could not connect to your account. Let's give it another try!"}
         </p>
-        <Button title="Close window" fullWidth onPress={window.close} />
+        <Button title="Close window" fullWidth onPress={() => window.close()} />
       </div>
     </>
   );

@@ -1,7 +1,7 @@
-import React from "react";
+import { SvgLogo, SvgPlay } from "assets/svg";
+import { useI18n } from "i18n/index";
 import Link from "next/link";
-import { useI18n } from "~/i18n/index";
-import { SvgLogo, SvgPlay } from "~/assets/svg";
+import React from "react";
 
 const AppLinks = () => {
   const { t } = useI18n();

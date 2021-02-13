@@ -1,7 +1,7 @@
-import React from "react";
+import { useI18n } from "i18n/index";
 import Link from "next/link";
+import React from "react";
 import { animated } from "react-spring";
-import { useI18n } from "~/i18n/index";
 import { useFadeInOnScroll } from "./common";
 
 const IndexEnd: React.FC = () => {

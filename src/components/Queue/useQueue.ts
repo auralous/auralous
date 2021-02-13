@@ -1,7 +1,4 @@
-import {
-  useQueueQuery,
-  useOnQueueUpdatedSubscription,
-} from "~/graphql/gql.gen";
+import { useOnQueueUpdatedSubscription, useQueueQuery } from "gql/gql.gen";
 
 export default function useQueue(queueId: string, skipSubscribing?: boolean) {
   const [res] = useQueueQuery({

@@ -1,7 +1,5 @@
-import React, { useCallback } from "react";
-import { useClient } from "urql";
-import { SvgUserPlus, SvgX } from "~/assets/svg";
-import { Button } from "~/components/Button";
+import { SvgUserPlus, SvgX } from "assets/svg";
+import { Button } from "components/Button";
 import {
   Story,
   useChangeStoryQueueableMutation,
@@ -10,10 +8,12 @@ import {
   UserQueryVariables,
   useStoryUpdatedSubscription,
   useUserQuery,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { CONFIG } from "~/lib/constants";
-import { toast } from "~/lib/toast";
+} from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import React, { useCallback } from "react";
+import { useClient } from "urql";
+import { CONFIG } from "utils/constants";
+import { toast } from "utils/toast";
 
 const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();

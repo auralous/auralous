@@ -1,14 +1,14 @@
+import { SvgPlus, SvgUserPlus } from "assets/svg";
+import { useLogin } from "components/Auth";
+import { Button } from "components/Button";
+import { Modal, useModal } from "components/Modal";
+import { usePlayer } from "components/Player";
+import { Story } from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
 import React from "react";
-import { SvgPlus, SvgUserPlus } from "~/assets/svg";
-import { useLogin } from "~/components/Auth";
-import { Button } from "~/components/Button";
-import { Modal, useModal } from "~/components/Modal";
-import { usePlayer } from "~/components/Player";
-import { Story } from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
-import { toast } from "~/lib/toast";
+import { toast } from "utils/toast";
 import StoryListeners from "./StoryListeners";
 import StoryQueueable from "./StoryQueueable";
 
@@ -16,8 +16,8 @@ const StoryQueueAdder = dynamic(() => import("./StoryQueueAdder"), {
   ssr: false,
 });
 
-const QueueManager = dynamic(() => import("~/components/Queue/QueueManager"));
-const QueueViewer = dynamic(() => import("~/components/Queue/QueueViewer"));
+const QueueManager = dynamic(() => import("components/Queue/QueueManager"));
+const QueueViewer = dynamic(() => import("components/Queue/QueueViewer"));
 
 const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();

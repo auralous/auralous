@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import { SvgShare2 } from "~/assets/svg";
-import { AuthBanner } from "~/components/Auth";
-import { Button } from "~/components/Button";
-import { Messenger } from "~/components/Message/index";
-import { useModal } from "~/components/Modal";
+import { SvgShare2 } from "assets/svg";
+import { AuthBanner } from "components/Auth";
+import { Button } from "components/Button";
+import { Messenger } from "components/Message/index";
+import { useModal } from "components/Modal";
 import {
   Story,
   useOnStoryUsersUpdatedSubscription,
   useStoryUsersQuery,
-} from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import React, { useEffect } from "react";
 import StoryListeners from "./StoryListeners";
 import StoryShare from "./StoryShare";
 

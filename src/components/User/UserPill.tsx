@@ -1,6 +1,6 @@
-import React from "react";
+import { useUserQuery } from "gql/gql.gen";
 import Link from "next/link";
-import { useUserQuery } from "~/graphql/gql.gen";
+import React from "react";
 
 const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
   id,

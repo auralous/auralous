@@ -1,7 +1,7 @@
+import { useTrackQuery } from "gql/gql.gen";
 import React from "react";
-import { parseMs } from "~/lib/editor-utils";
-import { useTrackQuery } from "~/graphql/gql.gen";
-import { SvgByPlatformName } from "~/lib/constants";
+import { SvgByPlatformName } from "utils/constants";
+import { parseMs } from "utils/editor-utils";
 
 export const TrackItem: React.FC<{
   id: string;

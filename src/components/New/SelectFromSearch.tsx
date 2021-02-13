@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useMemo } from "react";
+import { SvgLoadingAnimated, SvgSearch } from "assets/svg";
+import { Track, usePlaylistTracksQuery } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import { Track, usePlaylistTracksQuery } from "~/graphql/gql.gen";
-import { maybeGetTrackOrPlaylistIdFromUri } from "~/lib/platform";
-import { useI18n } from "~/i18n/index";
-import { SvgLoadingAnimated, SvgSearch } from "~/assets/svg";
+import React, { useEffect, useMemo, useRef } from "react";
+import { maybeGetTrackOrPlaylistIdFromUri } from "utils/platform";
 
 const SelectFromSearch: React.FC<{
   onSelected(tracks: Track[]): void;

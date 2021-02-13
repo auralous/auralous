@@ -1,8 +1,7 @@
-import React, { useCallback, useRef, useState } from "react";
-import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "~/assets/svg";
-import { AuthBanner } from "~/components/Auth";
-import { Button } from "~/components/Button";
-import { Modal } from "~/components/Modal/index";
+import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "assets/svg";
+import { AuthBanner } from "components/Auth";
+import { Button } from "components/Button";
+import { Modal } from "components/Modal/index";
 import {
   PlatformName,
   Playlist,
@@ -11,10 +10,11 @@ import {
   useCreatePlaylistMutation,
   useMyPlaylistsQuery,
   useTrackQuery,
-} from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
-import { toast } from "~/lib/toast";
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import React, { useCallback, useRef, useState } from "react";
+import { toast } from "utils/toast";
 import PlaylistItem from "./PlaylistItem";
 
 const CreatePlaylist: React.FC<{

@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import ms from "ms";
-import { useInView } from "react-intersection-observer";
-import { useMe } from "~/hooks/user";
 import {
-  NotificationInvite,
   NotificationFollow,
-  useNotificationsQuery,
-  useUserQuery,
-  useStoryQuery,
-  NotificationsQuery,
-  useReadNotificationsMutation,
+  NotificationInvite,
   NotificationNewStory,
+  NotificationsQuery,
   useNotificationAddedSubscription,
-} from "~/graphql/gql.gen";
-import { useI18n, t } from "~/i18n/index";
+  useNotificationsQuery,
+  useReadNotificationsMutation,
+  useStoryQuery,
+  useUserQuery,
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { t, useI18n } from "i18n/index";
+import ms from "ms";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const getDateDiffTxt = (createdAt: Date) => {
   const dateDiff = Date.now() - createdAt.getTime();

@@ -1,12 +1,12 @@
+import { SvgUser } from "assets/svg";
+import { PlatformName, Track } from "gql/gql.gen";
+import { useCrossTracks } from "hooks/track";
+import { useI18n } from "i18n/index";
 import React, { useEffect, useState } from "react";
-import { useTransition, animated } from "react-spring";
-import { SvgUser } from "~/assets/svg";
-import { PlatformName, Track } from "~/graphql/gql.gen";
-import { useCrossTracks } from "~/hooks/track";
-import { useI18n } from "~/i18n/index";
-import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
-import { parseMs } from "~/lib/editor-utils";
-import { defaultAvatar } from "~/lib/util";
+import { animated, useTransition } from "react-spring";
+import { PLATFORM_FULLNAMES, SvgByPlatformName } from "utils/constants";
+import { parseMs } from "utils/editor-utils";
+import { defaultAvatar } from "utils/util";
 import {
   IndexParagraph,
   IndexSection,

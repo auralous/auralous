@@ -1,12 +1,12 @@
-import React from "react";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
-import markdownToHtml from "~/lib/markdown-to-html";
+import React from "react";
 import {
   getPage as getSuportPage,
   getPages as getSupportPages,
-} from "~/lib/content-support";
-import { SupportArticle } from "~/types/index";
+  SupportArticle,
+} from "utils/content-support";
+import markdownToHtml from "utils/markdown-to-html";
 
 const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
   return (

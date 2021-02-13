@@ -1,20 +1,20 @@
-import React from "react";
-import Link from "next/link";
-import UserFollowButton from "./UserFollowButton";
-import StoryFeed from "~/components/Story/StoryFeed";
-import { useMe } from "~/hooks/user";
+import { SvgSettings } from "assets/svg";
+import { Modal, useModal } from "components/Modal";
+import StoryFeed from "components/Story/StoryFeed";
 import {
   User,
   useUserFollowersQuery,
   useUserFollowingsQuery,
   useUserQuery,
   useUserStatQuery,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { SvgSettings } from "~/assets/svg";
-import { Modal, useModal } from "../Modal";
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import Link from "next/link";
+import React from "react";
+import { onEnterKeyClick } from "utils/util";
+import UserFollowButton from "./UserFollowButton";
 import UserList from "./UserList";
-import { onEnterKeyClick } from "~/lib/util";
 
 const UserFollowingModals: React.FC<{
   id: string;

@@ -1,12 +1,9 @@
+import { useLogin } from "components/Auth";
+import { Button } from "components/Button";
+import { useFollowUserMutation, useUnfollowUserMutation } from "gql/gql.gen";
+import { useMe, useMeFollowings } from "hooks/user";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { useLogin } from "~/components/Auth";
-import { Button } from "~/components/Button";
-import {
-  useFollowUserMutation,
-  useUnfollowUserMutation,
-} from "~/graphql/gql.gen";
-import { useMe, useMeFollowings } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
 
 const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
   id,

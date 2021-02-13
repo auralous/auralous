@@ -1,26 +1,26 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
-  useCallback,
-} from "react";
-import Link from "next/link";
-import ms from "ms";
-import { useModal } from "~/components/Modal";
-import { TrackMenu } from "~/components/Track";
-import { useMe } from "~/hooks/user";
+import { SvgLogIn, SvgMusic } from "assets/svg";
+import { useModal } from "components/Modal";
+import { TrackMenu } from "components/Track";
 import {
-  useMessagesQuery,
-  useAddMessageMutation,
-  useOnMessageAddedSubscription,
   Message,
-  useUserQuery,
   MessageType,
+  useAddMessageMutation,
+  useMessagesQuery,
+  useOnMessageAddedSubscription,
   useTrackQuery,
-} from "~/graphql/gql.gen";
-import { t, useI18n } from "~/i18n/index";
-import { SvgMusic, SvgLogIn } from "~/assets/svg";
+  useUserQuery,
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { t, useI18n } from "i18n/index";
+import ms from "ms";
+import Link from "next/link";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 const LIMIT = 20;
 const GROUPED_TIME_DIFF = 10 * 60 * 1000; // within 10 min should be grouped

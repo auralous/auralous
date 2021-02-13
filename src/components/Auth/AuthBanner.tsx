@@ -1,6 +1,6 @@
+import { Button } from "components/Button";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { Button } from "~/components/Button";
-import { useI18n } from "~/i18n/index";
 import { useLogin } from "./LogIn";
 
 const AuthBanner: React.FC<{ prompt: string; hook?: string }> = ({

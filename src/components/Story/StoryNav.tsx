@@ -1,7 +1,4 @@
 import { DialogOverlay } from "@reach/dialog";
-import ms from "ms";
-import Link from "next/link";
-import React, { useMemo } from "react";
 import {
   SvgChevronDown,
   SvgMoreHorizontal,
@@ -10,12 +7,15 @@ import {
   SvgTrash,
   SvgUser,
   SvgX,
-} from "~/assets/svg";
-import { Button } from "~/components/Button";
-import { useModal } from "~/components/Modal";
-import { Story, useUserQuery } from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
+} from "assets/svg";
+import { Button } from "components/Button";
+import { useModal } from "components/Modal";
+import { Story, useUserQuery } from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import ms from "ms";
+import Link from "next/link";
+import React, { useMemo } from "react";
 import StoryDelete from "./StoryDelete";
 import StoryEnd from "./StoryEnd";
 import StoryShare from "./StoryShare";

@@ -1,8 +1,8 @@
-import React from "react";
+import NotificationMain from "components/Notification/NotificationMain";
+import { useI18n } from "i18n/index";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
-import NotificationMain from "~/components/Notification/NotificationMain";
-import { useI18n } from "~/i18n/index";
+import React from "react";
 
 const NotificationPage: NextPage = () => {
   const { t } = useI18n();

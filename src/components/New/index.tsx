@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import LayoutBackButton from "components/Layout/LayoutBackButton";
+import { usePlayer } from "components/Player";
+import { Track } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import { animated, useTransition, config as springConfig } from "react-spring";
-import { useI18n } from "~/i18n/index";
+import React, { useEffect, useState } from "react";
+import { animated, config as springConfig, useTransition } from "react-spring";
 import CreateStory from "./CreateStory";
-import SelectFromSearch from "./SelectFromSearch";
-import { Track } from "~/graphql/gql.gen";
 import SelectFromPlaylists from "./SelectFromPlaylists";
-import { usePlayer } from "~/components/Player";
-import LayoutBackButton from "~/components/Layout/LayoutBackButton";
+import SelectFromSearch from "./SelectFromSearch";
 
 const getFeaturedArtists = (tracks: Track[]): string[] => {
   const o: Record<string, number> = {};

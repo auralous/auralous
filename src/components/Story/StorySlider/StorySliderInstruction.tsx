@@ -1,7 +1,7 @@
 import { DialogOverlay } from "@reach/dialog";
+import { Button } from "components/Button";
+import { useI18n } from "i18n/index";
 import React, { useEffect, useState } from "react";
-import { Button } from "~/components/Button";
-import { useI18n } from "~/i18n/index";
 
 const storageKey = "storyswiper-instruction";
 

@@ -1,20 +1,20 @@
-import React, { useCallback, useRef, useState } from "react";
-import { useClient } from "urql";
-import { default as TrackAdderResults } from "./TrackAdderResults";
-import { maybeGetTrackOrPlaylistIdFromUri } from "~/lib/platform";
+import { SvgLoadingAnimated } from "assets/svg";
 import {
-  Track,
-  SearchTrackDocument,
   PlaylistTracksDocument,
   PlaylistTracksQuery,
   PlaylistTracksQueryVariables,
+  SearchTrackDocument,
+  Track,
+  TrackDocument,
   TrackQuery,
   TrackQueryVariables,
-  TrackDocument,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+} from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import React, { useCallback, useRef, useState } from "react";
+import { useClient } from "urql";
+import { maybeGetTrackOrPlaylistIdFromUri } from "utils/platform";
+import { default as TrackAdderResults } from "./TrackAdderResults";
 import { TrackAdderCallbackFn } from "./types";
-import { SvgLoadingAnimated } from "~/assets/svg";
 
 const TrackAdderSearch: React.FC<{
   callback: TrackAdderCallbackFn;

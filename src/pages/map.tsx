@@ -1,7 +1,7 @@
-import React from "react";
+import { useI18n } from "i18n/index";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
-import { useI18n } from "~/i18n/index";
+import React from "react";
 
 const MapPage: NextPage = () => {
   const { t } = useI18n();

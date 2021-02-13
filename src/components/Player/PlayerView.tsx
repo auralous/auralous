@@ -1,10 +1,10 @@
+import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
+import { useModal } from "components/Modal";
+import { TrackMenu } from "components/Track";
+import { Track } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React, { useEffect, useState } from "react";
-import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "~/assets/svg";
-import { Track } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
 import usePlayer from "./usePlayer";
-import { TrackMenu } from "~/components/Track";
-import { useModal } from "~/components/Modal";
 
 const EMPTYIMAGE = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP87wMAAlABTQluYBcAAAAASUVORK5CYII=
 `;

@@ -1,17 +1,17 @@
-import { useRouter } from "next/router";
-import React, { useCallback, useRef, useState } from "react";
-import { useLogin } from "~/components/Auth";
-import { Button } from "~/components/Button";
-import { usePlayer } from "~/components/Player";
+import { useLogin } from "components/Auth";
+import { Button } from "components/Button";
+import { usePlayer } from "components/Player";
 import {
   QueueAction,
   Track,
   useCreateStoryMutation,
   useUpdateQueueMutation,
-} from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
-import { CONFIG } from "~/lib/constants";
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import { useRouter } from "next/router";
+import React, { useCallback, useRef, useState } from "react";
+import { CONFIG } from "utils/constants";
 
 const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({
   htmlFor,

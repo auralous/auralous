@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
 import {
   SvgActivity,
   SvgLogIn,
@@ -10,13 +7,16 @@ import {
   SvgPlus,
   SvgSettings,
   SvgUser,
-} from "~/assets/svg";
-import { useLogin } from "~/components/Auth";
-import { Button } from "~/components/Button";
-import { PlayerMinibar } from "~/components/Player/index";
-import { useNotificationAddedSubscription, User } from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
+} from "assets/svg";
+import { useLogin } from "components/Auth";
+import { Button } from "components/Button";
+import { PlayerMinibar } from "components/Player/index";
+import { useNotificationAddedSubscription, User } from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useRef, useState } from "react";
 import LayoutContext from "./LayoutContext";
 
 const useHasNotification = (me: User | null | undefined) => {

@@ -1,5 +1,5 @@
+import { Track, useCrossTracksQuery, useTrackQuery } from "gql/gql.gen";
 import { useMemo } from "react";
-import { Track, useCrossTracksQuery, useTrackQuery } from "~/graphql/gql.gen";
 
 export const useCrossTracks = (id?: string) => {
   const [

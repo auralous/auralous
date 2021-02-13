@@ -1,10 +1,10 @@
+import { Button } from "components/Button";
+import { Modal } from "components/Modal";
+import { useUpdateMeMutation } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React, { useCallback, useRef } from "react";
-import { Button } from "~/components/Button";
-import { useUpdateMeMutation } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { CONFIG } from "~/lib/constants";
-import { toast } from "~/lib/toast";
-import { Modal } from "../Modal";
+import { CONFIG } from "utils/constants";
+import { toast } from "utils/toast";
 
 const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   active,

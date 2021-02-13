@@ -1,16 +1,16 @@
-import React, { useMemo, useCallback, useEffect } from "react";
-import { animated } from "react-spring";
+import { SvgHeart } from "assets/svg";
 import {
   NowPlayingReactionType,
   Story,
   useNowPlayingQuery,
   useNowPlayingReactionsQuery,
   useReactNowPlayingMutation,
-} from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useBoop } from "~/hooks/animation";
-import { toast } from "~/lib/toast";
-import { SvgHeart } from "~/assets/svg";
+} from "gql/gql.gen";
+import { useBoop } from "hooks/animation";
+import { useMe } from "hooks/user";
+import React, { useCallback, useEffect, useMemo } from "react";
+import { animated } from "react-spring";
+import { toast } from "utils/toast";
 
 const AnimatedSvgHeart = animated(SvgHeart);
 

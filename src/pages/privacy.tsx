@@ -1,9 +1,9 @@
-import React from "react";
-import { GetStaticProps, NextPage } from "next";
 import fs from "fs";
-import path from "path";
+import { GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
-import markdownToHtml from "~/lib/markdown-to-html";
+import path from "path";
+import React from "react";
+import markdownToHtml from "utils/markdown-to-html";
 
 const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {
   return (

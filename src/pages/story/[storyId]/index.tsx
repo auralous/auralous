@@ -1,12 +1,12 @@
-import React, { useMemo } from "react";
+import StoryMain from "components/Story/StoryMain";
+import { Story } from "gql/gql.gen";
+import { QUERY_STORY } from "gql/story";
 import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
-import StoryMain from "~/components/Story/StoryMain";
-import NotFoundPage from "../../404";
-import { forwardSSRHeaders } from "~/lib/ssr-utils";
-import { Story } from "~/graphql/gql.gen";
-import { QUERY_STORY } from "~/graphql/story";
-import { CONFIG } from "~/lib/constants";
+import NotFoundPage from "pages/404";
+import React, { useMemo } from "react";
+import { CONFIG } from "utils/constants";
+import { forwardSSRHeaders } from "utils/ssr-utils";
 
 const StoryPage: NextPage<{
   story: Story | null;

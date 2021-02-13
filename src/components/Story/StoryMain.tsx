@@ -1,24 +1,24 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
-import { animated, useSpring } from "react-spring";
-import { useRouter } from "next/router";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
+import LayoutContext from "components/Layout/LayoutContext";
+import { usePlayer } from "components/Player/index";
+import { PlayerControl } from "components/Player/PlayerView";
 import {
   Story,
-  useStoryQuery,
-  usePingStoryMutation,
-  useStoryUpdatedSubscription,
   useNowPlayingReactionsUpdatedSubscription,
-} from "~/graphql/gql.gen";
+  usePingStoryMutation,
+  useStoryQuery,
+  useStoryUpdatedSubscription,
+} from "gql/gql.gen";
+import { useInnerHeightResizeRef } from "hooks/sizing";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { animated, useSpring } from "react-spring";
 import StoryNav from "./StoryNav";
-import StoryQueue from "./StoryQueue";
 import StoryPlayer from "./StoryPlayer";
-import { usePlayer } from "~/components/Player/index";
-import { PlayerControl } from "~/components/Player/PlayerView";
-import LayoutContext from "~/components/Layout/LayoutContext";
-import { useMe } from "~/hooks/user";
-import { useInnerHeightResizeRef } from "~/hooks/sizing";
-import { useI18n } from "~/i18n/index";
+import StoryQueue from "./StoryQueue";
 
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
 

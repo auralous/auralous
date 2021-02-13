@@ -1,8 +1,8 @@
+import { SvgMove } from "assets/svg";
+import { useI18n } from "i18n/index";
 import React, { useEffect, useState } from "react";
+import { verifyScript } from "utils/script-utils";
 import usePlayer from "./usePlayer";
-import { verifyScript } from "~/lib/script-utils";
-import { useI18n } from "~/i18n/index";
-import { SvgMove } from "~/assets/svg";
 /// <reference path="youtube" />
 
 const YT_PLAYER_VARS = {

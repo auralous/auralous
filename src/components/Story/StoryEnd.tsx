@@ -1,10 +1,10 @@
+import { Button } from "components/Button";
+import { Modal, useModal } from "components/Modal";
+import { Story, useUnliveStoryMutation } from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { Button } from "~/components/Button";
-import { Modal, useModal } from "~/components/Modal";
-import { Story, useUnliveStoryMutation } from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
-import { toast } from "~/lib/toast";
+import { toast } from "utils/toast";
 
 const StoryEnd: React.FC<{
   story: Story;

@@ -1,12 +1,14 @@
-import React from "react";
+import { SvgFacebook, SvgMail, SvgTwitter } from "assets/svg";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
 import { GetStaticProps, NextPage } from "next";
-import Link from "next/link";
 import { NextSeo } from "next-seo";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
-import { SvgMail, SvgFacebook, SvgTwitter } from "~/assets/svg";
-import { getPages as getSupportPages } from "~/lib/content-support";
-import { SupportArticle } from "~/types/index";
+import Link from "next/link";
+import React from "react";
+import {
+  getPages as getSupportPages,
+  SupportArticle,
+} from "utils/content-support";
 
 const ContactLink: React.FC<{ href: string }> = ({ href, children }) => (
   <a

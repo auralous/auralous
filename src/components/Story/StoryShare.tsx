@@ -1,17 +1,17 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { SvgFacebook, SvgLink, SvgReddit, SvgTwitter } from "~/assets/svg";
-import { Button } from "~/components/Button";
-import { Modal } from "~/components/Modal";
+import { SvgFacebook, SvgLink, SvgReddit, SvgTwitter } from "assets/svg";
+import { Button } from "components/Button";
+import { Modal } from "components/Modal";
+import UserList from "components/User/UserList";
+import UserPill from "components/User/UserPill";
 import {
   Story,
   useSendStoryInvitesMutation,
   useUserFollowingsQuery,
-} from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
-import { toast } from "~/lib/toast";
-import UserList from "../User/UserList";
-import UserPill from "../User/UserPill";
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import React, { useCallback, useMemo, useState } from "react";
+import { toast } from "utils/toast";
 
 const StoryShare: React.FC<{
   story: Story;
