@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import LayoutContext from "./LayoutContext";
-import { PlayerMinibar } from "~/components/Player/index";
-import { useLogin } from "~/components/Auth";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  SvgActivity,
   SvgLogIn,
   SvgLogo,
   SvgMapPin,
-  SvgActivity,
   SvgPlayCircle,
   SvgPlus,
   SvgSettings,
   SvgUser,
 } from "~/assets/svg";
+import { useLogin } from "~/components/Auth";
+import { Button } from "~/components/Button";
+import { PlayerMinibar } from "~/components/Player/index";
 import { useNotificationAddedSubscription, User } from "~/graphql/gql.gen";
+import { useMe } from "~/hooks/user";
+import { useI18n } from "~/i18n/index";
+import LayoutContext from "./LayoutContext";
 
 const useHasNotification = (me: User | null | undefined) => {
   const [hasNotification, setHasNotification] = useState(false);
@@ -113,12 +114,15 @@ const Sidebar: React.FC = () => {
             </div>
           </div>
         ) : (
-          <button
-            onClick={logIn}
-            className="btn btn-transparent rounded-none border-t-2 border-background-secondary text-sm w-full py-3"
-          >
-            {t("common.signIn")}
-          </button>
+          <>
+            <div className="mb-1 border-b-2 border-foreground-backdrop" />
+            <Button
+              styling="link"
+              onPress={logIn}
+              fullWidth
+              title={t("common.signIn")}
+            />
+          </>
         )}
       </div>
     </div>

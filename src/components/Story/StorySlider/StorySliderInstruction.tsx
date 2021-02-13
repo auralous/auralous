@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
 import { DialogOverlay } from "@reach/dialog";
+import React, { useEffect, useState } from "react";
+import { Button } from "~/components/Button";
 import { useI18n } from "~/i18n/index";
 
 const storageKey = "storyswiper-instruction";
@@ -27,12 +28,11 @@ const StorySliderInstruction = () => {
         <p className="text-lg md:text-2xl font-bold mb-4">
           {t("story.feed.instruction")}
         </p>
-        <button
-          onClick={close}
-          className="btn btn-primary md:text-lg rounded-full"
-        >
-          {t("common.startListening")}
-        </button>
+        <Button
+          onPress={close}
+          title={t("common.startListening")}
+          color="primary"
+        />
       </div>
     </DialogOverlay>
   );

@@ -1,13 +1,14 @@
 // Check if current user has an ongoing story
 // and redirect them to it
-import React from "react";
 import { useRouter } from "next/router";
-import StoryEnd from "./StoryEnd";
-import { useStoryLiveQuery } from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
+import React from "react";
+import { Button } from "~/components/Button";
 import { Modal } from "~/components/Modal";
 import { usePlayer } from "~/components/Player";
+import { useStoryLiveQuery } from "~/graphql/gql.gen";
+import { useMe } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
+import StoryEnd from "./StoryEnd";
 
 const StoryOngoingWatcher: React.FC = () => {
   const { t } = useI18n();
@@ -49,21 +50,19 @@ const StoryOngoingWatcher: React.FC = () => {
           {storyLive && (
             <StoryEnd story={storyLive}>
               {(openDelete) => (
-                <button
-                  className="btn btn-transparent text-danger"
-                  onClick={openDelete}
-                >
-                  {t("story.end.title")}
-                </button>
+                <Button
+                  color="danger"
+                  styling="link"
+                  onPress={openDelete}
+                  title={t("story.end.title")}
+                />
               )}
             </StoryEnd>
           )}
-          <button
-            className="btn"
-            onClick={() => router.push(`/story/${storyLive?.id}`)}
-          >
-            {t("story.ongoing.goto")}
-          </button>
+          <Button
+            onPress={() => router.push(`/story/${storyLive?.id}`)}
+            title={t("story.ongoing.goto")}
+          />
         </Modal.Footer>
       </Modal.Modal>
     </>

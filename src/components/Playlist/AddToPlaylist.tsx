@@ -1,19 +1,20 @@
-import React, { useState, useRef, useCallback } from "react";
-import { Modal } from "~/components/Modal/index";
-import { toast } from "~/lib/toast";
+import React, { useCallback, useRef, useState } from "react";
+import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "~/assets/svg";
 import { AuthBanner } from "~/components/Auth";
-import { useMe } from "~/hooks/user";
+import { Button } from "~/components/Button";
+import { Modal } from "~/components/Modal/index";
 import {
-  Track,
   PlatformName,
-  useTrackQuery,
   Playlist,
-  useMyPlaylistsQuery,
+  Track,
   useAddPlaylistTracksMutation,
   useCreatePlaylistMutation,
+  useMyPlaylistsQuery,
+  useTrackQuery,
 } from "~/graphql/gql.gen";
-import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "~/assets/svg";
+import { useMe } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
+import { toast } from "~/lib/toast";
 import PlaylistItem from "./PlaylistItem";
 
 const CreatePlaylist: React.FC<{
@@ -53,32 +54,28 @@ const CreatePlaylist: React.FC<{
   return isCreatingPlaylist ? (
     <>
       <form
-        className="flex mb-1 p-2 h-16"
+        className="flex mb-1 p-2 h-16 space-x-1"
         onSubmit={handleCreatePlaylistAndAdd}
       >
         <input
           placeholder={t("playlist.new.title")}
-          className="input w-full"
+          className="input w-full h-10"
           ref={inputRef}
           required
         />
-        <button
-          aria-label={t("playlist.new.title")}
+        <Button
+          accessibilityLabel={t("playlist.new.title")}
           type="submit"
-          className="btn btn-success ml-2 flex-none"
           disabled={fetching}
-        >
-          <SvgCheck width="16" height="16" />
-        </button>
-        <button
-          aria-label={t("modal.close")}
-          type="submit"
-          className="btn ml-1 flex-none"
+          icon={<SvgCheck className="w-4 h-4" />}
+          color="success"
+        />
+        <Button
+          accessibilityLabel={t("modal.close")}
           disabled={fetching}
-          onClick={() => setIsCreatingPlaylist(false)}
-        >
-          <SvgX width="16" height="16" />
-        </button>
+          onPress={() => setIsCreatingPlaylist(false)}
+          icon={<SvgX className="w-4 h-4" />}
+        />
       </form>
       {track.platform === PlatformName.Youtube && (
         <small className="text-foreground-tertiary">

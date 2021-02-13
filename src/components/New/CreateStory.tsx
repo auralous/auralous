@@ -1,15 +1,16 @@
-import React, { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import React, { useCallback, useRef, useState } from "react";
+import { useLogin } from "~/components/Auth";
+import { Button } from "~/components/Button";
+import { usePlayer } from "~/components/Player";
 import {
   QueueAction,
   Track,
   useCreateStoryMutation,
   useUpdateQueueMutation,
 } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { useLogin } from "~/components/Auth";
-import { usePlayer } from "~/components/Player";
 import { useMe } from "~/hooks/user";
+import { useI18n } from "~/i18n/index";
 import { CONFIG } from "~/lib/constants";
 
 const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({
@@ -107,6 +108,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
           {t("new.addNew.textHelp", { maxLength: CONFIG.storyTextMaxLength })}
         </p>
       </CreateStoryFormGroup>
+      <div className="mb-8" />
       {/* <CreateStoryFormGroup>
         <CreateStoryLabel htmlFor="storyPrivacy">
           {t("new.addNew.promptPrivacy")}
@@ -142,13 +144,12 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
           </div>
         </div>
       </CreateStoryFormGroup> */}
-      <button
-        className="btn btn-success rounded-full mt-8"
+      <Button
+        color="success"
         type="submit"
         disabled={fetching}
-      >
-        {t("new.addNew.action")}
-      </button>
+        title={t("new.addNew.action")}
+      />
     </form>
   );
 };

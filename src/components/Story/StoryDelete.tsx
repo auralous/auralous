@@ -1,8 +1,9 @@
 import React from "react";
+import { Button } from "~/components/Button";
 import { Modal } from "~/components/Modal";
-import { toast } from "~/lib/toast";
 import { Story, useDeleteStoryMutation } from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
+import { toast } from "~/lib/toast";
 import { usePlayer } from "../Player";
 
 const StoryDelete: React.FC<{
@@ -44,20 +45,17 @@ const StoryDelete: React.FC<{
           </p>
         </Modal.Content>
         <Modal.Footer>
-          <button
-            className="btn btn-transparent text-danger-light"
-            onClick={onDelete}
+          <Button
+            color="danger"
+            onPress={onDelete}
             disabled={fetching}
-          >
-            {t("story.delete.confirm")}
-          </button>
-          <button
-            onClick={close}
-            className="btn btn-success"
+            title={t("story.delete.confirm")}
+          />
+          <Button
             disabled={fetching}
-          >
-            {t("common.cancel")}
-          </button>
+            title={t("common.cancel")}
+            onPress={close}
+          />
         </Modal.Footer>
       </Modal.Modal>
     </>

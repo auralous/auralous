@@ -30,13 +30,13 @@
 
 @screen 2xl {
   :root {
-    font-size: 24px;
+    font-size: 20px;
   }
 }
 
 @media (min-width: 1920px) {
   :root {
-    font-size: 27px;
+    font-size: 24px;
   }
 }
 
@@ -121,15 +121,6 @@ html {
     &:not([disabled]) {
       &:hover, &:focus {
         @apply bg-success-dark;
-      }
-    }
-  }
-  &.btn-warning {
-    @apply text-warning-label;
-    @apply bg-warning;
-    &:not([disabled]) {
-      &:hover, &:focus {
-        @apply bg-warning-dark;
       }
     }
   }

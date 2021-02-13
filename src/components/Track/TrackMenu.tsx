@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { AddToPlaylist } from "~/components/Playlist/index";
 import { SvgPlus } from "~/assets/svg";
-import { useTrackQuery } from "~/graphql/gql.gen";
-import { SvgByPlatformName, PLATFORM_FULLNAMES } from "~/lib/constants";
-import { useI18n } from "~/i18n/index";
+import { Button } from "~/components/Button";
 import { Modal } from "~/components/Modal";
+import { AddToPlaylist } from "~/components/Playlist/index";
+import { useTrackQuery } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
+import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
 
 const TrackMenu: React.FC<{
   id: string;
@@ -45,14 +46,12 @@ const TrackMenu: React.FC<{
                   {track?.artists.map(({ name }) => name).join(", ")}
                 </div>
               </div>
-              <div className="flex flex-wrap justify-center md:justify-start">
-                <button
-                  className="btn text-xs m-1"
-                  onClick={() => setOpenAddPlaylist(true)}
-                >
-                  <SvgPlus width="20" className="mr-1" />{" "}
-                  {t("track.addToPlaylist")}
-                </button>
+              <div className="flex flex-wrap justify-center md:justify-start space-x-1">
+                <Button
+                  onPress={() => setOpenAddPlaylist(true)}
+                  icon={<SvgPlus width="20" className="mr-1" />}
+                  title={t("track.addToPlaylist")}
+                />
                 <a
                   href={track?.url}
                   target="_blank"

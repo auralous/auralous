@@ -1,10 +1,11 @@
 import React from "react";
 import { useLogin } from "~/components/Auth";
-import { useMe, useMeFollowings } from "~/hooks/user";
+import { Button } from "~/components/Button";
 import {
   useFollowUserMutation,
   useUnfollowUserMutation,
 } from "~/graphql/gql.gen";
+import { useMe, useMeFollowings } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
 
 const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
@@ -30,27 +31,24 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
 
   if (followed)
     return (
-      <button
-        onClick={() => unfollowUser({ id })}
+      <Button
+        onPress={() => unfollowUser({ id })}
         disabled={fetchingUnfollow}
-        className={`btn btn-transparent text-primary bg-transparent border-2 border-primary rounded-full leading-none ${
-          isTiny ? "text-xs px-2 py-1" : "text-sm"
-        }`}
-      >
-        {t("user.unfollow")}
-      </button>
+        color="primary"
+        styling="link"
+        size={isTiny ? "small" : undefined}
+        title={t("user.unfollow")}
+      />
     );
 
   return (
-    <button
-      onClick={() => (me ? followUser({ id }) : logIn())}
+    <Button
+      onPress={() => (me ? followUser({ id }) : logIn())}
       disabled={fetchingFollow || me?.user.id === id}
-      className={`btn btn-primary border-2 border-transparent rounded-full leading-none ${
-        isTiny ? "text-xs px-2 py-1" : "text-sm"
-      }`}
-    >
-      {t("user.follow")}
-    </button>
+      color="primary"
+      size={isTiny ? "small" : undefined}
+      title={t("user.follow")}
+    />
   );
 };
 

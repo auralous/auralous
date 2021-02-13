@@ -1,9 +1,10 @@
-import React, { useRef, useCallback } from "react";
+import React, { useCallback, useRef } from "react";
+import { Button } from "~/components/Button";
 import { useUpdateMeMutation } from "~/graphql/gql.gen";
-import { toast } from "~/lib/toast";
 import { useI18n } from "~/i18n/index";
-import { Modal } from "../Modal";
 import { CONFIG } from "~/lib/constants";
+import { toast } from "~/lib/toast";
+import { Modal } from "../Modal";
 
 const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   active,
@@ -53,9 +54,7 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
             })}
           </p>
         </div>
-        <button className="btn w-full" disabled={fetching}>
-          {t("common.save")}
-        </button>
+        <Button disabled={fetching} title={t("common.save")} />
       </form>
     </Modal.Modal>
   );

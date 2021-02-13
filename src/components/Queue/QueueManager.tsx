@@ -1,33 +1,34 @@
 import React, { useCallback, useMemo } from "react";
 import {
   DragDropContext,
-  Droppable,
   Draggable,
-  DropResult,
   DraggableProvided,
+  Droppable,
+  DropResult,
 } from "react-beautiful-dnd";
-import { useClient } from "urql";
+import AutoSizer from "react-virtualized-auto-sizer";
 import {
+  areEqual,
   FixedSizeList as List,
   ListChildComponentProps,
-  areEqual,
 } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { TrackItem } from "~/components/Track/index";
-import { toast } from "~/lib/toast";
-import useQueue from "./useQueue";
-import {
-  useUpdateQueueMutation,
-  QueueAction,
-  TrackQueryVariables,
-  TrackQuery,
-  Queue,
-} from "~/graphql/gql.gen";
-import { TrackDocument } from "~/graphql/gql.gen";
+import { useClient } from "urql";
 import { SvgGripVertical } from "~/assets/svg/index";
-import QueueAddedBy from "./QueueAddedBy";
+import { Button } from "~/components/Button";
+import { TrackItem } from "~/components/Track/index";
+import {
+  Queue,
+  QueueAction,
+  TrackDocument,
+  TrackQuery,
+  TrackQueryVariables,
+  useUpdateQueueMutation,
+} from "~/graphql/gql.gen";
 import { useI18n } from "~/i18n/index";
+import { toast } from "~/lib/toast";
 import { remToPx } from "~/lib/util";
+import QueueAddedBy from "./QueueAddedBy";
+import useQueue from "./useQueue";
 
 const QueueDraggableItem: React.FC<{
   isQueueable: boolean;
@@ -89,27 +90,28 @@ const QueueDraggableItem: React.FC<{
       </div>
       <div className="flex content-end items-center ml-2">
         {isQueueable && (
-          <button
-            title={t("queue.manager.remove")}
-            className="btn btn-transparent p-0 h-10 w-10"
-            onClick={removeItem}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              className="stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={8}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+          <Button
+            accessibilityLabel={t("queue.manager.remove")}
+            styling="link"
+            onPress={removeItem}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                className="stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={8}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            }
+          />
         )}
       </div>
     </div>
@@ -189,14 +191,14 @@ const QueueManager: React.FC<{
       <div className="w-full h-full">
         {queue.items?.length === 0 && (
           <div className="absolute-center z-10 w-full text-center text-lg text-foreground-tertiary p-4">
-            <p className="text-center">{t("queue.manager.empty")}</p>
+            <p className="text-center mb-2">{t("queue.manager.empty")}</p>
             {isQueueable && (
-              <button
-                onClick={onEmptyAddClick}
-                className="py-2 px-4 rounded-lg text-primary hover:bg-primary hover:bg-opacity-10 transition-colors font-bold mt-1"
-              >
-                {t("queue.manager.add")}
-              </button>
+              <Button
+                color="primary"
+                shape="circle"
+                onPress={onEmptyAddClick}
+                title={t("queue.manager.add")}
+              />
             )}
           </div>
         )}

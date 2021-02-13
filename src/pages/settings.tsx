@@ -1,30 +1,31 @@
+import { NextPage } from "next";
+import { NextSeo } from "next-seo";
 import React, {
-  useState,
   useCallback,
-  useRef,
   useEffect,
   useMemo,
+  useRef,
+  useState,
 } from "react";
-import { NextSeo } from "next-seo";
-import { NextPage } from "next";
-import { toast } from "~/lib/toast";
-import { Modal, useModal } from "~/components/Modal/index";
 import { useLogin } from "~/components/Auth/index";
-import { useMe } from "~/hooks/user";
+import { Button } from "~/components/Button";
+import { Modal, useModal } from "~/components/Modal/index";
 import {
-  useUpdateMeMutation,
+  PlatformName,
   useDeleteMeMutation,
   User,
-  PlatformName,
+  useUpdateMeMutation,
 } from "~/graphql/gql.gen";
+import { useMe } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
+import { Locale } from "~/i18n/types";
 import {
   CONFIG,
   LANGUAGES,
   PLATFORM_FULLNAMES,
   SvgByPlatformName,
 } from "~/lib/constants";
-import { Locale } from "~/i18n/types";
+import { toast } from "~/lib/toast";
 
 const SettingTitle: React.FC = ({ children }) => (
   <h3 className="text-lg font-bold mb-1">{children}</h3>
@@ -77,23 +78,20 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           </div>
         </Modal.Content>
         <Modal.Footer>
-          <button
-            className="btn btn-transparent text-danger-light"
-            onClick={onDelete}
+          <Button
+            color="danger"
+            onPress={onDelete}
             disabled={confirmUsername !== user.username || fetching}
-          >
-            {t("settings.dangerZone.delete.confirm")}
-          </button>
-          <button
-            onClick={closeDelete}
-            className="btn btn-success"
+            title={t("settings.dangerZone.delete.confirm")}
+          />
+          <Button
+            onPress={closeDelete}
             disabled={fetching}
-          >
-            {t("common.cancel")}
-          </button>
+            title={t("common.cancel")}
+          />
         </Modal.Footer>
       </Modal.Modal>
-      <p className="text-sm text-foreground-secondary">
+      <p className="text-sm text-foreground-secondary mb-2">
         {t("settings.dangerZone.delete.description")}{" "}
         <a
           className="underline"
@@ -103,9 +101,11 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           {t("settings.dangerZone.delete.descriptionData")}
         </a>
       </p>
-      <button className="btn btn-danger mt-2" onClick={openDelete}>
-        {t("settings.dangerZone.delete.confirm")}
-      </button>
+      <Button
+        color="danger"
+        onPress={openDelete}
+        title={t("settings.dangerZone.delete.confirm")}
+      />
     </>
   );
 };
@@ -199,7 +199,7 @@ const LeftSection: React.FC = () => {
                 })}
               </p>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 mb-2">
               <label className="label" htmlFor="profilePictureInput">
                 {t("settings.profilePicture.label")}
               </label>
@@ -218,24 +218,23 @@ const LeftSection: React.FC = () => {
                 />
               </div>
             </div>
-            <button type="submit" className="btn btn-success mt-2 w-full">
-              {t("common.save")}
-            </button>
+            <Button
+              color="success"
+              type="submit"
+              fullWidth
+              title={t("common.save")}
+            />
           </form>
           <div className="mt-8 border-t-2 py-4 border-background-secondary">
-            <button className="btn w-full" onClick={signOut}>
-              {t("settings.signOut")}
-            </button>
+            <Button fullWidth onPress={signOut} title={t("settings.signOut")} />
           </div>
         </>
       ) : (
         <>
-          <p className="text-foreground-tertiary">
+          <p className="text-foreground-tertiary mb-2">
             {t("settings.profile.authPrompt")}
           </p>
-          <button onClick={logIn} className="btn items-center mt-2">
-            {t("common.signIn")}
-          </button>
+          <Button onPress={logIn} title={t("common.signIn")} />
         </>
       )}
     </>
@@ -246,8 +245,6 @@ const MusicConnection: React.FC = () => {
   const { t } = useI18n();
   // Account
   const me = useMe();
-
-  const [, logIn] = useLogin();
 
   const platform = me?.platform || PlatformName.Youtube;
   const name = platform ? PLATFORM_FULLNAMES[platform] : null;
@@ -277,13 +274,6 @@ const MusicConnection: React.FC = () => {
                 <span className="text-foreground-secondary mr-1">
                   {t("player.signInSuggest")}
                 </span>
-                <br />
-                <button
-                  className="p-1 pl-0 font-bold hover:text-foreground-secondary"
-                  onClick={logIn}
-                >
-                  {t("common.signIn")}
-                </button>
               </>
             )}
           </p>

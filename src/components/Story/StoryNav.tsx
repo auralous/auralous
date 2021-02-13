@@ -1,14 +1,7 @@
-import React, { useMemo } from "react";
-import Link from "next/link";
-import ms from "ms";
 import { DialogOverlay } from "@reach/dialog";
-import StoryShare from "./StoryShare";
-import StoryEnd from "./StoryEnd";
-import StoryDelete from "./StoryDelete";
-import { useModal } from "~/components/Modal";
-import { useMe } from "~/hooks/user";
-import { useUserQuery, Story } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+import ms from "ms";
+import Link from "next/link";
+import React, { useMemo } from "react";
 import {
   SvgChevronDown,
   SvgMoreHorizontal,
@@ -18,6 +11,14 @@ import {
   SvgUser,
   SvgX,
 } from "~/assets/svg";
+import { Button } from "~/components/Button";
+import { useModal } from "~/components/Modal";
+import { Story, useUserQuery } from "~/graphql/gql.gen";
+import { useMe } from "~/hooks/user";
+import { useI18n } from "~/i18n/index";
+import StoryDelete from "./StoryDelete";
+import StoryEnd from "./StoryEnd";
+import StoryShare from "./StoryShare";
 
 const StoryNavMenu: React.FC<{
   story: Story;
@@ -56,10 +57,12 @@ const StoryNavMenu: React.FC<{
               </div>
             </div>
           )}
-          <button onClick={openShare} className="btn btn-transparent">
-            <SvgShare2 className="w-5 h-5 mr-2" />
-            {t("story.share.title")}
-          </button>
+          <Button
+            onPress={openShare}
+            icon={<SvgShare2 className="w-5 h-5" />}
+            styling="link"
+            title={t("story.share.title")}
+          />
           <StoryShare active={activeShare} close={closeShare} story={story} />
           <Link href={`/user/${user?.username}`}>
             <a className="btn btn-transparent">
@@ -69,18 +72,22 @@ const StoryNavMenu: React.FC<{
           </Link>
           <StoryEnd story={story}>
             {(openEnd) => (
-              <button onClick={openEnd} className="btn btn-transparent">
-                <SvgSquare className="w-5 h-5 mr-2" />
-                {t("story.end.title")}
-              </button>
+              <Button
+                icon={<SvgSquare className="w-5 h-5" />}
+                title={t("story.end.title")}
+                styling="link"
+                onPress={openEnd}
+              />
             )}
           </StoryEnd>
           {story.isLive === false && me?.user.id === story.creatorId && (
             <>
-              <button onClick={openDelete} className="btn btn-transparent">
-                <SvgTrash className="w-5 h-5 mr-2" />
-                {t("story.delete.title")}
-              </button>
+              <Button
+                icon={<SvgTrash className="w-5 h-5" />}
+                title={t("story.delete.title")}
+                onPress={openDelete}
+                styling="link"
+              />
               <StoryDelete
                 active={activeDelete}
                 close={closeDelete}

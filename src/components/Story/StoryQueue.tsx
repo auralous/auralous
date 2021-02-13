@@ -1,15 +1,16 @@
-import React from "react";
 import dynamic from "next/dynamic";
-import StoryQueueable from "./StoryQueueable";
-import { useMe } from "~/hooks/user";
-import { Story } from "~/graphql/gql.gen";
+import React from "react";
+import { SvgPlus, SvgUserPlus } from "~/assets/svg";
 import { useLogin } from "~/components/Auth";
-import { toast } from "~/lib/toast";
+import { Button } from "~/components/Button";
 import { Modal, useModal } from "~/components/Modal";
 import { usePlayer } from "~/components/Player";
-import { SvgPlus, SvgUserPlus } from "~/assets/svg";
+import { Story } from "~/graphql/gql.gen";
+import { useMe } from "~/hooks/user";
 import { useI18n } from "~/i18n/index";
+import { toast } from "~/lib/toast";
 import StoryListeners from "./StoryListeners";
+import StoryQueueable from "./StoryQueueable";
 
 const StoryQueueAdder = dynamic(() => import("./StoryQueueAdder"), {
   ssr: false,
@@ -29,13 +30,15 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
       <div className="px-4 py-1 flex">
         {me?.user.id === story.creatorId && (
           <>
-            <button
-              className="btn btn-primary mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
-              title={t("story.queueable.title")}
-              onClick={open}
-            >
-              <SvgUserPlus className="w-4 h-4" />
-            </button>
+            <Button
+              color="primary"
+              accessibilityLabel={t("story.queueable.title")}
+              onPress={open}
+              icon={<SvgUserPlus className="w-4 h-4" />}
+              shape="circle"
+              size="medium"
+            />
+            <div className="mr-1" />
             <Modal.Modal
               active={active}
               close={close}
@@ -48,9 +51,7 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
                 <StoryQueueable story={story} />
               </Modal.Content>
               <Modal.Footer>
-                <button className="btn" onClick={close}>
-                  {t("common.done")}
-                </button>
+                <Button title={t("common.done")} onPress={close} />
               </Modal.Footer>
             </Modal.Modal>
           </>

@@ -1,17 +1,17 @@
+import { useRouter } from "next/router";
 import React, {
   createContext,
-  useContext,
-  useState,
-  useRef,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
-import { useRouter } from "next/router";
-import Welcome from "./Welcome";
+import { SvgGoogleColor, SvgSpotify, SvgX } from "~/assets/svg";
 import { Modal, useModal } from "~/components/Modal/index";
-import { useI18n } from "~/i18n/index";
-import { SvgSpotify, SvgGoogleColor, SvgX } from "~/assets/svg";
 import { PlatformName } from "~/graphql/gql.gen";
+import { useI18n } from "~/i18n/index";
+import Welcome from "./Welcome";
 
 const SignInContext = createContext<[boolean, () => void]>([
   false,

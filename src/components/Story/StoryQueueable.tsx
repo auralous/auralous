@@ -1,18 +1,19 @@
 import React, { useCallback } from "react";
 import { useClient } from "urql";
-import { toast } from "~/lib/toast";
+import { SvgUserPlus, SvgX } from "~/assets/svg";
+import { Button } from "~/components/Button";
 import {
   Story,
-  useUserQuery,
   useChangeStoryQueueableMutation,
   UserDocument,
   UserQuery,
   UserQueryVariables,
   useStoryUpdatedSubscription,
+  useUserQuery,
 } from "~/graphql/gql.gen";
-import { CONFIG } from "~/lib/constants";
-import { SvgUserPlus, SvgX } from "~/assets/svg";
 import { useI18n } from "~/i18n/index";
+import { CONFIG } from "~/lib/constants";
+import { toast } from "~/lib/toast";
 
 const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
@@ -69,13 +70,11 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
         maxLength={CONFIG.usernameMaxLength}
         required
       />
-      <button
-        className="btn rounded-full leading-none text-xs h-10 px-4"
+      <Button
+        shape="circle"
         title={t("story.queueable.add")}
         disabled={fetching}
-      >
-        {t("story.queueable.add")}
-      </button>
+      />
     </form>
   );
 };
@@ -124,14 +123,15 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
           <div className="w-20 h-5 block-skeleton" />
         )}
       </div>
-      <button
-        className="btn rounded-full leading-none text-xs h-10 w-10 p-0"
-        title={t("story.queueable.remove", { username: user?.username })}
+      <Button
+        accessibilityLabel={t("story.queueable.remove", {
+          username: user?.username,
+        })}
         disabled={fetching}
-        onClick={onUserRemove}
-      >
-        <SvgX className="w-4 h-4" />
-      </button>
+        onPress={onUserRemove}
+        icon={<SvgX className="w-4 h-4" />}
+        shape="circle"
+      />
     </div>
   );
 };
