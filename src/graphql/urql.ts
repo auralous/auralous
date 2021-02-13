@@ -1,40 +1,39 @@
-import { IntrospectionQuery } from "graphql";
-import {
-  dedupExchange,
-  createClient,
-  subscriptionExchange,
-  Exchange,
-} from "urql";
+import { devtoolsExchange } from "@urql/devtools";
+import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
+import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 // import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
 import { refocusExchange } from "@urql/exchange-refocus";
 import { createClient as createWSClient } from "graphql-ws";
-import { pipe, onPush } from "wonka";
-import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
-import { simplePagination } from "@urql/exchange-graphcache/extras";
-import { devtoolsExchange } from "@urql/devtools";
-import { toast } from "~/lib/toast";
-import schema from "./schema.json";
 import {
-  Story,
-  StoryUsersDocument,
-  StoryUsersQuery,
-  StoryQuery,
-  StoryDocument,
-  StoryQueryVariables,
-  NowPlayingReactionsQuery,
-  NowPlayingReactionsDocument,
-  UserFollowingsQuery,
-  MeQuery,
+  createClient,
+  dedupExchange,
+  errorExchange,
+  Exchange,
+  subscriptionExchange,
+} from "urql";
+import {
   MeDocument,
-  UserFollowingsDocument,
-  UserFollowingsQueryVariables,
+  MeQuery,
+  NowPlayingReactionsDocument,
+  NowPlayingReactionsQuery,
+  NowPlayingReactionsUpdatedSubscription,
+  Story,
+  StoryDocument,
+  StoryLiveDocument,
   StoryLiveQuery,
   StoryLiveQueryVariables,
-  StoryLiveDocument,
-  NowPlayingReactionsUpdatedSubscription,
+  StoryQuery,
+  StoryQueryVariables,
+  StoryUsersDocument,
+  StoryUsersQuery,
+  UserFollowingsDocument,
+  UserFollowingsQuery,
+  UserFollowingsQueryVariables,
 } from "~/graphql/gql.gen";
 import { t } from "~/i18n/index";
+import { toast } from "~/lib/toast";
+import schema from "./schema.json";
 import { nextCursorPagination } from "./_pagination";
 
 const wsClient =
@@ -44,34 +43,9 @@ const wsClient =
       })
     : null;
 
-const errorExchange: Exchange = ({ forward }) => (ops$) =>
-  pipe(
-    forward(ops$),
-    onPush((result) => {
-      if (result.error) {
-        const { networkError, graphQLErrors } = result.error;
-
-        if (networkError && typeof window !== "undefined")
-          toast.error("Unable to connect to server.");
-
-        graphQLErrors.forEach((error) => {
-          let message = error.message;
-          const code = error.extensions?.code;
-          if (code === "PERSISTED_QUERY_NOT_FOUND") return;
-          if (message.startsWith("Internal error:")) {
-            // We log this error to console so dev can look into it
-            console.error(error);
-            message = t("error.internal");
-          }
-          if (code === "UNAUTHENTICATED") message = t("error.unauthenticated");
-          if (typeof window !== "undefined") toast.error(message);
-        });
-      }
-    })
-  );
-
 const cacheExchange = createCacheExchange({
-  schema: (schema as unknown) as IntrospectionQuery,
+  // @ts-ignore: This is invalid
+  schema,
   keys: {
     QueueItem: () => null,
     Me: () => null,
@@ -265,7 +239,26 @@ export const createUrqlClient = () =>
       dedupExchange,
       typeof window !== "undefined" && refocusExchange(),
       cacheExchange,
-      errorExchange,
+      errorExchange({
+        onError({ networkError, graphQLErrors }) {
+          if (networkError && typeof window !== "undefined")
+            toast.error("Unable to connect to server.");
+
+          graphQLErrors.forEach((error) => {
+            let message = error.message;
+            const code = error.extensions?.code;
+            if (code === "PERSISTED_QUERY_NOT_FOUND") return;
+            if (message.startsWith("Internal error:")) {
+              // We log this error to console so dev can look into it
+              console.error(error);
+              message = t("error.internal");
+            }
+            if (code === "UNAUTHENTICATED")
+              message = t("error.unauthenticated");
+            if (typeof window !== "undefined") toast.error(message);
+          });
+        },
+      }),
       // persistedFetchExchange({
       //   preferGetForPersistedQueries: true,
       // }),

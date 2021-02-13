@@ -525,7 +525,7 @@ export type NotificationsQuery = { notifications: Array<(
   )> };
 
 export type ReadNotificationsMutationVariables = Exact<{
-  ids: Array<Scalars['ID']>;
+  ids: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
@@ -621,7 +621,7 @@ export type QueueItemPartsFragment = (
 export type UpdateQueueMutationVariables = Exact<{
   id: Scalars['ID'];
   action: QueueAction;
-  tracks?: Maybe<Array<Scalars['ID']>>;
+  tracks?: Maybe<Array<Scalars['ID']> | Scalars['ID']>;
   position?: Maybe<Scalars['Int']>;
   insertPosition?: Maybe<Scalars['Int']>;
 }>;
@@ -766,7 +766,7 @@ export type OnStoryUsersUpdatedSubscription = Pick<Subscription, 'storyUsersUpda
 
 export type SendStoryInvitesMutationVariables = Exact<{
   id: Scalars['ID'];
-  invitedIds: Array<Scalars['String']>;
+  invitedIds: Array<Scalars['String']> | Scalars['String'];
 }>;
 
 
@@ -851,7 +851,7 @@ export type PlaylistTracksQuery = { playlistTracks: Array<(
 
 export type AddPlaylistTracksMutationVariables = Exact<{
   id: Scalars['ID'];
-  trackIds: Array<Scalars['String']>;
+  trackIds: Array<Scalars['String']> | Scalars['String'];
 }>;
 
 
@@ -859,7 +859,7 @@ export type AddPlaylistTracksMutation = Pick<Mutation, 'addPlaylistTracks'>;
 
 export type CreatePlaylistMutationVariables = Exact<{
   name: Scalars['String'];
-  trackIds: Array<Scalars['String']>;
+  trackIds: Array<Scalars['String']> | Scalars['String'];
 }>;
 
 
