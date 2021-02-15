@@ -3,7 +3,6 @@ import { Button } from "components/Pressable";
 import { useFollowUserMutation, useUnfollowUserMutation } from "gql/gql.gen";
 import { useMe, useMeFollowings } from "hooks/user";
 import { useI18n } from "i18n/index";
-import React from "react";
 
 const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
   id,

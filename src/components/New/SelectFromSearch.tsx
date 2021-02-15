@@ -5,7 +5,7 @@ import { Typography } from "components/Typography";
 import { Track, usePlaylistTracksQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import React, { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { maybeGetTrackOrPlaylistIdFromUri } from "utils/platform";
 
 const SelectFromSearch: React.FC<{

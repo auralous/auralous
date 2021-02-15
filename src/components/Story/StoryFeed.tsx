@@ -4,7 +4,7 @@ import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import ms from "ms";
 import dynamic from "next/dynamic";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 const StorySlider = dynamic(() => import("./StorySlider"), { ssr: false });

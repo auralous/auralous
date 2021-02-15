@@ -14,7 +14,7 @@ import {
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { onEnterKeyClick } from "utils/util";
 import UserFollowButton from "./UserFollowButton";
 import UserList from "./UserList";

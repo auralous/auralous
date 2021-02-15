@@ -2,7 +2,6 @@ import { SvgLogIn, SvgMusic } from "assets/svg";
 import { Typography } from "components/Typography";
 import { useTrackQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React from "react";
 import { useInView } from "react-intersection-observer";
 import { animated, useSpring } from "react-spring";
 import { defaultAvatar } from "utils/util";

@@ -16,7 +16,7 @@ import { useMe } from "hooks/user";
 import { t, useI18n } from "i18n/index";
 import ms from "ms";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 const getDateDiffTxt = (createdAt: Date) => {

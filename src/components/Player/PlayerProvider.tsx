@@ -13,7 +13,7 @@ import { useCrossTracks } from "hooks/track";
 import { useMe } from "hooks/user";
 import { t } from "i18n/index";
 import dynamic from "next/dynamic";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PLATFORM_FULLNAMES } from "utils/constants";
 import { toast } from "utils/toast";
 import Player from "./Player";

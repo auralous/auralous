@@ -9,7 +9,7 @@ import {
 } from "gql/gql.gen";
 import { useBoop } from "hooks/animation";
 import { useMe } from "hooks/user";
-import React, { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { animated } from "react-spring";
 import { toast } from "utils/toast";
 

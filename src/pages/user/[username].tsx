@@ -5,7 +5,6 @@ import { useI18n } from "i18n/index";
 import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import NotFoundPage from "pages/404";
-import React from "react";
 import { CONFIG } from "utils/constants";
 import { forwardSSRHeaders } from "utils/ssr-utils";
 

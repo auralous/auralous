@@ -12,7 +12,7 @@ import { useInnerHeightResizeRef } from "hooks/sizing";
 import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import StoryNav from "./StoryNav";
 import StoryPlayer from "./StoryPlayer";

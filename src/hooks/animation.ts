@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSpring } from "react-spring";
 
 export function useBoop({
@@ -13,7 +13,7 @@ export function useBoop({
   },
 }) {
   // https://www.joshwcomeau.com/snippets/react-hooks/use-boop/
-  const [isBooped, setIsBooped] = React.useState(false);
+  const [isBooped, setIsBooped] = useState(false);
   const style = useSpring({
     transform: isBooped
       ? `translate(${x}px, ${y}px)
@@ -24,7 +24,7 @@ export function useBoop({
          scale(1)`,
     config: springConfig,
   });
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isBooped) return;
     const timeoutId = window.setTimeout(() => {
       setIsBooped(false);
@@ -33,7 +33,7 @@ export function useBoop({
       window.clearTimeout(timeoutId);
     };
   }, [isBooped, timing]);
-  const trigger = React.useCallback(() => {
+  const trigger = useCallback(() => {
     setIsBooped(true);
   }, []);
   return [style, trigger] as const;

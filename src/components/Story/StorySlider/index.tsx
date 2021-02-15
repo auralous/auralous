@@ -2,7 +2,7 @@ import { DialogOverlay } from "@reach/dialog";
 import { usePlayer } from "components/Player";
 import { Story } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { animated, config as springConfig, useSpring } from "react-spring";
 import Swiper from "swiper/bundle";
 import { VirtualData } from "swiper/types/components/virtual";

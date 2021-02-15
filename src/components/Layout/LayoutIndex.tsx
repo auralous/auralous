@@ -6,7 +6,7 @@ import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
 import { Locale } from "i18n/types";
 import Link from "next/link";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { LANGUAGES } from "utils/constants";
 

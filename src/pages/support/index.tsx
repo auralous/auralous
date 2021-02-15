@@ -6,7 +6,6 @@ import { useI18n } from "i18n/index";
 import { GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
-import React from "react";
 import {
   getPages as getSupportPages,
   SupportArticle,

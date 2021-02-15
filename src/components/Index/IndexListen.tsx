@@ -3,7 +3,7 @@ import { Typography } from "components/Typography";
 import { PlatformName, Track } from "gql/gql.gen";
 import { useCrossTracks } from "hooks/track";
 import { useI18n } from "i18n/index";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { animated, useTransition } from "react-spring";
 import { PLATFORM_FULLNAMES, SvgByPlatformName } from "utils/constants";
 import { parseMs } from "utils/editor-utils";

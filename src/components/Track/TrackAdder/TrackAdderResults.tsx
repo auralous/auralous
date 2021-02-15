@@ -3,13 +3,13 @@ import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { TrackItem } from "components/Track/index";
 import { useI18n } from "i18n/index";
-import React, { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { areEqual, FixedSizeList, ListChildComponentProps } from "react-window";
 import { remToPx } from "utils/util";
 import { TrackAdderCallbackFn } from "./types";
 
-const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
+const SearchResultRow = memo<ListChildComponentProps>(function Row({
   data,
   index,
   style,

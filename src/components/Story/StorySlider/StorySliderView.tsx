@@ -11,7 +11,6 @@ import {
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
-import React from "react";
 import { onEnterKeyClick } from "utils/util";
 
 const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { forwardRef, ReactNode } from "react";
+import { forwardRef, ReactNode } from "react";
 
 type TextSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 

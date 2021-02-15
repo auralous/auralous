@@ -9,7 +9,7 @@ import {
   usePlaylistTracksQuery,
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { default as TrackAdderResults } from "./TrackAdderResults";
 import { TrackAdderCallbackFn } from "./types";
 

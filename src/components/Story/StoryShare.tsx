@@ -12,7 +12,7 @@ import {
 } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
-import React, { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { toast } from "utils/toast";
 
 const StoryShare: React.FC<{

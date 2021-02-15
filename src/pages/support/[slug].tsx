@@ -1,7 +1,6 @@
 import { Typography } from "components/Typography";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
-import React from "react";
 import {
   getPage as getSuportPage,
   getPages as getSupportPages,

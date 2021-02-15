@@ -12,7 +12,7 @@ import {
   useUserQuery,
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useClient } from "urql";
 import { CONFIG } from "utils/constants";
 import { toast } from "utils/toast";

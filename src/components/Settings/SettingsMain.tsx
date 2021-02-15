@@ -13,13 +13,7 @@ import {
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { Locale } from "i18n/types";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   CONFIG,
   LANGUAGES,

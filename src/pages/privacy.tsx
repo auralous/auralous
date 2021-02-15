@@ -3,7 +3,6 @@ import fs from "fs";
 import { GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import path from "path";
-import React from "react";
 import markdownToHtml from "utils/markdown-to-html";
 
 const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {

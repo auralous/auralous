@@ -4,7 +4,6 @@ import clsx from "clsx";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
-import React from "react";
 import { animated, config as springConfig, useTransition } from "react-spring";
 
 const ModalHeader: React.FC = ({ children }) => (

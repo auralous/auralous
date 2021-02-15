@@ -1,7 +1,6 @@
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { useTrackQuery } from "gql/gql.gen";
-import React from "react";
 import { SvgByPlatformName } from "utils/constants";
 import { parseMs } from "utils/editor-utils";
 

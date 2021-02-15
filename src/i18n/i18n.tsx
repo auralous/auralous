@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import I18nContext from "./I18nContext";
 import i18n, { supportedLocale } from "./rosetta";
 import { Locale } from "./types";

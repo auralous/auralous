@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import React from "react";
 
 interface SpacerProps {
   size: 1 | 2 | 4 | 8;

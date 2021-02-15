@@ -1,18 +1,14 @@
 import { SvgAudioAnimated } from "assets/svg";
 import { usePlayer } from "components/Player";
 import { TrackItem } from "components/Track/index";
-import React, { useMemo } from "react";
+import { memo, useMemo } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { areEqual, FixedSizeList, ListChildComponentProps } from "react-window";
 import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
 import useQueue from "./useQueue";
 
-const Row = React.memo<ListChildComponentProps>(function Row({
-  data,
-  index,
-  style,
-}) {
+const Row = memo<ListChildComponentProps>(function Row({ data, index, style }) {
   const {
     state: { playingQueueItemId },
   } = usePlayer();
@@ -32,8 +28,7 @@ const Row = React.memo<ListChildComponentProps>(function Row({
       />
     </button>
   );
-},
-areEqual);
+}, areEqual);
 
 const QueueViewer: React.FC<{
   queueId: string;

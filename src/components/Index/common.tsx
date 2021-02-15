@@ -1,5 +1,4 @@
 import { Typography } from "components/Typography";
-import React from "react";
 import { useInView } from "react-intersection-observer";
 import { useSpring } from "react-spring";
 

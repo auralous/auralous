@@ -5,7 +5,7 @@ import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
 
 const EMPTYIMAGE = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP87wMAAlABTQluYBcAAAAASUVORK5CYII=

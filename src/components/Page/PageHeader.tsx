@@ -1,5 +1,4 @@
 import { Typography } from "components/Typography";
-import React from "react";
 
 const PageHeader: React.FC<{ name: string }> = ({ name }) => {
   return (

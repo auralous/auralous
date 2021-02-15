@@ -15,7 +15,7 @@ import "notyf/notyf.min.css";
 import NProgress from "nprogress";
 // nprogress
 import "nprogress/nprogress.css";
-import React, { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import "styles/index.css";
 import "swiper/swiper.scss";
 import { Provider as UrqlProvider } from "urql";
@@ -66,7 +66,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
       ["/", "/privacy", "/support", "/support/[slug]"].includes(router.pathname)
     )
       return LayoutIndex;
-    return React.Fragment;
+    return Fragment;
   }, [router.pathname]);
 
   return (

@@ -8,7 +8,7 @@ import {
 } from "components/Track/TrackAdder";
 import { QueueAction, Story, useUpdateQueueMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React, { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { animated, useSpring } from "react-spring";
 
 const AnimatedTabPanel = animated(TabPanel);

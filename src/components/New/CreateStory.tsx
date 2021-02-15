@@ -12,7 +12,7 @@ import {
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import React, { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { CONFIG } from "utils/constants";
 
 const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({

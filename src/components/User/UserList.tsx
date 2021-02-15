@@ -1,4 +1,3 @@
-import React from "react";
 import UserFollowButton from "./UserFollowButton";
 import UserPill from "./UserPill";
 

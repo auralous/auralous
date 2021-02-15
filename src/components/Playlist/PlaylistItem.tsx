@@ -1,7 +1,6 @@
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Playlist } from "gql/gql.gen";
-import React from "react";
 import { PLATFORM_FULLNAMES } from "utils/constants";
 
 const PlaylistItem: React.FC<{

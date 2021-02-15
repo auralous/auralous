@@ -13,7 +13,7 @@ import {
   useUpdateQueueMutation,
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React, { useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import {
   DragDropContext,
   Draggable,
@@ -124,7 +124,7 @@ const QueueDraggableItem: React.FC<{
   );
 };
 
-const Row = React.memo<
+const Row = memo<
   Pick<ListChildComponentProps, "index" | "style"> & {
     data: {
       queue: Queue;

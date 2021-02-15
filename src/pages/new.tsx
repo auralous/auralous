@@ -2,7 +2,6 @@ import NewMain from "components/New/index";
 import { useI18n } from "i18n/index";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
-import React from "react";
 
 const NewPage: NextPage = () => {
   const { t } = useI18n();

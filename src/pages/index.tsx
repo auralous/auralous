@@ -7,7 +7,6 @@ import {
 } from "components/Index";
 import { useI18n } from "i18n/index";
 import { NextSeo } from "next-seo";
-import React from "react";
 
 const IndexPage: React.FC = () => {
   const { t } = useI18n();

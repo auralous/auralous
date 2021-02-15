@@ -2,7 +2,7 @@ import { SvgChevronsRight } from "assets/svg";
 import { PlatformName } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { animated, config as springConfig, useTrail } from "react-spring";
 import {

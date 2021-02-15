@@ -1,6 +1,6 @@
-import React from "react";
+import { createContext } from "react";
 import { IPlayerContext } from "./types";
 
-const PlayerContext = React.createContext<IPlayerContext>({} as IPlayerContext);
+const PlayerContext = createContext<IPlayerContext>({} as IPlayerContext);
 
 export default PlayerContext;

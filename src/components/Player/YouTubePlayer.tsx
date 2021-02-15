@@ -1,7 +1,7 @@
 import { SvgMove } from "assets/svg";
 import clsx from "clsx";
 import { useI18n } from "i18n/index";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { verifyScript } from "utils/script-utils";
 import usePlayer from "./usePlayer";
 /// <reference path="youtube" />

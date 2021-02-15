@@ -1,7 +1,6 @@
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
-import React from "react";
 import { useLogin } from "./LogIn";
 
 const AuthBanner: React.FC<{ prompt: string; hook?: string }> = ({

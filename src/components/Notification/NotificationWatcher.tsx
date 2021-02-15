@@ -8,7 +8,7 @@ import { useMe } from "hooks/user";
 import { t } from "i18n/index";
 import { useRouter } from "next/router";
 import { NotyfEvent } from "notyf";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useClient } from "urql";
 import { toast } from "utils/toast";
 

@@ -19,7 +19,7 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LayoutContext from "./LayoutContext";
 
 const useHasNotification = (me: User | null | undefined) => {

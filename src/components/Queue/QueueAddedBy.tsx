@@ -1,6 +1,5 @@
 import { useUserQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React from "react";
 
 const QueueAddedBy: React.FC<{ userId: string }> = ({ userId }) => {
   const { t } = useI18n();

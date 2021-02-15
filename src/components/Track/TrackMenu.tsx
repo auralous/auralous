@@ -6,7 +6,7 @@ import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { useTrackQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React, { useState } from "react";
+import { useState } from "react";
 import { PLATFORM_FULLNAMES, SvgByPlatformName } from "utils/constants";
 
 const TrackMenu: React.FC<{

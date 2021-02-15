@@ -17,7 +17,7 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import ms from "ms";
 import Link from "next/link";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import StoryDelete from "./StoryDelete";
 import StoryEnd from "./StoryEnd";
 import StoryShare from "./StoryShare";

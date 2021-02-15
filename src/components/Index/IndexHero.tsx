@@ -2,7 +2,6 @@ import { SvgLogo, SvgPlay } from "assets/svg";
 import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
-import React from "react";
 
 const AppLinks = () => {
   const { t } = useI18n();

@@ -2,7 +2,7 @@ import { SvgChevronDown } from "assets/svg";
 import { Button } from "components/Pressable";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import LayoutContext from "./LayoutContext";
 
 const LayoutBackButton: React.FC = () => {

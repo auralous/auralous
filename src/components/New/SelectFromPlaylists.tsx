@@ -7,7 +7,7 @@ import { Track, useMyPlaylistsQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const SelectFromPlaylists: React.FC<{
   onSelected(tracks: Track[]): void;

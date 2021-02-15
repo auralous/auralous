@@ -2,7 +2,6 @@ import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { useUserQuery } from "gql/gql.gen";
 import Link from "next/link";
-import React from "react";
 
 const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
   id,

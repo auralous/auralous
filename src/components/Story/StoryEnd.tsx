@@ -4,7 +4,6 @@ import { Typography } from "components/Typography";
 import { Story, useUnliveStoryMutation } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
-import React from "react";
 import { toast } from "utils/toast";
 
 const StoryEnd: React.FC<{

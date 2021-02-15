@@ -6,7 +6,7 @@ import { Typography } from "components/Typography";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { animated, config as springConfig, useTransition } from "react-spring";
 import CreateStory from "./CreateStory";
 import SelectFromPlaylists from "./SelectFromPlaylists";

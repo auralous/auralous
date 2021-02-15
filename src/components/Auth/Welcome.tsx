@@ -4,7 +4,7 @@ import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { useUpdateMeMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import React, { useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { CONFIG } from "utils/constants";
 import { toast } from "utils/toast";
 

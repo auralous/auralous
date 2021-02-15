@@ -4,7 +4,7 @@ import { QUERY_STORY } from "gql/story";
 import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import NotFoundPage from "pages/404";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { CONFIG } from "utils/constants";
 import { forwardSSRHeaders } from "utils/ssr-utils";
 

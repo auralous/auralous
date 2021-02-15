@@ -6,7 +6,7 @@ import { Typography } from "components/Typography";
 import { PlatformName } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import React, {
+import {
   createContext,
   useCallback,
   useContext,

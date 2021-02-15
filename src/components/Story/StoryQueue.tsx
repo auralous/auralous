@@ -8,7 +8,6 @@ import { Story } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
-import React from "react";
 import { toast } from "utils/toast";
 import StoryListeners from "./StoryListeners";
 import StoryQueueable from "./StoryQueueable";

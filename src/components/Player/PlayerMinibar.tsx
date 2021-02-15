@@ -4,7 +4,7 @@ import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
 
 const PlayerMinibar: React.FC = () => {

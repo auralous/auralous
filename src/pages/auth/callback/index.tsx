@@ -3,7 +3,6 @@ import { Typography } from "components/Typography";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
-import React from "react";
 
 const AuthCallbackPage: NextPage = () => {
   const router = useRouter();

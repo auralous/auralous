@@ -11,7 +11,7 @@ import {
 } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import StoryListeners from "./StoryListeners";
 import StoryShare from "./StoryShare";
 

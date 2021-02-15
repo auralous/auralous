@@ -9,7 +9,6 @@ import { useStoryLiveQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import React from "react";
 import StoryEnd from "./StoryEnd";
 
 const StoryOngoingWatcher: React.FC = () => {
