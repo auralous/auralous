@@ -62,9 +62,9 @@ const SelectFromPlaylists: React.FC<{
 
   if (fetching)
     return (
-      <span className="text-xl font-black text-foreground-tertiary">
+      <Typography.Text size="xl" color="foreground-tertiary">
         <SvgLoadingAnimated />
-      </span>
+      </Typography.Text>
     );
 
   if (error)

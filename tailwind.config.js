@@ -3,16 +3,26 @@ module.exports = {
   purge: {
     content: ["./src/**/*.tsx"],
     options: {
-      safelist: ["text-spotify", "text-youtube", "bg-youtube", "bg-spotify"],
+      safelist: [
+        "text-spotify",
+        "text-youtube",
+        "bg-youtube",
+        "bg-spotify",
+        "text-primary",
+        "text-primary-dark",
+        "text-foreground-secondary",
+        "text-foreground-tertiary",
+        "text-foreground-backdrop",
+      ],
     },
   },
   darkMode: false,
   theme: {
     colors: {
       background: {
-        DEFAULT: "hsl(240,14%,10%)",
-        secondary: "hsl(232,12%,13%)",
-        tertiary: "hsl(228,13%,15%)",
+        DEFAULT: "hsl(240,13%,6%)",
+        secondary: "hsl(240,14%,9%)",
+        tertiary: "hsl(240,13%,12%)",
         backdrop: "hsla(218,80%,2%,0.8)",
       },
       foreground: {
@@ -49,6 +59,17 @@ module.exports = {
         DEFAULT: "#1db954",
         label: "#fff",
       },
+    },
+    fontWeight: {
+      normal: 400,
+      bold: 700,
+    },
+    opacity: {
+      0: 0,
+      25: 0.25,
+      50: 0.5,
+      75: 0.75,
+      100: 1,
     },
   },
   variants: {

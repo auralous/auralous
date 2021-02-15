@@ -32,10 +32,7 @@ const PlayerMinibar: React.FC = () => {
 
   return (
     <div
-      className={`flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content space-x-1`}
-      style={{
-        background: "linear-gradient(180deg, hsl(232,12%,13%), rgb(18 18 24))",
-      }}
+      className={`flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content space-x-1 bg-background`}
     >
       <Link href={`/story/${playingStoryId}`}>
         <a className="flex-1 w-0 flex items-center">

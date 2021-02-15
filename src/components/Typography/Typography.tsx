@@ -7,6 +7,7 @@ interface TypographyProps {
   color?:
     | "primary"
     | "primary-dark"
+    | "primary-label"
     | "secondary"
     | "foreground"
     | "foreground-secondary"

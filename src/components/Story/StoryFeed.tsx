@@ -36,7 +36,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
       })} - ${story.text}`}
     >
       <div
-        className="absolute w-full h-full bg-cover bg-center opacity-40"
+        className="absolute w-full h-full bg-cover bg-center opacity-50"
         style={{ background: `url(${story.image})` }}
       />
       <div className="w-12 h-12 rounded-full overflow-hidden absolute top-4 left-4 shadow-xl">
