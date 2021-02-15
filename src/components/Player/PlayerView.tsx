@@ -1,7 +1,6 @@
 import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
 import { Track } from "gql/gql.gen";
@@ -106,8 +105,7 @@ export const PlayerMeta: React.FC<{
     <div className="my-4 h-14 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
       {fetching ? (
         <>
-          <div className="block-skeleton rounded h-6 w-40" />
-          <Spacer size={2} axis="vertical" />
+          <div className="block-skeleton rounded h-6 w-40 mb-2" />
           <div className="block-skeleton rounded h-5 w-24" />
         </>
       ) : (
