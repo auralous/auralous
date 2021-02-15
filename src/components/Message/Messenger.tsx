@@ -1,4 +1,5 @@
 import { SvgLogIn, SvgMusic } from "assets/svg";
+import clsx from "clsx";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
@@ -113,10 +114,7 @@ const MessageItem: React.FC<{
   });
 
   return (
-    <div
-      role="listitem"
-      className={`relative w-full pl-10 pr-8 ${isGrouped ? "" : ""}`}
-    >
+    <div role="listitem" className="relative w-full pl-10 pr-8">
       {!isGrouped && (
         <>
           <img
@@ -127,11 +125,12 @@ const MessageItem: React.FC<{
           <div className="flex items-center text-foreground text-opacity-75 pt-1">
             <Link href={`/user/${sender?.username}`}>
               <a
-                className={`${
+                className={clsx(
+                  "text-sm font-bold",
                   isCurrentUser
                     ? "bg-primary-light leading-tight text-opacity-75 rounded-lg px-1"
                     : "text-white"
-                } text-sm font-bold`}
+                )}
               >
                 {sender?.username}
               </a>

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { PageHeader } from "components/Page";
 import { Typography } from "components/Typography";
 import {
@@ -125,11 +126,12 @@ const NotificationItem: React.FC<{
 }> = ({ notification }) => {
   return (
     <div
-      className={`px-4 py-2 bg-background-secondary border-l-4 ${
+      className={clsx(
+        "px-4 py-2 bg-background-secondary border-l-4",
         notification.hasRead
           ? "border-background-tertiary opacity-75"
           : "border-primary"
-      }`}
+      )}
     >
       {notification.__typename === "NotificationInvite" ? (
         <NotificationItemInvite notification={notification} />

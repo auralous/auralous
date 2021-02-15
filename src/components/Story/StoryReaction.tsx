@@ -1,4 +1,5 @@
 import { SvgHeart } from "assets/svg";
+import clsx from "clsx";
 import {
   NowPlayingReactionType,
   Story,
@@ -64,7 +65,7 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
       disabled={!nowPlaying?.currentTrack}
     >
       <AnimatedSvgHeart
-        className={`w-6 h-6 ${reacted ? "text-primary fill-current" : ""}`}
+        className={clsx("w-6 h-6", reacted && "text-primary fill-current")}
         style={animatedStyles}
       />
       <span className="text-xs font-mono">

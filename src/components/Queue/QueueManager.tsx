@@ -1,4 +1,5 @@
 import { SvgGripVertical } from "assets/svg/index";
+import clsx from "clsx";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { TrackItem } from "components/Track/index";
@@ -73,9 +74,10 @@ const QueueDraggableItem: React.FC<{
         ...provided.draggableProps.style,
         ...style,
       }}
-      className={`select-none flex p-2 items-center ${
-        isDragging ? "opacity-75" : ""
-      }`}
+      className={clsx(
+        "select-none flex p-2 items-center",
+        isDragging && "opacity-75"
+      )}
     >
       <div
         className="text-inline-link"

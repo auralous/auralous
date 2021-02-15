@@ -1,5 +1,6 @@
 import { DialogContent, DialogOverlay } from "@reach/dialog";
 import { SvgX } from "assets/svg";
+import clsx from "clsx";
 import { Button } from "components/Pressable";
 import { useI18n } from "i18n/index";
 import React from "react";
@@ -16,7 +17,7 @@ const ModalTitle: React.FC = ({ children }) => (
 const ModalContent: React.FC<{
   noPadding?: boolean;
 }> = ({ children, noPadding }) => (
-  <div className={`${noPadding ? "" : "px-4 py-8"} flex-1 overflow-auto`}>
+  <div className={clsx("flex-1 overflow-auto", !noPadding && "px-4 py-8")}>
     {children}
   </div>
 );

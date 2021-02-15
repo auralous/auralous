@@ -8,6 +8,7 @@ import {
   SvgSettings,
   SvgUser,
 } from "assets/svg";
+import clsx from "clsx";
 import { useLogin } from "components/Auth";
 import { PlayerMinibar } from "components/Player/index";
 import { Button } from "components/Pressable";
@@ -49,9 +50,11 @@ const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
   return (
     <Link href={href}>
       <a
-        className={`btn btn-transparent font-normal text-sm ${
-          isActive ? "bg-background-tertiary" : ""
-        } ${isBold ? boldClasses : ""} w-full`}
+        className={clsx(
+          "w-full btn btn-transparent font-normal text-sm",
+          isActive && "bg-background-tertiary",
+          isBold && boldClasses
+        )}
       >
         {children}
       </a>
@@ -146,9 +149,11 @@ const AppbarItem: React.FC<{
   return (
     <Link href={href} as={as}>
       <a
-        className={`relative btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1 ${
-          isActive && !isBold ? "border-b-2" : ""
-        } ${isBold ? boldClasses : ""}`}
+        className={clsx(
+          "relative btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1",
+          isActive && !isBold && "border-b-2",
+          isBold && boldClasses
+        )}
         title={title}
       >
         {children}
@@ -170,14 +175,16 @@ const Appbar: React.FC = () => {
   return (
     <>
       <div
-        className={`${
-          noAppbarPathname.includes(router.pathname) ? "hidden" : ""
-        } h-10 w-full `}
+        className={clsx(
+          "h-10 w-full",
+          noAppbarPathname.includes(router.pathname) && "hidden"
+        )}
       />
       <div
-        className={`${
+        className={clsx(
+          "z-10 md:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden",
           noAppbarPathname.includes(router.pathname) ? "hidden" : "flex"
-        } z-10 md:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
+        )}
         style={{ backgroundColor: sidebarColor }}
       >
         <AppbarItem href="/listen" title={t("listen.title")}>

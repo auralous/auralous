@@ -31,9 +31,7 @@ const PlayerMinibar: React.FC = () => {
   if (!playingStoryId || router.pathname === "/story/[storyId]") return null;
 
   return (
-    <div
-      className={`flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content space-x-1 bg-background`}
-    >
+    <div className="flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content space-x-1 bg-background">
       <Link href={`/story/${playingStoryId}`}>
         <a className="flex-1 w-0 flex items-center">
           <div className="w-14 h-14 box-border p-1">
