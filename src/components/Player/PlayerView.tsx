@@ -46,15 +46,14 @@ export const PlayerControl: React.FC = () => {
           accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
           icon={
             isPlaying ? (
-              <SvgPause className="w-6 h-6 fill-current" />
+              <SvgPause className="w-8 h-8 fill-current" />
             ) : (
-              <SvgPlay className="w-6 h-6 fill-current" />
+              <SvgPlay className="w-8 h-8 fill-current" />
             )
           }
           onPress={() => (isPlaying ? player.pause() : player.play())}
           disabled={!playerPlaying}
-          color="foreground"
-          size="large"
+          size="xl"
           shape="circle"
         />
         {fetching && <span className="spinning-border absolute inset-0" />}

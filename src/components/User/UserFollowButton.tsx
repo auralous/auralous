@@ -33,7 +33,7 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
         disabled={fetchingUnfollow}
         color="primary"
         styling="link"
-        size={isTiny ? "small" : undefined}
+        size={isTiny ? "sm" : undefined}
         title={t("user.unfollow")}
         shape="circle"
       />
@@ -44,7 +44,7 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
       onPress={() => (me ? followUser({ id }) : logIn())}
       disabled={fetchingFollow || me?.user.id === id}
       color="primary"
-      size={isTiny ? "small" : undefined}
+      size={isTiny ? "sm" : undefined}
       title={t("user.follow")}
       shape="circle"
     />

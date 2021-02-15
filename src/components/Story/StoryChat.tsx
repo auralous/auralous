@@ -27,7 +27,6 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
       <div className="px-4 py-1 flex">
         <Button
           color="primary"
-          size="medium"
           accessibilityLabel={t("story.share.title")}
           onPress={open}
           icon={<SvgShare2 className="w-4 h-4" />}

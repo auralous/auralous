@@ -82,7 +82,6 @@ const Modal: React.FC<{
                       icon={<SvgX className="w-4 h-4" />}
                       onPress={close}
                       shape="circle"
-                      size="medium"
                     />
                   </div>
                 )}

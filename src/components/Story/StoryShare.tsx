@@ -55,7 +55,7 @@ const StoryShare: React.FC<{
           rightEl={
             <Button
               color="primary"
-              size="small"
+              size="sm"
               disabled={hasInvited}
               onPress={doInvite}
               title={t("story.invite.title")}

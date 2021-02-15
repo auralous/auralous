@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React, { forwardRef, ReactNode } from "react";
 
 interface ButtonProps {
-  color?: "primary" | "success" | "danger" | "foreground";
+  color?: "primary" | "danger";
   onPress?: () => void;
   title?: string;
   icon?: ReactNode;
@@ -11,9 +11,9 @@ interface ButtonProps {
   accessibilityLabel?: string;
   type?: "button" | "submit" | "reset";
   asLink?: string | boolean;
-  size?: "small" | "medium" | "large";
+  size?: "sm" | "lg" | "xl";
   shape?: "circle" | "round";
-  styling?: "link";
+  styling?: "link" | "outline";
   href?: string;
 }
 
@@ -43,21 +43,21 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       "btn",
       color && `btn-${color}`,
       fullWidth && "w-full",
-      size === "small" && `${iconOnly ? "" : "px-2 py-1 "}text-xs`,
-      size === "medium" && `${iconOnly ? "" : "px-3 py-1.5 "}text-sm`,
-      size === "large" && `${iconOnly ? "" : "px-6 py-3 "}text-sm`,
+      size === "sm" && `${iconOnly ? "" : "px-2 py-1 "}text-xs`,
+      size === "lg" && `${iconOnly ? "" : "px-6 py-3 "}text-md`,
+      size === "xl" && `${iconOnly ? "" : "px-8 py-4 "}text-lg`,
       iconOnly && "p-0",
       iconOnly &&
-        (size === "small"
-          ? "w-6 h-6"
-          : size === "medium"
-          ? "h-8 w-8"
-          : size === "large"
-          ? "h-12 w-12"
-          : "h-10 w-10"),
+        ((size === "sm" && "w-6 h-6") ||
+          (size === "lg" && "w-12 h-12") ||
+          (size === "xl" && "w-16 h-16") ||
+          "w-10 h-10"),
       !!icon && !!title && "space-x-2",
       shape === "circle" && "rounded-full",
-      styling === "link" && `bg-transparent text-${color} hover:text-opacity-75`
+      styling === "link" &&
+        `bg-transparent text-${color} hover:text-opacity-75`,
+      styling === "outline" &&
+        `bg-transparent text-${color} hover:bg-${color} hover:bg-opacity-25 border-2`
     );
 
     if (asLink)

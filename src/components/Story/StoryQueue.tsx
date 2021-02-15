@@ -37,7 +37,6 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
               onPress={open}
               icon={<SvgUserPlus className="w-4 h-4" />}
               shape="circle"
-              size="medium"
             />
             <Spacer size={1} axis="horizontal" />
             <Modal.Modal
@@ -94,24 +93,21 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
   if (story.isLive)
     return (
       <div className="h-full flex flex-col">
-        <div className="absolute bottom-2 right-2">
-          <Button
-            accessibilityLabel={t("story.queue.adderTitle")}
-            icon={<SvgPlus />}
-            size="large"
-            color="primary"
-            onPress={onAddButtonClick}
-            shape="circle"
-          />
-        </div>
         <StoryQueueAdder story={story} active={active} close={close} />
         <StoryQueueableManager story={story} />
-        <div className="flex-1 h-0">
-          <QueueManager
-            isQueueable={isQueueable}
-            queueId={story.id}
-            onEmptyAddClick={open}
+        <div className="text-center">
+          <Button
+            title={t("story.queue.adderTitle")}
+            icon={<SvgPlus />}
+            size="sm"
+            onPress={onAddButtonClick}
+            shape="circle"
+            styling="outline"
+            color="primary"
           />
+        </div>
+        <div className="flex-1 h-0">
+          <QueueManager isQueueable={isQueueable} queueId={story.id} />
         </div>
       </div>
     );

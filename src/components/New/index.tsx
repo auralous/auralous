@@ -128,7 +128,7 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       <Spacer size={2} axis="vertical" />
       <div className="w-full text-center">
         <Button
-          size="small"
+          size="sm"
           styling="link"
           onPress={() => router.replace("/new")}
           title={t("common.back")}

@@ -155,8 +155,7 @@ const Row = React.memo<
 const QueueManager: React.FC<{
   queueId: string;
   isQueueable: boolean;
-  onEmptyAddClick?: () => void;
-}> = ({ queueId, isQueueable, onEmptyAddClick }) => {
+}> = ({ queueId, isQueueable }) => {
   const { t } = useI18n();
 
   const [queue] = useQueue(queueId);
@@ -193,60 +192,50 @@ const QueueManager: React.FC<{
   if (!queue) return null;
 
   return (
-    <div className="h-full w-full flex flex-col justify-between">
-      <div className="w-full h-full">
-        {queue.items?.length === 0 && (
-          <div className="absolute-center z-10 w-full text-center p-4">
-            <Typography.Paragraph
-              align="center"
-              size="lg"
-              color="foreground-tertiary"
-            >
-              {t("queue.manager.empty")}
-            </Typography.Paragraph>
-            {isQueueable && (
-              <Button
-                shape="circle"
-                onPress={onEmptyAddClick}
-                title={t("queue.manager.add")}
-                size="large"
-              />
-            )}
-          </div>
-        )}
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable
-            droppableId="droppable"
-            mode="virtual"
-            renderClone={(provided, snapshot, rubric) => (
-              <QueueDraggableItem
-                provided={provided}
-                isQueueable={true}
-                queue={queue}
-                index={rubric.source.index}
-                isDragging={snapshot.isDragging}
-              />
-            )}
+    <div className="w-full h-full">
+      {queue.items?.length === 0 && (
+        <div className="absolute-center z-10 w-full text-center p-4">
+          <Typography.Paragraph
+            align="center"
+            size="lg"
+            color="foreground-tertiary"
           >
-            {(droppableProvided) => (
-              <AutoSizer defaultHeight={1} defaultWidth={1}>
-                {({ height, width }) => (
-                  <List
-                    height={height}
-                    width={width}
-                    itemCount={queue.items.length}
-                    itemSize={remToPx(4)}
-                    itemData={itemData}
-                    outerRef={droppableProvided.innerRef}
-                  >
-                    {Row}
-                  </List>
-                )}
-              </AutoSizer>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
+            {t("queue.manager.empty")}
+          </Typography.Paragraph>
+        </div>
+      )}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable
+          droppableId="droppable"
+          mode="virtual"
+          renderClone={(provided, snapshot, rubric) => (
+            <QueueDraggableItem
+              provided={provided}
+              isQueueable={true}
+              queue={queue}
+              index={rubric.source.index}
+              isDragging={snapshot.isDragging}
+            />
+          )}
+        >
+          {(droppableProvided) => (
+            <AutoSizer defaultHeight={1} defaultWidth={1}>
+              {({ height, width }) => (
+                <List
+                  height={height}
+                  width={width}
+                  itemCount={queue.items.length}
+                  itemSize={remToPx(4)}
+                  itemData={itemData}
+                  outerRef={droppableProvided.innerRef}
+                >
+                  {Row}
+                </List>
+              )}
+            </AutoSizer>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };
