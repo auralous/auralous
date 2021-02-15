@@ -1,3 +1,4 @@
+import { PageHeader } from "components/Page";
 import { Typography } from "components/Typography";
 import {
   NotificationFollow,
@@ -193,7 +194,7 @@ const NotificationMain: React.FC = () => {
 
   return (
     <>
-      <h1 className="page-title">{t("notification.title")}</h1>
+      <PageHeader name={t("notification.title")} />
       <div className="px-4 space-y-2">
         {data?.notifications.map((notification) => (
           <NotificationItem key={notification.id} notification={notification} />

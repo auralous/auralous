@@ -1,5 +1,6 @@
 import { useLogin } from "components/Auth/index";
 import { Modal, useModal } from "components/Modal/index";
+import { PageHeader } from "components/Page";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
 import {
@@ -311,7 +312,7 @@ const SettingsMain: React.FC = () => {
   const { t } = useI18n();
   return (
     <>
-      <h1 className="page-title">{t("settings.title")}</h1>
+      <PageHeader name={t("settings.title")} />
       <div className="flex flex-wrap">
         <div className="w-full lg:flex-1 p-4">
           <LeftSection />

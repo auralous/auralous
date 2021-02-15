@@ -130,10 +130,6 @@ html {
   @apply hover:opacity-50 focus:opacity-50 focus:outline-none transition-opacity cursor-pointer;
 }
 
-.page-title {
-  @apply px-4 mb-2 mt-6 font-bold text-4xl;
-}
-
 [data-reach-dialog-overlay] {
   @apply fixed w-full h-full inset-0 flex flex-center z-40 bg-background-backdrop;
   [data-reach-dialog-content] {
