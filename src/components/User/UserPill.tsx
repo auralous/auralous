@@ -27,7 +27,7 @@ const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
       </div>
       <Spacer size={2} axis="horizontal" />
       {user ? (
-        <Link href={`/user/${id}`}>
+        <Link href={`/user/${user.username}`}>
           <Typography.Link strong truncate>
             {user.username}
           </Typography.Link>

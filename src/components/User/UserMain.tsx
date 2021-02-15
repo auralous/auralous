@@ -14,7 +14,7 @@ import {
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { onEnterKeyClick } from "utils/util";
 import UserFollowButton from "./UserFollowButton";
 import UserList from "./UserList";
@@ -90,6 +90,11 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
 
   const [activeFollower, openFollower, closeFollower] = useModal();
   const [activeFollowing, openFollowing, closeFollowing] = useModal();
+
+  useEffect(() => {
+    closeFollower();
+    closeFollowing();
+  }, [initialUser.id, closeFollower, closeFollowing]);
 
   return (
     <>

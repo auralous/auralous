@@ -11,7 +11,7 @@ interface ButtonProps {
   accessibilityLabel?: string;
   type?: "button" | "submit" | "reset";
   asLink?: string | boolean;
-  size?: "sm" | "lg" | "xl";
+  size?: "xs" | "sm" | "lg" | "xl";
   shape?: "circle" | "round";
   styling?: "link" | "outline";
   href?: string;
@@ -43,12 +43,14 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       "btn",
       color && `btn-${color}`,
       fullWidth && "w-full",
-      size === "sm" && `${iconOnly ? "" : "px-2 py-1 "}text-xs`,
+      size === "xs" && `${iconOnly ? "" : "px-2 py-1 "}text-xs`,
+      size === "sm" && `${iconOnly ? "" : "px-2 py-1 "}text-sm`,
       size === "lg" && `${iconOnly ? "" : "px-6 py-3 "}text-md`,
       size === "xl" && `${iconOnly ? "" : "px-8 py-4 "}text-lg`,
       iconOnly && "p-0",
       iconOnly &&
-        ((size === "sm" && "w-6 h-6") ||
+        ((size === "xs" && "w-6 h-6") ||
+          (size === "sm" && "w-8 h-8") ||
           (size === "lg" && "w-12 h-12") ||
           (size === "xl" && "w-16 h-16") ||
           "w-10 h-10"),

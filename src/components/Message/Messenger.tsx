@@ -228,6 +228,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
           disabled={fetching}
           fullWidth
           title={t("message.loadOlder")}
+          size="xs"
         />
       )}
       {messages.map((message, index) => {

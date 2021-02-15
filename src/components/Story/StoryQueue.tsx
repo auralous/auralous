@@ -37,6 +37,7 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
               onPress={open}
               icon={<SvgUserPlus className="w-4 h-4" />}
               shape="circle"
+              size="sm"
             />
             <Spacer size={1} axis="horizontal" />
             <Modal.Modal
@@ -98,7 +99,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
         <div className="text-center">
           <Button
             title={t("story.queue.adderTitle")}
-            icon={<SvgPlus />}
+            icon={<SvgPlus className="w-4 h-4" />}
             size="sm"
             onPress={onAddButtonClick}
             shape="circle"

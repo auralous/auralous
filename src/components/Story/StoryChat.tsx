@@ -31,6 +31,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
           onPress={open}
           icon={<SvgShare2 className="w-4 h-4" />}
           shape="circle"
+          size="sm"
         />
         <Spacer size={1} axis="horizontal" />
         <div className="flex-1">
