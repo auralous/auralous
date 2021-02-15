@@ -4,6 +4,7 @@ import {
   PlatformName,
   Story,
   useMeQuery,
+  usePingStoryMutation,
   useQueueQuery,
   useSkipNowPlayingMutation,
   useStoryQuery,
@@ -77,6 +78,20 @@ const usePlayFromNowPlaying = (story: Story | null) => {
     // Is skippable, create skip fn
     return () => skipNowPlaying({ id: story.id });
   }, [story, nowPlaying, me, fetchingSkip, skipNowPlaying]);
+
+  // This informs that the user is present in story
+  const [, pingStory] = usePingStoryMutation();
+
+  useEffect(() => {
+    // story presence does not apply to unlive story
+    if (!story?.isLive) return;
+    if (me) {
+      const pingInterval = window.setInterval(() => {
+        pingStory({ id: story.id });
+      }, 30 * 1000);
+      return () => window.clearInterval(pingInterval);
+    }
+  }, [story, me, pingStory]);
 
   return [nowPlaying?.currentTrack, { fetching, skipForward }] as const;
 };

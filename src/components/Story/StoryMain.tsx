@@ -5,12 +5,10 @@ import { PlayerControl } from "components/Player/PlayerView";
 import {
   Story,
   useNowPlayingReactionsUpdatedSubscription,
-  usePingStoryMutation,
   useStoryQuery,
   useStoryUpdatedSubscription,
 } from "gql/gql.gen";
 import { useInnerHeightResizeRef } from "hooks/sizing";
-import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -53,21 +51,6 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   }, [story, playStory]);
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
-  const me = useMe();
-
-  // This informs that the user is present in story
-  const [, pingStory] = usePingStoryMutation();
-  useEffect(() => {
-    // story presence does not apply to unlive story
-    if (!story.isLive) return;
-    if (me) {
-      const pingInterval = window.setInterval(() => {
-        pingStory({ id: story.id });
-      }, 30 * 1000);
-      return () => window.clearInterval(pingInterval);
-    }
-  }, [story, me, pingStory]);
 
   const getClassName = useCallback(
     (index: number) =>

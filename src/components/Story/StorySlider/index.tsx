@@ -78,7 +78,6 @@ const StorySliderContent: React.FC<{
     return function cleanupSwiper() {
       swiperInstance.detachEvents();
       swiperInstance.destroy();
-      playStory("");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
