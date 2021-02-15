@@ -146,11 +146,11 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
           <div className="box-skeleton w-6 h-6" />
         )}
         <div className="whitespace-nowrap ml-1">
-          <span className="text-sm font-semibold">
+          <span className="text-sm font-bold">
             {t("story.ofUsername", { username: user?.username || "" })}
           </span>{" "}
           {story.isLive ? (
-            <span className="font-semibold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
+            <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
               {t("common.live")}
             </span>
           ) : (

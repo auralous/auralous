@@ -54,7 +54,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
         <div className="space-x-1">
           <Typography.Text strong>{user?.username}</Typography.Text>
           {story.isLive ? (
-            <span className="font-semibold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
+            <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
               {t("common.live")}
             </span>
           ) : (

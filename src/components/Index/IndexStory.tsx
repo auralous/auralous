@@ -49,7 +49,7 @@ const IndexStoryJoin: React.FC = () => {
         />
         <div className="p-1 leading-4 text-left">
           <div>
-            <span className="font-semibold mr-2">{username}</span>{" "}
+            <span className="font-bold mr-2">{username}</span>{" "}
             <span className="text-xs text-foreground-secondary">2m</span>
           </div>
           <div className="text-sm text-foreground-secondary">

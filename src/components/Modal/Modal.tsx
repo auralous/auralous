@@ -10,7 +10,7 @@ const ModalHeader: React.FC = ({ children }) => (
 );
 
 const ModalTitle: React.FC = ({ children }) => (
-  <h4 className="text-lg font-medium flex items-center">{children}</h4>
+  <h4 className="text-lg font-bold flex items-center">{children}</h4>
 );
 
 const ModalContent: React.FC<{

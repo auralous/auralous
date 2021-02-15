@@ -15,7 +15,7 @@ const AppLinks = () => {
       </Link>
       <button
         onClick={() => alert("Coming soon")}
-        className="btn btn-transparent font-medium text-foreground-secondary hover:text-foreground"
+        className="btn btn-transparent font-bold text-foreground-secondary hover:text-foreground"
       >
         {t("intro.use.watch")}{" "}
         <SvgPlay className="text-primary fill-current ml-2 w-3 h-3" />

@@ -10,7 +10,7 @@ import { LANGUAGES } from "utils/constants";
 
 const baseNavbarClassname = `text-center mx-1 focus:outline-none transition duration-300`;
 
-const navBarClassName = `${baseNavbarClassname} py-3 font-medium px-2 opacity-50 focus:opacity-100 hover:opacity-100`;
+const navBarClassName = `${baseNavbarClassname} py-3 font-bold px-2 opacity-50 focus:opacity-100 hover:opacity-100`;
 const importantNavItemClassName = `${baseNavbarClassname} font-bold py-2 px-6 border-2 border-primary hover:border-white rounded-full`;
 
 const NavbarLanguageSelector: React.FC = () => {

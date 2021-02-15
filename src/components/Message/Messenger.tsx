@@ -77,7 +77,7 @@ const MessageItemPlay: React.FC<{
         </span>
         {track && (
           <button
-            className="block font-semibold opacity-75 text-inline-link text-left text-foreground leading-tight"
+            className="block font-bold opacity-75 text-inline-link text-left text-foreground leading-tight"
             onClick={show}
           >
             <Typography.Text emphasis>

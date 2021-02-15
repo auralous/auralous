@@ -118,7 +118,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
       </div>
       <div className="w-0 flex-1">
         {user ? (
-          <div className="font-semibold truncate">{user.username} </div>
+          <div className="font-bold truncate">{user.username} </div>
         ) : (
           <div className="w-20 h-5 block-skeleton" />
         )}

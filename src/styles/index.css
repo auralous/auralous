@@ -19,7 +19,10 @@
 }
 
 body {
-  @apply text-foreground bg-background font-sans;
+  @apply text-foreground bg-background;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
@@ -66,7 +69,7 @@ html {
 }
 
 .btn {
-  @apply inline-flex items-center justify-center font-semibold py-2 px-4 whitespace-nowrap rounded-lg;
+  @apply inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
   @apply transition-colors;
   /* Theme */
   @apply bg-background-secondary text-foreground;
@@ -170,7 +173,7 @@ html {
 .content {
   @apply text-foreground;
   h2, h3, h4, h5, h6 {
-    @apply text-foreground mt-8 mb-2 leading-relaxed font-semibold;
+    @apply text-foreground mt-8 mb-2 leading-relaxed font-bold;
   }
   h2 {
     @apply text-3xl;

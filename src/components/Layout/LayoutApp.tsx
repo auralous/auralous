@@ -48,7 +48,7 @@ const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
   return (
     <Link href={href}>
       <a
-        className={`btn btn-transparent font-medium text-sm ${
+        className={`btn btn-transparent font-normal text-sm ${
           isActive ? "bg-background-secondary" : ""
         } ${isBold ? boldClasses : ""} w-full mb-2`}
       >
@@ -96,7 +96,7 @@ const Sidebar: React.FC = () => {
                 className="w-8 h-8 rounded-full"
               />
               <div className="w-0 flex-1 text-foreground-secondary py-1 px-3 truncate leading-none">
-                <div className="font-medium text-sm">{me.user.username}</div>
+                <div className="font-bold text-sm">{me.user.username}</div>
                 <Link href={`/user/${me.user.username}`}>
                   <a className="text-xs text-primary hover:text-primary-dark">
                     {t("user.profile")}
