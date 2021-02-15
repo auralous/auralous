@@ -1,6 +1,6 @@
-import { PlatformName } from "~/graphql/gql.gen";
-import { SvgYoutube, SvgSpotify } from "~/assets/svg/index";
-import { Locale } from "~/i18n/types";
+import { SvgSpotify, SvgYoutube } from "assets/svg/index";
+import { PlatformName } from "gql/gql.gen";
+import { Locale } from "i18n/types";
 
 export const PLATFORM_FULLNAMES: Record<PlatformName, string> = {
   [PlatformName.Youtube]: "YouTube",

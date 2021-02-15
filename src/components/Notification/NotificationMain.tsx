@@ -1,20 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import ms from "ms";
-import { useInView } from "react-intersection-observer";
-import { useMe } from "~/hooks/user";
+import clsx from "clsx";
+import { PageHeader } from "components/Page";
+import { Typography } from "components/Typography";
 import {
-  NotificationInvite,
   NotificationFollow,
-  useNotificationsQuery,
-  useUserQuery,
-  useStoryQuery,
-  NotificationsQuery,
-  useReadNotificationsMutation,
+  NotificationInvite,
   NotificationNewStory,
+  NotificationsQuery,
   useNotificationAddedSubscription,
-} from "~/graphql/gql.gen";
-import { useI18n, t } from "~/i18n/index";
+  useNotificationsQuery,
+  useReadNotificationsMutation,
+  useStoryQuery,
+  useUserQuery,
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { t, useI18n } from "i18n/index";
+import ms from "ms";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const getDateDiffTxt = (createdAt: Date) => {
   const dateDiff = Date.now() - createdAt.getTime();
@@ -44,10 +47,12 @@ const NotificationItemStorySection: React.FC<{ id: string }> = ({ id }) => {
           className="w-8 h-8 rounded-sm object-cover"
         />
         <div className="px-2">
-          <p className="text-sm font-semibold leading-none">
+          <Typography.Paragraph size="sm" strong noMargin>
             {t("story.ofUsername", { username: user?.username })}
-          </p>
-          <p className="text-xs">{story?.text}</p>
+          </Typography.Paragraph>
+          <Typography.Paragraph size="xs" noMargin>
+            {story?.text}
+          </Typography.Paragraph>
         </div>
       </a>
     </Link>
@@ -64,12 +69,12 @@ const NotificationItemFollow: React.FC<{
 
   return (
     <>
-      <p className="text-sm">
+      <Typography.Paragraph noMargin size="sm">
         <Link href={`/user/${user?.username}`}>
-          <a className="font-bold">{user?.username}</a>
+          <Typography.Link strong>{user?.username}</Typography.Link>
         </Link>{" "}
         {t("notification.follow.text")}
-      </p>
+      </Typography.Paragraph>
     </>
   );
 };
@@ -84,12 +89,12 @@ const NotificationItemInvite: React.FC<{
 
   return (
     <>
-      <p className="text-sm">
+      <Typography.Paragraph noMargin size="sm">
         <Link href={`/user/${user?.username}`}>
-          <a className="font-bold">{user?.username}</a>
+          <Typography.Link strong>{user?.username}</Typography.Link>
         </Link>{" "}
         {t("notification.invite.text")}
-      </p>
+      </Typography.Paragraph>
       <NotificationItemStorySection id={notification.storyId} />
     </>
   );
@@ -105,12 +110,12 @@ const NotificationItemNewStory: React.FC<{
 
   return (
     <>
-      <p className="text-sm">
+      <Typography.Paragraph noMargin size="sm">
         <Link href={`/user/${user?.username}`}>
-          <a className="font-bold">{user?.username}</a>
+          <Typography.Link strong>{user?.username}</Typography.Link>
         </Link>{" "}
         {t("notification.newStory.text")}
-      </p>
+      </Typography.Paragraph>
       <NotificationItemStorySection id={notification.storyId} />
     </>
   );
@@ -121,11 +126,12 @@ const NotificationItem: React.FC<{
 }> = ({ notification }) => {
   return (
     <div
-      className={`px-4 py-2 bg-background-secondary border-l-4 ${
+      className={clsx(
+        "px-4 py-2 bg-background-secondary border-l-4",
         notification.hasRead
           ? "border-background-tertiary opacity-75"
           : "border-primary"
-      }`}
+      )}
     >
       {notification.__typename === "NotificationInvite" ? (
         <NotificationItemInvite notification={notification} />
@@ -134,9 +140,9 @@ const NotificationItem: React.FC<{
       ) : (
         <NotificationItemNewStory notification={notification} />
       )}
-      <div className="text-foreground-tertiary text-xs">
+      <Typography.Paragraph noMargin color="foreground-tertiary" size="xs">
         {getDateDiffTxt(notification.createdAt)}
-      </div>
+      </Typography.Paragraph>
     </div>
   );
 };
@@ -190,7 +196,7 @@ const NotificationMain: React.FC = () => {
 
   return (
     <>
-      <h1 className="page-title">{t("notification.title")}</h1>
+      <PageHeader name={t("notification.title")} />
       <div className="px-4 space-y-2">
         {data?.notifications.map((notification) => (
           <NotificationItem key={notification.id} notification={notification} />

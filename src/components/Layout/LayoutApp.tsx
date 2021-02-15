@@ -1,22 +1,26 @@
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import LayoutContext from "./LayoutContext";
-import { PlayerMinibar } from "~/components/Player/index";
-import { useLogin } from "~/components/Auth";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
 import {
+  SvgActivity,
   SvgLogIn,
   SvgLogo,
   SvgMapPin,
-  SvgActivity,
   SvgPlayCircle,
   SvgPlus,
   SvgSettings,
   SvgUser,
-} from "~/assets/svg";
-import { useNotificationAddedSubscription, User } from "~/graphql/gql.gen";
+} from "assets/svg";
+import clsx from "clsx";
+import { useLogin } from "components/Auth";
+import { PlayerMinibar } from "components/Player/index";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
+import { useNotificationAddedSubscription, User } from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useRef, useState } from "react";
+import LayoutContext from "./LayoutContext";
 
 const useHasNotification = (me: User | null | undefined) => {
   const [hasNotification, setHasNotification] = useState(false);
@@ -35,7 +39,7 @@ const useHasNotification = (me: User | null | undefined) => {
 
 const sidebarColor = "rgb(18, 18, 24)";
 
-const boldClasses = "bg-gradient-to-l from-warning to-primary";
+const boldClasses = "bg-gradient-to-l from-secondary to-primary";
 
 const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
   children,
@@ -47,9 +51,11 @@ const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
   return (
     <Link href={href}>
       <a
-        className={`btn btn-transparent font-medium text-sm ${
-          isActive ? "bg-background-secondary" : ""
-        } ${isBold ? boldClasses : ""} w-full mb-2`}
+        className={clsx(
+          "w-full btn btn-transparent font-normal text-sm",
+          isActive && "bg-background-tertiary",
+          isBold && boldClasses
+        )}
       >
         {children}
       </a>
@@ -69,7 +75,7 @@ const Sidebar: React.FC = () => {
       className="hidden md:block w-56 fixed left-0 top-0 h-full"
       style={{ backgroundColor: sidebarColor }}
     >
-      <div className="p-2">
+      <div className="p-2 space-y-2">
         <div className="py-4">
           <SvgLogo title="Stereo" className="w-32 h-12 mx-auto fill-current" />
         </div>
@@ -94,12 +100,19 @@ const Sidebar: React.FC = () => {
                 alt={me.user.username}
                 className="w-8 h-8 rounded-full"
               />
-              <div className="w-0 flex-1 text-foreground-secondary py-1 px-3 truncate leading-none">
-                <div className="font-medium text-sm">{me.user.username}</div>
+              <div className="w-0 flex-1 py-1 px-3 truncate leading-none">
+                <Typography.Paragraph
+                  noMargin
+                  strong
+                  size="sm"
+                  color="foreground-secondary"
+                >
+                  {me.user.username}
+                </Typography.Paragraph>
                 <Link href={`/user/${me.user.username}`}>
-                  <a className="text-xs text-primary hover:text-primary-dark">
+                  <Typography.Link color="primary" size="xs">
                     {t("user.profile")}
-                  </a>
+                  </Typography.Link>
                 </Link>
               </div>
               <Link href="/settings">
@@ -113,12 +126,20 @@ const Sidebar: React.FC = () => {
             </div>
           </div>
         ) : (
-          <button
-            onClick={logIn}
-            className="btn btn-transparent rounded-none border-t-2 border-background-secondary text-sm w-full py-3"
-          >
-            {t("common.signIn")}
-          </button>
+          <>
+            <Spacer
+              size={1}
+              axis="vertical"
+              style={{ borderTop: "2px solid hsl(240,14%,9%)", width: "100%" }}
+            />
+            <Button
+              styling="link"
+              color="primary"
+              onPress={logIn}
+              fullWidth
+              title={t("common.signIn")}
+            />
+          </>
         )}
       </div>
     </div>
@@ -136,9 +157,11 @@ const AppbarItem: React.FC<{
   return (
     <Link href={href} as={as}>
       <a
-        className={`relative btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1 ${
-          isActive && !isBold ? "border-b-2" : ""
-        } ${isBold ? boldClasses : ""}`}
+        className={clsx(
+          "relative btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1",
+          isActive && !isBold && "border-b-2",
+          isBold && boldClasses
+        )}
         title={title}
       >
         {children}
@@ -160,14 +183,16 @@ const Appbar: React.FC = () => {
   return (
     <>
       <div
-        className={`${
-          noAppbarPathname.includes(router.pathname) ? "hidden" : ""
-        } h-10 w-full `}
+        className={clsx(
+          "h-10 w-full",
+          noAppbarPathname.includes(router.pathname) && "hidden"
+        )}
       />
       <div
-        className={`${
+        className={clsx(
+          "z-10 md:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden",
           noAppbarPathname.includes(router.pathname) ? "hidden" : "flex"
-        } z-10 md:hidden fixed bottom-0 left-0 w-full h-10 overflow-hidden`}
+        )}
         style={{ backgroundColor: sidebarColor }}
       >
         <AppbarItem href="/listen" title={t("listen.title")}>
@@ -195,7 +220,7 @@ const Appbar: React.FC = () => {
           </AppbarItem>
         ) : (
           <button
-            className="btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1"
+            className="btn btn-transparent border-primary py-1 rounded-none flex-1"
             title={t("common.signIn")}
             onClick={logIn}
           >

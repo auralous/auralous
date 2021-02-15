@@ -1,13 +1,16 @@
-import React, { useMemo, useState } from "react";
-import { SvgChevronLeft, SvgLoadingAnimated } from "~/assets/svg";
-import { default as TrackAdderResults } from "./TrackAdderResults";
-import { PlaylistItem } from "~/components/Playlist";
+import { SvgChevronLeft, SvgLoadingAnimated } from "assets/svg";
+import { PlaylistItem } from "components/Playlist";
+import { Button, PressableHighlight } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
 import {
   Playlist,
-  usePlaylistTracksQuery,
   useMyPlaylistsQuery,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+  usePlaylistTracksQuery,
+} from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import React, { useMemo, useState } from "react";
+import { default as TrackAdderResults } from "./TrackAdderResults";
 import { TrackAdderCallbackFn } from "./types";
 
 const TrackAdderPlaylist: React.FC<{
@@ -45,23 +48,25 @@ const TrackAdderPlaylist: React.FC<{
 
   return (
     <div className="flex flex-col w-full h-full relative">
-      <div className="text-sm px-2 h-10 flex items-center font-bold">
-        <button
-          onClick={() => setSelectedPlaylist(null)}
-          title="Select another playlist"
-          className="btn btn-transparent p-1 inline mr-2"
+      <div className="px-2 h-10 flex items-center space-x-2">
+        <Button
+          onPress={() => setSelectedPlaylist(null)}
+          accessibilityLabel={t("common.back")}
+          icon={<SvgChevronLeft className="w-8 h-8" />}
           disabled={!selectedPlaylist}
-        >
-          <SvgChevronLeft width="24" height="24" />
-        </button>
+          styling="link"
+        />
         {!!selectedPlaylist && (
           <div className="inline-flex items-center">
             <img
               src={selectedPlaylist.image}
               alt={selectedPlaylist.name}
-              className="w-6 h-6 mr-1 rounded"
+              className="w-6 h-6 rounded"
             />
-            {selectedPlaylist.name}
+            <Spacer size={2} axis="horizontal" />
+            <Typography.Text strong size="sm">
+              {selectedPlaylist.name}
+            </Typography.Text>
           </div>
         )}
       </div>
@@ -74,16 +79,16 @@ const TrackAdderPlaylist: React.FC<{
       ) : (
         <div className="flex-1 h-0 overflow-auto space-y-1">
           {myPlaylists?.map((playlist) => (
-            <button
+            <PressableHighlight
               key={playlist.id}
-              title={t("track.adder.playlist.selectSongFrom", {
+              accessibilityLabel={t("track.adder.playlist.selectSongFrom", {
                 title: playlist.name,
               })}
-              className="p-2 rounded-lg w-full focus:outline-none hover:bg-background-secondary focus:bg-background-secondary"
-              onClick={() => handleSelect(playlist)}
+              onPress={() => handleSelect(playlist)}
+              fullWidth
             >
               <PlaylistItem playlist={playlist} />
-            </button>
+            </PressableHighlight>
           ))}
         </div>
       )}

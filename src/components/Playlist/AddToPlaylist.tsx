@@ -1,19 +1,21 @@
-import React, { useState, useRef, useCallback } from "react";
-import { Modal } from "~/components/Modal/index";
-import { toast } from "~/lib/toast";
-import { AuthBanner } from "~/components/Auth";
-import { useMe } from "~/hooks/user";
+import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "assets/svg";
+import { AuthBanner } from "components/Auth";
+import { Modal } from "components/Modal/index";
+import { Button, PressableHighlight } from "components/Pressable";
+import { Typography } from "components/Typography";
 import {
-  Track,
   PlatformName,
-  useTrackQuery,
   Playlist,
-  useMyPlaylistsQuery,
+  Track,
   useAddPlaylistTracksMutation,
   useCreatePlaylistMutation,
-} from "~/graphql/gql.gen";
-import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "~/assets/svg";
-import { useI18n } from "~/i18n/index";
+  useMyPlaylistsQuery,
+  useTrackQuery,
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import React, { useCallback, useRef, useState } from "react";
+import { toast } from "utils/toast";
 import PlaylistItem from "./PlaylistItem";
 
 const CreatePlaylist: React.FC<{
@@ -53,49 +55,42 @@ const CreatePlaylist: React.FC<{
   return isCreatingPlaylist ? (
     <>
       <form
-        className="flex mb-1 p-2 h-16"
+        className="flex p-2 h-16 space-x-1"
         onSubmit={handleCreatePlaylistAndAdd}
       >
         <input
           placeholder={t("playlist.new.title")}
-          className="input w-full"
+          className="input w-full h-10"
           ref={inputRef}
           required
         />
-        <button
-          aria-label={t("playlist.new.title")}
+        <Button
+          accessibilityLabel={t("playlist.new.title")}
           type="submit"
-          className="btn btn-success ml-2 flex-none"
           disabled={fetching}
-        >
-          <SvgCheck width="16" height="16" />
-        </button>
-        <button
-          aria-label={t("modal.close")}
-          type="submit"
-          className="btn ml-1 flex-none"
+          icon={<SvgCheck className="w-4 h-4" />}
+          color="primary"
+        />
+        <Button
+          accessibilityLabel={t("modal.close")}
           disabled={fetching}
-          onClick={() => setIsCreatingPlaylist(false)}
-        >
-          <SvgX width="16" height="16" />
-        </button>
+          onPress={() => setIsCreatingPlaylist(false)}
+          icon={<SvgX className="w-4 h-4" />}
+        />
       </form>
       {track.platform === PlatformName.Youtube && (
-        <small className="text-foreground-tertiary">
+        <Typography.Text size="xs" color="foreground-tertiary">
           {t("playlist.new.youtubeNotice")}.
-        </small>
+        </Typography.Text>
       )}
     </>
   ) : (
-    <button
-      className="btn w-full justify-start font-normal mb-1 p-2"
-      onClick={() => setIsCreatingPlaylist(true)}
-    >
-      <div className="w-12 h-12 border-2 border-foreground flex flex-center rounded-lg">
-        <SvgPlus />
-      </div>
-      <span className="ml-2 font-bold">{t("playlist.new.title")}</span>
-    </button>
+    <Button
+      icon={<SvgPlus />}
+      title={t("playlist.new.title")}
+      onPress={() => setIsCreatingPlaylist(true)}
+      fullWidth
+    />
   );
 };
 
@@ -137,17 +132,16 @@ const AddToExistingPlaylist: React.FC<{
   return (
     <div className={fetching ? "cursor-not-allowed opacity-50" : "space-y-1"}>
       {myPlaylists?.map((playlist) => (
-        // TODO: react-window
-        <button
+        <PressableHighlight
           key={playlist.id}
-          title={t("playlist.add.title", { title: playlist.name })}
-          className="btn justify-start w-full p-2 bg-transparent hover:bg-background-secondary focus:bg-background-secondary"
-          onClick={() => handleAdd(playlist)}
+          accessibilityLabel={t("playlist.add.title", { title: playlist.name })}
+          onPress={() => handleAdd(playlist)}
+          fullWidth
         >
           <PlaylistItem playlist={playlist} />
-        </button>
+        </PressableHighlight>
       )) ||
-        (fetchingPlaylists && <SvgLoadingAnimated className="m-4 mx-auto" />)}
+        (fetchingPlaylists && <SvgLoadingAnimated className="mx-auto" />)}
     </div>
   );
 };
@@ -166,28 +160,27 @@ const AddToPlaylist: React.FC<{
     <Modal.Modal title={t("playlist.addTitle")} active={active} close={close}>
       <Modal.Header>
         <Modal.Title>
-          <div>
-            {track?.title} <span className="text-foreground-tertiary">-</span>{" "}
-            <span className="text-foreground-secondary">
+          <Typography.Paragraph noMargin>
+            {track?.title}{" "}
+            <Typography.Text color="foreground-tertiary">-</Typography.Text>{" "}
+            <Typography.Text color="foreground-secondary">
               {track?.artists.map(({ name }) => name).join()}
-            </span>
-          </div>
+            </Typography.Text>
+          </Typography.Paragraph>
         </Modal.Title>
       </Modal.Header>
       <Modal.Content>
         {me ? (
           track?.platform === me.platform ? (
-            <>
+            <div className="space-y-1">
               <CreatePlaylist track={track} done={close} />
               <AddToExistingPlaylist track={track} done={close} />
-            </>
-          ) : (
-            <div>
-              <p className="text-foreground-secondary">
-                Adding tracks from a different platform is not yet supported.{" "}
-              </p>
-              <p className="text-foreground-tertiary">{t("error.sorry")}.</p>
             </div>
+          ) : (
+            <Typography.Paragraph color="foreground-secondary">
+              Adding tracks from a different platform is not yet supported.{" "}
+              {t("error.sorry")}.
+            </Typography.Paragraph>
           )
         ) : (
           <AuthBanner prompt={t("playlist.authPrompt")} />

@@ -1,9 +1,10 @@
-import React from "react";
-import { GetStaticProps, NextPage } from "next";
+import { Typography } from "components/Typography";
 import fs from "fs";
-import path from "path";
+import { GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
-import markdownToHtml from "~/lib/markdown-to-html";
+import path from "path";
+import React from "react";
+import markdownToHtml from "utils/markdown-to-html";
 
 const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {
   return (
@@ -14,25 +15,20 @@ const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {
         openGraph={{}}
         canonical={`${process.env.APP_URI}/privacy`}
       />
-      <div className="py-12 px-2">
-        <div className="text-center">
-          <h1 className="text-5xl leading-none font-bold">Privacy Policy</h1>
-        </div>
-      </div>
+      <Typography.Title align="center">Privacy Policy</Typography.Title>
       <div className="py-20 px-2 leading-loose max-w-xl mx-auto">
         <div className="content text-lg">
           <div dangerouslySetInnerHTML={{ __html }} />
-          <small className="text-foreground-tertiary">
+          <Typography.Paragraph color="foreground-tertiary" size="sm">
             Adapted from the{" "}
-            <a
+            <Typography.Link
               href="https://github.com/basecamp/policies"
               target="_blank"
-              rel="noopener noreferrer"
             >
               Basecamp open-source policies
-            </a>{" "}
+            </Typography.Link>{" "}
             / CC BY 4.0
-          </small>
+          </Typography.Paragraph>
         </div>
       </div>
     </>

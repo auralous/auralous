@@ -1,18 +1,21 @@
-import React, { useCallback } from "react";
-import { useClient } from "urql";
-import { toast } from "~/lib/toast";
+import { SvgUserPlus, SvgX } from "assets/svg";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
 import {
   Story,
-  useUserQuery,
   useChangeStoryQueueableMutation,
   UserDocument,
   UserQuery,
   UserQueryVariables,
   useStoryUpdatedSubscription,
-} from "~/graphql/gql.gen";
-import { CONFIG } from "~/lib/constants";
-import { SvgUserPlus, SvgX } from "~/assets/svg";
-import { useI18n } from "~/i18n/index";
+  useUserQuery,
+} from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import React, { useCallback } from "react";
+import { useClient } from "urql";
+import { CONFIG } from "utils/constants";
+import { toast } from "utils/toast";
 
 const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
@@ -58,9 +61,10 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
       onSubmit={onUserAdd}
       className="flex items-center rounded-full bg-background-secondary p-1"
     >
-      <div className="mr-2 flex flex-center w-10 h-10 rounded-full bg-background-secondary">
+      <div className="flex flex-center w-10 h-10 rounded-full bg-background-secondary">
         <SvgUserPlus className="w-4 h-4" />
       </div>
+      <Spacer size={2} axis="horizontal" />
       <input
         name="username"
         placeholder={t("settings.username.label")}
@@ -69,13 +73,11 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
         maxLength={CONFIG.usernameMaxLength}
         required
       />
-      <button
-        className="btn rounded-full leading-none text-xs h-10 px-4"
+      <Button
+        shape="circle"
         title={t("story.queueable.add")}
         disabled={fetching}
-      >
-        {t("story.queueable.add")}
-      </button>
+      />
     </form>
   );
 };
@@ -106,7 +108,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
   }, [userId, changeStoryQueueable, storyId, t, user]);
   return (
     <div className="flex items-center rounded-full bg-background-secondary p-1">
-      <div className="w-10 h-10 mr-2 rounded-full overflow-hidden">
+      <div className="w-10 h-10 rounded-full overflow-hidden">
         {user ? (
           <img
             className="w-full h-full object-cover"
@@ -117,21 +119,25 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
           <div className="block-skeleton w-full h-full" />
         )}
       </div>
+      <Spacer size={2} axis="horizontal" />
       <div className="w-0 flex-1">
         {user ? (
-          <div className="font-semibold truncate">{user.username} </div>
+          <Typography.Text strong truncate>
+            {user.username}
+          </Typography.Text>
         ) : (
           <div className="w-20 h-5 block-skeleton" />
         )}
       </div>
-      <button
-        className="btn rounded-full leading-none text-xs h-10 w-10 p-0"
-        title={t("story.queueable.remove", { username: user?.username })}
+      <Button
+        accessibilityLabel={t("story.queueable.remove", {
+          username: user?.username,
+        })}
         disabled={fetching}
-        onClick={onUserRemove}
-      >
-        <SvgX className="w-4 h-4" />
-      </button>
+        onPress={onUserRemove}
+        icon={<SvgX className="w-4 h-4" />}
+        shape="circle"
+      />
     </div>
   );
 };

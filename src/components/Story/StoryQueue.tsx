@@ -1,22 +1,24 @@
-import React from "react";
+import { SvgPlus, SvgUserPlus } from "assets/svg";
+import { useLogin } from "components/Auth";
+import { Modal, useModal } from "components/Modal";
+import { usePlayer } from "components/Player";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Story } from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
-import StoryQueueable from "./StoryQueueable";
-import { useMe } from "~/hooks/user";
-import { Story } from "~/graphql/gql.gen";
-import { useLogin } from "~/components/Auth";
-import { toast } from "~/lib/toast";
-import { Modal, useModal } from "~/components/Modal";
-import { usePlayer } from "~/components/Player";
-import { SvgPlus, SvgUserPlus } from "~/assets/svg";
-import { useI18n } from "~/i18n/index";
+import React from "react";
+import { toast } from "utils/toast";
 import StoryListeners from "./StoryListeners";
+import StoryQueueable from "./StoryQueueable";
 
 const StoryQueueAdder = dynamic(() => import("./StoryQueueAdder"), {
   ssr: false,
 });
 
-const QueueManager = dynamic(() => import("~/components/Queue/QueueManager"));
-const QueueViewer = dynamic(() => import("~/components/Queue/QueueViewer"));
+const QueueManager = dynamic(() => import("components/Queue/QueueManager"));
+const QueueViewer = dynamic(() => import("components/Queue/QueueViewer"));
 
 const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
@@ -29,13 +31,15 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
       <div className="px-4 py-1 flex">
         {me?.user.id === story.creatorId && (
           <>
-            <button
-              className="btn btn-primary mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
-              title={t("story.queueable.title")}
-              onClick={open}
-            >
-              <SvgUserPlus className="w-4 h-4" />
-            </button>
+            <Button
+              color="primary"
+              accessibilityLabel={t("story.queueable.title")}
+              onPress={open}
+              icon={<SvgUserPlus className="w-4 h-4" />}
+              shape="circle"
+              size="sm"
+            />
+            <Spacer size={1} axis="horizontal" />
             <Modal.Modal
               active={active}
               close={close}
@@ -48,9 +52,7 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
                 <StoryQueueable story={story} />
               </Modal.Content>
               <Modal.Footer>
-                <button className="btn" onClick={close}>
-                  {t("common.done")}
-                </button>
+                <Button title={t("common.done")} onPress={close} />
               </Modal.Footer>
             </Modal.Modal>
           </>
@@ -92,21 +94,21 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
   if (story.isLive)
     return (
       <div className="h-full flex flex-col">
-        <button
-          title={t("story.queue.adderTitle")}
-          onClick={onAddButtonClick}
-          className="z-40 btn btn-primary rounded-full absolute bottom-2 right-2 w-12 h-12 p-1"
-        >
-          <SvgPlus />
-        </button>
         <StoryQueueAdder story={story} active={active} close={close} />
         <StoryQueueableManager story={story} />
-        <div className="flex-1 h-0">
-          <QueueManager
-            isQueueable={isQueueable}
-            queueId={story.id}
-            onEmptyAddClick={open}
+        <div className="text-center">
+          <Button
+            title={t("story.queue.adderTitle")}
+            icon={<SvgPlus className="w-4 h-4" />}
+            size="sm"
+            onPress={onAddButtonClick}
+            shape="circle"
+            styling="outline"
+            color="primary"
           />
+        </div>
+        <div className="flex-1 h-0">
+          <QueueManager isQueueable={isQueueable} queueId={story.id} />
         </div>
       </div>
     );

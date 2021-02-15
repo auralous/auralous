@@ -1,20 +1,23 @@
-import React from "react";
-import Link from "next/link";
-import UserFollowButton from "./UserFollowButton";
-import StoryFeed from "~/components/Story/StoryFeed";
-import { useMe } from "~/hooks/user";
+import { SvgSettings } from "assets/svg";
+import { Modal, useModal } from "components/Modal";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import StoryFeed from "components/Story/StoryFeed";
+import { Typography } from "components/Typography";
 import {
   User,
   useUserFollowersQuery,
   useUserFollowingsQuery,
   useUserQuery,
   useUserStatQuery,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { SvgSettings } from "~/assets/svg";
-import { Modal, useModal } from "../Modal";
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import Link from "next/link";
+import React, { useEffect } from "react";
+import { onEnterKeyClick } from "utils/util";
+import UserFollowButton from "./UserFollowButton";
 import UserList from "./UserList";
-import { onEnterKeyClick } from "~/lib/util";
 
 const UserFollowingModals: React.FC<{
   id: string;
@@ -88,6 +91,11 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
   const [activeFollower, openFollower, closeFollower] = useModal();
   const [activeFollowing, openFollowing, closeFollowing] = useModal();
 
+  useEffect(() => {
+    closeFollower();
+    closeFollowing();
+  }, [initialUser.id, closeFollower, closeFollowing]);
+
   return (
     <>
       <div
@@ -97,16 +105,18 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
         }}
       >
         <img
-          className="w-28 h-28 rounded-full mx-auto mb-2"
+          className="w-28 h-28 rounded-full mx-auto"
           src={user.profilePicture}
           alt={user.username}
         />
-        <h1 className="text-lg md:text-2xl font-bold text-center mb-2">
+        <Spacer size={2} axis="vertical" />
+        <Typography.Title size="xl" strong align="center">
           {user.username}
-        </h1>
-        <div className="text-center mb-8">
+        </Typography.Title>
+        <div className="text-center">
           <UserFollowButton id={user.id} />
         </div>
+        <Spacer size={8} axis="vertical" />
         <div className="flex flex-center text-sm space-x-8 text-foreground-secondary">
           <div
             role="link"
@@ -115,7 +125,8 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
             className="p-1 text-inline-link"
             onClick={openFollowing}
           >
-            <b>{userStat?.followingCount}</b> {t("user.following")}
+            <Typography.Text strong>{userStat?.followingCount}</Typography.Text>{" "}
+            <Typography.Text>{t("user.following")}</Typography.Text>
           </div>
           <div
             role="link"
@@ -124,18 +135,20 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
             className="p-1 text-inline-link"
             onClick={openFollower}
           >
-            <b>{userStat?.followerCount}</b> {t("user.followers")}
+            <Typography.Text strong>{userStat?.followerCount}</Typography.Text>{" "}
+            <Typography.Text>{t("user.followers")}</Typography.Text>
           </div>
         </div>
         {me?.user.id === user.id && (
-          <Link href="/settings">
-            <a
-              className="md:hidden absolute top-2 right-0 btn btn-transparent"
-              title={t("settings.title")}
-            >
-              <SvgSettings className="w-8 h-8 stroke-1" />
-            </a>
-          </Link>
+          <div className="md:hidden absolute top-2 right-0">
+            <Link href="/settings">
+              <Button
+                styling="link"
+                icon={<SvgSettings className="w-8 h-8 stroke-1" />}
+                accessibilityLabel={t("settings.title")}
+              />
+            </Link>
+          </div>
         )}
       </div>
       <div className="py-4">

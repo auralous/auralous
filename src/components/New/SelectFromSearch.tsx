@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useMemo } from "react";
+import { SvgLoadingAnimated, SvgSearch } from "assets/svg";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
+import { Track, usePlaylistTracksQuery } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import { Track, usePlaylistTracksQuery } from "~/graphql/gql.gen";
-import { maybeGetTrackOrPlaylistIdFromUri } from "~/lib/platform";
-import { useI18n } from "~/i18n/index";
-import { SvgLoadingAnimated, SvgSearch } from "~/assets/svg";
+import React, { useEffect, useMemo, useRef } from "react";
+import { maybeGetTrackOrPlaylistIdFromUri } from "utils/platform";
 
 const SelectFromSearch: React.FC<{
   onSelected(tracks: Track[]): void;
@@ -38,11 +41,15 @@ const SelectFromSearch: React.FC<{
 
   return (
     <>
-      <p className="text-lg text-center text-foreground-secondary mb-2">
+      <Typography.Paragraph
+        size="lg"
+        color="foreground-secondary"
+        align="center"
+      >
         {!playlistTracks?.length && !fetching && !!searchQuery
           ? t("new.fromSearch.noResults")
           : t("new.fromSearch.helpText")}
-      </p>
+      </Typography.Paragraph>
       <form
         className="h-42 w-full flex items-center"
         onSubmit={(event) => {
@@ -56,19 +63,18 @@ const SelectFromSearch: React.FC<{
           ref={inputRef}
           placeholder="example.com/my-awesome-playlist"
           aria-label={t("new.fromSearch.altText")}
-          className="input w-0 flex-1 mr-1"
+          className="input w-0 flex-1"
           required
           disabled={fetching}
           type="url"
         />
-        <button
+        <Spacer size={1} axis="horizontal" />
+        <Button
           type="submit"
-          title={t("new.fromSearch.action")}
-          className="btn btn-primary w-12 h-10"
+          accessibilityLabel={t("new.fromSearch.action")}
           disabled={fetching}
-        >
-          {fetching ? <SvgLoadingAnimated /> : <SvgSearch />}
-        </button>
+          icon={fetching ? <SvgLoadingAnimated /> : <SvgSearch />}
+        />
       </form>
     </>
   );

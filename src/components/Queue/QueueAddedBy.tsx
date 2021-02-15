@@ -1,6 +1,6 @@
+import { useUserQuery } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { useUserQuery } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
 
 const QueueAddedBy: React.FC<{ userId: string }> = ({ userId }) => {
   const { t } = useI18n();
@@ -10,9 +10,9 @@ const QueueAddedBy: React.FC<{ userId: string }> = ({ userId }) => {
   });
 
   return (
-    <span className="ml-1 flex-none">
+    <span className="flex-none">
       {t("queue.addedBy")}{" "}
-      <span className="font-semibold">{user?.username || ""}</span>
+      <span className="font-bold">{user?.username || ""}</span>
     </span>
   );
 };

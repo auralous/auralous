@@ -1,23 +1,24 @@
-import React, { useState, useEffect, useMemo } from "react";
-import dynamic from "next/dynamic";
 import Portal from "@reach/portal";
-import Player from "./Player";
-import PlayerContext from "./PlayerContext";
-import { useNowPlaying } from "~/components/NowPlaying/index";
+import { useNowPlaying } from "components/NowPlaying/index";
 import {
   PlatformName,
   Story,
-  useQueueQuery,
-  useStoryQuery,
-  useSkipNowPlayingMutation,
   useMeQuery,
-} from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useCrossTracks } from "~/hooks/track";
+  usePingStoryMutation,
+  useQueueQuery,
+  useSkipNowPlayingMutation,
+  useStoryQuery,
+} from "gql/gql.gen";
+import { useCrossTracks } from "hooks/track";
+import { useMe } from "hooks/user";
+import { t } from "i18n/index";
+import dynamic from "next/dynamic";
+import React, { useEffect, useMemo, useState } from "react";
+import { PLATFORM_FULLNAMES } from "utils/constants";
+import { toast } from "utils/toast";
+import Player from "./Player";
+import PlayerContext from "./PlayerContext";
 import { IPlayerContext, PlayerPlaying } from "./types";
-import { toast } from "~/lib/toast";
-import { t } from "~/i18n/index";
-import { PLATFORM_FULLNAMES } from "~/lib/constants";
 
 const YouTubePlayer = dynamic(() => import("./YouTubePlayer"), { ssr: false });
 const SpotifyPlayer = dynamic(() => import("./SpotifyPlayer"), { ssr: false });
@@ -77,6 +78,20 @@ const usePlayFromNowPlaying = (story: Story | null) => {
     // Is skippable, create skip fn
     return () => skipNowPlaying({ id: story.id });
   }, [story, nowPlaying, me, fetchingSkip, skipNowPlaying]);
+
+  // This informs that the user is present in story
+  const [, pingStory] = usePingStoryMutation();
+
+  useEffect(() => {
+    // story presence does not apply to unlive story
+    if (!story?.isLive) return;
+    if (me) {
+      const pingInterval = window.setInterval(() => {
+        pingStory({ id: story.id });
+      }, 30 * 1000);
+      return () => window.clearInterval(pingInterval);
+    }
+  }, [story, me, pingStory]);
 
   return [nowPlaying?.currentTrack, { fetching, skipForward }] as const;
 };

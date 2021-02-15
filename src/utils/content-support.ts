@@ -1,14 +1,20 @@
-import { join } from "path";
 import { readdirSync, readFileSync } from "fs";
-import remark from "remark";
 import matter from "gray-matter";
-import { SupportArticle } from "../types";
+import { join } from "path";
+import remark from "remark";
 
 const pageDir = join(process.cwd(), "src", "content", "support");
 
 const getAllPageSlugs = () => {
   return readdirSync(pageDir).filter((dir) => !dir.startsWith("_"));
 };
+
+export interface SupportArticle {
+  title: string;
+  subtitle: string;
+  content: string;
+  slug: string;
+}
 
 export const getPage = (slug: string): SupportArticle => {
   const pagePath = join(pageDir, slug);

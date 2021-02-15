@@ -1,9 +1,11 @@
+import { Modal } from "components/Modal";
+import { usePlayer } from "components/Player";
+import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
+import { Story, useDeleteStoryMutation } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { Modal } from "~/components/Modal";
-import { toast } from "~/lib/toast";
-import { Story, useDeleteStoryMutation } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { usePlayer } from "../Player";
+import { toast } from "utils/toast";
 
 const StoryDelete: React.FC<{
   story: Story;
@@ -37,27 +39,27 @@ const StoryDelete: React.FC<{
           <Modal.Title>{t("story.delete.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Content>
-          <p className="text-center">
+          <Typography.Paragraph align="center">
             {t("story.delete.confirmPrompt")}
             <br />
-            <b>{t("common.dangerousActionText")}</b>.
-          </p>
+            <Typography.Text strong>
+              {t("common.dangerousActionText")}
+            </Typography.Text>
+            .
+          </Typography.Paragraph>
         </Modal.Content>
         <Modal.Footer>
-          <button
-            className="btn btn-transparent text-danger-light"
-            onClick={onDelete}
+          <Button
+            color="danger"
+            onPress={onDelete}
             disabled={fetching}
-          >
-            {t("story.delete.confirm")}
-          </button>
-          <button
-            onClick={close}
-            className="btn btn-success"
+            title={t("story.delete.confirm")}
+          />
+          <Button
             disabled={fetching}
-          >
-            {t("common.cancel")}
-          </button>
+            title={t("common.cancel")}
+            onPress={close}
+          />
         </Modal.Footer>
       </Modal.Modal>
     </>

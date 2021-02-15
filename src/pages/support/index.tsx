@@ -1,23 +1,16 @@
-import React from "react";
+import { SvgFacebook, SvgMail, SvgTwitter } from "assets/svg";
+import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
 import { GetStaticProps, NextPage } from "next";
-import Link from "next/link";
 import { NextSeo } from "next-seo";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
-import { SvgMail, SvgFacebook, SvgTwitter } from "~/assets/svg";
-import { getPages as getSupportPages } from "~/lib/content-support";
-import { SupportArticle } from "~/types/index";
-
-const ContactLink: React.FC<{ href: string }> = ({ href, children }) => (
-  <a
-    className="btn btn-foreground rounded-full m-1 py-3 px-6"
-    target="_blank"
-    rel="noreferrer"
-    href={href}
-  >
-    {children}
-  </a>
-);
+import Link from "next/link";
+import React from "react";
+import {
+  getPages as getSupportPages,
+  SupportArticle,
+} from "utils/content-support";
 
 const SupportPage: NextPage<{
   pages: SupportArticle[];
@@ -31,55 +24,69 @@ const SupportPage: NextPage<{
         openGraph={{}}
         canonical={`${process.env.APP_URI}/support`}
       />
-      <div className="py-16 container leading-loose text-lg">
-        <h1 className="text-center text-5xl text-foreground-secondary font-bold max-w-xl mx-auto leading-none">
-          {t("support.hi")}{" "}
-          {me ? (
-            <>
-              {" "}
-              <span className="text-foreground">{me.user.username}</span>
-            </>
-          ) : (
-            t("support.there")
-          )}
-          {t("support.how")}
-        </h1>
-        <div className="flex flex-col items-center py-10">
-          <h2 className="text-3xl font-bold text-foreground-secondary">
+      <div className="py-16 container leading-loose">
+        <div className="max-w-xl mx-auto">
+          <Typography.Title align="center" size="4xl">
+            {t("support.hi")}{" "}
+            {me ? (
+              <Typography.Text color="primary">
+                {me.user.username}
+              </Typography.Text>
+            ) : (
+              t("support.there")
+            )}
+            {t("support.how")}
+          </Typography.Title>
+        </div>
+        <div className="flex flex-col items-center py-10 space-y-2">
+          <Typography.Title level={2} size="xl" color="foreground-secondary">
             {t("support.articles.title")}
-          </h2>
+          </Typography.Title>
           {pages.map((page, index) => (
             <Link key={page.slug} href={`/support/${page.slug}`}>
-              <a className="mb-2 flex items-center opacity-75 hover:opacity-100 transition-opacity">
-                <span className="flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-primary text-white">
-                  {index + 1}
-                </span>
-                <h4 className="p-4 leading-snug">
-                  <span className="text-2xl font-bold leading-none mb-1 block">
-                    {page.title}
+              <Typography.Link>
+                <div className="flex items-center">
+                  <span className="mr-2 flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-primary text-white">
+                    {index + 1}
                   </span>
-                  {page.subtitle}
-                </h4>
-              </a>
+                  <div>
+                    <Typography.Title level={4} size="2xl" strong>
+                      {page.title}
+                    </Typography.Title>
+                    <Typography.Text>{page.subtitle}</Typography.Text>
+                  </div>
+                </div>
+              </Typography.Link>
             </Link>
           ))}
         </div>
-        <p className="text-sm text-foreground-tertiary text-center mt-10">
+        <Typography.Paragraph
+          size="sm"
+          color="foreground-tertiary"
+          align="center"
+          noMargin
+        >
           {t("support.p")}
-        </p>
-        <div className="flex flex-wrap justify-center py-6">
-          <ContactLink href="mailto:yo@withstereo.com">
-            <SvgMail className="mx-2" />
-            yo@withstereo.com
-          </ContactLink>
-          <ContactLink href="https://www.facebook.com/withstereo/">
-            <SvgFacebook className="mx-2" />
-            withstereo
-          </ContactLink>
-          <ContactLink href="https://twitter.com/withstereo_">
-            <SvgTwitter className="mx-2" />
-            withstereo_
-          </ContactLink>
+        </Typography.Paragraph>
+        <div className="flex flex-wrap justify-center py-6 space-x-2 space-y-2">
+          <Button
+            icon={<SvgMail />}
+            title="yo@withstereo.com"
+            asLink="mailto:yo@withstereo.com"
+            shape="circle"
+          />
+          <Button
+            icon={<SvgFacebook />}
+            title="withstereo"
+            asLink="https://www.facebook.com/withstereo/"
+            shape="circle"
+          />
+          <Button
+            icon={<SvgTwitter />}
+            title="withstereo_"
+            asLink="https://twitter.com/withstereo_"
+            shape="circle"
+          />
         </div>
       </div>
     </>

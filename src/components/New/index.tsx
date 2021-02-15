@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import LayoutBackButton from "components/Layout/LayoutBackButton";
+import { usePlayer } from "components/Player";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
+import { Track } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import { animated, useTransition, config as springConfig } from "react-spring";
-import { useI18n } from "~/i18n/index";
+import React, { useEffect, useState } from "react";
+import { animated, config as springConfig, useTransition } from "react-spring";
 import CreateStory from "./CreateStory";
-import SelectFromSearch from "./SelectFromSearch";
-import { Track } from "~/graphql/gql.gen";
 import SelectFromPlaylists from "./SelectFromPlaylists";
-import { usePlayer } from "~/components/Player";
-import LayoutBackButton from "~/components/Layout/LayoutBackButton";
+import SelectFromSearch from "./SelectFromSearch";
 
 const getFeaturedArtists = (tracks: Track[]): string[] => {
   const o: Record<string, number> = {};
@@ -75,20 +78,23 @@ const SelectTracksView: React.FC<{
           </animated.div>
         )
       )}
-      <div className="pt-48 flex flex-col items-center">
-        <span className="text-foreground-tertiary text-sm font-bold my-8 uppercase">
+      <div className="pt-48 flex flex-col items-center space-y-1">
+        <Spacer size={8} axis="vertical" />
+        <Typography.Text uppercase color="foreground-tertiary" size="sm" strong>
           {t("new.or")}
-        </span>
-        <button
-          onClick={() =>
+        </Typography.Text>
+        <Spacer size={8} axis="vertical" />
+        <Button
+          onPress={() =>
             from === "search" ? setFrom("playlist") : setFrom("search")
           }
-          className="btn btn-transparent text-sm rounded-full border-foreground-secondary border-2 mb-1"
-        >
-          {from === "search"
-            ? t("new.fromPlaylist.title")
-            : t("new.fromSearch.title")}
-        </button>
+          title={
+            from === "search"
+              ? t("new.fromPlaylist.title")
+              : t("new.fromSearch.title")
+          }
+          shape="circle"
+        />
         <button
           onClick={() => setInitTracks([])}
           className="opacity-75 py-2 px-4 text-sm text-inline-link"
@@ -106,28 +112,32 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
   return (
     <>
-      <div className="text-lg text-center text-foreground-secondary pb-6">
-        {initTracks.length ? (
-          <p>
-            {t("new.fromResult.startListeningTo")}{" "}
-            <b className="text-foreground">
-              {initTracks.length} {t("common.tracks")}
-            </b>{" "}
-            {t("new.fromResult.featuring")}{" "}
-            <i className="text-foreground">
-              {getFeaturedArtists(initTracks).join(", ")}
-            </i>
-          </p>
-        ) : null}
-      </div>
-      <CreateStory initTracks={initTracks} />
-      <div className="w-full flex mt-2 justify-center">
-        <button
-          className="py-1 font-bold text-sm text-inline-link"
-          onClick={() => router.replace("/new")}
+      {initTracks.length ? (
+        <Typography.Paragraph
+          size="lg"
+          align="center"
+          color="foreground-secondary"
         >
-          {t("common.back")}
-        </button>
+          {t("new.fromResult.startListeningTo")}{" "}
+          <Typography.Text strong color="foreground">
+            {initTracks.length} {t("common.tracks")}
+          </Typography.Text>{" "}
+          {t("new.fromResult.featuring")}{" "}
+          <Typography.Text emphasis color="foreground">
+            {getFeaturedArtists(initTracks).join(", ")}
+          </Typography.Text>
+        </Typography.Paragraph>
+      ) : null}
+      <Spacer size={4} axis="vertical" />
+      <CreateStory initTracks={initTracks} />
+      <Spacer size={2} axis="vertical" />
+      <div className="w-full text-center">
+        <Button
+          size="sm"
+          styling="link"
+          onPress={() => router.replace("/new")}
+          title={t("common.back")}
+        />
       </div>
     </>
   );
@@ -158,9 +168,11 @@ const NewMain: React.FC = () => {
         <LayoutBackButton />
       </div>
       <div className="px-4 max-w-xl mx-auto">
-        <h2 className="font-bold text-4xl text-center py-6">
+        <Spacer size={4} axis="vertical" />
+        <Typography.Title level={2} size="4xl" align="center">
           {initTracks ? t("new.promptAlmost") : t("new.prompt")}
-        </h2>
+        </Typography.Title>
+        <Spacer size={4} axis="vertical" />
         <div className="relative pb-8">
           {transitionsCreate.map(({ item: doneSelected, key, props }) =>
             doneSelected ? (

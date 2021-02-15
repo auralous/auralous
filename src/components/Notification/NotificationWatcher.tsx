@@ -1,16 +1,16 @@
-import React, { useCallback } from "react";
-import { useRouter } from "next/router";
-import { useClient } from "urql";
-import { NotyfEvent } from "notyf";
-import { useMe } from "~/hooks/user";
-import { toast } from "~/lib/toast";
 import {
   useNotificationAddedSubscription,
   UserDocument,
   UserQuery,
   UserQueryVariables,
-} from "~/graphql/gql.gen";
-import { t } from "~/i18n/index";
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { t } from "i18n/index";
+import { useRouter } from "next/router";
+import { NotyfEvent } from "notyf";
+import React, { useCallback } from "react";
+import { useClient } from "urql";
+import { toast } from "utils/toast";
 
 const NotificationWatcher: React.FC = () => {
   const me = useMe();

@@ -4,14 +4,6 @@ import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 // import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
 import { refocusExchange } from "@urql/exchange-refocus";
-import { createClient as createWSClient } from "graphql-ws";
-import {
-  createClient,
-  dedupExchange,
-  errorExchange,
-  Exchange,
-  subscriptionExchange,
-} from "urql";
 import {
   MeDocument,
   MeQuery,
@@ -30,9 +22,17 @@ import {
   UserFollowingsDocument,
   UserFollowingsQuery,
   UserFollowingsQueryVariables,
-} from "~/graphql/gql.gen";
-import { t } from "~/i18n/index";
-import { toast } from "~/lib/toast";
+} from "gql/gql.gen";
+import { createClient as createWSClient } from "graphql-ws";
+import { t } from "i18n/index";
+import {
+  createClient,
+  dedupExchange,
+  errorExchange,
+  Exchange,
+  subscriptionExchange,
+} from "urql";
+import { toast } from "utils/toast";
 import schema from "./schema.json";
 import { nextCursorPagination } from "./_pagination";
 

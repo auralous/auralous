@@ -1,9 +1,12 @@
-import React, { useRef, useCallback } from "react";
-import { useUpdateMeMutation } from "~/graphql/gql.gen";
-import { toast } from "~/lib/toast";
-import { useI18n } from "~/i18n/index";
-import { Modal } from "../Modal";
-import { CONFIG } from "~/lib/constants";
+import { Modal } from "components/Modal";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
+import { useUpdateMeMutation } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import React, { useCallback, useRef } from "react";
+import { CONFIG } from "utils/constants";
+import { toast } from "utils/toast";
 
 const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   active,
@@ -36,26 +39,27 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   return (
     <Modal.Modal title="Welcome to Stereo" active={active}>
       <form className="py-8 px-16" onSubmit={onSubmit}>
-        <div className="mb-4">
-          <p id="welcomeUsernameLabel" className="text-center mb-2 font-bold">
-            {t("settings.username.label")}
-          </p>
-          <input
-            ref={usernameRef}
-            aria-labelledby="welcomeUsernameLabel"
-            className="input w-full"
-            required
-            maxLength={CONFIG.usernameMaxLength}
-          />
-          <p className="text-xs text-foreground-secondary text-center">
-            {t("settings.username.helpText", {
-              maxLength: CONFIG.usernameMaxLength,
-            })}
-          </p>
-        </div>
-        <button className="btn w-full" disabled={fetching}>
-          {t("common.save")}
-        </button>
+        <Typography.Paragraph id="welcomeUsernameLabel" align="center">
+          {t("settings.username.label")}
+        </Typography.Paragraph>
+        <input
+          ref={usernameRef}
+          aria-labelledby="welcomeUsernameLabel"
+          className="input w-full"
+          required
+          maxLength={CONFIG.usernameMaxLength}
+        />
+        <Typography.Paragraph
+          color="foreground-secondary"
+          size="xs"
+          align="center"
+        >
+          {t("settings.username.helpText", {
+            maxLength: CONFIG.usernameMaxLength,
+          })}
+        </Typography.Paragraph>
+        <Spacer size={4} axis="vertical" />
+        <Button disabled={fetching} title={t("common.save")} />
       </form>
     </Modal.Modal>
   );

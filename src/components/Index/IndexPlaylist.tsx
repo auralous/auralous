@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import { SvgChevronsRight } from "assets/svg";
+import { PlatformName } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { animated, config as springConfig, useTrail } from "react-spring";
 import {
   IndexParagraph,
   IndexSection,
   IndexTitle,
   useFadeInOnScroll,
 } from "./common";
-import { useI18n } from "~/i18n/index";
-import { PlatformName } from "~/graphql/gql.gen";
-import { useInView } from "react-intersection-observer";
-import { useTrail, animated, config as springConfig } from "react-spring";
-import { SvgChevronsRight } from "~/assets/svg";
 
 const playlistData = [
   {
@@ -100,7 +100,7 @@ const IndexPlaylist: React.FC = () => {
           <IndexParagraph>{t("intro.playlist.p1")}</IndexParagraph>
           <IndexParagraph>{t("intro.playlist.p2")}</IndexParagraph>
           <form
-            className="relative mt-2"
+            className="relative"
             onSubmit={(event) => {
               event.preventDefault();
               const val = event.currentTarget.playlistLink.value.trim();

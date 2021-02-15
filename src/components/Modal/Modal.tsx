@@ -1,21 +1,26 @@
+import { DialogContent, DialogOverlay } from "@reach/dialog";
+import { SvgX } from "assets/svg";
+import clsx from "clsx";
+import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { DialogOverlay, DialogContent } from "@reach/dialog";
-import { useTransition, animated, config as springConfig } from "react-spring";
-import { SvgX } from "~/assets/svg";
-import { useI18n } from "~/i18n/index";
+import { animated, config as springConfig, useTransition } from "react-spring";
 
 const ModalHeader: React.FC = ({ children }) => (
   <div className="p-4 border-b-2 border-background-secondary">{children}</div>
 );
 
 const ModalTitle: React.FC = ({ children }) => (
-  <h4 className="text-lg font-medium flex items-center">{children}</h4>
+  <Typography.Title noMargin level={4} size="lg">
+    {children}
+  </Typography.Title>
 );
 
 const ModalContent: React.FC<{
   noPadding?: boolean;
 }> = ({ children, noPadding }) => (
-  <div className={`${noPadding ? "" : "px-4 py-8"} flex-1 overflow-auto`}>
+  <div className={clsx("flex-1 overflow-auto", !noPadding && "px-4 py-8")}>
     {children}
   </div>
 );
@@ -74,13 +79,14 @@ const Modal: React.FC<{
               >
                 {children}
                 {close && (
-                  <button
-                    className="btn absolute top-4 right-3 p-1.5 rounded-full"
-                    onClick={close}
-                    aria-label={t("modal.close")}
-                  >
-                    <SvgX className="w-4 h-4" />
-                  </button>
+                  <div className="absolute top-4 right-3">
+                    <Button
+                      accessibilityLabel={t("modal.close")}
+                      icon={<SvgX className="w-4 h-4" />}
+                      onPress={close}
+                      shape="circle"
+                    />
+                  </div>
                 )}
               </AnimatedDialogContent>
             </AnimatedDialogOverlay>

@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
 import { DialogOverlay } from "@reach/dialog";
-import { animated, useSpring, config as springConfig } from "react-spring";
+import { usePlayer } from "components/Player";
+import { Story } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import React, { useEffect, useRef, useState } from "react";
+import { animated, config as springConfig, useSpring } from "react-spring";
 import Swiper from "swiper/bundle";
 import { VirtualData } from "swiper/types/components/virtual";
-import StorySliderView from "./StorySliderView";
 import StorySliderInstruction from "./StorySliderInstruction";
-import { usePlayer } from "~/components/Player";
-import { Story } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+import StorySliderView from "./StorySliderView";
 
 const StorySliderContent: React.FC<{
   stories?: Story[];
@@ -78,7 +78,6 @@ const StorySliderContent: React.FC<{
     return function cleanupSwiper() {
       swiperInstance.detachEvents();
       swiperInstance.destroy();
-      playStory("");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -133,7 +132,7 @@ const StorySlider: React.FC<{
     >
       <animated.div
         style={{ transform: transitions.transform }}
-        className="h-full w-full max-w-lg mx-auto relative select-none"
+        className="h-full w-full relative select-none"
       >
         <StorySliderContent
           intialSlide={intialSlide}

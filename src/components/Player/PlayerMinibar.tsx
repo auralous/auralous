@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { SvgPause, SvgPlay, SvgX } from "assets/svg";
+import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
+import { useI18n } from "i18n/index";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
-import { useI18n } from "~/i18n/index";
-import { SvgX, SvgPause, SvgPlay } from "~/assets/svg";
 
 const PlayerMinibar: React.FC = () => {
   const { t } = useI18n();
@@ -30,52 +32,52 @@ const PlayerMinibar: React.FC = () => {
   if (!playingStoryId || router.pathname === "/story/[storyId]") return null;
 
   return (
-    <div
-      className={`flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content`}
-      style={{
-        background: "linear-gradient(180deg, hsl(232,12%,13%), rgb(18 18 24))",
-      }}
-    >
+    <div className="flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content space-x-1 bg-background">
       <Link href={`/story/${playingStoryId}`}>
         <a className="flex-1 w-0 flex items-center">
-          <div className="w-14 h-14">
+          <div className="w-14 h-14 box-border p-1">
             {playerPlaying && (
               <img
                 alt={t("nowPlaying.title")}
                 src={playerPlaying.image}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover rounded shadow-lg"
               />
             )}
           </div>
-          <div className="text-xs p-2 flex-1 w-0 text-left">
-            <div className="font-bold leading-none truncate">
+          <div className="p-2 flex-1 w-0">
+            <Typography.Paragraph size="xs" strong noMargin truncate>
               {playerPlaying?.title || t("player.noneText")}
-            </div>
-            <div className="text-foreground-secondary truncate">
+            </Typography.Paragraph>
+            <Typography.Paragraph
+              noMargin
+              truncate
+              color="foreground-secondary"
+              size="xs"
+            >
               {playerPlaying?.artists.map((artist) => artist.name).join(", ") ||
                 t("player.noneHelpText")}
-            </div>
+            </Typography.Paragraph>
           </div>
         </a>
       </Link>
-      <button
-        title={isPlaying ? t("player.pause") : t("player.play")}
-        className="btn btn-transparent p-2"
-        onClick={() => (isPlaying ? player.pause() : player.play())}
-      >
-        {isPlaying ? (
-          <SvgPause className="fill-current" />
-        ) : (
-          <SvgPlay className="fill-current" />
-        )}
-      </button>
-      <button
-        title={t("player.stopPlaying")}
-        className="btn btn-transparent p-2"
-        onClick={() => playStory("")}
-      >
-        <SvgX />
-      </button>
+      <Button
+        accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
+        onPress={() => (isPlaying ? player.pause() : player.play())}
+        icon={
+          isPlaying ? (
+            <SvgPause className="fill-current" />
+          ) : (
+            <SvgPlay className="fill-current" />
+          )
+        }
+        styling="link"
+      />
+      <Button
+        accessibilityLabel={t("player.stopPlaying")}
+        onPress={() => playStory("")}
+        icon={<SvgX />}
+        styling="link"
+      />
     </div>
   );
 };

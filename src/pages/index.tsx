@@ -1,13 +1,13 @@
-import React from "react";
-import { NextSeo } from "next-seo";
 import {
+  IndexEnd,
   IndexHero,
   IndexListen,
   IndexPlaylist,
   IndexStory,
-  IndexEnd,
-} from "~/components/Index";
-import { useI18n } from "~/i18n/index";
+} from "components/Index";
+import { useI18n } from "i18n/index";
+import { NextSeo } from "next-seo";
+import React from "react";
 
 const IndexPage: React.FC = () => {
   const { t } = useI18n();

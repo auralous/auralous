@@ -1,10 +1,12 @@
+import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
+import { useModal } from "components/Modal";
+import { Button } from "components/Pressable";
+import { TrackMenu } from "components/Track";
+import { Typography } from "components/Typography";
+import { Track } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React, { useEffect, useState } from "react";
-import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "~/assets/svg";
-import { Track } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
 import usePlayer from "./usePlayer";
-import { TrackMenu } from "~/components/Track";
-import { useModal } from "~/components/Modal";
 
 const EMPTYIMAGE = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP87wMAAlABTQluYBcAAAAASUVORK5CYII=
 `;
@@ -32,35 +34,39 @@ export const PlayerControl: React.FC = () => {
 
   return (
     <div className="my-2 space-x-6 flex flex-center">
-      <button
-        className="btn btn-transparent p-3"
-        title={t("player.skipBackward")}
-        onClick={skipBackward}
+      <Button
+        accessibilityLabel={t("player.skipBackward")}
+        onPress={skipBackward}
         disabled={!skipBackward}
-      >
-        <SvgSkipBack className="w-6 h-6 fill-current stroke-current" />
-      </button>
-      <button
-        aria-label={isPlaying ? t("player.pause") : t("player.play")}
-        className="btn btn-foreground w-14 h-14 rounded-full relative"
-        onClick={() => (isPlaying ? player.pause() : player.play())}
-        disabled={!playerPlaying}
-      >
-        {isPlaying ? (
-          <SvgPause className="w-6 h-6 fill-current" />
-        ) : (
-          <SvgPlay className="w-6 h-6 fill-current" />
-        )}
+        icon={<SvgSkipBack className="w-6 h-6 fill-current stroke-current" />}
+        styling="link"
+      />
+      <div className="relative">
+        <Button
+          accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
+          icon={
+            isPlaying ? (
+              <SvgPause className="w-8 h-8 fill-current" />
+            ) : (
+              <SvgPlay className="w-8 h-8 fill-current" />
+            )
+          }
+          onPress={() => (isPlaying ? player.pause() : player.play())}
+          disabled={!playerPlaying}
+          size="xl"
+          shape="circle"
+        />
         {fetching && <span className="spinning-border absolute inset-0" />}
-      </button>
-      <button
-        className="btn btn-transparent p-3"
-        title={t("player.skipForward")}
-        onClick={skipForward}
+      </div>
+      <Button
+        accessibilityLabel={t("player.skipForward")}
+        onPress={skipForward}
         disabled={!skipForward}
-      >
-        <SvgSkipForward className="w-6 h-6 fill-current stroke-current" />
-      </button>
+        icon={
+          <SvgSkipForward className="w-6 h-6 fill-current stroke-current" />
+        }
+        styling="link"
+      />
     </div>
   );
 };
@@ -95,22 +101,22 @@ export const PlayerMeta: React.FC<{
 
   return (
     // eslint-disable-next-line
-    <div className="my-4 h-12 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
+    <div className="my-4 h-14 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
       {fetching ? (
         <>
-          <div className="block-skeleton rounded h-6 w-40 mb-1" />
-          <div className="block-skeleton rounded h-4 w-24" />
+          <div className="block-skeleton rounded h-6 w-40 mb-2" />
+          <div className="block-skeleton rounded h-5 w-24" />
         </>
       ) : (
         <>
-          <h4 className="w-full font-bold text-2xl truncate leading-none mb-1">
+          <Typography.Title noMargin level={4} strong size="2xl" truncate>
             {track ? track.title : t("player.noneText")}
-          </h4>
-          <div className="w-full text-foreground-secondary truncate leading-none">
+          </Typography.Title>
+          <Typography.Paragraph noMargin color="foreground-secondary" truncate>
             {track
               ? track.artists.map((artist) => artist.name).join(", ")
               : t("player.noneHelpText")}
-          </div>
+          </Typography.Paragraph>
           {track && (
             <TrackMenu active={activeMenu} close={closeMenu} id={track.id} />
           )}

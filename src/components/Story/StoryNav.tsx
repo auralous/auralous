@@ -1,14 +1,4 @@
-import React, { useMemo } from "react";
-import Link from "next/link";
-import ms from "ms";
 import { DialogOverlay } from "@reach/dialog";
-import StoryShare from "./StoryShare";
-import StoryEnd from "./StoryEnd";
-import StoryDelete from "./StoryDelete";
-import { useModal } from "~/components/Modal";
-import { useMe } from "~/hooks/user";
-import { useUserQuery, Story } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
 import {
   SvgChevronDown,
   SvgMoreHorizontal,
@@ -17,7 +7,20 @@ import {
   SvgTrash,
   SvgUser,
   SvgX,
-} from "~/assets/svg";
+} from "assets/svg";
+import { useModal } from "components/Modal";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
+import { Story, useUserQuery } from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import ms from "ms";
+import Link from "next/link";
+import React, { useMemo } from "react";
+import StoryDelete from "./StoryDelete";
+import StoryEnd from "./StoryEnd";
+import StoryShare from "./StoryShare";
 
 const StoryNavMenu: React.FC<{
   story: Story;
@@ -40,47 +43,54 @@ const StoryNavMenu: React.FC<{
       <DialogOverlay isOpen={active} className="backdrop-blur">
         <div className="w-full max-w-2xl h-64 flex flex-col items-center space-y-2">
           {user && (
-            <div className="flex mb-4">
+            <div className="flex">
               <img
                 className="w-12 h-12 rounded-full"
                 src={user.profilePicture}
                 alt={user.username}
               />
-              <div className="leading-none p-1">
-                <div className="font-bold">
+              <div className="p-1">
+                <Typography.Text strong>
                   {t("story.ofUsername", { username: user.username })}
-                </div>
-                <div className="text-sm text-foreground-secondary">
+                </Typography.Text>
+                <Typography.Paragraph size="sm" color="foreground-secondary">
                   {story.text}
-                </div>
+                </Typography.Paragraph>
               </div>
             </div>
           )}
-          <button onClick={openShare} className="btn btn-transparent">
-            <SvgShare2 className="w-5 h-5 mr-2" />
-            {t("story.share.title")}
-          </button>
+          <Button
+            onPress={openShare}
+            icon={<SvgShare2 className="w-5 h-5" />}
+            styling="link"
+            title={t("story.share.title")}
+          />
           <StoryShare active={activeShare} close={closeShare} story={story} />
           <Link href={`/user/${user?.username}`}>
-            <a className="btn btn-transparent">
-              <SvgUser className="w-5 h-5 mr-2" />
-              {t("story.menu.viewCreator")}
-            </a>
+            <Button
+              icon={<SvgUser className="w-5 h-5" />}
+              title={t("story.menu.viewCreator")}
+              styling="link"
+            />
           </Link>
           <StoryEnd story={story}>
             {(openEnd) => (
-              <button onClick={openEnd} className="btn btn-transparent">
-                <SvgSquare className="w-5 h-5 mr-2" />
-                {t("story.end.title")}
-              </button>
+              <Button
+                icon={<SvgSquare className="w-5 h-5" />}
+                title={t("story.end.title")}
+                styling="link"
+                onPress={openEnd}
+              />
             )}
           </StoryEnd>
           {story.isLive === false && me?.user.id === story.creatorId && (
             <>
-              <button onClick={openDelete} className="btn btn-transparent">
-                <SvgTrash className="w-5 h-5 mr-2" />
-                {t("story.delete.title")}
-              </button>
+              <Button
+                icon={<SvgTrash className="w-5 h-5" />}
+                title={t("story.delete.title")}
+                onPress={openDelete}
+                styling="link"
+              />
               <StoryDelete
                 active={activeDelete}
                 close={closeDelete}
@@ -89,13 +99,14 @@ const StoryNavMenu: React.FC<{
             </>
           )}
         </div>
-        <button
-          className="btn btn-transparent absolute top-4 right-4 p-1.5"
-          onClick={close}
-          aria-label={t("modal.close")}
-        >
-          <SvgX className="w-8 h-8" />
-        </button>
+        <div className="absolute top-4 right-4 p-1.5">
+          <Button
+            accessibilityLabel={t("modal.close")}
+            onPress={close}
+            icon={<SvgX className="w-8 h-8" />}
+            styling="link"
+          />
+        </div>
       </DialogOverlay>
     </>
   );
@@ -120,13 +131,12 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
 
   return (
     <div className="flex items-center justify-between">
-      <button
-        className="btn btn-transparent p-0 w-8 h-8"
-        onClick={onClose}
-        aria-label={t("modal.close")}
-      >
-        <SvgChevronDown className="w-6 h-6" />
-      </button>
+      <Button
+        styling="link"
+        icon={<SvgChevronDown className="w-8 h-8" />}
+        accessibilityLabel={t("modal.close")}
+        onPress={onClose}
+      />
       <div className="flex w-0 flex-1 items-center justify-center">
         {user ? (
           <img
@@ -137,26 +147,28 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
         ) : (
           <div className="box-skeleton w-6 h-6" />
         )}
-        <div className="whitespace-nowrap ml-1">
-          <span className="text-sm font-semibold">
+        <Spacer size={1} axis="horizontal" />
+        <div className="whitespace-nowrap">
+          <Typography.Text size="sm" strong>
             {t("story.ofUsername", { username: user?.username || "" })}
-          </span>{" "}
+          </Typography.Text>{" "}
           {story.isLive ? (
-            <span className="font-semibold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
+            <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
               {t("common.live")}
             </span>
           ) : (
-            <span className="text-xs text-foreground-secondary">{dateStr}</span>
+            <Typography.Text size="xs" color="foreground-secondary">
+              {dateStr}
+            </Typography.Text>
           )}
         </div>
       </div>
-      <button
-        aria-label={t("story.menu.handle")}
-        className="btn btn-transparent p-0 w-8 h-8"
-        onClick={showMenu}
-      >
-        <SvgMoreHorizontal className="w-6 h-6" />
-      </button>
+      <Button
+        accessibilityLabel={t("story.menu.handle")}
+        icon={<SvgMoreHorizontal className="w-8 h-8" />}
+        onPress={showMenu}
+        styling="link"
+      />
       <StoryNavMenu story={story} active={activeMenu} close={closeMenu} />
     </div>
   );

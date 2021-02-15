@@ -18,30 +18,11 @@
   }
 }
 
-:root {
-  font-size: 16px;
-}
-
-@screen xl {
-  :root {
-    font-size: 18px;
-  }
-}
-
-@screen 2xl {
-  :root {
-    font-size: 24px;
-  }
-}
-
-@media (min-width: 1920px) {
-  :root {
-    font-size: 27px;
-  }
-}
-
 body {
-  @apply text-foreground bg-background font-sans;
+  @apply text-foreground bg-background;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
@@ -88,7 +69,7 @@ html {
 }
 
 .btn {
-  @apply inline-flex items-center justify-center font-semibold py-2 px-4 whitespace-nowrap rounded-lg;
+  @apply inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
   @apply transition-colors;
   /* Theme */
   @apply bg-background-secondary text-foreground;
@@ -112,32 +93,6 @@ html {
     &:not([disabled]) {
       &:hover, &:focus {
         @apply bg-danger-dark;
-      }
-    }
-  }
-  &.btn-success {
-    @apply text-success-label;
-    @apply bg-success;
-    &:not([disabled]) {
-      &:hover, &:focus {
-        @apply bg-success-dark;
-      }
-    }
-  }
-  &.btn-warning {
-    @apply text-warning-label;
-    @apply bg-warning;
-    &:not([disabled]) {
-      &:hover, &:focus {
-        @apply bg-warning-dark;
-      }
-    }
-  }
-  &.btn-foreground {
-    @apply text-background bg-foreground;
-    &:not([disabled]) {
-      &:hover, &:focus {
-        @apply text-background bg-foreground-secondary;
       }
     }
   }
@@ -173,10 +128,6 @@ html {
 
 .text-inline-link {
   @apply hover:opacity-50 focus:opacity-50 focus:outline-none transition-opacity cursor-pointer;
-}
-
-.page-title {
-  @apply px-4 mb-2 mt-6 font-bold text-4xl;
 }
 
 [data-reach-dialog-overlay] {
@@ -218,7 +169,7 @@ html {
 .content {
   @apply text-foreground;
   h2, h3, h4, h5, h6 {
-    @apply text-foreground mt-8 mb-2 leading-relaxed font-semibold;
+    @apply text-foreground mt-8 mb-2 leading-relaxed font-bold;
   }
   h2 {
     @apply text-3xl;
@@ -260,9 +211,6 @@ html {
 .content-support {
   h2 {
     @apply text-center;
-  }
-  h4 {
-    @apply text-warning-light;
   }
 }
 

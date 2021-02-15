@@ -1,8 +1,9 @@
+import { SvgMove } from "assets/svg";
+import clsx from "clsx";
+import { useI18n } from "i18n/index";
 import React, { useEffect, useState } from "react";
+import { verifyScript } from "utils/script-utils";
 import usePlayer from "./usePlayer";
-import { verifyScript } from "~/lib/script-utils";
-import { useI18n } from "~/i18n/index";
-import { SvgMove } from "~/assets/svg";
 /// <reference path="youtube" />
 
 const YT_PLAYER_VARS = {
@@ -88,9 +89,11 @@ export default function YouTubePlayer() {
 
   return (
     <div
-      className={`${playerPlaying ? "" : "hidden"} fixed z-20 ${
-        posIsTop ? "top-2 right-2" : "bottom-2 right-2"
-      } w-56 h-36 rounded-lg shadow-xl overflow-hidden transition-transform`}
+      className={clsx(
+        "fixed z-20 w-56 h-36 rounded-lg shadow-xl overflow-hidden",
+        posIsTop ? "top-2 right-2" : "bottom-2 right-2",
+        !playerPlaying && "hidden"
+      )}
     >
       <button
         className="btn absolute z-30 bottom-2 left-2 opacity-50 hover:opacity-75 focus:opacity-70 p-2"

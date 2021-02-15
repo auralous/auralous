@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import { SvgLoadingAnimated } from "assets/svg";
+import { AuthBanner } from "components/Auth";
+import { PlaylistItem } from "components/Playlist";
+import { PressableHighlight } from "components/Pressable";
+import { Typography } from "components/Typography";
+import { Track, useMyPlaylistsQuery } from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import { SelectingListItem } from "./common";
-import { useLogin } from "~/components/Auth";
-import { PlaylistItem } from "~/components/Playlist";
-import { useMe } from "~/hooks/user";
-import { Track, useMyPlaylistsQuery } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { SvgLoadingAnimated } from "~/assets/svg";
+import React, { useEffect } from "react";
 
 const SelectFromPlaylists: React.FC<{
   onSelected(tracks: Track[]): void;
@@ -14,7 +15,6 @@ const SelectFromPlaylists: React.FC<{
   const { t } = useI18n();
 
   const me = useMe();
-  const [, logIn] = useLogin();
 
   const [
     { data: { myPlaylists } = { myPlaylists: undefined }, fetching, error },
@@ -39,43 +39,45 @@ const SelectFromPlaylists: React.FC<{
 
   if (!me)
     return (
-      <div className="flex flex-col items-center p-4 rounded-lg bg-background-tertiary">
-        <p className="text-foreground-secondary mb-2cd ">
-          {t("new.fromPlaylist.authPrompt")}
-        </p>
-        <button onClick={logIn} className="btn btn-primary">
-          {t("common.signIn")}
-        </button>
-      </div>
+      <AuthBanner
+        prompt={t("new.fromPlaylist.title")}
+        hook={t("new.fromPlaylist.authPrompt")}
+      />
     );
 
   if (myPlaylists?.length)
     return (
-      <div className="h-full w-full overflow-auto bg-background-secondary rounded-lg shadow-lg">
+      <div className="h-full w-full overflow-auto border-2 border-background-tertiary p-2 rounded-lg shadow-lg">
         {myPlaylists.map((playlist) => (
-          <SelectingListItem
+          <PressableHighlight
             key={playlist.id}
-            onClick={() => router.replace(`/new?playlist=${playlist.id}`)}
+            onPress={() => router.replace(`/new?playlist=${playlist.id}`)}
+            fullWidth
           >
             <PlaylistItem playlist={playlist} />
-          </SelectingListItem>
+          </PressableHighlight>
         ))}
       </div>
     );
 
   if (fetching)
     return (
-      <span className="text-xl font-black text-foreground-tertiary">
+      <Typography.Text size="xl" color="foreground-tertiary">
         <SvgLoadingAnimated />
-      </span>
+      </Typography.Text>
     );
 
-  if (error) return <p className="text-danger-light">{t("error.unknown")}</p>;
+  if (error)
+    return (
+      <Typography.Paragraph color="danger">
+        {t("error.unknown")}
+      </Typography.Paragraph>
+    );
 
   return (
-    <p className="text-foreground-secondary font-bold">
+    <Typography.Paragraph strong color="foreground-secondary">
       {t("new.fromPlaylist.empty")}
-    </p>
+    </Typography.Paragraph>
   );
 };
 

@@ -1,15 +1,17 @@
-import React, { useEffect } from "react";
-import { SvgShare2 } from "~/assets/svg";
-import { AuthBanner } from "~/components/Auth";
-import { Messenger } from "~/components/Message/index";
-import { useModal } from "~/components/Modal";
+import { SvgShare2 } from "assets/svg";
+import { AuthBanner } from "components/Auth";
+import { Messenger } from "components/Message/index";
+import { useModal } from "components/Modal";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import {
   Story,
   useOnStoryUsersUpdatedSubscription,
   useStoryUsersQuery,
-} from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useI18n } from "~/i18n/index";
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import React, { useEffect } from "react";
 import StoryListeners from "./StoryListeners";
 import StoryShare from "./StoryShare";
 
@@ -23,13 +25,15 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
   return (
     <>
       <div className="px-4 py-1 flex">
-        <button
-          className="btn btn-primary mr-1 flex-none overflow-hidden inline-flex w-8 h-8 rounded-full p-0"
-          title={t("story.share.title")}
-          onClick={open}
-        >
-          <SvgShare2 className="w-4 h-4" />
-        </button>
+        <Button
+          color="primary"
+          accessibilityLabel={t("story.share.title")}
+          onPress={open}
+          icon={<SvgShare2 className="w-4 h-4" />}
+          shape="circle"
+          size="sm"
+        />
+        <Spacer size={1} axis="horizontal" />
         <div className="flex-1">
           <StoryListeners userIds={userIds} />
         </div>

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
 import { DialogOverlay } from "@reach/dialog";
-import { useI18n } from "~/i18n/index";
+import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
+import { useI18n } from "i18n/index";
+import React, { useEffect, useState } from "react";
 
 const storageKey = "storyswiper-instruction";
 
@@ -23,16 +25,15 @@ const StorySliderInstruction = () => {
       style={{ zIndex: 10, backdropFilter: "blur(2px)" }}
       aria-label={t("story.feed.instruction")}
     >
-      <div className="max-w-xl mx-auto p-4 text-opacity-75 text-center">
-        <p className="text-lg md:text-2xl font-bold mb-4">
+      <div className="p-4 text-center">
+        <Typography.Paragraph size="lg" strong>
           {t("story.feed.instruction")}
-        </p>
-        <button
-          onClick={close}
-          className="btn btn-primary md:text-lg rounded-full"
-        >
-          {t("common.startListening")}
-        </button>
+        </Typography.Paragraph>
+        <Button
+          onPress={close}
+          title={t("common.startListening")}
+          color="primary"
+        />
       </div>
     </DialogOverlay>
   );

@@ -1,9 +1,12 @@
+import { Typography } from "components/Typography";
 import React from "react";
 import { useInView } from "react-intersection-observer";
 import { useSpring } from "react-spring";
 
 export const IndexParagraph: React.FC = ({ children }) => (
-  <p className="text-lg text-foreground-secondary mb-2">{children}</p>
+  <Typography.Paragraph size="lg" color="foreground-secondary">
+    {children}
+  </Typography.Paragraph>
 );
 
 export const IndexTitle: React.FC = ({ children }) => (

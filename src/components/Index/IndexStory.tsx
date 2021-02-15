@@ -1,16 +1,17 @@
+import { SvgLogIn, SvgMusic } from "assets/svg";
+import { Typography } from "components/Typography";
+import { useTrackQuery } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React from "react";
-import { useSpring, animated } from "react-spring";
 import { useInView } from "react-intersection-observer";
+import { animated, useSpring } from "react-spring";
+import { defaultAvatar } from "utils/util";
 import {
   IndexParagraph,
   IndexSection,
   IndexTitle,
   useFadeInOnScroll,
 } from "./common";
-import { useI18n } from "~/i18n/index";
-import { defaultAvatar } from "~/lib/util";
-import { useTrackQuery } from "~/graphql/gql.gen";
-import { SvgLogIn, SvgMusic } from "~/assets/svg";
 
 const intialStyle = { opacity: 0, transform: "skewY(0deg) translateY(0px)" };
 
@@ -48,7 +49,7 @@ const IndexStoryJoin: React.FC = () => {
         />
         <div className="p-1 leading-4 text-left">
           <div>
-            <span className="font-semibold mr-2">{username}</span>{" "}
+            <span className="font-bold mr-2">{username}</span>{" "}
             <span className="text-xs text-foreground-secondary">2m</span>
           </div>
           <div className="text-sm text-foreground-secondary">
@@ -89,7 +90,7 @@ const IndexStorySocial: React.FC = () => {
 
   return (
     <animated.div
-      className="w-64 h-72 mt-10 mx-1 bg-warning-dark rounded-lg shadow-lg inline-flex flex-col flex-center p-1 text-foreground-secondary"
+      className="w-64 h-72 mt-10 mx-1 bg-secondary-dark rounded-lg shadow-lg inline-flex flex-col flex-center p-1 text-foreground-secondary"
       style={style}
       ref={ref}
     >
@@ -104,8 +105,10 @@ const IndexStorySocial: React.FC = () => {
           rel="noreferrer"
           className="text-foreground-secondary hover:text-foreground transition-colors"
         >
-          <i>{track?.artists.map(({ name }) => name).join(", ")}</i> -{" "}
-          {track?.title}
+          <Typography.Text emphasis>
+            {track?.artists.map(({ name }) => name).join(", ")}
+          </Typography.Text>{" "}
+          - {track?.title}
         </a>
       </IndexStoryMessage>
       <IndexStoryMessage>

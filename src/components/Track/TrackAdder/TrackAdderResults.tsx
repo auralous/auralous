@@ -1,11 +1,13 @@
+import { SvgCheck, SvgPlus } from "assets/svg";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { TrackItem } from "components/Track/index";
+import { useI18n } from "i18n/index";
 import React, { useMemo, useState } from "react";
-import { ListChildComponentProps, areEqual, FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { TrackItem } from "~/components/Track/index";
-import { useI18n } from "~/i18n/index";
-import { SvgCheck, SvgPlus } from "~/assets/svg";
+import { areEqual, FixedSizeList, ListChildComponentProps } from "react-window";
+import { remToPx } from "utils/util";
 import { TrackAdderCallbackFn } from "./types";
-import { remToPx } from "~/lib/util";
 
 const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
   data,
@@ -21,6 +23,12 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
 
   const [isAdding, setIsAdding] = useState(false);
 
+  const onAdded = () => {
+    if (added && !window.confirm(t("track.adder.result.confirmAdded"))) return;
+    setIsAdding(true);
+    data.callback([data.items[index]]).then(() => setIsAdding(false));
+  };
+
   return (
     <div
       className="p-2 flex items-center justify-between"
@@ -29,25 +37,16 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
       style={style}
     >
       <TrackItem id={data.items[index]} />
-      <div className="flex content-end items-center ml-2">
-        <button
-          aria-label={t("queue.manager.add")}
-          className="btn p-0 h-10 w-10"
-          onClick={async () => {
-            if (added && !window.confirm(t("track.adder.result.confirmAdded")))
-              return;
-            setIsAdding(true);
-            await data.callback([data.items[index]]);
-            setIsAdding(false);
-          }}
+      <Spacer size={2} axis="horizontal" />
+      <div className="flex content-end items-center">
+        <Button
+          accessibilityLabel={t("queue.manager.add")}
+          icon={
+            added ? <SvgCheck className="w-4" /> : <SvgPlus className="w-4" />
+          }
+          onPress={onAdded}
           disabled={isAdding}
-        >
-          {added ? (
-            <SvgCheck className="text-success-light" width="18" />
-          ) : (
-            <SvgPlus width="16" />
-          )}
-        </button>
+        />
       </div>
     </div>
   );

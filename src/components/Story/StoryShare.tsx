@@ -1,16 +1,19 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { Modal } from "~/components/Modal";
-import { toast } from "~/lib/toast";
+import { SvgFacebook, SvgLink, SvgReddit, SvgTwitter } from "assets/svg";
+import { Modal } from "components/Modal";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
+import UserList from "components/User/UserList";
+import UserPill from "components/User/UserPill";
 import {
   Story,
   useSendStoryInvitesMutation,
   useUserFollowingsQuery,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { SvgFacebook, SvgTwitter, SvgReddit, SvgLink } from "~/assets/svg";
-import { useMe } from "~/hooks/user";
-import UserList from "../User/UserList";
-import UserPill from "../User/UserPill";
+} from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
+import React, { useCallback, useMemo, useState } from "react";
+import { toast } from "utils/toast";
 
 const StoryShare: React.FC<{
   story: Story;
@@ -50,13 +53,13 @@ const StoryShare: React.FC<{
         <UserPill
           id={id}
           rightEl={
-            <button
-              className="btn btn-primary px-2 py-1 text-xs"
+            <Button
+              color="primary"
+              size="sm"
               disabled={hasInvited}
-              onClick={doInvite}
-            >
-              {t("story.invite.title")}
-            </button>
+              onPress={doInvite}
+              title={t("story.invite.title")}
+            />
           }
         />
       );
@@ -70,60 +73,50 @@ const StoryShare: React.FC<{
         <Modal.Title>{t("story.share.title")}</Modal.Title>
       </Modal.Header>
       <Modal.Content>
-        <div className="flex flex-wrap flex-center space-x-1 mb-4">
-          <button
-            onClick={() =>
+        <div className="flex flex-wrap flex-center space-x-1">
+          <Button
+            onPress={() =>
               navigator.clipboard
                 .writeText(shareUri)
                 .then(() => toast.success(t("share.copied")))
             }
-            className="btn h-12"
-            title={t("share.copy")}
-          >
-            <SvgLink />
-          </button>
-          <a
-            title="Facebook"
-            className="btn h-12"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={`https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&href=${shareUri}&display=popup`}
-          >
-            <SvgFacebook className="fill-current stroke-0" />
-          </a>
-          <a
-            title="Twitter"
-            className="btn h-12"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={`https://twitter.com/intent/tweet?url=${shareUri}&text=${encodeURIComponent(
+            icon={<SvgLink />}
+            accessibilityLabel={t("share.copy")}
+          />
+          <Button
+            asLink={`https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&href=${shareUri}&display=popup`}
+            icon={<SvgFacebook className="fill-current stroke-0" />}
+            accessibilityLabel="Facebook"
+          />
+          <Button
+            asLink={`https://twitter.com/intent/tweet?url=${shareUri}&text=${encodeURIComponent(
               name
             )}`}
-          >
-            <SvgTwitter className="fill-current stroke-0" />
-          </a>
-          <a
-            title="Reddit"
-            className="btn h-12"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={`https://reddit.com/submit?url=${shareUri}&title=${encodeURIComponent(
+            icon={<SvgTwitter className="fill-current stroke-0" />}
+            accessibilityLabel="Twitter"
+          />
+          <Button
+            asLink={`https://reddit.com/submit?url=${shareUri}&title=${encodeURIComponent(
               name
             )}`}
-          >
-            <SvgReddit width="24" className="fill-current stroke-0" />
-          </a>
+            icon={<SvgReddit width="24" className="fill-current stroke-0" />}
+            accessibilityLabel="Reddit"
+          />
         </div>
-        <div>
-          {userFollowings ? (
-            <>
-              <h5 className="font-bold text-sm mb-2 text-foreground-secondary">
-                {t("user.following")}
-              </h5>
-              <UserList Element={InviteUserElement} userIds={userFollowings} />
-            </>
-          ) : null}
-        </div>
+        <Spacer size={4} axis="vertical" />
+        {userFollowings ? (
+          <>
+            <Typography.Title
+              level={4}
+              strong
+              size="sm"
+              color="foreground-secondary"
+            >
+              {t("user.following")}
+            </Typography.Title>
+            <UserList Element={InviteUserElement} userIds={userFollowings} />
+          </>
+        ) : null}
       </Modal.Content>
     </Modal.Modal>
   );

@@ -1,13 +1,16 @@
 // Check if current user has an ongoing story
 // and redirect them to it
-import React from "react";
+import { Modal } from "components/Modal";
+import { usePlayer } from "components/Player";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
+import { useStoryLiveQuery } from "gql/gql.gen";
+import { useMe } from "hooks/user";
+import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
+import React from "react";
 import StoryEnd from "./StoryEnd";
-import { useStoryLiveQuery } from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { Modal } from "~/components/Modal";
-import { usePlayer } from "~/components/Player";
-import { useI18n } from "~/i18n/index";
 
 const StoryOngoingWatcher: React.FC = () => {
   const { t } = useI18n();
@@ -30,16 +33,17 @@ const StoryOngoingWatcher: React.FC = () => {
         active={!!storyLive?.isLive && playingStoryId !== storyLive.id}
       >
         <Modal.Content>
-          <p className="mb-2 text-lg font-bold text-foreground-secondary">
+          <Typography.Paragraph size="lg" strong color="foreground-secondary">
             {t("story.ongoing.title")}
-          </p>
-          <div className="py-6 px-8 rounded-lg bg-background-secondary border-background-tertiary mb-4">
-            <div className="mb-2 leading-none font-bold text-lg text-foreground">
-              <span className="mr-1 animate-pulse uppercase text-xs font-bold p-1 bg-primary rounded">
+          </Typography.Paragraph>
+          <div className="py-6 px-8 rounded-lg bg-background-secondary border-background-tertiary">
+            <Typography.Paragraph strong size="lg">
+              <span className="animate-pulse uppercase text-xs font-bold p-1 bg-primary rounded">
                 {t("common.live")}
               </span>
+              <Spacer size={1} />
               {storyLive?.text}
-            </div>
+            </Typography.Paragraph>
             <div className="text-xs text-foreground-secondary">
               {storyLive?.createdAt.toLocaleDateString()}
             </div>
@@ -49,21 +53,19 @@ const StoryOngoingWatcher: React.FC = () => {
           {storyLive && (
             <StoryEnd story={storyLive}>
               {(openDelete) => (
-                <button
-                  className="btn btn-transparent text-danger"
-                  onClick={openDelete}
-                >
-                  {t("story.end.title")}
-                </button>
+                <Button
+                  color="danger"
+                  styling="link"
+                  onPress={openDelete}
+                  title={t("story.end.title")}
+                />
               )}
             </StoryEnd>
           )}
-          <button
-            className="btn"
-            onClick={() => router.push(`/story/${storyLive?.id}`)}
-          >
-            {t("story.ongoing.goto")}
-          </button>
+          <Button
+            onPress={() => router.push(`/story/${storyLive?.id}`)}
+            title={t("story.ongoing.goto")}
+          />
         </Modal.Footer>
       </Modal.Modal>
     </>

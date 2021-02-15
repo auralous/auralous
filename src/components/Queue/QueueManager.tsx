@@ -1,33 +1,37 @@
+import { SvgGripVertical } from "assets/svg/index";
+import clsx from "clsx";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { TrackItem } from "components/Track/index";
+import { Typography } from "components/Typography";
+import {
+  Queue,
+  QueueAction,
+  TrackDocument,
+  TrackQuery,
+  TrackQueryVariables,
+  useUpdateQueueMutation,
+} from "gql/gql.gen";
+import { useI18n } from "i18n/index";
 import React, { useCallback, useMemo } from "react";
 import {
   DragDropContext,
-  Droppable,
   Draggable,
-  DropResult,
   DraggableProvided,
+  Droppable,
+  DropResult,
 } from "react-beautiful-dnd";
-import { useClient } from "urql";
+import AutoSizer from "react-virtualized-auto-sizer";
 import {
+  areEqual,
   FixedSizeList as List,
   ListChildComponentProps,
-  areEqual,
 } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { TrackItem } from "~/components/Track/index";
-import { toast } from "~/lib/toast";
-import useQueue from "./useQueue";
-import {
-  useUpdateQueueMutation,
-  QueueAction,
-  TrackQueryVariables,
-  TrackQuery,
-  Queue,
-} from "~/graphql/gql.gen";
-import { TrackDocument } from "~/graphql/gql.gen";
-import { SvgGripVertical } from "~/assets/svg/index";
+import { useClient } from "urql";
+import { toast } from "utils/toast";
+import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
-import { useI18n } from "~/i18n/index";
-import { remToPx } from "~/lib/util";
+import useQueue from "./useQueue";
 
 const QueueDraggableItem: React.FC<{
   isQueueable: boolean;
@@ -70,46 +74,50 @@ const QueueDraggableItem: React.FC<{
         ...provided.draggableProps.style,
         ...style,
       }}
-      className={`select-none flex p-2 items-center ${
-        isDragging ? "opacity-75" : ""
-      }`}
+      className={clsx(
+        "select-none flex p-2 items-center",
+        isDragging && "opacity-75"
+      )}
     >
       <div
-        className="text-inline-link mr-1"
+        className="text-inline-link"
         {...provided.dragHandleProps}
         hidden={!isQueueable}
       >
         <SvgGripVertical />
       </div>
+      <Spacer size={1} axis="horizontal" />
       <div className="px-2 flex items-center overflow-hidden h-full w-0 flex-1">
         <TrackItem
           id={queue.items[index].trackId}
           extraInfo={<QueueAddedBy userId={queue.items[index].creatorId} />}
         />
       </div>
-      <div className="flex content-end items-center ml-2">
+      <Spacer size={2} axis="vertical" />
+      <div className="flex content-end items-center">
         {isQueueable && (
-          <button
-            title={t("queue.manager.remove")}
-            className="btn btn-transparent p-0 h-10 w-10"
-            onClick={removeItem}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              className="stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={8}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+          <Button
+            accessibilityLabel={t("queue.manager.remove")}
+            styling="link"
+            onPress={removeItem}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                className="stroke-current"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={8}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            }
+          />
         )}
       </div>
     </div>
@@ -147,8 +155,7 @@ const Row = React.memo<
 const QueueManager: React.FC<{
   queueId: string;
   isQueueable: boolean;
-  onEmptyAddClick?: () => void;
-}> = ({ queueId, isQueueable, onEmptyAddClick }) => {
+}> = ({ queueId, isQueueable }) => {
   const { t } = useI18n();
 
   const [queue] = useQueue(queueId);
@@ -185,54 +192,50 @@ const QueueManager: React.FC<{
   if (!queue) return null;
 
   return (
-    <div className="h-full w-full flex flex-col justify-between">
-      <div className="w-full h-full">
-        {queue.items?.length === 0 && (
-          <div className="absolute-center z-10 w-full text-center text-lg text-foreground-tertiary p-4">
-            <p className="text-center">{t("queue.manager.empty")}</p>
-            {isQueueable && (
-              <button
-                onClick={onEmptyAddClick}
-                className="py-2 px-4 rounded-lg text-primary hover:bg-primary hover:bg-opacity-10 transition-colors font-bold mt-1"
-              >
-                {t("queue.manager.add")}
-              </button>
-            )}
-          </div>
-        )}
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable
-            droppableId="droppable"
-            mode="virtual"
-            renderClone={(provided, snapshot, rubric) => (
-              <QueueDraggableItem
-                provided={provided}
-                isQueueable={true}
-                queue={queue}
-                index={rubric.source.index}
-                isDragging={snapshot.isDragging}
-              />
-            )}
+    <div className="w-full h-full">
+      {queue.items?.length === 0 && (
+        <div className="absolute-center z-10 w-full p-4">
+          <Typography.Paragraph
+            align="center"
+            size="lg"
+            color="foreground-tertiary"
           >
-            {(droppableProvided) => (
-              <AutoSizer defaultHeight={1} defaultWidth={1}>
-                {({ height, width }) => (
-                  <List
-                    height={height}
-                    width={width}
-                    itemCount={queue.items.length}
-                    itemSize={remToPx(4)}
-                    itemData={itemData}
-                    outerRef={droppableProvided.innerRef}
-                  >
-                    {Row}
-                  </List>
-                )}
-              </AutoSizer>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
+            {t("queue.manager.empty")}
+          </Typography.Paragraph>
+        </div>
+      )}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable
+          droppableId="droppable"
+          mode="virtual"
+          renderClone={(provided, snapshot, rubric) => (
+            <QueueDraggableItem
+              provided={provided}
+              isQueueable={true}
+              queue={queue}
+              index={rubric.source.index}
+              isDragging={snapshot.isDragging}
+            />
+          )}
+        >
+          {(droppableProvided) => (
+            <AutoSizer defaultHeight={1} defaultWidth={1}>
+              {({ height, width }) => (
+                <List
+                  height={height}
+                  width={width}
+                  itemCount={queue.items.length}
+                  itemSize={remToPx(4)}
+                  itemData={itemData}
+                  outerRef={droppableProvided.innerRef}
+                >
+                  {Row}
+                </List>
+              )}
+            </AutoSizer>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };

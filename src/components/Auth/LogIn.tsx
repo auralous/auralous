@@ -1,17 +1,20 @@
+import { SvgGoogleColor, SvgSpotify, SvgX } from "assets/svg";
+import { Modal, useModal } from "components/Modal/index";
+import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
+import { PlatformName } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import { useRouter } from "next/router";
 import React, {
   createContext,
-  useContext,
-  useState,
-  useRef,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
-import { useRouter } from "next/router";
 import Welcome from "./Welcome";
-import { Modal, useModal } from "~/components/Modal/index";
-import { useI18n } from "~/i18n/index";
-import { SvgSpotify, SvgGoogleColor, SvgX } from "~/assets/svg";
-import { PlatformName } from "~/graphql/gql.gen";
 
 const SignInContext = createContext<[boolean, () => void]>([
   false,
@@ -105,13 +108,18 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             background: `url("/images/topography.svg")`,
           }}
         >
-          <div className="text-center flex flex-col items-center p-4">
-            <h1 className="text-3xl font-bold">Hellooo!</h1>
-            <div className="flex flex-wrap flex-center">
-              <div className="m-1 p-1 flex flex-col">
-                <span className="text-foreground-secondary mb-1 text-xs">
-                  {t("auth.listenOn")} <b>YouTube</b>
-                </span>
+          <div className="flex flex-col items-center p-4 space-y-2 max-w-full">
+            <Typography.Title align="center">Hellooo!</Typography.Title>
+            <div className="flex flex-wrap flex-center space-x-1 space-y-1">
+              <div className="p-1 flex flex-col space-y-1">
+                <Typography.Text
+                  size="xs"
+                  align="center"
+                  color="foreground-secondary"
+                >
+                  {t("auth.listenOn")}{" "}
+                  <Typography.Text strong>YouTube</Typography.Text>
+                </Typography.Text>
                 <button
                   onClick={() => logIn(PlatformName.Youtube)}
                   className="btn bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity rounded-full"
@@ -122,27 +130,42 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                     width="24"
                     strokeWidth="0"
                   />
-                  <span className="ml-4 text-sm">Continue with Google</span>
+                  <Spacer size={4} />
+                  <Typography.Text size="sm">
+                    Continue with Google
+                  </Typography.Text>
                 </button>
               </div>
-              <div className="m-1 p-1 flex flex-col">
-                <span className="text-foreground-secondary mb-1 text-xs">
-                  {t("auth.listenOn")} <b>Spotify</b>
-                </span>
+              <div className="p-1 flex flex-col space-y-1">
+                <Typography.Text
+                  size="xs"
+                  align="center"
+                  color="foreground-secondary"
+                >
+                  {t("auth.listenOn")}{" "}
+                  <Typography.Text strong>Spotify</Typography.Text>
+                </Typography.Text>
                 <button
                   onClick={() => logIn(PlatformName.Spotify)}
                   className="btn bg-spotify text-spotify-label h-12 hover:opacity-75 transition-opacity rounded-full"
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgSpotify width="24" className="fill-current stroke-0" />
-                  <span className="ml-2 text-sm">Continue with Spotify</span>
+                  <Spacer size={4} />
+                  <Typography.Text size="sm">
+                    Continue with Spotify
+                  </Typography.Text>
                 </button>
               </div>
             </div>
-            <p className="mt-2 text-xs p-2 text-foreground-tertiary">
-              {t("auth.createNotice")}.
-            </p>
-            <p className="text-xs p-2 rounded-lg text-warning-light max-w-xl mx-auto">
+            <Typography.Paragraph
+              size="xs"
+              color="foreground-tertiary"
+              align="center"
+            >
+              {t("auth.createNotice")}
+            </Typography.Paragraph>
+            <Typography.Paragraph size="xs" align="center">
               <a
                 href="/support/permissions"
                 target="_blank"
@@ -153,41 +176,41 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 </span>{" "}
                 {t("auth.permissionLink")}
               </a>
-            </p>
+            </Typography.Paragraph>
           </div>
-          <p className="mx-auto w-96 max-w-full p-4 pt-0 text-foreground-tertiary text-xs text-center">
+          <Typography.Paragraph
+            size="xs"
+            color="foreground-tertiary"
+            align="center"
+          >
             {t("auth.footerText.pre")}{" "}
-            <a target="_blank" href="/privacy" className="underline">
+            <Typography.Link target="_blank" href="/privacy">
               {t("auth.footerText.privacyPolicy")}
-            </a>
+            </Typography.Link>
             ,{" "}
-            <a
+            <Typography.Link
               target="_blank"
-              rel="noopener noreferrer"
               href="https://www.youtube.com/t/terms"
-              className="underline"
             >
               {t("auth.footerText.youtubeTerm")}
-            </a>{" "}
+            </Typography.Link>{" "}
             {t("auth.footerText.andOr")}{" "}
-            <a
+            <Typography.Link
               target="_blank"
-              rel="noopener noreferrer"
               href="https://www.spotify.com/us/legal/privacy-policy/"
-              className="underline"
             >
               {t("auth.footerText.spotifyTerm")}
-            </a>{" "}
+            </Typography.Link>{" "}
             {t("auth.footerText.whereApplicable")}.
-          </p>
+          </Typography.Paragraph>
         </div>
-        <button
-          className="btn btn-transparent absolute top-2 right-0"
-          onClick={close}
-          title={t("modal.close")}
-        >
-          <SvgX />
-        </button>
+        <div className="absolute top-2 right-0">
+          <Button
+            accessibilityLabel={t("modal.close")}
+            icon={<SvgX />}
+            styling="link"
+          />
+        </div>
       </Modal.Modal>
       <Welcome active={activeWelcome} close={close} />
     </>

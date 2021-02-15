@@ -1,16 +1,17 @@
-import React, { useMemo, useCallback, useEffect } from "react";
-import { animated } from "react-spring";
+import { SvgHeart } from "assets/svg";
+import clsx from "clsx";
 import {
   NowPlayingReactionType,
   Story,
   useNowPlayingQuery,
   useNowPlayingReactionsQuery,
   useReactNowPlayingMutation,
-} from "~/graphql/gql.gen";
-import { useMe } from "~/hooks/user";
-import { useBoop } from "~/hooks/animation";
-import { toast } from "~/lib/toast";
-import { SvgHeart } from "~/assets/svg";
+} from "gql/gql.gen";
+import { useBoop } from "hooks/animation";
+import { useMe } from "hooks/user";
+import React, { useCallback, useEffect, useMemo } from "react";
+import { animated } from "react-spring";
+import { toast } from "utils/toast";
 
 const AnimatedSvgHeart = animated(SvgHeart);
 
@@ -59,12 +60,12 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
 
   return (
     <button
-      className="btn flex-col flex-none btn-transparent p-2 flex flex-center rounded-full"
+      className="text-inline-link flex flex-center flex-col flex-none p-2"
       onClick={react}
       disabled={!nowPlaying?.currentTrack}
     >
       <AnimatedSvgHeart
-        className={`w-6 h-6 ${reacted ? "text-primary fill-current" : ""}`}
+        className={clsx("w-6 h-6", reacted && "text-primary fill-current")}
         style={animatedStyles}
       />
       <span className="text-xs font-mono">

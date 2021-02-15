@@ -1,12 +1,13 @@
+import { SvgUser } from "assets/svg";
+import { Typography } from "components/Typography";
+import { PlatformName, Track } from "gql/gql.gen";
+import { useCrossTracks } from "hooks/track";
+import { useI18n } from "i18n/index";
 import React, { useEffect, useState } from "react";
-import { useTransition, animated } from "react-spring";
-import { SvgUser } from "~/assets/svg";
-import { PlatformName, Track } from "~/graphql/gql.gen";
-import { useCrossTracks } from "~/hooks/track";
-import { useI18n } from "~/i18n/index";
-import { PLATFORM_FULLNAMES, SvgByPlatformName } from "~/lib/constants";
-import { parseMs } from "~/lib/editor-utils";
-import { defaultAvatar } from "~/lib/util";
+import { animated, useTransition } from "react-spring";
+import { PLATFORM_FULLNAMES, SvgByPlatformName } from "utils/constants";
+import { parseMs } from "utils/editor-utils";
+import { defaultAvatar } from "utils/util";
 import {
   IndexParagraph,
   IndexSection,
@@ -21,17 +22,19 @@ const IndexListenFakePlayerContent: React.FC<{ track: Track }> = ({
   return (
     <>
       <div className="font-bold text-lg leading-tight truncate max-w-full">
-        <a target="_blank" rel="noreferrer nofollow" href={track.url}>
+        <Typography.Link target="_blank" href={track.url}>
           {track.title}
-        </a>
+        </Typography.Link>
       </div>
-      <div className="mb-1 truncate text-foreground-secondary text-sm max-w-full">
+      <Typography.Paragraph truncate color="foreground-secondary" size="sm">
         {track.artists.map(({ name }) => name).join(", ")}
-      </div>
-      <p className="text-foreground-tertiary text-xs">
+      </Typography.Paragraph>
+      <Typography.Paragraph color="foreground-tertiary" size="xs">
         Playing on <PlatformSvg className="inline w-4 h-4 fill-current" />{" "}
-        <b>{PLATFORM_FULLNAMES[track.platform]}</b>
-      </p>
+        <Typography.Text strong>
+          {PLATFORM_FULLNAMES[track.platform]}
+        </Typography.Text>
+      </Typography.Paragraph>
     </>
   );
 };

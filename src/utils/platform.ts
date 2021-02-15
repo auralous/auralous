@@ -1,4 +1,4 @@
-import { PlatformName } from "../graphql/gql.gen";
+import { PlatformName } from "gql/gql.gen";
 
 const platformUtil: Record<
   PlatformName,

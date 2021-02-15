@@ -1,14 +1,15 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
-import { animated, useSpring } from "react-spring";
-import { useQueue } from "~/components/Queue";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
+import { Modal } from "components/Modal";
+import { Button } from "components/Pressable";
+import { useQueue } from "components/Queue";
 import {
   TrackAdderPlaylist,
   TrackAdderSearch,
-} from "~/components/Track/TrackAdder";
-import { QueueAction, Story, useUpdateQueueMutation } from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
-import { Modal } from "~/components/Modal";
+} from "components/Track/TrackAdder";
+import { QueueAction, Story, useUpdateQueueMutation } from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import React, { useCallback, useMemo, useState } from "react";
+import { animated, useSpring } from "react-spring";
 
 const AnimatedTabPanel = animated(TabPanel);
 const tabInactiveStyle = { opacity: 0, transform: "translate3d(0px,40px,0px)" };
@@ -102,9 +103,7 @@ const StoryQueueAdder: React.FC<{
         </Tabs>
       </Modal.Content>
       <Modal.Footer>
-        <button onClick={close} className="btn">
-          {t("common.done")}
-        </button>
+        <Button onPress={close} title={t("common.done")} />
       </Modal.Footer>
     </Modal.Modal>
   );

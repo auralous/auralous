@@ -1,8 +1,8 @@
+import { usePlayer } from "components/Player/index";
+import { PlayerImage, PlayerMeta } from "components/Player/PlayerView";
+import { Story } from "gql/gql.gen";
 import React from "react";
 import StoryReaction from "./StoryReaction";
-import { usePlayer } from "~/components/Player/index";
-import { PlayerImage, PlayerMeta } from "~/components/Player/PlayerView";
-import { Story } from "~/graphql/gql.gen";
 
 const StoryPlayer: React.FC<{ story: Story }> = ({ story }) => {
   const {

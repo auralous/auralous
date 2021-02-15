@@ -1,4 +1,4 @@
-import { useMeQuery, Me, useUserFollowingsQuery } from "~/graphql/gql.gen";
+import { Me, useMeQuery, useUserFollowingsQuery } from "gql/gql.gen";
 
 export function useMe(): Me | null | undefined {
   const [{ data, fetching }] = useMeQuery();

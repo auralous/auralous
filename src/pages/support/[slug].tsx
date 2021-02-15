@@ -1,12 +1,13 @@
-import React from "react";
+import { Typography } from "components/Typography";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
-import markdownToHtml from "~/lib/markdown-to-html";
+import React from "react";
 import {
   getPage as getSuportPage,
   getPages as getSupportPages,
-} from "~/lib/content-support";
-import { SupportArticle } from "~/types/index";
+  SupportArticle,
+} from "utils/content-support";
+import markdownToHtml from "utils/markdown-to-html";
 
 const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
   return (
@@ -17,14 +18,12 @@ const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
         canonical={`${process.env.APP_URI}/support/${page.slug}`}
       />
       <div className="py-12 px-2">
-        <div className="text-center">
-          <h1 className="font-bold">
-            <span className="block text-5xl leading-none mb-2">
-              {page.title}
-            </span>
-            <span className="text-lg leading-none">{page.subtitle}</span>
-          </h1>
-        </div>
+        <Typography.Title align="center" size="4xl">
+          {page.title}
+        </Typography.Title>
+        <Typography.Paragraph align="center" size="lg">
+          {page.subtitle}
+        </Typography.Paragraph>
       </div>
       <div className="py-20 px-2 leading-loose max-w-2xl mx-auto">
         <div className="content content-support text-lg">

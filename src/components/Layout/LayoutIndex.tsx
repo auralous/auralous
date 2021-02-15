@@ -1,15 +1,18 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { SvgLogo, SvgMenu, SvgX } from "assets/svg";
+import clsx from "clsx";
+import { usePlayer } from "components/Player/index";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
+import { useI18n } from "i18n/index";
+import { Locale } from "i18n/types";
 import Link from "next/link";
-import { useSpring, animated } from "react-spring";
-import { usePlayer } from "~/components/Player/index";
-import { LANGUAGES } from "~/lib/constants";
-import { useI18n } from "~/i18n/index";
-import { Locale } from "~/i18n/types";
-import { SvgLogo, SvgMenu, SvgX } from "~/assets/svg";
+import React, { useEffect, useMemo, useState } from "react";
+import { animated, useSpring } from "react-spring";
+import { LANGUAGES } from "utils/constants";
 
 const baseNavbarClassname = `text-center mx-1 focus:outline-none transition duration-300`;
 
-const navBarClassName = `${baseNavbarClassname} py-3 font-medium px-2 opacity-50 focus:opacity-100 hover:opacity-100`;
+const navBarClassName = `${baseNavbarClassname} py-3 font-bold px-2 opacity-50 focus:opacity-100 hover:opacity-100`;
 const importantNavItemClassName = `${baseNavbarClassname} font-bold py-2 px-6 border-2 border-primary hover:border-white rounded-full`;
 
 const NavbarLanguageSelector: React.FC = () => {
@@ -73,8 +76,9 @@ const Navbar: React.FC = () => {
       >
         <div className="container flex items-center justify-between">
           <div className="flex items-center content-start overflow-hidden">
+            <Spacer size={2} axis="horizontal" />
             <Link href="/">
-              <a className="ml-2 mr-6 z-10" title={t("common.back")}>
+              <a className="z-10" title={t("common.back")}>
                 <SvgLogo
                   className="mx-auto fill-current"
                   width="112"
@@ -82,6 +86,7 @@ const Navbar: React.FC = () => {
                 />
               </a>
             </Link>
+            <Spacer size={8} axis="horizontal" />
           </div>
           <button
             className="px-2 py-1 z-10 md:hidden"
@@ -90,11 +95,12 @@ const Navbar: React.FC = () => {
             {expanded ? <SvgX /> : <SvgMenu />}
           </button>
           <div
-            className={`${
+            className={clsx(
               expanded
-                ? "flex py-4 w-full absolute justify-center bg-background bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur"
-                : "hidden"
-            } md:flex content-end md:items-center flex-none`}
+                ? "flex py-4 w-full absolute justify-center bg-background bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur "
+                : "hidden",
+              "md:flex content-end md:items-center flex-none"
+            )}
           >
             <Link href="/support">
               <a className={navBarClassName}>{t("support.title")}</a>
@@ -113,68 +119,62 @@ const Navbar: React.FC = () => {
 const Footer: React.FC = () => {
   const { t } = useI18n();
   return (
-    <footer className="text-center mt-20 py-12 w-full mx-auto">
-      <div className="mb-1 text-sm overflow-auto opacity-75">
-        <a
+    <footer className="py-12 w-full mx-auto">
+      <Spacer size={8} axis="vertical" />
+      <Spacer size={8} axis="vertical" />
+      <div className="space-x-4 overflow-auto text-center">
+        <Typography.Link
+          strong
           href="https://www.facebook.com/withstereo/"
           target="_blank"
-          rel="noreferrer"
-          className="btn btn-transparent p-0 mx-2"
         >
           Facebook
-        </a>
-        <a
+        </Typography.Link>
+        <Typography.Link
+          strong
           href="https://twitter.com/withstereo_"
           target="_blank"
-          rel="noreferrer"
-          className="btn btn-transparent p-0 mx-2"
         >
           Twitter
-        </a>
+        </Typography.Link>
         <Link href="/privacy">
-          <a className="btn btn-transparent p-0 mx-2">{t("footer.privacy")}</a>
+          <Typography.Link strong>{t("footer.privacy")}</Typography.Link>
         </Link>
-        <a
-          href="https://github.com/hoangvvo/stereo-web"
+        <Typography.Link
+          href="https://www.facebook.com/withstereo/"
           target="_blank"
-          rel="noreferrer"
-          className="btn btn-transparent p-0 mx-2"
+          strong
         >
           {t("footer.contribute")}
-        </a>
+        </Typography.Link>
         <Link href="/support">
-          <a className="btn btn-transparent p-0 mx-2">{t("footer.support")}</a>
+          <Typography.Link strong>{t("footer.support")}</Typography.Link>
         </Link>
       </div>
-      <p className="text-center opacity-50 mb-2 text-xs">
-        © 2019. Made with{" "}
-        <span role="img" aria-label="Love">
-          ❤️
-        </span>
-        ,{" "}
-        <span role="img" aria-label="Fire">
-          🔥
-        </span>
-        , and a{" "}
-        <span role="img" aria-label="Keyboard">
-          ⌨️
-        </span>{" "}
-        by{" "}
-        <a
-          className="font-bold hover:text-foreground"
+      <Spacer size={1} axis="vertical" />
+      <Typography.Paragraph
+        align="center"
+        size="xs"
+        color="foreground-tertiary"
+      >
+        {"© 2019. Made with ❤️, 🔥, and a ⌨️, by "}
+        <Typography.Link
+          color="foreground-secondary"
+          strong
           href="https://hoangvvo.com/"
         >
           Hoang
-        </a>{" "}
+        </Typography.Link>{" "}
         and{" "}
-        <a
-          className="font-bold hover:text-foreground"
+        <Typography.Link
+          color="foreground-secondary"
+          strong
           href="https://github.com/hoangvvo/stereo-web/contributors"
         >
           contributors
-        </a>
+        </Typography.Link>
         .
-      </p>
+      </Typography.Paragraph>
     </footer>
   );
 };

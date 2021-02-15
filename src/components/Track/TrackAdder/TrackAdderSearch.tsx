@@ -1,20 +1,21 @@
-import React, { useCallback, useRef, useState } from "react";
-import { useClient } from "urql";
-import { default as TrackAdderResults } from "./TrackAdderResults";
-import { maybeGetTrackOrPlaylistIdFromUri } from "~/lib/platform";
+import { SvgLoadingAnimated } from "assets/svg";
+import { Typography } from "components/Typography";
 import {
-  Track,
-  SearchTrackDocument,
   PlaylistTracksDocument,
   PlaylistTracksQuery,
   PlaylistTracksQueryVariables,
+  SearchTrackDocument,
+  Track,
+  TrackDocument,
   TrackQuery,
   TrackQueryVariables,
-  TrackDocument,
-} from "~/graphql/gql.gen";
-import { useI18n } from "~/i18n/index";
+} from "gql/gql.gen";
+import { useI18n } from "i18n/index";
+import React, { useCallback, useRef, useState } from "react";
+import { useClient } from "urql";
+import { maybeGetTrackOrPlaylistIdFromUri } from "utils/platform";
+import { default as TrackAdderResults } from "./TrackAdderResults";
 import { TrackAdderCallbackFn } from "./types";
-import { SvgLoadingAnimated } from "~/assets/svg";
 
 const TrackAdderSearch: React.FC<{
   callback: TrackAdderCallbackFn;
@@ -93,16 +94,16 @@ const TrackAdderSearch: React.FC<{
       </form>
       {isSearching && <SvgLoadingAnimated className="absolute-center" />}
       {isEmpty && (
-        <p className="absolute-center w-full p-4 text-foreground-secondary text-center">
-          {t("track.adder.search.helpText")}
-        </p>
-      )}
-      {/* {(isEmpty || isSearching) && (
-        <div className="px-2 flex flex-col text-lg text-center flex-center w-full h-full text-foreground-secondary">
-          {isSearching && <SvgLoadingAnimated className="absolute-center" />}
-          {isEmpty && t("track.adder.search.helpText")}
+        <div className="absolute-center p-4">
+          <Typography.Paragraph
+            noMargin
+            color="foreground-secondary"
+            align="center"
+          >
+            {t("track.adder.search.helpText")}
+          </Typography.Paragraph>
         </div>
-      )} */}
+      )}
       <TrackAdderResults
         addedTracks={addedTracks}
         callback={callback}
