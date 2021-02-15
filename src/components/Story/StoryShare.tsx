@@ -1,6 +1,7 @@
 import { SvgFacebook, SvgLink, SvgReddit, SvgTwitter } from "assets/svg";
 import { Modal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import UserList from "components/User/UserList";
 import UserPill from "components/User/UserPill";
@@ -72,7 +73,7 @@ const StoryShare: React.FC<{
         <Modal.Title>{t("story.share.title")}</Modal.Title>
       </Modal.Header>
       <Modal.Content>
-        <div className="flex flex-wrap flex-center space-x-1 mb-4">
+        <div className="flex flex-wrap flex-center space-x-1">
           <Button
             onPress={() =>
               navigator.clipboard
@@ -102,21 +103,20 @@ const StoryShare: React.FC<{
             accessibilityLabel="Reddit"
           />
         </div>
-        <div>
-          {userFollowings ? (
-            <>
-              <Typography.Title
-                level={4}
-                strong
-                size="sm"
-                color="foreground-secondary"
-              >
-                {t("user.following")}
-              </Typography.Title>
-              <UserList Element={InviteUserElement} userIds={userFollowings} />
-            </>
-          ) : null}
-        </div>
+        <Spacer size={4} axis="vertical" />
+        {userFollowings ? (
+          <>
+            <Typography.Title
+              level={4}
+              strong
+              size="sm"
+              color="foreground-secondary"
+            >
+              {t("user.following")}
+            </Typography.Title>
+            <UserList Element={InviteUserElement} userIds={userFollowings} />
+          </>
+        ) : null}
       </Modal.Content>
     </Modal.Modal>
   );

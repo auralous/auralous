@@ -18,14 +18,12 @@ const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
         canonical={`${process.env.APP_URI}/support/${page.slug}`}
       />
       <div className="py-12 px-2">
-        <div className="text-center">
-          <Typography.Title>
-            <span className="block text-5xl leading-none mb-2">
-              {page.title}
-            </span>
-            <span className="text-lg leading-none">{page.subtitle}</span>
-          </Typography.Title>
-        </div>
+        <Typography.Title align="center" size="4xl">
+          {page.title}
+        </Typography.Title>
+        <Typography.Paragraph align="center" size="lg">
+          {page.subtitle}
+        </Typography.Paragraph>
       </div>
       <div className="py-20 px-2 leading-loose max-w-2xl mx-auto">
         <div className="content content-support text-lg">

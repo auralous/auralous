@@ -1,7 +1,9 @@
 import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { TrackMenu } from "components/Track";
+import { Typography } from "components/Typography";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import React, { useEffect, useState } from "react";
@@ -101,22 +103,27 @@ export const PlayerMeta: React.FC<{
 
   return (
     // eslint-disable-next-line
-    <div className="my-4 h-12 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
+    <div className="my-4 h-14 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
       {fetching ? (
         <>
-          <div className="block-skeleton rounded h-6 w-40 mb-1" />
-          <div className="block-skeleton rounded h-4 w-24" />
+          <div className="block-skeleton rounded h-6 w-40" />
+          <Spacer size={2} axis="vertical" />
+          <div className="block-skeleton rounded h-5 w-24" />
         </>
       ) : (
         <>
-          <h4 className="w-full font-bold text-2xl truncate leading-none mb-1">
+          <Typography.Title noMargin level={4} strong size="2xl" truncate>
             {track ? track.title : t("player.noneText")}
-          </h4>
-          <div className="w-full text-foreground-secondary truncate leading-none">
+          </Typography.Title>
+          <Typography.Paragraph
+            paragraph={false}
+            color="foreground-secondary"
+            truncate
+          >
             {track
               ? track.artists.map((artist) => artist.name).join(", ")
               : t("player.noneHelpText")}
-          </div>
+          </Typography.Paragraph>
           {track && (
             <TrackMenu active={activeMenu} close={closeMenu} id={track.id} />
           )}

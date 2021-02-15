@@ -1,6 +1,7 @@
 import { SvgLogIn, SvgMusic } from "assets/svg";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
 import {
@@ -32,6 +33,24 @@ const getDateDiffTxt = (createdAt: Date) => {
   return dateDiff < 1000 ? t("common.time.justNow") : ms(dateDiff);
 };
 
+const MessageItemSpecial: React.FC<{
+  text: React.ReactNode;
+  Icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  createdAt: Date;
+}> = ({ text, Icon, createdAt }) => (
+  <div role="listitem" className="w-full text-left p-1">
+    <Icon className="inline w-6 h-6 bg-foreground-backdrop p-1 rounded-full" />
+    <Spacer size={2} axis="horizontal" />
+    <Typography.Text color="foreground-tertiary" size="sm">
+      {text}
+    </Typography.Text>
+    <Typography.Text color="foreground-tertiary" size="sm">
+      {" • "}
+      {getDateDiffTxt(createdAt)}
+    </Typography.Text>
+  </div>
+);
+
 const MessageItemJoin: React.FC<{
   message: Message;
 }> = ({ message }) => {
@@ -40,16 +59,11 @@ const MessageItemJoin: React.FC<{
   });
 
   return (
-    <div role="listitem" className="w-full text-left text-sm mt-3 p-1">
-      <SvgLogIn className="inline w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
-      <span className="text-foreground-tertiary">
-        {t("message.join.text", { username: user?.username || "" })}
-      </span>{" "}
-      <span className="text-foreground-tertiary opacity-50 ml-1">
-        {"• "}
-        {getDateDiffTxt(message.createdAt)}
-      </span>
-    </div>
+    <MessageItemSpecial
+      text={t("message.join.text", { username: user?.username || "" })}
+      Icon={SvgLogIn}
+      createdAt={message.createdAt}
+    />
   );
 };
 
@@ -65,29 +79,24 @@ const MessageItemPlay: React.FC<{
   });
   const [active, show, close] = useModal();
   return (
-    <div role="listitem" className="w-full flex text-sm mt-3 p-1">
-      <SvgMusic className="flex-none w-6 h-6 mr-2 bg-foreground-backdrop p-1 rounded-full" />
+    <div>
+      <MessageItemSpecial
+        text={<>{t("message.play.text", { username: user?.username || "" })}</>}
+        Icon={SvgMusic}
+        createdAt={message.createdAt}
+      />
       <div>
-        <span className="text-foreground-tertiary">
-          {t("message.play.text", { username: user?.username || "" })}
-        </span>
-        <span className="text-foreground-tertiary opacity-50 ml-1">
-          {" • "}
-          {getDateDiffTxt(message.createdAt)}
-        </span>
+        <Spacer size={8} axis="horizontal" />
         {track && (
-          <button
-            className="block font-bold opacity-75 text-inline-link text-left text-foreground leading-tight"
-            onClick={show}
-          >
-            <Typography.Text emphasis>
+          <button className="opacity-75 text-inline-link" onClick={show}>
+            <Typography.Text size="xs" emphasis>
               {track.artists.map(({ name }) => name).join(", ")}
             </Typography.Text>{" "}
-            - {track.title}
+            - <Typography.Text size="xs">{track.title}</Typography.Text>
           </button>
         )}
+        <TrackMenu id={message.text as string} active={active} close={close} />
       </div>
-      <TrackMenu id={message.text as string} active={active} close={close} />
     </div>
   );
 };
@@ -106,7 +115,7 @@ const MessageItem: React.FC<{
   return (
     <div
       role="listitem"
-      className={`relative w-full pl-10 pr-8 ${isGrouped ? "" : "mt-3"}`}
+      className={`relative w-full pl-10 pr-8 ${isGrouped ? "" : ""}`}
     >
       {!isGrouped && (
         <>
@@ -127,13 +136,14 @@ const MessageItem: React.FC<{
                 {sender?.username}
               </a>
             </Link>
-            <span className="text-foreground-tertiary text-sm opacity-50 ml-1">
+            <Typography.Text size="sm" color="foreground-tertiary">
               {" • "}
               {getDateDiffTxt(message.createdAt)}
-            </span>
+            </Typography.Text>
           </div>
         </>
       )}
+      {isGrouped && <div className="-mt-3" />}
       <Typography.Paragraph paragraph={false} size="sm">
         {message.text}
       </Typography.Paragraph>
@@ -206,7 +216,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <div
-      className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4"
+      className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4 space-y-4"
       onScroll={onScroll}
       ref={messageListRef}
       aria-label={t("message.listLabel", { name: "" })}
@@ -262,11 +272,11 @@ const MessageInput: React.FC<{ id: string }> = ({ id }) => {
     <form
       autoComplete="off"
       onSubmit={handleSubmitMessage}
-      className="flex items-center mb-2 px-2"
+      className="flex items-center p-2"
     >
       <input
         aria-label={t("message.inputLabel")}
-        className="w-full input bg-background-secondary bg-opacity-50 border-none focus:bg-opacity-75"
+        className="w-full input bg-background-tertiary bg-opacity-50 border-none focus:bg-opacity-75"
         value={messageContent}
         onChange={(e) => setMessageList(e.target.value)}
       />

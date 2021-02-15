@@ -1,5 +1,6 @@
 import { SvgLogo, SvgMenu, SvgX } from "assets/svg";
 import { usePlayer } from "components/Player/index";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
 import { Locale } from "i18n/types";
@@ -74,8 +75,9 @@ const Navbar: React.FC = () => {
       >
         <div className="container flex items-center justify-between">
           <div className="flex items-center content-start overflow-hidden">
+            <Spacer size={2} axis="horizontal" />
             <Link href="/">
-              <a className="ml-2 mr-6 z-10" title={t("common.back")}>
+              <a className="z-10" title={t("common.back")}>
                 <SvgLogo
                   className="mx-auto fill-current"
                   width="112"
@@ -83,6 +85,7 @@ const Navbar: React.FC = () => {
                 />
               </a>
             </Link>
+            <Spacer size={8} axis="horizontal" />
           </div>
           <button
             className="px-2 py-1 z-10 md:hidden"
@@ -114,8 +117,10 @@ const Navbar: React.FC = () => {
 const Footer: React.FC = () => {
   const { t } = useI18n();
   return (
-    <footer className="text-center mt-20 py-12 w-full mx-auto">
-      <div className="mb-1 text-sm overflow-auto opacity-75 space-x-4">
+    <footer className="text-center py-12 w-full mx-auto">
+      <Spacer size={8} axis="vertical" />
+      <Spacer size={8} axis="vertical" />
+      <div className="space-x-4 overflow-scroll">
         <Typography.Link
           strong
           href="https://www.facebook.com/withstereo/"
@@ -144,6 +149,7 @@ const Footer: React.FC = () => {
           <Typography.Link strong>{t("footer.support")}</Typography.Link>
         </Link>
       </div>
+      <Spacer size={1} axis="vertical" />
       <Typography.Paragraph
         align="center"
         size="xs"

@@ -3,6 +3,7 @@ import { useLogin } from "components/Auth";
 import { Modal, useModal } from "components/Modal";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Story } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -38,7 +39,7 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
               shape="circle"
               size="medium"
             />
-            <div className="mr-1" />
+            <Spacer size={1} axis="horizontal" />
             <Modal.Modal
               active={active}
               close={close}

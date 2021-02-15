@@ -10,7 +10,7 @@ const QueueAddedBy: React.FC<{ userId: string }> = ({ userId }) => {
   });
 
   return (
-    <span className="ml-1 flex-none">
+    <span className="flex-none">
       {t("queue.addedBy")}{" "}
       <span className="font-bold">{user?.username || ""}</span>
     </span>

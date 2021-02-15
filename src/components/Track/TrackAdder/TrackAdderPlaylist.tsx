@@ -1,6 +1,8 @@
 import { SvgChevronLeft, SvgLoadingAnimated } from "assets/svg";
 import { PlaylistItem } from "components/Playlist";
 import { Button, PressableHighlight } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
 import {
   Playlist,
   useMyPlaylistsQuery,
@@ -59,9 +61,10 @@ const TrackAdderPlaylist: React.FC<{
             <img
               src={selectedPlaylist.image}
               alt={selectedPlaylist.name}
-              className="w-6 h-6 mr-1 rounded"
+              className="w-6 h-6 rounded"
             />
-            {selectedPlaylist.name}
+            <Spacer size={1} axis="horizontal" />
+            <Typography.Text>{selectedPlaylist.name}</Typography.Text>
           </div>
         )}
       </div>
@@ -80,6 +83,7 @@ const TrackAdderPlaylist: React.FC<{
                 title: playlist.name,
               })}
               onPress={() => handleSelect(playlist)}
+              fullWidth
             >
               <PlaylistItem playlist={playlist} />
             </PressableHighlight>

@@ -1,5 +1,6 @@
 import { SvgLoadingAnimated, SvgSearch } from "assets/svg";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Track, usePlaylistTracksQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
@@ -62,11 +63,12 @@ const SelectFromSearch: React.FC<{
           ref={inputRef}
           placeholder="example.com/my-awesome-playlist"
           aria-label={t("new.fromSearch.altText")}
-          className="input w-0 flex-1 mr-1"
+          className="input w-0 flex-1"
           required
           disabled={fetching}
           type="url"
         />
+        <Spacer size={1} axis="horizontal" />
         <Button
           type="submit"
           accessibilityLabel={t("new.fromSearch.action")}

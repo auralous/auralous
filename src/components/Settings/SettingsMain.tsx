@@ -2,6 +2,7 @@ import { useLogin } from "components/Auth/index";
 import { Modal, useModal } from "components/Modal/index";
 import { PageHeader } from "components/Page";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import {
   PlatformName,
@@ -78,7 +79,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
               value={confirmUsername}
               placeholder={t("settings.dangerZone.delete.modal.enterName")}
               onChange={(e) => setConfirmUsername(e.target.value)}
-              className="input py-2 px-4 ml-2 w-96 max-w-full"
+              className="input py-2 px-4 w-96 max-w-full"
             />
           </div>
         </Modal.Content>
@@ -128,7 +129,8 @@ const LanguageSelect: React.FC = () => {
   );
 
   return (
-    <div className="mt-8">
+    <div>
+      <Spacer size={8} axis="vertical" />
       <SettingTitle>{t("settings.language.title")}</SettingTitle>
       <select
         aria-label={t("settings.language.title")}
@@ -187,7 +189,8 @@ const LeftSection: React.FC = () => {
       {me ? (
         <>
           <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
-            <div className="mt-4">
+            <div>
+              <Spacer size={4} axis="vertical" />
               <label className="label" htmlFor="usernameInput">
                 {t("settings.username.label")}
               </label>
@@ -198,14 +201,15 @@ const LeftSection: React.FC = () => {
                 maxLength={CONFIG.usernameMaxLength}
                 required
               />
-              <div className="mt-1" />
+              <Spacer size={1} axis="vertical" />
               <Typography.Paragraph size="xs" color="foreground-secondary">
                 {t("settings.username.helpText", {
                   maxLength: CONFIG.usernameMaxLength,
                 })}
               </Typography.Paragraph>
             </div>
-            <div className="mt-4 mb-2">
+            <div>
+              <Spacer size={4} axis="vertical" />
               <label className="label" htmlFor="profilePictureInput">
                 {t("settings.profilePicture.label")}
               </label>
@@ -215,15 +219,17 @@ const LeftSection: React.FC = () => {
                   src={me.user.profilePicture}
                   className="w-16 h-16 bg-background-secondary rounded-full object-cover"
                 />
+                <Spacer size={2} axis="horizontal" />
                 <input
                   id="profilePictureInput"
                   type="file"
                   accept="image/*"
                   ref={profilePictureRef}
-                  className="input w-full ml-4"
+                  className="input w-0 flex-1"
                 />
               </div>
             </div>
+            <Spacer size={4} axis="vertical" />
             <Button
               color="primary"
               type="submit"
@@ -231,7 +237,8 @@ const LeftSection: React.FC = () => {
               title={t("common.save")}
             />
           </form>
-          <div className="mt-8 border-t-2 py-4 border-background-secondary">
+          <Spacer size={8} axis="vertical" />
+          <div className="border-t-2 py-4 border-background-secondary">
             <Button fullWidth onPress={signOut} title={t("settings.signOut")} />
           </div>
         </>
@@ -265,8 +272,11 @@ const MusicConnection: React.FC = () => {
         {PlatformSvg && (
           <PlatformSvg width="40" height="40" className="fill-current" />
         )}
-        <div className="ml-4">
-          <div className="mb-1">{t("settings.listening.title", { name })}</div>
+        <Spacer size={4} axis="horizontal" />
+        <div>
+          <Typography.Text>
+            {t("settings.listening.title", { name })}
+          </Typography.Text>
           <Typography.Paragraph paragraph={false} size="sm">
             {me ? (
               <Typography.Text color="foreground-secondary">
@@ -298,7 +308,8 @@ const RightSection: React.FC = () => {
         <MusicConnection />
         <LanguageSelect />
         {me && (
-          <div className="mt-8">
+          <div>
+            <Spacer size={8} axis="vertical" />
             <SettingTitle>{t("settings.dangerZone.title")}</SettingTitle>
             <DeleteAccount user={me.user} />
           </div>

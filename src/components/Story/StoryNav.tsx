@@ -10,6 +10,8 @@ import {
 } from "assets/svg";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
 import { Story, useUserQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -41,19 +43,19 @@ const StoryNavMenu: React.FC<{
       <DialogOverlay isOpen={active} className="backdrop-blur">
         <div className="w-full max-w-2xl h-64 flex flex-col items-center space-y-2">
           {user && (
-            <div className="flex mb-4">
+            <div className="flex">
               <img
                 className="w-12 h-12 rounded-full"
                 src={user.profilePicture}
                 alt={user.username}
               />
-              <div className="leading-none p-1">
-                <div className="font-bold">
+              <div className="p-1">
+                <Typography.Text strong>
                   {t("story.ofUsername", { username: user.username })}
-                </div>
-                <div className="text-sm text-foreground-secondary">
+                </Typography.Text>
+                <Typography.Paragraph size="sm" color="foreground-secondary">
                   {story.text}
-                </div>
+                </Typography.Paragraph>
               </div>
             </div>
           )}
@@ -145,16 +147,19 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
         ) : (
           <div className="box-skeleton w-6 h-6" />
         )}
-        <div className="whitespace-nowrap ml-1">
-          <span className="text-sm font-bold">
+        <Spacer size={1} axis="horizontal" />
+        <div className="whitespace-nowrap">
+          <Typography.Text size="sm" strong>
             {t("story.ofUsername", { username: user?.username || "" })}
-          </span>{" "}
+          </Typography.Text>{" "}
           {story.isLive ? (
             <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
               {t("common.live")}
             </span>
           ) : (
-            <span className="text-xs text-foreground-secondary">{dateStr}</span>
+            <Typography.Text size="xs" color="foreground-secondary">
+              {dateStr}
+            </Typography.Text>
           )}
         </div>
       </div>

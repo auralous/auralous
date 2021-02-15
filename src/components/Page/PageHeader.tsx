@@ -1,10 +1,12 @@
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import React from "react";
 
 const PageHeader: React.FC<{ name: string }> = ({ name }) => {
   return (
-    <div className="px-4 mb-2 pt-4 pb-2 sticky top-0 z-10 backdrop-blur bg-background bg-opacity-50">
+    <div className="px-4 pt-4 pb-2 sticky top-0 z-10 backdrop-blur bg-background bg-opacity-50">
       <Typography.Title size="4xl">{name}</Typography.Title>
+      <Spacer size={2} axis="vertical" />
     </div>
   );
 };

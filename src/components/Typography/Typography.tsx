@@ -16,7 +16,7 @@ interface TypographyProps {
   size?: TextSize;
   strong?: boolean;
   emphasis?: boolean;
-  align?: "center";
+  align?: "center" | "left" | "right";
   id?: string;
   truncate?: boolean;
 }
@@ -72,14 +72,12 @@ const Link = forwardRef<
 });
 
 const defaultTitleSize: TextSize[] = ["3xl", "2xl", "xl", "lg"];
-const Title: React.FC<TypographyProps & { level?: 1 | 2 | 3 | 4 }> = ({
-  children,
-  level = 1,
-  ...props
-}) => {
+const Title: React.FC<
+  TypographyProps & { level?: 1 | 2 | 3 | 4; noMargin?: boolean }
+> = ({ children, level = 1, noMargin, ...props }) => {
   props.size = props.size || defaultTitleSize[level - 1];
   props.strong = typeof props.strong === "boolean" ? props.strong : true;
-  const className = clsx(commonClsx(props), "mb-2");
+  const className = clsx(commonClsx(props), !noMargin && "mb-2");
   if (level === 2)
     return (
       <h2 id={props.id} className={className}>

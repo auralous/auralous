@@ -1,5 +1,6 @@
 import { Modal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { useUpdateMeMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
@@ -38,27 +39,26 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   return (
     <Modal.Modal title="Welcome to Stereo" active={active}>
       <form className="py-8 px-16" onSubmit={onSubmit}>
-        <div className="mb-4">
-          <Typography.Paragraph id="welcomeUsernameLabel" align="center">
-            {t("settings.username.label")}
-          </Typography.Paragraph>
-          <input
-            ref={usernameRef}
-            aria-labelledby="welcomeUsernameLabel"
-            className="input w-full"
-            required
-            maxLength={CONFIG.usernameMaxLength}
-          />
-          <Typography.Paragraph
-            color="foreground-secondary"
-            size="xs"
-            align="center"
-          >
-            {t("settings.username.helpText", {
-              maxLength: CONFIG.usernameMaxLength,
-            })}
-          </Typography.Paragraph>
-        </div>
+        <Typography.Paragraph id="welcomeUsernameLabel" align="center">
+          {t("settings.username.label")}
+        </Typography.Paragraph>
+        <input
+          ref={usernameRef}
+          aria-labelledby="welcomeUsernameLabel"
+          className="input w-full"
+          required
+          maxLength={CONFIG.usernameMaxLength}
+        />
+        <Typography.Paragraph
+          color="foreground-secondary"
+          size="xs"
+          align="center"
+        >
+          {t("settings.username.helpText", {
+            maxLength: CONFIG.usernameMaxLength,
+          })}
+        </Typography.Paragraph>
+        <Spacer size={4} axis="vertical" />
         <Button disabled={fetching} title={t("common.save")} />
       </form>
     </Modal.Modal>

@@ -1,6 +1,7 @@
 import LayoutBackButton from "components/Layout/LayoutBackButton";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
@@ -124,7 +125,8 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         ) : null}
       </div>
       <CreateStory initTracks={initTracks} />
-      <div className="w-full flex mt-2 justify-center">
+      <Spacer size={2} axis="vertical" />
+      <div className="w-full text-center">
         <Button
           size="small"
           styling="link"

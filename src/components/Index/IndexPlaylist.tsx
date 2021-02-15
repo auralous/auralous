@@ -100,7 +100,7 @@ const IndexPlaylist: React.FC = () => {
           <IndexParagraph>{t("intro.playlist.p1")}</IndexParagraph>
           <IndexParagraph>{t("intro.playlist.p2")}</IndexParagraph>
           <form
-            className="relative mt-2"
+            className="relative"
             onSubmit={(event) => {
               event.preventDefault();
               const val = event.currentTarget.playlistLink.value.trim();

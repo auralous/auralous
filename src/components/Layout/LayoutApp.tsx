@@ -11,6 +11,7 @@ import {
 import { useLogin } from "components/Auth";
 import { PlayerMinibar } from "components/Player/index";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { useNotificationAddedSubscription, User } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -50,7 +51,7 @@ const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
       <a
         className={`btn btn-transparent font-normal text-sm ${
           isActive ? "bg-background-tertiary" : ""
-        } ${isBold ? boldClasses : ""} w-full mb-2`}
+        } ${isBold ? boldClasses : ""} w-full`}
       >
         {children}
       </a>
@@ -70,7 +71,7 @@ const Sidebar: React.FC = () => {
       className="hidden md:block w-56 fixed left-0 top-0 h-full"
       style={{ backgroundColor: sidebarColor }}
     >
-      <div className="p-2">
+      <div className="p-2 space-y-2">
         <div className="py-4">
           <SvgLogo title="Stereo" className="w-32 h-12 mx-auto fill-current" />
         </div>
@@ -115,9 +116,14 @@ const Sidebar: React.FC = () => {
           </div>
         ) : (
           <>
-            <div className="mb-1 border-b-2 border-foreground-backdrop" />
+            <Spacer
+              size={1}
+              axis="vertical"
+              style={{ borderTop: "2px solid hsl(240,14%,9%)", width: "100%" }}
+            />
             <Button
               styling="link"
+              color="primary"
               onPress={logIn}
               fullWidth
               title={t("common.signIn")}

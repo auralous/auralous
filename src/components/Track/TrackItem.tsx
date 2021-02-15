@@ -1,3 +1,5 @@
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
 import { useTrackQuery } from "gql/gql.gen";
 import React from "react";
 import { SvgByPlatformName } from "utils/constants";
@@ -21,39 +23,42 @@ export const TrackItem: React.FC<{
         {track ? (
           <img
             alt={track.title}
-            className="h-12 w-12 rounded flex-none overflow-hidden mr-3"
+            className="h-12 w-12 rounded flex-none overflow-hidden"
             src={track.image}
           />
         ) : (
-          <div className="block-skeleton rounded h-12 w-12 flex-none mr-3" />
+          <div className="block-skeleton rounded h-12 w-12 flex-none" />
         )}
+        <Spacer size={2} axis="horizontal" />
         <div className="w-full overflow-hidden">
           {track ? (
             <>
               <div className="truncate content-start text-left">
-                <span className="inline-flex h-6 align-middle px-1">
-                  {SvgPlatformName && (
-                    <SvgPlatformName width="16" className="fill-current" />
-                  )}
-                </span>{" "}
-                <div className="inline align-middle font-bold text-sm">
+                {SvgPlatformName && (
+                  <SvgPlatformName className="fill-current inline w-4 h-4" />
+                )}{" "}
+                <Spacer size={1} axis="horizontal" />
+                <Typography.Text strong size="sm">
                   {track.title}
-                </div>
+                </Typography.Text>
               </div>
               <div className="flex text-xs text-foreground-secondary font-normal">
-                <span className="mr-1 flex-none">
+                <span className="flex-none">
                   {(() => {
                     const [sec, min] = parseMs(track.duration, true);
                     return `${min}:${sec}`;
                   })()}
                   {" • "}
                 </span>
-                <span className="truncate mr-1">
+                <Spacer size={1} axis="horizontal" />
+                <Typography.Text truncate>
                   {track.artists.map(({ name }) => name).join(", ")}
-                </span>
+                </Typography.Text>
                 {extraInfo && (
                   <>
+                    <Spacer size={1} axis="horizontal" />
                     {" • "}
+                    <Spacer size={1} axis="horizontal" />
                     {extraInfo}
                   </>
                 )}
@@ -61,7 +66,8 @@ export const TrackItem: React.FC<{
             </>
           ) : (
             <>
-              <div className="block-skeleton rounded h-6 mb-1" />
+              <div className="block-skeleton rounded h-6" />
+              <Spacer size={1} axis="vertical" />
               <div className="block-skeleton rounded h-4 w-3/4" />
             </>
           )}

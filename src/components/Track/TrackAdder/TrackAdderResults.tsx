@@ -1,5 +1,6 @@
 import { SvgCheck, SvgPlus } from "assets/svg";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { TrackItem } from "components/Track/index";
 import { useI18n } from "i18n/index";
 import React, { useMemo, useState } from "react";
@@ -36,7 +37,8 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
       style={style}
     >
       <TrackItem id={data.items[index]} />
-      <div className="flex content-end items-center ml-2">
+      <Spacer size={2} axis="horizontal" />
+      <div className="flex content-end items-center">
         <Button
           accessibilityLabel={t("queue.manager.add")}
           icon={

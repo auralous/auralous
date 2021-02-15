@@ -1,6 +1,7 @@
 import { useLogin } from "components/Auth";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import {
   QueueAction,
@@ -28,7 +29,10 @@ const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({
 );
 
 const CreateStoryFormGroup: React.FC = ({ children }) => (
-  <div className="w-full flex flex-col mb-4 items-center">{children}</div>
+  <>
+    <div className="w-full flex flex-col items-center">{children}</div>
+    <Spacer size={4} axis="vertical" />
+  </>
 );
 
 const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
@@ -99,52 +103,18 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
           id="storyText"
           aria-labelledby="storyText-label"
           required
-          className="input w-full text-center mb-1"
+          className="input w-full text-center"
           type="text"
           maxLength={CONFIG.storyTextMaxLength}
           ref={textRef}
           disabled={fetching}
         />
+        <Spacer size={1} axis="vertical" />
         <Typography.Paragraph size="xs" color="foreground-tertiary">
           {t("new.addNew.textHelp", { maxLength: CONFIG.storyTextMaxLength })}
         </Typography.Paragraph>
       </CreateStoryFormGroup>
-      <div className="mb-4" />
-      {/* <CreateStoryFormGroup>
-        <CreateStoryLabel htmlFor="storyPrivacy">
-          {t("new.addNew.promptPrivacy")}
-        </CreateStoryLabel>
-        <div className="input inline-flex mx-auto">
-          <div className="flex items-center mr-4">
-            <input
-              id="storyPrivacyPublic"
-              name="storyPrivacy"
-              type="radio"
-              value="public"
-              className="input"
-              checked={isPublic}
-              onChange={(e) => setIsPublic(e.currentTarget.value === "public")}
-            />
-            <label className="label mb-0 pl-1" htmlFor="storyPrivacyPublic">
-              {t("story.privacy.public")}
-            </label>
-          </div>
-          <div className="flex items-center">
-            <input
-              id="storyPrivacyPrivate"
-              name="storyPrivacy"
-              type="radio"
-              value="private"
-              className="input"
-              checked={!isPublic}
-              onChange={(e) => setIsPublic(e.currentTarget.value === "public")}
-            />
-            <label className="label mb-0 pl-1" htmlFor="storyPrivacyPrivate">
-              {t("story.privacy.private")}
-            </label>
-          </div>
-        </div>
-      </CreateStoryFormGroup> */}
+      <Spacer size={4} axis="vertical" />
       <Button
         color="primary"
         type="submit"

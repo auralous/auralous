@@ -1,5 +1,6 @@
 import { SvgGripVertical } from "assets/svg/index";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { TrackItem } from "components/Track/index";
 import { Typography } from "components/Typography";
 import {
@@ -77,19 +78,21 @@ const QueueDraggableItem: React.FC<{
       }`}
     >
       <div
-        className="text-inline-link mr-1"
+        className="text-inline-link"
         {...provided.dragHandleProps}
         hidden={!isQueueable}
       >
         <SvgGripVertical />
       </div>
+      <Spacer size={1} axis="horizontal" />
       <div className="px-2 flex items-center overflow-hidden h-full w-0 flex-1">
         <TrackItem
           id={queue.items[index].trackId}
           extraInfo={<QueueAddedBy userId={queue.items[index].creatorId} />}
         />
       </div>
-      <div className="flex content-end items-center ml-2">
+      <Spacer size={2} axis="vertical" />
+      <div className="flex content-end items-center">
         {isQueueable && (
           <Button
             accessibilityLabel={t("queue.manager.remove")}
@@ -201,10 +204,10 @@ const QueueManager: React.FC<{
             </Typography.Paragraph>
             {isQueueable && (
               <Button
-                color="primary"
                 shape="circle"
                 onPress={onEmptyAddClick}
                 title={t("queue.manager.add")}
+                size="large"
               />
             )}
           </div>

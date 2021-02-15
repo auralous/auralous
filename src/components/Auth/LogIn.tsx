@@ -1,6 +1,7 @@
 import { SvgGoogleColor, SvgSpotify, SvgX } from "assets/svg";
 import { Modal, useModal } from "components/Modal/index";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { PlatformName } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
@@ -109,8 +110,8 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
         >
           <div className="flex flex-col items-center p-4 space-y-2 max-w-full">
             <Typography.Title align="center">Hellooo!</Typography.Title>
-            <div className="flex flex-wrap flex-center">
-              <div className="m-1 p-1 flex flex-col space-y-1">
+            <div className="flex flex-wrap flex-center space-x-1 space-y-1">
+              <div className="p-1 flex flex-col space-y-1">
                 <Typography.Text
                   size="xs"
                   align="center"
@@ -129,10 +130,13 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                     width="24"
                     strokeWidth="0"
                   />
-                  <span className="ml-4 text-sm">Continue with Google</span>
+                  <Spacer size={4} />
+                  <Typography.Text size="sm">
+                    Continue with Google
+                  </Typography.Text>
                 </button>
               </div>
-              <div className="m-1 p-1 flex flex-col space-y-1">
+              <div className="p-1 flex flex-col space-y-1">
                 <Typography.Text
                   size="xs"
                   align="center"
@@ -147,7 +151,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgSpotify width="24" className="fill-current stroke-0" />
-                  <span className="ml-2 text-sm">Continue with Spotify</span>
+                  <Spacer size={4} />
+                  <Typography.Text size="sm">
+                    Continue with Spotify
+                  </Typography.Text>
                 </button>
               </div>
             </div>

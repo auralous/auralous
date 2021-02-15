@@ -141,7 +141,7 @@ const AddToExistingPlaylist: React.FC<{
           <PlaylistItem playlist={playlist} />
         </PressableHighlight>
       )) ||
-        (fetchingPlaylists && <SvgLoadingAnimated className="m-4 mx-auto" />)}
+        (fetchingPlaylists && <SvgLoadingAnimated className="mx-auto" />)}
     </div>
   );
 };

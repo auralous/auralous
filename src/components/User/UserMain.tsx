@@ -1,6 +1,7 @@
 import { SvgSettings } from "assets/svg";
 import { Modal, useModal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import StoryFeed from "components/Story/StoryFeed";
 import { Typography } from "components/Typography";
 import {
@@ -99,16 +100,18 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
         }}
       >
         <img
-          className="w-28 h-28 rounded-full mx-auto mb-2"
+          className="w-28 h-28 rounded-full mx-auto"
           src={user.profilePicture}
           alt={user.username}
         />
+        <Spacer size={2} axis="vertical" />
         <Typography.Title size="xl" strong align="center">
           {user.username}
         </Typography.Title>
-        <div className="text-center mb-8">
+        <div className="text-center">
           <UserFollowButton id={user.id} />
         </div>
+        <Spacer size={8} axis="vertical" />
         <div className="flex flex-center text-sm space-x-8 text-foreground-secondary">
           <div
             role="link"

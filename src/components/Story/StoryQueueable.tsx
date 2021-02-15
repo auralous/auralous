@@ -1,5 +1,7 @@
 import { SvgUserPlus, SvgX } from "assets/svg";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
 import {
   Story,
   useChangeStoryQueueableMutation,
@@ -59,9 +61,10 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
       onSubmit={onUserAdd}
       className="flex items-center rounded-full bg-background-secondary p-1"
     >
-      <div className="mr-2 flex flex-center w-10 h-10 rounded-full bg-background-secondary">
+      <div className="flex flex-center w-10 h-10 rounded-full bg-background-secondary">
         <SvgUserPlus className="w-4 h-4" />
       </div>
+      <Spacer size={2} axis="horizontal" />
       <input
         name="username"
         placeholder={t("settings.username.label")}
@@ -105,7 +108,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
   }, [userId, changeStoryQueueable, storyId, t, user]);
   return (
     <div className="flex items-center rounded-full bg-background-secondary p-1">
-      <div className="w-10 h-10 mr-2 rounded-full overflow-hidden">
+      <div className="w-10 h-10 rounded-full overflow-hidden">
         {user ? (
           <img
             className="w-full h-full object-cover"
@@ -116,9 +119,12 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
           <div className="block-skeleton w-full h-full" />
         )}
       </div>
+      <Spacer size={2} axis="horizontal" />
       <div className="w-0 flex-1">
         {user ? (
-          <div className="font-bold truncate">{user.username} </div>
+          <Typography.Text strong truncate>
+            {user.username}
+          </Typography.Text>
         ) : (
           <div className="w-20 h-5 block-skeleton" />
         )}

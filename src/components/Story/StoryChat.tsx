@@ -3,6 +3,7 @@ import { AuthBanner } from "components/Auth";
 import { Messenger } from "components/Message/index";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import {
   Story,
   useOnStoryUsersUpdatedSubscription,
@@ -32,7 +33,8 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
           icon={<SvgShare2 className="w-4 h-4" />}
           shape="circle"
         />
-        <div className="flex-1 ml-1">
+        <Spacer size={1} axis="horizontal" />
+        <div className="flex-1">
           <StoryListeners userIds={userIds} />
         </div>
       </div>
