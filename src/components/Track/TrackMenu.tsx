@@ -42,12 +42,7 @@ const TrackMenu: React.FC<{
             <Spacer size={4} axis="horizontal" />
             <div className="w-full md:w-0 flex-1">
               <div className="py-2 text-center md:text-left">
-                <Typography.Paragraph
-                  size="md"
-                  truncate
-                  strong
-                  paragraph={false}
-                >
+                <Typography.Paragraph size="md" truncate strong noMargin>
                   {track?.title}
                 </Typography.Paragraph>
                 <Typography.Paragraph

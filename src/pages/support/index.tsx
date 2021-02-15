@@ -24,9 +24,9 @@ const SupportPage: NextPage<{
         openGraph={{}}
         canonical={`${process.env.APP_URI}/support`}
       />
-      <div className="py-16 container leading-loose text-lg">
+      <div className="py-16 container leading-loose">
         <div className="max-w-xl mx-auto">
-          <Typography.Title align="center">
+          <Typography.Title align="center" size="4xl">
             {t("support.hi")}{" "}
             {me ? (
               <Typography.Text color="primary">
@@ -64,11 +64,11 @@ const SupportPage: NextPage<{
           size="sm"
           color="foreground-tertiary"
           align="center"
-          paragraph={false}
+          noMargin
         >
           {t("support.p")}
         </Typography.Paragraph>
-        <div className="flex flex-wrap justify-center py-6 space-x-2">
+        <div className="flex flex-wrap justify-center py-6 space-x-2 space-y-2">
           <Button
             icon={<SvgMail />}
             title="yo@withstereo.com"

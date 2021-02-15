@@ -42,11 +42,7 @@ const SearchResultRow = React.memo<ListChildComponentProps>(function Row({
         <Button
           accessibilityLabel={t("queue.manager.add")}
           icon={
-            added ? (
-              <SvgCheck className="text-success-light" width="18" />
-            ) : (
-              <SvgPlus width="16" />
-            )
+            added ? <SvgCheck className="w-4" /> : <SvgPlus className="w-4" />
           }
           onPress={onAdded}
           disabled={isAdding}

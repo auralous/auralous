@@ -194,7 +194,7 @@ const QueueManager: React.FC<{
   return (
     <div className="w-full h-full">
       {queue.items?.length === 0 && (
-        <div className="absolute-center z-10 w-full text-center p-4">
+        <div className="absolute-center z-10 w-full p-4">
           <Typography.Paragraph
             align="center"
             size="lg"

@@ -96,7 +96,7 @@ const TrackAdderSearch: React.FC<{
       {isEmpty && (
         <div className="absolute-center p-4">
           <Typography.Paragraph
-            paragraph={false}
+            noMargin
             color="foreground-secondary"
             align="center"
           >
@@ -104,12 +104,6 @@ const TrackAdderSearch: React.FC<{
           </Typography.Paragraph>
         </div>
       )}
-      {/* {(isEmpty || isSearching) && (
-        <div className="px-2 flex flex-col text-lg text-center flex-center w-full h-full text-foreground-secondary">
-          {isSearching && <SvgLoadingAnimated className="absolute-center" />}
-          {isEmpty && t("track.adder.search.helpText")}
-        </div>
-      )} */}
       <TrackAdderResults
         addedTracks={addedTracks}
         callback={callback}

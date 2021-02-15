@@ -121,7 +121,7 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
             onClick={openFollowing}
           >
             <Typography.Text strong>{userStat?.followingCount}</Typography.Text>{" "}
-            {t("user.following")}
+            <Typography.Text>{t("user.following")}</Typography.Text>
           </div>
           <div
             role="link"
@@ -131,7 +131,7 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
             onClick={openFollower}
           >
             <Typography.Text strong>{userStat?.followerCount}</Typography.Text>{" "}
-            {t("user.followers")}
+            <Typography.Text>{t("user.followers")}</Typography.Text>
           </div>
         </div>
         {me?.user.id === user.id && (

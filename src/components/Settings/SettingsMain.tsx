@@ -277,7 +277,7 @@ const MusicConnection: React.FC = () => {
           <Typography.Text>
             {t("settings.listening.title", { name })}
           </Typography.Text>
-          <Typography.Paragraph paragraph={false} size="sm">
+          <Typography.Paragraph noMargin size="sm">
             {me ? (
               <Typography.Text color="foreground-secondary">
                 {t("settings.listening.connectedTo", { name })},{" "}

@@ -1,5 +1,6 @@
 import { SvgPause, SvgPlay, SvgX } from "assets/svg";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -43,14 +44,19 @@ const PlayerMinibar: React.FC = () => {
               />
             )}
           </div>
-          <div className="text-xs p-2 flex-1 w-0 text-left">
-            <div className="font-bold leading-none truncate">
+          <div className="p-2 flex-1 w-0">
+            <Typography.Paragraph size="xs" strong noMargin truncate>
               {playerPlaying?.title || t("player.noneText")}
-            </div>
-            <div className="text-foreground-secondary truncate">
+            </Typography.Paragraph>
+            <Typography.Paragraph
+              noMargin
+              truncate
+              color="foreground-secondary"
+              size="xs"
+            >
               {playerPlaying?.artists.map((artist) => artist.name).join(", ") ||
                 t("player.noneHelpText")}
-            </div>
+            </Typography.Paragraph>
           </div>
         </a>
       </Link>

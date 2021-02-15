@@ -79,9 +79,9 @@ const CreatePlaylist: React.FC<{
         />
       </form>
       {track.platform === PlatformName.Youtube && (
-        <small className="text-foreground-tertiary">
+        <Typography.Text size="xs" color="foreground-tertiary">
           {t("playlist.new.youtubeNotice")}.
-        </small>
+        </Typography.Text>
       )}
     </>
   ) : (
@@ -160,12 +160,13 @@ const AddToPlaylist: React.FC<{
     <Modal.Modal title={t("playlist.addTitle")} active={active} close={close}>
       <Modal.Header>
         <Modal.Title>
-          <div>
-            {track?.title} <span className="text-foreground-tertiary">-</span>{" "}
-            <span className="text-foreground-secondary">
+          <Typography.Paragraph noMargin>
+            {track?.title}{" "}
+            <Typography.Text color="foreground-tertiary">-</Typography.Text>{" "}
+            <Typography.Text color="foreground-secondary">
               {track?.artists.map(({ name }) => name).join()}
-            </span>
-          </div>
+            </Typography.Text>
+          </Typography.Paragraph>
         </Modal.Title>
       </Modal.Header>
       <Modal.Content>

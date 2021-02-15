@@ -63,11 +63,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
             </Typography.Text>
           )}
         </div>
-        <Typography.Paragraph
-          truncate
-          paragraph={false}
-          color="foreground-secondary"
-        >
+        <Typography.Paragraph truncate noMargin color="foreground-secondary">
           {story.text}
         </Typography.Paragraph>
       </div>

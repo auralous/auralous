@@ -13,6 +13,7 @@ import { useLogin } from "components/Auth";
 import { PlayerMinibar } from "components/Player/index";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
+import { Typography } from "components/Typography";
 import { useNotificationAddedSubscription, User } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -99,12 +100,19 @@ const Sidebar: React.FC = () => {
                 alt={me.user.username}
                 className="w-8 h-8 rounded-full"
               />
-              <div className="w-0 flex-1 text-foreground-secondary py-1 px-3 truncate leading-none">
-                <div className="font-bold text-sm">{me.user.username}</div>
+              <div className="w-0 flex-1 py-1 px-3 truncate leading-none">
+                <Typography.Paragraph
+                  noMargin
+                  strong
+                  size="sm"
+                  color="foreground-secondary"
+                >
+                  {me.user.username}
+                </Typography.Paragraph>
                 <Link href={`/user/${me.user.username}`}>
-                  <a className="text-xs text-primary hover:text-primary-dark">
+                  <Typography.Link color="primary" size="xs">
                     {t("user.profile")}
-                  </a>
+                  </Typography.Link>
                 </Link>
               </div>
               <Link href="/settings">
@@ -212,7 +220,7 @@ const Appbar: React.FC = () => {
           </AppbarItem>
         ) : (
           <button
-            className="btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1"
+            className="btn btn-transparent border-primary py-1 rounded-none flex-1"
             title={t("common.signIn")}
             onClick={logIn}
           >

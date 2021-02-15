@@ -48,7 +48,7 @@ const TrackAdderPlaylist: React.FC<{
 
   return (
     <div className="flex flex-col w-full h-full relative">
-      <div className="text-sm px-2 h-10 flex items-center font-bold space-x-2">
+      <div className="px-2 h-10 flex items-center space-x-2">
         <Button
           onPress={() => setSelectedPlaylist(null)}
           accessibilityLabel={t("common.back")}
@@ -63,8 +63,10 @@ const TrackAdderPlaylist: React.FC<{
               alt={selectedPlaylist.name}
               className="w-6 h-6 rounded"
             />
-            <Spacer size={1} axis="horizontal" />
-            <Typography.Text>{selectedPlaylist.name}</Typography.Text>
+            <Spacer size={2} axis="horizontal" />
+            <Typography.Text strong size="sm">
+              {selectedPlaylist.name}
+            </Typography.Text>
           </div>
         )}
       </div>

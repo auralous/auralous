@@ -2,6 +2,7 @@ import { DialogContent, DialogOverlay } from "@reach/dialog";
 import { SvgX } from "assets/svg";
 import clsx from "clsx";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
 import React from "react";
 import { animated, config as springConfig, useTransition } from "react-spring";
@@ -11,7 +12,9 @@ const ModalHeader: React.FC = ({ children }) => (
 );
 
 const ModalTitle: React.FC = ({ children }) => (
-  <h4 className="text-lg font-bold flex items-center">{children}</h4>
+  <Typography.Title noMargin level={4} size="lg">
+    {children}
+  </Typography.Title>
 );
 
 const ModalContent: React.FC<{

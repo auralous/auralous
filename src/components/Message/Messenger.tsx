@@ -143,7 +143,7 @@ const MessageItem: React.FC<{
         </>
       )}
       {isGrouped && <div className="-mt-3" />}
-      <Typography.Paragraph paragraph={false} size="sm">
+      <Typography.Paragraph noMargin size="sm">
         {message.text}
       </Typography.Paragraph>
     </div>

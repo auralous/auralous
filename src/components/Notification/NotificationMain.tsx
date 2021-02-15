@@ -47,10 +47,10 @@ const NotificationItemStorySection: React.FC<{ id: string }> = ({ id }) => {
           className="w-8 h-8 rounded-sm object-cover"
         />
         <div className="px-2">
-          <Typography.Paragraph size="sm" strong paragraph={false}>
+          <Typography.Paragraph size="sm" strong noMargin>
             {t("story.ofUsername", { username: user?.username })}
           </Typography.Paragraph>
-          <Typography.Paragraph size="xs" paragraph={false}>
+          <Typography.Paragraph size="xs" noMargin>
             {story?.text}
           </Typography.Paragraph>
         </div>
@@ -69,7 +69,7 @@ const NotificationItemFollow: React.FC<{
 
   return (
     <>
-      <Typography.Paragraph paragraph={false} size="sm">
+      <Typography.Paragraph noMargin size="sm">
         <Link href={`/user/${user?.username}`}>
           <Typography.Link strong>{user?.username}</Typography.Link>
         </Link>{" "}
@@ -89,7 +89,7 @@ const NotificationItemInvite: React.FC<{
 
   return (
     <>
-      <Typography.Paragraph paragraph={false} size="sm">
+      <Typography.Paragraph noMargin size="sm">
         <Link href={`/user/${user?.username}`}>
           <Typography.Link strong>{user?.username}</Typography.Link>
         </Link>{" "}
@@ -110,7 +110,7 @@ const NotificationItemNewStory: React.FC<{
 
   return (
     <>
-      <Typography.Paragraph paragraph={false} size="sm">
+      <Typography.Paragraph noMargin size="sm">
         <Link href={`/user/${user?.username}`}>
           <Typography.Link strong>{user?.username}</Typography.Link>
         </Link>{" "}
@@ -140,9 +140,9 @@ const NotificationItem: React.FC<{
       ) : (
         <NotificationItemNewStory notification={notification} />
       )}
-      <div className="text-foreground-tertiary text-xs">
+      <Typography.Paragraph noMargin color="foreground-tertiary" size="xs">
         {getDateDiffTxt(notification.createdAt)}
-      </div>
+      </Typography.Paragraph>
     </div>
   );
 };

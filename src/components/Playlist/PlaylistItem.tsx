@@ -16,11 +16,11 @@ const PlaylistItem: React.FC<{
       />
       <Spacer size={2} axis="horizontal" />
       <div>
-        <Typography.Paragraph paragraph={false} strong size="sm" align="left">
+        <Typography.Paragraph noMargin strong size="sm" align="left">
           {playlist.name}
         </Typography.Paragraph>
         <Typography.Paragraph
-          paragraph={false}
+          noMargin
           size="xs"
           color="foreground-secondary"
           align="left"

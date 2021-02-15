@@ -79,9 +79,11 @@ const SelectTracksView: React.FC<{
         )
       )}
       <div className="pt-48 flex flex-col items-center space-y-1">
-        <span className="text-foreground-tertiary text-sm font-bold my-8 uppercase">
+        <Spacer size={8} axis="vertical" />
+        <Typography.Text uppercase color="foreground-tertiary" size="sm" strong>
           {t("new.or")}
-        </span>
+        </Typography.Text>
+        <Spacer size={8} axis="vertical" />
         <Button
           onPress={() =>
             from === "search" ? setFrom("playlist") : setFrom("search")
@@ -110,20 +112,23 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
   return (
     <>
-      <div className="text-lg text-center text-foreground-secondary pb-6">
-        {initTracks.length ? (
-          <Typography.Paragraph color="foreground-secondary">
-            {t("new.fromResult.startListeningTo")}{" "}
-            <Typography.Text strong color="foreground">
-              {initTracks.length} {t("common.tracks")}
-            </Typography.Text>{" "}
-            {t("new.fromResult.featuring")}{" "}
-            <Typography.Text emphasis color="foreground">
-              {getFeaturedArtists(initTracks).join(", ")}
-            </Typography.Text>
-          </Typography.Paragraph>
-        ) : null}
-      </div>
+      {initTracks.length ? (
+        <Typography.Paragraph
+          size="lg"
+          align="center"
+          color="foreground-secondary"
+        >
+          {t("new.fromResult.startListeningTo")}{" "}
+          <Typography.Text strong color="foreground">
+            {initTracks.length} {t("common.tracks")}
+          </Typography.Text>{" "}
+          {t("new.fromResult.featuring")}{" "}
+          <Typography.Text emphasis color="foreground">
+            {getFeaturedArtists(initTracks).join(", ")}
+          </Typography.Text>
+        </Typography.Paragraph>
+      ) : null}
+      <Spacer size={4} axis="vertical" />
       <CreateStory initTracks={initTracks} />
       <Spacer size={2} axis="vertical" />
       <div className="w-full text-center">
@@ -163,9 +168,11 @@ const NewMain: React.FC = () => {
         <LayoutBackButton />
       </div>
       <div className="px-4 max-w-xl mx-auto">
-        <h2 className="font-bold text-4xl text-center py-6">
+        <Spacer size={4} axis="vertical" />
+        <Typography.Title level={2} size="4xl" align="center">
           {initTracks ? t("new.promptAlmost") : t("new.prompt")}
-        </h2>
+        </Typography.Title>
+        <Spacer size={4} axis="vertical" />
         <div className="relative pb-8">
           {transitionsCreate.map(({ item: doneSelected, key, props }) =>
             doneSelected ? (

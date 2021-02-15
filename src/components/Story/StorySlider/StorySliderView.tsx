@@ -71,7 +71,7 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
           size="lg"
           color="foreground-secondary"
           align="center"
-          paragraph={false}
+          noMargin
         >
           {t(story?.isLive ? "listen.promptJoin" : "listen.promptJoinNolive", {
             username: user?.username || "",

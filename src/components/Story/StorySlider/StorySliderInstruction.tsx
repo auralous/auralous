@@ -25,7 +25,7 @@ const StorySliderInstruction = () => {
       style={{ zIndex: 10, backdropFilter: "blur(2px)" }}
       aria-label={t("story.feed.instruction")}
     >
-      <div className="p-4 text-opacity-75 text-center">
+      <div className="p-4 text-center">
         <Typography.Paragraph size="lg" strong>
           {t("story.feed.instruction")}
         </Typography.Paragraph>

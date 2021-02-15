@@ -19,6 +19,7 @@ interface TypographyProps {
   align?: "center" | "left" | "right";
   id?: string;
   truncate?: boolean;
+  uppercase?: boolean;
 }
 
 const commonClsx = (props: TypographyProps) =>
@@ -28,7 +29,8 @@ const commonClsx = (props: TypographyProps) =>
     props.emphasis && "italic",
     props.align && `text-${props.align}`,
     props.size && `text-${props.size}`,
-    props.truncate && "truncate"
+    props.truncate && "truncate",
+    props.uppercase && "uppercase"
   );
 
 const Text: React.FC<TypographyProps> = ({ children, ...props }) => {
@@ -41,11 +43,11 @@ const Text: React.FC<TypographyProps> = ({ children, ...props }) => {
 
 const Paragraph: React.FC<
   TypographyProps & {
-    paragraph?: boolean;
+    noMargin?: boolean;
   }
-> = ({ children, paragraph = true, ...props }) => {
+> = ({ children, noMargin, ...props }) => {
   return (
-    <p id={props.id} className={clsx(commonClsx(props), paragraph && "mb-4")}>
+    <p id={props.id} className={clsx(commonClsx(props), !noMargin && "mb-4")}>
       {children}
     </p>
   );

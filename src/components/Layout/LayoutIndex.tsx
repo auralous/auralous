@@ -119,10 +119,10 @@ const Navbar: React.FC = () => {
 const Footer: React.FC = () => {
   const { t } = useI18n();
   return (
-    <footer className="text-center py-12 w-full mx-auto">
+    <footer className="py-12 w-full mx-auto">
       <Spacer size={8} axis="vertical" />
       <Spacer size={8} axis="vertical" />
-      <div className="space-x-4 overflow-scroll">
+      <div className="space-x-4 overflow-auto text-center">
         <Typography.Link
           strong
           href="https://www.facebook.com/withstereo/"
@@ -158,19 +158,21 @@ const Footer: React.FC = () => {
         color="foreground-tertiary"
       >
         {"© 2019. Made with ❤️, 🔥, and a ⌨️, by "}
-        <a
-          className="font-bold hover:text-foreground"
+        <Typography.Link
+          color="foreground-secondary"
+          strong
           href="https://hoangvvo.com/"
         >
           Hoang
-        </a>{" "}
+        </Typography.Link>{" "}
         and{" "}
-        <a
-          className="font-bold hover:text-foreground"
+        <Typography.Link
+          color="foreground-secondary"
+          strong
           href="https://github.com/hoangvvo/stereo-web/contributors"
         >
           contributors
-        </a>
+        </Typography.Link>
         .
       </Typography.Paragraph>
     </footer>

@@ -112,11 +112,7 @@ export const PlayerMeta: React.FC<{
           <Typography.Title noMargin level={4} strong size="2xl" truncate>
             {track ? track.title : t("player.noneText")}
           </Typography.Title>
-          <Typography.Paragraph
-            paragraph={false}
-            color="foreground-secondary"
-            truncate
-          >
+          <Typography.Paragraph noMargin color="foreground-secondary" truncate>
             {track
               ? track.artists.map((artist) => artist.name).join(", ")
               : t("player.noneHelpText")}
