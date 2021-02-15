@@ -96,8 +96,10 @@ const Navbar: React.FC = () => {
           </button>
           <div
             className={clsx(
-              expanded ? "flex" : "hidden",
-              "py-4 w-full absolute justify-center bg-background bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur md:flex content-end md:items-center flex-none"
+              expanded
+                ? "flex py-4 w-full absolute justify-center bg-background bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur "
+                : "hidden",
+              "md:flex content-end md:items-center flex-none"
             )}
           >
             <Link href="/support">
