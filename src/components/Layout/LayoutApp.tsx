@@ -49,7 +49,7 @@ const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
     <Link href={href}>
       <a
         className={`btn btn-transparent font-normal text-sm ${
-          isActive ? "bg-background-secondary" : ""
+          isActive ? "bg-background-tertiary" : ""
         } ${isBold ? boldClasses : ""} w-full mb-2`}
       >
         {children}
