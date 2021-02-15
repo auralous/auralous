@@ -18,28 +18,6 @@
   }
 }
 
-:root {
-  font-size: 16px;
-}
-
-@screen xl {
-  :root {
-    font-size: 18px;
-  }
-}
-
-@screen 2xl {
-  :root {
-    font-size: 20px;
-  }
-}
-
-@media (min-width: 1920px) {
-  :root {
-    font-size: 22px;
-  }
-}
-
 body {
   @apply text-foreground bg-background font-sans;
 }

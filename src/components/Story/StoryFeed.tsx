@@ -94,7 +94,7 @@ const StoryFeed: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <>
-      <div className="w-full p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+      <div className="w-full p-4 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
         {stories?.map((story, index) => (
           <StoryItem
             key={story.id}

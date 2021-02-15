@@ -39,12 +39,12 @@ const PlayerMinibar: React.FC = () => {
     >
       <Link href={`/story/${playingStoryId}`}>
         <a className="flex-1 w-0 flex items-center">
-          <div className="w-14 h-14">
+          <div className="w-14 h-14 box-border p-1">
             {playerPlaying && (
               <img
                 alt={t("nowPlaying.title")}
                 src={playerPlaying.image}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover rounded shadow-lg"
               />
             )}
           </div>
