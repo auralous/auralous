@@ -177,27 +177,23 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             align="center"
           >
             {t("auth.footerText.pre")}{" "}
-            <a target="_blank" href="/privacy" className="underline">
+            <Typography.Link target="_blank" href="/privacy">
               {t("auth.footerText.privacyPolicy")}
-            </a>
+            </Typography.Link>
             ,{" "}
-            <a
+            <Typography.Link
               target="_blank"
-              rel="noopener noreferrer"
               href="https://www.youtube.com/t/terms"
-              className="underline"
             >
               {t("auth.footerText.youtubeTerm")}
-            </a>{" "}
+            </Typography.Link>{" "}
             {t("auth.footerText.andOr")}{" "}
-            <a
+            <Typography.Link
               target="_blank"
-              rel="noopener noreferrer"
               href="https://www.spotify.com/us/legal/privacy-policy/"
-              className="underline"
             >
               {t("auth.footerText.spotifyTerm")}
-            </a>{" "}
+            </Typography.Link>{" "}
             {t("auth.footerText.whereApplicable")}.
           </Typography.Paragraph>
         </div>

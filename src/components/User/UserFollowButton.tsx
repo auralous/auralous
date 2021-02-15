@@ -35,6 +35,7 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
         styling="link"
         size={isTiny ? "small" : undefined}
         title={t("user.unfollow")}
+        shape="circle"
       />
     );
 
@@ -45,6 +46,7 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
       color="primary"
       size={isTiny ? "small" : undefined}
       title={t("user.follow")}
+      shape="circle"
     />
   );
 };

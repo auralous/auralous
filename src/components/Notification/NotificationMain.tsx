@@ -69,7 +69,7 @@ const NotificationItemFollow: React.FC<{
     <>
       <Typography.Paragraph paragraph={false} size="sm">
         <Link href={`/user/${user?.username}`}>
-          <a className="font-bold">{user?.username}</a>
+          <Typography.Link strong>{user?.username}</Typography.Link>
         </Link>{" "}
         {t("notification.follow.text")}
       </Typography.Paragraph>
@@ -89,7 +89,7 @@ const NotificationItemInvite: React.FC<{
     <>
       <Typography.Paragraph paragraph={false} size="sm">
         <Link href={`/user/${user?.username}`}>
-          <a className="font-bold">{user?.username}</a>
+          <Typography.Link strong>{user?.username}</Typography.Link>
         </Link>{" "}
         {t("notification.invite.text")}
       </Typography.Paragraph>
@@ -110,7 +110,7 @@ const NotificationItemNewStory: React.FC<{
     <>
       <Typography.Paragraph paragraph={false} size="sm">
         <Link href={`/user/${user?.username}`}>
-          <a className="font-bold">{user?.username}</a>
+          <Typography.Link strong>{user?.username}</Typography.Link>
         </Link>{" "}
         {t("notification.newStory.text")}
       </Typography.Paragraph>

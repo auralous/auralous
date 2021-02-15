@@ -1,5 +1,6 @@
 import { SvgLogo, SvgMenu, SvgX } from "assets/svg";
 import { usePlayer } from "components/Player/index";
+import { Typography } from "components/Typography";
 import { useI18n } from "i18n/index";
 import { Locale } from "i18n/types";
 import Link from "next/link";
@@ -115,51 +116,40 @@ const Footer: React.FC = () => {
   return (
     <footer className="text-center mt-20 py-12 w-full mx-auto">
       <div className="mb-1 text-sm overflow-auto opacity-75 space-x-4">
-        <a
+        <Typography.Link
+          strong
           href="https://www.facebook.com/withstereo/"
           target="_blank"
-          rel="noreferrer"
-          className="text-inline-link font-medium"
         >
           Facebook
-        </a>
-        <a
+        </Typography.Link>
+        <Typography.Link
+          strong
           href="https://twitter.com/withstereo_"
           target="_blank"
-          rel="noreferrer"
-          className="text-inline-link font-medium"
         >
           Twitter
-        </a>
+        </Typography.Link>
         <Link href="/privacy">
-          <a className="text-inline-link font-medium">{t("footer.privacy")}</a>
+          <Typography.Link strong>{t("footer.privacy")}</Typography.Link>
         </Link>
-        <a
-          href="https://github.com/hoangvvo/stereo-web"
+        <Typography.Link
+          href="https://www.facebook.com/withstereo/"
           target="_blank"
-          rel="noreferrer"
-          className="text-inline-link font-medium"
+          strong
         >
           {t("footer.contribute")}
-        </a>
+        </Typography.Link>
         <Link href="/support">
-          <a className="text-inline-link font-medium">{t("footer.support")}</a>
+          <Typography.Link strong>{t("footer.support")}</Typography.Link>
         </Link>
       </div>
-      <p className="text-center opacity-50 mb-2 text-xs">
-        © 2019. Made with{" "}
-        <span role="img" aria-label="Love">
-          ❤️
-        </span>
-        ,{" "}
-        <span role="img" aria-label="Fire">
-          🔥
-        </span>
-        , and a{" "}
-        <span role="img" aria-label="Keyboard">
-          ⌨️
-        </span>{" "}
-        by{" "}
+      <Typography.Paragraph
+        align="center"
+        size="xs"
+        color="foreground-tertiary"
+      >
+        {"© 2019. Made with ❤️, 🔥, and a ⌨️, by "}
         <a
           className="font-bold hover:text-foreground"
           href="https://hoangvvo.com/"
@@ -174,7 +164,7 @@ const Footer: React.FC = () => {
           contributors
         </a>
         .
-      </p>
+      </Typography.Paragraph>
     </footer>
   );
 };

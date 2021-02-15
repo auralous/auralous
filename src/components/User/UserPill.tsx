@@ -1,3 +1,4 @@
+import { Typography } from "components/Typography";
 import { useUserQuery } from "gql/gql.gen";
 import Link from "next/link";
 import React from "react";
@@ -26,9 +27,9 @@ const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
       <div className="mr-2">
         {user ? (
           <Link href={`/user/${id}`}>
-            <a className="font-semibold truncate text-inline-link">
+            <Typography.Link strong truncate>
               {user.username}
-            </a>
+            </Typography.Link>
           </Link>
         ) : (
           <div className="w-20 h-5 block-skeleton" />

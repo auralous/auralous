@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-const StorySlider = dynamic(() => import("./StorySlider"));
+const StorySlider = dynamic(() => import("./StorySlider"), { ssr: false });
 
 const LIMIT = 10;
 

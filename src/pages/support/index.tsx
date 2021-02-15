@@ -44,18 +44,19 @@ const SupportPage: NextPage<{
           </Typography.Title>
           {pages.map((page, index) => (
             <Link key={page.slug} href={`/support/${page.slug}`}>
-              <a className="flex items-center opacity-75 hover:opacity-100 transition-opacity">
-                <span className="mr-2 flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-primary text-white">
-                  {index + 1}
-                </span>
-                <Typography.Title level={4} size="md" strong={false}>
-                  <Typography.Text size="2xl" strong>
-                    {page.title}
-                  </Typography.Text>
-                  <div className="mb-2" />
-                  <Typography.Text>{page.subtitle}</Typography.Text>
-                </Typography.Title>
-              </a>
+              <Typography.Link>
+                <div className="flex items-center">
+                  <span className="mr-2 flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-primary text-white">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <Typography.Title level={4} size="2xl" strong>
+                      {page.title}
+                    </Typography.Title>
+                    <Typography.Text>{page.subtitle}</Typography.Text>
+                  </div>
+                </div>
+              </Typography.Link>
             </Link>
           ))}
         </div>

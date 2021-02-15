@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, { forwardRef, ReactNode } from "react";
 
 type TextSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
@@ -50,6 +50,26 @@ const Paragraph: React.FC<
   );
 };
 
+const Link = forwardRef<
+  HTMLAnchorElement,
+  TypographyProps & { href?: string; target?: string; children?: ReactNode }
+>(function Link({ children, href, target, ...props }, ref) {
+  return (
+    <a
+      href={href}
+      id={props.id}
+      /* @ts-ignore: For next/link only */
+      onClick={props.onClick}
+      {...(href?.startsWith("http") &&
+        target === "_blank" && { rel: "noopener noreferrer" })}
+      className={clsx(commonClsx(props), "text-inline-link")}
+      ref={ref}
+    >
+      {children}
+    </a>
+  );
+});
+
 const defaultTitleSize: TextSize[] = ["3xl", "2xl", "xl", "lg"];
 const Title: React.FC<TypographyProps & { level?: 1 | 2 | 3 | 4 }> = ({
   children,
@@ -84,4 +104,4 @@ const Title: React.FC<TypographyProps & { level?: 1 | 2 | 3 | 4 }> = ({
   );
 };
 
-export default { Text, Paragraph, Title };
+export default { Text, Paragraph, Title, Link };

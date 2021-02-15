@@ -1,3 +1,4 @@
+import { Typography } from "components/Typography";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import React from "react";
@@ -18,12 +19,12 @@ const SupportPageArticle: NextPage<{ page: SupportArticle }> = ({ page }) => {
       />
       <div className="py-12 px-2">
         <div className="text-center">
-          <h1 className="font-bold">
+          <Typography.Title>
             <span className="block text-5xl leading-none mb-2">
               {page.title}
             </span>
             <span className="text-lg leading-none">{page.subtitle}</span>
-          </h1>
+          </Typography.Title>
         </div>
       </div>
       <div className="py-20 px-2 leading-loose max-w-2xl mx-auto">

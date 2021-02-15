@@ -1,3 +1,4 @@
+import { Typography } from "components/Typography";
 import fs from "fs";
 import { GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
@@ -16,7 +17,7 @@ const PrivacyPage: NextPage<{ __html: string }> = ({ __html }) => {
       />
       <div className="py-12 px-2">
         <div className="text-center">
-          <h1 className="text-5xl leading-none font-bold">Privacy Policy</h1>
+          <Typography.Title>Privacy Policy</Typography.Title>
         </div>
       </div>
       <div className="py-20 px-2 leading-loose max-w-xl mx-auto">

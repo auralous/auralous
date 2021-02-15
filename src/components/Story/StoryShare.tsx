@@ -1,6 +1,7 @@
 import { SvgFacebook, SvgLink, SvgReddit, SvgTwitter } from "assets/svg";
 import { Modal } from "components/Modal";
 import { Button } from "components/Pressable";
+import { Typography } from "components/Typography";
 import UserList from "components/User/UserList";
 import UserPill from "components/User/UserPill";
 import {
@@ -104,9 +105,14 @@ const StoryShare: React.FC<{
         <div>
           {userFollowings ? (
             <>
-              <h5 className="font-bold text-sm mb-2 text-foreground-secondary">
+              <Typography.Title
+                level={4}
+                strong
+                size="sm"
+                color="foreground-secondary"
+              >
                 {t("user.following")}
-              </h5>
+              </Typography.Title>
               <UserList Element={InviteUserElement} userIds={userFollowings} />
             </>
           ) : null}

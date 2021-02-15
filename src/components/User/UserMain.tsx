@@ -103,9 +103,9 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           src={user.profilePicture}
           alt={user.username}
         />
-        <h1 className="text-lg md:text-2xl font-bold text-center mb-2">
+        <Typography.Title size="xl" strong align="center">
           {user.username}
-        </h1>
+        </Typography.Title>
         <div className="text-center mb-8">
           <UserFollowButton id={user.id} />
         </div>
