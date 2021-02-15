@@ -133,7 +133,7 @@ const StorySlider: React.FC<{
     >
       <animated.div
         style={{ transform: transitions.transform }}
-        className="h-full w-full max-w-lg mx-auto relative select-none"
+        className="h-full w-full relative select-none"
       >
         <StorySliderContent
           intialSlide={intialSlide}

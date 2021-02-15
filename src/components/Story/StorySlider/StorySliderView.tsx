@@ -51,11 +51,22 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
   });
 
   return (
-    <div className="p-4 relative box-border w-full h-full flex flex-col justify-center">
+    <div className="p-4 box-border w-full h-full flex flex-col justify-center">
       <StoryNav onClose={close} story={story} />
-      <PlayerImage track={track} />
-      <PlayerMeta track={track} fetching={fetching && !track} />
-      <div className="w-full space-y-1">
+      <div className="relative w-full h-0 flex-1 flex flex-col max-w-lg mx-auto">
+        <PlayerImage track={track} />
+        <PlayerMeta track={track} fetching={fetching && !track} />
+        {/* TODO: a11y */}
+        <div
+          role="button"
+          tabIndex={0}
+          className="absolute top-0 left-0 w-full h-full opacity-0"
+          aria-label={t("player.skipForward")}
+          onClick={skipForward}
+          onKeyPress={onEnterKeyClick}
+        />
+      </div>
+      <div className="w-full space-y-1 h-24 max-w-lg mx-auto">
         <Typography.Paragraph
           size="lg"
           color="foreground-secondary"
@@ -79,18 +90,6 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
           />
         </Link>
       </div>
-      {/* TODO: a11y */}
-      <div
-        role="button"
-        tabIndex={0}
-        className="absolute top-24 left-0 w-full opacity-0"
-        aria-label={t("player.skipForward")}
-        onClick={skipForward}
-        onKeyPress={onEnterKeyClick}
-        style={{
-          height: "calc(100% - 16rem)",
-        }}
-      />
     </div>
   );
 };
