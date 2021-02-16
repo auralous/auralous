@@ -86,7 +86,6 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
       <div
         ref={resizeRef}
         className="p-4 overflow-hidden flex flex-col justify-center"
-        style={{ backgroundColor: "rgb(18, 18, 24)" }}
       >
         <StoryNav onClose={onClose} story={story} />
         <Tabs

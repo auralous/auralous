@@ -81,9 +81,11 @@ const MessageItemPlay: React.FC<{
         createdAt={message.createdAt}
       />
       <div>
-        <Spacer size={8} axis="horizontal" />
         {track && (
-          <button className="opacity-75 text-inline-link" onClick={show}>
+          <button
+            className="opacity-75 text-inline-link text-left"
+            onClick={show}
+          >
             <Typography.Text size="xs" emphasis>
               {track.artists.map(({ name }) => name).join(", ")}
             </Typography.Text>{" "}

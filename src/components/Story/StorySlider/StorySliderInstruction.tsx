@@ -33,6 +33,7 @@ const StorySliderInstruction = () => {
           onPress={close}
           title={t("common.startListening")}
           color="primary"
+          shape="circle"
         />
       </div>
     </DialogOverlay>

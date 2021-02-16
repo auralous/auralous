@@ -11,7 +11,7 @@ const PlayerMinibar: React.FC = () => {
   const { t } = useI18n();
   const router = useRouter();
   const {
-    state: { playingStoryId, playerPlaying },
+    state: { playingStoryId, playerPlaying, fetching },
     playStory,
     player,
   } = usePlayer();
@@ -36,27 +36,41 @@ const PlayerMinibar: React.FC = () => {
       <Link href={`/story/${playingStoryId}`}>
         <a className="flex-1 w-0 flex items-center">
           <div className="w-14 h-14 box-border p-1">
-            {playerPlaying && (
-              <img
-                alt={t("nowPlaying.title")}
-                src={playerPlaying.image}
-                className="h-full w-full object-cover rounded shadow-lg"
-              />
+            {fetching ? (
+              <div className="w-full h-full block-skeleton rounded" />
+            ) : (
+              playerPlaying && (
+                <img
+                  alt={t("nowPlaying.title")}
+                  src={playerPlaying.image}
+                  className="h-full w-full object-cover rounded shadow-lg"
+                />
+              )
             )}
           </div>
           <div className="p-2 flex-1 w-0">
-            <Typography.Paragraph size="xs" strong noMargin truncate>
-              {playerPlaying?.title || t("player.noneText")}
-            </Typography.Paragraph>
-            <Typography.Paragraph
-              noMargin
-              truncate
-              color="foreground-secondary"
-              size="xs"
-            >
-              {playerPlaying?.artists.map((artist) => artist.name).join(", ") ||
-                t("player.noneHelpText")}
-            </Typography.Paragraph>
+            {fetching ? (
+              <>
+                <div className="block-skeleton rounded h-4 mb-1 w-36" />
+                <div className="block-skeleton rounded h-3 w-24" />
+              </>
+            ) : (
+              <>
+                <Typography.Paragraph size="xs" strong noMargin truncate>
+                  {playerPlaying?.title || t("player.noneText")}
+                </Typography.Paragraph>
+                <Typography.Paragraph
+                  noMargin
+                  truncate
+                  color="foreground-secondary"
+                  size="xs"
+                >
+                  {playerPlaying?.artists
+                    .map((artist) => artist.name)
+                    .join(", ") || t("player.noneHelpText")}
+                </Typography.Paragraph>
+              </>
+            )}
           </div>
         </a>
       </Link>

@@ -65,8 +65,7 @@ export const TrackItem: React.FC<{
             </>
           ) : (
             <>
-              <div className="block-skeleton rounded h-6" />
-              <Spacer size={1} axis="vertical" />
+              <div className="block-skeleton rounded h-6 mb-1" />
               <div className="block-skeleton rounded h-4 w-3/4" />
             </>
           )}

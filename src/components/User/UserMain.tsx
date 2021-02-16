@@ -98,12 +98,7 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
 
   return (
     <>
-      <div
-        className="relative px-4 pt-8 pb-4 border-b-4 border-primary"
-        style={{
-          backgroundColor: "rgb(18, 18, 24)",
-        }}
-      >
+      <div className="relative px-4 pt-8 pb-4">
         <img
           className="w-28 h-28 rounded-full mx-auto"
           src={user.profilePicture}

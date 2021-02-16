@@ -8,14 +8,14 @@ interface SpacerProps {
 
 const Spacer: React.FC<SpacerProps> = ({ size, axis, style }) => {
   return (
-    <div
+    <span
       style={{
         width: "1px",
         height: "1px",
         ...style,
       }}
       className={clsx(
-        "inline-block",
+        axis === "vertical" ? "block" : "inline-block", // fix the ghost whitespace
         axis !== "horizontal" && `h-${size}`,
         axis !== "vertical" && `w-${size}`
       )}

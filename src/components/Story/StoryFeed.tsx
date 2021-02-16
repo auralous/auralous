@@ -1,4 +1,5 @@
 import { useModal } from "components/Modal";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
@@ -51,8 +52,9 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
         )}
       </div>
       <div className="absolute p-4 bottom-0 w-full">
-        <div className="space-x-1">
+        <Typography.Paragraph noMargin align="left">
           <Typography.Text strong>{user?.username}</Typography.Text>
+          <Spacer size={1} axis="horizontal" />
           {story.isLive ? (
             <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
               {t("common.live")}
@@ -62,8 +64,13 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
               {dateStr}
             </Typography.Text>
           )}
-        </div>
-        <Typography.Paragraph truncate noMargin color="foreground-secondary">
+        </Typography.Paragraph>
+        <Typography.Paragraph
+          truncate
+          noMargin
+          color="foreground-secondary"
+          align="left"
+        >
           {story.text}
         </Typography.Paragraph>
       </div>
