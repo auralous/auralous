@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { forwardRef, ReactNode } from "react";
+import { CSSProperties, forwardRef, ReactNode } from "react";
 
 interface ButtonProps {
   color?: "primary" | "danger";
@@ -15,6 +15,7 @@ interface ButtonProps {
   shape?: "circle" | "round";
   styling?: "link" | "outline";
   href?: string;
+  style?: CSSProperties;
 }
 
 const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
@@ -35,6 +36,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       shape,
       styling,
       href,
+      style,
     },
     ref
   ) {
@@ -75,6 +77,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
           {...(href && { href })}
           className={className}
           onClick={onClick}
+          style={style}
         >
           {icon}
           {title && <span>{title}</span>}
@@ -89,6 +92,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
         className={className}
         disabled={disabled}
         type={type}
+        style={style}
       >
         {icon}
         {title && <span>{title}</span>}

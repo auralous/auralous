@@ -1,6 +1,6 @@
 import { SvgLogIn, SvgMusic } from "assets/svg";
 import { useModal } from "components/Modal";
-import { Button } from "components/Pressable";
+import { Button, PressableHighlight } from "components/Pressable";
 import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -74,27 +74,30 @@ const MessageItemPlay: React.FC<{
   });
   const [active, show, close] = useModal();
   return (
-    <div>
+    <Box alignItems="start">
       <MessageItemSpecial
         text={<>{t("message.play.text", { username: user?.username || "" })}</>}
         Icon={SvgMusic}
         createdAt={message.createdAt}
       />
-      <div>
-        {track && (
-          <button
-            className="opacity-75 text-inline-link text-left"
-            onClick={show}
-          >
-            <Typography.Text size="xs" emphasis>
-              {track.artists.map(({ name }) => name).join(", ")}
-            </Typography.Text>{" "}
-            - <Typography.Text size="xs">{track.title}</Typography.Text>
-          </button>
-        )}
-        <TrackMenu id={message.text as string} active={active} close={close} />
-      </div>
-    </div>
+      {track && (
+        <>
+          <PressableHighlight onPress={show}>
+            <div>
+              <Typography.Text size="xs" emphasis>
+                {track.artists.map(({ name }) => name).join(", ")}
+              </Typography.Text>{" "}
+              - <Typography.Text size="xs">{track.title}</Typography.Text>
+            </div>
+          </PressableHighlight>
+          <TrackMenu
+            id={message.text as string}
+            active={active}
+            close={close}
+          />
+        </>
+      )}
+    </Box>
   );
 };
 

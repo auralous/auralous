@@ -1,6 +1,5 @@
-import { SvgGoogleColor, SvgSpotify, SvgX } from "assets/svg";
+import { SvgGoogleColor, SvgSpotify } from "assets/svg";
 import { Modal, useModal } from "components/Modal/index";
-import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -200,13 +199,6 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             </Typography.Link>{" "}
             {t("auth.footerText.whereApplicable")}.
           </Typography.Paragraph>
-        </div>
-        <div className="absolute top-2 right-0">
-          <Button
-            accessibilityLabel={t("modal.close")}
-            icon={<SvgX />}
-            styling="link"
-          />
         </div>
       </Modal.Modal>
       <Welcome active={activeWelcome} close={close} />

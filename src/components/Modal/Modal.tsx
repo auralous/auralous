@@ -25,7 +25,9 @@ const ModalContent: React.FC<{
 );
 
 const ModalFooter: React.FC = ({ children }) => (
-  <div className="modal-footer">{children}</div>
+  <div className="flex items-center justify-end space-x-2 px-4 py-3 border-background-secondary border-t-2">
+    {children}
+  </div>
 );
 
 const AnimatedDialogOverlay = animated(DialogOverlay);

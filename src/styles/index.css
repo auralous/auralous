@@ -146,9 +146,6 @@ html {
     @apply relative flex flex-col;
     @apply transition;
   }
-  .modal-footer {
-    @apply flex items-center justify-end space-x-2 px-4 py-3 border-background-secondary border-t-2;
-  }
 }
 
 :root {

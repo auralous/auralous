@@ -173,10 +173,10 @@ const AddToPlaylist: React.FC<{
       <Modal.Content>
         {me ? (
           track?.platform === me.platform ? (
-            <div className="space-y-1">
+            <Box gap="xs">
               <CreatePlaylist track={track} done={close} />
               <AddToExistingPlaylist track={track} done={close} />
-            </div>
+            </Box>
           ) : (
             <Typography.Paragraph color="foreground-secondary">
               Adding tracks from a different platform is not yet supported.{" "}
