@@ -1,10 +1,3 @@
-import {
-  IndexEnd,
-  IndexHero,
-  IndexListen,
-  IndexPlaylist,
-  IndexStory,
-} from "components/Index";
 import { useI18n } from "i18n/index";
 import { NextSeo } from "next-seo";
 
@@ -19,11 +12,6 @@ const IndexPage: React.FC = () => {
         canonical={`${process.env.APP_URI}`}
         openGraph={{}}
       />
-      <IndexHero />
-      <IndexListen />
-      <IndexPlaylist />
-      <IndexStory />
-      <IndexEnd />
     </>
   );
 };

@@ -5,31 +5,6 @@
   },
   "description": "Nghe nhạc cùng bạn bè khắp năm châu với Stereo. Bạn không cần gì ngoài gu âm nhạc và một tại khoản YouTube, Spotify, hoặc Apple Music.",
   "motto": "Âm nhạc Bên nhau",
-  "intro": {
-    "use": { "action": "Truy cập Stereo", "watch": "Xem giới thiệu" },
-    "listen": {
-      "title": "Ba nền tảng. Một trải nghiệm.",
-      "description": "Tích hợp với ứng dụng nghe nhạc YouTube, Spotify, or Apple Music quen thuộc.",
-      "p": "Nghe cùng một bài hát, cùng một thời điểm, cùng bạn bè trên bất kể nên tảng nào.",
-      "action": "Cùng nghe nào"
-    },
-    "playlist": {
-      "title": "Âm nhạc luôn có sẵn",
-      "p1": "Phát nhạc ngay từ trong thư viện của bạn hay từ danh sách của cộng đồng.",
-      "p2": "Chúng mình giúp bạn chia sẽ playlist yêu thích, album mới một cách dễ dàng!",
-      "action": "Thử liền"
-    },
-    "story": {
-      "title": "Khám phá âm nhạc, cùng nhau!",
-      "p1": "Mỗi phiên nghe nhạc của bạn là một story. Khám phá những bài hát mới trong story từ bạn bè khắp thế giới.",
-      "p2": "Mời bạn bè nghe cùng, trò chuyện, thêm nhạc, và bày tỏ cảm xúc với bài hát của người khác.",
-      "p2end": "Âm nhạc luôn tuyệt hơn khi ta nghe cùng nhau.",
-      "storyText": "Nghe nhạc cùng đám bạn 💗",
-      "storyMsg1": "được đấy ️‍🔥 cảm ơn đã thêm nhạc!",
-      "storyMsg2": "👋 chào mừng",
-      "storyMsg3": "nghe vài bài nhạc cực hay cùng nhau nào ❤️"
-    }
-  },
   "support": {
     "title": "Liên hệ",
     "hi": "Chào",

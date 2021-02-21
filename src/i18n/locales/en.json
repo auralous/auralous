@@ -5,31 +5,6 @@
   },
   "description": "Listen Together with Friends around the Globe. All you need are your favorite songs and a YouTube, Spotify, or Apple Music account.",
   "motto": "Music Together",
-  "intro": {
-    "use": { "action": "Launch Stereo", "watch": "Watch video" },
-    "listen": {
-      "title": "Three Platforms. One Experience.",
-      "description": "Integrations with the YouTube, Spotify, or Apple Music you know and love.",
-      "p": "Listen to the same song, at the same time, with friends no matter what music app they use",
-      "action": "Start Listening"
-    },
-    "playlist": {
-      "title": "Music at Your Fingertips",
-      "p1": "Listen to songs right from your library or community-curated lists.",
-      "p2": "We make it easy to share favorite playlists, new albums at the ease of a click!",
-      "action": "Try now"
-    },
-    "story": {
-      "title": "Music Discovery, Together!",
-      "p1": "Every listening session is a story. Discover new songs from music stories shared globally.",
-      "p2": "Invite your friends to listen along, chat, add songs, and react to each others' plays",
-      "p2end": "Music is better when we listen together.",
-      "storyText": "Just music with my best buds 💗",
-      "storyMsg1": "nice one ️‍🔥 thanks for playing!",
-      "storyMsg2": "👋 welcome",
-      "storyMsg3": "let's listen to some great tracks together ❤️"
-    }
-  },
   "support": {
     "title": "Support",
     "hi": "Hi",
