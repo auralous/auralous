@@ -1,3 +1,4 @@
+import { Skeleton } from "components/Loading";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -19,25 +20,21 @@ const UserPill: React.FC<{ id: string; extraEl?: JSX.Element }> = ({
       rounded="lg"
       padding={2}
     >
-      {user ? (
+      <Skeleton show={!user} rounded="full">
         <img
           className="w-12 h-12 rounded-full object-cover"
-          src={user.profilePicture}
-          alt={user.username}
+          src={user?.profilePicture}
+          alt={user?.username}
         />
-      ) : (
-        <div className="block-skeleton w-12 h-12 rounded-full" />
-      )}
+      </Skeleton>
       <Spacer size={1} axis="vertical" />
-      {user ? (
-        <Link href={`/user/${user.username}`}>
+      <Skeleton show={!user} rounded="lg" width={20} height={4}>
+        <Link href={`/user/${user?.username}`}>
           <Typography.Link strong truncate>
-            {user.username}
+            {user?.username}
           </Typography.Link>
         </Link>
-      ) : (
-        <div className="w-20 h-5 block-skeleton" />
-      )}
+      </Skeleton>
       {extraEl && (
         <>
           <Spacer size={2} axis="vertical" />

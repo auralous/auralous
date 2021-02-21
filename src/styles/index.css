@@ -106,12 +106,13 @@ html {
   }
 }
 
-.skeleton {
-  @apply relative;
+.block-skeleton {
+  @apply relative overflow-hidden;
 }
 
-.skeleton::before {
+.block-skeleton::before {
   z-index: 1;
+  content: "";
   @apply absolute w-full h-full inset-0 bg-foreground-backdrop animate-pulse;
 }
 

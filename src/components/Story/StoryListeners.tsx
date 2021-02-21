@@ -1,21 +1,22 @@
+import { Skeleton } from "components/Loading";
 import { useUserQuery } from "gql/gql.gen";
 
-const CurrentUser: React.FC<{
+const StoryListener: React.FC<{
   userId: string;
 }> = ({ userId }) => {
-  const [{ data }] = useUserQuery({ variables: { id: userId } });
+  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+    variables: { id: userId },
+  });
   return (
     <div className="inline-block rounded-full overflow-hidden">
-      {data?.user ? (
+      <Skeleton show={!user}>
         <img
           className="w-8 h-8 border-foreground-tertiaryobject-cover"
-          src={data.user.profilePicture}
-          alt={data.user.username}
-          title={data.user.username}
+          src={user?.profilePicture}
+          alt={user?.username}
+          title={user?.username}
         />
-      ) : (
-        <span className="block-skeleton mx-2 flex-none w-8 h-8" />
-      )}
+      </Skeleton>
     </div>
   );
 };
@@ -27,7 +28,7 @@ const StoryListeners: React.FC<{
     <div className="overflow-auto space-x-1 whitespace-nowrap">
       {userIds.map((userId) => (
         // TODO: react-window
-        <CurrentUser key={userId} userId={userId} />
+        <StoryListener key={userId} userId={userId} />
       ))}
     </div>
   );

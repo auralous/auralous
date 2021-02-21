@@ -1,4 +1,5 @@
 import { SvgUserPlus, SvgX } from "assets/svg";
+import { Skeleton } from "components/Loading";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
@@ -123,23 +124,19 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
       rounded="full"
       gap="sm"
     >
-      {user ? (
+      <Skeleton show={!user} rounded="full">
         <img
           className="w-10 h-10 rounded-full object-cover"
-          src={user.profilePicture}
-          alt={user.username}
+          src={user?.profilePicture}
+          alt={user?.username}
         />
-      ) : (
-        <div className="block-skeleton w-10 h-10 rounded-full" />
-      )}
+      </Skeleton>
       <Box minWidth={0} flex={1}>
-        {user ? (
+        <Skeleton show={!user} rounded="lg" width={20} height={4}>
           <Typography.Text strong truncate>
-            {user.username}
+            {user?.username}
           </Typography.Text>
-        ) : (
-          <div className="w-20 h-5 block-skeleton" />
-        )}
+        </Skeleton>
       </Box>
       <Button
         accessibilityLabel={t("story.queueable.remove", {

@@ -1,10 +1,12 @@
 import clsx from "clsx";
+import { CSSProperties } from "react";
 
 interface PressableHighlightProps {
   fullWidth?: boolean;
   onPress?: () => void;
   accessibilityLabel?: string;
   shape?: "circle" | "round";
+  style?: CSSProperties;
 }
 
 const PressableHighlight: React.FC<PressableHighlightProps> = ({
@@ -13,6 +15,7 @@ const PressableHighlight: React.FC<PressableHighlightProps> = ({
   accessibilityLabel,
   fullWidth,
   shape,
+  style,
 }) => {
   return (
     <button
@@ -23,6 +26,7 @@ const PressableHighlight: React.FC<PressableHighlightProps> = ({
         fullWidth && "w-full",
         shape === "circle" ? "rounded-full" : "rounded-lg"
       )}
+      style={style}
     >
       {children}
     </button>

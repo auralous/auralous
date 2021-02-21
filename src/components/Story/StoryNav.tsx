@@ -8,6 +8,7 @@ import {
   SvgUser,
   SvgX,
 } from "assets/svg";
+import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
@@ -139,15 +140,13 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
         onPress={onClose}
       />
       <div className="flex w-0 flex-1 items-center justify-center">
-        {user ? (
+        <Skeleton show={!user} rounded="full">
           <img
-            alt={user.username}
+            alt={user?.username}
             className="w-6 h-6 rounded-full object-cover"
-            src={user.profilePicture}
+            src={user?.profilePicture}
           />
-        ) : (
-          <div className="box-skeleton w-6 h-6" />
-        )}
+        </Skeleton>
         <Spacer size={1} axis="horizontal" />
         <Typography.Text size="sm" strong>
           {t("story.ofUsername", { username: user?.username || "" })}

@@ -1,3 +1,4 @@
+import { Skeleton } from "components/Loading";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -20,17 +21,15 @@ export const TrackItem: React.FC<{
   return (
     <>
       <Box fullWidth row alignItems="center">
-        {track ? (
+        <Skeleton show={!track} rounded="lg">
           <img
-            alt={track.title}
-            className="h-12 w-12 rounded flex-none overflow-hidden"
-            src={track.image}
+            alt={track?.title}
+            className="h-12 w-12 rounded"
+            src={track?.image}
           />
-        ) : (
-          <div className="block-skeleton rounded h-12 w-12 flex-none" />
-        )}
+        </Skeleton>
         <Spacer size={2} axis="horizontal" />
-        <div className="w-full overflow-hidden">
+        <Box flex={1} minWidth={0} gap="xs">
           {track ? (
             <>
               <Typography.Paragraph noMargin truncate align="left">
@@ -68,11 +67,11 @@ export const TrackItem: React.FC<{
             </>
           ) : (
             <>
-              <div className="block-skeleton rounded h-6 mb-1" />
-              <div className="block-skeleton rounded h-4 w-3/4" />
+              <Skeleton show height={6} width={40} />
+              <Skeleton show height={4} width={32} />
             </>
           )}
-        </div>
+        </Box>
       </Box>
     </>
   );

@@ -1,3 +1,4 @@
+import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
@@ -40,16 +41,14 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
         className="absolute w-full h-full bg-cover bg-center opacity-50"
         style={{ background: `url(${story.image})` }}
       />
-      <div className="w-12 h-12 rounded-full overflow-hidden absolute top-4 left-4 shadow-xl">
-        {user ? (
+      <div className="absolute top-4 left-4 shadow-xl">
+        <Skeleton show={!user} rounded="full">
           <img
-            alt={user.username}
-            className="w-full h-full object-cover"
-            src={user.profilePicture}
+            alt={user?.username}
+            className="w-12 h-12 rounded-full object-cover"
+            src={user?.profilePicture}
           />
-        ) : (
-          <div className="box-skeleton w-full h-full" />
-        )}
+        </Skeleton>
       </div>
       <div className="absolute p-4 bottom-0 w-full">
         <Typography.Paragraph noMargin align="left">

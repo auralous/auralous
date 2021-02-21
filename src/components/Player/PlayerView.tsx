@@ -1,6 +1,7 @@
 import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
+import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
-import { Button } from "components/Pressable";
+import { Button, PressableHighlight } from "components/Pressable";
 import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -102,27 +103,36 @@ export const PlayerMeta: React.FC<{
 
   return (
     // eslint-disable-next-line
-    <div className="my-4 h-14 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
-      {fetching ? (
-        <>
-          <div className="block-skeleton rounded h-6 w-40 mb-2" />
-          <div className="block-skeleton rounded h-5 w-24" />
-        </>
-      ) : (
-        <>
-          <Typography.Title noMargin level={4} strong size="2xl" truncate>
+    <PressableHighlight onPress={openMenu} style={{flex: 1, minWidth: 0}}>
+      <Box fullWidth alignItems="stretch" gap="xs" style={{ lineHeight: 1 }}>
+        <Skeleton rounded="lg" show={fetching} width={40}>
+          <Typography.Title
+            align="left"
+            noMargin
+            level={4}
+            strong
+            size="2xl"
+            truncate
+          >
             {track ? track.title : t("player.noneText")}
           </Typography.Title>
-          <Typography.Paragraph noMargin color="foreground-secondary" truncate>
+        </Skeleton>
+        <Skeleton rounded="lg" show={fetching} width={32}>
+          <Typography.Paragraph
+            align="left"
+            noMargin
+            color="foreground-secondary"
+            truncate
+          >
             {track
               ? track.artists.map((artist) => artist.name).join(", ")
               : t("player.noneHelpText")}
           </Typography.Paragraph>
-          {track && (
-            <TrackMenu active={activeMenu} close={closeMenu} id={track.id} />
-          )}
-        </>
-      )}
-    </div>
+        </Skeleton>
+        {track && (
+          <TrackMenu active={activeMenu} close={closeMenu} id={track.id} />
+        )}
+      </Box>
+    </PressableHighlight>
   );
 };
