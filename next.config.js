@@ -57,7 +57,36 @@ module.exports = withBundleAnalyzer({
     });
     return config;
   },
-  devIndicators: {
-    autoPrerender: false,
+  async redirects() {
+    return [
+      {
+        source: "/privacy",
+        destination:
+          "https://www.notion.so/Privacy-9c3b40fb8e5647e894f9e161f6811e5e",
+        permanent: false,
+      },
+      {
+        source: "/faq",
+        destination:
+          "https://www.notion.so/FAQ-daa9bf2b05e94ba28254f8795fbf6095",
+        permanent: false,
+      },
+      {
+        source: "/faq/oauth-permissions",
+        destination:
+          "https://www.notion.so/OAuth-Permissions-d4cc68ce545647338154aa38e73c14f6",
+        permanent: false,
+      },
+      {
+        source: "/contact/facebook",
+        destination: "https://www.facebook.com/auralous/",
+        permanent: true,
+      },
+      {
+        source: "/contact/twitter",
+        destination: "https://twitter.com/auralous_app",
+        permanent: true,
+      },
+    ];
   },
 });

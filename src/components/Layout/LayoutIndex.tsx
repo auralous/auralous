@@ -110,8 +110,8 @@ const Navbar: React.FC = () => {
               "md:flex content-end md:items-center flex-none"
             )}
           >
-            <Link href="/support">
-              <a className={navBarClassName}>{t("support.title")}</a>
+            <Link href="/contact">
+              <a className={navBarClassName}>{t("contact.title")}</a>
             </Link>
             <NavbarLanguageSelector />
             <Link href="/listen">
@@ -131,32 +131,20 @@ const Footer: React.FC = () => {
       <Spacer size={8} axis="vertical" />
       <Spacer size={8} axis="vertical" />
       <div className="space-x-4 overflow-auto text-center">
-        <Typography.Link
-          strong
-          href="https://www.facebook.com/withstereo/"
-          target="_blank"
-        >
+        <Typography.Link strong href="/contact/facebook" target="_blank">
           Facebook
         </Typography.Link>
-        <Typography.Link
-          strong
-          href="https://twitter.com/withstereo_"
-          target="_blank"
-        >
+        <Typography.Link strong href="/contact/twitter" target="_blank">
           Twitter
         </Typography.Link>
         <Link href="/privacy">
           <Typography.Link strong>{t("footer.privacy")}</Typography.Link>
         </Link>
-        <Typography.Link
-          href="https://www.facebook.com/withstereo/"
-          target="_blank"
-          strong
-        >
+        <Typography.Link href="/contact/facebook" target="_blank" strong>
           {t("footer.contribute")}
         </Typography.Link>
-        <Link href="/support">
-          <Typography.Link strong>{t("footer.support")}</Typography.Link>
+        <Link href="/contact">
+          <Typography.Link strong>{t("footer.contact")}</Typography.Link>
         </Link>
       </div>
       <Spacer size={1} axis="vertical" />

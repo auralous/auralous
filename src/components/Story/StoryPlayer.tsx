@@ -13,7 +13,9 @@ const StoryPlayer: React.FC<{ story: Story }> = ({ story }) => {
     <Box maxWidth="lg" fullWidth fullHeight>
       <PlayerImage track={crossTracks?.original} />
       <Box row justifyContent="between">
-        <PlayerMeta track={crossTracks?.original} fetching={fetching} />
+        <Box row flex={1} minWidth={0}>
+          <PlayerMeta track={crossTracks?.original} fetching={fetching} />
+        </Box>
         {story.isLive && <StoryReaction story={story} />}
       </Box>
     </Box>

@@ -85,7 +85,7 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
 
   return (
     <div ref={resizeRef}>
-      <Box fullHeight padding={4} justifyContent="center">
+      <Box fullHeight padding={4} justifyContent="center" ref={resizeRef}>
         <StoryNav onClose={onClose} story={story} />
         <Tabs
           index={selectedIndex}

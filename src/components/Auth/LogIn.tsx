@@ -169,7 +169,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               {t("auth.createNotice")}
             </Typography.Paragraph>
             <Typography.Paragraph size="xs" align="center">
-              <Typography.Link href="/support/permissions" target="_blank">
+              <Typography.Link href="/faq/oauth-permissions" target="_blank">
                 {`💡 ${t("auth.permissionLink")}`}
               </Typography.Link>
             </Typography.Paragraph>

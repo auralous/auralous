@@ -276,7 +276,7 @@ const MusicConnection: React.FC = () => {
             {me ? (
               <Typography.Text color="foreground-secondary">
                 {t("settings.listening.connectedTo", { name })},{" "}
-                <Typography.Link target="_blank" href="/support" strong>
+                <Typography.Link target="_blank" href="/contact" strong>
                   {t("settings.listening.contactUs")}
                 </Typography.Link>
               </Typography.Text>

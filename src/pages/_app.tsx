@@ -62,9 +62,7 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
       ].includes(router.pathname)
     )
       return LayoutApp;
-    if (
-      ["/", "/privacy", "/support", "/support/[slug]"].includes(router.pathname)
-    )
+    if (["/", "/privacy", "/contact"].includes(router.pathname))
       return LayoutIndex;
     return Fragment;
   }, [router.pathname]);

@@ -34,30 +34,33 @@ const gapMap: Record<BoxProps["gap"], number> = {
   xl: 8,
 };
 
-const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box({
-  row,
-  children,
-  flex,
-  wrap,
-  justifyContent = "start",
-  alignItems = "stretch",
-  padding,
-  paddingX,
-  paddingY,
-  width,
-  height,
-  rounded,
-  fullWidth,
-  minWidth,
-  maxWidth,
-  minHeight,
-  fullHeight,
-  position,
-  gap,
-  style,
-  accessibilityRole,
-  backgroundColor,
-}) {
+const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box(
+  {
+    row,
+    children,
+    flex,
+    wrap,
+    justifyContent = "start",
+    alignItems = "stretch",
+    padding,
+    paddingX,
+    paddingY,
+    width,
+    height,
+    rounded,
+    fullWidth,
+    minWidth,
+    maxWidth,
+    minHeight,
+    fullHeight,
+    position,
+    gap,
+    style,
+    accessibilityRole,
+    backgroundColor,
+  },
+  ref
+) {
   return (
     <div
       role={accessibilityRole}
@@ -85,6 +88,7 @@ const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box({
         backgroundColor && `bg-${backgroundColor}`
       )}
       style={style}
+      ref={ref}
     >
       {children}
     </div>

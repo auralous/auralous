@@ -5,15 +5,12 @@
   },
   "description": "Nghe nhạc cùng bạn bè khắp năm châu với Stereo. Bạn không cần gì ngoài gu âm nhạc và một tại khoản YouTube, Spotify, hoặc Apple Music.",
   "motto": "Âm nhạc Bên nhau",
-  "support": {
+  "contact": {
     "title": "Liên hệ",
     "hi": "Chào",
     "there": "đằng ấy",
     "how": ", chúng mình có thể giúp gì?",
-    "p": "Hãy nhớ cho chúng mình biết góp ý, câu hỏi, hay báo lỗi của bạn.",
-    "articles": {
-      "title": "Hướng dẫn"
-    }
+    "p": "Hãy nhớ cho chúng mình biết góp ý, câu hỏi, hay báo lỗi của bạn."
   },
   "settings": {
     "title": "Cài đặt",
@@ -286,7 +283,7 @@
   "footer": {
     "privacy": "Riêng tư",
     "contribute": "Đóng góp",
-    "support": "Liên hệ"
+    "contact": "Liên hệ"
   },
   "common": {
     "back": "Trở về",

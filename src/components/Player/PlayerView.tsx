@@ -103,7 +103,7 @@ export const PlayerMeta: React.FC<{
 
   return (
     // eslint-disable-next-line
-    <PressableHighlight onPress={openMenu} style={{flex: 1, minWidth: 0}}>
+    <PressableHighlight onPress={openMenu} fullWidth>
       <Box fullWidth alignItems="stretch" gap="xs" style={{ lineHeight: 1 }}>
         <Skeleton rounded="lg" show={fetching} width={40}>
           <Typography.Title

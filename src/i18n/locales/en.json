@@ -5,15 +5,12 @@
   },
   "description": "Listen Together with Friends around the Globe. All you need are your favorite songs and a YouTube, Spotify, or Apple Music account.",
   "motto": "Music Together",
-  "support": {
-    "title": "Support",
+  "contact": {
+    "title": "Contact",
     "hi": "Hi",
     "there": "there",
     "how": ", how can we help?",
-    "p": "Be sure to reach out at any time should you have any ideas, questions, or encounter any bugs.",
-    "articles": {
-      "title": "Guide"
-    }
+    "p": "Be sure to reach out at any time should you have any ideas, questions, or encounter any bugs."
   },
   "settings": {
     "title": "Settings",
@@ -286,7 +283,7 @@
   "footer": {
     "privacy": "Privacy",
     "contribute": "Contribute",
-    "support": "Support"
+    "contact": "Contact"
   },
   "common": {
     "back": "Back",

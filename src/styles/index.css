@@ -169,54 +169,6 @@ html {
   }
 }
 
-.content {
-  @apply text-foreground;
-  h2, h3, h4, h5, h6 {
-    @apply text-foreground mt-8 mb-2 leading-relaxed font-bold;
-  }
-  h2 {
-    @apply text-3xl;
-  }
-  h3 {
-    @apply text-2xl;
-  }
-  h4 {
-    @apply text-xl;
-  }
-  h5 {
-    @apply text-lg;
-  }
-  p {
-    @apply mb-4 leading-loose;
-  }
-  a {
-    @apply text-primary transition;
-    &:hover {
-      @apply text-opacity-75;
-    }
-  }
-  ul {
-    @apply pl-6 my-2 list-disc list-inside;
-    li {
-      ul {
-        @apply my-0;
-      }
-    }
-  }
-  ol {
-    @apply pl-6 my-2 list-decimal list-inside;
-  }
-  img {
-    @apply rounded-lg shadow-lg overflow-hidden;
-  }
-}
-
-.content-support {
-  h2 {
-    @apply text-center;
-  }
-}
-
 .spinning-border {
   width: 100%;
   height: 100%;
