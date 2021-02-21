@@ -133,7 +133,7 @@ html {
 [data-reach-dialog-overlay] {
   @apply fixed w-full h-full inset-0 flex flex-center z-40 bg-background-backdrop;
   [data-reach-dialog-content] {
-    width: theme('maxWidth.5xl');
+    width: theme('maxWidth.3xl');
     max-width: calc(100vw - 1rem);
     max-height: calc(100vh - 1rem);
     @apply bg-background rounded-lg text-foreground overflow-hidden m-0 p-0 border-2 border-background-secondary;

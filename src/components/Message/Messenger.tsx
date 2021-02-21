@@ -1,10 +1,9 @@
 import { SvgLogIn, SvgMusic } from "assets/svg";
-import clsx from "clsx";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   Message,
   MessageType,
@@ -34,15 +33,16 @@ const MessageItemSpecial: React.FC<{
   createdAt: Date;
 }> = ({ text, Icon, createdAt }) => (
   <div role="listitem" className="w-full text-left p-1">
-    <Icon className="inline w-6 h-6 bg-foreground-backdrop p-1 rounded-full" />
-    <Spacer size={2} axis="horizontal" />
-    <Typography.Text color="foreground-tertiary" size="sm">
-      {text}
-    </Typography.Text>
-    <Typography.Text color="foreground-tertiary" size="sm">
-      {" • "}
-      {getDateDiffTxt(createdAt)}
-    </Typography.Text>
+    <Box row alignItems="center" gap="xs">
+      <Icon className="inline w-6 h-6 bg-foreground-backdrop p-1 rounded-full" />
+      <Typography.Text color="foreground-tertiary" size="sm">
+        {text}
+      </Typography.Text>
+      <Typography.Text color="foreground-tertiary">{" • "}</Typography.Text>
+      <Typography.Text color="foreground-tertiary" size="sm">
+        {getDateDiffTxt(createdAt)}
+      </Typography.Text>
+    </Box>
   </div>
 );
 
@@ -118,24 +118,23 @@ const MessageItem: React.FC<{
             src={sender?.profilePicture}
             alt={sender?.username}
           />{" "}
-          <div className="flex items-center text-foreground text-opacity-75 pt-1">
+          <Box row alignItems="center" gap="xs">
             <Link href={`/user/${sender?.username}`}>
-              <a
-                className={clsx(
-                  "text-sm font-bold",
-                  isCurrentUser
-                    ? "bg-primary-light leading-tight text-opacity-75 rounded-lg px-1"
-                    : "text-white"
-                )}
+              <Typography.Link
+                size="sm"
+                strong
+                color={isCurrentUser ? "primary" : "foreground-secondary"}
               >
                 {sender?.username}
-              </a>
+              </Typography.Link>
             </Link>
-            <Typography.Text size="sm" color="foreground-tertiary">
+            <Typography.Text color="foreground-tertiary">
               {" • "}
+            </Typography.Text>
+            <Typography.Text size="sm" color="foreground-tertiary">
               {getDateDiffTxt(message.createdAt)}
             </Typography.Text>
-          </div>
+          </Box>
         </>
       )}
       {isGrouped && <div className="-mt-3" />}
@@ -265,27 +264,25 @@ const MessageInput: React.FC<{ id: string }> = ({ id }) => {
     addMessage({ id, text: trimMsg }).then(() => setMessageList(""));
   }
   return (
-    <form
-      autoComplete="off"
-      onSubmit={handleSubmitMessage}
-      className="flex items-center p-2"
-    >
-      <input
-        aria-label={t("message.inputLabel")}
-        className="w-full input bg-background-tertiary bg-opacity-50 border-none focus:bg-opacity-75"
-        value={messageContent}
-        onChange={(e) => setMessageList(e.target.value)}
-      />
+    <form autoComplete="off" onSubmit={handleSubmitMessage}>
+      <Box row alignItems="center" padding={2}>
+        <input
+          aria-label={t("message.inputLabel")}
+          className="w-full input bg-background-tertiary bg-opacity-50 border-none focus:bg-opacity-75"
+          value={messageContent}
+          onChange={(e) => setMessageList(e.target.value)}
+        />
+      </Box>
     </form>
   );
 };
 
 const Messenger: React.FC<{ id: string }> = ({ id }) => {
   return (
-    <div className="h-full w-full flex flex-col justify-between">
+    <Box fullWidth fullHeight justifyContent="between">
       <MessageList id={id} />
       <MessageInput id={id} />
-    </div>
+    </Box>
   );
 };
 

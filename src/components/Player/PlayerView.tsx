@@ -3,6 +3,7 @@ import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useEffect, useState } from "react";
@@ -33,7 +34,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <div className="my-2 space-x-6 flex flex-center">
+    <Box paddingY={2} row justifyContent="center" alignItems="center" gap="lg">
       <Button
         accessibilityLabel={t("player.skipBackward")}
         onPress={skipBackward}
@@ -41,7 +42,7 @@ export const PlayerControl: React.FC = () => {
         icon={<SvgSkipBack className="w-6 h-6 fill-current stroke-current" />}
         styling="link"
       />
-      <div className="relative">
+      <Box position="relative">
         <Button
           accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
           icon={
@@ -57,7 +58,7 @@ export const PlayerControl: React.FC = () => {
           shape="circle"
         />
         {fetching && <span className="spinning-border absolute inset-0" />}
-      </div>
+      </Box>
       <Button
         accessibilityLabel={t("player.skipForward")}
         onPress={skipForward}
@@ -67,7 +68,7 @@ export const PlayerControl: React.FC = () => {
         }
         styling="link"
       />
-    </div>
+    </Box>
   );
 };
 

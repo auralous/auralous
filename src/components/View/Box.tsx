@@ -1,24 +1,40 @@
 import clsx from "clsx";
+import { CSSProperties, forwardRef } from "react";
 
 interface BoxProps {
-  row?: boolean;
-  flex?: number;
-  justifyContent?: "start" | "end" | "center" | "between" | "around" | "evenly";
-  alignItems?: "stretch" | "start" | "end" | "center" | "baseline";
+  children: React.ReactNode;
+  style: CSSProperties;
+  row: boolean;
+  flex: number;
+  justifyContent: "start" | "end" | "center" | "between" | "around" | "evenly";
+  alignItems: "stretch" | "start" | "end" | "center" | "baseline";
   padding: 1 | 2 | 4 | 8 | 10 | 12;
   paddingX: 1 | 2 | 4 | 8 | 10 | 12;
   paddingY: 1 | 2 | 4 | 8 | 10 | 12;
   width: 1 | 2 | 4 | 8 | 10 | 12;
+  minWidth: 0 | "full";
   maxWidth: "lg" | "xl" | "2xl" | "4xl";
+  minHeight: 0 | "full";
   height: 1 | 2 | 4 | 8 | 10 | 12;
   fullWidth: boolean;
   fullHeight: boolean;
   rounded: "lg" | "full";
-  wrap?: boolean;
+  wrap: boolean;
   position?: "relative" | "absolute";
+  gap: "xs" | "sm" | "md" | "lg" | "xl";
+  accessibilityRole: string;
+  backgroundColor: "background-secondary" | "background-tertiary";
 }
 
-const Box: React.FC<Partial<BoxProps>> = ({
+const gapMap: Record<BoxProps["gap"], number> = {
+  xs: 1,
+  sm: 2,
+  md: 4,
+  lg: 6,
+  xl: 8,
+};
+
+const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box({
   row,
   children,
   flex,
@@ -32,12 +48,19 @@ const Box: React.FC<Partial<BoxProps>> = ({
   height,
   rounded,
   fullWidth,
+  minWidth,
   maxWidth,
+  minHeight,
   fullHeight,
   position,
-}) => {
+  gap,
+  style,
+  accessibilityRole,
+  backgroundColor,
+}) {
   return (
     <div
+      role={accessibilityRole}
       className={clsx(
         "flex",
         row ? "flex-row" : "flex-col",
@@ -48,18 +71,24 @@ const Box: React.FC<Partial<BoxProps>> = ({
         paddingX && `px-${paddingX}`,
         paddingY && `py-${paddingY}`,
         width && `w-${width}`,
+        minWidth !== undefined && `min-w-${minWidth}`,
         maxWidth && `max-w-${maxWidth}`,
         height && `h-${height}`,
+        minHeight !== undefined && `min-h-${minHeight}`,
         rounded && `rounded-${rounded}`,
         fullWidth && `w-full`,
         fullHeight && `h-full`,
-        position
+        position,
+        gap && (!row || wrap) && `space-y-${gapMap[gap]}`,
+        gap && (!!row || wrap) && `space-x-${gapMap[gap]}`,
+        flex && `flex-${flex}`,
+        backgroundColor && `bg-${backgroundColor}`
       )}
-      style={flex ? { flex } : undefined}
+      style={style}
     >
       {children}
     </div>
   );
-};
+});
 
 export default Box;

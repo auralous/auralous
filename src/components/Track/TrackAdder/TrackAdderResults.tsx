@@ -2,6 +2,7 @@ import { SvgCheck, SvgPlus } from "assets/svg";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { TrackItem } from "components/Track/index";
+import { Box } from "components/View";
 import { useI18n } from "i18n/index";
 import { memo, useMemo, useState } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -30,25 +31,28 @@ const SearchResultRow = memo<ListChildComponentProps>(function Row({
   };
 
   return (
-    <div
-      className="p-2 flex items-center justify-between"
-      role="presentation"
+    <Box
+      row
+      padding={2}
+      alignItems="center"
+      justifyContent="between"
+      accessibilityRole="presentation"
       key={data.items[index]}
       style={style}
     >
-      <TrackItem id={data.items[index]} />
+      <Box flex={1} minWidth={0}>
+        <TrackItem id={data.items[index]} />
+      </Box>
       <Spacer size={2} axis="horizontal" />
-      <div className="flex content-end items-center">
-        <Button
-          accessibilityLabel={t("queue.manager.add")}
-          icon={
-            added ? <SvgCheck className="w-4" /> : <SvgPlus className="w-4" />
-          }
-          onPress={onAdded}
-          disabled={isAdding}
-        />
-      </div>
-    </div>
+      <Button
+        accessibilityLabel={t("queue.manager.add")}
+        icon={
+          added ? <SvgCheck className="w-4" /> : <SvgPlus className="w-4" />
+        }
+        onPress={onAdded}
+        disabled={isAdding}
+      />
+    </Box>
   );
 },
 areEqual);

@@ -2,6 +2,7 @@ import { SvgUserPlus, SvgX } from "assets/svg";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   Story,
   useChangeStoryQueueableMutation,
@@ -107,7 +108,14 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
     }
   }, [userId, changeStoryQueueable, storyId, t, user]);
   return (
-    <div className="flex items-center rounded-full bg-background-secondary p-1">
+    <Box
+      row
+      alignItems="center"
+      backgroundColor="background-secondary"
+      padding={1}
+      rounded="full"
+      gap="sm"
+    >
       <div className="w-10 h-10 rounded-full overflow-hidden">
         {user ? (
           <img
@@ -119,8 +127,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
           <div className="block-skeleton w-full h-full" />
         )}
       </div>
-      <Spacer size={2} axis="horizontal" />
-      <div className="w-0 flex-1">
+      <Box minWidth={0} flex={1}>
         {user ? (
           <Typography.Text strong truncate>
             {user.username}
@@ -128,7 +135,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
         ) : (
           <div className="w-20 h-5 block-skeleton" />
         )}
-      </div>
+      </Box>
       <Button
         accessibilityLabel={t("story.queueable.remove", {
           username: user?.username,
@@ -138,7 +145,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
         icon={<SvgX className="w-4 h-4" />}
         shape="circle"
       />
-    </div>
+    </Box>
   );
 };
 
@@ -148,7 +155,7 @@ const StoryQueueable: React.FC<{ story: Story }> = ({ story }) => {
     (prev, data) => data
   );
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
       <StoryQueueableAdder story={story} />
       {story.queueable.map((userId) => (
         <StoryQueueableUser key={userId} storyId={story.id} userId={userId} />

@@ -6,7 +6,7 @@ const UserList: React.FC<{
   Element?: React.FC<{ id: string }>;
 }> = ({ userIds, Element = UserPill }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
       {userIds.map((userId) => (
         <Element
           id={userId}

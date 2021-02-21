@@ -3,6 +3,7 @@ import clsx from "clsx";
 import LayoutContext from "components/Layout/LayoutContext";
 import { usePlayer } from "components/Player/index";
 import { PlayerControl } from "components/Player/PlayerView";
+import { Box } from "components/View";
 import {
   Story,
   useNowPlayingReactionsUpdatedSubscription,
@@ -83,11 +84,8 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   );
 
   return (
-    <>
-      <div
-        ref={resizeRef}
-        className="p-4 overflow-hidden flex flex-col justify-center"
-      >
+    <div ref={resizeRef}>
+      <Box fullHeight padding={4} justifyContent="center">
         <StoryNav onClose={onClose} story={story} />
         <Tabs
           index={selectedIndex}
@@ -128,8 +126,8 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           </TabList>
         </Tabs>
         <PlayerControl />
-      </div>
-    </>
+      </Box>
+    </div>
   );
 };
 

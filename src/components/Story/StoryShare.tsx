@@ -5,6 +5,7 @@ import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import UserList from "components/User/UserList";
 import UserPill from "components/User/UserPill";
+import { Box } from "components/View";
 import {
   Story,
   useSendStoryInvitesMutation,
@@ -73,7 +74,7 @@ const StoryShare: React.FC<{
         <Modal.Title>{t("story.share.title")}</Modal.Title>
       </Modal.Header>
       <Modal.Content>
-        <div className="flex flex-wrap flex-center space-x-1">
+        <Box row justifyContent="center" alignItems="center" gap="sm">
           <Button
             onPress={() =>
               navigator.clipboard
@@ -82,11 +83,13 @@ const StoryShare: React.FC<{
             }
             icon={<SvgLink />}
             accessibilityLabel={t("share.copy")}
+            size="xl"
           />
           <Button
             asLink={`https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&href=${shareUri}&display=popup`}
             icon={<SvgFacebook className="fill-current stroke-0" />}
             accessibilityLabel="Facebook"
+            size="xl"
           />
           <Button
             asLink={`https://twitter.com/intent/tweet?url=${shareUri}&text=${encodeURIComponent(
@@ -94,6 +97,7 @@ const StoryShare: React.FC<{
             )}`}
             icon={<SvgTwitter className="fill-current stroke-0" />}
             accessibilityLabel="Twitter"
+            size="xl"
           />
           <Button
             asLink={`https://reddit.com/submit?url=${shareUri}&title=${encodeURIComponent(
@@ -101,8 +105,9 @@ const StoryShare: React.FC<{
             )}`}
             icon={<SvgReddit width="24" className="fill-current stroke-0" />}
             accessibilityLabel="Reddit"
+            size="xl"
           />
-        </div>
+        </Box>
         <Spacer size={4} axis="vertical" />
         {userFollowings ? (
           <>

@@ -3,6 +3,7 @@ import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
@@ -25,6 +26,7 @@ const getFeaturedArtists = (tracks: Track[]): string[] => {
 
 const transitionConfig = {
   from: {
+    height: "12rem",
     opacity: 0,
     transform: "translateY(10px)",
     position: "static" as const,
@@ -41,6 +43,8 @@ const transitionConfig = {
   },
   config: springConfig.stiff,
 };
+
+const AnimatedBox = animated(Box);
 
 const SelectTracksView: React.FC<{
   setInitTracks: React.Dispatch<React.SetStateAction<Track[] | null>>;
@@ -61,24 +65,28 @@ const SelectTracksView: React.FC<{
     <>
       {transitionsFrom.map(({ item: from, key, props }) =>
         from === "search" ? (
-          <animated.div
+          <AnimatedBox
             key={key}
-            className="flex w-full absolute top-0 flex-col flex-center h-48"
+            fullWidth
             style={props}
+            justifyContent="center"
+            alignItems="center"
           >
             <SelectFromSearch onSelected={setInitTracks} />
-          </animated.div>
+          </AnimatedBox>
         ) : (
-          <animated.div
+          <AnimatedBox
             key={key}
-            className="flex w-full absolute top-0 flex-col flex-center h-48"
+            fullWidth
             style={props}
+            justifyContent="center"
+            alignItems="center"
           >
             <SelectFromPlaylists onSelected={setInitTracks} />
-          </animated.div>
+          </AnimatedBox>
         )
       )}
-      <div className="pt-48 flex flex-col items-center space-y-1">
+      <Box alignItems="center" gap="xs">
         <Spacer size={8} axis="vertical" />
         <Typography.Text uppercase color="foreground-tertiary" size="sm" strong>
           {t("new.or")}
@@ -101,7 +109,7 @@ const SelectTracksView: React.FC<{
         >
           {t("new.startEmpty")}
         </button>
-      </div>
+      </Box>
     </>
   );
 };

@@ -91,11 +91,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   );
 
   return (
-    <form
-      onSubmit={handleStoryCreation}
-      autoComplete="off"
-      className="flex flex-col flex-center items-stretch"
-    >
+    <form onSubmit={handleStoryCreation} autoComplete="off">
       <CreateStoryFormGroup>
         <CreateStoryLabel htmlFor="storyText">
           {t("new.addNew.promptText")}

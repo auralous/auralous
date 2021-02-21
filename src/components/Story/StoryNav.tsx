@@ -131,7 +131,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
   const [activeMenu, showMenu, closeMenu] = useModal();
 
   return (
-    <div className="flex items-center justify-between">
+    <Box row alignItems="center" justifyContent="between">
       <Button
         styling="link"
         icon={<SvgChevronDown className="w-8 h-8" />}
@@ -149,20 +149,19 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
           <div className="box-skeleton w-6 h-6" />
         )}
         <Spacer size={1} axis="horizontal" />
-        <div className="whitespace-nowrap">
-          <Typography.Text size="sm" strong>
-            {t("story.ofUsername", { username: user?.username || "" })}
-          </Typography.Text>{" "}
-          {story.isLive ? (
-            <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
-              {t("common.live")}
-            </span>
-          ) : (
-            <Typography.Text size="xs" color="foreground-secondary">
-              {dateStr}
-            </Typography.Text>
-          )}
-        </div>
+        <Typography.Text size="sm" strong>
+          {t("story.ofUsername", { username: user?.username || "" })}
+        </Typography.Text>
+        <Spacer size={1} axis="horizontal" />
+        {story.isLive ? (
+          <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
+            {t("common.live")}
+          </span>
+        ) : (
+          <Typography.Text size="xs" color="foreground-secondary">
+            {dateStr}
+          </Typography.Text>
+        )}
       </div>
       <Button
         accessibilityLabel={t("story.menu.handle")}
@@ -171,7 +170,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
         styling="link"
       />
       <StoryNavMenu story={story} active={activeMenu} close={closeMenu} />
-    </div>
+    </Box>
   );
 };
 

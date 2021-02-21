@@ -14,7 +14,7 @@ const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
 
   return (
     <Box alignItems="center" padding={1}>
-      <div className="flex-none w-8 h-8 rounded-full overflow-hidden">
+      <div className="flex-none w-12 h-12 rounded-full overflow-hidden">
         {user ? (
           <img
             className="w-full h-full object-cover"
@@ -25,7 +25,7 @@ const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
           <div className="block-skeleton w-full h-full" />
         )}
       </div>
-      <Spacer size={2} axis="horizontal" />
+      <Spacer size={1} axis="vertical" />
       {user ? (
         <Link href={`/user/${user.username}`}>
           <Typography.Link strong truncate>
@@ -37,7 +37,7 @@ const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
       )}
       {rightEl && (
         <>
-          <Spacer size={2} axis="horizontal" />
+          <Spacer size={2} axis="vertical" />
           {rightEl}
         </>
       )}

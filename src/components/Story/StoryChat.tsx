@@ -35,9 +35,9 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
           size="sm"
         />
         <Spacer size={1} axis="horizontal" />
-        <div className="flex-1">
+        <Box flex={1} minWidth={0}>
           <StoryListeners userIds={userIds} />
-        </div>
+        </Box>
       </Box>
       <StoryShare active={active} close={close} story={story} />
     </>
@@ -84,9 +84,9 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <Box fullHeight>
       {story.isLive && <StoryUsers userIds={storyUsers || []} story={story} />}
-      <div className="flex-1 h-0">
+      <Box flex={1} minHeight={0}>
         <Messenger id={`story:${story.id}`} />
-      </div>
+      </Box>
     </Box>
   );
 };

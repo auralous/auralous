@@ -33,7 +33,7 @@ export const TrackItem: React.FC<{
         <div className="w-full overflow-hidden">
           {track ? (
             <>
-              <div className="truncate content-start text-left">
+              <Typography.Paragraph noMargin truncate align="left">
                 {SvgPlatformName && (
                   <SvgPlatformName className="fill-current inline w-4 h-4" />
                 )}{" "}
@@ -41,28 +41,30 @@ export const TrackItem: React.FC<{
                 <Typography.Text strong size="sm">
                   {track.title}
                 </Typography.Text>
-              </div>
-              <div className="flex text-xs text-foreground-secondary font-normal">
-                <span className="flex-none">
-                  {(() => {
-                    const [sec, min] = parseMs(track.duration, true);
-                    return `${min}:${sec}`;
-                  })()}
-                  {" • "}
-                </span>
-                <Spacer size={1} axis="horizontal" />
+              </Typography.Paragraph>
+              <Typography.Paragraph
+                normal
+                size="xs"
+                noMargin
+                truncate
+                align="left"
+                color="foreground-secondary"
+              >
+                {(() => {
+                  const [sec, min] = parseMs(track.duration, true);
+                  return `${min}:${sec}`;
+                })()}
+                {" • "}
                 <Typography.Text truncate>
                   {track.artists.map(({ name }) => name).join(", ")}
                 </Typography.Text>
                 {extraInfo && (
                   <>
-                    <Spacer size={1} axis="horizontal" />
                     {" • "}
-                    <Spacer size={1} axis="horizontal" />
                     {extraInfo}
                   </>
                 )}
-              </div>
+              </Typography.Paragraph>
             </>
           ) : (
             <>

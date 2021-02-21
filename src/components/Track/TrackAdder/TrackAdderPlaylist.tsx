@@ -79,7 +79,7 @@ const TrackAdderPlaylist: React.FC<{
           results={queryResults || []}
         />
       ) : (
-        <div className="flex-1 h-0 overflow-auto space-y-1">
+        <Box style={{ overflow: "auto" }} flex={1} minHeight={0} gap="xs">
           {myPlaylists?.map((playlist) => (
             <PressableHighlight
               key={playlist.id}
@@ -92,7 +92,7 @@ const TrackAdderPlaylist: React.FC<{
               <PlaylistItem playlist={playlist} />
             </PressableHighlight>
           ))}
-        </div>
+        </Box>
       )}
       {(fetching || fetchingTracks) && (
         <SvgLoadingAnimated className="absolute-center" />

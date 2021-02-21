@@ -16,6 +16,7 @@ interface TypographyProps {
   size?: TextSize;
   strong?: boolean;
   emphasis?: boolean;
+  normal?: boolean;
   align?: "center" | "left" | "right";
   id?: string;
   truncate?: boolean;
@@ -27,6 +28,7 @@ const commonClsx = (props: TypographyProps) =>
     props.color && `text-${props.color}`,
     props.strong && "font-bold",
     props.emphasis && "italic",
+    props.normal && "font-normal",
     props.align && `text-${props.align}`,
     props.size && `text-${props.size}`,
     props.truncate && "truncate",

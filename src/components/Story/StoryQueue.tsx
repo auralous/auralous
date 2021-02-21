@@ -56,9 +56,9 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
           </Modal.Modal>
         </>
       )}
-      <div className="flex-1">
+      <Box minWidth={0} flex={1}>
         <StoryListeners userIds={story.queueable} />
-      </div>
+      </Box>
     </Box>
   );
 };
