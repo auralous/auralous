@@ -1,5 +1,6 @@
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useI18n } from "i18n/index";
 import { useLogin } from "./LogIn";
 
@@ -11,15 +12,15 @@ const AuthBanner: React.FC<{ prompt: string; hook?: string }> = ({
   const [, openLogin] = useLogin();
 
   return (
-    <div className="flex flex-col items-center px-4 py-8 w-full max-w-2xl mx-auto">
+    <Box alignItems="center" paddingX={4} paddingY={8} fullWidth maxWidth="2xl">
       <Typography.Title level={4} align="center">
         {prompt}
       </Typography.Title>
       <Typography.Paragraph size="sm" align="center">
         {hook || t("auth.hookDefault")}
       </Typography.Paragraph>
-      <Button onPress={openLogin} title={t("auth.action")} />
-    </div>
+      <Button shape="circle" onPress={openLogin} title={t("auth.action")} />
+    </Box>
   );
 };
 

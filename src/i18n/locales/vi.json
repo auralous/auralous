@@ -254,8 +254,9 @@
     "addedBy": "Thêm bởi",
     "manager": {
       "add": "Thêm nhạc",
+      "move": "Di chuyển {{trackTitle}}",
       "removeSuccess": "Đã xoá {{title}}",
-      "remove": "Xoá bài hát",
+      "remove": "Xoá bài hát {{trackTitle}}",
       "empty": "Ở đây cô đơn quá... Thêm một bài nào!"
     }
   },

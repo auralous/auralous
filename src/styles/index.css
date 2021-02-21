@@ -107,7 +107,13 @@ html {
 }
 
 .block-skeleton {
-  @apply animate-pulse rounded-full bg-foreground-backdrop;
+  @apply relative overflow-hidden;
+}
+
+.block-skeleton::before {
+  z-index: 1;
+  content: "";
+  @apply absolute w-full h-full inset-0 bg-foreground-backdrop animate-pulse;
 }
 
 .backdrop-blur {
@@ -133,15 +139,12 @@ html {
 [data-reach-dialog-overlay] {
   @apply fixed w-full h-full inset-0 flex flex-center z-40 bg-background-backdrop;
   [data-reach-dialog-content] {
-    width: theme('maxWidth.5xl');
+    width: theme('maxWidth.3xl');
     max-width: calc(100vw - 1rem);
     max-height: calc(100vh - 1rem);
     @apply bg-background rounded-lg text-foreground overflow-hidden m-0 p-0 border-2 border-background-secondary;
     @apply relative flex flex-col;
     @apply transition;
-  }
-  .modal-footer {
-    @apply flex items-center justify-end space-x-2 px-4 py-3 border-background-secondary border-t-2;
   }
 }
 

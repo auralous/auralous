@@ -14,6 +14,7 @@ import { PlayerMinibar } from "components/Player/index";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useNotificationAddedSubscription, User } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -75,10 +76,10 @@ const Sidebar: React.FC = () => {
       className="hidden md:block w-56 fixed left-0 top-0 h-full"
       style={{ backgroundColor: sidebarColor }}
     >
-      <div className="p-2 space-y-2">
-        <div className="py-4">
+      <Box padding={2} gap="sm">
+        <Box paddingY={4}>
           <SvgLogo title="Stereo" className="w-32 h-12 mx-auto fill-current" />
-        </div>
+        </Box>
         <SidebarItem href="/new" isBold>
           {t("story.create")}
         </SidebarItem>
@@ -90,48 +91,46 @@ const Sidebar: React.FC = () => {
             <span className="w-2 h-2 ml-1 rounded-full bg-primary animate-pulse" />
           )}
         </SidebarItem>
-      </div>
-      <div className="p-1 rounded-lg">
+      </Box>
+      <Box padding={1}>
+        <Spacer
+          size={1}
+          axis="vertical"
+          style={{ borderTop: "2px solid hsl(240,14%,9%)", width: "100%" }}
+        />
         {me ? (
-          <div className="px-2 py-1 border-t-2 border-background-secondary">
-            <div className="p-1 flex items-center">
-              <img
-                src={me.user.profilePicture}
-                alt={me.user.username}
-                className="w-8 h-8 rounded-full"
-              />
-              <div className="w-0 flex-1 py-1 px-3 truncate leading-none">
-                <Typography.Paragraph
-                  noMargin
-                  strong
-                  size="sm"
-                  color="foreground-secondary"
-                >
-                  {me.user.username}
-                </Typography.Paragraph>
-                <Link href={`/user/${me.user.username}`}>
-                  <Typography.Link color="primary" size="xs">
-                    {t("user.profile")}
-                  </Typography.Link>
-                </Link>
-              </div>
-              <Link href="/settings">
-                <a
-                  className="btn p-1.5 bg-foreground-backdrop btn-transparent"
-                  title={t("settings.title")}
-                >
-                  <SvgSettings className="w-3 h-3" />
-                </a>
+          <Box padding={1} row alignItems="center">
+            <img
+              src={me.user.profilePicture}
+              alt={me.user.username}
+              className="w-8 h-8 rounded-full"
+            />
+            <div className="w-0 flex-1 py-1 px-3 truncate leading-none">
+              <Typography.Paragraph
+                noMargin
+                strong
+                size="sm"
+                color="foreground-secondary"
+              >
+                {me.user.username}
+              </Typography.Paragraph>
+              <Link href={`/user/${me.user.username}`}>
+                <Typography.Link color="primary" size="xs">
+                  {t("user.profile")}
+                </Typography.Link>
               </Link>
             </div>
-          </div>
+            <Link href="/settings">
+              <a
+                className="btn p-1.5 bg-foreground-backdrop btn-transparent"
+                title={t("settings.title")}
+              >
+                <SvgSettings className="w-3 h-3" />
+              </a>
+            </Link>
+          </Box>
         ) : (
           <>
-            <Spacer
-              size={1}
-              axis="vertical"
-              style={{ borderTop: "2px solid hsl(240,14%,9%)", width: "100%" }}
-            />
             <Button
               styling="link"
               color="primary"
@@ -141,7 +140,7 @@ const Sidebar: React.FC = () => {
             />
           </>
         )}
-      </div>
+      </Box>
     </div>
   );
 };

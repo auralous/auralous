@@ -1,6 +1,7 @@
 import { SvgFacebook, SvgMail, SvgTwitter } from "assets/svg";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { GetStaticProps, NextPage } from "next";
@@ -37,28 +38,28 @@ const SupportPage: NextPage<{
             {t("support.how")}
           </Typography.Title>
         </div>
-        <div className="flex flex-col items-center py-10 space-y-2">
+        <Box paddingY={10} alignItems="center" gap="sm">
           <Typography.Title level={2} size="xl" color="foreground-secondary">
             {t("support.articles.title")}
           </Typography.Title>
           {pages.map((page, index) => (
             <Link key={page.slug} href={`/support/${page.slug}`}>
               <Typography.Link>
-                <div className="flex items-center">
+                <Box row alignItems="center">
                   <span className="mr-2 flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-primary text-white">
                     {index + 1}
                   </span>
-                  <div>
-                    <Typography.Title level={4} size="2xl" strong>
+                  <Box>
+                    <Typography.Title noMargin level={4} size="2xl" strong>
                       {page.title}
                     </Typography.Title>
                     <Typography.Text>{page.subtitle}</Typography.Text>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </Typography.Link>
             </Link>
           ))}
-        </div>
+        </Box>
         <Typography.Paragraph
           size="sm"
           color="foreground-tertiary"
@@ -67,7 +68,7 @@ const SupportPage: NextPage<{
         >
           {t("support.p")}
         </Typography.Paragraph>
-        <div className="flex flex-wrap justify-center py-6 space-x-2 space-y-2">
+        <Box row justifyContent="center" gap="sm" paddingY={8}>
           <Button
             icon={<SvgMail />}
             title="yo@withstereo.com"
@@ -86,7 +87,7 @@ const SupportPage: NextPage<{
             asLink="https://twitter.com/withstereo_"
             shape="circle"
           />
-        </div>
+        </Box>
       </div>
     </>
   );

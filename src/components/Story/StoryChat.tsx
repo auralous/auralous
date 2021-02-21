@@ -4,6 +4,7 @@ import { Messenger } from "components/Message/index";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
+import { Box } from "components/View";
 import {
   Story,
   useOnStoryUsersUpdatedSubscription,
@@ -24,7 +25,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
 
   return (
     <>
-      <div className="px-4 py-1 flex">
+      <Box paddingX={4} paddingY={1} row>
         <Button
           color="primary"
           accessibilityLabel={t("story.share.title")}
@@ -34,10 +35,10 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
           size="sm"
         />
         <Spacer size={1} axis="horizontal" />
-        <div className="flex-1">
+        <Box flex={1} minWidth={0}>
           <StoryListeners userIds={userIds} />
-        </div>
-      </div>
+        </Box>
+      </Box>
       <StoryShare active={active} close={close} story={story} />
     </>
   );
@@ -81,12 +82,12 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
     );
 
   return (
-    <div className="h-full flex flex-col">
+    <Box fullHeight>
       {story.isLive && <StoryUsers userIds={storyUsers || []} story={story} />}
-      <div className="flex-1 h-0">
+      <Box flex={1} minHeight={0}>
         <Messenger id={`story:${story.id}`} />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

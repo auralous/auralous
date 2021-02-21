@@ -4,6 +4,7 @@ import { PageHeader } from "components/Page";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   PlatformName,
   useDeleteMeMutation,
@@ -207,7 +208,7 @@ const LeftSection: React.FC = () => {
               <label className="label" htmlFor="profilePictureInput">
                 {t("settings.profilePicture.label")}
               </label>
-              <div className="flex">
+              <Box row>
                 <img
                   alt={me.user.username}
                   src={me.user.profilePicture}
@@ -221,7 +222,7 @@ const LeftSection: React.FC = () => {
                   ref={profilePictureRef}
                   className="input w-0 flex-1"
                 />
-              </div>
+              </Box>
             </div>
             <Spacer size={4} axis="vertical" />
             <Button
@@ -318,14 +319,14 @@ const SettingsMain: React.FC = () => {
   return (
     <>
       <PageHeader name={t("settings.title")} />
-      <div className="flex flex-wrap">
+      <Box row wrap>
         <div className="w-full lg:flex-1 p-4">
           <LeftSection />
         </div>
         <div className="w-full lg:flex-1 p-4">
           <RightSection />
         </div>
-      </div>
+      </Box>
     </>
   );
 };

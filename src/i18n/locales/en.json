@@ -254,8 +254,9 @@
     "addedBy": "Added by",
     "manager": {
       "add": "Add song",
+      "move": "Move {{trackTitle}}",
       "removeSuccess": "Removed {{title}}",
-      "remove": "Remove Track",
+      "remove": "Remove {{trackTitle}}",
       "empty": "It's lonely around here... Let's add a song!"
     }
   },

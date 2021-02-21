@@ -8,10 +8,12 @@ import {
   SvgUser,
   SvgX,
 } from "assets/svg";
+import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { Story, useUserQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -43,21 +45,21 @@ const StoryNavMenu: React.FC<{
       <DialogOverlay isOpen={active} className="backdrop-blur">
         <div className="w-full max-w-2xl h-64 flex flex-col items-center space-y-2">
           {user && (
-            <div className="flex">
+            <Box row>
               <img
                 className="w-12 h-12 rounded-full"
                 src={user.profilePicture}
                 alt={user.username}
               />
-              <div className="p-1">
+              <Box padding={1}>
                 <Typography.Text strong>
                   {t("story.ofUsername", { username: user.username })}
                 </Typography.Text>
                 <Typography.Paragraph size="sm" color="foreground-secondary">
                   {story.text}
                 </Typography.Paragraph>
-              </div>
-            </div>
+              </Box>
+            </Box>
           )}
           <Button
             onPress={openShare}
@@ -130,7 +132,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
   const [activeMenu, showMenu, closeMenu] = useModal();
 
   return (
-    <div className="flex items-center justify-between">
+    <Box row alignItems="center" justifyContent="between">
       <Button
         styling="link"
         icon={<SvgChevronDown className="w-8 h-8" />}
@@ -138,30 +140,27 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
         onPress={onClose}
       />
       <div className="flex w-0 flex-1 items-center justify-center">
-        {user ? (
+        <Skeleton show={!user} rounded="full">
           <img
-            alt={user.username}
+            alt={user?.username}
             className="w-6 h-6 rounded-full object-cover"
-            src={user.profilePicture}
+            src={user?.profilePicture}
           />
-        ) : (
-          <div className="box-skeleton w-6 h-6" />
-        )}
+        </Skeleton>
         <Spacer size={1} axis="horizontal" />
-        <div className="whitespace-nowrap">
-          <Typography.Text size="sm" strong>
-            {t("story.ofUsername", { username: user?.username || "" })}
-          </Typography.Text>{" "}
-          {story.isLive ? (
-            <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
-              {t("common.live")}
-            </span>
-          ) : (
-            <Typography.Text size="xs" color="foreground-secondary">
-              {dateStr}
-            </Typography.Text>
-          )}
-        </div>
+        <Typography.Text size="sm" strong>
+          {t("story.ofUsername", { username: user?.username || "" })}
+        </Typography.Text>
+        <Spacer size={1} axis="horizontal" />
+        {story.isLive ? (
+          <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
+            {t("common.live")}
+          </span>
+        ) : (
+          <Typography.Text size="xs" color="foreground-secondary">
+            {dateStr}
+          </Typography.Text>
+        )}
       </div>
       <Button
         accessibilityLabel={t("story.menu.handle")}
@@ -170,7 +169,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
         styling="link"
       />
       <StoryNavMenu story={story} active={activeMenu} close={closeMenu} />
-    </div>
+    </Box>
   );
 };
 

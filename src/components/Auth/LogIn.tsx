@@ -1,8 +1,8 @@
-import { SvgGoogleColor, SvgSpotify, SvgX } from "assets/svg";
+import { SvgGoogleColor, SvgSpotify } from "assets/svg";
 import { Modal, useModal } from "components/Modal/index";
-import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { PlatformName } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
@@ -108,10 +108,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             background: `url("/images/topography.svg")`,
           }}
         >
-          <div className="flex flex-col items-center p-4 space-y-2 max-w-full">
+          <Box alignItems="center" padding={4}>
             <Typography.Title align="center">Hellooo!</Typography.Title>
-            <div className="flex flex-wrap flex-center space-x-1 space-y-1">
-              <div className="p-1 flex flex-col space-y-1">
+            <Box row wrap justifyContent="center" alignItems="center">
+              <Box padding={2}>
                 <Typography.Text
                   size="xs"
                   align="center"
@@ -120,6 +120,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                   {t("auth.listenOn")}{" "}
                   <Typography.Text strong>YouTube</Typography.Text>
                 </Typography.Text>
+                <Spacer size={1} axis="vertical" />
                 <button
                   onClick={() => logIn(PlatformName.Youtube)}
                   className="btn bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity rounded-full"
@@ -135,8 +136,8 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                     Continue with Google
                   </Typography.Text>
                 </button>
-              </div>
-              <div className="p-1 flex flex-col space-y-1">
+              </Box>
+              <Box padding={2}>
                 <Typography.Text
                   size="xs"
                   align="center"
@@ -145,6 +146,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                   {t("auth.listenOn")}{" "}
                   <Typography.Text strong>Spotify</Typography.Text>
                 </Typography.Text>
+                <Spacer size={1} axis="vertical" />
                 <button
                   onClick={() => logIn(PlatformName.Spotify)}
                   className="btn bg-spotify text-spotify-label h-12 hover:opacity-75 transition-opacity rounded-full"
@@ -156,8 +158,9 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                     Continue with Spotify
                   </Typography.Text>
                 </button>
-              </div>
-            </div>
+              </Box>
+            </Box>
+            <Spacer size={1} axis="vertical" />
             <Typography.Paragraph
               size="xs"
               color="foreground-tertiary"
@@ -166,18 +169,11 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
               {t("auth.createNotice")}
             </Typography.Paragraph>
             <Typography.Paragraph size="xs" align="center">
-              <a
-                href="/support/permissions"
-                target="_blank"
-                className="hover:underline"
-              >
-                <span role="img" aria-label="Light Bulb">
-                  💡
-                </span>{" "}
-                {t("auth.permissionLink")}
-              </a>
+              <Typography.Link href="/support/permissions" target="_blank">
+                {`💡 ${t("auth.permissionLink")}`}
+              </Typography.Link>
             </Typography.Paragraph>
-          </div>
+          </Box>
           <Typography.Paragraph
             size="xs"
             color="foreground-tertiary"
@@ -203,13 +199,6 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             </Typography.Link>{" "}
             {t("auth.footerText.whereApplicable")}.
           </Typography.Paragraph>
-        </div>
-        <div className="absolute top-2 right-0">
-          <Button
-            accessibilityLabel={t("modal.close")}
-            icon={<SvgX />}
-            styling="link"
-          />
         </div>
       </Modal.Modal>
       <Welcome active={activeWelcome} close={close} />

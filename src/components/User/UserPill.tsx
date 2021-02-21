@@ -1,46 +1,47 @@
+import { Skeleton } from "components/Loading";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useUserQuery } from "gql/gql.gen";
 import Link from "next/link";
 
-const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
+const UserPill: React.FC<{ id: string; extraEl?: JSX.Element }> = ({
   id,
-  rightEl,
+  extraEl,
 }) => {
   const [{ data: { user } = { user: undefined } }] = useUserQuery({
     variables: { id },
   });
 
   return (
-    <div className="flex items-center p-1">
-      <div className="flex-none w-8 h-8 rounded-full overflow-hidden">
-        {user ? (
-          <img
-            className="w-full h-full object-cover"
-            src={user.profilePicture}
-            alt={user.username}
-          />
-        ) : (
-          <div className="block-skeleton w-full h-full" />
-        )}
-      </div>
-      <Spacer size={2} axis="horizontal" />
-      {user ? (
-        <Link href={`/user/${user.username}`}>
+    <Box
+      alignItems="center"
+      backgroundColor="background-secondary"
+      rounded="lg"
+      padding={2}
+    >
+      <Skeleton show={!user} rounded="full">
+        <img
+          className="w-12 h-12 rounded-full object-cover"
+          src={user?.profilePicture}
+          alt={user?.username}
+        />
+      </Skeleton>
+      <Spacer size={1} axis="vertical" />
+      <Skeleton show={!user} rounded="lg" width={20} height={4}>
+        <Link href={`/user/${user?.username}`}>
           <Typography.Link strong truncate>
-            {user.username}
+            {user?.username}
           </Typography.Link>
         </Link>
-      ) : (
-        <div className="w-20 h-5 block-skeleton" />
-      )}
-      {rightEl && (
+      </Skeleton>
+      {extraEl && (
         <>
-          <Spacer size={2} axis="horizontal" />
-          {rightEl}
+          <Spacer size={2} axis="vertical" />
+          {extraEl}
         </>
       )}
-    </div>
+    </Box>
   );
 };
 

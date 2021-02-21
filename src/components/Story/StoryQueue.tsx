@@ -4,6 +4,7 @@ import { Modal, useModal } from "components/Modal";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
+import { Box } from "components/View";
 import { Story } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -26,41 +27,39 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
   const me = useMe();
 
   return (
-    <>
-      <div className="px-4 py-1 flex">
-        {me?.user.id === story.creatorId && (
-          <>
-            <Button
-              color="primary"
-              accessibilityLabel={t("story.queueable.title")}
-              onPress={open}
-              icon={<SvgUserPlus className="w-4 h-4" />}
-              shape="circle"
-              size="sm"
-            />
-            <Spacer size={1} axis="horizontal" />
-            <Modal.Modal
-              active={active}
-              close={close}
-              title={t("story.queueable.title")}
-            >
-              <Modal.Header>
-                <Modal.Title>{t("story.queueable.title")}</Modal.Title>
-              </Modal.Header>
-              <Modal.Content>
-                <StoryQueueable story={story} />
-              </Modal.Content>
-              <Modal.Footer>
-                <Button title={t("common.done")} onPress={close} />
-              </Modal.Footer>
-            </Modal.Modal>
-          </>
-        )}
-        <div className="flex-1">
-          <StoryListeners userIds={story.queueable} />
-        </div>
-      </div>
-    </>
+    <Box paddingX={4} paddingY={1} row>
+      {me?.user.id === story.creatorId && (
+        <>
+          <Button
+            color="primary"
+            accessibilityLabel={t("story.queueable.title")}
+            onPress={open}
+            icon={<SvgUserPlus className="w-4 h-4" />}
+            shape="circle"
+            size="sm"
+          />
+          <Spacer size={1} axis="horizontal" />
+          <Modal.Modal
+            active={active}
+            close={close}
+            title={t("story.queueable.title")}
+          >
+            <Modal.Header>
+              <Modal.Title>{t("story.queueable.title")}</Modal.Title>
+            </Modal.Header>
+            <Modal.Content>
+              <StoryQueueable story={story} />
+            </Modal.Content>
+            <Modal.Footer>
+              <Button title={t("common.done")} onPress={close} />
+            </Modal.Footer>
+          </Modal.Modal>
+        </>
+      )}
+      <Box minWidth={0} flex={1}>
+        <StoryListeners userIds={story.queueable} />
+      </Box>
+    </Box>
   );
 };
 
@@ -92,10 +91,10 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
 
   if (story.isLive)
     return (
-      <div className="h-full flex flex-col">
+      <Box fullHeight>
         <StoryQueueAdder story={story} active={active} close={close} />
         <StoryQueueableManager story={story} />
-        <div className="text-center">
+        <Box alignItems="center">
           <Button
             title={t("story.queue.adderTitle")}
             icon={<SvgPlus className="w-4 h-4" />}
@@ -105,11 +104,11 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
             styling="outline"
             color="primary"
           />
-        </div>
-        <div className="flex-1 h-0">
+        </Box>
+        <Box flex={1} minHeight={0}>
           <QueueManager isQueueable={isQueueable} queueId={story.id} />
-        </div>
-      </div>
+        </Box>
+      </Box>
     );
 
   return <QueueViewer queueId={`${story.id}:played`} onClick={playQueueItem} />;

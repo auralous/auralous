@@ -1,8 +1,10 @@
 import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
+import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
-import { Button } from "components/Pressable";
+import { Button, PressableHighlight } from "components/Pressable";
 import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useEffect, useState } from "react";
@@ -33,7 +35,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <div className="my-2 space-x-6 flex flex-center">
+    <Box paddingY={2} row justifyContent="center" alignItems="center" gap="lg">
       <Button
         accessibilityLabel={t("player.skipBackward")}
         onPress={skipBackward}
@@ -41,7 +43,7 @@ export const PlayerControl: React.FC = () => {
         icon={<SvgSkipBack className="w-6 h-6 fill-current stroke-current" />}
         styling="link"
       />
-      <div className="relative">
+      <Box position="relative">
         <Button
           accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
           icon={
@@ -57,7 +59,7 @@ export const PlayerControl: React.FC = () => {
           shape="circle"
         />
         {fetching && <span className="spinning-border absolute inset-0" />}
-      </div>
+      </Box>
       <Button
         accessibilityLabel={t("player.skipForward")}
         onPress={skipForward}
@@ -67,7 +69,7 @@ export const PlayerControl: React.FC = () => {
         }
         styling="link"
       />
-    </div>
+    </Box>
   );
 };
 
@@ -101,27 +103,36 @@ export const PlayerMeta: React.FC<{
 
   return (
     // eslint-disable-next-line
-    <div className="my-4 h-14 text-inline-link flex-shrink overflow-hidden" onClick={openMenu}>
-      {fetching ? (
-        <>
-          <div className="block-skeleton rounded h-6 w-40 mb-2" />
-          <div className="block-skeleton rounded h-5 w-24" />
-        </>
-      ) : (
-        <>
-          <Typography.Title noMargin level={4} strong size="2xl" truncate>
+    <PressableHighlight onPress={openMenu} style={{flex: 1, minWidth: 0}}>
+      <Box fullWidth alignItems="stretch" gap="xs" style={{ lineHeight: 1 }}>
+        <Skeleton rounded="lg" show={fetching} width={40}>
+          <Typography.Title
+            align="left"
+            noMargin
+            level={4}
+            strong
+            size="2xl"
+            truncate
+          >
             {track ? track.title : t("player.noneText")}
           </Typography.Title>
-          <Typography.Paragraph noMargin color="foreground-secondary" truncate>
+        </Skeleton>
+        <Skeleton rounded="lg" show={fetching} width={32}>
+          <Typography.Paragraph
+            align="left"
+            noMargin
+            color="foreground-secondary"
+            truncate
+          >
             {track
               ? track.artists.map((artist) => artist.name).join(", ")
               : t("player.noneHelpText")}
           </Typography.Paragraph>
-          {track && (
-            <TrackMenu active={activeMenu} close={closeMenu} id={track.id} />
-          )}
-        </>
-      )}
-    </div>
+        </Skeleton>
+        {track && (
+          <TrackMenu active={activeMenu} close={closeMenu} id={track.id} />
+        )}
+      </Box>
+    </PressableHighlight>
   );
 };

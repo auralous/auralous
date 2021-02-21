@@ -1,7 +1,9 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
+import clsx from "clsx";
 import LayoutContext from "components/Layout/LayoutContext";
 import { usePlayer } from "components/Player/index";
 import { PlayerControl } from "components/Player/PlayerView";
+import { Box } from "components/View";
 import {
   Story,
   useNowPlayingReactionsUpdatedSubscription,
@@ -82,11 +84,8 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   );
 
   return (
-    <>
-      <div
-        ref={resizeRef}
-        className="p-4 overflow-hidden flex flex-col justify-center"
-      >
+    <div ref={resizeRef}>
+      <Box fullHeight padding={4} justifyContent="center">
         <StoryNav onClose={onClose} story={story} />
         <Tabs
           index={selectedIndex}
@@ -96,7 +95,11 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           <TabPanels className="flex-1 h-0 relative">
             <AnimatedTabPanel
               style={tabPanel0Style}
-              className="h-full"
+              className={clsx(
+                selectedIndex === 0 ? "flex" : "hidden",
+                "justify-center",
+                "h-full"
+              )}
               as="div"
             >
               <StoryPlayer story={story} />
@@ -123,8 +126,8 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           </TabList>
         </Tabs>
         <PlayerControl />
-      </div>
-    </>
+      </Box>
+    </div>
   );
 };
 

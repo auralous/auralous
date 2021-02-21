@@ -1,5 +1,7 @@
+import { Skeleton } from "components/Loading";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useTrackQuery } from "gql/gql.gen";
 import { SvgByPlatformName } from "utils/constants";
 import { parseMs } from "utils/editor-utils";
@@ -18,21 +20,19 @@ export const TrackItem: React.FC<{
 
   return (
     <>
-      <div className="flex items-center overflow-hidden w-full">
-        {track ? (
+      <Box fullWidth row alignItems="center">
+        <Skeleton show={!track} rounded="lg">
           <img
-            alt={track.title}
-            className="h-12 w-12 rounded flex-none overflow-hidden"
-            src={track.image}
+            alt={track?.title}
+            className="h-12 w-12 rounded"
+            src={track?.image}
           />
-        ) : (
-          <div className="block-skeleton rounded h-12 w-12 flex-none" />
-        )}
+        </Skeleton>
         <Spacer size={2} axis="horizontal" />
-        <div className="w-full overflow-hidden">
+        <Box flex={1} minWidth={0} gap="xs">
           {track ? (
             <>
-              <div className="truncate content-start text-left">
+              <Typography.Paragraph noMargin truncate align="left">
                 {SvgPlatformName && (
                   <SvgPlatformName className="fill-current inline w-4 h-4" />
                 )}{" "}
@@ -40,37 +40,39 @@ export const TrackItem: React.FC<{
                 <Typography.Text strong size="sm">
                   {track.title}
                 </Typography.Text>
-              </div>
-              <div className="flex text-xs text-foreground-secondary font-normal">
-                <span className="flex-none">
-                  {(() => {
-                    const [sec, min] = parseMs(track.duration, true);
-                    return `${min}:${sec}`;
-                  })()}
-                  {" • "}
-                </span>
-                <Spacer size={1} axis="horizontal" />
+              </Typography.Paragraph>
+              <Typography.Paragraph
+                normal
+                size="xs"
+                noMargin
+                truncate
+                align="left"
+                color="foreground-secondary"
+              >
+                {(() => {
+                  const [sec, min] = parseMs(track.duration, true);
+                  return `${min}:${sec}`;
+                })()}
+                {" • "}
                 <Typography.Text truncate>
                   {track.artists.map(({ name }) => name).join(", ")}
                 </Typography.Text>
                 {extraInfo && (
                   <>
-                    <Spacer size={1} axis="horizontal" />
                     {" • "}
-                    <Spacer size={1} axis="horizontal" />
                     {extraInfo}
                   </>
                 )}
-              </div>
+              </Typography.Paragraph>
             </>
           ) : (
             <>
-              <div className="block-skeleton rounded h-6 mb-1" />
-              <div className="block-skeleton rounded h-4 w-3/4" />
+              <Skeleton show height={6} width={40} />
+              <Skeleton show height={4} width={32} />
             </>
           )}
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 };

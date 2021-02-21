@@ -4,6 +4,7 @@ import { AddToPlaylist } from "components/Playlist/index";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useTrackQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useState } from "react";
@@ -33,48 +34,48 @@ const TrackMenu: React.FC<{
         close={close}
       >
         <Modal.Content>
-          <div className="flex-center flex flex-col md:flex-row">
+          <Box justifyContent="center" alignItems="center">
             <img
               className="w-32 h-32 object-cover rounded shadow-lg"
               src={track?.image}
               alt={track?.title}
             />
-            <Spacer size={4} axis="horizontal" />
-            <div className="w-full md:w-0 flex-1">
-              <div className="py-2 text-center md:text-left">
-                <Typography.Paragraph size="md" truncate strong noMargin>
-                  {track?.title}
-                </Typography.Paragraph>
-                <Typography.Paragraph
-                  size="sm"
-                  truncate
-                  color="foreground-secondary"
-                >
-                  {track?.artists.map(({ name }) => name).join(", ")}
-                </Typography.Paragraph>
-              </div>
-              <div className="flex flex-wrap justify-center md:justify-start space-x-1 space-y-1">
-                <Button
-                  onPress={() => setOpenAddPlaylist(true)}
-                  icon={<SvgPlus width="20" />}
-                  title={t("track.addToPlaylist")}
-                />
-                <Button
-                  asLink={track?.url}
-                  icon={
-                    SvgPlatformName ? (
-                      <SvgPlatformName width="20" className="fill-current" />
-                    ) : undefined
-                  }
-                  title={t("track.listenOn", {
-                    platform:
-                      (track?.platform && PLATFORM_FULLNAMES[track.platform]) ||
-                      "",
-                  })}
-                />
-              </div>
-            </div>
-          </div>
+            <Spacer size={4} axis="vertical" />
+            <Typography.Paragraph size="md" truncate strong noMargin>
+              {track?.title}
+            </Typography.Paragraph>
+            <Typography.Paragraph
+              size="sm"
+              truncate
+              color="foreground-secondary"
+            >
+              {track?.artists.map(({ name }) => name).join(", ")}
+            </Typography.Paragraph>
+            <Box gap="sm">
+              <Button
+                onPress={() => setOpenAddPlaylist(true)}
+                icon={<SvgPlus width="20" height="20" />}
+                title={t("track.addToPlaylist")}
+              />
+              <Button
+                asLink={track?.url}
+                icon={
+                  SvgPlatformName ? (
+                    <SvgPlatformName
+                      width="20"
+                      height="20"
+                      className="fill-current"
+                    />
+                  ) : undefined
+                }
+                title={t("track.listenOn", {
+                  platform:
+                    (track?.platform && PLATFORM_FULLNAMES[track.platform]) ||
+                    "",
+                })}
+              />
+            </Box>
+          </Box>
         </Modal.Content>
       </Modal.Modal>
       <AddToPlaylist

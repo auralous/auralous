@@ -4,12 +4,11 @@ import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { TrackItem } from "components/Track/index";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   Queue,
   QueueAction,
-  TrackDocument,
-  TrackQuery,
-  TrackQueryVariables,
+  useTrackQuery,
   useUpdateQueueMutation,
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
@@ -27,7 +26,6 @@ import {
   FixedSizeList as List,
   ListChildComponentProps,
 } from "react-window";
-import { useClient } from "urql";
 import { toast } from "utils/toast";
 import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
@@ -43,28 +41,22 @@ const QueueDraggableItem: React.FC<{
 }> = ({ isQueueable, provided, isDragging, queue, index, style }) => {
   const { t } = useI18n();
 
-  const urqlClient = useClient();
+  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
+    variables: { id: queue.items[index].trackId },
+  });
+
   const [, updateQueue] = useUpdateQueueMutation();
   const removeItem = useCallback(async () => {
     if (!queue) return;
-    // This should read from cache
-    const deletingTrackName = (
-      await urqlClient
-        .query<TrackQuery, TrackQueryVariables>(TrackDocument, {
-          id: queue.items[index].trackId,
-        })
-        .toPromise()
-    ).data?.track?.title;
     const { error } = await updateQueue({
       id: queue.id,
       action: QueueAction.Remove,
       position: index,
     });
-    if (!error)
-      toast.success(
-        t("queue.manager.removeSuccess", { title: deletingTrackName })
-      );
-  }, [t, queue, updateQueue, urqlClient, index]);
+    if (!error) {
+      toast.success(t("queue.manager.removeSuccess", { title: track?.title }));
+    }
+  }, [t, queue, updateQueue, track, index]);
 
   return (
     <div
@@ -79,47 +71,48 @@ const QueueDraggableItem: React.FC<{
         isDragging && "opacity-75"
       )}
     >
-      <div
-        className="text-inline-link"
-        {...provided.dragHandleProps}
-        hidden={!isQueueable}
-      >
-        <SvgGripVertical />
+      <div {...provided.dragHandleProps} hidden={!isQueueable}>
+        <Button
+          accessibilityLabel={t("queue.manager.move", {
+            trackTitle: track?.title,
+          })}
+          styling="link"
+          icon={<SvgGripVertical />}
+        />
       </div>
       <Spacer size={1} axis="horizontal" />
-      <div className="px-2 flex items-center overflow-hidden h-full w-0 flex-1">
+      <Box paddingX={2} row alignItems="center" minWidth={0} flex={1}>
         <TrackItem
           id={queue.items[index].trackId}
           extraInfo={<QueueAddedBy userId={queue.items[index].creatorId} />}
         />
-      </div>
-      <Spacer size={2} axis="vertical" />
-      <div className="flex content-end items-center">
-        {isQueueable && (
-          <Button
-            accessibilityLabel={t("queue.manager.remove")}
-            styling="link"
-            onPress={removeItem}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                className="stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={8}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            }
-          />
-        )}
-      </div>
+      </Box>
+      {isQueueable && (
+        <Button
+          accessibilityLabel={t("queue.manager.remove", {
+            trackTitle: track?.title,
+          })}
+          styling="link"
+          onPress={removeItem}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              className="stroke-current"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={8}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          }
+        />
+      )}
     </div>
   );
 };

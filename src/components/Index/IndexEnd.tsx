@@ -1,4 +1,5 @@
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { animated } from "react-spring";
@@ -10,7 +11,7 @@ const IndexEnd: React.FC = () => {
   const [ref, style] = useFadeInOnScroll();
 
   return (
-    <div className="flex justify-center">
+    <Box justifyContent="center">
       <animated.span style={style}>
         <Link href="/listen">
           <a
@@ -23,7 +24,7 @@ const IndexEnd: React.FC = () => {
           </a>
         </Link>
       </animated.span>
-    </div>
+    </Box>
   );
 };
 
