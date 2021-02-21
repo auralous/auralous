@@ -106,8 +106,13 @@ html {
   }
 }
 
-.block-skeleton {
-  @apply animate-pulse rounded-full bg-foreground-backdrop;
+.skeleton {
+  @apply relative;
+}
+
+.skeleton::before {
+  z-index: 1;
+  @apply absolute w-full h-full inset-0 bg-foreground-backdrop animate-pulse;
 }
 
 .backdrop-blur {

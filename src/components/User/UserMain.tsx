@@ -98,7 +98,7 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
 
   return (
     <>
-      <div className="relative px-4 pt-8 pb-4">
+      <Box position="relative" paddingX={4} paddingY={8}>
         <img
           className="w-28 h-28 rounded-full mx-auto"
           src={user.profilePicture}
@@ -108,9 +108,9 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
         <Typography.Title size="xl" strong align="center">
           {user.username}
         </Typography.Title>
-        <div className="text-center">
+        <Box row justifyContent="center">
           <UserFollowButton id={user.id} />
-        </div>
+        </Box>
         <Spacer size={8} axis="vertical" />
         <Box justifyContent="center" row>
           <PressableHighlight onPress={openFollowing} shape="circle">
@@ -133,7 +133,6 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
             </Typography.Text>
           </PressableHighlight>
         </Box>
-        <div className="flex flex-center text-sm space-x-8 text-foreground-secondary"></div>
         {me?.user.id === user.id && (
           <div className="md:hidden absolute top-2 right-0">
             <Link href="/settings">
@@ -145,10 +144,10 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
             </Link>
           </div>
         )}
-      </div>
-      <div className="py-4">
+      </Box>
+      <Box paddingY={4}>
         <StoryFeed id={`creatorId:${user.id}`} />
-      </div>
+      </Box>
       <UserFollowingModals
         id={user.id}
         active={activeFollowing}

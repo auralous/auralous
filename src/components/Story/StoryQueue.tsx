@@ -94,7 +94,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
       <Box fullHeight>
         <StoryQueueAdder story={story} active={active} close={close} />
         <StoryQueueableManager story={story} />
-        <div className="text-center">
+        <Box alignItems="center">
           <Button
             title={t("story.queue.adderTitle")}
             icon={<SvgPlus className="w-4 h-4" />}
@@ -104,10 +104,10 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
             styling="outline"
             color="primary"
           />
-        </div>
-        <div className="flex-1 h-0">
+        </Box>
+        <Box flex={1} minHeight={0}>
           <QueueManager isQueueable={isQueueable} queueId={story.id} />
-        </div>
+        </Box>
       </Box>
     );
 

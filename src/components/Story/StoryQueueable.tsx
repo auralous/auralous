@@ -62,9 +62,16 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
       onSubmit={onUserAdd}
       className="flex items-center rounded-full bg-background-secondary p-1"
     >
-      <div className="flex flex-center w-10 h-10 rounded-full bg-background-secondary">
+      <Box
+        justifyContent="center"
+        alignItems="center"
+        width={10}
+        height={10}
+        rounded="full"
+        backgroundColor="background-secondary"
+      >
         <SvgUserPlus className="w-4 h-4" />
-      </div>
+      </Box>
       <Spacer size={2} axis="horizontal" />
       <input
         name="username"
@@ -116,17 +123,15 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
       rounded="full"
       gap="sm"
     >
-      <div className="w-10 h-10 rounded-full overflow-hidden">
-        {user ? (
-          <img
-            className="w-full h-full object-cover"
-            src={user.profilePicture}
-            alt={user.username}
-          />
-        ) : (
-          <div className="block-skeleton w-full h-full" />
-        )}
-      </div>
+      {user ? (
+        <img
+          className="w-10 h-10 rounded-full object-cover"
+          src={user.profilePicture}
+          alt={user.username}
+        />
+      ) : (
+        <div className="block-skeleton w-10 h-10 rounded-full" />
+      )}
       <Box minWidth={0} flex={1}>
         {user ? (
           <Typography.Text strong truncate>

@@ -11,7 +11,7 @@ const UserList: React.FC<{
         <Element
           id={userId}
           key={userId}
-          rightEl={<UserFollowButton id={userId} isTiny />}
+          extraEl={<UserFollowButton id={userId} isTiny />}
         />
       ))}
     </div>

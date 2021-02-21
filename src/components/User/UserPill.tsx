@@ -4,27 +4,30 @@ import { Box } from "components/View";
 import { useUserQuery } from "gql/gql.gen";
 import Link from "next/link";
 
-const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
+const UserPill: React.FC<{ id: string; extraEl?: JSX.Element }> = ({
   id,
-  rightEl,
+  extraEl,
 }) => {
   const [{ data: { user } = { user: undefined } }] = useUserQuery({
     variables: { id },
   });
 
   return (
-    <Box alignItems="center" padding={1}>
-      <div className="flex-none w-12 h-12 rounded-full overflow-hidden">
-        {user ? (
-          <img
-            className="w-full h-full object-cover"
-            src={user.profilePicture}
-            alt={user.username}
-          />
-        ) : (
-          <div className="block-skeleton w-full h-full" />
-        )}
-      </div>
+    <Box
+      alignItems="center"
+      backgroundColor="background-secondary"
+      rounded="lg"
+      padding={2}
+    >
+      {user ? (
+        <img
+          className="w-12 h-12 rounded-full object-cover"
+          src={user.profilePicture}
+          alt={user.username}
+        />
+      ) : (
+        <div className="block-skeleton w-12 h-12 rounded-full" />
+      )}
       <Spacer size={1} axis="vertical" />
       {user ? (
         <Link href={`/user/${user.username}`}>
@@ -35,10 +38,10 @@ const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
       ) : (
         <div className="w-20 h-5 block-skeleton" />
       )}
-      {rightEl && (
+      {extraEl && (
         <>
           <Spacer size={2} axis="vertical" />
-          {rightEl}
+          {extraEl}
         </>
       )}
     </Box>

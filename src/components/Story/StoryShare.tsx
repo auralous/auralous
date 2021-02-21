@@ -53,7 +53,7 @@ const StoryShare: React.FC<{
       return (
         <UserPill
           id={id}
-          rightEl={
+          extraEl={
             <Button
               color="primary"
               size="sm"
