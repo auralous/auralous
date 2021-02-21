@@ -72,11 +72,12 @@ const Navbar: React.FC = () => {
   return (
     <>
       <animated.nav
-        className="w-full z-20 py-4 bg-gradient-to-b from-background to-transparent bg-opacity-50 fixed top-0"
+        className="w-full flex justify-center z-20 py-4 bg-gradient-to-b from-background to-transparent bg-opacity-50 fixed top-0"
         style={styles}
       >
         <Box
-          maxWidth="2xl"
+          maxWidth="4xl"
+          fullWidth
           paddingX={4}
           row
           alignItems="center"

@@ -9,7 +9,7 @@ interface BoxProps {
   paddingX: 1 | 2 | 4 | 8 | 10 | 12;
   paddingY: 1 | 2 | 4 | 8 | 10 | 12;
   width: 1 | 2 | 4 | 8 | 10 | 12;
-  maxWidth: "lg" | "xl" | "2xl";
+  maxWidth: "lg" | "xl" | "2xl" | "4xl";
   height: 1 | 2 | 4 | 8 | 10 | 12;
   fullWidth: boolean;
   fullHeight: boolean;
