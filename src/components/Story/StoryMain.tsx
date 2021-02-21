@@ -1,4 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
+import clsx from "clsx";
 import LayoutContext from "components/Layout/LayoutContext";
 import { usePlayer } from "components/Player/index";
 import { PlayerControl } from "components/Player/PlayerView";
@@ -96,7 +97,11 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
           <TabPanels className="flex-1 h-0 relative">
             <AnimatedTabPanel
               style={tabPanel0Style}
-              className="h-full"
+              className={clsx(
+                selectedIndex === 0 ? "flex" : "hidden",
+                "justify-center",
+                "h-full"
+              )}
               as="div"
             >
               <StoryPlayer story={story} />

@@ -15,6 +15,7 @@ interface BoxProps {
   fullHeight: boolean;
   rounded: "lg" | "full";
   wrap?: boolean;
+  position?: "relative" | "absolute";
 }
 
 const Box: React.FC<Partial<BoxProps>> = ({
@@ -31,7 +32,9 @@ const Box: React.FC<Partial<BoxProps>> = ({
   height,
   rounded,
   fullWidth,
+  maxWidth,
   fullHeight,
+  position,
 }) => {
   return (
     <div
@@ -45,10 +48,12 @@ const Box: React.FC<Partial<BoxProps>> = ({
         paddingX && `px-${paddingX}`,
         paddingY && `py-${paddingY}`,
         width && `w-${width}`,
+        maxWidth && `max-w-${maxWidth}`,
         height && `h-${height}`,
         rounded && `rounded-${rounded}`,
         fullWidth && `w-full`,
-        fullHeight && `h-full`
+        fullHeight && `h-full`,
+        position
       )}
       style={flex ? { flex } : undefined}
     >

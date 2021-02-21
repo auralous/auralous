@@ -82,12 +82,12 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
     );
 
   return (
-    <div className="h-full flex flex-col">
+    <Box fullHeight>
       {story.isLive && <StoryUsers userIds={storyUsers || []} story={story} />}
       <div className="flex-1 h-0">
         <Messenger id={`story:${story.id}`} />
       </div>
-    </div>
+    </Box>
   );
 };
 

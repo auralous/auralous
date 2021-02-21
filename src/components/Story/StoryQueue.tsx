@@ -91,7 +91,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
 
   if (story.isLive)
     return (
-      <div className="h-full flex flex-col">
+      <Box fullHeight>
         <StoryQueueAdder story={story} active={active} close={close} />
         <StoryQueueableManager story={story} />
         <div className="text-center">
@@ -108,7 +108,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
         <div className="flex-1 h-0">
           <QueueManager isQueueable={isQueueable} queueId={story.id} />
         </div>
-      </div>
+      </Box>
     );
 
   return <QueueViewer queueId={`${story.id}:played`} onClick={playQueueItem} />;

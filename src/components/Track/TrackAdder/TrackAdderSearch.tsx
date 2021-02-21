@@ -1,5 +1,6 @@
 import { SvgLoadingAnimated } from "assets/svg";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   PlaylistTracksDocument,
   PlaylistTracksQuery,
@@ -74,7 +75,7 @@ const TrackAdderSearch: React.FC<{
   );
 
   return (
-    <div className="h-full w-full flex flex-col relative">
+    <Box fullWidth fullHeight position="relative">
       <form
         ref={formRef}
         onSubmit={onSubmit}
@@ -109,7 +110,7 @@ const TrackAdderSearch: React.FC<{
         callback={callback}
         results={queryResults.map(({ id }) => id)}
       />
-    </div>
+    </Box>
   );
 };
 

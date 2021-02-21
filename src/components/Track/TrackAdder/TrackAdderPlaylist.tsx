@@ -3,6 +3,7 @@ import { PlaylistItem } from "components/Playlist";
 import { Button, PressableHighlight } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   Playlist,
   useMyPlaylistsQuery,
@@ -47,8 +48,8 @@ const TrackAdderPlaylist: React.FC<{
   );
 
   return (
-    <div className="flex flex-col w-full h-full relative">
-      <div className="px-2 h-10 flex items-center space-x-2">
+    <Box fullWidth fullHeight position="relative">
+      <Box row paddingX={2} height={10} alignItems="center">
         <Button
           onPress={() => setSelectedPlaylist(null)}
           accessibilityLabel={t("common.back")}
@@ -58,6 +59,7 @@ const TrackAdderPlaylist: React.FC<{
         />
         {!!selectedPlaylist && (
           <div className="inline-flex items-center">
+            <Spacer size={2} axis="horizontal" />
             <img
               src={selectedPlaylist.image}
               alt={selectedPlaylist.name}
@@ -69,7 +71,7 @@ const TrackAdderPlaylist: React.FC<{
             </Typography.Text>
           </div>
         )}
-      </div>
+      </Box>
       {selectedPlaylist ? (
         <TrackAdderResults
           addedTracks={addedTracks}
@@ -95,7 +97,7 @@ const TrackAdderPlaylist: React.FC<{
       {(fetching || fetchingTracks) && (
         <SvgLoadingAnimated className="absolute-center" />
       )}
-    </div>
+    </Box>
   );
 };
 

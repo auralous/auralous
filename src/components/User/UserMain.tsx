@@ -1,9 +1,10 @@
 import { SvgSettings } from "assets/svg";
 import { Modal, useModal } from "components/Modal";
-import { Button } from "components/Pressable";
+import { Button, PressableHighlight } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import StoryFeed from "components/Story/StoryFeed";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   User,
   useUserFollowersQuery,
@@ -15,7 +16,6 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useEffect } from "react";
-import { onEnterKeyClick } from "utils/util";
 import UserFollowButton from "./UserFollowButton";
 import UserList from "./UserList";
 
@@ -112,28 +112,28 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           <UserFollowButton id={user.id} />
         </div>
         <Spacer size={8} axis="vertical" />
-        <div className="flex flex-center text-sm space-x-8 text-foreground-secondary">
-          <div
-            role="link"
-            tabIndex={0}
-            onKeyPress={onEnterKeyClick}
-            className="p-1 text-inline-link"
-            onClick={openFollowing}
-          >
-            <Typography.Text strong>{userStat?.followingCount}</Typography.Text>{" "}
-            <Typography.Text>{t("user.following")}</Typography.Text>
-          </div>
-          <div
-            role="link"
-            tabIndex={0}
-            onKeyPress={onEnterKeyClick}
-            className="p-1 text-inline-link"
-            onClick={openFollower}
-          >
-            <Typography.Text strong>{userStat?.followerCount}</Typography.Text>{" "}
-            <Typography.Text>{t("user.followers")}</Typography.Text>
-          </div>
-        </div>
+        <Box justifyContent="center" row>
+          <PressableHighlight onPress={openFollowing} shape="circle">
+            <Typography.Text strong color="foreground-secondary">
+              {userStat?.followingCount}
+            </Typography.Text>
+            <Spacer size={1} axis="horizontal" />
+            <Typography.Text color="foreground-secondary">
+              {t("user.following")}
+            </Typography.Text>
+          </PressableHighlight>
+          <Spacer size={8} axis="horizontal" />
+          <PressableHighlight onPress={openFollower} shape="circle">
+            <Typography.Text strong color="foreground-secondary">
+              {userStat?.followerCount}
+            </Typography.Text>
+            <Spacer size={1} axis="horizontal" />
+            <Typography.Text color="foreground-secondary">
+              {t("user.followers")}
+            </Typography.Text>
+          </PressableHighlight>
+        </Box>
+        <div className="flex flex-center text-sm space-x-8 text-foreground-secondary"></div>
         {me?.user.id === user.id && (
           <div className="md:hidden absolute top-2 right-0">
             <Link href="/settings">

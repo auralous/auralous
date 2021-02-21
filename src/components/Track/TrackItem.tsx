@@ -1,5 +1,6 @@
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useTrackQuery } from "gql/gql.gen";
 import { SvgByPlatformName } from "utils/constants";
 import { parseMs } from "utils/editor-utils";
@@ -18,7 +19,7 @@ export const TrackItem: React.FC<{
 
   return (
     <>
-      <div className="flex items-center overflow-hidden w-full">
+      <Box fullWidth row alignItems="center">
         {track ? (
           <img
             alt={track.title}
@@ -70,7 +71,7 @@ export const TrackItem: React.FC<{
             </>
           )}
         </div>
-      </div>
+      </Box>
     </>
   );
 };
