@@ -1,4 +1,4 @@
-import { PageHeader } from "components/Page";
+import { MapContainer } from "containers/Map";
 import { useI18n } from "i18n/index";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
@@ -13,11 +13,7 @@ const MapPage: NextPage = () => {
         openGraph={{}}
         canonical={`${process.env.APP_URI}/map`}
       />
-      <PageHeader name={t("map.title")} />
-      <p className="px-4 text-lg text-foreground-secondary">
-        {t("map.description")}
-      </p>
-      <div className="px-4 font-bold text-primary">Coming soon!</div>
+      <MapContainer />
     </>
   );
 };

@@ -1,8 +1,8 @@
 import { PageHeader } from "components/Page";
-import StoryFeed from "components/Story/StoryFeed";
+import { StoryFeed } from "components/Story";
 import { useI18n } from "i18n/index";
 
-const ListenMain: React.FC = () => {
+const ListenContainer: React.FC = () => {
   const { t } = useI18n();
 
   return (
@@ -13,4 +13,4 @@ const ListenMain: React.FC = () => {
   );
 };
 
-export default ListenMain;
+export default ListenContainer;

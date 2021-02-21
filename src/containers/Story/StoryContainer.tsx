@@ -1,8 +1,8 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 import clsx from "clsx";
 import LayoutContext from "components/Layout/LayoutContext";
-import { usePlayer } from "components/Player/index";
-import { PlayerControl } from "components/Player/PlayerView";
+import { PlayerControl, usePlayer } from "components/Player";
+import { StoryNav } from "components/Story";
 import { Box } from "components/View";
 import {
   Story,
@@ -16,7 +16,6 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
-import StoryNav from "./StoryNav";
 import StoryPlayer from "./StoryPlayer";
 import StoryQueue from "./StoryQueue";
 
@@ -26,7 +25,9 @@ const tabInactiveStyle = { opacity: 0, transform: "translate3d(0px,40px,0px)" };
 const tabActiveStyle = { opacity: 1, transform: "translate3d(0px,0px,0px)" };
 const AnimatedTabPanel = animated(TabPanel);
 
-const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
+const StoryContainer: React.FC<{ initialStory: Story }> = ({
+  initialStory,
+}) => {
   // initialStory is the same as story, only might be a outdated version
   // so it can be used as backup
   const [{ data }] = useStoryQuery({
@@ -131,4 +132,4 @@ const StoryMain: React.FC<{ initialStory: Story }> = ({ initialStory }) => {
   );
 };
 
-export default StoryMain;
+export default StoryContainer;

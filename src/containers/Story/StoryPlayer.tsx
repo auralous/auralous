@@ -1,5 +1,4 @@
-import { usePlayer } from "components/Player/index";
-import { PlayerImage, PlayerMeta } from "components/Player/PlayerView";
+import { PlayerImage, PlayerMeta, usePlayer } from "components/Player";
 import { Box } from "components/View";
 import { Story } from "gql/gql.gen";
 import StoryReaction from "./StoryReaction";

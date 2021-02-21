@@ -10,7 +10,7 @@ import {
 } from "assets/svg";
 import clsx from "clsx";
 import { useLogin } from "components/Auth";
-import { PlayerMinibar } from "components/Player/index";
+import { PlayerMinibar } from "components/Player";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";

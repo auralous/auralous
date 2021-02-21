@@ -1,4 +1,4 @@
-import UserMain from "components/User/UserMain";
+import { UserContainer } from "containers/User";
 import { User } from "gql/gql.gen";
 import { QUERY_USER } from "gql/user";
 import { useI18n } from "i18n/index";
@@ -26,7 +26,7 @@ const UserPage: NextPage<{ user: User | null }> = ({ user }) => {
           ],
         }}
       />
-      <UserMain initialUser={user} />
+      <UserContainer initialUser={user} />
     </>
   );
 };

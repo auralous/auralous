@@ -12,6 +12,7 @@ import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
+import { StoryShare } from "components/Story";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { Story, useUserQuery } from "gql/gql.gen";
@@ -22,7 +23,6 @@ import Link from "next/link";
 import { useMemo } from "react";
 import StoryDelete from "./StoryDelete";
 import StoryEnd from "./StoryEnd";
-import StoryShare from "./StoryShare";
 
 const StoryNavMenu: React.FC<{
   story: Story;

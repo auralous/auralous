@@ -4,6 +4,7 @@ import { Messenger } from "components/Message/index";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
+import { StoryShare } from "components/Story";
 import { Box } from "components/View";
 import {
   Story,
@@ -14,7 +15,6 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useEffect } from "react";
 import StoryListeners from "./StoryListeners";
-import StoryShare from "./StoryShare";
 
 const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
   story,

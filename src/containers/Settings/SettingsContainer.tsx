@@ -314,7 +314,7 @@ const RightSection: React.FC = () => {
   );
 };
 
-const SettingsMain: React.FC = () => {
+const SettingsContainer: React.FC = () => {
   const { t } = useI18n();
   return (
     <>
@@ -331,4 +331,4 @@ const SettingsMain: React.FC = () => {
   );
 };
 
-export default SettingsMain;
+export default SettingsContainer;

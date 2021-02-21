@@ -147,7 +147,7 @@ const NotificationItem: React.FC<{
   );
 };
 
-const NotificationMain: React.FC = () => {
+const NotificationsContainer: React.FC = () => {
   const { t } = useI18n();
   const dataRef = useRef<NotificationsQuery | undefined>();
 
@@ -207,4 +207,4 @@ const NotificationMain: React.FC = () => {
   );
 };
 
-export default NotificationMain;
+export default NotificationsContainer;

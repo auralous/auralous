@@ -1,4 +1,4 @@
-import ListenMain from "components/Listen/ListenMain";
+import { ListenContainer } from "containers/Listen";
 import { useI18n } from "i18n/index";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
@@ -13,7 +13,7 @@ const ListenPage: NextPage = () => {
         openGraph={{}}
         canonical={`${process.env.APP_URI}/listen`}
       />
-      <ListenMain />
+      <ListenContainer />
     </>
   );
 };

@@ -3,8 +3,7 @@ import { Modal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
-import UserList from "components/User/UserList";
-import UserPill from "components/User/UserPill";
+import { UserList, UserPill } from "components/User";
 import { Box } from "components/View";
 import {
   Story,

@@ -1,4 +1,4 @@
-import StoryMain from "components/Story/StoryMain";
+import { StoryContainer } from "containers/Story";
 import { Story } from "gql/gql.gen";
 import { QUERY_STORY } from "gql/story";
 import { GetServerSideProps, NextPage } from "next";
@@ -38,7 +38,7 @@ const StoryPage: NextPage<{
         }}
         noindex={!initialStory.isPublic}
       />
-      <StoryMain initialStory={initialStory} />
+      <StoryContainer initialStory={initialStory} />
     </>
   );
 };

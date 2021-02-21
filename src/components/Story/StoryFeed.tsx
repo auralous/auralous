@@ -41,7 +41,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
         className="absolute w-full h-full bg-cover bg-center opacity-50"
         style={{ background: `url(${story.image})` }}
       />
-      <div className="absolute top-4 left-4 shadow-xl">
+      <div className="absolute rounded-full top-4 left-4 shadow-xl">
         <Skeleton show={!user} rounded="full">
           <img
             alt={user?.username}

@@ -9,7 +9,6 @@ import { useStoryLiveQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import StoryEnd from "./StoryEnd";
 
 const StoryOngoingWatcher: React.FC = () => {
   const { t } = useI18n();
@@ -49,18 +48,6 @@ const StoryOngoingWatcher: React.FC = () => {
           </div>
         </Modal.Content>
         <Modal.Footer>
-          {storyLive && (
-            <StoryEnd story={storyLive}>
-              {(openDelete) => (
-                <Button
-                  color="danger"
-                  styling="link"
-                  onPress={openDelete}
-                  title={t("story.end.title")}
-                />
-              )}
-            </StoryEnd>
-          )}
           <Button
             onPress={() => router.push(`/story/${storyLive?.id}`)}
             title={t("story.ongoing.goto")}

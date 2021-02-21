@@ -1,4 +1,4 @@
-import NewMain from "components/New/index";
+import { NewContainer } from "containers/New";
 import { useI18n } from "i18n/index";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
@@ -13,7 +13,7 @@ const NewPage: NextPage = () => {
         openGraph={{}}
         canonical={`${process.env.APP_URI}/new`}
       />
-      <NewMain />
+      <NewContainer />
     </>
   );
 };

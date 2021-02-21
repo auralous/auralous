@@ -1,4 +1,4 @@
-import LayoutBackButton from "components/Layout/LayoutBackButton";
+import { LayoutBackButton } from "components/Layout";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
@@ -151,7 +151,7 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   );
 };
 
-const NewMain: React.FC = () => {
+const NewContainer: React.FC = () => {
   const { t } = useI18n();
   const { playStory } = usePlayer();
 
@@ -199,4 +199,4 @@ const NewMain: React.FC = () => {
   );
 };
 
-export default NewMain;
+export default NewContainer;

@@ -1,6 +1,6 @@
 import { SvgLogo, SvgMenu, SvgX } from "assets/svg";
 import clsx from "clsx";
-import { usePlayer } from "components/Player/index";
+import { usePlayer } from "components/Player";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";

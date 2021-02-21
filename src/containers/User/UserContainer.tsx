@@ -2,8 +2,9 @@ import { SvgSettings } from "assets/svg";
 import { Modal, useModal } from "components/Modal";
 import { Button, PressableHighlight } from "components/Pressable";
 import { Spacer } from "components/Spacer";
-import StoryFeed from "components/Story/StoryFeed";
+import { StoryFeed } from "components/Story";
 import { Typography } from "components/Typography";
+import { UserFollowButton, UserList } from "components/User";
 import { Box } from "components/View";
 import {
   User,
@@ -16,8 +17,6 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useEffect } from "react";
-import UserFollowButton from "./UserFollowButton";
-import UserList from "./UserList";
 
 const UserFollowingModals: React.FC<{
   id: string;
@@ -73,7 +72,7 @@ const UserFollowerModals: React.FC<{
   );
 };
 
-const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
+const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
   const { t } = useI18n();
   // initialUser is the same as story, only might be a outdated version
   const [{ data }] = useUserQuery({
@@ -162,4 +161,4 @@ const UserMain: React.FC<{ initialUser: User }> = ({ initialUser }) => {
   );
 };
 
-export default UserMain;
+export default UserContainer;

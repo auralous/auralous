@@ -1,7 +1,7 @@
 import { LogInProvider } from "components/Auth/index";
-import { LayoutApp, LayoutIndex } from "components/Layout/index";
+import { LayoutApp, LayoutIndex } from "components/Layout";
 import NotificationWatcher from "components/Notification/NotificationWatcher";
-import { PlayerProvider } from "components/Player/index";
+import { PlayerProvider } from "components/Player";
 import StoryOngoingWatcher from "components/Story/StoryOngoingWatcher";
 import * as Fathom from "fathom-client";
 import { createUrqlClient } from "gql/urql";

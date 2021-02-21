@@ -1,4 +1,4 @@
-import NotificationMain from "components/Notification/NotificationMain";
+import { NotificationsContainer } from "containers/Notifications";
 import { useI18n } from "i18n/index";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
@@ -8,7 +8,7 @@ const NotificationPage: NextPage = () => {
   return (
     <>
       <NextSeo noindex title={t("notification.title")} />
-      <NotificationMain />
+      <NotificationsContainer />
     </>
   );
 };
