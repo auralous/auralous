@@ -11,7 +11,7 @@ const AuthBanner: React.FC<{ prompt: string; hook?: string }> = ({
   const [, openLogin] = useLogin();
 
   return (
-    <div className="flex flex-col items-center px-4 py-8 w-full max-w-2xl mx-auto">
+    <div className="flex flex-col items-center px-4 py-8 w-full max-w-2xl mx-auto max-w">
       <Typography.Title level={4} align="center">
         {prompt}
       </Typography.Title>

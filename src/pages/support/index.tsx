@@ -1,6 +1,7 @@
 import { SvgFacebook, SvgMail, SvgTwitter } from "assets/svg";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { GetStaticProps, NextPage } from "next";
@@ -44,7 +45,7 @@ const SupportPage: NextPage<{
           {pages.map((page, index) => (
             <Link key={page.slug} href={`/support/${page.slug}`}>
               <Typography.Link>
-                <div className="flex items-center">
+                <Box alignItems="center">
                   <span className="mr-2 flex-none font-bold h-12 w-12 text-lg flex flex-center rounded-full bg-primary text-white">
                     {index + 1}
                   </span>
@@ -54,7 +55,7 @@ const SupportPage: NextPage<{
                     </Typography.Title>
                     <Typography.Text>{page.subtitle}</Typography.Text>
                   </div>
-                </div>
+                </Box>
               </Typography.Link>
             </Link>
           ))}

@@ -4,6 +4,7 @@ import { Messenger } from "components/Message/index";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
+import { Box } from "components/View";
 import {
   Story,
   useOnStoryUsersUpdatedSubscription,
@@ -24,7 +25,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
 
   return (
     <>
-      <div className="px-4 py-1 flex">
+      <Box paddingX={4} paddingY={1} row>
         <Button
           color="primary"
           accessibilityLabel={t("story.share.title")}
@@ -37,7 +38,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
         <div className="flex-1">
           <StoryListeners userIds={userIds} />
         </div>
-      </div>
+      </Box>
       <StoryShare active={active} close={close} story={story} />
     </>
   );

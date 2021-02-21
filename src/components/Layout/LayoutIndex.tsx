@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { usePlayer } from "components/Player/index";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useI18n } from "i18n/index";
 import { Locale } from "i18n/types";
 import Link from "next/link";
@@ -74,8 +75,14 @@ const Navbar: React.FC = () => {
         className="w-full z-20 py-4 bg-gradient-to-b from-background to-transparent bg-opacity-50 fixed top-0"
         style={styles}
       >
-        <div className="container flex items-center justify-between">
-          <div className="flex items-center content-start overflow-hidden">
+        <Box
+          maxWidth="2xl"
+          paddingX={4}
+          row
+          alignItems="center"
+          justifyContent="between"
+        >
+          <Box alignItems="center">
             <Spacer size={2} axis="horizontal" />
             <Link href="/">
               <a className="z-10" title={t("common.back")}>
@@ -87,7 +94,7 @@ const Navbar: React.FC = () => {
               </a>
             </Link>
             <Spacer size={8} axis="horizontal" />
-          </div>
+          </Box>
           <button
             className="px-2 py-1 z-10 md:hidden"
             onClick={() => setExpanded(!expanded)}
@@ -110,7 +117,7 @@ const Navbar: React.FC = () => {
               <a className={importantNavItemClassName}>{t("player.play")}</a>
             </Link>
           </div>
-        </div>
+        </Box>
       </animated.nav>
     </>
   );

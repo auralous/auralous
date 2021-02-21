@@ -12,6 +12,7 @@ import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { Story, useUserQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -43,21 +44,21 @@ const StoryNavMenu: React.FC<{
       <DialogOverlay isOpen={active} className="backdrop-blur">
         <div className="w-full max-w-2xl h-64 flex flex-col items-center space-y-2">
           {user && (
-            <div className="flex">
+            <Box row>
               <img
                 className="w-12 h-12 rounded-full"
                 src={user.profilePicture}
                 alt={user.username}
               />
-              <div className="p-1">
+              <Box padding={1}>
                 <Typography.Text strong>
                   {t("story.ofUsername", { username: user.username })}
                 </Typography.Text>
                 <Typography.Paragraph size="sm" color="foreground-secondary">
                   {story.text}
                 </Typography.Paragraph>
-              </div>
-            </div>
+              </Box>
+            </Box>
           )}
           <Button
             onPress={openShare}

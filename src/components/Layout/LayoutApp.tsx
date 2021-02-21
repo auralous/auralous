@@ -14,6 +14,7 @@ import { PlayerMinibar } from "components/Player/index";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useNotificationAddedSubscription, User } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -94,7 +95,7 @@ const Sidebar: React.FC = () => {
       <div className="p-1 rounded-lg">
         {me ? (
           <div className="px-2 py-1 border-t-2 border-background-secondary">
-            <div className="p-1 flex items-center">
+            <Box padding={1} row alignItems="center">
               <img
                 src={me.user.profilePicture}
                 alt={me.user.username}
@@ -123,7 +124,7 @@ const Sidebar: React.FC = () => {
                   <SvgSettings className="w-3 h-3" />
                 </a>
               </Link>
-            </div>
+            </Box>
           </div>
         ) : (
           <>

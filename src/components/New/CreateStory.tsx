@@ -3,6 +3,7 @@ import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   QueueAction,
   Track,
@@ -30,7 +31,7 @@ const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({
 
 const CreateStoryFormGroup: React.FC = ({ children }) => (
   <>
-    <div className="w-full flex flex-col items-center">{children}</div>
+    <Box alignItems="center">{children}</Box>
     <Spacer size={4} axis="vertical" />
   </>
 );
@@ -93,7 +94,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
     <form
       onSubmit={handleStoryCreation}
       autoComplete="off"
-      className="flex flex-col flex-center"
+      className="flex flex-col flex-center items-stretch"
     >
       <CreateStoryFormGroup>
         <CreateStoryLabel htmlFor="storyText">
@@ -115,13 +116,15 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         </Typography.Paragraph>
       </CreateStoryFormGroup>
       <Spacer size={4} axis="vertical" />
-      <Button
-        color="primary"
-        type="submit"
-        disabled={fetching}
-        title={t("new.addNew.action")}
-        shape="circle"
-      />
+      <Box row alignItems="center" justifyContent="center">
+        <Button
+          color="primary"
+          type="submit"
+          disabled={fetching}
+          title={t("new.addNew.action")}
+          shape="circle"
+        />
+      </Box>
     </form>
   );
 };

@@ -1,5 +1,6 @@
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useUserQuery } from "gql/gql.gen";
 import Link from "next/link";
 
@@ -12,7 +13,7 @@ const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
   });
 
   return (
-    <div className="flex items-center p-1">
+    <Box alignItems="center" padding={1}>
       <div className="flex-none w-8 h-8 rounded-full overflow-hidden">
         {user ? (
           <img
@@ -40,7 +41,7 @@ const UserPill: React.FC<{ id: string; rightEl?: JSX.Element }> = ({
           {rightEl}
         </>
       )}
-    </div>
+    </Box>
   );
 };
 
