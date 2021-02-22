@@ -1,6 +1,8 @@
-import clsx from "clsx";
+import { Skeleton } from "components/Loading";
 import { PageHeader } from "components/Page";
+import { PressableHighlight } from "components/Pressable";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   NotificationFollow,
   NotificationInvite,
@@ -26,36 +28,47 @@ const getDateDiffTxt = (createdAt: Date) => {
     : `${ms(dateDiff, { long: true })} ${t("common.time.ago")}`;
 };
 
-const NotificationItemStorySection: React.FC<{ id: string }> = ({ id }) => {
-  const { t } = useI18n();
+const NotificationItemContent: React.FC<{
+  loading?: boolean;
+  notification: NotificationInvite | NotificationFollow | NotificationNewStory;
+  content: JSX.Element;
+  imageSrc: string;
+  href?: string;
+}> = ({ loading, notification, content, imageSrc, href }) => {
+  const element = (
+    <Box fullWidth row gap="sm" alignItems="center">
+      <Skeleton rounded="full" show={loading} width={12} height={12}>
+        <img src={imageSrc} alt="" className="w-12 h-12 rounded-full" />
+      </Skeleton>
+      <Box minWidth={0} flex={1} gap="xs">
+        <Skeleton show={loading} width={40} height={6}>
+          {content}
+        </Skeleton>
+        <Skeleton show={loading} width={20} height={4}>
+          <Typography.Paragraph
+            align="left"
+            noMargin
+            color="foreground-tertiary"
+            size="xs"
+          >
+            {getDateDiffTxt(notification.createdAt)}
+          </Typography.Paragraph>
+        </Skeleton>
+      </Box>
+    </Box>
+  );
 
-  const [{ data: { story } = { story: undefined } }] = useStoryQuery({
-    variables: { id },
-  });
-
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: story?.creatorId || "" },
-    pause: !story,
-  });
+  if (href)
+    return (
+      <Link href={href}>
+        <PressableHighlight>{element}</PressableHighlight>
+      </Link>
+    );
 
   return (
-    <Link href={`/story/${id}`}>
-      <a className="inline-flex p-2 my-1 bg-background-tertiary text-inline-link">
-        <img
-          src={story?.image}
-          alt={story?.text}
-          className="w-8 h-8 rounded-sm object-cover"
-        />
-        <div className="px-2">
-          <Typography.Paragraph size="sm" strong noMargin>
-            {t("story.ofUsername", { username: user?.username })}
-          </Typography.Paragraph>
-          <Typography.Paragraph size="xs" noMargin>
-            {story?.text}
-          </Typography.Paragraph>
-        </div>
-      </a>
-    </Link>
+    <Box padding={2} fullWidth>
+      {element}
+    </Box>
   );
 };
 
@@ -63,19 +76,23 @@ const NotificationItemFollow: React.FC<{
   notification: NotificationFollow;
 }> = ({ notification }) => {
   const { t } = useI18n();
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+  const [{ data: { user } = { user: undefined }, fetching }] = useUserQuery({
     variables: { id: notification.followerId },
   });
 
   return (
-    <>
-      <Typography.Paragraph noMargin size="sm">
-        <Link href={`/user/${user?.username}`}>
-          <Typography.Link strong>{user?.username}</Typography.Link>
-        </Link>{" "}
-        {t("notification.follow.text")}
-      </Typography.Paragraph>
-    </>
+    <NotificationItemContent
+      loading={fetching}
+      notification={notification}
+      content={
+        <Typography.Paragraph align="left" noMargin size="sm">
+          <Typography.Text strong>{user?.username}</Typography.Text>{" "}
+          {t("notification.follow.text")}
+        </Typography.Paragraph>
+      }
+      imageSrc={user?.profilePicture || ""}
+      href={`/user/${user?.username}`}
+    />
   );
 };
 
@@ -83,20 +100,34 @@ const NotificationItemInvite: React.FC<{
   notification: NotificationInvite;
 }> = ({ notification }) => {
   const { t } = useI18n();
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+  const [
+    { data: { user } = { user: undefined }, fetching: fetchingUser },
+  ] = useUserQuery({
     variables: { id: notification.inviterId },
   });
 
+  const [
+    { data: { story } = { story: undefined }, fetching: fetchingStory },
+  ] = useStoryQuery({
+    variables: { id: notification.storyId },
+  });
+
   return (
-    <>
-      <Typography.Paragraph noMargin size="sm">
-        <Link href={`/user/${user?.username}`}>
-          <Typography.Link strong>{user?.username}</Typography.Link>
-        </Link>{" "}
-        {t("notification.invite.text")}
-      </Typography.Paragraph>
-      <NotificationItemStorySection id={notification.storyId} />
-    </>
+    <NotificationItemContent
+      loading={fetchingUser || fetchingStory}
+      notification={notification}
+      content={
+        <Typography.Paragraph align="left" noMargin size="sm">
+          <Typography.Text strong>{user?.username}</Typography.Text>{" "}
+          {t("notification.invite.text")}{" "}
+          <Typography.Text strong>
+            {t("story.ofUsername", { username: user?.username })}
+          </Typography.Text>
+        </Typography.Paragraph>
+      }
+      href={`/story/${story?.id}`}
+      imageSrc={story?.image || ""}
+    />
   );
 };
 
@@ -104,20 +135,31 @@ const NotificationItemNewStory: React.FC<{
   notification: NotificationNewStory;
 }> = ({ notification }) => {
   const { t } = useI18n();
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
+  const [
+    { data: { user } = { user: undefined }, fetching: fetchingUser },
+  ] = useUserQuery({
     variables: { id: notification.creatorId },
   });
 
+  const [
+    { data: { story } = { story: undefined }, fetching: fetchingStory },
+  ] = useStoryQuery({
+    variables: { id: notification.storyId },
+  });
+
   return (
-    <>
-      <Typography.Paragraph noMargin size="sm">
-        <Link href={`/user/${user?.username}`}>
-          <Typography.Link strong>{user?.username}</Typography.Link>
-        </Link>{" "}
-        {t("notification.newStory.text")}
-      </Typography.Paragraph>
-      <NotificationItemStorySection id={notification.storyId} />
-    </>
+    <NotificationItemContent
+      loading={fetchingUser || fetchingStory}
+      notification={notification}
+      content={
+        <Typography.Paragraph align="left" noMargin size="sm">
+          <Typography.Text strong>{user?.username}</Typography.Text>{" "}
+          {t("notification.newStory.text")}
+        </Typography.Paragraph>
+      }
+      href={`/story/${story?.id}`}
+      imageSrc={story?.image || ""}
+    />
   );
 };
 
@@ -125,14 +167,7 @@ const NotificationItem: React.FC<{
   notification: NotificationInvite | NotificationFollow | NotificationNewStory;
 }> = ({ notification }) => {
   return (
-    <div
-      className={clsx(
-        "px-4 py-2 bg-background-secondary border-l-4",
-        notification.hasRead
-          ? "border-background-tertiary opacity-75"
-          : "border-primary"
-      )}
-    >
+    <Box paddingX={2} paddingY={1} rounded="lg">
       {notification.__typename === "NotificationInvite" ? (
         <NotificationItemInvite notification={notification} />
       ) : notification.__typename === "NotificationFollow" ? (
@@ -140,10 +175,7 @@ const NotificationItem: React.FC<{
       ) : (
         <NotificationItemNewStory notification={notification} />
       )}
-      <Typography.Paragraph noMargin color="foreground-tertiary" size="xs">
-        {getDateDiffTxt(notification.createdAt)}
-      </Typography.Paragraph>
-    </div>
+    </Box>
   );
 };
 
@@ -197,12 +229,12 @@ const NotificationsContainer: React.FC = () => {
   return (
     <>
       <PageHeader name={t("notification.title")} />
-      <div className="px-4 space-y-2">
+      <Box paddingX={4}>
         {data?.notifications.map((notification) => (
           <NotificationItem key={notification.id} notification={notification} />
         ))}
         <div ref={ref} className="w-1 h-1" />
-      </div>
+      </Box>
     </>
   );
 };

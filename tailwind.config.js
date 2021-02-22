@@ -60,16 +60,17 @@ module.exports = {
   theme: {
     colors: {
       background: {
-        DEFAULT: "hsl(240,13%,6%)",
-        secondary: "hsl(240,14%,9%,0.9)",
-        tertiary: "hsl(240,13%,12%,0.9)",
-        backdrop: "hsla(218,80%,2%,0.8)",
+        DEFAULT: "hsl(265deg 43% 5%)",
+        secondary: "hsl(266deg 44% 7%)",
+        tertiary: "hsl(264deg 43% 9%)",
+        bar: "hsl(265deg 43% 11%)",
+        backdrop: "hsl(264deg 40% 12% / 30%)",
       },
       foreground: {
-        DEFAULT: "hsl(0,0%,100%)",
-        secondary: "hsla(0,0%,100%,.6)",
-        tertiary: "hsla(0,0%,100%,.4)",
-        backdrop: "hsla(0,0%,100%,.2)",
+        DEFAULT: "hsl(270deg 4% 91%)",
+        secondary: "hsla(270deg 4% 91% / 85%)",
+        tertiary: "hsla(270deg 4% 91% / 70%)",
+        backdrop: "hsla(263deg 20% 18% / 50%)",
       },
       danger: {
         DEFAULT: "#d7373f",

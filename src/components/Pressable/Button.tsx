@@ -4,6 +4,7 @@ import { CSSProperties, forwardRef, ReactNode } from "react";
 interface ButtonProps {
   color?: "primary" | "danger";
   onPress?: () => void;
+  onClick?: () => void;
   title?: string;
   icon?: ReactNode;
   fullWidth?: boolean;
@@ -24,7 +25,6 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       type,
       color,
       onPress,
-      // @ts-ignore: This is only used for next/link
       onClick,
       title,
       icon,
@@ -61,7 +61,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       styling === "link" &&
         `bg-transparent text-${color} hover:text-opacity-75`,
       styling === "outline" &&
-        `bg-transparent text-${color} hover:bg-${color} hover:opacity-25 border-2`
+        `bg-transparent text-${color} hover:opacity-50 border-2`
     );
 
     if (asLink)

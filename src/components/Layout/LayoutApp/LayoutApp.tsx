@@ -26,7 +26,7 @@ const LayoutApp: React.FC = ({ children }) => {
 
   return (
     <LayoutAppContext.Provider value={{ prevPathname: prevPathnameRef }}>
-      <Box row justifyContent="center">
+      <Box alignItems="start" row justifyContent="center">
         {viewWidth > 768 ? (
           <LayoutAppDesktop height={viewHeight} />
         ) : (

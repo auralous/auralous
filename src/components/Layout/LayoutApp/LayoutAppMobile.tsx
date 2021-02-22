@@ -28,8 +28,10 @@ const AppbarItem: React.FC<{
     <Link href={href} as={as}>
       <a
         className={clsx(
-          "relative btn btn-transparent text-foreground border-primary py-1 font-light rounded-none flex-1",
-          isActive && !isBold && "bg-background-tertiary",
+          "flex justify-center items-center text-foreground py-1 font-light border-b-4 flex-1 transition-colors",
+          !isBold && isActive
+            ? "border-foreground-tertiary"
+            : "border-transparent",
           isBold && "bg-gradient-to-l from-secondary to-primary"
         )}
         title={title}
@@ -57,10 +59,7 @@ const Appbar: React.FC = () => {
       <Box padding={1}>
         <PlayerMinibar />
       </Box>
-      <div
-        className="flex h-12 rounded-t-3xl overflow-hidden"
-        style={{ backgroundColor: "rgb(18, 18, 24)" }}
-      >
+      <div className="flex h-12 rounded-t-3xl overflow-hidden bg-background-bar">
         <AppbarItem href="/listen" title={t("listen.title")}>
           <SvgPlayCircle className="w-4 h-4" />
         </AppbarItem>

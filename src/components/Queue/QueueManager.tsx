@@ -31,6 +31,8 @@ import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
 import useQueue from "./useQueue";
 
+const GUTTER_SIZE = 5;
+
 const QueueDraggableItem: React.FC<{
   isQueueable: boolean;
   provided: DraggableProvided;
@@ -64,7 +66,11 @@ const QueueDraggableItem: React.FC<{
       {...provided.draggableProps}
       style={{
         ...provided.draggableProps.style,
-        ...style,
+        ...(style && {
+          ...style,
+          top: (style.top as number) + GUTTER_SIZE,
+          height: (style.height as number) - GUTTER_SIZE,
+        }),
       }}
       className={clsx(
         "select-none flex p-2 items-center",
