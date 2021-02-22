@@ -28,7 +28,7 @@ const AppbarItem: React.FC<{
     <Link href={href} as={as}>
       <a
         className={clsx(
-          "flex justify-center items-center text-foreground py-1 font-light border-b-4 flex-1 transition-colors",
+          "flex justify-center items-center text-foreground py-1 font-light border-b-4 flex-1 min-w-0 transition-colors",
           !isBold && isActive
             ? "border-foreground-tertiary"
             : "border-transparent",
