@@ -33,13 +33,13 @@ const ContactContainer: React.FC = () => {
         <Button
           icon={<SvgFacebook />}
           title="withstereo"
-          asLink="/contact/facebook"
+          asLink="/goto/facebook"
           shape="circle"
         />
         <Button
           icon={<SvgTwitter />}
           title="withstereo_"
-          asLink="/contact/twitter"
+          asLink="/goto/twitter"
           shape="circle"
         />
       </Box>

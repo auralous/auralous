@@ -131,16 +131,16 @@ const Footer: React.FC = () => {
       <Spacer size={8} axis="vertical" />
       <Spacer size={8} axis="vertical" />
       <div className="space-x-4 overflow-auto text-center">
-        <Typography.Link strong href="/contact/facebook" target="_blank">
+        <Typography.Link strong href="/goto/facebook" target="_blank">
           Facebook
         </Typography.Link>
-        <Typography.Link strong href="/contact/twitter" target="_blank">
+        <Typography.Link strong href="/goto/twitter" target="_blank">
           Twitter
         </Typography.Link>
-        <Link href="/privacy">
+        <Link passHref href="/privacy">
           <Typography.Link strong>{t("footer.privacy")}</Typography.Link>
         </Link>
-        <Typography.Link href="/contact/facebook" target="_blank" strong>
+        <Typography.Link href="/goto/github" target="_blank" strong>
           {t("footer.contribute")}
         </Typography.Link>
         <Link href="/contact">
@@ -165,7 +165,7 @@ const Footer: React.FC = () => {
         <Typography.Link
           color="foreground-secondary"
           strong
-          href="https://github.com/hoangvvo/stereo-web/contributors"
+          href="/goto/github"
         >
           contributors
         </Typography.Link>

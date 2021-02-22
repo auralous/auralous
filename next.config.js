@@ -78,14 +78,18 @@ module.exports = withBundleAnalyzer({
         permanent: false,
       },
       {
-        source: "/contact/facebook",
+        source: "/goto/facebook",
         destination: "https://www.facebook.com/auralous/",
         permanent: true,
       },
       {
-        source: "/contact/twitter",
+        source: "/goto/twitter",
         destination: "https://twitter.com/auralous_app",
         permanent: true,
+      },
+      {
+        source: "/goto/github",
+        destination: "https://github.com/auralous",
       },
     ];
   },
