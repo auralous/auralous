@@ -89,7 +89,7 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
     <Tabs index={selectedIndex} onChange={setSelectedIndex}>
       <Box padding={4} justifyContent="center" style={{ height }}>
         <StoryNav onClose={onClose} story={story} />
-        <TabPanels className="flex-1 h-0 relative">
+        <TabPanels className="flex-1 min-h-0 relative">
           <AnimatedTabPanel
             style={tabPanel0Style}
             className={clsx(

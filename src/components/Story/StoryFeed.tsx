@@ -30,7 +30,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
 
   return (
     <button
-      className="w-full relative h-0 bg-background-secondary text-inline-link rounded-bl-3xl rounded-br-lg rounded-tl-lg rounded-tr-3xl overflow-hidden"
+      className="w-full relative min-h-0 bg-background-secondary text-inline-link rounded-bl-3xl rounded-br-lg rounded-tl-lg rounded-tr-3xl overflow-hidden"
       style={{ paddingBottom: "150%" }}
       onClick={onClick}
       aria-label={`${t("story.play")}: ${t("story.ofUsername", {

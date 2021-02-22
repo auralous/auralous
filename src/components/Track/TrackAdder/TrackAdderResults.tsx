@@ -69,7 +69,10 @@ const TrackAdderResults: React.FC<{
 }> = ({ callback, results, addedTracks }) => {
   // TODO: a11y
   return (
-    <div role="listbox" className="overflow-hidden flex-1 h-0 flex flex-col">
+    <div
+      role="listbox"
+      className="overflow-hidden flex-1 min-h-0 flex flex-col"
+    >
       <AutoSizer defaultHeight={1} defaultWidth={1}>
         {({ height, width }) => (
           <FixedSizeList

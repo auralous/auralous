@@ -78,7 +78,7 @@ const StoryQueueAdder: React.FC<{
               {t("story.queue.playlist.title")}
             </Tab>
           </TabList>
-          <TabPanels className="flex-1 h-0">
+          <TabPanels className="flex-1 min-h-0">
             <AnimatedTabPanel
               style={tabPanelStyle0}
               className="h-full"

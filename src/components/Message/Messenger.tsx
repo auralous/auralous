@@ -213,7 +213,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <div
-      className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4 space-y-4"
+      className="relative flex-1 min-h-0 overflow-x-hidden overflow-y-auto p-4 space-y-4"
       onScroll={onScroll}
       ref={messageListRef}
       aria-label={t("message.listLabel", { name: "" })}

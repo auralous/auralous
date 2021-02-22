@@ -17,8 +17,12 @@ const StoryQueueAdder = dynamic(() => import("./StoryQueueAdder"), {
   ssr: false,
 });
 
-const QueueManager = dynamic(() => import("components/Queue/QueueManager"));
-const QueueViewer = dynamic(() => import("components/Queue/QueueViewer"));
+const QueueManager = dynamic(() => import("components/Queue/QueueManager"), {
+  ssr: false,
+});
+const QueueViewer = dynamic(() => import("components/Queue/QueueViewer"), {
+  ssr: false,
+});
 
 const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();

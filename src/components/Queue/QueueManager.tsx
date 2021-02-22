@@ -1,7 +1,6 @@
 import { SvgGripVertical } from "assets/svg/index";
 import clsx from "clsx";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { TrackItem } from "components/Track/index";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -86,7 +85,6 @@ const QueueDraggableItem: React.FC<{
           icon={<SvgGripVertical />}
         />
       </div>
-      <Spacer size={1} axis="horizontal" />
       <Box paddingX={2} row alignItems="center" minWidth={0} flex={1}>
         <TrackItem
           id={queue.items[index].trackId}

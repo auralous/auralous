@@ -77,7 +77,7 @@ export const PlayerImage: React.FC<{
   track: Track | null | undefined;
 }> = ({ track }) => {
   return (
-    <div className="w-full my-6 flex-1 h-0">
+    <div className="w-full my-6 flex-1 min-h-0">
       <div
         className="object-contain h-full"
         role="img"
