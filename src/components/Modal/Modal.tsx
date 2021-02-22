@@ -7,7 +7,7 @@ import { useI18n } from "i18n/index";
 import { animated, config as springConfig, useTransition } from "react-spring";
 
 const ModalHeader: React.FC = ({ children }) => (
-  <div className="p-4 border-b-2 border-background-secondary">{children}</div>
+  <div className="p-4">{children}</div>
 );
 
 const ModalTitle: React.FC = ({ children }) => (
@@ -25,7 +25,7 @@ const ModalContent: React.FC<{
 );
 
 const ModalFooter: React.FC = ({ children }) => (
-  <div className="flex items-center justify-end space-x-2 px-4 py-3 border-background-secondary border-t-2">
+  <div className="flex items-center justify-end space-x-2 px-4 py-3">
     {children}
   </div>
 );
@@ -80,12 +80,13 @@ const Modal: React.FC<{
               >
                 {children}
                 {close && (
-                  <div className="absolute top-4 right-3">
+                  <div className="absolute top-2 right-2">
                     <Button
                       accessibilityLabel={t("modal.close")}
-                      icon={<SvgX className="w-4 h-4" />}
+                      icon={<SvgX className="w-8 h-8" />}
                       onPress={close}
                       shape="circle"
+                      styling="link"
                     />
                   </div>
                 )}

@@ -1,3 +1,4 @@
+import { LoadingFullpage } from "components/Loading";
 import { Story } from "gql/gql.gen";
 import { QUERY_STORY } from "gql/story";
 import { GetServerSideProps, NextPage } from "next";
@@ -10,7 +11,7 @@ import { forwardSSRHeaders } from "utils/ssr-utils";
 
 const StoryContainer = dynamic(
   () => import("containers/Story/StoryContainer"),
-  { ssr: false }
+  { ssr: false, loading: LoadingFullpage }
 );
 
 const StoryPage: NextPage<{
