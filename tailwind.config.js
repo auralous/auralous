@@ -68,7 +68,7 @@ module.exports = {
         secondary: "hsl(266deg 44% 7%)",
         tertiary: "hsl(264deg 43% 9%)",
         bar: "hsl(265deg 43% 11%)",
-        backdrop: "hsl(264deg 40% 12% / 30%)",
+        backdrop: "hsla(265deg 43% 5% / 75%)",
       },
       foreground: {
         DEFAULT: "hsl(270deg 4% 91%)",
