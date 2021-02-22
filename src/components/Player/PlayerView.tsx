@@ -57,6 +57,7 @@ export const PlayerControl: React.FC = () => {
           disabled={!playerPlaying}
           size="xl"
           shape="circle"
+          color="primary"
         />
         {fetching && <span className="spinning-border absolute inset-0" />}
       </Box>

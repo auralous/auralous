@@ -1,4 +1,3 @@
-import { LayoutBackButton } from "components/Layout";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
@@ -172,10 +171,7 @@ const NewContainer: React.FC = () => {
 
   return (
     <>
-      <div className="h-10 p-2 w-full">
-        <LayoutBackButton />
-      </div>
-      <div className="px-4 max-w-xl mx-auto">
+      <Box padding={4} fullWidth>
         <Spacer size={4} axis="vertical" />
         <Typography.Title level={2} size="4xl" align="center">
           {initTracks ? t("new.promptAlmost") : t("new.prompt")}
@@ -194,7 +190,7 @@ const NewContainer: React.FC = () => {
             )
           )}
         </div>
-      </div>
+      </Box>
     </>
   );
 };

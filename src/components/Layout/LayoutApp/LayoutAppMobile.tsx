@@ -42,7 +42,7 @@ const AppbarItem: React.FC<{
   );
 };
 
-const fullLayoutPathnames = ["/new", "/story/[storyId]"];
+const fullLayoutPathnames = ["/story/[storyId]"];
 
 const Appbar: React.FC = () => {
   const { t } = useI18n();

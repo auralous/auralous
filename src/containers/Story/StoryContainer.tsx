@@ -57,11 +57,11 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
 
   const getClassName = useCallback(
     (index: number) =>
-      `mx-1 px-3 text-xs py-1 rounded-full uppercase font-bold ${
+      `mx-1 px-3 text-xs py-1 rounded-full uppercase ${
         index === selectedIndex
-          ? "text-foreground bg-primary-dark"
-          : "border-transparent text-foreground-secondary"
-      } transition-colors`,
+          ? "font-bold text-primary"
+          : "text-foreground-tertiary opacity-50"
+      } transition`,
     [selectedIndex]
   );
 
