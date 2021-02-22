@@ -90,6 +90,7 @@ module.exports = withBundleAnalyzer({
       {
         source: "/goto/github",
         destination: "https://github.com/auralous",
+        permanent: true,
       },
     ];
   },

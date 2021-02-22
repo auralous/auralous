@@ -141,7 +141,7 @@ const Footer: React.FC = () => {
           <Typography.Link strong>{t("footer.privacy")}</Typography.Link>
         </Link>
         <Typography.Link href="/goto/github" target="_blank" strong>
-          {t("footer.contribute")}
+          GitHub
         </Typography.Link>
         <Link href="/contact">
           <Typography.Link strong>{t("footer.contact")}</Typography.Link>

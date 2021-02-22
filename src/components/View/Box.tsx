@@ -26,6 +26,7 @@ interface BoxProps {
   backgroundColor:
     | "background-secondary"
     | "background-tertiary"
+    | "background-bar"
     | "primary"
     | "primary-dark";
 }

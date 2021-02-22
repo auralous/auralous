@@ -1,4 +1,4 @@
-import { SvgLogo, SvgSettings } from "assets/svg";
+import { SvgLogo } from "assets/svg";
 import clsx from "clsx";
 import { useLogin } from "components/Auth";
 import { PlayerMinibar } from "components/Player";
@@ -23,7 +23,7 @@ const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
       <a
         className={clsx(
           "w-full btn btn-transparent font-normal text-sm",
-          isActive && "bg-background-tertiary",
+          isActive && "bg-background-secondary",
           isBold && "bg-gradient-to-l from-secondary to-primary"
         )}
       >
@@ -63,13 +63,21 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
       </Box>
       <Box padding={1}>
         {me ? (
-          <Box padding={1} row alignItems="center">
+          <Box
+            paddingX={2}
+            paddingY={1}
+            backgroundColor="background-bar"
+            row
+            alignItems="center"
+            gap="sm"
+            rounded="lg"
+          >
             <img
               src={me.user.profilePicture}
               alt={me.user.username}
               className="w-8 h-8 rounded-full"
             />
-            <div className="w-0 flex-1 py-1 px-3 truncate leading-none">
+            <Box flex={1} minWidth={0}>
               <Typography.Paragraph
                 noMargin
                 strong
@@ -83,15 +91,7 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
                   {t("user.profile")}
                 </Typography.Link>
               </Link>
-            </div>
-            <Link href="/settings">
-              <a
-                className="btn p-1.5 bg-foreground-backdrop btn-transparent"
-                title={t("settings.title")}
-              >
-                <SvgSettings className="w-3 h-3" />
-              </a>
-            </Link>
+            </Box>
           </Box>
         ) : (
           <>

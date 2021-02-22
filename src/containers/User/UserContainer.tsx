@@ -133,7 +133,7 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           </PressableHighlight>
         </Box>
         {me?.user.id === user.id && (
-          <div className="md:hidden absolute top-2 right-2">
+          <div className="absolute top-2 right-2">
             <Link href="/settings">
               <Button
                 styling="link"
