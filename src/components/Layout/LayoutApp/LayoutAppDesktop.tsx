@@ -9,7 +9,6 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { fullLayoutPathnames } from "./common";
 import useHasNotification from "./useHasNotification";
 
 const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
@@ -113,14 +112,14 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
 const LayoutAppDesktop: React.FC<{ height: number }> = ({ height }) => {
   const router = useRouter();
 
-  if (fullLayoutPathnames.includes(router.pathname)) return null;
-
   return (
     <>
       <Sidebar height={height} />
-      <div className="z-10 bottom-4 fixed" style={{ width: 640 }}>
-        <PlayerMinibar />
-      </div>
+      {router.pathname !== "/story/[storyId]" && (
+        <div className="z-10 bottom-4 fixed" style={{ width: 640 }}>
+          <PlayerMinibar />
+        </div>
+      )}
     </>
   );
 };

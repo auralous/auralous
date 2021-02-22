@@ -10,7 +10,7 @@ const PlaylistItem: React.FC<{
   return (
     <Box row justifyContent="start" alignItems="center">
       <img
-        className="h-12 w-12 rounded flex-none"
+        className="h-12 w-12 flex-none"
         src={playlist.image}
         alt={playlist.name}
       />

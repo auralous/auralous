@@ -61,8 +61,8 @@ module.exports = {
     colors: {
       background: {
         DEFAULT: "hsl(240,13%,6%)",
-        secondary: "hsl(240,14%,9%)",
-        tertiary: "hsl(240,13%,12%)",
+        secondary: "hsl(240,14%,9%,0.9)",
+        tertiary: "hsl(240,13%,12%,0.9)",
         backdrop: "hsla(218,80%,2%,0.8)",
       },
       foreground: {

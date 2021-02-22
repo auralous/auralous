@@ -55,9 +55,8 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
       style={{ width: 600 }}
     >
       <StoryNav onClose={close} story={story} />
-      <div className="relative w-full h-0 flex-1 flex flex-col mx-auto">
+      <Box minHeight={0} flex={1} position="relative">
         <PlayerImage track={track} />
-        <PlayerMeta track={track} fetching={fetching && !track} />
         {/* TODO: a11y */}
         <div
           role="button"
@@ -67,7 +66,8 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
           onClick={skipForward}
           onKeyPress={onEnterKeyClick}
         />
-      </div>
+      </Box>
+      <PlayerMeta track={track} fetching={fetching && !track} />
       <Box
         fullWidth
         justifyContent="center"

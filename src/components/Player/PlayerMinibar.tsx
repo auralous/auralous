@@ -54,8 +54,8 @@ const PlayerMinibar: React.FC = () => {
             padding={1}
             style={{ boxSizing: "content-box" }}
           >
-            <Skeleton show={fetching} rounded="full">
-              {!fetching && playerPlaying && (
+            <Skeleton show={fetching} rounded="full" width={12} height={12}>
+              {playerPlaying && (
                 <img
                   alt={t("nowPlaying.title")}
                   src={playerPlaying.image}
@@ -65,12 +65,12 @@ const PlayerMinibar: React.FC = () => {
             </Skeleton>
           </Box>
           <Box padding={2} flex={1} minWidth={0} gap="xs">
-            <Skeleton show={fetching} width={40} rounded="lg">
+            <Skeleton show={fetching} width={40}>
               <Typography.Paragraph size="xs" strong noMargin truncate>
                 {playerPlaying?.title || t("player.noneText")}
               </Typography.Paragraph>
             </Skeleton>
-            <Skeleton show={fetching} width={32} rounded="lg">
+            <Skeleton show={fetching} width={32}>
               <Typography.Paragraph
                 noMargin
                 truncate

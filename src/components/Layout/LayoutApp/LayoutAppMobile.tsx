@@ -14,7 +14,6 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { fullLayoutPathnames } from "./common";
 import useHasNotification from "./useHasNotification";
 
 const AppbarItem: React.FC<{
@@ -40,6 +39,8 @@ const AppbarItem: React.FC<{
     </Link>
   );
 };
+
+const fullLayoutPathnames = ["/new", "/story/[storyId]"];
 
 const Appbar: React.FC = () => {
   const { t } = useI18n();

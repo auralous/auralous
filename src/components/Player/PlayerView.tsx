@@ -105,7 +105,7 @@ export const PlayerMeta: React.FC<{
     // eslint-disable-next-line
     <div className="text-inline-link w-full" onClick={openMenu} >
       <Box fullWidth alignItems="stretch" gap="xs" style={{ lineHeight: 1 }}>
-        <Skeleton rounded="lg" show={fetching} width={40}>
+        <Skeleton show={fetching} width={40}>
           <Typography.Title
             align="left"
             noMargin
@@ -117,7 +117,7 @@ export const PlayerMeta: React.FC<{
             {track ? track.title : t("player.noneText")}
           </Typography.Title>
         </Skeleton>
-        <Skeleton rounded="lg" show={fetching} width={32}>
+        <Skeleton show={fetching} width={32}>
           <Typography.Paragraph
             align="left"
             noMargin

@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       <animated.nav
-        className="w-full flex justify-center z-20 py-4 bg-gradient-to-b from-background to-transparent bg-opacity-50 fixed top-0"
+        className="w-full flex justify-center z-20 py-4 fixed top-0"
         style={styles}
       >
         <Box
@@ -105,7 +105,7 @@ const Navbar: React.FC = () => {
           <div
             className={clsx(
               expanded
-                ? "flex py-4 w-full absolute justify-center bg-background bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur "
+                ? "flex py-4 w-full absolute justify-center bg-background-secondary flex-col right-0 top-0 pt-16"
                 : "hidden",
               "md:flex content-end md:items-center flex-none"
             )}

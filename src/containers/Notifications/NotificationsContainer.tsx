@@ -40,7 +40,7 @@ const NotificationItemStorySection: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <Link href={`/story/${id}`}>
-      <a className="inline-flex p-2 my-1 rounded bg-background-tertiary text-inline-link">
+      <a className="inline-flex p-2 my-1 bg-background-tertiary text-inline-link">
         <img
           src={story?.image}
           alt={story?.text}
