@@ -12,9 +12,9 @@ interface BoxProps {
   paddingX: 1 | 2 | 4 | 8 | 10 | 12;
   paddingY: 1 | 2 | 4 | 8 | 10 | 12;
   width: 1 | 2 | 4 | 8 | 10 | 12;
-  minWidth: 0 | "full";
+  minWidth: 0;
   maxWidth: "lg" | "xl" | "2xl" | "4xl";
-  minHeight: 0 | "full";
+  minHeight: 0;
   height: 1 | 2 | 4 | 8 | 10 | 12;
   fullWidth: boolean;
   fullHeight: boolean;
@@ -23,7 +23,12 @@ interface BoxProps {
   position?: "relative" | "absolute";
   gap: "xs" | "sm" | "md" | "lg" | "xl";
   accessibilityRole: string;
-  backgroundColor: "background-secondary" | "background-tertiary";
+  backgroundColor:
+    | "background-secondary"
+    | "background-tertiary"
+    | "background-bar"
+    | "primary"
+    | "primary-dark";
 }
 
 const gapMap: Record<BoxProps["gap"], number> = {

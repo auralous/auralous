@@ -12,17 +12,10 @@ import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
 import Router from "next/router";
 import "notyf/notyf.min.css";
-import NProgress from "nprogress";
-// nprogress
-import "nprogress/nprogress.css";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import "styles/index.css";
 import "swiper/swiper.scss";
 import { Provider as UrqlProvider } from "urql";
-
-Router.events.on("routeChangeStart", () => NProgress.start());
-Router.events.on("routeChangeComplete", () => NProgress.done());
-Router.events.on("routeChangeError", () => NProgress.done());
 
 export default function MyApp({ Component, pageProps, router }: AppProps) {
   // URQL

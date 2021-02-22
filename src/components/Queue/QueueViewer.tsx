@@ -8,6 +8,8 @@ import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
 import useQueue from "./useQueue";
 
+const GUTTER_SIZE = 5;
+
 const Row = memo<ListChildComponentProps>(function Row({ data, index, style }) {
   const {
     state: { playingQueueItemId },
@@ -15,7 +17,11 @@ const Row = memo<ListChildComponentProps>(function Row({ data, index, style }) {
   return (
     <button
       className="text-inline-link p-2"
-      style={style}
+      style={{
+        ...style,
+        top: (style.top as number) + GUTTER_SIZE,
+        height: (style.height as number) - GUTTER_SIZE,
+      }}
       key={data.items[index].id}
       onClick={() => data.onClick(data.items[index].id)}
     >

@@ -63,7 +63,7 @@ const TrackAdderPlaylist: React.FC<{
             <img
               src={selectedPlaylist.image}
               alt={selectedPlaylist.name}
-              className="w-6 h-6 rounded"
+              className="w-6 h-6"
             />
             <Spacer size={2} axis="horizontal" />
             <Typography.Text strong size="sm">

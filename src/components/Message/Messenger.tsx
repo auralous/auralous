@@ -213,7 +213,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <div
-      className="relative flex-1 h-0 overflow-x-hidden overflow-y-auto p-4 space-y-4"
+      className="relative flex-1 min-h-0 overflow-x-hidden overflow-y-auto p-4 space-y-4"
       onScroll={onScroll}
       ref={messageListRef}
       aria-label={t("message.listLabel", { name: "" })}
@@ -271,7 +271,7 @@ const MessageInput: React.FC<{ id: string }> = ({ id }) => {
       <Box row alignItems="center" padding={2}>
         <input
           aria-label={t("message.inputLabel")}
-          className="w-full input bg-background-tertiary bg-opacity-50 border-none focus:bg-opacity-75"
+          className="w-full input bg-background-tertiary border-none"
           value={messageContent}
           onChange={(e) => setMessageList(e.target.value)}
         />

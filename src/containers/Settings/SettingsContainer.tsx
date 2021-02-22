@@ -319,11 +319,11 @@ const SettingsContainer: React.FC = () => {
   return (
     <>
       <PageHeader name={t("settings.title")} />
-      <Box row wrap>
-        <div className="w-full lg:flex-1 p-4">
+      <Box>
+        <div className="p-4">
           <LeftSection />
         </div>
-        <div className="w-full lg:flex-1 p-4">
+        <div className="p-4">
           <RightSection />
         </div>
       </Box>

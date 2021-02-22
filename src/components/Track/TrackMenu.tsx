@@ -36,7 +36,7 @@ const TrackMenu: React.FC<{
         <Modal.Content>
           <Box justifyContent="center" alignItems="center">
             <img
-              className="w-32 h-32 object-cover rounded shadow-lg"
+              className="w-32 h-32 object-cover shadow-lg"
               src={track?.image}
               alt={track?.title}
             />

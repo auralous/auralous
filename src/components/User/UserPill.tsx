@@ -28,7 +28,7 @@ const UserPill: React.FC<{ id: string; extraEl?: JSX.Element }> = ({
         />
       </Skeleton>
       <Spacer size={1} axis="vertical" />
-      <Skeleton show={!user} rounded="lg" width={20} height={4}>
+      <Skeleton show={!user} width={20} height={4}>
         <Link href={`/user/${user?.username}`}>
           <Typography.Link strong truncate>
             {user?.username}

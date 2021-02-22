@@ -2,6 +2,7 @@ import { PlayerImage, PlayerMeta, usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { StoryNav } from "components/Story";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import {
   Story,
   useNowPlayingQuery,
@@ -49,11 +50,13 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
   });
 
   return (
-    <div className="p-4 box-border w-full h-full flex flex-col justify-center">
+    <div
+      className="p-4 box-border mx-auto max-w-full h-full flex flex-col justify-center"
+      style={{ width: 600 }}
+    >
       <StoryNav onClose={close} story={story} />
-      <div className="relative w-full h-0 flex-1 flex flex-col max-w-lg mx-auto">
+      <Box minHeight={0} flex={1} position="relative">
         <PlayerImage track={track} />
-        <PlayerMeta track={track} fetching={fetching && !track} />
         {/* TODO: a11y */}
         <div
           role="button"
@@ -63,8 +66,14 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
           onClick={skipForward}
           onKeyPress={onEnterKeyClick}
         />
-      </div>
-      <div className="w-full space-y-1 h-24 max-w-lg mx-auto">
+      </Box>
+      <PlayerMeta track={track} fetching={fetching && !track} />
+      <Box
+        fullWidth
+        justifyContent="center"
+        gap={"xs"}
+        style={{ height: "7.125rem" }}
+      >
         <Typography.Paragraph
           size="lg"
           color="foreground-secondary"
@@ -85,9 +94,10 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
             fullWidth
             color="primary"
             asLink
+            shape="circle"
           />
         </Link>
-      </div>
+      </Box>
     </div>
   );
 };

@@ -21,12 +21,8 @@ export const TrackItem: React.FC<{
   return (
     <>
       <Box fullWidth row alignItems="center">
-        <Skeleton show={!track} rounded="lg">
-          <img
-            alt={track?.title}
-            className="h-12 w-12 rounded"
-            src={track?.image}
-          />
+        <Skeleton show={!track}>
+          <img alt={track?.title} className="h-12 w-12" src={track?.image} />
         </Skeleton>
         <Spacer size={2} axis="horizontal" />
         <Box flex={1} minWidth={0} gap="xs">

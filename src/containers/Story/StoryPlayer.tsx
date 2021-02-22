@@ -9,7 +9,7 @@ const StoryPlayer: React.FC<{ story: Story }> = ({ story }) => {
   } = usePlayer();
 
   return (
-    <Box maxWidth="lg" fullWidth fullHeight>
+    <Box style={{ maxWidth: 600 }} fullWidth fullHeight>
       <PlayerImage track={crossTracks?.original} />
       <Box row justifyContent="between">
         <Box row flex={1} minWidth={0}>

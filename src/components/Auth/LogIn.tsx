@@ -103,7 +103,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
     <>
       <Modal.Modal title={t("auth.label")} active={active} close={close}>
         <div
-          className="p-4 bg-background-tertiary bg-opacity-50 bg-repeat"
+          className="p-4 bg-background-tertiary bg-repeat"
           style={{
             background: `url("/images/topography.svg")`,
           }}

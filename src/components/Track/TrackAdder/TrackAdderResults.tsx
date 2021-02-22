@@ -1,6 +1,5 @@
 import { SvgCheck, SvgPlus } from "assets/svg";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { TrackItem } from "components/Track/index";
 import { Box } from "components/View";
 import { useI18n } from "i18n/index";
@@ -9,6 +8,8 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { areEqual, FixedSizeList, ListChildComponentProps } from "react-window";
 import { remToPx } from "utils/util";
 import { TrackAdderCallbackFn } from "./types";
+
+const GUTTER_SIZE = 5;
 
 const SearchResultRow = memo<ListChildComponentProps>(function Row({
   data,
@@ -38,12 +39,16 @@ const SearchResultRow = memo<ListChildComponentProps>(function Row({
       justifyContent="between"
       accessibilityRole="presentation"
       key={data.items[index]}
-      style={style}
+      style={{
+        ...style,
+        top: (style.top as number) + GUTTER_SIZE,
+        height: (style.height as number) - GUTTER_SIZE,
+      }}
+      gap="sm"
     >
       <Box flex={1} minWidth={0}>
         <TrackItem id={data.items[index]} />
       </Box>
-      <Spacer size={2} axis="horizontal" />
       <Button
         accessibilityLabel={t("queue.manager.add")}
         icon={
@@ -64,7 +69,10 @@ const TrackAdderResults: React.FC<{
 }> = ({ callback, results, addedTracks }) => {
   // TODO: a11y
   return (
-    <div role="listbox" className="overflow-hidden flex-1 h-0 flex flex-col">
+    <div
+      role="listbox"
+      className="overflow-hidden flex-1 min-h-0 flex flex-col"
+    >
       <AutoSizer defaultHeight={1} defaultWidth={1}>
         {({ height, width }) => (
           <FixedSizeList

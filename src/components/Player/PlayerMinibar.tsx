@@ -5,13 +5,11 @@ import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
 
 const PlayerMinibar: React.FC = () => {
   const { t } = useI18n();
-  const router = useRouter();
   const {
     state: { playingStoryId, playerPlaying, fetching },
     playStory,
@@ -31,10 +29,23 @@ const PlayerMinibar: React.FC = () => {
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
 
-  if (!playingStoryId || router.pathname === "/story/[storyId]") return null;
+  if (!playingStoryId) return null;
 
   return (
-    <div className="flex fixed z-10 w-full bottom-10 md:bottom-0 border-t-4 border-primary items-center box-content space-x-1 bg-background">
+    <Box
+      rounded="full"
+      fullWidth
+      backgroundColor="primary"
+      position="relative"
+      style={{
+        boxShadow: "hsl(349deg 67% 49% / 21%) 0px 8px 30px",
+        boxSizing: "content-box",
+        zIndex: 10,
+      }}
+      row
+      alignItems="center"
+      gap="xs"
+    >
       <Link href={`/story/${playingStoryId}`}>
         <a className="flex-1 w-0 flex items-center">
           <Box
@@ -43,8 +54,8 @@ const PlayerMinibar: React.FC = () => {
             padding={1}
             style={{ boxSizing: "content-box" }}
           >
-            <Skeleton show={fetching} rounded="full">
-              {!fetching && playerPlaying && (
+            <Skeleton show={fetching} rounded="full" width={12} height={12}>
+              {playerPlaying && (
                 <img
                   alt={t("nowPlaying.title")}
                   src={playerPlaying.image}
@@ -54,12 +65,12 @@ const PlayerMinibar: React.FC = () => {
             </Skeleton>
           </Box>
           <Box padding={2} flex={1} minWidth={0} gap="xs">
-            <Skeleton show={fetching} width={40} rounded="lg">
+            <Skeleton show={fetching} width={40}>
               <Typography.Paragraph size="xs" strong noMargin truncate>
                 {playerPlaying?.title || t("player.noneText")}
               </Typography.Paragraph>
             </Skeleton>
-            <Skeleton show={fetching} width={32} rounded="lg">
+            <Skeleton show={fetching} width={32}>
               <Typography.Paragraph
                 noMargin
                 truncate
@@ -92,7 +103,7 @@ const PlayerMinibar: React.FC = () => {
         icon={<SvgX />}
         styling="link"
       />
-    </div>
+    </Box>
   );
 };
 

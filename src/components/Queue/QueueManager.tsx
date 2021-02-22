@@ -1,7 +1,6 @@
 import { SvgGripVertical } from "assets/svg/index";
 import clsx from "clsx";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { TrackItem } from "components/Track/index";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -30,6 +29,8 @@ import { toast } from "utils/toast";
 import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
 import useQueue from "./useQueue";
+
+const GUTTER_SIZE = 5;
 
 const QueueDraggableItem: React.FC<{
   isQueueable: boolean;
@@ -64,7 +65,11 @@ const QueueDraggableItem: React.FC<{
       {...provided.draggableProps}
       style={{
         ...provided.draggableProps.style,
-        ...style,
+        ...(style && {
+          ...style,
+          top: (style.top as number) + GUTTER_SIZE,
+          height: (style.height as number) - GUTTER_SIZE,
+        }),
       }}
       className={clsx(
         "select-none flex p-2 items-center",
@@ -80,7 +85,6 @@ const QueueDraggableItem: React.FC<{
           icon={<SvgGripVertical />}
         />
       </div>
-      <Spacer size={1} axis="horizontal" />
       <Box paddingX={2} row alignItems="center" minWidth={0} flex={1}>
         <TrackItem
           id={queue.items[index].trackId}

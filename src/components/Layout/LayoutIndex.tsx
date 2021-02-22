@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       <animated.nav
-        className="w-full flex justify-center z-20 py-4 bg-gradient-to-b from-background to-transparent bg-opacity-50 fixed top-0"
+        className="w-full flex justify-center z-20 py-4 fixed top-0"
         style={styles}
       >
         <Box
@@ -105,7 +105,7 @@ const Navbar: React.FC = () => {
           <div
             className={clsx(
               expanded
-                ? "flex py-4 w-full absolute justify-center bg-background bg-opacity-75 flex-col right-0 top-0 pt-16 backdrop-blur "
+                ? "flex py-4 w-full absolute justify-center bg-background-secondary flex-col right-0 top-0 pt-16"
                 : "hidden",
               "md:flex content-end md:items-center flex-none"
             )}
@@ -131,17 +131,17 @@ const Footer: React.FC = () => {
       <Spacer size={8} axis="vertical" />
       <Spacer size={8} axis="vertical" />
       <div className="space-x-4 overflow-auto text-center">
-        <Typography.Link strong href="/contact/facebook" target="_blank">
+        <Typography.Link strong href="/goto/facebook" target="_blank">
           Facebook
         </Typography.Link>
-        <Typography.Link strong href="/contact/twitter" target="_blank">
+        <Typography.Link strong href="/goto/twitter" target="_blank">
           Twitter
         </Typography.Link>
-        <Link href="/privacy">
+        <Link passHref href="/privacy">
           <Typography.Link strong>{t("footer.privacy")}</Typography.Link>
         </Link>
-        <Typography.Link href="/contact/facebook" target="_blank" strong>
-          {t("footer.contribute")}
+        <Typography.Link href="/goto/github" target="_blank" strong>
+          GitHub
         </Typography.Link>
         <Link href="/contact">
           <Typography.Link strong>{t("footer.contact")}</Typography.Link>
@@ -165,7 +165,7 @@ const Footer: React.FC = () => {
         <Typography.Link
           color="foreground-secondary"
           strong
-          href="https://github.com/hoangvvo/stereo-web/contributors"
+          href="/goto/github"
         >
           contributors
         </Typography.Link>

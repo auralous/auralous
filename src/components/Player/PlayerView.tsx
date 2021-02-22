@@ -1,7 +1,7 @@
 import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
 import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
-import { Button, PressableHighlight } from "components/Pressable";
+import { Button } from "components/Pressable";
 import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -35,7 +35,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <Box paddingY={2} row justifyContent="center" alignItems="center" gap="lg">
+    <Box paddingY={1} row justifyContent="center" alignItems="center" gap="lg">
       <Button
         accessibilityLabel={t("player.skipBackward")}
         onPress={skipBackward}
@@ -57,6 +57,7 @@ export const PlayerControl: React.FC = () => {
           disabled={!playerPlaying}
           size="xl"
           shape="circle"
+          color="primary"
         />
         {fetching && <span className="spinning-border absolute inset-0" />}
       </Box>
@@ -77,7 +78,7 @@ export const PlayerImage: React.FC<{
   track: Track | null | undefined;
 }> = ({ track }) => {
   return (
-    <div className="w-full my-6 flex-1 h-0">
+    <div className="w-full my-6 flex-1 min-h-0">
       <div
         className="object-contain h-full"
         role="img"
@@ -103,9 +104,9 @@ export const PlayerMeta: React.FC<{
 
   return (
     // eslint-disable-next-line
-    <PressableHighlight onPress={openMenu} fullWidth>
+    <div className="text-inline-link w-full" onClick={openMenu} >
       <Box fullWidth alignItems="stretch" gap="xs" style={{ lineHeight: 1 }}>
-        <Skeleton rounded="lg" show={fetching} width={40}>
+        <Skeleton show={fetching} width={40}>
           <Typography.Title
             align="left"
             noMargin
@@ -117,7 +118,7 @@ export const PlayerMeta: React.FC<{
             {track ? track.title : t("player.noneText")}
           </Typography.Title>
         </Skeleton>
-        <Skeleton rounded="lg" show={fetching} width={32}>
+        <Skeleton show={fetching} width={32}>
           <Typography.Paragraph
             align="left"
             noMargin
@@ -133,6 +134,6 @@ export const PlayerMeta: React.FC<{
           <TrackMenu active={activeMenu} close={closeMenu} id={track.id} />
         )}
       </Box>
-    </PressableHighlight>
+    </div>
   );
 };
