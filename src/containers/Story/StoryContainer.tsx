@@ -1,6 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
+import { useWindowHeight } from "@react-hook/window-size";
 import clsx from "clsx";
-import LayoutContext from "components/Layout/LayoutContext";
+import LayoutContext from "components/Layout/LayoutApp/LayoutAppContext";
 import { PlayerControl, usePlayer } from "components/Player";
 import { StoryNav } from "components/Story";
 import { Box } from "components/View";
@@ -10,7 +11,6 @@ import {
   useStoryQuery,
   useStoryUpdatedSubscription,
 } from "gql/gql.gen";
-import { useInnerHeightResizeRef } from "hooks/sizing";
 import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -75,60 +75,47 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
     2 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
 
-  const resizeRef = useInnerHeightResizeRef();
-
   const router = useRouter();
   const { prevPathname } = useContext(LayoutContext);
+
   const onClose = useCallback(
     () => (prevPathname.current ? router.back() : router.replace("/listen")),
     [router, prevPathname]
   );
 
+  const height = useWindowHeight();
+
   return (
-    <div ref={resizeRef}>
-      <Box fullHeight padding={4} justifyContent="center" ref={resizeRef}>
+    <Tabs index={selectedIndex} onChange={setSelectedIndex}>
+      <Box padding={4} justifyContent="center" style={{ height }}>
         <StoryNav onClose={onClose} story={story} />
-        <Tabs
-          index={selectedIndex}
-          onChange={setSelectedIndex}
-          className="flex-1 h-0 flex flex-col"
-        >
-          <TabPanels className="flex-1 h-0 relative">
-            <AnimatedTabPanel
-              style={tabPanel0Style}
-              className={clsx(
-                selectedIndex === 0 ? "flex" : "hidden",
-                "justify-center",
-                "h-full"
-              )}
-              as="div"
-            >
-              <StoryPlayer story={story} />
-            </AnimatedTabPanel>
-            <AnimatedTabPanel
-              style={tabPanel1Style}
-              className="h-full"
-              as="div"
-            >
-              <StoryChat story={story} />
-            </AnimatedTabPanel>
-            <AnimatedTabPanel
-              style={tabPanel2Style}
-              className="h-full"
-              as="div"
-            >
-              <StoryQueue story={story} />
-            </AnimatedTabPanel>
-          </TabPanels>
-          <TabList className="py-1 text-center z-10">
-            <Tab className={getClassName(0)}>{t("player.title")}</Tab>
-            <Tab className={getClassName(1)}>{t("story.chat.title")}</Tab>
-            <Tab className={getClassName(2)}>{t("story.queue.title")}</Tab>
-          </TabList>
-        </Tabs>
+        <TabPanels className="flex-1 h-0 relative">
+          <AnimatedTabPanel
+            style={tabPanel0Style}
+            className={clsx(
+              selectedIndex === 0 ? "flex" : "hidden",
+              "justify-center",
+              "h-full"
+            )}
+            as="div"
+          >
+            <StoryPlayer story={story} />
+          </AnimatedTabPanel>
+          <AnimatedTabPanel style={tabPanel1Style} className="h-full" as="div">
+            <StoryChat story={story} />
+          </AnimatedTabPanel>
+          <AnimatedTabPanel style={tabPanel2Style} className="h-full" as="div">
+            <StoryQueue story={story} />
+          </AnimatedTabPanel>
+        </TabPanels>
+        <TabList className="py-2 text-center z-10">
+          <Tab className={getClassName(0)}>{t("player.title")}</Tab>
+          <Tab className={getClassName(1)}>{t("story.chat.title")}</Tab>
+          <Tab className={getClassName(2)}>{t("story.queue.title")}</Tab>
+        </TabList>
         <PlayerControl />
       </Box>
-    </div>
+    </Tabs>
   );
 };
 

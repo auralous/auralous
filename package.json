@@ -19,6 +19,7 @@
     "@reach/dialog": "^0.13.0",
     "@reach/portal": "^0.13.0",
     "@reach/tabs": "^0.13.0",
+    "@react-hook/window-size": "^3.0.7",
     "@urql/devtools": "^2.0.2",
     "@urql/exchange-graphcache": "^4.0.0",
     "@urql/exchange-multipart-fetch": "^0.1.11",

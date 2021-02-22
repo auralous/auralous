@@ -123,11 +123,10 @@ const StorySlider: React.FC<{
     <AnimatedDialogOverlay
       isOpen={active}
       style={{
-        backgroundColor: "rgba(18, 18, 24)",
         opacity: transitions.opacity,
       }}
       aria-label={t("story.feed.title")}
-      className="overflow-hidden z-10"
+      className="overflow-hidden z-10 backdrop-blur"
       as="div"
     >
       <animated.div

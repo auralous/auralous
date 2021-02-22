@@ -1,12 +1,17 @@
-import { StoryContainer } from "containers/Story";
 import { Story } from "gql/gql.gen";
 import { QUERY_STORY } from "gql/story";
 import { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
+import dynamic from "next/dynamic";
 import NotFoundPage from "pages/404";
 import { useMemo } from "react";
 import { CONFIG } from "utils/constants";
 import { forwardSSRHeaders } from "utils/ssr-utils";
+
+const StoryContainer = dynamic(
+  () => import("containers/Story/StoryContainer"),
+  { ssr: false }
+);
 
 const StoryPage: NextPage<{
   story: Story | null;

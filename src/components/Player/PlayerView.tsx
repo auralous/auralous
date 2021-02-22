@@ -1,7 +1,7 @@
 import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
 import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
-import { Button, PressableHighlight } from "components/Pressable";
+import { Button } from "components/Pressable";
 import { TrackMenu } from "components/Track";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -35,7 +35,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <Box paddingY={2} row justifyContent="center" alignItems="center" gap="lg">
+    <Box paddingY={1} row justifyContent="center" alignItems="center" gap="lg">
       <Button
         accessibilityLabel={t("player.skipBackward")}
         onPress={skipBackward}
@@ -103,7 +103,7 @@ export const PlayerMeta: React.FC<{
 
   return (
     // eslint-disable-next-line
-    <PressableHighlight onPress={openMenu} fullWidth>
+    <div className="text-inline-link w-full" onClick={openMenu} >
       <Box fullWidth alignItems="stretch" gap="xs" style={{ lineHeight: 1 }}>
         <Skeleton rounded="lg" show={fetching} width={40}>
           <Typography.Title
@@ -133,6 +133,6 @@ export const PlayerMeta: React.FC<{
           <TrackMenu active={activeMenu} close={closeMenu} id={track.id} />
         )}
       </Box>
-    </PressableHighlight>
+    </div>
   );
 };

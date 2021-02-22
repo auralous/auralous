@@ -23,7 +23,11 @@ interface BoxProps {
   position?: "relative" | "absolute";
   gap: "xs" | "sm" | "md" | "lg" | "xl";
   accessibilityRole: string;
-  backgroundColor: "background-secondary" | "background-tertiary";
+  backgroundColor:
+    | "background-secondary"
+    | "background-tertiary"
+    | "primary"
+    | "primary-dark";
 }
 
 const gapMap: Record<BoxProps["gap"], number> = {
