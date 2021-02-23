@@ -22,7 +22,7 @@ const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
     <Link href={href}>
       <a
         className={clsx(
-          "w-full btn btn-transparent font-normal text-sm",
+          "w-full px-4 py-2 focus:outline-none text-sm rounded-lg flex justify-center items-center",
           isActive && "bg-background-secondary",
           isBold && "bg-gradient-to-l from-secondary to-primary"
         )}

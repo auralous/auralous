@@ -55,9 +55,13 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       !!icon && !!title && "space-x-2",
       shape === "circle" && "rounded-full",
       styling === "link" &&
-        `bg-transparent text-${color || "foreground"} hover:opacity-75`,
+        `hover:bg-transparent bg-none text-${
+          color || "foreground"
+        } hover:opacity-75`,
       styling === "outline" &&
-        `bg-transparent text-${color || "foreground"} hover:opacity-50 border-2`
+        `bg-transparent bg-none hover:bg-transparent hover:bg-none text-${
+          color || "foreground"
+        } hover:opacity-50 border-2`
     );
 
     const elementNode = (

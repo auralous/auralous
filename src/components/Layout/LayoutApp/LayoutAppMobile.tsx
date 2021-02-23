@@ -90,7 +90,7 @@ const Appbar: React.FC = () => {
           </AppbarItem>
         ) : (
           <button
-            className="btn btn-transparent border-primary py-1 rounded-none flex-1"
+            className="px-2 focus:outline-none flex justify-center items-center border-primary py-1 rounded-none flex-1"
             title={t("common.signIn")}
             onClick={logIn}
           >

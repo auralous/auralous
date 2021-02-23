@@ -1,4 +1,5 @@
 import { SvgGoogleColor, SvgSpotify } from "assets/svg";
+import clsx from "clsx";
 import { Modal, useModal } from "components/Modal/index";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
@@ -27,6 +28,9 @@ enum AuthState {
   SUCCESS,
   FAIL,
 }
+
+const authBtnClassNames =
+  "px-4 flex justify-center items-center h-12 focus:outline-none hover:opacity-75 transition-opacity rounded-full";
 
 const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
   active,
@@ -125,7 +129,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 <Spacer size={1} axis="vertical" />
                 <button
                   onClick={() => logIn(PlatformName.Youtube)}
-                  className="btn bg-white text-black text-opacity-50 h-12 hover:opacity-75 transition-opacity rounded-full"
+                  className={clsx(
+                    authBtnClassNames,
+                    "bg-white text-black text-opacity-50"
+                  )}
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgGoogleColor
@@ -134,7 +141,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                     strokeWidth="0"
                   />
                   <Spacer size={4} />
-                  <Typography.Text size="sm">
+                  <Typography.Text strong size="sm">
                     Continue with Google
                   </Typography.Text>
                 </button>
@@ -151,7 +158,10 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 <Spacer size={1} axis="vertical" />
                 <button
                   onClick={() => logIn(PlatformName.Spotify)}
-                  className="btn bg-spotify text-spotify-label h-12 hover:opacity-75 transition-opacity rounded-full"
+                  className={clsx(
+                    authBtnClassNames,
+                    "bg-spotify text-spotify-label"
+                  )}
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgSpotify width="24" className="fill-current stroke-0" />

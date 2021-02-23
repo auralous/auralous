@@ -69,38 +69,29 @@ html {
 }
 
 .btn {
-  @apply inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
-  @apply transition-colors;
+  @apply bg-gradient-to-t inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
+  @apply transition-all;
   /* Theme */
-  @apply bg-background-secondary text-foreground;
+  @apply text-foreground from-background-secondary to-background-tertiary;
   &:not([disabled]) {
     &:hover, &:focus {
-      @apply bg-background-tertiary;
+      @apply from-background-tertiary to-background-tertiary;
       @apply border-0;
     }
   }
   &.btn-primary {
-    @apply text-primary-label bg-primary;
+    @apply text-primary-label from-primary to-primary-dark;
     &:not([disabled]) {
       &:hover, &:focus {
-        @apply bg-primary-dark;
+        @apply from-primary to-primary;
       }
     }
   }
   &.btn-danger {
-    @apply text-danger-label;
-    @apply bg-danger;
+    @apply text-danger-label from-danger to-danger-dark;
     &:not([disabled]) {
       &:hover, &:focus {
-        @apply bg-danger-dark;
-      }
-    }
-  }
-  &.btn-transparent {
-    @apply text-foreground bg-transparent;
-    &:not([disabled]) {
-      &:hover, &:focus {
-        @apply bg-transparent text-foreground text-opacity-50;
+        @apply from-danger to-danger;
       }
     }
   }
