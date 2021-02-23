@@ -1,7 +1,8 @@
 import { SvgLoadingAnimated, SvgSearch } from "assets/svg";
+import { Input } from "components/Form";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { Track, usePlaylistTracksQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useRouter } from "next/router";
@@ -51,7 +52,7 @@ const SelectFromSearch: React.FC<{
           : t("new.fromSearch.helpText")}
       </Typography.Paragraph>
       <form
-        className="h-42 w-full flex items-center"
+        className="h-42 w-full flex items-center space-x-1"
         onSubmit={(event) => {
           event.preventDefault();
           if (fetching) return;
@@ -59,16 +60,17 @@ const SelectFromSearch: React.FC<{
           s && router.replace(`/new?search=${encodeURIComponent(s)}`);
         }}
       >
-        <input
-          ref={inputRef}
-          placeholder="example.com/my-awesome-playlist"
-          aria-label={t("new.fromSearch.altText")}
-          className="input w-0 flex-1"
-          required
-          disabled={fetching}
-          type="url"
-        />
-        <Spacer size={1} axis="horizontal" />
+        <Box flex={1} minWidth={0}>
+          <Input
+            ref={inputRef}
+            placeholder="example.com/my-awesome-playlist"
+            accessibilityLabel={t("new.fromSearch.altText")}
+            fullWidth
+            required
+            disabled={fetching}
+            type="url"
+          />
+        </Box>
         <Button
           type="submit"
           accessibilityLabel={t("new.fromSearch.action")}

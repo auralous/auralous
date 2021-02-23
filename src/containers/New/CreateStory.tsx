@@ -1,4 +1,5 @@
 import { useLogin } from "components/Auth";
+import { Input } from "components/Form";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
@@ -96,11 +97,11 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         <CreateStoryLabel htmlFor="storyText">
           {t("new.addNew.promptText")}
         </CreateStoryLabel>
-        <input
+        <Input
           id="storyText"
-          aria-labelledby="storyText-label"
+          accessibilityLabel="storyText-label"
           required
-          className="input w-full text-center"
+          fullWidth
           type="text"
           maxLength={CONFIG.storyTextMaxLength}
           ref={textRef}

@@ -1,3 +1,4 @@
+import { Input } from "components/Form";
 import { Modal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
@@ -42,10 +43,10 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
         <Typography.Paragraph id="welcomeUsernameLabel" align="center">
           {t("settings.username.label")}
         </Typography.Paragraph>
-        <input
+        <Input
           ref={usernameRef}
-          aria-labelledby="welcomeUsernameLabel"
-          className="input w-full"
+          accessibilityLabel={t("settings.username.label")}
+          fullWidth
           required
           maxLength={CONFIG.usernameMaxLength}
         />

@@ -1,4 +1,5 @@
 import { useLogin } from "components/Auth/index";
+import { Input } from "components/Form";
 import { Modal, useModal } from "components/Modal/index";
 import { PageHeader } from "components/Page";
 import { Button } from "components/Pressable";
@@ -67,12 +68,14 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
             {t("common.dangerousActionText")}
           </Typography.Paragraph>
           <Box row justifyContent="center">
-            <input
-              aria-label={t("settings.dangerZone.delete.modal.enterName")}
+            <Input
+              accessibilityLabel={t(
+                "settings.dangerZone.delete.modal.enterName"
+              )}
               value={confirmUsername}
               placeholder={t("settings.dangerZone.delete.modal.enterName")}
-              onChange={(e) => setConfirmUsername(e.target.value)}
-              className="input py-2 px-4 w-96 max-w-full"
+              onChangeText={setConfirmUsername}
+              fullWidth
             />
           </Box>
         </Modal.Content>
@@ -188,9 +191,9 @@ const LeftSection: React.FC = () => {
               <label className="label" htmlFor="usernameInput">
                 {t("settings.username.label")}
               </label>
-              <input
+              <Input
                 id="usernameInput"
-                className="input w-full"
+                fullWidth
                 ref={usernameRef}
                 maxLength={CONFIG.usernameMaxLength}
                 required

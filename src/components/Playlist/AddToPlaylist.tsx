@@ -1,5 +1,6 @@
 import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "assets/svg";
 import { AuthBanner } from "components/Auth";
+import { Input } from "components/Form";
 import { Modal } from "components/Modal/index";
 import { Button, PressableHighlight } from "components/Pressable";
 import { Typography } from "components/Typography";
@@ -59,11 +60,11 @@ const CreatePlaylist: React.FC<{
         className="flex p-2 h-16 space-x-1"
         onSubmit={handleCreatePlaylistAndAdd}
       >
-        <input
+        <Input
           placeholder={t("playlist.new.title")}
-          className="input w-full h-10"
           ref={inputRef}
           required
+          fullWidth
         />
         <Button
           accessibilityLabel={t("playlist.new.title")}

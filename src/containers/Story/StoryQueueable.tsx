@@ -1,4 +1,5 @@
 import { SvgUserPlus, SvgX } from "assets/svg";
+import { Input } from "components/Form";
 import { Skeleton } from "components/Loading";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
@@ -74,14 +75,18 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
         <SvgUserPlus className="w-4 h-4" />
       </Box>
       <Spacer size={2} axis="horizontal" />
-      <input
-        name="username"
-        placeholder={t("settings.username.label")}
-        aria-label={t("story.queueable.title")}
-        className="input h-10 w-0 p-0 border-none flex-1"
-        maxLength={CONFIG.usernameMaxLength}
-        required
-      />
+      <Box flex={1} minWidth={0} alignItems="stretch">
+        {/* TODO: To be replaced with styled input */}
+        <Input
+          name="username"
+          placeholder={t("settings.username.label")}
+          accessibilityLabel={t("story.queueable.title")}
+          maxLength={CONFIG.usernameMaxLength}
+          required
+          fullWidth
+          style={{ padding: 0 }}
+        />
+      </Box>
       <Button
         shape="circle"
         title={t("story.queueable.add")}

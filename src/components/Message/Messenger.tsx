@@ -1,4 +1,5 @@
 import { SvgLogIn, SvgMusic } from "assets/svg";
+import { Input } from "components/Form";
 import { useModal } from "components/Modal";
 import { Button, PressableHighlight } from "components/Pressable";
 import { TrackMenu } from "components/Track";
@@ -257,7 +258,6 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
 
 const MessageInput: React.FC<{ id: string }> = ({ id }) => {
   const { t } = useI18n();
-
   const [messageContent, setMessageList] = useState("");
   const [{ fetching }, addMessage] = useAddMessageMutation();
   function handleSubmitMessage(event: React.FormEvent<HTMLFormElement>) {
@@ -269,11 +269,11 @@ const MessageInput: React.FC<{ id: string }> = ({ id }) => {
   return (
     <form autoComplete="off" onSubmit={handleSubmitMessage}>
       <Box row alignItems="center" padding={2}>
-        <input
-          aria-label={t("message.inputLabel")}
-          className="w-full input bg-background-tertiary border-none"
+        <Input
+          accessibilityLabel={t("message.inputLabel")}
+          fullWidth
           value={messageContent}
-          onChange={(e) => setMessageList(e.target.value)}
+          onChangeText={setMessageList}
         />
       </Box>
     </form>

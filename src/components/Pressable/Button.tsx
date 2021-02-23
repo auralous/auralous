@@ -50,7 +50,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       size === "sm" && `${iconOnly ? "w-8" : "px-2"} h-8 text-sm`,
       size === "lg" && `${iconOnly ? "w-12" : "px-6"} h-12 text-md`,
       size === "xl" && `${iconOnly ? "w-16" : "px-8"} h-16 text-lg`,
-      !size && `h-10` && `${iconOnly ? "w-10" : "px-4"} h-10 text-lg`,
+      !size && `${iconOnly ? "w-10" : "px-4"} h-10`,
       iconOnly && "p-0",
       !!icon && !!title && "space-x-2",
       shape === "circle" && "rounded-full",
