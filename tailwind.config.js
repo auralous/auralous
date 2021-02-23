@@ -17,6 +17,13 @@ module.exports = {
           "foreground-tertiary",
           "foreground-backdrop",
         ].map((c) => `text-${c}`),
+        ...[
+          "spotify",
+          "youtube",
+          "background",
+          "background-secondary",
+          "background-tertiary",
+        ].map((c) => `bg-${c}`),
         ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `w-${u}`),
         "w-20",
         "w-32",
@@ -29,10 +36,10 @@ module.exports = {
         ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `h-${u}`),
         "h-full",
         "min-h-0",
-        ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `t-${u}`),
-        ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `b-${u}`),
-        ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `l-${u}`),
-        ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `r-${u}`),
+        ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `top-${u}`),
+        ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `bottom-${u}`),
+        ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `left-${u}`),
+        ...[0, 1, 2, 4, 8, 10, 12, 16].map((u) => `right-${u}`),
         ...["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl"].map(
           (s) => `text-${s}`
         ),
