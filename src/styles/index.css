@@ -174,7 +174,7 @@ html {
   height: 100%;
   border-radius: 50%;
   border: 3px solid transparent;
-  border-left-color: rgb(29, 161, 242);
+  border-left-color: rgba(255, 255, 255, 0.5);
   background: transparent;
   animation: rotate-s-loader 1s linear infinite;
 }

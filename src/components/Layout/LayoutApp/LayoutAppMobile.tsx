@@ -55,7 +55,12 @@ const Appbar: React.FC = () => {
   if (fullLayoutPathnames.includes(router.pathname)) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 w-full z-10">
+    <Box
+      style={{ position: "fixed", zIndex: 10 }}
+      bottom={0}
+      left={0}
+      fullWidth
+    >
       <Box padding={1}>
         <PlayerMinibar />
       </Box>
@@ -93,7 +98,7 @@ const Appbar: React.FC = () => {
           </button>
         )}
       </div>
-    </div>
+    </Box>
   );
 };
 

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { Typography } from "components/Typography";
 import { CSSProperties, forwardRef, ReactNode } from "react";
 
 interface ButtonProps {
@@ -59,9 +60,16 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       !!icon && !!title && "space-x-2",
       shape === "circle" && "rounded-full",
       styling === "link" &&
-        `bg-transparent text-${color} hover:text-opacity-75`,
+        `bg-transparent text-${color || "foreground"} hover:opacity-75`,
       styling === "outline" &&
-        `bg-transparent text-${color} hover:opacity-50 border-2`
+        `bg-transparent text-${color || "foreground"} hover:opacity-50 border-2`
+    );
+
+    const elementNode = (
+      <>
+        {icon}
+        {title && <Typography.Text>{title}</Typography.Text>}
+      </>
     );
 
     if (asLink)
@@ -79,8 +87,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
           onClick={onClick}
           style={style}
         >
-          {icon}
-          {title && <span>{title}</span>}
+          {elementNode}
         </a>
       );
 
@@ -94,8 +101,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
         type={type}
         style={style}
       >
-        {icon}
-        {title && <span>{title}</span>}
+        {elementNode}
       </button>
     );
   }

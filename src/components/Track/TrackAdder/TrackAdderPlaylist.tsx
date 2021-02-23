@@ -1,7 +1,6 @@
 import { SvgChevronLeft, SvgLoadingAnimated } from "assets/svg";
 import { PlaylistItem } from "components/Playlist";
 import { Button, PressableHighlight } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import {
@@ -49,7 +48,7 @@ const TrackAdderPlaylist: React.FC<{
 
   return (
     <Box fullWidth fullHeight position="relative">
-      <Box row paddingX={2} height={10} alignItems="center">
+      <Box row paddingX={2} height={10} alignItems="center" gap="sm">
         <Button
           onPress={() => setSelectedPlaylist(null)}
           accessibilityLabel={t("common.back")}
@@ -58,18 +57,16 @@ const TrackAdderPlaylist: React.FC<{
           styling="link"
         />
         {!!selectedPlaylist && (
-          <div className="inline-flex items-center">
-            <Spacer size={2} axis="horizontal" />
+          <>
             <img
               src={selectedPlaylist.image}
               alt={selectedPlaylist.name}
               className="w-6 h-6"
             />
-            <Spacer size={2} axis="horizontal" />
             <Typography.Text strong size="sm">
               {selectedPlaylist.name}
             </Typography.Text>
-          </div>
+          </>
         )}
       </Box>
       {selectedPlaylist ? (

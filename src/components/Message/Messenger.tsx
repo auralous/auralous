@@ -83,12 +83,12 @@ const MessageItemPlay: React.FC<{
       {track && (
         <>
           <PressableHighlight onPress={show}>
-            <div>
+            <Typography.Paragraph noMargin>
               <Typography.Text size="xs" emphasis>
                 {track.artists.map(({ name }) => name).join(", ")}
               </Typography.Text>{" "}
               - <Typography.Text size="xs">{track.title}</Typography.Text>
-            </div>
+            </Typography.Paragraph>
           </PressableHighlight>
           <TrackMenu
             id={message.text as string}

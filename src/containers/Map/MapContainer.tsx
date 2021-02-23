@@ -1,4 +1,6 @@
 import { PageHeader } from "components/Page";
+import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useI18n } from "i18n/index";
 
 const MapContainer: React.FC = () => {
@@ -6,10 +8,14 @@ const MapContainer: React.FC = () => {
   return (
     <>
       <PageHeader name={t("map.title")} />
-      <p className="px-4 text-lg text-foreground-secondary">
-        {t("map.description")}
-      </p>
-      <div className="px-4 font-bold text-primary">Coming soon!</div>
+      <Box padding={4}>
+        <Typography.Paragraph size="lg" color="foreground-secondary">
+          {t("map.description")}
+        </Typography.Paragraph>
+        <Typography.Paragraph strong color="primary">
+          Coming soon!
+        </Typography.Paragraph>
+      </Box>
     </>
   );
 };

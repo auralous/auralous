@@ -5,6 +5,7 @@ import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useStoryLiveQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -34,7 +35,7 @@ const StoryOngoingWatcher: React.FC = () => {
           <Typography.Paragraph size="lg" strong color="foreground-secondary">
             {t("story.ongoing.title")}
           </Typography.Paragraph>
-          <div className="py-6 px-8 rounded-lg bg-background-secondary border-background-tertiary">
+          <Box padding={8} rounded="lg">
             <Typography.Paragraph strong size="lg">
               <span className="animate-pulse uppercase text-xs font-bold p-1 bg-primary rounded">
                 {t("common.live")}
@@ -42,10 +43,10 @@ const StoryOngoingWatcher: React.FC = () => {
               <Spacer size={1} />
               {storyLive?.text}
             </Typography.Paragraph>
-            <div className="text-xs text-foreground-secondary">
+            <Typography.Paragraph size="xs" color="foreground-secondary">
               {storyLive?.createdAt.toLocaleDateString()}
-            </div>
-          </div>
+            </Typography.Paragraph>
+          </Box>
         </Modal.Content>
         <Modal.Footer>
           <Button

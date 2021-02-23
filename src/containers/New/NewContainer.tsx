@@ -102,12 +102,12 @@ const SelectTracksView: React.FC<{
           }
           shape="circle"
         />
-        <button
-          onClick={() => setInitTracks([])}
-          className="opacity-75 py-2 px-4 text-sm text-inline-link"
-        >
-          {t("new.startEmpty")}
-        </button>
+        <Button
+          onPress={() => setInitTracks([])}
+          styling="link"
+          title={t("new.startEmpty")}
+          size="sm"
+        />
       </Box>
     </>
   );
@@ -138,14 +138,14 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       <Spacer size={4} axis="vertical" />
       <CreateStory initTracks={initTracks} />
       <Spacer size={2} axis="vertical" />
-      <div className="w-full text-center">
+      <Box alignItems="center">
         <Button
           size="sm"
           styling="link"
           onPress={() => router.replace("/new")}
           title={t("common.back")}
         />
-      </div>
+      </Box>
     </>
   );
 };
@@ -176,8 +176,7 @@ const NewContainer: React.FC = () => {
         <Typography.Title level={2} size="4xl" align="center">
           {initTracks ? t("new.promptAlmost") : t("new.prompt")}
         </Typography.Title>
-        <Spacer size={4} axis="vertical" />
-        <div className="relative pb-8">
+        <Box paddingY={8} position="relative">
           {transitionsCreate.map(({ item: doneSelected, key, props }) =>
             doneSelected ? (
               <animated.div key={key} style={props} className="w-full">
@@ -189,7 +188,7 @@ const NewContainer: React.FC = () => {
               </animated.div>
             )
           )}
-        </div>
+        </Box>
       </Box>
     </>
   );

@@ -116,9 +116,12 @@ const LayoutAppDesktop: React.FC<{ height: number }> = ({ height }) => {
     <>
       <Sidebar height={height} />
       {router.pathname !== "/story/[storyId]" && (
-        <div className="z-10 bottom-4 fixed" style={{ width: 640 }}>
+        <Box
+          bottom={4}
+          style={{ width: 640, zIndex: 10, bottom: 4, position: "fixed" }}
+        >
           <PlayerMinibar />
-        </div>
+        </Box>
       )}
     </>
   );

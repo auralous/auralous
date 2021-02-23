@@ -3,11 +3,14 @@ import { SvgX } from "assets/svg";
 import clsx from "clsx";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useI18n } from "i18n/index";
 import { animated, config as springConfig, useTransition } from "react-spring";
 
 const ModalHeader: React.FC = ({ children }) => (
-  <div className="p-4">{children}</div>
+  <Box row padding={4}>
+    {children}
+  </Box>
 );
 
 const ModalTitle: React.FC = ({ children }) => (
@@ -25,9 +28,9 @@ const ModalContent: React.FC<{
 );
 
 const ModalFooter: React.FC = ({ children }) => (
-  <div className="flex items-center justify-end space-x-2 px-4 py-3">
+  <Box row alignItems="center" justifyContent="end" gap="sm" padding={4}>
     {children}
-  </div>
+  </Box>
 );
 
 const AnimatedDialogOverlay = animated(DialogOverlay);
@@ -80,7 +83,7 @@ const Modal: React.FC<{
               >
                 {children}
                 {close && (
-                  <div className="absolute top-2 right-2">
+                  <Box position="absolute" top={2} right={2}>
                     <Button
                       accessibilityLabel={t("modal.close")}
                       icon={<SvgX className="w-8 h-8" />}
@@ -88,7 +91,7 @@ const Modal: React.FC<{
                       shape="circle"
                       styling="link"
                     />
-                  </div>
+                  </Box>
                 )}
               </AnimatedDialogContent>
             </AnimatedDialogOverlay>

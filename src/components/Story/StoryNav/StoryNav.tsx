@@ -43,7 +43,7 @@ const StoryNavMenu: React.FC<{
   return (
     <>
       <DialogOverlay isOpen={active} className="backdrop-blur">
-        <div className="w-full max-w-2xl h-64 flex flex-col items-center space-y-2">
+        <Box fullWidth alignItems="center" gap="sm">
           {user && (
             <Box row>
               <img
@@ -100,15 +100,15 @@ const StoryNavMenu: React.FC<{
               />
             </>
           )}
-        </div>
-        <div className="absolute top-4 right-4 p-1.5">
+        </Box>
+        <Box position="absolute" top={4} right={4}>
           <Button
             accessibilityLabel={t("modal.close")}
             onPress={close}
             icon={<SvgX className="w-8 h-8" />}
             styling="link"
           />
-        </div>
+        </Box>
       </DialogOverlay>
     </>
   );
@@ -139,7 +139,13 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
         accessibilityLabel={t("modal.close")}
         onPress={onClose}
       />
-      <div className="flex w-0 flex-1 items-center justify-center">
+      <Box
+        row
+        minWidth={0}
+        flex={1}
+        alignItems="center"
+        justifyContent="center"
+      >
         <Skeleton show={!user} rounded="full">
           <img
             alt={user?.username}
@@ -161,7 +167,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
             {dateStr}
           </Typography.Text>
         )}
-      </div>
+      </Box>
       <Button
         accessibilityLabel={t("story.menu.handle")}
         icon={<SvgMoreHorizontal className="w-8 h-8" />}

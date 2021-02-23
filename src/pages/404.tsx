@@ -1,6 +1,7 @@
 import { SvgChevronLeft } from "assets/svg";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useI18n } from "i18n/index";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
@@ -12,7 +13,17 @@ const NotFoundPage: NextPage = () => {
   return (
     <>
       <NextSeo noindex title={t("404.title")} openGraph={{}} />
-      <div className="flex flex-col flex-center w-full h-full fixed inset-0 z-20 bg-background p-2">
+      <Box
+        justifyContent="center"
+        alignItems="center"
+        fullHeight
+        fullWidth
+        top={0}
+        left={0}
+        style={{ position: "fixed", zIndex: 20 }}
+        padding={2}
+        backgroundColor="background"
+      >
         <Typography.Title>{t("404.title")}</Typography.Title>
         <Typography.Paragraph
           size="xl"
@@ -24,7 +35,7 @@ const NotFoundPage: NextPage = () => {
         <Link href="/">
           <Button icon={<SvgChevronLeft />} title={t("common.back")} />
         </Link>
-      </div>
+      </Box>
     </>
   );
 };

@@ -73,12 +73,12 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
 
   if (!me)
     return (
-      <div className="h-full flex flex-center">
+      <Box fullHeight justifyContent="center" alignItems="center">
         <AuthBanner
           prompt={t("story.chat.authPrompt")}
           hook={t("story.chat.authPromptHook")}
         />
-      </div>
+      </Box>
     );
 
   return (

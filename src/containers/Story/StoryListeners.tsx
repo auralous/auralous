@@ -11,7 +11,7 @@ const StoryListener: React.FC<{
     <div className="inline-block rounded-full overflow-hidden">
       <Skeleton show={!user}>
         <img
-          className="w-8 h-8 border-foreground-tertiaryobject-cover"
+          className="w-8 h-8 border-foreground-tertiary object-cover"
           src={user?.profilePicture}
           alt={user?.username}
           title={user?.username}

@@ -1,5 +1,6 @@
 import { SvgHeart } from "assets/svg";
 import clsx from "clsx";
+import { Button } from "components/Pressable";
 import {
   NowPlayingReactionType,
   Story,
@@ -59,19 +60,18 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
   }, [story, reactNowPlaying, me, reacted]);
 
   return (
-    <button
-      className="text-inline-link flex flex-center flex-col flex-none p-2"
+    <Button
+      icon={
+        <AnimatedSvgHeart
+          className={clsx("w-6 h-6", reacted && "text-primary fill-current")}
+          style={animatedStyles}
+        />
+      }
+      title={`` + (nowPlayingReactions?.length || 0)}
+      size="sm"
       onClick={react}
       disabled={!nowPlaying?.currentTrack}
-    >
-      <AnimatedSvgHeart
-        className={clsx("w-6 h-6", reacted && "text-primary fill-current")}
-        style={animatedStyles}
-      />
-      <span className="text-xs font-mono">
-        {nowPlayingReactions?.length || 0}
-      </span>
-    </button>
+    />
   );
 };
 

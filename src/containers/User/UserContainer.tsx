@@ -133,7 +133,7 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           </PressableHighlight>
         </Box>
         {me?.user.id === user.id && (
-          <div className="absolute top-2 right-2">
+          <Box position="absolute" top={2} right={2}>
             <Link href="/settings">
               <Button
                 styling="link"
@@ -141,7 +141,7 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
                 accessibilityLabel={t("settings.title")}
               />
             </Link>
-          </div>
+          </Box>
         )}
       </Box>
       <Box paddingY={4}>

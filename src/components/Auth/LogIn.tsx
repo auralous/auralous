@@ -102,10 +102,12 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
   return (
     <>
       <Modal.Modal title={t("auth.label")} active={active} close={close}>
-        <div
-          className="p-4 bg-background-tertiary bg-repeat"
+        <Box
+          padding={4}
+          backgroundColor="background-tertiary"
           style={{
             background: `url("/images/topography.svg")`,
+            backgroundRepeat: "repeat",
           }}
         >
           <Box alignItems="center" padding={4}>
@@ -199,7 +201,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             </Typography.Link>{" "}
             {t("auth.footerText.whereApplicable")}.
           </Typography.Paragraph>
-        </div>
+        </Box>
       </Modal.Modal>
       <Welcome active={activeWelcome} close={close} />
     </>
