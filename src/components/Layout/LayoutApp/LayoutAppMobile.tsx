@@ -64,7 +64,12 @@ const Appbar: React.FC = () => {
       <Box padding={1}>
         <PlayerMinibar />
       </Box>
-      <div className="flex h-12 rounded-t-3xl overflow-hidden bg-background-bar">
+      <div
+        className="flex h-12 rounded-t-3xl"
+        style={{
+          background: "linear-gradient(360deg, rgb(26, 16, 40), rgb(37 22 53))",
+        }}
+      >
         <AppbarItem href="/listen" title={t("listen.title")}>
           <SvgPlayCircle className="w-4 h-4" />
         </AppbarItem>

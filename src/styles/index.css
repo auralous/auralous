@@ -71,12 +71,14 @@ html {
 .btn {
   @apply bg-gradient-to-t inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
   @apply transition-all;
+  @apply shadow-md;
   /* Theme */
   @apply text-foreground from-background-secondary to-background-tertiary;
   &:not([disabled]) {
     &:hover, &:focus {
       @apply from-background-tertiary to-background-tertiary;
       @apply border-0;
+      @apply shadow-sm;
     }
   }
   &.btn-primary {
