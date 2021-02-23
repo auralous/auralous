@@ -327,6 +327,7 @@ const SettingsContainer: React.FC = () => {
           <RightSection />
         </Box>
       </Box>
+      <Spacer axis="vertical" size={12} />
     </>
   );
 };

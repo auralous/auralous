@@ -57,7 +57,7 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       styling === "link" &&
         `hover:bg-transparent bg-none text-${
           color || "foreground"
-        } hover:opacity-75`,
+        } hover:opacity-75 shadow-none`,
       styling === "outline" &&
         `bg-transparent bg-none hover:bg-transparent hover:bg-none text-${
           color || "foreground"

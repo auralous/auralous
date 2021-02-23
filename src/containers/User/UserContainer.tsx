@@ -147,6 +147,7 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
       <Box paddingY={4}>
         <StoryFeed id={`creatorId:${user.id}`} />
       </Box>
+      <Spacer axis="vertical" size={12} />
       <UserFollowingModals
         id={user.id}
         active={activeFollowing}
