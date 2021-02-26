@@ -11,7 +11,6 @@ import {
 import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { StoryShare } from "components/Story";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -145,6 +144,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
         flex={1}
         alignItems="center"
         justifyContent="center"
+        gap="xs"
       >
         <Skeleton show={!user} rounded="full">
           <img
@@ -153,11 +153,9 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
             src={user?.profilePicture}
           />
         </Skeleton>
-        <Spacer size={1} axis="horizontal" />
         <Typography.Text size="sm" strong>
           {t("story.ofUsername", { username: user?.username || "" })}
         </Typography.Text>
-        <Spacer size={1} axis="horizontal" />
         {story.isLive ? (
           <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
             {t("common.live")}

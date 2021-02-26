@@ -3,7 +3,6 @@ import { useLogin } from "components/Auth";
 import { Modal, useModal } from "components/Modal";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { Box } from "components/View";
 import { Story } from "gql/gql.gen";
 import { useMe } from "hooks/user";
@@ -31,7 +30,7 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
   const me = useMe();
 
   return (
-    <Box paddingX={4} paddingY={1} row>
+    <Box paddingX={4} paddingY={1} row gap="xs">
       {me?.user.id === story.creatorId && (
         <>
           <Button
@@ -42,7 +41,6 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
             shape="circle"
             size="sm"
           />
-          <Spacer size={1} axis="horizontal" />
           <Modal.Modal
             active={active}
             close={close}
