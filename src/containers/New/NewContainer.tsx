@@ -67,6 +67,7 @@ const SelectTracksView: React.FC<{
           <AnimatedBox
             key={key}
             fullWidth
+            // @ts-ignore
             style={props}
             justifyContent="center"
             alignItems="center"
@@ -77,6 +78,7 @@ const SelectTracksView: React.FC<{
           <AnimatedBox
             key={key}
             fullWidth
+            // @ts-ignore
             style={props}
             justifyContent="center"
             alignItems="center"
@@ -171,12 +173,12 @@ const NewContainer: React.FC = () => {
 
   return (
     <>
-      <Box padding={4} fullWidth>
+      <Box padding="md" fullWidth>
         <Spacer size={4} axis="vertical" />
         <Typography.Title level={2} size="4xl" align="center">
           {initTracks ? t("new.promptAlmost") : t("new.prompt")}
         </Typography.Title>
-        <Box paddingY={8} position="relative">
+        <Box paddingY="lg">
           {transitionsCreate.map(({ item: doneSelected, key, props }) =>
             doneSelected ? (
               <animated.div key={key} style={props} className="w-full">

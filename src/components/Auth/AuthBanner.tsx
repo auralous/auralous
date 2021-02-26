@@ -12,7 +12,7 @@ const AuthBanner: React.FC<{ prompt: string; hook?: string }> = ({
   const [, openLogin] = useLogin();
 
   return (
-    <Box alignItems="center" paddingX={4} paddingY={8} fullWidth maxWidth="2xl">
+    <Box alignItems="center" paddingX="md" paddingY="lg" fullWidth>
       <Typography.Title level={4} align="center">
         {prompt}
       </Typography.Title>

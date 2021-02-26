@@ -107,17 +107,17 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
     <>
       <Modal.Modal title={t("auth.label")} active={active} close={close}>
         <Box
-          padding={4}
-          backgroundColor="background-tertiary"
+          padding="md"
+          backgroundColor="backgroundTertiary"
           style={{
             background: `url("/images/topography.svg")`,
             backgroundRepeat: "repeat",
           }}
         >
-          <Box alignItems="center" padding={4}>
+          <Box alignItems="center" padding="md">
             <Typography.Title align="center">Hellooo!</Typography.Title>
             <Box row wrap justifyContent="center" alignItems="center">
-              <Box padding={2}>
+              <Box padding="sm">
                 <Typography.Text
                   size="xs"
                   align="center"
@@ -144,7 +144,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                   </Typography.Text>
                 </button>
               </Box>
-              <Box padding={2}>
+              <Box padding="sm">
                 <Typography.Text
                   size="xs"
                   align="center"

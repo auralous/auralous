@@ -9,7 +9,7 @@ const ContactContainer: React.FC = () => {
   const me = useMe();
   const { t } = useI18n();
   return (
-    <Box paddingY={16} paddingX={4}>
+    <Box paddingY={16} paddingX="md">
       <Box alignItems="center">
         <Typography.Title align="center" size="4xl">
           {t("contact.hi")}{" "}
@@ -23,7 +23,7 @@ const ContactContainer: React.FC = () => {
           {t("contact.how")}
         </Typography.Title>
       </Box>
-      <Box row justifyContent="center" gap="sm" paddingY={8}>
+      <Box row justifyContent="center" gap="sm" paddingY="lg">
         <Button
           icon={<SvgMail />}
           title="listen@auralous.com"

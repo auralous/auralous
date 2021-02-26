@@ -45,8 +45,8 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
       className="w-56 sticky top-0 overflow-auto"
       style={{ maxHeight: height }}
     >
-      <Box padding={2} gap="sm">
-        <Box paddingY={4}>
+      <Box padding="sm" gap="sm">
+        <Box paddingY="md">
           <SvgLogo title="Stereo" className="w-32 h-12 mx-auto fill-current" />
         </Box>
         <SidebarItem href="/new" isBold>
@@ -61,12 +61,12 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
           )}
         </SidebarItem>
       </Box>
-      <Box padding={2} rounded="full">
+      <Box padding="sm" rounded="full">
         {me ? (
           <Box
-            paddingX={2}
-            paddingY={1}
-            backgroundColor="background-bar"
+            paddingX="sm"
+            paddingY="xs"
+            backgroundColor="backgroundBar"
             row
             alignItems="center"
             gap="sm"

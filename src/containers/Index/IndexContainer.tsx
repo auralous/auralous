@@ -5,11 +5,12 @@ import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { useI18n } from "i18n";
 import Link from "next/link";
+import { size } from "styles";
 
 const IndexContainer: React.FC = () => {
   const { t } = useI18n();
   return (
-    <Box alignItems="center" padding={4}>
+    <Box alignItems="center" padding="md">
       <Typography.Title>
         <SvgLogo className="w-64 h-16 fill-current max-w-full" />
       </Typography.Title>
@@ -17,7 +18,7 @@ const IndexContainer: React.FC = () => {
         {t("motto")}
       </Typography.Title>
       <Spacer axis="vertical" size={4} />
-      <Box maxWidth="xl">
+      <Box style={{ maxWidth: size(36) }}>
         <Typography.Paragraph color="foreground-tertiary" align="center">
           {t("description")}
         </Typography.Paragraph>

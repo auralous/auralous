@@ -67,7 +67,7 @@ const NotificationItemContent: React.FC<{
     );
 
   return (
-    <Box padding={2} fullWidth>
+    <Box padding="sm" fullWidth>
       {element}
     </Box>
   );
@@ -168,7 +168,7 @@ const NotificationItem: React.FC<{
   notification: NotificationInvite | NotificationFollow | NotificationNewStory;
 }> = ({ notification }) => {
   return (
-    <Box paddingX={2} paddingY={1} rounded="lg">
+    <Box paddingX="sm" paddingY="xs" rounded="lg">
       {notification.__typename === "NotificationInvite" ? (
         <NotificationItemInvite notification={notification} />
       ) : notification.__typename === "NotificationFollow" ? (
@@ -230,7 +230,7 @@ const NotificationsContainer: React.FC = () => {
   return (
     <>
       <PageHeader name={t("notification.title")} />
-      <Box paddingX={4}>
+      <Box paddingX="md">
         {data?.notifications.map((notification) => (
           <NotificationItem key={notification.id} notification={notification} />
         ))}

@@ -55,7 +55,7 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
       style={{ width: 600 }}
     >
       <StoryNav onClose={close} story={story} />
-      <Box minHeight={0} flex={1} position="relative">
+      <Box minHeight={0} flex={1}>
         <PlayerImage track={track} />
         {/* TODO: a11y */}
         <div

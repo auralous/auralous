@@ -25,7 +25,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
 
   return (
     <>
-      <Box paddingX={4} paddingY={1} row>
+      <Box paddingX="md" paddingY="xs" row>
         <Button
           color="primary"
           accessibilityLabel={t("story.share.title")}

@@ -268,7 +268,7 @@ const MessageInput: React.FC<{ id: string }> = ({ id }) => {
   }
   return (
     <form autoComplete="off" onSubmit={handleSubmitMessage}>
-      <Box row alignItems="center" padding={2}>
+      <Box row alignItems="center" padding="sm">
         <Input
           accessibilityLabel={t("message.inputLabel")}
           fullWidth

@@ -21,7 +21,7 @@ const NotFoundPage: NextPage = () => {
         top={0}
         left={0}
         style={{ position: "fixed", zIndex: 20 }}
-        padding={2}
+        padding="sm"
         backgroundColor="background"
       >
         <Typography.Title>{t("404.title")}</Typography.Title>

@@ -16,9 +16,9 @@ const UserPill: React.FC<{ id: string; extraEl?: JSX.Element }> = ({
   return (
     <Box
       alignItems="center"
-      backgroundColor="background-secondary"
+      backgroundColor="backgroundSecondary"
       rounded="lg"
-      padding={2}
+      padding="sm"
     >
       <Skeleton show={!user} rounded="full">
         <img

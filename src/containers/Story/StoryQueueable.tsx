@@ -70,7 +70,7 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
         width={10}
         height={10}
         rounded="full"
-        backgroundColor="background-secondary"
+        backgroundColor="backgroundSecondary"
       >
         <SvgUserPlus className="w-4 h-4" />
       </Box>
@@ -124,8 +124,8 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
     <Box
       row
       alignItems="center"
-      backgroundColor="background-secondary"
-      padding={1}
+      backgroundColor="backgroundSecondary"
+      padding="xs"
       rounded="full"
       gap="sm"
     >

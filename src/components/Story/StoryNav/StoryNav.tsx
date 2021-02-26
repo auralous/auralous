@@ -50,7 +50,7 @@ const StoryNavMenu: React.FC<{
                 src={user.profilePicture}
                 alt={user.username}
               />
-              <Box padding={1}>
+              <Box padding="xs">
                 <Typography.Text strong>
                   {t("story.ofUsername", { username: user.username })}
                 </Typography.Text>
@@ -100,7 +100,7 @@ const StoryNavMenu: React.FC<{
             </>
           )}
         </Box>
-        <Box position="absolute" top={4} right={4}>
+        <Box absolute={{ top: "md", right: "md" }}>
           <Button
             accessibilityLabel={t("modal.close")}
             onPress={close}

@@ -9,6 +9,7 @@ import { Locale } from "i18n/types";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { animated, useSpring } from "react-spring";
+import { size } from "styles";
 import { LANGUAGES } from "utils/constants";
 
 const baseNavbarClassname = `text-center mx-1 focus:outline-none transition duration-300`;
@@ -76,9 +77,9 @@ const Navbar: React.FC = () => {
         style={styles}
       >
         <Box
-          maxWidth="4xl"
+          style={{ maxWidth: size(56) }}
           fullWidth
-          paddingX={4}
+          paddingX="md"
           row
           alignItems="center"
           justifyContent="between"

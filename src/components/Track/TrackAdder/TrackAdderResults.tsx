@@ -34,7 +34,7 @@ const SearchResultRow = memo<ListChildComponentProps>(function Row({
   return (
     <Box
       row
-      padding={2}
+      padding="sm"
       alignItems="center"
       justifyContent="between"
       accessibilityRole="presentation"

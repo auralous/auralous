@@ -35,7 +35,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <Box paddingY={1} row justifyContent="center" alignItems="center" gap="lg">
+    <Box paddingY="xs" row justifyContent="center" alignItems="center" gap="lg">
       <Button
         accessibilityLabel={t("player.skipBackward")}
         onPress={skipBackward}
@@ -43,7 +43,7 @@ export const PlayerControl: React.FC = () => {
         icon={<SvgSkipBack className="w-6 h-6 fill-current stroke-current" />}
         styling="link"
       />
-      <Box position="relative">
+      <Box>
         <Button
           accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
           icon={

@@ -76,7 +76,7 @@ const TrackAdderSearch: React.FC<{
   );
 
   return (
-    <Box fullWidth fullHeight position="relative">
+    <Box fullWidth fullHeight>
       <form
         ref={formRef}
         onSubmit={onSubmit}

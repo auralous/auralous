@@ -42,7 +42,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
         className="absolute w-full h-full bg-cover bg-center opacity-50"
         style={{ background: `url(${story.image})` }}
       />
-      <Box position="absolute" rounded="full" top={4} left={4}>
+      <Box absolute={{ top: "md", left: "md" }} rounded="full">
         <Skeleton show={!user} rounded="full">
           <img
             alt={user?.username}
@@ -51,7 +51,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
           />
         </Skeleton>
       </Box>
-      <Box padding={4} bottom={0} position="absolute" fullWidth>
+      <Box padding="md" absolute={{ bottom: 0 }} fullWidth>
         <Typography.Paragraph noMargin align="left">
           <Typography.Text strong>{user?.username}</Typography.Text>
           <Spacer size={1} axis="horizontal" />

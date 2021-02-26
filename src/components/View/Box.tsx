@@ -1,44 +1,30 @@
-import clsx from "clsx";
-import { CSSProperties, forwardRef } from "react";
+import { forwardRef } from "react";
+import {
+  AccessibilityRole,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
+import {
+  Color,
+  ImplicitSize,
+  JustifyContent,
+  Size,
+  size,
+  stylesBackground,
+  stylesBorderRadius,
+  stylesHeight,
+  stylesJustifyContent,
+  stylesMinHeight,
+  stylesMinWidth,
+  stylesPaddingHorizontal,
+  stylesPaddingVertical,
+  stylesWidth,
+} from "styles";
+import { AlignItems, stylesAlignItems } from "styles/flex";
 
-type LengthUnit = 0 | 1 | 2 | 4 | 8 | 10 | 12 | 16;
-
-interface BoxProps {
-  children: React.ReactNode;
-  style: CSSProperties;
-  row: boolean;
-  flex: number;
-  justifyContent: "start" | "end" | "center" | "between" | "around" | "evenly";
-  alignItems: "stretch" | "start" | "end" | "center" | "baseline";
-  padding: LengthUnit;
-  paddingX: LengthUnit;
-  paddingY: LengthUnit;
-  width: LengthUnit;
-  minWidth: 0;
-  maxWidth: "lg" | "xl" | "2xl" | "4xl";
-  minHeight: 0;
-  height: LengthUnit;
-  top: LengthUnit;
-  right: LengthUnit;
-  bottom: LengthUnit;
-  left: LengthUnit;
-  fullWidth: boolean;
-  fullHeight: boolean;
-  rounded: "lg" | "full";
-  wrap: boolean;
-  position?: "relative" | "absolute";
-  gap: "xs" | "sm" | "md" | "lg" | "xl";
-  accessibilityRole: string;
-  backgroundColor:
-    | "background"
-    | "background-secondary"
-    | "background-tertiary"
-    | "background-bar"
-    | "primary"
-    | "primary-dark";
-}
-
-const gapMap: Record<BoxProps["gap"], number> = {
+const absolutePos: Record<ImplicitSize, Size> = {
   xs: 1,
   sm: 2,
   md: 4,
@@ -46,73 +32,132 @@ const gapMap: Record<BoxProps["gap"], number> = {
   xl: 8,
 };
 
-const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box(
+interface BoxProps {
+  children: React.ReactNode;
+  style: StyleProp<ViewStyle>;
+  row: boolean;
+  flex: number;
+  justifyContent: JustifyContent;
+  alignItems: AlignItems;
+  padding: ImplicitSize;
+  paddingX: ImplicitSize;
+  paddingY: ImplicitSize;
+  width: Size;
+  height: Size;
+  minWidth: keyof typeof stylesMinWidth;
+  minHeight: keyof typeof stylesMinHeight;
+  fullWidth: boolean;
+  fullHeight: boolean;
+  rounded: keyof typeof stylesBorderRadius;
+  wrap: boolean;
+  absolute: Partial<{
+    top: ImplicitSize | 0;
+    left: ImplicitSize | 0;
+    right: ImplicitSize | 0;
+    bottom: ImplicitSize | 0;
+  }>;
+  gap: ImplicitSize;
+  accessibilityRole: AccessibilityRole;
+  backgroundColor: Color;
+}
+
+const styles = StyleSheet.create({
+  wrap: { flexWrap: "wrap" },
+  row: { flexDirection: "row" },
+});
+
+const Box = forwardRef<View, Partial<BoxProps>>(function Box(
   {
     row,
     children,
     flex,
     wrap,
-    justifyContent = "start",
-    alignItems = "stretch",
+    justifyContent,
+    alignItems,
     padding,
-    paddingX,
-    paddingY,
+    paddingX = padding,
+    paddingY = padding,
     width,
     height,
     rounded,
     fullWidth,
     minWidth,
-    maxWidth,
     minHeight,
     fullHeight,
-    position,
-    gap,
     style,
     accessibilityRole,
     backgroundColor,
-    top,
-    left,
-    bottom,
-    right,
+    absolute,
+    gap,
   },
   ref
 ) {
   return (
-    <div
-      role={accessibilityRole}
-      className={clsx(
-        "flex",
-        row ? "flex-row" : "flex-col",
-        wrap && "flex-wrap",
-        justifyContent && `justify-${justifyContent}`,
-        alignItems && `items-${alignItems}`,
-        padding && `p-${padding}`,
-        paddingX && `px-${paddingX}`,
-        paddingY && `py-${paddingY}`,
-        width && `w-${width}`,
-        minWidth !== undefined && `min-w-${minWidth}`,
-        maxWidth && `max-w-${maxWidth}`,
-        height && `h-${height}`,
-        minHeight !== undefined && `min-h-${minHeight}`,
-        rounded && `rounded-${rounded}`,
-        fullWidth && `w-full`,
-        fullHeight && `h-full`,
-        position,
-        gap && (!row || wrap) && `space-y-${gapMap[gap]}`,
-        gap && (!!row || wrap) && `space-x-${gapMap[gap]}`,
-        flex && `flex-${flex}`,
-        backgroundColor && `bg-${backgroundColor}`,
-        top !== undefined && `top-${top}`,
-        right !== undefined && `right-${right}`,
-        left !== undefined && `left-${left}`,
-        bottom !== undefined && `bottom-${bottom}`
-      )}
-      style={style}
+    <View
+      accessibilityRole={accessibilityRole}
       ref={ref}
+      style={[
+        row && styles.row,
+        wrap && styles.wrap,
+        justifyContent && stylesJustifyContent[justifyContent],
+        alignItems && stylesAlignItems[alignItems],
+        backgroundColor && stylesBackground[backgroundColor],
+        paddingX && stylesPaddingHorizontal[paddingX],
+        paddingY && stylesPaddingVertical[paddingY],
+        width !== undefined && stylesWidth[width],
+        height !== undefined && stylesHeight[height],
+        flex !== undefined && { flex },
+        rounded && stylesBorderRadius[rounded],
+        minWidth !== undefined && stylesMinWidth[minWidth],
+        minHeight !== undefined && stylesMinHeight[minHeight],
+        fullWidth && stylesWidth.full,
+        fullHeight && stylesHeight.full,
+        absolute && {
+          position: "absolute",
+          top: absolute.top ? size(absolutePos[absolute.top]) : absolute.top,
+          left: absolute.left
+            ? size(absolutePos[absolute.left])
+            : absolute.left,
+          right: absolute.right
+            ? size(absolutePos[absolute.right])
+            : absolute.right,
+          bottom: absolute.bottom
+            ? size(absolutePos[absolute.bottom])
+            : absolute.bottom,
+        },
+        style,
+      ]}
     >
       {children}
-    </div>
+    </View>
   );
+  // return (
+  //   <div
+  //     role={accessibilityRole}
+  //     className={clsx(
+  //       "flex",
+  //       minWidth !== undefined && `min-w-${minWidth}`,
+  //       maxWidth && `max-w-${maxWidth}`,
+  //       minHeight !== undefined && `min-h-${minHeight}`,
+  //       rounded && `rounded-${rounded}`,
+  //       fullWidth && `w-full`,
+  //       fullHeight && `h-full`,
+  //       position,
+  //       gap && (!row || wrap) && `space-y-${gapMap[gap]}`,
+  //       gap && (!!row || wrap) && `space-x-${gapMap[gap]}`,
+  //       flex && `flex-${flex}`,
+  //       backgroundColor && `bg-${backgroundColor}`,
+  //       top !== undefined && `top-${top}`,
+  //       right !== undefined && `right-${right}`,
+  //       left !== undefined && `left-${left}`,
+  //       bottom !== undefined && `bottom-${bottom}`
+  //     )}
+  //     style={style}
+  //     ref={ref}
+  //   >
+  //     {children}
+  //   </div>
+  // );
 });
 
 export default Box;

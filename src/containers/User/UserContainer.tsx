@@ -97,7 +97,7 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
 
   return (
     <>
-      <Box position="relative" paddingX={4} paddingY={8}>
+      <Box paddingX="md" paddingY="lg">
         <img
           className="w-28 h-28 rounded-full mx-auto"
           src={user.profilePicture}
@@ -133,7 +133,7 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           </PressableHighlight>
         </Box>
         {me?.user.id === user.id && (
-          <Box position="absolute" top={2} right={2}>
+          <Box absolute={{ top: "sm", right: "sm" }}>
             <Link href="/settings">
               <Button
                 styling="link"
@@ -144,7 +144,7 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           </Box>
         )}
       </Box>
-      <Box paddingY={4}>
+      <Box paddingY="md">
         <StoryFeed id={`creatorId:${user.id}`} />
       </Box>
       <Spacer axis="vertical" size={12} />

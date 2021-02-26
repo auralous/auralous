@@ -61,7 +61,7 @@ const Appbar: React.FC = () => {
       left={0}
       fullWidth
     >
-      <Box padding={1}>
+      <Box padding="xs">
         <PlayerMinibar />
       </Box>
       <div

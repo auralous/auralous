@@ -36,7 +36,6 @@ const PlayerMinibar: React.FC = () => {
       rounded="full"
       fullWidth
       backgroundColor="primary"
-      position="relative"
       style={{
         boxShadow: "hsl(349deg 67% 49% / 21%) 0px 8px 30px",
         boxSizing: "content-box",
@@ -51,7 +50,7 @@ const PlayerMinibar: React.FC = () => {
           <Box
             width={12}
             height={12}
-            padding={1}
+            padding="xs"
             style={{ boxSizing: "content-box" }}
           >
             <Skeleton show={fetching} rounded="full" width={12} height={12}>
@@ -64,7 +63,7 @@ const PlayerMinibar: React.FC = () => {
               )}
             </Skeleton>
           </Box>
-          <Box padding={2} flex={1} minWidth={0} gap="xs">
+          <Box padding="sm" flex={1} minWidth={0} gap="xs">
             <Skeleton show={fetching} width={40}>
               <Typography.Paragraph size="xs" strong noMargin truncate>
                 {playerPlaying?.title || t("player.noneText")}

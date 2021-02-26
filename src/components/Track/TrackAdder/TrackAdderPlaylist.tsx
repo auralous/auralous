@@ -47,8 +47,8 @@ const TrackAdderPlaylist: React.FC<{
   );
 
   return (
-    <Box fullWidth fullHeight position="relative">
-      <Box row paddingX={2} height={10} alignItems="center" gap="sm">
+    <Box fullWidth fullHeight>
+      <Box row paddingX="sm" height={10} alignItems="center" gap="sm">
         <Button
           onPress={() => setSelectedPlaylist(null)}
           accessibilityLabel={t("common.back")}
