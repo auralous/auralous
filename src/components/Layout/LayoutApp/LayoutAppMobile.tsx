@@ -55,11 +55,21 @@ const Appbar: React.FC = () => {
   if (fullLayoutPathnames.includes(router.pathname)) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 w-full z-10">
+    <Box
+      style={{ position: "fixed", zIndex: 10 }}
+      bottom={0}
+      left={0}
+      fullWidth
+    >
       <Box padding={1}>
         <PlayerMinibar />
       </Box>
-      <div className="flex h-12 rounded-t-3xl overflow-hidden bg-background-bar">
+      <div
+        className="flex h-12 rounded-t-3xl"
+        style={{
+          background: "linear-gradient(360deg, rgb(26, 16, 40), rgb(37 22 53))",
+        }}
+      >
         <AppbarItem href="/listen" title={t("listen.title")}>
           <SvgPlayCircle className="w-4 h-4" />
         </AppbarItem>
@@ -85,7 +95,7 @@ const Appbar: React.FC = () => {
           </AppbarItem>
         ) : (
           <button
-            className="btn btn-transparent border-primary py-1 rounded-none flex-1"
+            className="px-2 focus:outline-none flex justify-center items-center border-primary py-1 rounded-none flex-1"
             title={t("common.signIn")}
             onClick={logIn}
           >
@@ -93,7 +103,7 @@ const Appbar: React.FC = () => {
           </button>
         )}
       </div>
-    </div>
+    </Box>
   );
 };
 

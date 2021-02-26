@@ -1,5 +1,6 @@
 import { SvgMove } from "assets/svg";
 import clsx from "clsx";
+import { Button } from "components/Pressable";
 import { useI18n } from "i18n/index";
 import { useEffect, useState } from "react";
 import { verifyScript } from "utils/script-utils";
@@ -95,17 +96,23 @@ export default function YouTubePlayer() {
         !playerPlaying && "hidden"
       )}
     >
-      <button
-        className="btn absolute z-30 bottom-2 left-2 opacity-50 hover:opacity-75 focus:opacity-70 p-2"
-        onClick={() => setPosIsTop(!posIsTop)}
-        title={`${t("player.youtube.moveTo.title")} ${
+      <Button
+        size="xs"
+        icon={<SvgMove className="w-4 h-4" />}
+        accessibilityLabel={`${t("player.youtube.moveTo.title")} ${
           posIsTop
             ? t("player.youtube.moveTo.bottomRight")
             : t("player.youtube.moveTo.topRight")
         }`}
-      >
-        <SvgMove className="w-6 h-6" />
-      </button>
+        onPress={() => setPosIsTop(!posIsTop)}
+        style={{
+          position: "absolute",
+          zIndex: 30,
+          bottom: ".5rem",
+          left: ".5rem",
+        }}
+        styling="outline"
+      />
       <div
         className="bottom-0 left-0 absolute w-full h-full overflow-hidden"
         id="ytPlayer"

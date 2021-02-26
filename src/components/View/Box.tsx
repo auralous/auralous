@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import { CSSProperties, forwardRef } from "react";
 
+type LengthUnit = 0 | 1 | 2 | 4 | 8 | 10 | 12 | 16;
+
 interface BoxProps {
   children: React.ReactNode;
   style: CSSProperties;
@@ -8,14 +10,18 @@ interface BoxProps {
   flex: number;
   justifyContent: "start" | "end" | "center" | "between" | "around" | "evenly";
   alignItems: "stretch" | "start" | "end" | "center" | "baseline";
-  padding: 1 | 2 | 4 | 8 | 10 | 12;
-  paddingX: 1 | 2 | 4 | 8 | 10 | 12;
-  paddingY: 1 | 2 | 4 | 8 | 10 | 12;
-  width: 1 | 2 | 4 | 8 | 10 | 12;
+  padding: LengthUnit;
+  paddingX: LengthUnit;
+  paddingY: LengthUnit;
+  width: LengthUnit;
   minWidth: 0;
   maxWidth: "lg" | "xl" | "2xl" | "4xl";
   minHeight: 0;
-  height: 1 | 2 | 4 | 8 | 10 | 12;
+  height: LengthUnit;
+  top: LengthUnit;
+  right: LengthUnit;
+  bottom: LengthUnit;
+  left: LengthUnit;
   fullWidth: boolean;
   fullHeight: boolean;
   rounded: "lg" | "full";
@@ -24,6 +30,7 @@ interface BoxProps {
   gap: "xs" | "sm" | "md" | "lg" | "xl";
   accessibilityRole: string;
   backgroundColor:
+    | "background"
     | "background-secondary"
     | "background-tertiary"
     | "background-bar"
@@ -63,6 +70,10 @@ const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box(
     style,
     accessibilityRole,
     backgroundColor,
+    top,
+    left,
+    bottom,
+    right,
   },
   ref
 ) {
@@ -90,7 +101,11 @@ const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box(
         gap && (!row || wrap) && `space-y-${gapMap[gap]}`,
         gap && (!!row || wrap) && `space-x-${gapMap[gap]}`,
         flex && `flex-${flex}`,
-        backgroundColor && `bg-${backgroundColor}`
+        backgroundColor && `bg-${backgroundColor}`,
+        top !== undefined && `top-${top}`,
+        right !== undefined && `right-${right}`,
+        left !== undefined && `left-${left}`,
+        bottom !== undefined && `bottom-${bottom}`
       )}
       style={style}
       ref={ref}

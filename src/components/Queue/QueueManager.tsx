@@ -189,7 +189,7 @@ const QueueManager: React.FC<{
   if (!queue) return null;
 
   return (
-    <div className="w-full h-full">
+    <>
       {queue.items?.length === 0 && (
         <div className="absolute-center z-10 w-full p-4">
           <Typography.Paragraph
@@ -233,7 +233,7 @@ const QueueManager: React.FC<{
           )}
         </Droppable>
       </DragDropContext>
-    </div>
+    </>
   );
 };
 

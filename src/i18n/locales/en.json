@@ -161,7 +161,7 @@
     "play": "Play story",
     "feed": {
       "title": "Story feed",
-      "instruction": "Tap to play next songs. Scroll or swipe to discover more stories."
+      "instruction": "Tap to play next songs. Swipe up to discover more stories."
     },
     "ofUsername": "{{username}}'s story"
   },

@@ -1,6 +1,7 @@
 import { Skeleton } from "components/Loading";
 import { PageHeader } from "components/Page";
 import { PressableHighlight } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import {
@@ -235,6 +236,7 @@ const NotificationsContainer: React.FC = () => {
         ))}
         <div ref={ref} className="w-1 h-1" />
       </Box>
+      <Spacer axis="vertical" size={12} />
     </>
   );
 };

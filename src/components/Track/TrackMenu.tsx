@@ -2,7 +2,6 @@ import { SvgPlus } from "assets/svg";
 import { Modal } from "components/Modal";
 import { AddToPlaylist } from "components/Playlist/index";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { useTrackQuery } from "gql/gql.gen";
@@ -34,13 +33,12 @@ const TrackMenu: React.FC<{
         close={close}
       >
         <Modal.Content>
-          <Box justifyContent="center" alignItems="center">
+          <Box justifyContent="center" alignItems="center" gap="md">
             <img
               className="w-32 h-32 object-cover shadow-lg"
               src={track?.image}
               alt={track?.title}
             />
-            <Spacer size={4} axis="vertical" />
             <Typography.Paragraph size="md" truncate strong noMargin>
               {track?.title}
             </Typography.Paragraph>

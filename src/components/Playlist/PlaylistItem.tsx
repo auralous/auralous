@@ -1,4 +1,3 @@
-import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { Playlist } from "gql/gql.gen";
@@ -8,13 +7,12 @@ const PlaylistItem: React.FC<{
   playlist: Playlist;
 }> = ({ playlist }) => {
   return (
-    <Box row justifyContent="start" alignItems="center">
+    <Box row justifyContent="start" alignItems="center" gap="sm">
       <img
         className="h-12 w-12 flex-none"
         src={playlist.image}
         alt={playlist.name}
       />
-      <Spacer size={2} axis="horizontal" />
       <Box>
         <Typography.Paragraph noMargin strong size="sm" align="left">
           {playlist.name}

@@ -11,7 +11,6 @@ import {
 import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { StoryShare } from "components/Story";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -43,7 +42,7 @@ const StoryNavMenu: React.FC<{
   return (
     <>
       <DialogOverlay isOpen={active} className="backdrop-blur">
-        <div className="w-full max-w-2xl h-64 flex flex-col items-center space-y-2">
+        <Box fullWidth alignItems="center" gap="sm">
           {user && (
             <Box row>
               <img
@@ -100,15 +99,15 @@ const StoryNavMenu: React.FC<{
               />
             </>
           )}
-        </div>
-        <div className="absolute top-4 right-4 p-1.5">
+        </Box>
+        <Box position="absolute" top={4} right={4}>
           <Button
             accessibilityLabel={t("modal.close")}
             onPress={close}
             icon={<SvgX className="w-8 h-8" />}
             styling="link"
           />
-        </div>
+        </Box>
       </DialogOverlay>
     </>
   );
@@ -139,7 +138,14 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
         accessibilityLabel={t("modal.close")}
         onPress={onClose}
       />
-      <div className="flex w-0 flex-1 items-center justify-center">
+      <Box
+        row
+        minWidth={0}
+        flex={1}
+        alignItems="center"
+        justifyContent="center"
+        gap="xs"
+      >
         <Skeleton show={!user} rounded="full">
           <img
             alt={user?.username}
@@ -147,11 +153,9 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
             src={user?.profilePicture}
           />
         </Skeleton>
-        <Spacer size={1} axis="horizontal" />
         <Typography.Text size="sm" strong>
           {t("story.ofUsername", { username: user?.username || "" })}
         </Typography.Text>
-        <Spacer size={1} axis="horizontal" />
         {story.isLive ? (
           <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
             {t("common.live")}
@@ -161,7 +165,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
             {dateStr}
           </Typography.Text>
         )}
-      </div>
+      </Box>
       <Button
         accessibilityLabel={t("story.menu.handle")}
         icon={<SvgMoreHorizontal className="w-8 h-8" />}

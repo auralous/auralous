@@ -1,4 +1,5 @@
 import { PageHeader } from "components/Page";
+import { Spacer } from "components/Spacer";
 import { StoryFeed } from "components/Story";
 import { useI18n } from "i18n/index";
 
@@ -9,6 +10,7 @@ const ListenContainer: React.FC = () => {
     <>
       <PageHeader name={t("listen.title")} />
       <StoryFeed id="PUBLIC" />
+      <Spacer axis="vertical" size={12} />
     </>
   );
 };

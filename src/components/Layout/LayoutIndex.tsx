@@ -130,7 +130,7 @@ const Footer: React.FC = () => {
     <footer className="py-12 w-full mx-auto">
       <Spacer size={8} axis="vertical" />
       <Spacer size={8} axis="vertical" />
-      <div className="space-x-4 overflow-auto text-center">
+      <Box row gap="md" justifyContent="center">
         <Typography.Link strong href="/goto/facebook" target="_blank">
           Facebook
         </Typography.Link>
@@ -146,7 +146,7 @@ const Footer: React.FC = () => {
         <Link href="/contact">
           <Typography.Link strong>{t("footer.contact")}</Typography.Link>
         </Link>
-      </div>
+      </Box>
       <Spacer size={1} axis="vertical" />
       <Typography.Paragraph
         align="center"

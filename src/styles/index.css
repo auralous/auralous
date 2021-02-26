@@ -60,47 +60,39 @@ html {
 }
 
 .input {
-  @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
+  @apply border-button-dark border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
   &:not([disabled]) {
     &:focus {
-      @apply border-background-tertiary;
+      @apply border-button;
     }
   }
 }
 
 .btn {
   @apply inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
-  @apply transition-colors;
+  @apply transition-all;
   /* Theme */
-  @apply bg-background-secondary text-foreground;
+  @apply text-foreground bg-button-dark;
   &:not([disabled]) {
     &:hover, &:focus {
-      @apply bg-background-tertiary;
+      @apply bg-button;
       @apply border-0;
+      transform: translateY(-2px);
     }
   }
   &.btn-primary {
-    @apply text-primary-label bg-primary;
+    @apply text-primary-label bg-primary-dark;
     &:not([disabled]) {
       &:hover, &:focus {
-        @apply bg-primary-dark;
+        @apply bg-primary;
       }
     }
   }
   &.btn-danger {
-    @apply text-danger-label;
-    @apply bg-danger;
+    @apply text-danger-label bg-danger-dark;
     &:not([disabled]) {
       &:hover, &:focus {
-        @apply bg-danger-dark;
-      }
-    }
-  }
-  &.btn-transparent {
-    @apply text-foreground bg-transparent;
-    &:not([disabled]) {
-      &:hover, &:focus {
-        @apply bg-transparent text-foreground text-opacity-50;
+        @apply bg-danger;
       }
     }
   }
@@ -174,7 +166,7 @@ html {
   height: 100%;
   border-radius: 50%;
   border: 3px solid transparent;
-  border-left-color: rgb(29, 161, 242);
+  border-left-color: rgba(255, 255, 255, 0.5);
   background: transparent;
   animation: rotate-s-loader 1s linear infinite;
 }

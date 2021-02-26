@@ -26,7 +26,7 @@ const Row = memo<ListChildComponentProps>(function Row({ data, index, style }) {
       onClick={() => data.onClick(data.items[index].id)}
     >
       {playingQueueItemId == data.items[index].id && (
-        <SvgAudioAnimated className="w-6 h-6 text-primary text-opacity-75 fill-current absolute top-5 left-5 pointer-events-none" />
+        <SvgAudioAnimated className="w-6 h-6 text-primary opacity-75 fill-current absolute top-5 left-5 pointer-events-none" />
       )}
       <TrackItem
         id={data.items[index].trackId}

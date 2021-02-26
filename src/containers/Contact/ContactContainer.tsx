@@ -9,8 +9,8 @@ const ContactContainer: React.FC = () => {
   const me = useMe();
   const { t } = useI18n();
   return (
-    <div className="py-16 container leading-loose">
-      <div className="max-w-xl mx-auto">
+    <Box paddingY={16} paddingX={4}>
+      <Box alignItems="center">
         <Typography.Title align="center" size="4xl">
           {t("contact.hi")}{" "}
           {me ? (
@@ -22,7 +22,7 @@ const ContactContainer: React.FC = () => {
           )}
           {t("contact.how")}
         </Typography.Title>
-      </div>
+      </Box>
       <Box row justifyContent="center" gap="sm" paddingY={8}>
         <Button
           icon={<SvgMail />}
@@ -51,7 +51,7 @@ const ContactContainer: React.FC = () => {
       >
         {t("contact.p")}
       </Typography.Paragraph>
-    </div>
+    </Box>
   );
 };
 

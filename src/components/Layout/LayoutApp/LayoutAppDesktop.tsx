@@ -22,7 +22,7 @@ const SidebarItem: React.FC<{ href: string; isBold?: boolean }> = ({
     <Link href={href}>
       <a
         className={clsx(
-          "w-full btn btn-transparent font-normal text-sm",
+          "w-full px-4 py-2 focus:outline-none text-sm rounded-lg flex justify-center items-center",
           isActive && "bg-background-secondary",
           isBold && "bg-gradient-to-l from-secondary to-primary"
         )}
@@ -61,7 +61,7 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
           )}
         </SidebarItem>
       </Box>
-      <Box padding={1}>
+      <Box padding={2} rounded="full">
         {me ? (
           <Box
             paddingX={2}
@@ -116,9 +116,12 @@ const LayoutAppDesktop: React.FC<{ height: number }> = ({ height }) => {
     <>
       <Sidebar height={height} />
       {router.pathname !== "/story/[storyId]" && (
-        <div className="z-10 bottom-4 fixed" style={{ width: 640 }}>
+        <Box
+          bottom={4}
+          style={{ width: 640, zIndex: 10, bottom: 4, position: "fixed" }}
+        >
           <PlayerMinibar />
-        </div>
+        </Box>
       )}
     </>
   );

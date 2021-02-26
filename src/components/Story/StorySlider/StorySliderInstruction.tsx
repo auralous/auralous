@@ -1,6 +1,7 @@
 import { DialogOverlay } from "@reach/dialog";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { useI18n } from "i18n/index";
 import { useEffect, useState } from "react";
 
@@ -25,7 +26,7 @@ const StorySliderInstruction = () => {
       style={{ zIndex: 10, backdropFilter: "blur(2px)" }}
       aria-label={t("story.feed.instruction")}
     >
-      <div className="p-4 text-center">
+      <Box alignItems="center" padding={4}>
         <Typography.Paragraph size="lg" strong>
           {t("story.feed.instruction")}
         </Typography.Paragraph>
@@ -35,7 +36,7 @@ const StorySliderInstruction = () => {
           color="primary"
           shape="circle"
         />
-      </div>
+      </Box>
     </DialogOverlay>
   );
 };

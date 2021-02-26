@@ -1,4 +1,5 @@
 import { useLogin } from "components/Auth/index";
+import { Input } from "components/Form";
 import { Modal, useModal } from "components/Modal/index";
 import { PageHeader } from "components/Page";
 import { Button } from "components/Pressable";
@@ -62,21 +63,21 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         <Modal.Content>
           <Typography.Paragraph align="center">
             {t("settings.dangerZone.delete.modal.description")}
-            <br />
-            <Typography.Text strong>
-              {t("common.dangerousActionText")}
-            </Typography.Text>
-            .
           </Typography.Paragraph>
-          <div className="text-center">
-            <input
-              aria-label={t("settings.dangerZone.delete.modal.enterName")}
+          <Typography.Paragraph align="center" strong>
+            {t("common.dangerousActionText")}
+          </Typography.Paragraph>
+          <Box row justifyContent="center">
+            <Input
+              accessibilityLabel={t(
+                "settings.dangerZone.delete.modal.enterName"
+              )}
               value={confirmUsername}
               placeholder={t("settings.dangerZone.delete.modal.enterName")}
-              onChange={(e) => setConfirmUsername(e.target.value)}
-              className="input py-2 px-4 w-96 max-w-full"
+              onChangeText={setConfirmUsername}
+              fullWidth
             />
-          </div>
+          </Box>
         </Modal.Content>
         <Modal.Footer>
           <Button
@@ -92,15 +93,16 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
           />
         </Modal.Footer>
       </Modal.Modal>
+      <SettingTitle>{t("settings.dangerZone.title")}</SettingTitle>
       <Typography.Paragraph size="sm" color="foreground-secondary">
         {t("settings.dangerZone.delete.description")}{" "}
-        <a
-          className="underline"
+        <Typography.Link
           target="_blank"
           href="/privacy#when-you-delete-data-in-your-accounts"
+          emphasis
         >
           {t("settings.dangerZone.delete.descriptionData")}
-        </a>
+        </Typography.Link>
       </Typography.Paragraph>
       <Button
         color="danger"
@@ -124,7 +126,7 @@ const LanguageSelect: React.FC = () => {
   );
 
   return (
-    <div>
+    <Box>
       <Spacer size={8} axis="vertical" />
       <SettingTitle>{t("settings.language.title")}</SettingTitle>
       <select
@@ -136,7 +138,7 @@ const LanguageSelect: React.FC = () => {
       >
         {LanguageChoices}
       </select>
-    </div>
+    </Box>
   );
 };
 
@@ -184,14 +186,14 @@ const LeftSection: React.FC = () => {
       {me ? (
         <>
           <form ref={formRef} onSubmit={handleSubmit} autoComplete="off">
-            <div>
+            <Box>
               <Spacer size={4} axis="vertical" />
               <label className="label" htmlFor="usernameInput">
                 {t("settings.username.label")}
               </label>
-              <input
+              <Input
                 id="usernameInput"
-                className="input w-full"
+                fullWidth
                 ref={usernameRef}
                 maxLength={CONFIG.usernameMaxLength}
                 required
@@ -202,8 +204,8 @@ const LeftSection: React.FC = () => {
                   maxLength: CONFIG.usernameMaxLength,
                 })}
               </Typography.Paragraph>
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Spacer size={4} axis="vertical" />
               <label className="label" htmlFor="profilePictureInput">
                 {t("settings.profilePicture.label")}
@@ -223,7 +225,7 @@ const LeftSection: React.FC = () => {
                   className="input w-0 flex-1"
                 />
               </Box>
-            </div>
+            </Box>
             <Spacer size={4} axis="vertical" />
             <Button
               color="primary"
@@ -268,7 +270,7 @@ const MusicConnection: React.FC = () => {
           <PlatformSvg width="40" height="40" className="fill-current" />
         )}
         <Spacer size={4} axis="horizontal" />
-        <div>
+        <Box>
           <Typography.Text>
             {t("settings.listening.title", { name })}
           </Typography.Text>
@@ -288,28 +290,26 @@ const MusicConnection: React.FC = () => {
               </>
             )}
           </Typography.Paragraph>
-        </div>
+        </Box>
       </div>
     </>
   );
 };
 
 const RightSection: React.FC = () => {
-  const { t } = useI18n();
   const me = useMe();
   return (
     <>
-      <div>
+      <Box>
         <MusicConnection />
         <LanguageSelect />
         {me && (
-          <div>
+          <>
             <Spacer size={8} axis="vertical" />
-            <SettingTitle>{t("settings.dangerZone.title")}</SettingTitle>
             <DeleteAccount user={me.user} />
-          </div>
+          </>
         )}
-      </div>
+      </Box>
     </>
   );
 };
@@ -320,13 +320,14 @@ const SettingsContainer: React.FC = () => {
     <>
       <PageHeader name={t("settings.title")} />
       <Box>
-        <div className="p-4">
+        <Box padding={4}>
           <LeftSection />
-        </div>
-        <div className="p-4">
+        </Box>
+        <Box padding={4}>
           <RightSection />
-        </div>
+        </Box>
       </Box>
+      <Spacer axis="vertical" size={12} />
     </>
   );
 };

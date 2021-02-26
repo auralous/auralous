@@ -1,4 +1,5 @@
 import { SvgLoadingAnimated } from "assets/svg";
+import { Input } from "components/Form";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import {
@@ -82,16 +83,14 @@ const TrackAdderSearch: React.FC<{
         className="p-2"
         autoComplete="off"
       >
-        <div className="relative w-full">
-          <input
-            className="input w-full h-10"
-            type="text"
-            name="search"
-            aria-label={t("track.adder.search.title")}
-            placeholder={t("track.adder.search.placeholder")}
-            required
-          />
-        </div>
+        <Input
+          fullWidth
+          type="text"
+          name="search"
+          accessibilityLabel={t("track.adder.search.title")}
+          placeholder={t("track.adder.search.placeholder")}
+          required
+        />
       </form>
       {isSearching && <SvgLoadingAnimated className="absolute-center" />}
       {isEmpty && (

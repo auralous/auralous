@@ -2,6 +2,7 @@ import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
+import { Box } from "components/View";
 import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import ms from "ms";
@@ -41,7 +42,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
         className="absolute w-full h-full bg-cover bg-center opacity-50"
         style={{ background: `url(${story.image})` }}
       />
-      <div className="absolute rounded-full top-4 left-4 shadow-xl">
+      <Box position="absolute" rounded="full" top={4} left={4}>
         <Skeleton show={!user} rounded="full">
           <img
             alt={user?.username}
@@ -49,8 +50,8 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
             src={user?.profilePicture}
           />
         </Skeleton>
-      </div>
-      <div className="absolute p-4 bottom-0 w-full">
+      </Box>
+      <Box padding={4} bottom={0} position="absolute" fullWidth>
         <Typography.Paragraph noMargin align="left">
           <Typography.Text strong>{user?.username}</Typography.Text>
           <Spacer size={1} axis="horizontal" />
@@ -72,7 +73,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
         >
           {story.text}
         </Typography.Paragraph>
-      </div>
+      </Box>
     </button>
   );
 };

@@ -1,3 +1,4 @@
+import { Typography } from "components/Typography";
 import { useUserQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 
@@ -9,10 +10,10 @@ const QueueAddedBy: React.FC<{ userId: string }> = ({ userId }) => {
   });
 
   return (
-    <span className="flex-none">
+    <Typography.Text>
       {t("queue.addedBy")}{" "}
-      <span className="font-bold">{user?.username || ""}</span>
-    </span>
+      <Typography.Text strong>{user?.username || ""}</Typography.Text>
+    </Typography.Text>
   );
 };
 
