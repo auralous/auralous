@@ -129,10 +129,8 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 <Spacer size={1} axis="vertical" />
                 <button
                   onClick={() => logIn(PlatformName.Youtube)}
-                  className={clsx(
-                    authBtnClassNames,
-                    "bg-white text-black text-opacity-50"
-                  )}
+                  className={clsx(authBtnClassNames, "bg-white")}
+                  style={{ color: "rgba(0, 0, 0, 0.5)" }}
                   disabled={isAuth === AuthState.CONNECTING}
                 >
                   <SvgGoogleColor

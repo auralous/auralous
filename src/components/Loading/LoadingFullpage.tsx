@@ -1,6 +1,7 @@
 import Portal from "@reach/portal";
 import { SvgLogo } from "assets/svg";
 import { Box } from "components/View";
+import { useEffect, useState } from "react";
 
 interface LoadingFullpageProps {
   error?: Error | null | undefined;
@@ -11,7 +12,13 @@ interface LoadingFullpageProps {
 }
 
 const LoadingFullpage: React.FC<LoadingFullpageProps> = ({ isLoading }) => {
-  if (!isLoading) return null;
+  const [actualLoading, setActualLoading] = useState(isLoading);
+  useEffect(() => {
+    if (!isLoading) return setActualLoading(false);
+    const timer = window.setTimeout(() => setActualLoading(true), 20);
+    return () => window.clearTimeout(timer);
+  }, [isLoading]);
+  if (!actualLoading) return null;
   return (
     <Portal>
       <Box

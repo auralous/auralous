@@ -61,7 +61,7 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
           )}
         </SidebarItem>
       </Box>
-      <Box padding={1}>
+      <Box padding={2} rounded="full">
         {me ? (
           <Box
             paddingX={2}

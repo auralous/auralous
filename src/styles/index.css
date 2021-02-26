@@ -60,40 +60,39 @@ html {
 }
 
 .input {
-  @apply border-background-secondary border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
+  @apply border-button-dark border-2 bg-transparent py-2 px-4 text-foreground rounded-lg;
   &:not([disabled]) {
     &:focus {
-      @apply border-background-tertiary;
+      @apply border-button;
     }
   }
 }
 
 .btn {
-  @apply bg-gradient-to-t inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
+  @apply inline-flex items-center justify-center font-bold py-2 px-4 whitespace-nowrap rounded-lg;
   @apply transition-all;
-  @apply shadow-md;
   /* Theme */
-  @apply text-foreground from-background-secondary to-background-tertiary;
+  @apply text-foreground bg-button-dark;
   &:not([disabled]) {
     &:hover, &:focus {
-      @apply from-background-tertiary to-background-tertiary;
+      @apply bg-button;
       @apply border-0;
-      @apply shadow-sm;
+      transform: translateY(-2px);
     }
   }
   &.btn-primary {
-    @apply text-primary-label from-primary to-primary-dark;
+    @apply text-primary-label bg-primary-dark;
     &:not([disabled]) {
       &:hover, &:focus {
-        @apply from-primary to-primary;
+        @apply bg-primary;
       }
     }
   }
   &.btn-danger {
-    @apply text-danger-label from-danger to-danger-dark;
+    @apply text-danger-label bg-danger-dark;
     &:not([disabled]) {
       &:hover, &:focus {
-        @apply from-danger to-danger;
+        @apply bg-danger;
       }
     }
   }
