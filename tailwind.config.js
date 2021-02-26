@@ -2,7 +2,7 @@ const allowedSizing = [0, 1, 2, 4, 8, 10, 12, 16];
 
 const colors = {
   background: {
-    DEFAULT: "hsl(265deg 43% 5%)",
+    DEFAULT: "hsl(265deg 39% 5%)",
     secondary: "hsl(266deg 44% 7%)",
     tertiary: "hsl(264deg 43% 9%)",
     bar: "hsl(265deg 43% 11%)",
