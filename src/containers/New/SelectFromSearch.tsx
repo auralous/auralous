@@ -44,7 +44,7 @@ const SelectFromSearch: React.FC<{
     <>
       <Typography.Paragraph
         size="lg"
-        color="foreground-secondary"
+        color="foregroundSecondary"
         align="center"
       >
         {!playlistTracks?.length && !fetching && !!searchQuery

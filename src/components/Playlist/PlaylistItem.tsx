@@ -20,7 +20,7 @@ const PlaylistItem: React.FC<{
         <Typography.Paragraph
           noMargin
           size="xs"
-          color="foreground-secondary"
+          color="foregroundSecondary"
           align="left"
         >
           {PLATFORM_FULLNAMES[playlist.platform]}

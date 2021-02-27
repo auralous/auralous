@@ -113,21 +113,21 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
         <Spacer size={8} axis="vertical" />
         <Box justifyContent="center" row>
           <PressableHighlight onPress={openFollowing} shape="circle">
-            <Typography.Text strong color="foreground-secondary">
+            <Typography.Text strong color="foregroundSecondary">
               {userStat?.followingCount}
             </Typography.Text>
             <Spacer size={1} axis="horizontal" />
-            <Typography.Text color="foreground-secondary">
+            <Typography.Text color="foregroundSecondary">
               {t("user.following")}
             </Typography.Text>
           </PressableHighlight>
           <Spacer size={8} axis="horizontal" />
           <PressableHighlight onPress={openFollower} shape="circle">
-            <Typography.Text strong color="foreground-secondary">
+            <Typography.Text strong color="foregroundSecondary">
               {userStat?.followerCount}
             </Typography.Text>
             <Spacer size={1} axis="horizontal" />
-            <Typography.Text color="foreground-secondary">
+            <Typography.Text color="foregroundSecondary">
               {t("user.followers")}
             </Typography.Text>
           </PressableHighlight>

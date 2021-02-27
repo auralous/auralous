@@ -60,7 +60,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
               {t("common.live")}
             </span>
           ) : (
-            <Typography.Text color="foreground-secondary" size="xs">
+            <Typography.Text color="foregroundSecondary" size="xs">
               {dateStr}
             </Typography.Text>
           )}
@@ -68,7 +68,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
         <Typography.Paragraph
           truncate
           noMargin
-          color="foreground-secondary"
+          color="foregroundSecondary"
           align="left"
         >
           {story.text}

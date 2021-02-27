@@ -1,18 +1,11 @@
 import clsx from "clsx";
 import { forwardRef, ReactNode } from "react";
+import { Color } from "styles";
 
 type TextSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 interface TypographyProps {
-  color?:
-    | "primary"
-    | "primary-dark"
-    | "primary-label"
-    | "secondary"
-    | "foreground"
-    | "foreground-secondary"
-    | "foreground-tertiary"
-    | "danger";
+  color?: Color;
   size?: TextSize;
   strong?: boolean;
   emphasis?: boolean;

@@ -32,7 +32,7 @@ const StoryOngoingWatcher: React.FC = () => {
         active={!!storyLive?.isLive && playingStoryId !== storyLive.id}
       >
         <Modal.Content>
-          <Typography.Paragraph size="lg" strong color="foreground-secondary">
+          <Typography.Paragraph size="lg" strong color="foregroundSecondary">
             {t("story.ongoing.title")}
           </Typography.Paragraph>
           <Box padding="xl" rounded="lg">
@@ -43,7 +43,7 @@ const StoryOngoingWatcher: React.FC = () => {
               <Spacer size={1} />
               {storyLive?.text}
             </Typography.Paragraph>
-            <Typography.Paragraph size="xs" color="foreground-secondary">
+            <Typography.Paragraph size="xs" color="foregroundSecondary">
               {storyLive?.createdAt.toLocaleDateString()}
             </Typography.Paragraph>
           </Box>

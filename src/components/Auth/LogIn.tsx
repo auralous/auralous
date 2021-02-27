@@ -121,7 +121,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 <Typography.Text
                   size="xs"
                   align="center"
-                  color="foreground-secondary"
+                  color="foregroundSecondary"
                 >
                   {t("auth.listenOn")}{" "}
                   <Typography.Text strong>YouTube</Typography.Text>
@@ -148,7 +148,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
                 <Typography.Text
                   size="xs"
                   align="center"
-                  color="foreground-secondary"
+                  color="foregroundSecondary"
                 >
                   {t("auth.listenOn")}{" "}
                   <Typography.Text strong>Spotify</Typography.Text>
@@ -173,7 +173,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
             <Spacer size={1} axis="vertical" />
             <Typography.Paragraph
               size="xs"
-              color="foreground-tertiary"
+              color="foregroundTertiary"
               align="center"
             >
               {t("auth.createNotice")}
@@ -186,7 +186,7 @@ const LogInModal: React.FC<{ active: boolean; close: () => void }> = ({
           </Box>
           <Typography.Paragraph
             size="xs"
-            color="foreground-tertiary"
+            color="foregroundTertiary"
             align="center"
           >
             {t("auth.footerText.pre")}{" "}

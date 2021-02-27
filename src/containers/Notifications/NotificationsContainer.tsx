@@ -49,7 +49,7 @@ const NotificationItemContent: React.FC<{
           <Typography.Paragraph
             align="left"
             noMargin
-            color="foreground-tertiary"
+            color="foregroundTertiary"
             size="xs"
           >
             {getDateDiffTxt(notification.createdAt)}

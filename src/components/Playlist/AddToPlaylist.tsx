@@ -81,7 +81,7 @@ const CreatePlaylist: React.FC<{
         />
       </form>
       {track.platform === PlatformName.Youtube && (
-        <Typography.Text size="xs" color="foreground-tertiary">
+        <Typography.Text size="xs" color="foregroundTertiary">
           {t("playlist.new.youtubeNotice")}.
         </Typography.Text>
       )}
@@ -164,8 +164,8 @@ const AddToPlaylist: React.FC<{
         <Modal.Title>
           <Typography.Paragraph noMargin>
             {track?.title}{" "}
-            <Typography.Text color="foreground-tertiary">-</Typography.Text>{" "}
-            <Typography.Text color="foreground-secondary">
+            <Typography.Text color="foregroundTertiary">-</Typography.Text>{" "}
+            <Typography.Text color="foregroundSecondary">
               {track?.artists.map(({ name }) => name).join()}
             </Typography.Text>
           </Typography.Paragraph>
@@ -179,7 +179,7 @@ const AddToPlaylist: React.FC<{
               <AddToExistingPlaylist track={track} done={close} />
             </Box>
           ) : (
-            <Typography.Paragraph color="foreground-secondary">
+            <Typography.Paragraph color="foregroundSecondary">
               Adding tracks from a different platform is not yet supported.{" "}
               {t("error.sorry")}.
             </Typography.Paragraph>

@@ -36,11 +36,11 @@ const MessageItemSpecial: React.FC<{
   <div role="listitem" className="w-full text-left p-1">
     <Box row alignItems="center" gap="xs">
       <Icon className="inline w-6 h-6 bg-foreground-backdrop p-1 rounded-full" />
-      <Typography.Text color="foreground-tertiary" size="sm">
+      <Typography.Text color="foregroundTertiary" size="sm">
         {text}
       </Typography.Text>
-      <Typography.Text color="foreground-tertiary">{" • "}</Typography.Text>
-      <Typography.Text color="foreground-tertiary" size="sm">
+      <Typography.Text color="foregroundTertiary">{" • "}</Typography.Text>
+      <Typography.Text color="foregroundTertiary" size="sm">
         {getDateDiffTxt(createdAt)}
       </Typography.Text>
     </Box>
@@ -132,10 +132,10 @@ const MessageItem: React.FC<{
                 {sender?.username}
               </Typography.Link>
             </Link>
-            <Typography.Text color="foreground-tertiary">
+            <Typography.Text color="foregroundTertiary">
               {" • "}
             </Typography.Text>
-            <Typography.Text size="sm" color="foreground-tertiary">
+            <Typography.Text size="sm" color="foregroundTertiary">
               {getDateDiffTxt(message.createdAt)}
             </Typography.Text>
           </Box>

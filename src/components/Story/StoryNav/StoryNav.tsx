@@ -54,7 +54,7 @@ const StoryNavMenu: React.FC<{
                 <Typography.Text strong>
                   {t("story.ofUsername", { username: user.username })}
                 </Typography.Text>
-                <Typography.Paragraph size="sm" color="foreground-secondary">
+                <Typography.Paragraph size="sm" color="foregroundSecondary">
                   {story.text}
                 </Typography.Paragraph>
               </Box>
@@ -161,7 +161,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
             {t("common.live")}
           </span>
         ) : (
-          <Typography.Text size="xs" color="foreground-secondary">
+          <Typography.Text size="xs" color="foregroundSecondary">
             {dateStr}
           </Typography.Text>
         )}

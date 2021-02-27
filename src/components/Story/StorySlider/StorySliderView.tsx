@@ -76,7 +76,7 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
       >
         <Typography.Paragraph
           size="lg"
-          color="foreground-secondary"
+          color="foregroundSecondary"
           align="center"
           noMargin
         >
@@ -93,7 +93,6 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
             }
             fullWidth
             color="primary"
-            asLink
             shape="circle"
           />
         </Link>

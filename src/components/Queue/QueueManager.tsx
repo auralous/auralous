@@ -195,7 +195,7 @@ const QueueManager: React.FC<{
           <Typography.Paragraph
             align="center"
             size="lg"
-            color="foreground-tertiary"
+            color="foregroundTertiary"
           >
             {t("queue.manager.empty")}
           </Typography.Paragraph>

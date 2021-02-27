@@ -4,12 +4,13 @@ import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n";
+import { size } from "styles";
 
 const ContactContainer: React.FC = () => {
   const me = useMe();
   const { t } = useI18n();
   return (
-    <Box paddingY={16} paddingX="md">
+    <Box style={{ paddingVertical: size(16) }} paddingX="md">
       <Box alignItems="center">
         <Typography.Title align="center" size="4xl">
           {t("contact.hi")}{" "}
@@ -27,25 +28,28 @@ const ContactContainer: React.FC = () => {
         <Button
           icon={<SvgMail />}
           title="listen@auralous.com"
-          asLink="mailto:listen@auralous.com"
+          href="mailto:listen@auralous.com"
           shape="circle"
+          size="lg"
         />
         <Button
           icon={<SvgFacebook />}
           title="withstereo"
-          asLink="/goto/facebook"
+          href="/goto/facebook"
           shape="circle"
+          size="lg"
         />
         <Button
           icon={<SvgTwitter />}
           title="withstereo_"
-          asLink="/goto/twitter"
+          href="/goto/twitter"
           shape="circle"
+          size="lg"
         />
       </Box>
       <Typography.Paragraph
         size="sm"
-        color="foreground-tertiary"
+        color="foregroundTertiary"
         align="center"
         noMargin
       >

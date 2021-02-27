@@ -43,7 +43,7 @@ export const TrackItem: React.FC<{
                 noMargin
                 truncate
                 align="left"
-                color="foreground-secondary"
+                color="foregroundSecondary"
               >
                 {(() => {
                   const [sec, min] = parseMs(track.duration, true);

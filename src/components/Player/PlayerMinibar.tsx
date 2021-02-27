@@ -73,7 +73,7 @@ const PlayerMinibar: React.FC = () => {
               <Typography.Paragraph
                 noMargin
                 truncate
-                color="foreground-secondary"
+                color="foregroundSecondary"
                 size="xs"
               >
                 {playerPlaying?.artists

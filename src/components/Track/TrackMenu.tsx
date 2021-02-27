@@ -45,7 +45,7 @@ const TrackMenu: React.FC<{
             <Typography.Paragraph
               size="sm"
               truncate
-              color="foreground-secondary"
+              color="foregroundSecondary"
             >
               {track?.artists.map(({ name }) => name).join(", ")}
             </Typography.Paragraph>
@@ -56,7 +56,7 @@ const TrackMenu: React.FC<{
                 title={t("track.addToPlaylist")}
               />
               <Button
-                asLink={track?.url}
+                href={track?.url}
                 icon={
                   SvgPlatformName ? (
                     <SvgPlatformName

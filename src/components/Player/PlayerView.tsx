@@ -122,7 +122,7 @@ export const PlayerMeta: React.FC<{
           <Typography.Paragraph
             align="left"
             noMargin
-            color="foreground-secondary"
+            color="foregroundSecondary"
             truncate
           >
             {track

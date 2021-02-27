@@ -85,13 +85,13 @@ const StoryShare: React.FC<{
             size="xl"
           />
           <Button
-            asLink={`https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&href=${shareUri}&display=popup`}
+            href={`https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&href=${shareUri}&display=popup`}
             icon={<SvgFacebook className="fill-current stroke-0" />}
             accessibilityLabel="Facebook"
             size="xl"
           />
           <Button
-            asLink={`https://twitter.com/intent/tweet?url=${shareUri}&text=${encodeURIComponent(
+            href={`https://twitter.com/intent/tweet?url=${shareUri}&text=${encodeURIComponent(
               name
             )}`}
             icon={<SvgTwitter className="fill-current stroke-0" />}
@@ -99,7 +99,7 @@ const StoryShare: React.FC<{
             size="xl"
           />
           <Button
-            asLink={`https://reddit.com/submit?url=${shareUri}&title=${encodeURIComponent(
+            href={`https://reddit.com/submit?url=${shareUri}&title=${encodeURIComponent(
               name
             )}`}
             icon={<SvgReddit width="24" className="fill-current stroke-0" />}
@@ -114,7 +114,7 @@ const StoryShare: React.FC<{
               level={4}
               strong
               size="sm"
-              color="foreground-secondary"
+              color="foregroundSecondary"
             >
               {t("user.following")}
             </Typography.Title>

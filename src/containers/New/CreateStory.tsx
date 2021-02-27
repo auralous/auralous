@@ -108,7 +108,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
           disabled={fetching}
         />
         <Spacer size={1} axis="vertical" />
-        <Typography.Paragraph size="xs" color="foreground-tertiary">
+        <Typography.Paragraph size="xs" color="foregroundTertiary">
           {t("new.addNew.textHelp", { maxLength: CONFIG.storyTextMaxLength })}
         </Typography.Paragraph>
       </CreateStoryFormGroup>

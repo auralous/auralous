@@ -97,7 +97,7 @@ const TrackAdderSearch: React.FC<{
         <div className="absolute-center p-4">
           <Typography.Paragraph
             noMargin
-            color="foreground-secondary"
+            color="foregroundSecondary"
             align="center"
           >
             {t("track.adder.search.helpText")}

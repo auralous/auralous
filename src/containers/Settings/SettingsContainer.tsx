@@ -94,7 +94,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
         </Modal.Footer>
       </Modal.Modal>
       <SettingTitle>{t("settings.dangerZone.title")}</SettingTitle>
-      <Typography.Paragraph size="sm" color="foreground-secondary">
+      <Typography.Paragraph size="sm" color="foregroundSecondary">
         {t("settings.dangerZone.delete.description")}{" "}
         <Typography.Link
           target="_blank"
@@ -199,7 +199,7 @@ const LeftSection: React.FC = () => {
                 required
               />
               <Spacer size={1} axis="vertical" />
-              <Typography.Paragraph size="xs" color="foreground-secondary">
+              <Typography.Paragraph size="xs" color="foregroundSecondary">
                 {t("settings.username.helpText", {
                   maxLength: CONFIG.usernameMaxLength,
                 })}
@@ -241,7 +241,7 @@ const LeftSection: React.FC = () => {
         </>
       ) : (
         <>
-          <Typography.Paragraph color="foreground-tertiary">
+          <Typography.Paragraph color="foregroundTertiary">
             {t("settings.profile.authPrompt")}
           </Typography.Paragraph>
           <Button onPress={logIn} title={t("common.signIn")} />
@@ -276,7 +276,7 @@ const MusicConnection: React.FC = () => {
           </Typography.Text>
           <Typography.Paragraph noMargin size="sm">
             {me ? (
-              <Typography.Text color="foreground-secondary">
+              <Typography.Text color="foregroundSecondary">
                 {t("settings.listening.connectedTo", { name })},{" "}
                 <Typography.Link target="_blank" href="/contact" strong>
                   {t("settings.listening.contactUs")}
@@ -284,7 +284,7 @@ const MusicConnection: React.FC = () => {
               </Typography.Text>
             ) : (
               <>
-                <Typography.Text color="foreground-secondary">
+                <Typography.Text color="foregroundSecondary">
                   {t("player.signInSuggest")}
                 </Typography.Text>
               </>

@@ -149,25 +149,17 @@ const Footer: React.FC = () => {
         </Link>
       </Box>
       <Spacer size={1} axis="vertical" />
-      <Typography.Paragraph
-        align="center"
-        size="xs"
-        color="foreground-tertiary"
-      >
+      <Typography.Paragraph align="center" size="xs" color="foregroundTertiary">
         {"© 2019. Made with ❤️, 🔥, and a ⌨️, by "}
         <Typography.Link
-          color="foreground-secondary"
+          color="foregroundSecondary"
           strong
           href="https://hoangvvo.com/"
         >
           Hoang
         </Typography.Link>{" "}
         and{" "}
-        <Typography.Link
-          color="foreground-secondary"
-          strong
-          href="/goto/github"
-        >
+        <Typography.Link color="foregroundSecondary" strong href="/goto/github">
           contributors
         </Typography.Link>
         .

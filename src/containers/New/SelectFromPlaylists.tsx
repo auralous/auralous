@@ -62,7 +62,7 @@ const SelectFromPlaylists: React.FC<{
 
   if (fetching)
     return (
-      <Typography.Text size="xl" color="foreground-tertiary">
+      <Typography.Text size="xl" color="foregroundTertiary">
         <SvgLoadingAnimated />
       </Typography.Text>
     );
@@ -75,7 +75,7 @@ const SelectFromPlaylists: React.FC<{
     );
 
   return (
-    <Typography.Paragraph strong color="foreground-secondary">
+    <Typography.Paragraph strong color="foregroundSecondary">
       {t("new.fromPlaylist.empty")}
     </Typography.Paragraph>
   );

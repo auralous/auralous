@@ -51,7 +51,7 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
           maxLength={CONFIG.usernameMaxLength}
         />
         <Typography.Paragraph
-          color="foreground-secondary"
+          color="foregroundSecondary"
           size="xs"
           align="center"
         >

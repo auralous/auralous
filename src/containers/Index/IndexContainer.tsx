@@ -14,12 +14,12 @@ const IndexContainer: React.FC = () => {
       <Typography.Title>
         <SvgLogo className="w-64 h-16 fill-current max-w-full" />
       </Typography.Title>
-      <Typography.Title level={2} color="primary-dark" align="center">
+      <Typography.Title level={2} color="primaryDark" align="center">
         {t("motto")}
       </Typography.Title>
       <Spacer axis="vertical" size={4} />
       <Box style={{ maxWidth: size(36) }}>
-        <Typography.Paragraph color="foreground-tertiary" align="center">
+        <Typography.Paragraph color="foregroundTertiary" align="center">
           {t("description")}
         </Typography.Paragraph>
       </Box>

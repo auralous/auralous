@@ -89,7 +89,7 @@ const SelectTracksView: React.FC<{
       )}
       <Box alignItems="center" gap="xs">
         <Spacer size={8} axis="vertical" />
-        <Typography.Text uppercase color="foreground-tertiary" size="sm" strong>
+        <Typography.Text uppercase color="foregroundTertiary" size="sm" strong>
           {t("new.or")}
         </Typography.Text>
         <Spacer size={8} axis="vertical" />
@@ -125,7 +125,7 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         <Typography.Paragraph
           size="lg"
           align="center"
-          color="foreground-secondary"
+          color="foregroundSecondary"
         >
           {t("new.fromResult.startListeningTo")}{" "}
           <Typography.Text strong color="foreground">

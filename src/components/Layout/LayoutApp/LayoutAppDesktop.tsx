@@ -82,7 +82,7 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
                 noMargin
                 strong
                 size="sm"
-                color="foreground-secondary"
+                color="foregroundSecondary"
               >
                 {me.user.username}
               </Typography.Paragraph>

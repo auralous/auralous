@@ -28,7 +28,7 @@ const NotFoundPage: NextPage = () => {
         <Typography.Paragraph
           size="xl"
           align="center"
-          color="foreground-tertiary"
+          color="foregroundTertiary"
         >
           {t("404.description")}
         </Typography.Paragraph>
