@@ -6,6 +6,31 @@
 
 /* purgecss start ignore */
 
+:root {
+  --primary: hsl(349,100%,59%);
+  --primary-dark: hsl(349,67%,49%);
+  --primary-label: #fff;
+  --secondary: hsl(37, 91%, 55%);
+  --secondary-light: hsl(37, 91%, 65%);
+  --secondary-dark: hsl(37, 91%, 50%);
+  --secondary-label: #000;
+  --background: hsl(265, 48%, 8%);
+  --background-secondary: hsl(266, 44%, 7%);
+  --background-tertiary: hsl(264, 43%, 9%);
+  --background-bar: hsl(265, 43%, 11%);
+  --background-backdrop: hsla(265, 43%, 5%, 75%);
+  --button: hsl(264, 35%, 13%);
+  --button-dark: hsl(264, 35%, 9%);
+  --foreground: hsl(270, 4%, 91%);
+  --foreground-secondary: hsla(270, 4%, 91%, 85%);
+  --foreground-tertiary: hsla(270, 4%, 91%, 70%);
+  --foreground-backdrop: hsla(263, 20%, 18%, 50%);
+  --danger: hsl(357, 67%, 53%);
+  --danger-light: hsl(357, 73%, 59%);
+  --danger-dark: hsl(357, 69%, 47%);
+  --danger-label: #fff;
+}
+
 @layer utilities {
   @variants responsive {
     .absolute-center {
