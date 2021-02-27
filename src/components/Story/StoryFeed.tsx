@@ -1,4 +1,3 @@
-import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
@@ -7,7 +6,7 @@ import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import ms from "ms";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 const StorySlider = dynamic(() => import("./StorySlider"), { ssr: false });
@@ -29,49 +28,50 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
     return d ? ms(d) : "";
   }, [story]);
 
+  const altText = `${t("story.ofUsername", {
+    username: user?.username || "",
+  })} - ${story.text}`;
+
   return (
     <button
-      className="w-full relative min-h-0 bg-background-secondary text-inline-link rounded-bl-3xl rounded-br-lg rounded-tl-lg rounded-tr-3xl overflow-hidden"
-      style={{ paddingBottom: "150%" }}
+      className="w-full text-inline-link"
       onClick={onClick}
-      aria-label={`${t("story.play")}: ${t("story.ofUsername", {
-        username: user?.username || "",
-      })} - ${story.text}`}
+      aria-label={`${t("story.play")}: ${altText}`}
     >
-      <div
-        className="absolute w-full h-full bg-cover bg-center opacity-50"
-        style={{ background: `url(${story.image})` }}
-      />
-      <Box position="absolute" rounded="full" top={4} left={4}>
-        <Skeleton show={!user} rounded="full">
-          <img
-            alt={user?.username}
-            className="w-12 h-12 rounded-full object-cover"
-            src={user?.profilePicture}
-          />
-        </Skeleton>
+      <Box
+        position="relative"
+        fullWidth
+        style={{ paddingBottom: "100%" }}
+        height={0}
+      >
+        <img
+          className="absolute inset-0 w-full h-full"
+          src={story.image}
+          alt={altText}
+        />
       </Box>
-      <Box padding={4} bottom={0} position="absolute" fullWidth>
-        <Typography.Paragraph noMargin align="left">
-          <Typography.Text strong>{user?.username}</Typography.Text>
-          <Spacer size={1} axis="horizontal" />
-          {story.isLive ? (
-            <span className="font-bold text-xs bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
-              {t("common.live")}
-            </span>
-          ) : (
-            <Typography.Text color="foreground-secondary" size="xs">
-              {dateStr}
-            </Typography.Text>
-          )}
+      <Box padding="sm" fullWidth>
+        <Typography.Paragraph strong truncate noMargin align="left">
+          {story.text}
         </Typography.Paragraph>
         <Typography.Paragraph
           truncate
           noMargin
           color="foreground-secondary"
           align="left"
+          size="sm"
         >
-          {story.text}
+          {story.isLive ? (
+            <span className="font-bold bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
+              {t("common.live")}
+            </span>
+          ) : (
+            <Typography.Text color="foreground-secondary">
+              {dateStr} •
+            </Typography.Text>
+          )}
+          <Spacer size={1} axis="horizontal" />
+          <Typography.Text>{user?.username}</Typography.Text>
         </Typography.Paragraph>
       </Box>
     </button>

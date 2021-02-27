@@ -85,7 +85,7 @@ const QueueDraggableItem: React.FC<{
           icon={<SvgGripVertical />}
         />
       </div>
-      <Box paddingX={2} row alignItems="center" minWidth={0} flex={1}>
+      <Box paddingX="sm" row alignItems="center" minWidth={0} flex={1}>
         <TrackItem
           id={queue.items[index].trackId}
           extraInfo={<QueueAddedBy userId={queue.items[index].creatorId} />}

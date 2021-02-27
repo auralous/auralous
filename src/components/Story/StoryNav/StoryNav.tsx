@@ -50,7 +50,7 @@ const StoryNavMenu: React.FC<{
                 src={user.profilePicture}
                 alt={user.username}
               />
-              <Box padding={1}>
+              <Box padding="xs">
                 <Typography.Text strong>
                   {t("story.ofUsername", { username: user.username })}
                 </Typography.Text>

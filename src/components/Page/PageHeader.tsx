@@ -4,7 +4,7 @@ import { Box } from "components/View";
 const PageHeader: React.FC<{ name: string }> = ({ name }) => {
   return (
     <>
-      <Box padding={4}>
+      <Box padding="md">
         <Typography.Title noMargin size="4xl">
           {name}
         </Typography.Title>

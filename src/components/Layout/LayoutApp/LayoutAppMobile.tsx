@@ -56,18 +56,21 @@ const Appbar: React.FC = () => {
 
   return (
     <Box
-      style={{ position: "fixed", zIndex: 10 }}
+      style={{
+        position: "fixed",
+        zIndex: 10,
+      }}
       bottom={0}
       left={0}
       fullWidth
     >
-      <Box padding={1}>
+      <Box padding="xs">
         <PlayerMinibar />
       </Box>
       <div
-        className="flex h-12 rounded-t-3xl"
+        className="flex h-12 rounded-t-3xl bg-background-secondary"
         style={{
-          background: "linear-gradient(360deg, rgb(26, 16, 40), rgb(37 22 53))",
+          boxShadow: "0 0px 11px rgb(0 0 0 / 20%)",
         }}
       >
         <AppbarItem href="/listen" title={t("listen.title")}>

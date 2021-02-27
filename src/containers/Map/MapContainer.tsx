@@ -8,7 +8,7 @@ const MapContainer: React.FC = () => {
   return (
     <>
       <PageHeader name={t("map.title")} />
-      <Box padding={4}>
+      <Box padding="md">
         <Typography.Paragraph size="lg" color="foreground-secondary">
           {t("map.description")}
         </Typography.Paragraph>

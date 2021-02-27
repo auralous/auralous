@@ -35,7 +35,7 @@ const MessageItemSpecial: React.FC<{
 }> = ({ text, Icon, createdAt }) => (
   <div role="listitem" className="w-full text-left p-1">
     <Box row alignItems="center" gap="xs">
-      <Icon className="inline w-6 h-6 bg-foreground-backdrop p-1 rounded-full" />
+      <Icon className="inline w-6 h-6 bg-foreground opacity-50 p-1 rounded-full" />
       <Typography.Text color="foreground-tertiary" size="sm">
         {text}
       </Typography.Text>
@@ -268,7 +268,7 @@ const MessageInput: React.FC<{ id: string }> = ({ id }) => {
   }
   return (
     <form autoComplete="off" onSubmit={handleSubmitMessage}>
-      <Box row alignItems="center" padding={2}>
+      <Box row alignItems="center" padding="sm">
         <Input
           accessibilityLabel={t("message.inputLabel")}
           fullWidth

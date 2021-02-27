@@ -10,9 +10,9 @@ interface BoxProps {
   flex: number;
   justifyContent: "start" | "end" | "center" | "between" | "around" | "evenly";
   alignItems: "stretch" | "start" | "end" | "center" | "baseline";
-  padding: LengthUnit;
-  paddingX: LengthUnit;
-  paddingY: LengthUnit;
+  padding: keyof typeof impMap;
+  paddingX: keyof typeof impMap;
+  paddingY: keyof typeof impMap;
   width: LengthUnit;
   minWidth: 0;
   maxWidth: "lg" | "xl" | "2xl" | "4xl";
@@ -32,13 +32,11 @@ interface BoxProps {
   backgroundColor:
     | "background"
     | "background-secondary"
-    | "background-tertiary"
-    | "background-bar"
     | "primary"
     | "primary-dark";
 }
 
-const gapMap: Record<BoxProps["gap"], number> = {
+const impMap: Record<BoxProps["gap"], number> = {
   xs: 1,
   sm: 2,
   md: 4,
@@ -86,9 +84,9 @@ const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box(
         wrap && "flex-wrap",
         justifyContent && `justify-${justifyContent}`,
         alignItems && `items-${alignItems}`,
-        padding && `p-${padding}`,
-        paddingX && `px-${paddingX}`,
-        paddingY && `py-${paddingY}`,
+        padding && `p-${impMap[padding]}`,
+        paddingX && `px-${impMap[paddingX]}`,
+        paddingY && `py-${impMap[paddingY]}`,
         width && `w-${width}`,
         minWidth !== undefined && `min-w-${minWidth}`,
         maxWidth && `max-w-${maxWidth}`,
@@ -98,8 +96,8 @@ const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box(
         fullWidth && `w-full`,
         fullHeight && `h-full`,
         position,
-        gap && (!row || wrap) && `space-y-${gapMap[gap]}`,
-        gap && (!!row || wrap) && `space-x-${gapMap[gap]}`,
+        gap && (!row || wrap) && `space-y-${impMap[gap]}`,
+        gap && (!!row || wrap) && `space-x-${impMap[gap]}`,
         flex && `flex-${flex}`,
         backgroundColor && `bg-${backgroundColor}`,
         top !== undefined && `top-${top}`,

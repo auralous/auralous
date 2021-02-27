@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
         <Box
           maxWidth="4xl"
           fullWidth
-          paddingX={4}
+          paddingX="md"
           row
           alignItems="center"
           justifyContent="between"

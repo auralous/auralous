@@ -35,9 +35,9 @@ const StoryOngoingWatcher: React.FC = () => {
           <Typography.Paragraph size="lg" strong color="foreground-secondary">
             {t("story.ongoing.title")}
           </Typography.Paragraph>
-          <Box padding={8} rounded="lg">
+          <Box padding="xl" rounded="lg">
             <Typography.Paragraph strong size="lg">
-              <span className="animate-pulse uppercase text-xs font-bold p-1 bg-primary rounded">
+              <span className="animate-pulse uppercase text-xs font-bold p-1 bg-primary rounded-lg">
                 {t("common.live")}
               </span>
               <Spacer size={1} />

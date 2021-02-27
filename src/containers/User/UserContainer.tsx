@@ -97,7 +97,7 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
 
   return (
     <>
-      <Box position="relative" paddingX={4} paddingY={8}>
+      <Box position="relative" paddingX="md" paddingY="xl">
         <img
           className="w-28 h-28 rounded-full mx-auto"
           src={user.profilePicture}
@@ -144,7 +144,7 @@ const UserContainer: React.FC<{ initialUser: User }> = ({ initialUser }) => {
           </Box>
         )}
       </Box>
-      <Box paddingY={4}>
+      <Box paddingY="md">
         <StoryFeed id={`creatorId:${user.id}`} />
       </Box>
       <Spacer axis="vertical" size={12} />

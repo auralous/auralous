@@ -11,7 +11,7 @@ const AuthCallbackPage: NextPage = () => {
   return (
     <>
       <NextSeo title="Authenticated" nofollow noindex />
-      <Box padding={8} alignItems="center">
+      <Box padding="xl" alignItems="center">
         <Typography.Title>
           {isSuccess ? "You are in!" : "Oooops..."}
         </Typography.Title>

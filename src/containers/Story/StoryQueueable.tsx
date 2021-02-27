@@ -125,7 +125,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
       row
       alignItems="center"
       backgroundColor="background-secondary"
-      padding={1}
+      padding="xs"
       rounded="full"
       gap="sm"
     >

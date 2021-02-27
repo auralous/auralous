@@ -47,7 +47,7 @@ const SelectFromPlaylists: React.FC<{
 
   if (myPlaylists?.length)
     return (
-      <div className="h-full w-full overflow-auto border-2 border-background-tertiary p-2 rounded-lg shadow-lg">
+      <div className="h-full w-full overflow-auto border-2 border-background-secondary p-2 rounded-lg shadow-lg">
         {myPlaylists.map((playlist) => (
           <PressableHighlight
             key={playlist.id}

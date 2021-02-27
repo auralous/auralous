@@ -10,7 +10,6 @@ import { I18n } from "i18n/index";
 import "intersection-observer";
 import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
-import Router from "next/router";
 import "notyf/notyf.min.css";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import "styles/index.css";
@@ -36,10 +35,10 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
     function onRouteChangeComplete() {
       Fathom.trackPageview();
     }
-    Router.events.on("routeChangeComplete", onRouteChangeComplete);
+    router.events.on("routeChangeComplete", onRouteChangeComplete);
     return () =>
-      Router.events.off("routeChangeComplete", onRouteChangeComplete);
-  }, []);
+      router.events.off("routeChangeComplete", onRouteChangeComplete);
+  }, [router]);
 
   const Layout = useMemo(() => {
     if (

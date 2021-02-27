@@ -320,10 +320,10 @@ const SettingsContainer: React.FC = () => {
     <>
       <PageHeader name={t("settings.title")} />
       <Box>
-        <Box padding={4}>
+        <Box padding="md">
           <LeftSection />
         </Box>
-        <Box padding={4}>
+        <Box padding="md">
           <RightSection />
         </Box>
       </Box>

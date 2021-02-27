@@ -35,7 +35,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <Box paddingY={1} row justifyContent="center" alignItems="center" gap="lg">
+    <Box paddingY="xs" row justifyContent="center" alignItems="center" gap="lg">
       <Button
         accessibilityLabel={t("player.skipBackward")}
         onPress={skipBackward}

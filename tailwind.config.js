@@ -5,18 +5,15 @@ const colors = {
     DEFAULT: "var(--background)",
     secondary: "var(--background-secondary)",
     tertiary: "var(--background-tertiary)",
-    bar: "var(--background-bar)",
-    backdrop: "var(--background-backdrop)",
   },
-  button: {
-    DEFAULT: "var(--button)",
-    dark: "var(--button-dark)",
+  control: {
+    DEFAULT: "var(--control)",
+    dark: "var(--control-dark)",
   },
   foreground: {
     DEFAULT: "var(--foreground)",
     secondary: "var(--foreground-secondary)",
     tertiary: "var(--foreground-tertiary)",
-    backdrop: "var(--foreground-backdrop)",
   },
   danger: {
     DEFAULT: "var(--danger)",
@@ -99,8 +96,12 @@ module.exports = {
         "items-start",
         "items-center",
         "items-baseline",
-        ...[1, 2, 4, 6, 8].map((s) => `space-x-${s}`),
-        ...[1, 2, 4, 6, 8].map((s) => `space-y-${s}`),
+        ...[0, 1, 2, 4, 6, 8]
+          .map((p) => [`p-${p}`, `px-${p}`, `py-${p}`])
+          .flat(),
+        ...[0, 1, 2, 4, 6, 8]
+          .map((s) => [`space-x-${s}`, `space-y-${s}`])
+          .flat(),
       ],
     },
   },

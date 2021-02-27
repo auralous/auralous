@@ -8,7 +8,7 @@ import { useI18n } from "i18n/index";
 import { animated, config as springConfig, useTransition } from "react-spring";
 
 const ModalHeader: React.FC = ({ children }) => (
-  <Box row padding={4}>
+  <Box row padding="md">
     {children}
   </Box>
 );
@@ -28,7 +28,7 @@ const ModalContent: React.FC<{
 );
 
 const ModalFooter: React.FC = ({ children }) => (
-  <Box row alignItems="center" justifyContent="end" gap="sm" padding={4}>
+  <Box row alignItems="center" justifyContent="end" gap="sm" padding="md">
     {children}
   </Box>
 );

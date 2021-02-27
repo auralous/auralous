@@ -30,7 +30,7 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
   const me = useMe();
 
   return (
-    <Box paddingX={4} paddingY={1} row gap="xs">
+    <Box paddingX="md" paddingY="xs" row gap="xs">
       {me?.user.id === story.creatorId && (
         <>
           <Button

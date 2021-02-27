@@ -9,7 +9,7 @@ import Link from "next/link";
 const IndexContainer: React.FC = () => {
   const { t } = useI18n();
   return (
-    <Box alignItems="center" padding={4}>
+    <Box alignItems="center" padding="md">
       <Typography.Title>
         <SvgLogo className="w-64 h-16 fill-current max-w-full" />
       </Typography.Title>
