@@ -2,6 +2,7 @@ import {
   PlayerControl,
   PlayerImage,
   PlayerMeta,
+  PlayerProgressBar,
   usePlayer,
 } from "components/Player";
 import { Box } from "components/View";
@@ -21,6 +22,9 @@ const StoryPlayer: React.FC<{ story: Story }> = ({ story }) => {
           <PlayerMeta track={crossTracks?.original} fetching={fetching} />
         </Box>
         {story.isLive && <StoryReaction story={story} />}
+      </Box>
+      <Box paddingY="sm">
+        <PlayerProgressBar />
       </Box>
       <PlayerControl />
     </Box>

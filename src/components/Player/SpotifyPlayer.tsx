@@ -20,6 +20,8 @@ export default function SpotifyPlayer() {
     let spotifyState: Spotify.PlaybackState | null = null;
     let deviceId: string | null = null;
 
+    let durationInterval: number; // setInterval
+
     const playByExternalId = async (externalId: string | null) => {
       if (!externalId)
         return (
@@ -56,6 +58,12 @@ export default function SpotifyPlayer() {
         // Note: It is impossible to determine spotify without a promise
         isPlaying: () => !spotifyState?.paused,
       });
+      durationInterval = window.setInterval(async () => {
+        player.emit(
+          "time",
+          (await spotifyPlayer?.getCurrentState())?.position || 0
+        );
+      }, 1000);
     };
 
     const instance: typeof axios = axios.create({
@@ -108,6 +116,7 @@ export default function SpotifyPlayer() {
     verifyScript("https://sdk.scdn.co/spotify-player.js").then(init);
 
     return function cleanupSpotifyPlayer() {
+      window.clearInterval(durationInterval);
       // @ts-expect-error: DT defines this as non null
       window.onSpotifyWebPlaybackSDKReady = null;
       player.unregisterPlayer();

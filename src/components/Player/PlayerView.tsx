@@ -8,6 +8,7 @@ import { Box } from "components/View";
 import { Track } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useEffect, useState } from "react";
+import { parseMs } from "utils/editor-utils";
 import usePlayer from "./usePlayer";
 
 const EMPTYIMAGE = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP87wMAAlABTQluYBcAAAAASUVORK5CYII=
@@ -35,7 +36,7 @@ export const PlayerControl: React.FC = () => {
   const { skipForward, skipBackward } = usePlayer();
 
   return (
-    <Box paddingY="xs" row justifyContent="center" alignItems="center" gap="lg">
+    <Box paddingY="xs" row justifyContent="center" alignItems="center" gap="md">
       <Button
         accessibilityLabel={t("player.skipBackward")}
         onPress={skipBackward}
@@ -57,7 +58,6 @@ export const PlayerControl: React.FC = () => {
           disabled={!playerPlaying}
           size="xl"
           shape="circle"
-          color="primary"
         />
         {fetching && <span className="spinning-border absolute inset-0" />}
       </Box>
@@ -90,6 +90,66 @@ export const PlayerImage: React.FC<{
         }}
       />
     </div>
+  );
+};
+
+export const PlayerProgressBar: React.FC = () => {
+  const {
+    state: { playerPlaying },
+    player,
+  } = usePlayer();
+
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const onTime = (ms: number) => setCurrent(ms);
+    player.on("time", onTime);
+    return () => player.off("time", onTime);
+  }, [player]);
+
+  useEffect(() => {
+    setCurrent(0);
+  }, [playerPlaying]);
+
+  const duration = playerPlaying?.duration || 0;
+  const progressPerc = duration && `${(current / duration) * 100}%`;
+
+  const parsedDuration = parseMs(duration, true);
+  const parsedCurrent = parseMs(current, true);
+
+  return (
+    <Box
+      position="relative"
+      height={1}
+      rounded="full"
+      backgroundColor="background-secondary"
+      style={{ marginBottom: "1.2rem" }}
+    >
+      <Box
+        position="absolute"
+        left={0}
+        top={0}
+        height={1}
+        style={{ width: progressPerc }}
+        backgroundColor="white"
+        rounded="full"
+      />
+      <Box
+        position="absolute"
+        top={2}
+        left={0}
+        row
+        justifyContent="between"
+        fullWidth
+      >
+        <Typography.Text size="xs" color="foreground-tertiary">
+          {parsedCurrent[1]}:{parsedCurrent[0]}
+        </Typography.Text>
+        <Typography.Text size="xs" color="foreground-tertiary">
+          {parsedDuration[1]}:{parsedDuration[0]}
+        </Typography.Text>
+      </Box>
+    </Box>
   );
 };
 

@@ -34,7 +34,8 @@ interface BoxProps {
     | "background"
     | "background-secondary"
     | "primary"
-    | "primary-dark";
+    | "primary-dark"
+    | "white";
   onPress?(): void;
 }
 

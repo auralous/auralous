@@ -62,6 +62,9 @@ export default function YouTubePlayer() {
                 isPlaying: () =>
                   ytPlayer.getPlayerState() === window.YT.PlayerState.PLAYING,
               });
+              durationInterval = window.setInterval(() => {
+                player.emit("time", ytPlayer.getCurrentTime() * 1000);
+              }, 1000);
             },
             onStateChange(event) {
               event.data === window.YT.PlayerState.PAUSED

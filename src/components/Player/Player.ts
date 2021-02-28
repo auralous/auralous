@@ -18,11 +18,13 @@ interface Player {
   on(state: "paused", fn: () => void): void;
   on(state: "seeked", fn: () => void): void;
   on(state: "ended", fn: () => void): void;
+  on(state: "time", fn: (ms: number) => void): void;
   // off
   off(state: "playing", fn: () => void): void;
   off(state: "paused", fn: () => void): void;
   off(state: "seeked", fn: () => void): void;
   off(state: "ended", fn: () => void): void;
+  off(state: "time", fn: (ms: number) => void): void;
 }
 
 class Player {
