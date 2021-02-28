@@ -1,4 +1,3 @@
-import { DialogOverlay } from "@reach/dialog";
 import {
   SvgChevronDown,
   SvgMoreHorizontal,
@@ -6,10 +5,9 @@ import {
   SvgSquare,
   SvgTrash,
   SvgUser,
-  SvgX,
 } from "assets/svg";
 import { Skeleton } from "components/Loading";
-import { useModal } from "components/Modal";
+import { ModalBackdrop, useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { StoryShare } from "components/Story";
 import { Typography } from "components/Typography";
@@ -40,76 +38,81 @@ const StoryNavMenu: React.FC<{
   const me = useMe();
 
   return (
-    <>
-      <DialogOverlay isOpen={active} className="backdrop-blur">
-        <Box fullWidth alignItems="center" gap="sm">
-          {user && (
-            <Box row>
-              <img
-                className="w-12 h-12 rounded-full"
-                src={user.profilePicture}
-                alt={user.username}
-              />
-              <Box padding="xs">
-                <Typography.Text strong>
-                  {t("story.ofUsername", { username: user.username })}
-                </Typography.Text>
-                <Typography.Paragraph size="sm" color="foreground-secondary">
-                  {story.text}
-                </Typography.Paragraph>
-              </Box>
+    <ModalBackdrop.Modal
+      active={active}
+      title={t("story.ofUsername", { username: user?.username })}
+      close={close}
+    >
+      <Box fullWidth alignItems="center" gap="sm">
+        {user && (
+          <>
+            <img
+              className="w-32 h-32 object-cover shadow-lg"
+              src={user.profilePicture}
+              alt={user.username}
+            />
+            <Box padding="xs" justifyContent="center">
+              <Typography.Paragraph
+                size="md"
+                truncate
+                strong
+                noMargin
+                align="center"
+              >
+                {t("story.ofUsername", { username: user.username })}
+              </Typography.Paragraph>
+              <Typography.Paragraph
+                size="sm"
+                truncate
+                color="foreground-secondary"
+                align="center"
+              >
+                {story.text}
+              </Typography.Paragraph>
             </Box>
-          )}
+          </>
+        )}
+        <Button
+          onPress={openShare}
+          icon={<SvgShare2 className="w-5 h-5" />}
+          styling="link"
+          title={t("story.share.title")}
+        />
+        <StoryShare active={activeShare} close={closeShare} story={story} />
+        <Link href={`/user/${user?.username}`}>
           <Button
-            onPress={openShare}
-            icon={<SvgShare2 className="w-5 h-5" />}
+            icon={<SvgUser className="w-5 h-5" />}
+            title={t("story.menu.viewCreator")}
             styling="link"
-            title={t("story.share.title")}
           />
-          <StoryShare active={activeShare} close={closeShare} story={story} />
-          <Link href={`/user/${user?.username}`}>
+        </Link>
+        <StoryEnd story={story}>
+          {(openEnd) => (
             <Button
-              icon={<SvgUser className="w-5 h-5" />}
-              title={t("story.menu.viewCreator")}
+              icon={<SvgSquare className="w-5 h-5" />}
+              title={t("story.end.title")}
+              styling="link"
+              onPress={openEnd}
+            />
+          )}
+        </StoryEnd>
+        {story.isLive === false && me?.user.id === story.creatorId && (
+          <>
+            <Button
+              icon={<SvgTrash className="w-5 h-5" />}
+              title={t("story.delete.title")}
+              onPress={openDelete}
               styling="link"
             />
-          </Link>
-          <StoryEnd story={story}>
-            {(openEnd) => (
-              <Button
-                icon={<SvgSquare className="w-5 h-5" />}
-                title={t("story.end.title")}
-                styling="link"
-                onPress={openEnd}
-              />
-            )}
-          </StoryEnd>
-          {story.isLive === false && me?.user.id === story.creatorId && (
-            <>
-              <Button
-                icon={<SvgTrash className="w-5 h-5" />}
-                title={t("story.delete.title")}
-                onPress={openDelete}
-                styling="link"
-              />
-              <StoryDelete
-                active={activeDelete}
-                close={closeDelete}
-                story={story}
-              />
-            </>
-          )}
-        </Box>
-        <Box position="absolute" top={4} right={4}>
-          <Button
-            accessibilityLabel={t("modal.close")}
-            onPress={close}
-            icon={<SvgX className="w-8 h-8" />}
-            styling="link"
-          />
-        </Box>
-      </DialogOverlay>
-    </>
+            <StoryDelete
+              active={activeDelete}
+              close={closeDelete}
+              story={story}
+            />
+          </>
+        )}
+      </Box>
+    </ModalBackdrop.Modal>
   );
 };
 

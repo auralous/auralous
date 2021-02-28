@@ -57,7 +57,7 @@ const Modal: React.FC<{
       opacity: 0,
       transform: "translateY(-40px)",
     },
-    config: springConfig.gentle,
+    config: springConfig.default,
   });
 
   return (

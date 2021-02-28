@@ -116,7 +116,7 @@ const StorySlider: React.FC<{
   const transitions = useSpring({
     opacity: active ? 1 : 0,
     transform: active ? "translateY(0%)" : "translateY(100%)",
-    config: springConfig.slow,
+    config: springConfig.default,
   });
 
   return (

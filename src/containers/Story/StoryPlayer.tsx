@@ -17,7 +17,7 @@ const StoryPlayer: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <Box fullWidth fullHeight>
       <PlayerImage track={crossTracks?.original} />
-      <Box row justifyContent="between" paddingY="sm">
+      <Box row alignItems="center" paddingY="sm" gap="sm">
         <Box row flex={1} minWidth={0}>
           <PlayerMeta track={crossTracks?.original} fetching={fetching} />
         </Box>

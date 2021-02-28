@@ -75,7 +75,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
             tracks: initTracks.map((initTrack) => initTrack.id),
           });
 
-        router.push("/story/[storyId]", `/story/${result.data.createStory.id}`);
+        router.replace(`/story/${result.data.createStory.id}`);
       }
     },
     [
