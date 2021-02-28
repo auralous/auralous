@@ -4,7 +4,7 @@ import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
 import { Story, useDeleteStoryMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
-import { toast } from "utils/toast";
+import toast from "react-hot-toast";
 
 const StoryDelete: React.FC<{
   story: Story;

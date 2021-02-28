@@ -8,7 +8,7 @@ import { Story } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
-import { toast } from "utils/toast";
+import toast from "react-hot-toast";
 import StoryListeners from "./StoryListeners";
 import StoryQueueable from "./StoryQueueable";
 
@@ -83,11 +83,7 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
 
   const onAddButtonClick = () => {
     if (!me) return showLogin();
-    if (!isQueueable)
-      return toast.open({
-        type: "info",
-        message: t("story.queue.notAllowed"),
-      });
+    if (!isQueueable) return toast(t("story.queue.notAllowed"));
     open();
   };
 

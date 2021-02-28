@@ -14,7 +14,7 @@ import {
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useCallback, useMemo, useState } from "react";
-import { toast } from "utils/toast";
+import toast from "react-hot-toast";
 
 const StoryShare: React.FC<{
   story: Story;

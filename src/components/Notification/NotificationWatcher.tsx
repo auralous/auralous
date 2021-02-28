@@ -1,3 +1,4 @@
+import { Button } from "components/Pressable";
 import {
   useNotificationAddedSubscription,
   UserDocument,
@@ -7,10 +8,9 @@ import {
 import { useMe } from "hooks/user";
 import { t } from "i18n/index";
 import { useRouter } from "next/router";
-import { NotyfEvent } from "notyf";
 import { useCallback } from "react";
+import toast from "react-hot-toast";
 import { useClient } from "urql";
-import { toast } from "utils/toast";
 
 const NotificationWatcher: React.FC = () => {
   const me = useMe();
@@ -39,9 +39,22 @@ const NotificationWatcher: React.FC = () => {
           const username = await getUsername(data.notificationAdded.creatorId);
           message = `${username} ${t("notification.newStory.text")}`;
         }
-        toast.open({ type: "noti", message }).on(NotyfEvent.Click, () => {
-          router.push("/notifications");
-        });
+        const tId = toast(
+          <>
+            <span>{message}</span>
+            <Button
+              title={t("common.go")}
+              size="xs"
+              onPress={() => {
+                router.push("/notifications");
+                toast.dismiss(tId);
+              }}
+              color="primary"
+              style={{ marginLeft: ".5rem" }}
+            />
+          </>,
+          { icon: "🔔" }
+        );
       })();
 
       return data;

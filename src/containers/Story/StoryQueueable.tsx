@@ -16,9 +16,9 @@ import {
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useCallback } from "react";
+import toast from "react-hot-toast";
 import { useClient } from "urql";
 import { CONFIG } from "utils/constants";
-import { toast } from "utils/toast";
 
 const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
   const { t } = useI18n();
@@ -37,12 +37,11 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
         .toPromise();
       if (!result.data?.user) return toast.error(t("user.search.notFound"));
       if (story.queueable.includes(result.data.user.id))
-        return toast.open({
-          type: "info",
-          message: t("story.queueable.addExisted", {
+        return toast(
+          t("story.queueable.addExisted", {
             username: result.data.user.username,
-          }),
-        });
+          })
+        );
       const addResult = await changeStoryQueueable({
         id: story.id,
         userId: result.data.user.id,

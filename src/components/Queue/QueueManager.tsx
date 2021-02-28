@@ -19,13 +19,13 @@ import {
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
+import toast from "react-hot-toast";
 import AutoSizer from "react-virtualized-auto-sizer";
 import {
   areEqual,
   FixedSizeList as List,
   ListChildComponentProps,
 } from "react-window";
-import { toast } from "utils/toast";
 import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
 import useQueue from "./useQueue";

@@ -10,14 +10,16 @@ import {
 } from "gql/gql.gen";
 import { useBoop } from "hooks/animation";
 import { useMe } from "hooks/user";
+import { useI18n } from "i18n";
 import { useCallback, useEffect, useMemo } from "react";
+import toast from "react-hot-toast";
 import { animated } from "react-spring";
-import { toast } from "utils/toast";
 
 const AnimatedSvgHeart = animated(SvgHeart);
 
 const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
   // We are only using HEART reaction right now
+  const { t } = useI18n();
   const me = useMe();
 
   const [
@@ -53,11 +55,10 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
   );
 
   const react = useCallback(() => {
-    if (reacted) return;
     if (me)
       reactNowPlaying({ id: story.id, reaction: NowPlayingReactionType.Heart });
-    else toast.open({ type: "info", message: "Join to Add Your Reaction" });
-  }, [story, reactNowPlaying, me, reacted]);
+    else toast(t("story.reaction.authPrompt"));
+  }, [story, reactNowPlaying, me, t]);
 
   return (
     <Button
@@ -69,6 +70,7 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
       }
       title={`` + (nowPlayingReactions?.length || 0)}
       size="sm"
+      accessibilityLabel={t("story.reaction.love")}
       onClick={react}
       disabled={!nowPlaying?.currentTrack || reacted}
     />

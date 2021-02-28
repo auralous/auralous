@@ -164,7 +164,11 @@
       "title": "Story feed",
       "instruction": "Tap to play next songs. Swipe up to discover more stories."
     },
-    "ofUsername": "{{username}}'s story"
+    "ofUsername": "{{username}}'s story",
+    "reaction": {
+      "love": "Love",
+      "authPrompt": "Sign in to add your reaction"
+    }
   },
   "user": {
     "profile": "Profile",
@@ -293,6 +297,7 @@
     "save": "Save",
     "saved": "Saved",
     "done": "Done",
+    "go": "Go",
     "startListening": "Start Listening",
     "live": "live",
     "dangerousActionText": "This process is immediate and cannot be undone",

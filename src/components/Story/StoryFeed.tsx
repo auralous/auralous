@@ -8,8 +8,8 @@ import { t as i18nT, useI18n } from "i18n/index";
 import ms from "ms";
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
-import { toast } from "utils/toast";
 
 const StorySlider = dynamic(() => import("./StorySlider"), { ssr: false });
 
@@ -101,10 +101,7 @@ const StoryFeed: React.FC<{ id: string }> = ({ id }) => {
 
   const startBrowse = (index: number) => {
     if (storyLive) {
-      toast.open({
-        type: "info",
-        message: i18nT("story.ongoing.prompt"),
-      });
+      toast(i18nT("story.ongoing.prompt"));
       return;
     }
     setIntialSlide(index);

@@ -9,8 +9,8 @@ import { I18n } from "i18n/index";
 import "intersection-observer";
 import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
-import "notyf/notyf.min.css";
 import { Fragment, useEffect, useMemo, useState } from "react";
+import { Toaster } from "react-hot-toast";
 import "styles/index.css";
 import "swiper/swiper.scss";
 import { Provider as UrqlProvider } from "urql";
@@ -84,6 +84,15 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
             <Layout>
               <Component {...pageProps} />
             </Layout>
+            <Toaster
+              toastOptions={{
+                className: "text-sm",
+                style: {
+                  backgroundColor: "var(--background-secondary)",
+                  color: "var(--foreground)",
+                },
+              }}
+            />
           </PlayerProvider>
         </LogInProvider>
       </UrqlProvider>

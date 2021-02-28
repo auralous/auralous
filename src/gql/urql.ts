@@ -25,6 +25,7 @@ import {
 } from "gql/gql.gen";
 import { createClient as createWSClient } from "graphql-ws";
 import { t } from "i18n/index";
+import toast from "react-hot-toast";
 import {
   createClient,
   dedupExchange,
@@ -32,7 +33,6 @@ import {
   Exchange,
   subscriptionExchange,
 } from "urql";
-import { toast } from "utils/toast";
 import schema from "./schema.json";
 import { nextCursorPagination } from "./_pagination";
 
@@ -241,8 +241,8 @@ export const createUrqlClient = () =>
       cacheExchange,
       errorExchange({
         onError({ networkError, graphQLErrors }) {
-          if (networkError && typeof window !== "undefined")
-            toast.error("Unable to connect to server.");
+          if (typeof window === "undefined") return;
+          if (networkError) toast.error("Unable to connect to server.");
 
           graphQLErrors.forEach((error) => {
             let message = error.message;
@@ -255,7 +255,7 @@ export const createUrqlClient = () =>
             }
             if (code === "UNAUTHENTICATED")
               message = t("error.unauthenticated");
-            if (typeof window !== "undefined") toast.error(message);
+            toast.error(message);
           });
         },
       }),

@@ -15,11 +15,12 @@ import {
   useStoryQuery,
   useUserQuery,
 } from "gql/gql.gen";
-import { useMe } from "hooks/user";
+import { useMe, useMeLiveStory } from "hooks/user";
 import { t, useI18n } from "i18n/index";
 import ms from "ms";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
 
 const getDateDiffTxt = (createdAt: Date) => {
@@ -59,11 +60,21 @@ const NotificationItemContent: React.FC<{
     </Box>
   );
 
+  const router = useRouter();
+  const storyLive = useMeLiveStory();
+
   if (href)
     return (
-      <Link href={href}>
-        <PressableHighlight>{element}</PressableHighlight>
-      </Link>
+      <PressableHighlight
+        onPress={() => {
+          if (href.startsWith("/story") && !!storyLive) {
+            return toast(t("story.ongoing.prompt"));
+          }
+          router.push(href);
+        }}
+      >
+        {element}
+      </PressableHighlight>
     );
 
   return (

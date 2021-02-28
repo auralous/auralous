@@ -164,7 +164,11 @@
       "title": "Dòng story",
       "instruction": "Chạm để phát bài tiếp theo. Vuốt lên để khám phá thêm Story."
     },
-    "ofUsername": "Story của {{username}}"
+    "ofUsername": "Story của {{username}}",
+    "reaction": {
+      "love": "Thả tim",
+      "authPrompt": "Đăng nhập để thả cảm xúc"
+    }
   },
   "user": {
     "profile": "Hồ sơ",
@@ -293,6 +297,7 @@
     "save": "Lưu",
     "saved": "Đã lưu",
     "done": "Xong",
+    "go": "Đi",
     "startListening": "Nghe nào",
     "live": "live",
     "dangerousActionText": "Thao tác này sẽ có hiệu lực tức thì và không thể hoàn tác",

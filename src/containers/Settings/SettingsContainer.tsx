@@ -16,13 +16,13 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { Locale } from "i18n/types";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import {
   CONFIG,
   LANGUAGES,
   PLATFORM_FULLNAMES,
   SvgByPlatformName,
 } from "utils/constants";
-import { toast } from "utils/toast";
 
 const SettingTitle: React.FC = ({ children }) => (
   <Typography.Title size="lg" level={3}>

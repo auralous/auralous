@@ -15,8 +15,8 @@ import { t } from "i18n/index";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { PLATFORM_FULLNAMES } from "utils/constants";
-import { toast } from "utils/toast";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
 import { IPlayerContext, PlayerPlaying } from "./types";
@@ -252,13 +252,12 @@ const PlayerProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (!playingPlatform) return;
     if (crossTracks?.[playingPlatform] === null) {
-      const tt = toast.error({
-        message: t("player.noCrossTrack", {
+      const tt = toast.error(
+        t("player.noCrossTrack", {
           platformName: PLATFORM_FULLNAMES[playingPlatform],
         }),
-        duration: 69420,
-        type: "error",
-      });
+        { duration: 69420 }
+      );
       return () => toast.dismiss(tt);
     }
   }, [crossTracks, playingPlatform]);

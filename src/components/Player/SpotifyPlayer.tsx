@@ -1,9 +1,9 @@
 import { useMe } from "hooks/user";
 import { t } from "i18n/index";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import axios from "redaxios";
 import { verifyScript } from "utils/script-utils";
-import { toast } from "utils/toast";
 import usePlayer from "./usePlayer";
 /// <reference path="spotify-web-playback-sdk" />
 
@@ -39,8 +39,7 @@ export default function SpotifyPlayer() {
 
       if (resp.status !== 204 && resp.data?.error) {
         if (resp.data.error.reason === "PREMIUM_REQUIRED")
-          return toast.error({
-            message: t("player.spotify.premiumRequired"),
+          return toast.error(t("player.spotify.premiumRequired"), {
             duration: 25 * 1000,
           });
         else onError(resp.data.error);
@@ -101,8 +100,7 @@ export default function SpotifyPlayer() {
 
       spotifyPlayer.addListener("authentication_error", onError);
       spotifyPlayer.addListener("initialization_error", () =>
-        toast.error({
-          message: t("player.spotify.notSupported"),
+        toast.error(t("player.spotify.notSupported"), {
           duration: 25 * 1000,
         })
       );

@@ -6,8 +6,8 @@ import { Typography } from "components/Typography";
 import { useUpdateMeMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useCallback, useRef } from "react";
+import toast from "react-hot-toast";
 import { CONFIG } from "utils/constants";
-import { toast } from "utils/toast";
 
 const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   active,
