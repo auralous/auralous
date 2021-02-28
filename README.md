@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://auralous.com">
-    <img alt="Auralous" src="https://auralous.com/images/banner.png" height="300px">
+    <img alt="Auralous" src="https://github.com/auralous/web/raw/main/public/images/banner.png" height="300px">
   </a>
 </p>
 
