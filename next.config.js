@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const SentryWebpackPlugin = require("@sentry/webpack-plugin");
-const { name, version } = require("./package.json");
+const { version } = require("./package.json");
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
@@ -16,7 +16,7 @@ module.exports = withBundleAnalyzer({
     WEBSOCKET_URI: process.env.WEBSOCKET_URI,
     FATHOM_SITE_ID: process.env.FATHOM_SITE_ID,
     SENTRY_DSN: process.env.SENTRY_DSN,
-    SENTRY_RELEASE: `${name}@${version}`,
+    SENTRY_RELEASE: `web@${version}`,
   },
   experimental: {
     plugins: true,
@@ -29,14 +29,14 @@ module.exports = withBundleAnalyzer({
     if (process.env.NODE_ENV === "production") {
       if (process.env.SENTRY_AUTH_TOKEN) {
         process.env.SENTRY_ORG = "hoangvvo";
-        process.env.SENTRY_PROJECT = "stereo-web";
+        process.env.SENTRY_PROJECT = "auralous-web";
         config.plugins.push(
           new SentryWebpackPlugin({
             include: ".next",
             ignore: ["node_modules"],
             stripPrefix: ["webpack://_N_E/"],
             urlPrefix: "~/_next",
-            release: `${name}@${version}`,
+            release: `web@${version}`,
             silent: true,
           })
         );

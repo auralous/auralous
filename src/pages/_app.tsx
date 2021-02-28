@@ -65,18 +65,18 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
           <NotificationWatcher />
           <PlayerProvider>
             <DefaultSeo
-              titleTemplate="%s · Stereo"
+              titleTemplate="%s · Auralous"
               facebook={{ appId: process.env.FACEBOOK_APP_ID || "" }}
               openGraph={{
                 type: "website",
                 locale: "en_US",
-                site_name: "Stereo",
+                site_name: "Auralous",
                 images: [
                   {
                     url: `${process.env.APP_URI}/images/banner.png`,
                     width: 2400,
                     height: 1260,
-                    alt: "Stereo",
+                    alt: "Auralous",
                   },
                 ],
               }}

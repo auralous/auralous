@@ -7,7 +7,7 @@ const IndexPage: React.FC = () => {
   return (
     <>
       <NextSeo
-        title="Stereo"
+        title="Auralous"
         titleTemplate={`%s · ${t("motto")}`}
         description={t("description")}
         canonical={`${process.env.APP_URI}`}

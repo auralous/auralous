@@ -1,4 +1,3 @@
-import { SvgLogo } from "assets/svg";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
@@ -10,15 +9,16 @@ const IndexContainer: React.FC = () => {
   const { t } = useI18n();
   return (
     <Box alignItems="center" padding="md">
-      <Typography.Title>
-        <SvgLogo className="w-64 h-16 fill-current max-w-full" />
-      </Typography.Title>
-      <Typography.Title level={2} color="primary-dark" align="center">
+      <Typography.Title level={2} size="4xl" align="center">
         {t("motto")}
       </Typography.Title>
       <Spacer axis="vertical" size={4} />
       <Box maxWidth="xl">
-        <Typography.Paragraph color="foreground-tertiary" align="center">
+        <Typography.Paragraph
+          size="lg"
+          color="foreground-tertiary"
+          align="center"
+        >
           {t("description")}
         </Typography.Paragraph>
       </Box>

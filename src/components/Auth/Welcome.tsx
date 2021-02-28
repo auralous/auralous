@@ -38,7 +38,7 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
   );
 
   return (
-    <Modal.Modal title="Welcome to Stereo" active={active}>
+    <Modal.Modal title="Welcome to Auralous" active={active}>
       <form className="py-8 px-16" onSubmit={onSubmit}>
         <Typography.Paragraph id="welcomeUsernameLabel" align="center">
           {t("settings.username.label")}

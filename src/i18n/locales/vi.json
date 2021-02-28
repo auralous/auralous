@@ -3,7 +3,7 @@
     "title": "404",
     "description": "Bạn thoáng nghe tiếng nhạc bên tai nhưng không thấy gì ở trước mắt"
   },
-  "description": "Nghe nhạc cùng bạn bè khắp năm châu với Stereo. Bạn không cần gì ngoài gu âm nhạc và một tại khoản YouTube, Spotify, hoặc Apple Music.",
+  "description": "Nghe nhạc cùng bạn bè khắp năm châu. Bạn không cần gì ngoài gu âm nhạc và một tại khoản YouTube, Spotify, hoặc Apple Music.",
   "motto": "Âm nhạc Bên nhau",
   "contact": {
     "title": "Liên hệ",
@@ -35,7 +35,7 @@
     },
     "profile": {
       "title": "Về bản thân",
-      "authPrompt": "Tham gia Stereo để tùy chỉnh thông tin về bạn."
+      "authPrompt": "Đăng nhập để tùy chỉnh thông tin về bạn."
     },
     "username": {
       "label": "Tên người dùng",
@@ -71,7 +71,7 @@
     },
     "fromPlaylist": {
       "title": "Chọn từ playlist của bạn",
-      "authPrompt": "Đăng nhập vào Stereo để kết nối với playlist của bạn",
+      "authPrompt": "Đăng nhập để kết nối với playlist của bạn",
       "empty": "Bạn không có playlist nào"
     },
     "startEmpty": "Bắt đầu story trống",
@@ -106,7 +106,7 @@
   "story": {
     "label": "Story",
     "create": "Tạo story",
-    "description": "Tham gia cùng {{title}} trên Stereo và nghe nhạc cùng nhau.",
+    "description": "Tham gia cùng {{title}} trên Auralous và nghe nhạc cùng nhau.",
     "privacy": { "public": "Công khai", "private": "Riêng tư" },
     "queue": {
       "title": "Nhạc",
@@ -120,7 +120,7 @@
     "chat": {
       "title": "Chat",
       "authPrompt": "Trò chuyện với nhau",
-      "authPromptHook": "Nghe nhạc và trò chuyện cùng bạn bè khắp mọi nơi với tài khoản Stereo"
+      "authPromptHook": "Nghe nhạc và trò chuyện cùng bạn bè khắp mọi nơi với tài khoản Auralous"
     },
     "listeners": { "title": "Người nghe" },
     "menu": {
@@ -145,7 +145,7 @@
     },
     "share": {
       "title": "Mời bạn bè",
-      "authPrompt": "Tham gia Stereo và dễ dàng mời những người bạn theo dõi"
+      "authPrompt": "Đăng nhập để dễ dàng mời những người bạn theo dõi"
     },
     "invite": {
       "title": "Mời",
@@ -172,7 +172,7 @@
   },
   "user": {
     "profile": "Hồ sơ",
-    "description": "Tham gia Stereo cùng {{username}} và nghe nhạc cùng với bạn bè khắp năm châu.",
+    "description": "Tham gia Auralous cùng {{username}} và nghe nhạc cùng với bạn bè khắp năm châu.",
     "search": {
       "notFound": "Không tìm thấy người dùng"
     },
@@ -239,7 +239,7 @@
   },
   "playlist": {
     "addTitle": "Thêm vào playlist",
-    "authPrompt": "Tham gia Stereo để thêm vào playlist",
+    "authPrompt": "Đăng nhập để thêm nhạc vào playlist",
     "add": {
       "title": "Thêm vào {{title}}",
       "success": "Đã thêm {{trackTitle}} vào {{playlistTitle}}"
@@ -272,7 +272,7 @@
   "auth": {
     "hookDefault": "Nghe nhạc cùng với bạn bè trong story công khai hoặc riêng tư. Tất cả bạn cần là một tài khoản YouTube, Spotify, hoặc Apple Music.",
     "action": "Đăng nhập",
-    "label": "Đăng nhập vào Stereo",
+    "label": "Đăng nhập vào Auralous",
     "listenOn": "Nghe trên",
     "footerText": {
       "pre": "Khi tiếp tục, bạn đống ý với",
@@ -283,7 +283,7 @@
       "whereApplicable": "ở nơi áp dụng"
     },
     "permissionLink": "Tại sao cần quyền hạn này từ tài khoản của tôi?",
-    "createNotice": "Nếu đây là lần đầu tiên đăng nhập, bạn sẽ tạo một tài khoản Stereo"
+    "createNotice": "Nếu đây là lần đầu tiên đăng nhập, bạn sẽ tạo một tài khoản Auralous"
   },
   "footer": {
     "privacy": "Riêng tư",

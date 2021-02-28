@@ -7,14 +7,14 @@
 /* purgecss start ignore */
 
 :root {
-  --primary: hsl(349,100%,59%);
+  --primary: hsl(349, 100%, 59%);
   --primary-dark: hsl(349,67%,49%);
   --primary-label: #fff;
   --secondary: hsl(37, 91%, 55%);
   --secondary-light: hsl(37, 91%, 65%);
   --secondary-dark: hsl(37, 91%, 50%);
   --secondary-label: #000;
-  --background: hsl(231, 33%, 10%);
+  --background: hsl(229, 33%, 10%);
   --background-secondary: hsl(231, 27%, 15%);
   --control: hsl(231, 33%, 20%);
   --control-dark: hsl(231, 31%, 15%);

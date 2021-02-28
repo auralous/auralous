@@ -1,18 +1,19 @@
 <p align="center">
-  <a href="https://withstereo.com">
-    <img alt="Stereo" src="https://withstereo.com/images/banner.png" height="300px">
+  <a href="https://auralous.com">
+    <img alt="Auralous" src="https://auralous.com/images/banner.png" height="300px">
   </a>
 </p>
 
 > Music is always better when we listen together
 
-Stereo is a free project that lets you play & listen to music in sync with friends in public or private stories.
+Auralous is a free project that lets you play & listen to music in sync with friends in public or private stories.
 
-Stereo currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/). We hope to add support for [Apple Music](https://www.apple.com/apple-music/) soon.
+Auralous currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/). We hope to add support for [Apple Music](https://www.apple.com/apple-music/) soon.
 
-![CI](https://github.com/hoangvvo/stereo-web/workflows/CI/badge.svg)
+![CI](https://github.com/auralous/web/workflows/CI/badge.svg)
 [![PRs Welcome](https://badgen.net/badge/PRs/welcome/ff5252)](/CONTRIBUTING.md)
 
+Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com after `alpha`)
 ## Development
 
 ### Prerequisites
@@ -34,11 +35,11 @@ Certain environment variables are required to run this application:
 - `FATHOM_SITE_ID`: (optional) [Fathom](https://usefathom.com/) site ID for analytics.
 - `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`: (optional) Sentry environment variables: the first one for error reporting and the second for source map uploading.
 
-Create a `.env.local` file in the working dir to [set the environment variables](https://nextjs.org/docs/basic-features/environment-variables#loading-environment-variables). For development, set `APP_URI` to `http://localhost:3000`, `API_URI` to `https://api.withstereo.com`, `WEBSOCKET_URI` to `wss://api.withstereo.com`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
+Create a `.env.local` file in the working dir to [set the environment variables](https://nextjs.org/docs/basic-features/environment-variables#loading-environment-variables). For development, set `APP_URI` to `http://localhost:3000`, `API_URI` to `https://api.auralous.com`, `WEBSOCKET_URI` to `wss://api.auralous.com`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
 
 ### Authentication
 
-You cannot sign in to Stereo directly from the development app. See [#17](https://github.com/hoangvvo/stereo-web/issues/17) for instruction on how to authenticate.
+You cannot sign in to Auralous directly from the development app. See [#17](https://github.com/auralous/web/issues/17) for instruction on how to authenticate.
 
 ### Workflows
 

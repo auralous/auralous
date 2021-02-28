@@ -1,51 +1,29 @@
 {
-  "short_name": "Stereo",
-  "name": "Stereo: Music Together",
+  "short_name": "Auralous",
+  "name": "Auralous: Music Together",
+  "description": "Play & listen to music in sync with friends around the world",
+  "categories": ["music", "social"],
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-192x192.png",
+      "src": "/icons/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icons/icon-256x256.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-512x512.png",
+      "src": "/icons/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "start_url": "/",
-  "background_color": "#000000",
-  "theme_color": "#ffc107",
-  "display": "minimal-ui",
+  "screenshots": [{
+    "src": "/images/banner.png",
+    "sizes": "1600x900",
+    "type": "image/png"
+  }],
+  "start_url": "/listen",
+  "background_color": "#111422",
+  "theme_color": "#ff2e54",
+  "display": "fullscreen",
+  "orientation": "portrait",
   "scope": "/"
 }

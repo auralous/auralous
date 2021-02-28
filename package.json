@@ -1,8 +1,14 @@
 {
-  "name": "stereo-web",
+  "name": "@auralous/web",
   "version": "0.0.0",
-  "description": "Web App for Stereo",
-  "repository": "https://github.com/hoangvvo/stereo-web.git",
+  "description": "Web App for Auralous",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/auralous/web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/auralous/web/issues"
+  },
   "author": "Hoang Vo (https://hoangvvo.com/)",
   "license": "AGPL-3.0",
   "private": true,

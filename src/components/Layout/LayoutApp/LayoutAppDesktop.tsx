@@ -49,7 +49,7 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
     >
       <Box padding="sm" gap="sm">
         <Box paddingY="md">
-          <SvgLogo title="Stereo" className="w-32 h-12 mx-auto fill-current" />
+          <SvgLogo className="w-32 h-12 mx-auto fill-current" />
         </Box>
         {storyLive ? (
           <SidebarItem href={`/story/${storyLive.id}`} isBold>

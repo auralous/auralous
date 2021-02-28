@@ -89,7 +89,7 @@ export default function SpotifyPlayer() {
     async function init() {
       if (!window.Spotify?.Player || spotifyPlayer || !me?.accessToken) return;
       spotifyPlayer = new window.Spotify.Player({
-        name: "Stereo Web Player",
+        name: "Auralous Web Player",
         getOAuthToken: (cb) => me?.accessToken && cb(me.accessToken),
       });
       // readiness
