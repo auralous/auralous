@@ -13,6 +13,7 @@ Auralous currently supports streaming music on [YouTube](https://www.youtube.com
 ![CI](https://github.com/auralous/web/workflows/CI/badge.svg)
 [![PRs Welcome](https://badgen.net/badge/PRs/welcome/ff5252)](/CONTRIBUTING.md)
 
+Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com after `alpha`)
 ## Development
 
 ### Prerequisites
@@ -34,7 +35,7 @@ Certain environment variables are required to run this application:
 - `FATHOM_SITE_ID`: (optional) [Fathom](https://usefathom.com/) site ID for analytics.
 - `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`: (optional) Sentry environment variables: the first one for error reporting and the second for source map uploading.
 
-Create a `.env.local` file in the working dir to [set the environment variables](https://nextjs.org/docs/basic-features/environment-variables#loading-environment-variables). For development, set `APP_URI` to `http://localhost:3000`, `API_URI` to `https://api.withstereo.com`, `WEBSOCKET_URI` to `wss://api.withstereo.com`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
+Create a `.env.local` file in the working dir to [set the environment variables](https://nextjs.org/docs/basic-features/environment-variables#loading-environment-variables). For development, set `APP_URI` to `http://localhost:3000`, `API_URI` to `https://api.auralous.com`, `WEBSOCKET_URI` to `wss://api.auralous.com`, and `SENTRY_DSN` to `https://foo@bar.ingest.sentry.io/0`.
 
 ### Authentication
 
