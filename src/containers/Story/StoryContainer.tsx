@@ -1,8 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 import { useWindowHeight } from "@react-hook/window-size";
-import clsx from "clsx";
 import LayoutContext from "components/Layout/LayoutApp/LayoutAppContext";
-import { PlayerControl, usePlayer } from "components/Player";
+import { usePlayer } from "components/Player";
 import { StoryNav } from "components/Story";
 import { Box } from "components/View";
 import {
@@ -18,6 +17,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import StoryPlayer from "./StoryPlayer";
 import StoryQueue from "./StoryQueue";
+import StoryTopPlayer from "./StoryTopPlayer";
 
 const StoryChat = dynamic(() => import("./StoryChat"), { ssr: false });
 
@@ -89,16 +89,12 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
     <Tabs index={selectedIndex} onChange={setSelectedIndex}>
       <Box padding="md" justifyContent="center" style={{ height }}>
         <StoryNav onClose={onClose} story={story} />
+        <StoryTopPlayer
+          hidden={selectedIndex === 0}
+          onPress={() => setSelectedIndex(0)}
+        />
         <TabPanels className="flex-1 min-h-0 relative">
-          <AnimatedTabPanel
-            style={tabPanel0Style}
-            className={clsx(
-              selectedIndex === 0 ? "flex" : "hidden",
-              "justify-center",
-              "h-full"
-            )}
-            as="div"
-          >
+          <AnimatedTabPanel style={tabPanel0Style} className="h-full" as="div">
             <StoryPlayer story={story} />
           </AnimatedTabPanel>
           <AnimatedTabPanel style={tabPanel1Style} className="h-full" as="div">
@@ -109,11 +105,10 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
           </AnimatedTabPanel>
         </TabPanels>
         <TabList className="py-2 text-center z-10">
-          <Tab className={getClassName(0)}>{t("player.title")}</Tab>
+          <Tab className="sr-only">{t("player.title")}</Tab>
           <Tab className={getClassName(1)}>{t("story.chat.title")}</Tab>
           <Tab className={getClassName(2)}>{t("story.queue.title")}</Tab>
         </TabList>
-        <PlayerControl />
       </Box>
     </Tabs>
   );

@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { CSSProperties, forwardRef } from "react";
+import { onEnterKeyClick } from "utils/util";
 
 type LengthUnit = 0 | 1 | 2 | 4 | 8 | 10 | 12 | 16;
 
@@ -34,6 +35,7 @@ interface BoxProps {
     | "background-secondary"
     | "primary"
     | "primary-dark";
+  onPress?(): void;
 }
 
 const impMap: Record<BoxProps["gap"], number> = {
@@ -72,6 +74,7 @@ const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box(
     left,
     bottom,
     right,
+    onPress,
   },
   ref
 ) {
@@ -87,10 +90,10 @@ const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box(
         padding && `p-${impMap[padding]}`,
         paddingX && `px-${impMap[paddingX]}`,
         paddingY && `py-${impMap[paddingY]}`,
-        width && `w-${width}`,
+        width !== undefined && `w-${width}`,
         minWidth !== undefined && `min-w-${minWidth}`,
-        maxWidth && `max-w-${maxWidth}`,
-        height && `h-${height}`,
+        maxWidth !== undefined && `max-w-${maxWidth}`,
+        height !== undefined && `h-${height}`,
         minHeight !== undefined && `min-h-${minHeight}`,
         rounded && `rounded-${rounded}`,
         fullWidth && `w-full`,
@@ -107,6 +110,11 @@ const Box = forwardRef<HTMLDivElement, Partial<BoxProps>>(function Box(
       )}
       style={style}
       ref={ref}
+      {...(onPress && {
+        onClick: onPress,
+        tabIndex: 0,
+        onKeyPress: onEnterKeyClick,
+      })}
     >
       {children}
     </div>

@@ -1,4 +1,9 @@
-import { PlayerImage, PlayerMeta, usePlayer } from "components/Player";
+import {
+  PlayerControl,
+  PlayerImage,
+  PlayerMeta,
+  usePlayer,
+} from "components/Player";
 import { Box } from "components/View";
 import { Story } from "gql/gql.gen";
 import StoryReaction from "./StoryReaction";
@@ -11,12 +16,13 @@ const StoryPlayer: React.FC<{ story: Story }> = ({ story }) => {
   return (
     <Box fullWidth fullHeight>
       <PlayerImage track={crossTracks?.original} />
-      <Box row justifyContent="between">
+      <Box row justifyContent="between" paddingY="sm">
         <Box row flex={1} minWidth={0}>
           <PlayerMeta track={crossTracks?.original} fetching={fetching} />
         </Box>
         {story.isLive && <StoryReaction story={story} />}
       </Box>
+      <PlayerControl />
     </Box>
   );
 };
