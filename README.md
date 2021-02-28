@@ -1,16 +1,16 @@
 <p align="center">
-  <a href="https://withstereo.com">
-    <img alt="Stereo" src="https://withstereo.com/images/banner.png" height="300px">
+  <a href="https://auralous.com">
+    <img alt="Auralous" src="https://auralous.com/images/banner.png" height="300px">
   </a>
 </p>
 
 > Music is always better when we listen together
 
-Stereo is a free project that lets you play & listen to music in sync with friends in public or private stories.
+Auralous is a free project that lets you play & listen to music in sync with friends in public or private stories.
 
-Stereo currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/). We hope to add support for [Apple Music](https://www.apple.com/apple-music/) soon.
+Auralous currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/). We hope to add support for [Apple Music](https://www.apple.com/apple-music/) soon.
 
-![CI](https://github.com/hoangvvo/stereo-web/workflows/CI/badge.svg)
+![CI](https://github.com/auralous/web/workflows/CI/badge.svg)
 [![PRs Welcome](https://badgen.net/badge/PRs/welcome/ff5252)](/CONTRIBUTING.md)
 
 ## Development
@@ -38,7 +38,7 @@ Create a `.env.local` file in the working dir to [set the environment variables]
 
 ### Authentication
 
-You cannot sign in to Stereo directly from the development app. See [#17](https://github.com/hoangvvo/stereo-web/issues/17) for instruction on how to authenticate.
+You cannot sign in to Auralous directly from the development app. See [#17](https://github.com/auralous/web/issues/17) for instruction on how to authenticate.
 
 ### Workflows
 

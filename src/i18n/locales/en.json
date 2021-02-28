@@ -35,7 +35,7 @@
     },
     "profile": {
       "title": "About Myself",
-      "authPrompt": "Join Stereo to customize your profile."
+      "authPrompt": "Join to customize your profile."
     },
     "username": {
       "label": "Username",
@@ -44,7 +44,7 @@
     "profilePicture": { "label": "Profile picture" },
     "listening": {
       "title": "Listening on {{name}}",
-      "connectedTo": "Your Stereo account is connected to {{name}}. If you wish to switch",
+      "connectedTo": "Your account is connected to {{name}}. If you wish to switch",
       "contactUs": "contact us"
     },
     "signOut": "Sign Out"
@@ -71,7 +71,7 @@
     },
     "fromPlaylist": {
       "title": "Select from your playlists",
-      "authPrompt": "Join Stereo to connect to your playlists",
+      "authPrompt": "Sign in to connect to your playlists",
       "empty": "You have no playlist"
     },
     "startEmpty": "Start without songs",
@@ -106,7 +106,7 @@
   "story": {
     "label": "Story",
     "create": "Create Story",
-    "description": "Join {{title}} on Stereo and listen to music together.",
+    "description": "Join {{title}} on Auralous and listen to music together.",
     "privacy": { "public": "Public", "private": "Private" },
     "queue": {
       "title": "Tracks",
@@ -120,7 +120,7 @@
     "chat": {
       "title": "Chat",
       "authPrompt": "Say hi to each other",
-      "authPromptHook": "Listen to music with friends and chat no matter where they are with a Stereo account"
+      "authPromptHook": "Listen to music with friends and chat no matter where they are with a Auralous account"
     },
     "listeners": { "title": "Listeners" },
     "menu": {
@@ -145,7 +145,7 @@
     },
     "share": {
       "title": "Invite friends",
-      "authPrompt": "Join Stereo and easily invite people you follow"
+      "authPrompt": "Sign in and easily invite people you follow"
     },
     "invite": {
       "title": "Invite",
@@ -172,7 +172,7 @@
   },
   "user": {
     "profile": "Profile",
-    "description": "Join {{username}} on Stereo and listen along to the music with friends around the globe.",
+    "description": "Join {{username}} on Auralous and listen along to the music with friends around the globe.",
     "search": {
       "notFound": "User is not found"
     },
@@ -239,7 +239,7 @@
   },
   "playlist": {
     "addTitle": "Add to Playlist",
-    "authPrompt": "Join Stereo to Add Songs to Playlists",
+    "authPrompt": "Sign in to Add Songs to Playlists",
     "add": {
       "title": "Add to {{title}}",
       "success": "Added {{trackTitle}} to {{playlistTitle}}"
@@ -272,7 +272,7 @@
   "auth": {
     "hookDefault": "Start listening to music in sync with friends in public or private stories. All you need is an YouTube, Spotify, or Apple Music account.",
     "action": "Join now",
-    "label": "Sign in to Stereo",
+    "label": "Sign in to Auralous",
     "listenOn": "Listen on",
     "footerText": {
       "pre": "By continuing, you agree to our friendly",
@@ -283,7 +283,7 @@
       "whereApplicable": "where applicable"
     },
     "permissionLink": "Why asking for such permissions from my account?",
-    "createNotice": "If you did not previously sign up, you will be creating a Stereo account"
+    "createNotice": "If you did not previously sign up, you will be creating a Auralous account"
   },
   "footer": {
     "privacy": "Privacy",
