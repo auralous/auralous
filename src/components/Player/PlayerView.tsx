@@ -109,7 +109,7 @@ export const PlayerProgressBar: React.FC = () => {
 
   useEffect(() => {
     setCurrent(0);
-  }, [playerPlaying]);
+  }, [playerPlaying?.id]);
 
   const duration = playerPlaying?.duration || 0;
   const progressPerc = duration && `${(current / duration) * 100}%`;

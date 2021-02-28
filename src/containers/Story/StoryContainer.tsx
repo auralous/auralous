@@ -2,6 +2,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 import { useWindowHeight } from "@react-hook/window-size";
 import LayoutContext from "components/Layout/LayoutApp/LayoutAppContext";
 import { usePlayer } from "components/Player";
+import { Spacer } from "components/Spacer";
 import { StoryNav } from "components/Story";
 import { Box } from "components/View";
 import {
@@ -57,10 +58,10 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
 
   const getClassName = useCallback(
     (index: number) =>
-      `mx-1 px-3 text-xs py-1 rounded-full uppercase ${
+      `px-3 text-xs py-2 uppercase font-bold flex-1 ${
         index === selectedIndex
-          ? "font-bold text-primary"
-          : "text-foreground-tertiary opacity-50"
+          ? "text-background bg-foreground"
+          : "text-foreground-tertiary bg-background-secondary opacity-50"
       } transition`,
     [selectedIndex]
   );
@@ -87,7 +88,12 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
 
   return (
     <Tabs index={selectedIndex} onChange={setSelectedIndex}>
-      <Box padding="md" justifyContent="center" style={{ height }}>
+      <Box
+        position="relative"
+        padding="md"
+        justifyContent="center"
+        style={{ height }}
+      >
         <StoryNav onClose={onClose} story={story} />
         <StoryTopPlayer
           hidden={selectedIndex === 0}
@@ -104,7 +110,8 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
             <StoryQueue story={story} />
           </AnimatedTabPanel>
         </TabPanels>
-        <TabList className="py-2 text-center z-10">
+        <Spacer axis="vertical" size={6} />
+        <TabList className="overflow-hidden rounded-t-3xl bg-background-secondary absolute w-full bottom-0 left-0 flex z-10">
           <Tab className="sr-only">{t("player.title")}</Tab>
           <Tab className={getClassName(1)}>{t("story.chat.title")}</Tab>
           <Tab className={getClassName(2)}>{t("story.queue.title")}</Tab>

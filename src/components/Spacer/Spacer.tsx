@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 interface SpacerProps {
-  size: 1 | 2 | 4 | 8 | 12;
+  size: 1 | 2 | 4 | 6 | 8 | 12;
   axis?: "vertical" | "horizontal";
   style?: React.CSSProperties;
 }
