@@ -3,11 +3,13 @@ import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
-import { useI18n } from "i18n/index";
+import { useMeLiveStory } from "hooks/user";
+import { t as i18nT, useI18n } from "i18n/index";
 import ms from "ms";
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { toast } from "utils/toast";
 
 const StorySlider = dynamic(() => import("./StorySlider"), { ssr: false });
 
@@ -95,6 +97,20 @@ const StoryFeed: React.FC<{ id: string }> = ({ id }) => {
       setNext(stories[stories.length - 1].id);
   }, [inViewLoadMore, stories]);
 
+  const storyLive = useMeLiveStory();
+
+  const startBrowse = (index: number) => {
+    if (storyLive) {
+      toast.open({
+        type: "info",
+        message: i18nT("story.ongoing.prompt"),
+      });
+      return;
+    }
+    setIntialSlide(index);
+    open();
+  };
+
   return (
     <>
       <div className="w-full p-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -102,10 +118,7 @@ const StoryFeed: React.FC<{ id: string }> = ({ id }) => {
           <StoryItem
             key={story.id}
             story={story}
-            onClick={() => {
-              setIntialSlide(index);
-              open();
-            }}
+            onClick={() => startBrowse(index)}
           />
         ))}
         {/* Load more observer */}

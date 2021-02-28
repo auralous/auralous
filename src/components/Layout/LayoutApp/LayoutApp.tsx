@@ -3,7 +3,7 @@ import { LoadingFullpage } from "components/Loading";
 import { Box } from "components/View";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import LayoutAppContext from "./LayoutAppContext";
 
 const LayoutAppDesktop = dynamic(() => import("./LayoutAppDesktop"), {
@@ -21,6 +21,14 @@ const LayoutApp: React.FC = ({ children }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const back = useCallback(() => {
+    if (prevPathnameRef.current) {
+      router.back();
+    } else {
+      router.replace("/listen");
+    }
+  }, [router]);
 
   useEffect(() => {
     const onRouteChangeComplete = (url: string) => {
@@ -41,7 +49,7 @@ const LayoutApp: React.FC = ({ children }) => {
   const [viewWidth, viewHeight] = useWindowSize();
 
   return (
-    <LayoutAppContext.Provider value={{ prevPathname: prevPathnameRef }}>
+    <LayoutAppContext.Provider value={{ back }}>
       <Box alignItems="start" row justifyContent="center">
         {viewWidth > 768 ? (
           <LayoutAppDesktop height={viewHeight} />

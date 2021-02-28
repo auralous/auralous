@@ -2,7 +2,6 @@ import { LogInProvider } from "components/Auth/index";
 import { LayoutApp, LayoutIndex } from "components/Layout";
 import NotificationWatcher from "components/Notification/NotificationWatcher";
 import { PlayerProvider } from "components/Player";
-import StoryOngoingWatcher from "components/Story/StoryOngoingWatcher";
 import * as Fathom from "fathom-client";
 import { createUrqlClient } from "gql/urql";
 import { I18n } from "i18n/index";
@@ -84,7 +83,6 @@ export default function MyApp({ Component, pageProps, router }: AppProps) {
             />
             <Layout>
               <Component {...pageProps} />
-              <StoryOngoingWatcher />
             </Layout>
           </PlayerProvider>
         </LogInProvider>

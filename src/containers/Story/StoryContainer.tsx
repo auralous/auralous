@@ -13,7 +13,6 @@ import {
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import StoryPlayer from "./StoryPlayer";
@@ -76,13 +75,7 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
     2 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
 
-  const router = useRouter();
-  const { prevPathname } = useContext(LayoutContext);
-
-  const onClose = useCallback(
-    () => (prevPathname.current ? router.back() : router.replace("/listen")),
-    [router, prevPathname]
-  );
+  const { back } = useContext(LayoutContext);
 
   const height = useWindowHeight();
 
@@ -94,7 +87,7 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
         justifyContent="center"
         style={{ height }}
       >
-        <StoryNav onClose={onClose} story={story} />
+        <StoryNav onClose={back} story={story} />
         <StoryTopPlayer
           hidden={selectedIndex === 0}
           onPress={() => setSelectedIndex(0)}

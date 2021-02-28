@@ -140,7 +140,7 @@
       "success": "The story has been ended"
     },
     "ongoing": {
-      "title": "You have an ongoing live story. Would you like to get back to it?",
+      "prompt": "You have an ongoing live story. You must end it before continuing.",
       "goto": "Go to story"
     },
     "share": {

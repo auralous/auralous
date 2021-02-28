@@ -1,9 +1,5 @@
 import { createContext } from "react";
 
-const LayoutAppContext = createContext<{
-  prevPathname: React.MutableRefObject<string>;
-}>({
-  prevPathname: { current: "" },
-});
+const LayoutAppContext = createContext({} as { back(): void });
 
 export default LayoutAppContext;

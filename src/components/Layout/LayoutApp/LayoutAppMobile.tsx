@@ -1,6 +1,7 @@
 import {
   SvgEnter,
   SvgMathPlus,
+  SvgMediaPodcast,
   SvgNotifications,
   SvgPin,
   SvgPlayButtonButtonO,
@@ -10,7 +11,7 @@ import clsx from "clsx";
 import { useLogin } from "components/Auth";
 import { PlayerMinibar } from "components/Player";
 import { Box } from "components/View";
-import { useMe } from "hooks/user";
+import { useMe, useMeLiveStory } from "hooks/user";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -52,6 +53,8 @@ const Appbar: React.FC = () => {
 
   const hasNotification = useHasNotification(me?.user);
 
+  const storyLive = useMeLiveStory();
+
   if (fullLayoutPathnames.includes(router.pathname)) return null;
 
   return (
@@ -79,9 +82,20 @@ const Appbar: React.FC = () => {
         <AppbarItem href="/map" title={t("map.title")}>
           <SvgPin className="w-4 h-4" />
         </AppbarItem>
-        <AppbarItem isBold href="/new" title={t("story.create")}>
-          <SvgMathPlus className="w-6 h-6" />
-        </AppbarItem>
+        {storyLive ? (
+          <AppbarItem
+            isBold
+            href={`/story/${storyLive.id}`}
+            title={t("story.ongoing.goto")}
+          >
+            <SvgMediaPodcast className="w-6 h-6 animate-pulse" />
+          </AppbarItem>
+        ) : (
+          <AppbarItem isBold href="/new" title={t("story.create")}>
+            <SvgMathPlus className="w-6 h-6" />
+          </AppbarItem>
+        )}
+
         <AppbarItem href="/notifications" title={t("notification.title")}>
           <SvgNotifications className="w-4 h-4" />
           {hasNotification && (

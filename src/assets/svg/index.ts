@@ -7,6 +7,7 @@ export { default as SvgHeart } from "css.gg/icons/svg/heart.svg";
 export { default as SvgLink } from "css.gg/icons/svg/link.svg";
 export { default as SvgMail } from "css.gg/icons/svg/mail.svg";
 export { default as SvgMathPlus } from "css.gg/icons/svg/math-plus.svg";
+export { default as SvgMediaPodcast } from "css.gg/icons/svg/media-podcast.svg";
 export { default as SvgMenu } from "css.gg/icons/svg/menu.svg";
 export { default as SvgMoreAlt } from "css.gg/icons/svg/more-alt.svg";
 export { default as SvgMoreVerticalAlt } from "css.gg/icons/svg/more-vertical-alt.svg";

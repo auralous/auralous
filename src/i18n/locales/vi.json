@@ -140,7 +140,7 @@
       "success": "The story has been ended"
     },
     "ongoing": {
-      "title": "Bạn đang có một story trực tiếp. Bạn có muốn trở lại với nó không?",
+      "prompt": "Bạn đang có một story trực tiếp. Bạn cần kết thúc nó để tiếp tục.",
       "goto": "Đi đến Story"
     },
     "share": {

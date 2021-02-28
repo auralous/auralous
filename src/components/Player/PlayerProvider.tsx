@@ -10,9 +10,10 @@ import {
   useStoryQuery,
 } from "gql/gql.gen";
 import { useCrossTracks } from "hooks/track";
-import { useMe } from "hooks/user";
+import { useMe, useMeLiveStory } from "hooks/user";
 import { t } from "i18n/index";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { PLATFORM_FULLNAMES } from "utils/constants";
 import { toast } from "utils/toast";
@@ -164,6 +165,16 @@ const PlayerProvider: React.FC = ({ children }) => {
     requestPolicy: "cache-and-network",
   });
 
+  const storyLive = useMeLiveStory();
+
+  const router = useRouter();
+
+  // if user has ongoing story, redirect them
+  useEffect(() => {
+    if (storyLive?.id) router.replace(`/story/${storyLive.id}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storyLive?.id]);
+
   // We priodically get new tokens for services such as Spotify or Apple Music
   useEffect(() => {
     let t: number | undefined;
@@ -188,6 +199,7 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   // Player Control: To play a story or a track
   const [playingStoryId, playStory] = useState<string>("");
+
   useEffect(() => {
     if (playingStoryId) player.wasPlaying = true;
   }, [playingStoryId]);

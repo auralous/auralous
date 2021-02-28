@@ -5,7 +5,7 @@ import { PlayerMinibar } from "components/Player";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
-import { useMe } from "hooks/user";
+import { useMe, useMeLiveStory } from "hooks/user";
 import { useI18n } from "i18n";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -40,6 +40,8 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
 
   const hasNotification = useHasNotification(me?.user);
 
+  const storyLive = useMeLiveStory();
+
   return (
     <div
       className="w-56 sticky top-0 overflow-auto"
@@ -49,9 +51,15 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
         <Box paddingY="md">
           <SvgLogo title="Stereo" className="w-32 h-12 mx-auto fill-current" />
         </Box>
-        <SidebarItem href="/new" isBold>
-          {t("story.create")}
-        </SidebarItem>
+        {storyLive ? (
+          <SidebarItem href={`/story/${storyLive.id}`} isBold>
+            {t("story.ongoing.goto")}
+          </SidebarItem>
+        ) : (
+          <SidebarItem href="/new" isBold>
+            {t("story.create")}
+          </SidebarItem>
+        )}
         <SidebarItem href="/listen">{t("listen.title")}</SidebarItem>
         <SidebarItem href="/map">{t("map.title")}</SidebarItem>
         <SidebarItem href="/notifications">
