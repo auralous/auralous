@@ -1,4 +1,4 @@
-import { SvgLoadingAnimated } from "assets/svg";
+import { SvgSpinnerAlt } from "assets/svg";
 import { AuthBanner } from "components/Auth";
 import { PlaylistItem } from "components/Playlist";
 import { PressableHighlight } from "components/Pressable";
@@ -63,7 +63,7 @@ const SelectFromPlaylists: React.FC<{
   if (fetching)
     return (
       <Typography.Text size="xl" color="foreground-tertiary">
-        <SvgLoadingAnimated />
+        <SvgSpinnerAlt className="animate-spin" />
       </Typography.Text>
     );
 

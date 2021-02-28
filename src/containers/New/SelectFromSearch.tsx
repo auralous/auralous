@@ -1,4 +1,4 @@
-import { SvgLoadingAnimated, SvgSearch } from "assets/svg";
+import { SvgSearch, SvgSpinnerAlt } from "assets/svg";
 import { Input } from "components/Form";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
@@ -75,7 +75,13 @@ const SelectFromSearch: React.FC<{
           type="submit"
           accessibilityLabel={t("new.fromSearch.action")}
           disabled={fetching}
-          icon={fetching ? <SvgLoadingAnimated /> : <SvgSearch />}
+          icon={
+            fetching ? (
+              <SvgSpinnerAlt className="animate-spin" />
+            ) : (
+              <SvgSearch />
+            )
+          }
         />
       </form>
     </>

@@ -1,4 +1,4 @@
-import { SvgLogo, SvgMenu, SvgX } from "assets/svg";
+import { SvgClose, SvgLogo, SvgMenu } from "assets/svg";
 import clsx from "clsx";
 import { usePlayer } from "components/Player";
 import { Spacer } from "components/Spacer";
@@ -100,7 +100,7 @@ const Navbar: React.FC = () => {
             className="px-2 py-1 z-10 md:hidden"
             onClick={() => setExpanded(!expanded)}
           >
-            {expanded ? <SvgX /> : <SvgMenu />}
+            {expanded ? <SvgClose /> : <SvgMenu />}
           </button>
           <div
             className={clsx(

@@ -1,4 +1,4 @@
-import { SvgShare2 } from "assets/svg";
+import { SvgShare } from "assets/svg";
 import { AuthBanner } from "components/Auth";
 import { Messenger } from "components/Message/index";
 import { useModal } from "components/Modal";
@@ -30,7 +30,7 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
           color="primary"
           accessibilityLabel={t("story.share.title")}
           onPress={open}
-          icon={<SvgShare2 className="w-4 h-4" />}
+          icon={<SvgShare className="w-4 h-4" />}
           shape="circle"
           size="sm"
         />

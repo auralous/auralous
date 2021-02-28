@@ -1,5 +1,5 @@
 import { DialogContent, DialogOverlay } from "@reach/dialog";
-import { SvgX } from "assets/svg";
+import { SvgClose } from "assets/svg";
 import clsx from "clsx";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
@@ -86,7 +86,7 @@ const Modal: React.FC<{
                   <Box position="absolute" top={2} right={2}>
                     <Button
                       accessibilityLabel={t("modal.close")}
-                      icon={<SvgX className="w-8 h-8" />}
+                      icon={<SvgClose className="w-8 h-8" />}
                       onPress={close}
                       shape="circle"
                       styling="link"

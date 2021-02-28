@@ -1,4 +1,4 @@
-import { SvgLoadingAnimated } from "assets/svg";
+import { SvgSpinnerAlt } from "assets/svg";
 import { Input } from "components/Form";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
@@ -92,7 +92,11 @@ const TrackAdderSearch: React.FC<{
           required
         />
       </form>
-      {isSearching && <SvgLoadingAnimated className="absolute-center" />}
+      {isSearching && (
+        <div className="absolute-center">
+          <SvgSpinnerAlt className="animate-spin" />
+        </div>
+      )}
       {isEmpty && (
         <div className="absolute-center p-4">
           <Typography.Paragraph

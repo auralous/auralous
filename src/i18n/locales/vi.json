@@ -144,7 +144,8 @@
       "goto": "Đi đến Story"
     },
     "share": {
-      "title": "Mời bạn bè"
+      "title": "Mời bạn bè",
+      "authPrompt": "Tham gia Stereo và dễ dàng mời những người bạn theo dõi"
     },
     "invite": {
       "title": "Mời",

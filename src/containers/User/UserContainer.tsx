@@ -26,7 +26,7 @@ const UserFollowingModals: React.FC<{
   const { t } = useI18n();
 
   const [
-    { data: { userFollowings } = { userFollowings: undefined } },
+    { data: { userFollowings } = { userFollowings: undefined }, fetching },
   ] = useUserFollowingsQuery({
     variables: { id },
     pause: !active,
@@ -39,7 +39,7 @@ const UserFollowingModals: React.FC<{
         <Modal.Title>{t("user.following")}</Modal.Title>
       </Modal.Header>
       <Modal.Content>
-        <UserList userIds={userFollowings || []} />
+        <UserList userIds={userFollowings || []} loading={fetching} />
       </Modal.Content>
     </Modal.Modal>
   );
@@ -53,7 +53,7 @@ const UserFollowerModals: React.FC<{
   const { t } = useI18n();
 
   const [
-    { data: { userFollowers } = { userFollowers: undefined } },
+    { data: { userFollowers } = { userFollowers: undefined }, fetching },
   ] = useUserFollowersQuery({
     variables: { id },
     pause: !active,
@@ -66,7 +66,7 @@ const UserFollowerModals: React.FC<{
         <Modal.Title>{t("user.followers")}</Modal.Title>
       </Modal.Header>
       <Modal.Content>
-        <UserList userIds={userFollowers || []} />
+        <UserList userIds={userFollowers || []} loading={fetching} />
       </Modal.Content>
     </Modal.Modal>
   );

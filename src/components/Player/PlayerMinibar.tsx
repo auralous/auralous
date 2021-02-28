@@ -1,6 +1,7 @@
-import { SvgPause, SvgPlay, SvgX } from "assets/svg";
+import { SvgClose, SvgPlayButton, SvgPlayButtonPause } from "assets/svg";
 import { Skeleton } from "components/Loading";
 import { Button } from "components/Pressable";
+import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { useI18n } from "i18n/index";
@@ -90,9 +91,9 @@ const PlayerMinibar: React.FC = () => {
         onPress={() => (isPlaying ? player.pause() : player.play())}
         icon={
           isPlaying ? (
-            <SvgPause className="fill-current" />
+            <SvgPlayButtonPause className="fill-current w-8 h-8" />
           ) : (
-            <SvgPlay className="fill-current" />
+            <SvgPlayButton className="fill-current w-10 h-10" />
           )
         }
         styling="link"
@@ -100,9 +101,10 @@ const PlayerMinibar: React.FC = () => {
       <Button
         accessibilityLabel={t("player.stopPlaying")}
         onPress={() => playStory("")}
-        icon={<SvgX />}
+        icon={<SvgClose className="w-6 h-6" />}
         styling="link"
       />
+      <Spacer size={1} axis="horizontal" />
     </Box>
   );
 };

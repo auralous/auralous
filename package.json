@@ -27,6 +27,7 @@
     "@urql/exchange-refocus": "^0.2.1",
     "autoprefixer": "^10.2.4",
     "clsx": "^1.1.1",
+    "css.gg": "^2.0.0",
     "fathom-client": "^3.0.0",
     "graphql": "^15.5.0",
     "graphql-ws": "^4.2.0",

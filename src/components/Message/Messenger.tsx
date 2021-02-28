@@ -1,4 +1,4 @@
-import { SvgLogIn, SvgMusic } from "assets/svg";
+import { SvgEnter, SvgMusic } from "assets/svg";
 import { Input } from "components/Form";
 import { useModal } from "components/Modal";
 import { Button, PressableHighlight } from "components/Pressable";
@@ -57,7 +57,7 @@ const MessageItemJoin: React.FC<{
   return (
     <MessageItemSpecial
       text={t("message.join.text", { username: user?.username || "" })}
-      Icon={SvgLogIn}
+      Icon={SvgEnter}
       createdAt={message.createdAt}
     />
   );

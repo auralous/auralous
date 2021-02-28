@@ -1,4 +1,5 @@
 import { SvgFacebook, SvgLink, SvgReddit, SvgTwitter } from "assets/svg";
+import { AuthBanner } from "components/Auth";
 import { Modal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
@@ -27,7 +28,10 @@ const StoryShare: React.FC<{
   const me = useMe();
 
   const [
-    { data: { userFollowings } = { userFollowings: undefined } },
+    {
+      data: { userFollowings } = { userFollowings: undefined },
+      fetching: fetchingFollowings,
+    },
   ] = useUserFollowingsQuery({
     variables: { id: me?.user.id || "" },
     pause: !me,
@@ -73,6 +77,15 @@ const StoryShare: React.FC<{
         <Modal.Title>{t("story.share.title")}</Modal.Title>
       </Modal.Header>
       <Modal.Content>
+        <Typography.Title
+          level={4}
+          strong
+          size="sm"
+          color="foreground-secondary"
+          align="center"
+        >
+          {t("share.title")}
+        </Typography.Title>
         <Box row justifyContent="center" alignItems="center" gap="sm">
           <Button
             onPress={() =>
@@ -107,20 +120,27 @@ const StoryShare: React.FC<{
             size="xl"
           />
         </Box>
-        <Spacer size={4} axis="vertical" />
-        {userFollowings ? (
-          <>
-            <Typography.Title
-              level={4}
-              strong
-              size="sm"
-              color="foreground-secondary"
-            >
-              {t("user.following")}
-            </Typography.Title>
-            <UserList Element={InviteUserElement} userIds={userFollowings} />
-          </>
-        ) : null}
+        <Spacer size={8} axis="vertical" />
+        <Typography.Title
+          level={4}
+          strong
+          size="sm"
+          color="foreground-secondary"
+          align="center"
+        >
+          {t("user.following")}
+        </Typography.Title>
+        {me ? (
+          <UserList
+            Element={InviteUserElement}
+            userIds={userFollowings || []}
+            loading={fetchingFollowings}
+          />
+        ) : (
+          <Box alignItems="center">
+            <AuthBanner prompt="" hook={t("story.share.authPrompt")} />
+          </Box>
+        )}
       </Modal.Content>
     </Modal.Modal>
   );

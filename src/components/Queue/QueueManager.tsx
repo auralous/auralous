@@ -1,4 +1,4 @@
-import { SvgGripVertical } from "assets/svg/index";
+import { SvgMoreVerticalAlt, SvgPlayListRemove } from "assets/svg/index";
 import clsx from "clsx";
 import { Button } from "components/Pressable";
 import { TrackItem } from "components/Track/index";
@@ -82,7 +82,7 @@ const QueueDraggableItem: React.FC<{
             trackTitle: track?.title,
           })}
           styling="link"
-          icon={<SvgGripVertical />}
+          icon={<SvgMoreVerticalAlt />}
         />
       </div>
       <Box paddingX="sm" row alignItems="center" minWidth={0} flex={1}>
@@ -98,23 +98,7 @@ const QueueDraggableItem: React.FC<{
           })}
           styling="link"
           onPress={removeItem}
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              className="stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={8}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          }
+          icon={<SvgPlayListRemove />}
         />
       )}
     </div>

@@ -1,9 +1,9 @@
 import {
-  SvgActivity,
-  SvgLogIn,
-  SvgMapPin,
-  SvgPlayCircle,
-  SvgPlus,
+  SvgEnter,
+  SvgMathPlus,
+  SvgNotifications,
+  SvgPin,
+  SvgPlayButtonButtonO,
   SvgUser,
 } from "assets/svg";
 import clsx from "clsx";
@@ -74,16 +74,16 @@ const Appbar: React.FC = () => {
         }}
       >
         <AppbarItem href="/listen" title={t("listen.title")}>
-          <SvgPlayCircle className="w-4 h-4" />
+          <SvgPlayButtonButtonO className="w-4 h-4" />
         </AppbarItem>
         <AppbarItem href="/map" title={t("map.title")}>
-          <SvgMapPin className="w-4 h-4" />
+          <SvgPin className="w-4 h-4" />
         </AppbarItem>
         <AppbarItem isBold href="/new" title={t("story.create")}>
-          <SvgPlus className="w-6 h-6" />
+          <SvgMathPlus className="w-6 h-6" />
         </AppbarItem>
         <AppbarItem href="/notifications" title={t("notification.title")}>
-          <SvgActivity className="w-4 h-4" />
+          <SvgNotifications className="w-4 h-4" />
           {hasNotification && (
             <span className="w-2 h-2 rounded-full bg-primary absolute top-2 left-1/2 ml-2 animate-pulse" />
           )}
@@ -102,7 +102,7 @@ const Appbar: React.FC = () => {
             title={t("common.signIn")}
             onClick={logIn}
           >
-            <SvgLogIn className="w-4 h-4" />
+            <SvgEnter className="w-4 h-4" />
           </button>
         )}
       </div>

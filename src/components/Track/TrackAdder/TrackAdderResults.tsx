@@ -1,4 +1,4 @@
-import { SvgCheck, SvgPlus } from "assets/svg";
+import { SvgPlayListAdd, SvgPlayListCheck } from "assets/svg";
 import { Button } from "components/Pressable";
 import { TrackItem } from "components/Track/index";
 import { Box } from "components/View";
@@ -51,9 +51,7 @@ const SearchResultRow = memo<ListChildComponentProps>(function Row({
       </Box>
       <Button
         accessibilityLabel={t("queue.manager.add")}
-        icon={
-          added ? <SvgCheck className="w-4" /> : <SvgPlus className="w-4" />
-        }
+        icon={added ? <SvgPlayListCheck /> : <SvgPlayListAdd />}
         onPress={onAdded}
         disabled={isAdding}
       />

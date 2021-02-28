@@ -1,4 +1,4 @@
-import { SvgPlus, SvgUserPlus } from "assets/svg";
+import { SvgPlayListAdd, SvgUserAdd } from "assets/svg";
 import { useLogin } from "components/Auth";
 import { Modal, useModal } from "components/Modal";
 import { usePlayer } from "components/Player";
@@ -37,7 +37,7 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
             color="primary"
             accessibilityLabel={t("story.queueable.title")}
             onPress={open}
-            icon={<SvgUserPlus className="w-4 h-4" />}
+            icon={<SvgUserAdd className="w-4 h-4" />}
             shape="circle"
             size="sm"
           />
@@ -96,15 +96,13 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
       <Box fullHeight>
         <StoryQueueAdder story={story} active={active} close={close} />
         <StoryQueueableManager story={story} />
-        <Box alignItems="center">
+        <Box alignItems="center" paddingY="xs">
           <Button
             title={t("story.queue.adderTitle")}
-            icon={<SvgPlus className="w-4 h-4" />}
+            icon={<SvgPlayListAdd className="w-4 h-4" />}
             size="sm"
             onPress={onAddButtonClick}
             shape="circle"
-            styling="outline"
-            color="primary"
           />
         </Box>
         <Box flex={1} minHeight={0}>

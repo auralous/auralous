@@ -1,4 +1,9 @@
-import { SvgPause, SvgPlay, SvgSkipBack, SvgSkipForward } from "assets/svg";
+import {
+  SvgPlayButton,
+  SvgPlayButtonPause,
+  SvgPlayTrackNext,
+  SvgPlayTrackPrev,
+} from "assets/svg";
 import { Skeleton } from "components/Loading";
 import { useModal } from "components/Modal";
 import { Button } from "components/Pressable";
@@ -41,7 +46,9 @@ export const PlayerControl: React.FC = () => {
         accessibilityLabel={t("player.skipBackward")}
         onPress={skipBackward}
         disabled={!skipBackward}
-        icon={<SvgSkipBack className="w-6 h-6 fill-current stroke-current" />}
+        icon={
+          <SvgPlayTrackPrev className="w-6 h-6 fill-current stroke-current" />
+        }
         styling="link"
       />
       <Box position="relative">
@@ -49,9 +56,9 @@ export const PlayerControl: React.FC = () => {
           accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
           icon={
             isPlaying ? (
-              <SvgPause className="w-8 h-8 fill-current" />
+              <SvgPlayButtonPause className="w-8 h-8 fill-current" />
             ) : (
-              <SvgPlay className="w-8 h-8 fill-current" />
+              <SvgPlayButton className="w-12 h-12 fill-current" />
             )
           }
           onPress={() => (isPlaying ? player.pause() : player.play())}
@@ -66,7 +73,7 @@ export const PlayerControl: React.FC = () => {
         onPress={skipForward}
         disabled={!skipForward}
         icon={
-          <SvgSkipForward className="w-6 h-6 fill-current stroke-current" />
+          <SvgPlayTrackNext className="w-6 h-6 fill-current stroke-current" />
         }
         styling="link"
       />

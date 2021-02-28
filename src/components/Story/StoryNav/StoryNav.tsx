@@ -1,8 +1,8 @@
 import {
   SvgChevronDown,
-  SvgMoreHorizontal,
-  SvgShare2,
-  SvgSquare,
+  SvgMoreAlt,
+  SvgPlayStopR,
+  SvgShare,
   SvgTrash,
   SvgUser,
 } from "assets/svg";
@@ -74,7 +74,7 @@ const StoryNavMenu: React.FC<{
         )}
         <Button
           onPress={openShare}
-          icon={<SvgShare2 className="w-5 h-5" />}
+          icon={<SvgShare className="w-5 h-5" />}
           styling="link"
           title={t("story.share.title")}
         />
@@ -89,7 +89,7 @@ const StoryNavMenu: React.FC<{
         <StoryEnd story={story}>
           {(openEnd) => (
             <Button
-              icon={<SvgSquare className="w-5 h-5" />}
+              icon={<SvgPlayStopR className="w-5 h-5" />}
               title={t("story.end.title")}
               styling="link"
               onPress={openEnd}
@@ -171,7 +171,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
       </Box>
       <Button
         accessibilityLabel={t("story.menu.handle")}
-        icon={<SvgMoreHorizontal className="w-8 h-8" />}
+        icon={<SvgMoreAlt className="w-8 h-8" />}
         onPress={showMenu}
         styling="link"
       />

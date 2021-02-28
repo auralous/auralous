@@ -1,4 +1,4 @@
-import { SvgPlus } from "assets/svg";
+import { SvgPlayListAdd } from "assets/svg";
 import { Modal, ModalBackdrop } from "components/Modal";
 import { AddToPlaylist } from "components/Playlist/index";
 import { Button } from "components/Pressable";
@@ -49,7 +49,7 @@ const TrackMenu: React.FC<{
           <Box gap="sm">
             <Button
               onPress={() => setOpenAddPlaylist(true)}
-              icon={<SvgPlus width="20" height="20" />}
+              icon={<SvgPlayListAdd width="20" height="20" />}
               title={t("track.addToPlaylist")}
               styling="link"
             />

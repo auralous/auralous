@@ -70,7 +70,7 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
       title={`` + (nowPlayingReactions?.length || 0)}
       size="sm"
       onClick={react}
-      disabled={!nowPlaying?.currentTrack}
+      disabled={!nowPlaying?.currentTrack || reacted}
     />
   );
 };

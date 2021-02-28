@@ -1,4 +1,4 @@
-import { SvgCheck, SvgLoadingAnimated, SvgPlus, SvgX } from "assets/svg";
+import { SvgCheck, SvgClose, SvgPlayListAdd, SvgSpinnerAlt } from "assets/svg";
 import { AuthBanner } from "components/Auth";
 import { Input } from "components/Form";
 import { Modal } from "components/Modal/index";
@@ -77,7 +77,7 @@ const CreatePlaylist: React.FC<{
           accessibilityLabel={t("modal.close")}
           disabled={fetching}
           onPress={() => setIsCreatingPlaylist(false)}
-          icon={<SvgX className="w-4 h-4" />}
+          icon={<SvgClose className="w-4 h-4" />}
         />
       </form>
       {track.platform === PlatformName.Youtube && (
@@ -88,7 +88,7 @@ const CreatePlaylist: React.FC<{
     </>
   ) : (
     <Button
-      icon={<SvgPlus />}
+      icon={<SvgPlayListAdd />}
       title={t("playlist.new.title")}
       onPress={() => setIsCreatingPlaylist(true)}
       fullWidth
@@ -143,7 +143,9 @@ const AddToExistingPlaylist: React.FC<{
           <PlaylistItem playlist={playlist} />
         </PressableHighlight>
       )) ||
-        (fetchingPlaylists && <SvgLoadingAnimated className="mx-auto" />)}
+        (fetchingPlaylists && (
+          <SvgSpinnerAlt className="mx-auto animate-spin" />
+        ))}
     </div>
   );
 };

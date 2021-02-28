@@ -1,4 +1,4 @@
-import { SvgChevronLeft, SvgLoadingAnimated } from "assets/svg";
+import { SvgChevronLeft, SvgSpinnerAlt } from "assets/svg";
 import { PlaylistItem } from "components/Playlist";
 import { Button, PressableHighlight } from "components/Pressable";
 import { Typography } from "components/Typography";
@@ -52,7 +52,7 @@ const TrackAdderPlaylist: React.FC<{
         <Button
           onPress={() => setSelectedPlaylist(null)}
           accessibilityLabel={t("common.back")}
-          icon={<SvgChevronLeft className="w-8 h-8" />}
+          icon={<SvgChevronLeft />}
           disabled={!selectedPlaylist}
           styling="link"
         />
@@ -92,7 +92,9 @@ const TrackAdderPlaylist: React.FC<{
         </Box>
       )}
       {(fetching || fetchingTracks) && (
-        <SvgLoadingAnimated className="absolute-center" />
+        <div className="absolute-center">
+          <SvgSpinnerAlt className="animate-spin" />
+        </div>
       )}
     </Box>
   );

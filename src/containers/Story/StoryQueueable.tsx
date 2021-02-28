@@ -1,4 +1,4 @@
-import { SvgUserPlus, SvgX } from "assets/svg";
+import { SvgClose, SvgUserAdd } from "assets/svg";
 import { Input } from "components/Form";
 import { Skeleton } from "components/Loading";
 import { Button } from "components/Pressable";
@@ -72,7 +72,7 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
         rounded="full"
         backgroundColor="background-secondary"
       >
-        <SvgUserPlus className="w-4 h-4" />
+        <SvgUserAdd className="w-4 h-4" />
       </Box>
       <Spacer size={2} axis="horizontal" />
       <Box flex={1} minWidth={0} alignItems="stretch">
@@ -149,7 +149,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
         })}
         disabled={fetching}
         onPress={onUserRemove}
-        icon={<SvgX className="w-4 h-4" />}
+        icon={<SvgClose className="w-4 h-4" />}
         shape="circle"
       />
     </Box>

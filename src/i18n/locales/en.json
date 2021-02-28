@@ -144,7 +144,8 @@
       "goto": "Go to story"
     },
     "share": {
-      "title": "Invite friends"
+      "title": "Invite friends",
+      "authPrompt": "Join Stereo and easily invite people you follow"
     },
     "invite": {
       "title": "Invite",
