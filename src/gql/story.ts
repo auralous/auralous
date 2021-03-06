@@ -51,8 +51,12 @@ export const QUERY_STORY_LIVE = /* GraphQL */ `
 `;
 
 export const MUTATION_CREATE_STORY = /* GraphQL */ `
-  mutation createStory($text: String!, $isPublic: Boolean!) {
-    createStory(text: $text, isPublic: $isPublic) {
+  mutation createStory(
+    $text: String!
+    $isPublic: Boolean!
+    $location: LocationInput
+  ) {
+    createStory(text: $text, isPublic: $isPublic, location: $location) {
       id
       ...StoryDetailParts
     }

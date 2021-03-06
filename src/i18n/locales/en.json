@@ -84,7 +84,9 @@
       "action": "Start Listening",
       "promptText": "How would you describe the story",
       "textHelp": "Max {{maxLength}} characters",
-      "promptPrivacy": "Are you listening in public or private"
+      "promptPrivacy": "Are you listening in public or private",
+      "addLocation": "Add to Aural Map",
+      "locationDenied": "Please enable location access to allow others to discover your stories on Aural Map"
     }
   },
   "map": {
