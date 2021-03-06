@@ -2,11 +2,19 @@ import {
   StoriesOnMapDocument,
   StoriesOnMapQuery,
   StoriesOnMapQueryVariables,
+  Story,
 } from "gql/gql.gen";
 import { t as tFn } from "i18n";
 import mapboxgl from "mapbox-gl";
 import Head from "next/head";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import toast from "react-hot-toast";
 import { OperationResult, useClient } from "urql";
 import { pipe, subscribe } from "wonka";
@@ -15,8 +23,11 @@ const radiusToZoomRatio = 2110.2314462494855;
 
 const mapBoxContainerId = "aura-map";
 
-const MapMain: React.FC = () => {
+const MapMain: React.FC<{
+  setStories: Dispatch<SetStateAction<Story[]>>;
+}> = ({ setStories }) => {
   const [lngLat, setLngLat] = useState<mapboxgl.LngLat | null>(null);
+  // Pagination: currently not used
 
   const mapRef = useRef(
     {} as {
@@ -37,10 +48,12 @@ const MapMain: React.FC = () => {
         if (!result.data) return;
         if (!result.data.storiesOnMap.length) {
           toast(tFn("map.query.noStories"));
+        } else {
+          setStories(result.data.storiesOnMap);
         }
       }, 2000);
     };
-  }, []);
+  }, [setStories]);
 
   useEffect(() => {
     if (!lngLat) return;
