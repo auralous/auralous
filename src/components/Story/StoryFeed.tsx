@@ -1,3 +1,4 @@
+import { format as formatMs } from "@lukeed/ms";
 import { useModal } from "components/Modal";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
@@ -5,7 +6,6 @@ import { Box } from "components/View";
 import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
 import { useMeLiveStory } from "hooks/user";
 import { t as i18nT, useI18n } from "i18n/index";
-import ms from "ms";
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
@@ -27,7 +27,7 @@ const StoryItem: React.FC<{ story: Story; onClick(): void }> = ({
 
   const dateStr = useMemo(() => {
     const d = Date.now() - story.createdAt.getTime();
-    return d ? ms(d) : "";
+    return d ? formatMs(d) : "";
   }, [story]);
 
   const altText = `${t("story.ofUsername", {

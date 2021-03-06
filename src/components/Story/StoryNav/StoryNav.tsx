@@ -1,3 +1,4 @@
+import { format as formatMs } from "@lukeed/ms";
 import {
   SvgChevronDown,
   SvgMoreAlt,
@@ -15,7 +16,6 @@ import { Box } from "components/View";
 import { Story, useUserQuery } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
-import ms from "ms";
 import Link from "next/link";
 import { useMemo } from "react";
 import StoryDelete from "./StoryDelete";
@@ -128,7 +128,7 @@ const StoryNav: React.FC<{ story: Story; onClose: () => void }> = ({
 
   const dateStr = useMemo(() => {
     const d = Date.now() - story.createdAt.getTime();
-    return d ? ms(d) : "";
+    return d ? formatMs(d) : "";
   }, [story]);
 
   const [activeMenu, showMenu, closeMenu] = useModal();

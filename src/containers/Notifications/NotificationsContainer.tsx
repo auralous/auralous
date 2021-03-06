@@ -1,3 +1,4 @@
+import { format as formatMs } from "@lukeed/ms";
 import { Skeleton } from "components/Loading";
 import { PageHeader } from "components/Page";
 import { PressableHighlight } from "components/Pressable";
@@ -17,7 +18,6 @@ import {
 } from "gql/gql.gen";
 import { useMe, useMeLiveStory } from "hooks/user";
 import { t, useI18n } from "i18n/index";
-import ms from "ms";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -27,7 +27,7 @@ const getDateDiffTxt = (createdAt: Date) => {
   const dateDiff = Date.now() - createdAt.getTime();
   return dateDiff < 1000
     ? t("common.time.justNow")
-    : `${ms(dateDiff, { long: true })} ${t("common.time.ago")}`;
+    : `${formatMs(dateDiff, true)} ${t("common.time.ago")}`;
 };
 
 const NotificationItemContent: React.FC<{

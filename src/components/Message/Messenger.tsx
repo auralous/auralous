@@ -1,3 +1,4 @@
+import { format as formatMs } from "@lukeed/ms";
 import { SvgEnter, SvgMusic } from "assets/svg";
 import { Input } from "components/Form";
 import { useModal } from "components/Modal";
@@ -16,7 +17,6 @@ import {
 } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { t, useI18n } from "i18n/index";
-import ms from "ms";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -25,7 +25,7 @@ const GROUPED_TIME_DIFF = 10 * 60 * 1000; // within 10 min should be grouped
 
 const getDateDiffTxt = (createdAt: Date) => {
   const dateDiff = Date.now() - createdAt.getTime();
-  return dateDiff < 1000 ? t("common.time.justNow") : ms(dateDiff);
+  return dateDiff < 1000 ? t("common.time.justNow") : formatMs(dateDiff);
 };
 
 const MessageItemSpecial: React.FC<{
