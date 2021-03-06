@@ -30,6 +30,16 @@ export const QUERY_STORIES = /* GraphQL */ `
   ${FRAGMENT_STORY_DETAIL}
 `;
 
+export const QUERY_STORIES_ON_MAP = /* GraphQL */ `
+  query storiesOnMap($lng: Float!, $lat: Float!, $radius: Float!) {
+    storiesOnMap(lng: $lng, lat: $lat, radius: $radius) {
+      id
+      ...StoryDetailParts
+    }
+  }
+  ${FRAGMENT_STORY_DETAIL}
+`;
+
 export const QUERY_STORY_LIVE = /* GraphQL */ `
   query storyLive($creatorId: String) {
     storyLive(creatorId: $creatorId) {

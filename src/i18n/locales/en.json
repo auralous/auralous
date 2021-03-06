@@ -89,7 +89,10 @@
   },
   "map": {
     "title": "Aural Map",
-    "description": "A geographical song discovery experience"
+    "description": "A geographical song discovery experience",
+    "query": {
+      "noStories": "No Stories found!"
+    }
   },
   "notification": {
     "title": "Notifications",

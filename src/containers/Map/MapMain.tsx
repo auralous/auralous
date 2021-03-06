@@ -1,11 +1,23 @@
+import {
+  StoriesOnMapDocument,
+  StoriesOnMapQuery,
+  StoriesOnMapQueryVariables,
+} from "gql/gql.gen";
+import { t as tFn } from "i18n";
 import mapboxgl from "mapbox-gl";
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { OperationResult, useClient } from "urql";
+import { pipe, subscribe } from "wonka";
+
+const radiusToZoomRatio = 2110.2314462494855;
 
 const mapBoxContainerId = "aura-map";
 
 const MapMain: React.FC = () => {
   const [lngLat, setLngLat] = useState<mapboxgl.LngLat | null>(null);
+
   const mapRef = useRef(
     {} as {
       map: mapboxgl.Map;
@@ -14,8 +26,25 @@ const MapMain: React.FC = () => {
     }
   );
 
+  const client = useClient();
+
+  const onResult = useMemo(() => {
+    let to: number;
+    return (result: OperationResult<StoriesOnMapQuery>) => {
+      window.clearTimeout(to);
+      to = window.setTimeout(() => {
+        setLngLat(null);
+        if (!result.data) return;
+        if (!result.data.storiesOnMap.length) {
+          toast(tFn("map.query.noStories"));
+        }
+      }, 2000);
+    };
+  }, []);
+
   useEffect(() => {
     if (!lngLat) return;
+
     const map = mapRef.current.map;
     // marker icon
     const markerEl = document.createElement("div");
@@ -35,13 +64,26 @@ const MapMain: React.FC = () => {
     const marker = (mapRef.current.marker = new mapboxgl.Marker(markerEl)
       .setLngLat([lngLat.lng, lngLat.lat])
       .addTo(map));
+
+    const { unsubscribe } = pipe(
+      client.query<StoriesOnMapQuery, StoriesOnMapQueryVariables>(
+        StoriesOnMapDocument,
+        {
+          lng: lngLat.lng,
+          lat: lngLat.lat,
+          radius: radiusToZoomRatio / map.getZoom(),
+        }
+      ),
+      subscribe(onResult)
+    );
+
     return () => {
+      unsubscribe();
       marker.remove();
-      mapRef.current.marker = undefined;
       markerEl.remove();
       // TODO: remove children?
     };
-  }, [lngLat]);
+  }, [client, lngLat, onResult]);
 
   useEffect(() => {
     const map = (mapRef.current.map = new mapboxgl.Map({
