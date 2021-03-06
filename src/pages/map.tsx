@@ -1,7 +1,13 @@
-import { MapContainer } from "containers/Map";
+import { LoadingFullpage } from "components/Loading";
 import { useI18n } from "i18n/index";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
+import dynamic from "next/dynamic";
+
+const MapContainer = dynamic(() => import("containers/Map/MapContainer"), {
+  ssr: false,
+  loading: LoadingFullpage,
+});
 
 const MapPage: NextPage = () => {
   const { t } = useI18n();

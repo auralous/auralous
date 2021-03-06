@@ -10,10 +10,12 @@ module.exports = withBundleAnalyzer({
   env: {
     APP_URI: process.env.APP_URI,
     API_URI: process.env.API_URI,
+    WEBSOCKET_URI: process.env.WEBSOCKET_URI,
     FACEBOOK_APP_ID: process.env.FACEBOOK_APP_ID,
     GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
     SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
-    WEBSOCKET_URI: process.env.WEBSOCKET_URI,
+    MAPBOX_ACCESS_TOKEN: process.env.MAPBOX_ACCESS_TOKEN,
+    MAPBOX_STYLE: "mapbox://styles/hoangvvo/cklqqqb017ist17qns9eap8q5",
     FATHOM_SITE_ID: process.env.FATHOM_SITE_ID,
     SENTRY_DSN: process.env.SENTRY_DSN,
     SENTRY_RELEASE: `web@${version}`,

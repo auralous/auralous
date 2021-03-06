@@ -84,12 +84,17 @@
       "action": "Start Listening",
       "promptText": "How would you describe the story",
       "textHelp": "Max {{maxLength}} characters",
-      "promptPrivacy": "Are you listening in public or private"
+      "promptPrivacy": "Are you listening in public or private",
+      "addLocation": "Add to Aural Map",
+      "locationDenied": "Please enable location access to allow others to discover your stories on Aural Map"
     }
   },
   "map": {
-    "title": "Map",
-    "description": "A geographical song discovery experience"
+    "title": "Aural Map",
+    "description": "A geographical song discovery experience",
+    "query": {
+      "noStories": "No Stories found!"
+    }
   },
   "notification": {
     "title": "Notifications",

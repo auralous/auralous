@@ -84,12 +84,17 @@
       "action": "Nghe nào",
       "promptText": "Bạn sẽ miêu tả story của mình thế nào",
       "textHelp": "Tối đa {{maxLength}} kí tự",
-      "promptPrivacy": "Bạn định nghe công khai hay riêng tư"
+      "promptPrivacy": "Bạn định nghe công khai hay riêng tư",
+      "addLocation": "Thêm vào Aural Map",
+      "locationDenied": "Vui lòng cho phép truy cập vị trí để người khác có thể tìm thấy story của bạn trên Aural Map"
     }
   },
   "map": {
     "title": "Bản đồ",
-    "description": "Một trải nghiệm khám phá âm nhạc theo địa lý"
+    "description": "Một trải nghiệm khám phá âm nhạc theo địa lý",
+    "query": {
+      "noStories": "Không tìm thấy Story nào!"
+    }
   },
   "notification": {
     "title": "Thông báo",

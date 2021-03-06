@@ -32,6 +32,7 @@ Certain environment variables are required to run this application:
 - `WEBSOCKET_URI`: URL of the WebSocket server
 - `SPOTIFY_CLIENT_ID`: The Spotify Client ID for use in the Web Playback SDK. See [developer.spotify.com](https://developer.spotify.com/)
 - `FACEBOOK_APP_ID`: (optional) The Facebook App ID. See [developers.facebook.com](https://developers.facebook.com/).
+- `MAPBOX_ACCESS_TOKEN`: [Mapbox](https://www.mapbox.com/) access token.
 - `FATHOM_SITE_ID`: (optional) [Fathom](https://usefathom.com/) site ID for analytics.
 - `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`: (optional) Sentry environment variables: the first one for error reporting and the second for source map uploading.
 

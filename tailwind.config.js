@@ -82,6 +82,7 @@ module.exports = {
         ...["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl"].map(
           (s) => `text-${s}`
         ),
+        "animate-ping",
         "text-center",
         "text-left",
         "text-right",

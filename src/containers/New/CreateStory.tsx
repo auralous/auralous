@@ -1,3 +1,4 @@
+import { SvgCheck } from "assets/svg";
 import { useLogin } from "components/Auth";
 import { Input } from "components/Form";
 import { usePlayer } from "components/Player";
@@ -6,15 +7,17 @@ import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import {
+  LocationInput,
   QueueAction,
   Track,
   useCreateStoryMutation,
   useUpdateQueueMutation,
 } from "gql/gql.gen";
 import { useMe } from "hooks/user";
-import { useI18n } from "i18n/index";
+import { t as tFn, useI18n } from "i18n/index";
 import { useRouter } from "next/router";
-import { useCallback, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { CONFIG } from "utils/constants";
 
 const CreateStoryLabel: React.FC<{ htmlFor: string }> = ({
@@ -48,48 +51,59 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const router = useRouter();
 
   const textRef = useRef<HTMLInputElement>(null);
+  const [addLocation, setAddLocation] = useState<boolean>(false);
+
   const [isPublic] = useState(true);
 
   const [{ fetching }, createStory] = useCreateStoryMutation();
   const [, updateQueue] = useUpdateQueueMutation();
 
-  const handleStoryCreation = useCallback(
-    async (event: React.FormEvent<HTMLFormElement>) => {
-      if (fetching) return;
-      event.preventDefault();
+  const [loc, setLoc] = useState<LocationInput | undefined>();
 
-      if (!me) return logIn();
-
-      const result = await createStory({
-        text: (textRef.current as HTMLInputElement).value,
-        isPublic,
-      });
-
-      if (result.data?.createStory) {
-        playStory(result.data.createStory.id);
-
-        if (initTracks?.length)
-          await updateQueue({
-            id: result.data.createStory.id,
-            action: QueueAction.Add,
-            tracks: initTracks.map((initTrack) => initTrack.id),
-          });
-
-        router.replace(`/story/${result.data.createStory.id}`);
+  useEffect(() => {
+    if (!navigator.geolocation || addLocation === false) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLoc({
+          lng: pos.coords.longitude,
+          lat: pos.coords.latitude,
+        });
+      },
+      () => {
+        toast(tFn("new.addNew.locationDenied"));
+        setAddLocation(false);
       }
-    },
-    [
-      initTracks,
-      router,
-      fetching,
+    );
+  }, [addLocation]);
+
+  const handleStoryCreation = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    if (fetching) return;
+
+    if (!me) return logIn();
+
+    const result = await createStory({
+      text: (textRef.current as HTMLInputElement).value,
       isPublic,
-      createStory,
-      updateQueue,
-      logIn,
-      me,
-      playStory,
-    ]
-  );
+      location: addLocation ? loc : undefined,
+    });
+
+    if (result.data?.createStory) {
+      playStory(result.data.createStory.id);
+
+      if (initTracks?.length)
+        await updateQueue({
+          id: result.data.createStory.id,
+          action: QueueAction.Add,
+          tracks: initTracks.map((initTrack) => initTrack.id),
+        });
+
+      router.replace(`/story/${result.data.createStory.id}`);
+    }
+  };
 
   return (
     <form onSubmit={handleStoryCreation} autoComplete="off">
@@ -111,6 +125,30 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
         <Typography.Paragraph size="xs" color="foreground-tertiary">
           {t("new.addNew.textHelp", { maxLength: CONFIG.storyTextMaxLength })}
         </Typography.Paragraph>
+      </CreateStoryFormGroup>
+      <CreateStoryFormGroup>
+        <CreateStoryLabel htmlFor="storyAddLocation">
+          <Box alignItems="center" gap="xs">
+            <Typography.Text>{t("new.addNew.addLocation")}</Typography.Text>
+            <input
+              checked={!!addLocation}
+              onChange={(e) => setAddLocation(e.currentTarget.checked)}
+              type="checkbox"
+              className="h-6 w-6 input hidden"
+              id="storyAddLocation"
+            />
+            <Box
+              backgroundColor={addLocation ? "primary" : "background-secondary"}
+              width={8}
+              height={8}
+              alignItems="center"
+              justifyContent="center"
+              rounded="lg"
+            >
+              {addLocation && <SvgCheck className="w-8 h-8" />}
+            </Box>
+          </Box>
+        </CreateStoryLabel>
       </CreateStoryFormGroup>
       <Spacer size={4} axis="vertical" />
       <Box row alignItems="center" justifyContent="center">

@@ -30,6 +30,16 @@ export const QUERY_STORIES = /* GraphQL */ `
   ${FRAGMENT_STORY_DETAIL}
 `;
 
+export const QUERY_STORIES_ON_MAP = /* GraphQL */ `
+  query storiesOnMap($lng: Float!, $lat: Float!, $radius: Float!) {
+    storiesOnMap(lng: $lng, lat: $lat, radius: $radius) {
+      id
+      ...StoryDetailParts
+    }
+  }
+  ${FRAGMENT_STORY_DETAIL}
+`;
+
 export const QUERY_STORY_LIVE = /* GraphQL */ `
   query storyLive($creatorId: String) {
     storyLive(creatorId: $creatorId) {
@@ -41,8 +51,12 @@ export const QUERY_STORY_LIVE = /* GraphQL */ `
 `;
 
 export const MUTATION_CREATE_STORY = /* GraphQL */ `
-  mutation createStory($text: String!, $isPublic: Boolean!) {
-    createStory(text: $text, isPublic: $isPublic) {
+  mutation createStory(
+    $text: String!
+    $isPublic: Boolean!
+    $location: LocationInput
+  ) {
+    createStory(text: $text, isPublic: $isPublic, location: $location) {
       id
       ...StoryDetailParts
     }
@@ -68,8 +82,12 @@ export const MUTATION_DELETE_STORY = /* GraphQL */ `
 
 export const MUTATION_UNLIVE_STORY = /* GraphQL */ `
   mutation unliveStory($id: ID!) {
-    unliveStory(id: $id)
+    unliveStory(id: $id) {
+      id
+      ...StoryDetailParts
+    }
   }
+  ${FRAGMENT_STORY_DETAIL}
 `;
 
 export const QUERY_STORY_USERS = /* GraphQL */ `
