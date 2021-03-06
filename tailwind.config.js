@@ -79,11 +79,10 @@ module.exports = {
         ...allowedSizing.map((u) => `bottom-${u}`),
         ...allowedSizing.map((u) => `left-${u}`),
         ...allowedSizing.map((u) => `right-${u}`),
-        "-top-6",
-        "-left-6",
         ...["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl"].map(
           (s) => `text-${s}`
         ),
+        "animate-ping",
         "text-center",
         "text-left",
         "text-right",

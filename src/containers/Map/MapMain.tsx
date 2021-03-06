@@ -19,9 +19,19 @@ import toast from "react-hot-toast";
 import { OperationResult, useClient } from "urql";
 import { pipe, subscribe } from "wonka";
 
-const radiusToZoomRatio = 2110.2314462494855;
-
 const mapBoxContainerId = "aura-map";
+
+// https://wiki.openstreetmap.org/wiki/Zoom_levels#Distance_per_pixel_math
+function metersPerPixel(latitude: number, zoomLevel: number) {
+  const earthCircumference = 40075017;
+  const latitudeRadians = latitude * (Math.PI / 180);
+  return (
+    (earthCircumference * Math.cos(latitudeRadians)) /
+    Math.pow(2, zoomLevel + 8)
+  );
+}
+
+const radiusPx = 24;
 
 const MapMain: React.FC<{
   setStories: Dispatch<SetStateAction<Story[]>>;
@@ -66,7 +76,9 @@ const MapMain: React.FC<{
       // add three bubble incrementally into el
       const bubble = document.createElement("div");
       bubble.className =
-        "absolute -top-6 -left-6 w-12 h-12 bg-white rounded-full opacity-50 animate-ping";
+        "absolute bg-white rounded-full opacity-50 animate-ping";
+      bubble.style.width = bubble.style.height = radiusPx * 2 + "px";
+      bubble.style.top = bubble.style.left = -radiusPx + "px";
 
       window.setTimeout(() => {
         markerEl.appendChild(bubble);
@@ -84,7 +96,7 @@ const MapMain: React.FC<{
         {
           lng: lngLat.lng,
           lat: lngLat.lat,
-          radius: radiusToZoomRatio / map.getZoom(),
+          radius: metersPerPixel(lngLat.lat, map.getZoom()) * radiusPx,
         }
       ),
       subscribe(onResult)
