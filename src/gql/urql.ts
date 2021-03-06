@@ -11,12 +11,6 @@ import {
   NowPlayingReactionsQuery,
   NowPlayingReactionsUpdatedSubscription,
   Story,
-  StoryDocument,
-  StoryLiveDocument,
-  StoryLiveQuery,
-  StoryLiveQueryVariables,
-  StoryQuery,
-  StoryQueryVariables,
   StoryUsersDocument,
   StoryUsersQuery,
   UserFollowingsDocument,
@@ -99,27 +93,16 @@ const cacheExchange = createCacheExchange({
   updates: {
     Mutation: {
       createStory: (result, args, cache) => {
-        const newStory = result.createStory as Story | null;
-        if (newStory)
-          cache.updateQuery<StoryLiveQuery, StoryLiveQueryVariables>(
-            {
-              query: StoryLiveDocument,
-              variables: { creatorId: newStory.creatorId },
-            },
-            () => ({ storyLive: newStory })
-          );
+        if (!result.createStory) return;
+        cache.invalidate("Query", "storyLive", {
+          creatorId: (result.createStory as Story).creatorId,
+        });
       },
       unliveStory: (result, args, cache) => {
-        if (result.unliveStory) {
-          cache.updateQuery<StoryQuery, StoryQueryVariables>(
-            {
-              query: StoryDocument,
-              variables: { id: args.id as string },
-            },
-            (data) =>
-              data?.story ? { story: { ...data.story, isLive: false } } : null
-          );
-        }
+        if (!result.unliveStory) return;
+        cache.invalidate("Query", "storyLive", {
+          creatorId: (result.unliveStory as Story).creatorId,
+        });
       },
       deleteStory: (result, args, cache) => {
         cache.invalidate({

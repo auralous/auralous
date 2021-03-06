@@ -82,8 +82,12 @@ export const MUTATION_DELETE_STORY = /* GraphQL */ `
 
 export const MUTATION_UNLIVE_STORY = /* GraphQL */ `
   mutation unliveStory($id: ID!) {
-    unliveStory(id: $id)
+    unliveStory(id: $id) {
+      id
+      ...StoryDetailParts
+    }
   }
+  ${FRAGMENT_STORY_DETAIL}
 `;
 
 export const QUERY_STORY_USERS = /* GraphQL */ `

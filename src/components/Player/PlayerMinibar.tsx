@@ -4,6 +4,7 @@ import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
+import { useMeLiveStory } from "hooks/user";
 import { useI18n } from "i18n/index";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -29,6 +30,8 @@ const PlayerMinibar: React.FC = () => {
   }, [player]);
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
+
+  const liveStory = useMeLiveStory();
 
   if (!playingStoryId) return null;
 
@@ -98,12 +101,14 @@ const PlayerMinibar: React.FC = () => {
         }
         styling="link"
       />
-      <Button
-        accessibilityLabel={t("player.stopPlaying")}
-        onPress={() => playStory("")}
-        icon={<SvgClose className="w-6 h-6" />}
-        styling="link"
-      />
+      {liveStory?.id !== playingStoryId && (
+        <Button
+          accessibilityLabel={t("player.stopPlaying")}
+          onPress={() => playStory("")}
+          icon={<SvgClose className="w-6 h-6" />}
+          styling="link"
+        />
+      )}
       <Spacer size={1} axis="horizontal" />
     </Box>
   );

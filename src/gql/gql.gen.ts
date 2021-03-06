@@ -164,7 +164,7 @@ export type Mutation = {
   createStory: Story;
   deleteStory: Scalars['ID'];
   changeStoryQueueable: Scalars['Boolean'];
-  unliveStory: Scalars['Boolean'];
+  unliveStory: Story;
   pingStory: Scalars['Boolean'];
   sendStoryInvites: Scalars['Boolean'];
   addPlaylistTracks: Scalars['Boolean'];
@@ -758,7 +758,11 @@ export type UnliveStoryMutationVariables = Exact<{
 }>;
 
 
-export type UnliveStoryMutation = Pick<Mutation, 'unliveStory'>;
+export type UnliveStoryMutation = { unliveStory: (
+    { __typename: 'Story' }
+    & Pick<Story, 'id'>
+    & StoryDetailPartsFragment
+  ) };
 
 export type StoryUsersQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1097,7 +1101,7 @@ export const DeleteStoryDocument: DocumentNode = {"kind":"Document","definitions
 export function useDeleteStoryMutation() {
   return Urql.useMutation<DeleteStoryMutation, DeleteStoryMutationVariables>(DeleteStoryDocument);
 };
-export const UnliveStoryDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"unliveStory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"unliveStory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]};
+export const UnliveStoryDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"unliveStory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"unliveStory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"queueable"}}]}}]};
 
 export function useUnliveStoryMutation() {
   return Urql.useMutation<UnliveStoryMutation, UnliveStoryMutationVariables>(UnliveStoryDocument);
