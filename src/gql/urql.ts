@@ -2,7 +2,7 @@ import { devtoolsExchange } from "@urql/devtools";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
-// import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
+import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
 import { refocusExchange } from "@urql/exchange-refocus";
 import {
   MeDocument,
@@ -242,9 +242,9 @@ export const createUrqlClient = () =>
           });
         },
       }),
-      // persistedFetchExchange({
-      //   preferGetForPersistedQueries: true,
-      // }),
+      persistedFetchExchange({
+        preferGetForPersistedQueries: true,
+      }),
       multipartFetchExchange,
       subscriptionExchange({
         // @ts-ignore
