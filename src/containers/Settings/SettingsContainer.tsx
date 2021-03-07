@@ -151,7 +151,6 @@ const LeftSection: React.FC = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
-  const profilePictureRef = useRef<HTMLInputElement>(null);
 
   const [, logIn] = useLogin();
 
@@ -159,8 +158,6 @@ const LeftSection: React.FC = () => {
     event.preventDefault();
     updateUser({
       username: (usernameRef.current as HTMLInputElement).value,
-      profilePicture: (profilePictureRef.current as HTMLInputElement)
-        .files?.[0],
     }).then(() => toast.success(t("settings.updated")));
   }
 
@@ -216,14 +213,17 @@ const LeftSection: React.FC = () => {
                   src={me.user.profilePicture}
                   className="w-16 h-16 bg-background-secondary rounded-full object-cover"
                 />
-                <Spacer size={2} axis="horizontal" />
-                <input
-                  id="profilePictureInput"
-                  type="file"
-                  accept="image/*"
-                  ref={profilePictureRef}
-                  className="input w-0 flex-1"
-                />
+                <Box padding="sm">
+                  <Typography.Paragraph
+                    noMargin
+                    size="sm"
+                    color="foreground-tertiary"
+                  >
+                    {t("settings.profilePicture.hint", {
+                      platformName: PLATFORM_FULLNAMES[me.platform],
+                    })}
+                  </Typography.Paragraph>
+                </Box>
               </Box>
             </Box>
             <Spacer size={4} axis="vertical" />

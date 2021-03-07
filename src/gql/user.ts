@@ -66,8 +66,8 @@ export const MUTATION_UNFOLLOW_USER = /* GraphQL */ `
 `;
 
 export const MUTATION_UPDATE_CURRENT_USER = /* GraphQL */ `
-  mutation updateMe($name: String, $username: String, $profilePicture: Upload) {
-    me(name: $name, username: $username, profilePicture: $profilePicture) {
+  mutation updateMe($name: String, $username: String) {
+    me(name: $name, username: $username) {
       ...UserPublicParts
     }
   }

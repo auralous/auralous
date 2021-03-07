@@ -2149,7 +2149,7 @@
     "@typescript-eslint/types" "4.16.1"
     eslint-visitor-keys "^2.0.0"
 
-"@urql/core@>=1.14.0", "@urql/core@>=1.14.1":
+"@urql/core@>=1.14.0":
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-1.15.1.tgz#fa49909f2841d092796dd540cef6e9df89222560"
   integrity sha512-a05ablx/aKNCUc9dEbx0GvE28UC0sJ1FmfsSfmJNqecYlYeb4XvSQW4FLVy0e/MjQeB9op/weiVIEw+za2ssGw==
@@ -2178,15 +2178,6 @@
   integrity sha512-UuLyR2tuy28KFmcMzD0aU3hWEa62H8Yfo9rBVAaXPxvGUD8g0Bq3NXUGLBvXxKMZcodn7AjYeVBlfPCHth9awA==
   dependencies:
     "@urql/core" ">=2.0.0"
-    wonka "^4.0.14"
-
-"@urql/exchange-multipart-fetch@^0.1.11":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@urql/exchange-multipart-fetch/-/exchange-multipart-fetch-0.1.11.tgz#8cbd1a8d2a2f480eec2124619fb3752a9f4273f9"
-  integrity sha512-bL42HxTVLISvOpgzQvXB4ukGLJGFQA9uCidFejiDw5uOKhhx0y0BdiasA1kGu6rsQ3eBmGdEIL7fDjxy9XLqDQ==
-  dependencies:
-    "@urql/core" ">=1.14.1"
-    extract-files "^8.1.0"
     wonka "^4.0.14"
 
 "@urql/exchange-persisted-fetch@^1.3.0":
@@ -4061,11 +4052,6 @@ external-editor@^3.0.3:
     chardet "^0.7.0"
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
-
-extract-files@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/extract-files/-/extract-files-8.1.0.tgz#46a0690d0fe77411a2e3804852adeaa65cd59288"
-  integrity sha512-PTGtfthZK79WUMk+avLmwx3NGdU8+iVFXC2NMGxKsn0MnihOG2lvumj+AZo8CTwTrwjXDgZ5tztbRlEdRjBonQ==
 
 extract-files@^9.0.0:
   version "9.0.0"

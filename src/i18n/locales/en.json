@@ -41,7 +41,10 @@
       "label": "Username",
       "helpText": "{{maxLength}} characters max, lowercase, no space or special characters"
     },
-    "profilePicture": { "label": "Profile picture" },
+    "profilePicture": {
+      "label": "Profile picture",
+      "hint": "Update your profile picture by changing the one on your {{platformName}} account."
+    },
     "listening": {
       "title": "Listening on {{name}}",
       "connectedTo": "Your account is connected to {{name}}. If you wish to switch",

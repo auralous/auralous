@@ -41,7 +41,10 @@
       "label": "Tên người dùng",
       "helpText": "Tối đa {{maxLength}} kí tự, viết thường, không khoảng cách và kí tự đặc biệt"
     },
-    "profilePicture": { "label": "Ảnh đại diện" },
+    "profilePicture": {
+      "label": "Ảnh đại diện",
+      "hint": "Đổi ảnh đại diện bằng cách cập nhật trên tài khoản {{platformName}} của bạn"
+    },
     "listening": {
       "title": "Nghe nhạc trên {{name}}",
       "connectedTo": "Tài khoản của bạn đang được kết nối với {{name}}. Nếu bạn muốn thay đổi",

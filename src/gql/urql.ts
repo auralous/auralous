@@ -1,7 +1,6 @@
 import { devtoolsExchange } from "@urql/devtools";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
-import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
 import { refocusExchange } from "@urql/exchange-refocus";
 import {
@@ -25,6 +24,7 @@ import {
   dedupExchange,
   errorExchange,
   Exchange,
+  fetchExchange,
   subscriptionExchange,
 } from "urql";
 import schema from "./schema.json";
@@ -245,7 +245,7 @@ export const createUrqlClient = () =>
       persistedFetchExchange({
         preferGetForPersistedQueries: true,
       }),
-      multipartFetchExchange,
+      fetchExchange,
       subscriptionExchange({
         // @ts-ignore
         forwardSubscription(operation) {
