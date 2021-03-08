@@ -7,6 +7,8 @@ import { Box } from "components/View";
 import {
   Queue,
   QueueAction,
+  useOnQueueUpdatedSubscription,
+  useQueueQuery,
   useTrackQuery,
   useUpdateQueueMutation,
 } from "gql/gql.gen";
@@ -28,7 +30,6 @@ import {
 } from "react-window";
 import { remToPx } from "utils/util";
 import QueueAddedBy from "./QueueAddedBy";
-import useQueue from "./useQueue";
 
 const GUTTER_SIZE = 5;
 
@@ -136,10 +137,22 @@ const Row = memo<
 const QueueManager: React.FC<{
   queueId: string;
   isQueueable: boolean;
-}> = ({ queueId, isQueueable }) => {
+  inactive?: boolean;
+}> = ({ queueId, isQueueable, inactive }) => {
   const { t } = useI18n();
 
-  const [queue] = useQueue(queueId);
+  const [{ data: { queue } = { queue: undefined } }] = useQueueQuery({
+    variables: { id: queueId },
+    // TODO: Do we need this?
+    // requestPolicy: "cache-and-network",
+    pause: inactive,
+  });
+
+  useOnQueueUpdatedSubscription({
+    variables: { id: queueId },
+    pause: !queue,
+  });
+
   const [, updateQueue] = useUpdateQueueMutation();
 
   const onDragEnd = useCallback(

@@ -65,7 +65,10 @@ const StoryQueueableManager: React.FC<{ story: Story }> = ({ story }) => {
   );
 };
 
-const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
+const StoryQueue: React.FC<{ story: Story; inactive?: boolean }> = ({
+  story,
+  inactive,
+}) => {
   const { t } = useI18n();
 
   const { playQueueItem } = usePlayer();
@@ -102,7 +105,11 @@ const StoryQueue: React.FC<{ story: Story }> = ({ story }) => {
           />
         </Box>
         <Box flex={1} minHeight={0}>
-          <QueueManager isQueueable={isQueueable} queueId={story.id} />
+          <QueueManager
+            isQueueable={isQueueable}
+            queueId={story.id}
+            inactive={inactive}
+          />
         </Box>
       </Box>
     );

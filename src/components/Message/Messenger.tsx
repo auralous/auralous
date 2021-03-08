@@ -1,5 +1,5 @@
 import { format as formatMs } from "@lukeed/ms";
-import { SvgEnter, SvgMusic } from "assets/svg";
+import { SvgEnter, SvgMusic, SvgSpinnerAlt } from "assets/svg";
 import { Input } from "components/Form";
 import { useModal } from "components/Modal";
 import { Button, PressableHighlight } from "components/Pressable";
@@ -149,7 +149,10 @@ const MessageItem: React.FC<{
   );
 };
 
-const MessageList: React.FC<{ id: string }> = ({ id }) => {
+const MessageList: React.FC<{ id: string; inactive?: boolean }> = ({
+  id,
+  inactive,
+}) => {
   const { t } = useI18n();
 
   const scrollShouldFollow = useRef(true);
@@ -161,6 +164,7 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
   ] = useMessagesQuery({
     variables: { id, limit: LIMIT, offset },
     requestPolicy: "cache-and-network",
+    pause: !!inactive,
   });
 
   const [{ data: newMessages }] = useOnMessageAddedSubscription<Message[]>(
@@ -252,6 +256,11 @@ const MessageList: React.FC<{ id: string }> = ({ id }) => {
           />
         );
       })}
+      {(fetching || messages.length === 0) && (
+        <div className="absolute-center">
+          <SvgSpinnerAlt className="animate-spin" />
+        </div>
+      )}
     </div>
   );
 };
@@ -280,10 +289,13 @@ const MessageInput: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
-const Messenger: React.FC<{ id: string }> = ({ id }) => {
+const Messenger: React.FC<{ id: string; inactive?: boolean }> = ({
+  id,
+  inactive,
+}) => {
   return (
     <Box fullWidth fullHeight justifyContent="between">
-      <MessageList id={id} />
+      <MessageList id={id} inactive={inactive} />
       <MessageInput id={id} />
     </Box>
   );

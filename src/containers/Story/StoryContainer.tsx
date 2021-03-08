@@ -79,6 +79,9 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
 
   const height = useWindowHeight();
 
+  // NOTE: we are unmounting the tab to avoid unneccessary load
+  // but this may cause performance issues
+
   return (
     <Tabs index={selectedIndex} onChange={setSelectedIndex}>
       <Box
@@ -97,10 +100,10 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
             <StoryPlayer story={story} />
           </AnimatedTabPanel>
           <AnimatedTabPanel style={tabPanel1Style} className="h-full" as="div">
-            <StoryChat story={story} />
+            <StoryChat story={story} inactive={selectedIndex !== 1} />
           </AnimatedTabPanel>
           <AnimatedTabPanel style={tabPanel2Style} className="h-full" as="div">
-            <StoryQueue story={story} />
+            <StoryQueue story={story} inactive={selectedIndex !== 2} />
           </AnimatedTabPanel>
         </TabPanels>
         <Spacer axis="vertical" size={6} />

@@ -16,12 +16,15 @@ import { TrackAdderCallbackFn } from "./types";
 const TrackAdderPlaylist: React.FC<{
   addedTracks: string[];
   callback: TrackAdderCallbackFn;
-}> = ({ addedTracks, callback }) => {
+  inactive?: boolean;
+}> = ({ addedTracks, callback, inactive }) => {
   const { t } = useI18n();
 
   const [
     { data: { myPlaylists } = { myPlaylists: undefined }, fetching },
-  ] = useMyPlaylistsQuery();
+  ] = useMyPlaylistsQuery({
+    pause: inactive,
+  });
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<null | Playlist>(
     null
@@ -73,7 +76,7 @@ const TrackAdderPlaylist: React.FC<{
         <TrackAdderResults
           addedTracks={addedTracks}
           callback={callback}
-          results={queryResults || []}
+          results={(!fetchingTracks && queryResults) || []}
         />
       ) : (
         <Box style={{ overflow: "auto" }} flex={1} minHeight={0} gap="xs">

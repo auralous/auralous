@@ -44,7 +44,10 @@ const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
   );
 };
 
-const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
+const StoryChat: React.FC<{ story: Story; inactive?: boolean }> = ({
+  story,
+  inactive,
+}) => {
   const { t } = useI18n();
   const me = useMe();
 
@@ -55,7 +58,7 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
   ] = useStoryUsersQuery({
     variables: { id: story.id },
     requestPolicy: "cache-and-network",
-    pause: !me || !story.isLive,
+    pause: !me || !story.isLive || !!inactive,
   });
 
   useEffect(() => {
@@ -67,7 +70,10 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
   }, [fetchStoryUsers]);
 
   useOnStoryUsersUpdatedSubscription(
-    { variables: { id: story.id || "" }, pause: !storyUsers || !story.isLive },
+    {
+      variables: { id: story.id || "" },
+      pause: !storyUsers || !story.isLive || !!inactive,
+    },
     (prev, data) => data
   );
 
@@ -85,7 +91,7 @@ const StoryChat: React.FC<{ story: Story }> = ({ story }) => {
     <Box fullHeight>
       {story.isLive && <StoryUsers userIds={storyUsers || []} story={story} />}
       <Box flex={1} minHeight={0}>
-        <Messenger id={`story:${story.id}`} />
+        <Messenger id={`story:${story.id}`} inactive={inactive} />
       </Box>
     </Box>
   );

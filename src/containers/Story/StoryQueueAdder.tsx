@@ -1,12 +1,16 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 import { Modal } from "components/Modal";
 import { Button } from "components/Pressable";
-import { useQueue } from "components/Queue";
 import {
   TrackAdderPlaylist,
   TrackAdderSearch,
 } from "components/Track/TrackAdder";
-import { QueueAction, Story, useUpdateQueueMutation } from "gql/gql.gen";
+import {
+  QueueAction,
+  Story,
+  useQueueQuery,
+  useUpdateQueueMutation,
+} from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useCallback, useMemo, useState } from "react";
 import { animated, useSpring } from "react-spring";
@@ -23,7 +27,9 @@ const StoryQueueAdder: React.FC<{
   const { t } = useI18n();
 
   const [, updateQueue] = useUpdateQueueMutation();
-  const [queue] = useQueue(story.id);
+  const [{ data: { queue } = { queue: undefined } }] = useQueueQuery({
+    variables: { id: story.id },
+  });
 
   const addedTracks = useMemo(() => {
     if (!queue) return [];
@@ -97,6 +103,7 @@ const StoryQueueAdder: React.FC<{
               <TrackAdderPlaylist
                 callback={onAddTracks}
                 addedTracks={addedTracks}
+                inactive={selectedIndex !== 1}
               />
             </AnimatedTabPanel>
           </TabPanels>

@@ -239,10 +239,6 @@ const PlayerProvider: React.FC = ({ children }) => {
     return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
 
-  useEffect(() => {
-    console.log(playerPlaying?.id);
-  }, [playerPlaying]);
-
   // Show a message if track is not found
   useEffect(() => {
     if (!playingPlatform) return;
