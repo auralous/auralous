@@ -32,7 +32,7 @@ const StorySliderContent: React.FC<{
 
   const [virtualData, setVirtualData] = useState<VirtualData | null>(null);
 
-  const { playStory } = usePlayer();
+  const [, { playStory }] = usePlayer();
 
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 

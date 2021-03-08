@@ -21,10 +21,10 @@ const EMPTYIMAGE = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAA
 
 export const PlayerControl: React.FC = () => {
   const { t } = useI18n();
-  const {
-    player,
-    state: { playerPlaying, fetching },
-  } = usePlayer();
+  const [
+    { player, playerPlaying, fetching },
+    { skipForward, skipBackward },
+  ] = usePlayer();
 
   const [isPlaying, setIsPlaying] = useState(() => player.isPlaying);
 
@@ -38,7 +38,6 @@ export const PlayerControl: React.FC = () => {
       player.off("paused", onPaused);
     };
   }, [player]);
-  const { skipForward, skipBackward } = usePlayer();
 
   return (
     <Box paddingY="xs" row justifyContent="center" alignItems="center" gap="md">
@@ -101,10 +100,7 @@ export const PlayerImage: React.FC<{
 };
 
 export const PlayerProgressBar: React.FC = () => {
-  const {
-    state: { playerPlaying },
-    player,
-  } = usePlayer();
+  const [{ playerPlaying, player }] = usePlayer();
 
   const [current, setCurrent] = useState(0);
 

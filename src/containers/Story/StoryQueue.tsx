@@ -71,7 +71,7 @@ const StoryQueue: React.FC<{ story: Story; inactive?: boolean }> = ({
 }) => {
   const { t } = useI18n();
 
-  const { playQueueItem } = usePlayer();
+  const [, { playQueueItem }] = usePlayer();
 
   const me = useMe();
 

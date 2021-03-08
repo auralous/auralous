@@ -176,7 +176,7 @@ const Footer: React.FC = () => {
 };
 
 const IndexLayout: React.FC = ({ children }) => {
-  const { playStory } = usePlayer();
+  const [, { playStory }] = usePlayer();
   // Stop playing since we have existed app pages
   useEffect(() => playStory(""), [playStory]);
   return (

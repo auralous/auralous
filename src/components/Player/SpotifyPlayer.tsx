@@ -12,7 +12,7 @@ const BASE_URL = "https://api.spotify.com/v1";
 const onError = (e: Spotify.Error) => toast.error(e.message);
 
 export default function SpotifyPlayer() {
-  const { player } = usePlayer();
+  const [{ player }] = usePlayer();
   const me = useMe();
 
   useEffect(() => {

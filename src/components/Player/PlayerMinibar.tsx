@@ -12,11 +12,10 @@ import usePlayer from "./usePlayer";
 
 const PlayerMinibar: React.FC = () => {
   const { t } = useI18n();
-  const {
-    state: { playingStoryId, playerPlaying, fetching },
-    playStory,
-    player,
-  } = usePlayer();
+  const [
+    { player, playingStoryId, playerPlaying, fetching },
+    { playStory },
+  ] = usePlayer();
 
   useEffect(() => {
     const onPlaying = () => setIsPlaying(true);

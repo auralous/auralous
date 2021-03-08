@@ -18,10 +18,10 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
   close,
 }) => {
   const { t } = useI18n();
-  const {
-    state: { fetching: fetchingPlayer, crossTracks, playingStoryId },
-    skipForward,
-  } = usePlayer();
+  const [
+    { fetching: fetchingPlayer, crossTracks, playingStoryId },
+    { skipForward },
+  ] = usePlayer();
 
   const [
     { data: { nowPlaying } = { nowPlaying: undefined } },

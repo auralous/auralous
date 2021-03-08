@@ -11,9 +11,7 @@ const StoryTopPlayer: React.FC<{
 }> = ({ hidden, onPress }) => {
   const { t } = useI18n();
 
-  const {
-    state: { crossTracks, fetching },
-  } = usePlayer();
+  const [{ crossTracks, fetching }] = usePlayer();
 
   const track = crossTracks?.original;
 

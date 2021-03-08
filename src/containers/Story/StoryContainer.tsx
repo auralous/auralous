@@ -48,7 +48,7 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
   );
 
   const { t } = useI18n();
-  const { playStory } = usePlayer();
+  const [, { playStory }] = usePlayer();
   useEffect(() => {
     playStory(story.id);
   }, [story, playStory]);

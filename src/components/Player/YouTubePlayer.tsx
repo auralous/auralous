@@ -23,10 +23,7 @@ declare global {
 
 export default function YouTubePlayer() {
   const { t } = useI18n();
-  const {
-    player,
-    state: { playerPlaying },
-  } = usePlayer();
+  const [{ player, playerPlaying }] = usePlayer();
 
   useEffect(() => {
     let ytPlayer: YT.Player;

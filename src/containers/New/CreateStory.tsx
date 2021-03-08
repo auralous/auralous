@@ -43,7 +43,7 @@ const CreateStoryFormGroup: React.FC = ({ children }) => (
 const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const { t } = useI18n();
 
-  const { playStory } = usePlayer();
+  const [, { playStory }] = usePlayer();
 
   const [, logIn] = useLogin();
   const me = useMe();

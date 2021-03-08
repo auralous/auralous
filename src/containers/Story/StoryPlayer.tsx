@@ -10,9 +10,7 @@ import { Story } from "gql/gql.gen";
 import StoryReaction from "./StoryReaction";
 
 const StoryPlayer: React.FC<{ story: Story }> = ({ story }) => {
-  const {
-    state: { crossTracks, fetching },
-  } = usePlayer();
+  const [{ crossTracks, fetching }] = usePlayer();
 
   return (
     <Box fullWidth fullHeight>

@@ -10,9 +10,7 @@ import { remToPx } from "utils/util";
 const GUTTER_SIZE = 5;
 
 const Row = memo<ListChildComponentProps>(function Row({ data, index, style }) {
-  const {
-    state: { playingQueueItemId },
-  } = usePlayer();
+  const [{ playingQueueItemId }] = usePlayer();
   return (
     <button
       className="text-inline-link p-2"

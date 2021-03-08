@@ -19,7 +19,7 @@ import toast from "react-hot-toast";
 import { PLATFORM_FULLNAMES } from "utils/constants";
 import Player from "./Player";
 import PlayerContext from "./PlayerContext";
-import { IPlayerContext, PlayerPlaying } from "./types";
+import { PlayerPlaying } from "./types";
 
 const YouTubePlayer = dynamic(() => import("./YouTubePlayer"), { ssr: false });
 const SpotifyPlayer = dynamic(() => import("./SpotifyPlayer"), { ssr: false });
@@ -285,34 +285,30 @@ const PlayerProvider: React.FC = ({ children }) => {
   const fetching =
     fetchingMe || fetchingCrossTracks || fetchingNP || fetchingQueue;
 
-  const playerContextValue = useMemo<IPlayerContext>(() => {
-    return {
-      state: {
-        playerPlaying,
-        playingStoryId,
-        playingQueueItemId,
-        crossTracks,
-        fetching,
-      },
-      playStory,
+  const playerStates = useMemo(
+    () => ({
       player,
+      playerPlaying,
+      playingStoryId,
+      playingQueueItemId,
+      crossTracks,
+      fetching,
+    }),
+    [playerPlaying, playingStoryId, playingQueueItemId, crossTracks, fetching]
+  );
+
+  const playerControls = useMemo(
+    () => ({
+      playStory,
       skipBackward,
       skipForward,
       playQueueItem,
-    };
-  }, [
-    skipBackward,
-    skipForward,
-    fetching,
-    playerPlaying,
-    playingStoryId,
-    crossTracks,
-    playQueueItem,
-    playingQueueItemId,
-  ]);
+    }),
+    [playQueueItem, skipBackward, skipForward]
+  );
 
   return (
-    <PlayerContext.Provider value={playerContextValue}>
+    <PlayerContext.Provider value={[playerStates, playerControls]}>
       <Portal>{DynamicPlayer && <DynamicPlayer />}</Portal>
       {children}
     </PlayerContext.Provider>

@@ -152,7 +152,7 @@ const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
 const NewContainer: React.FC = () => {
   const { t } = useI18n();
-  const { playStory } = usePlayer();
+  const [, { playStory }] = usePlayer();
 
   const [initTracks, setInitTracks] = useState<Track[] | null>(null);
 

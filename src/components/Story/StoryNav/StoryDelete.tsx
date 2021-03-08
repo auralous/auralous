@@ -11,10 +11,7 @@ const StoryDelete: React.FC<{
   active: boolean;
   close(): void;
 }> = ({ story, active, close }) => {
-  const {
-    state: { playingStoryId },
-    playStory,
-  } = usePlayer();
+  const [{ playingStoryId }, { playStory }] = usePlayer();
 
   const [{ fetching }, deleteStory] = useDeleteStoryMutation();
   const { t } = useI18n();
