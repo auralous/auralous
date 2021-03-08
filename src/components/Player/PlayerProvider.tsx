@@ -47,6 +47,7 @@ const usePlayFromNowPlaying = (story: Story | null) => {
       if (!currentTrack) return;
       // Resume to current live position
       // Delay a bit for player to load
+      window.clearTimeout(waitPlayTimeout);
       waitPlayTimeout = window.setTimeout(() => {
         player.seek(Date.now() - currentTrack.playedAt.getTime());
       }, 1000);
@@ -266,16 +267,18 @@ const PlayerProvider: React.FC = ({ children }) => {
   }, [playingPlatform, hasPlayed]);
 
   useEffect(() => {
-    const handlePlayerChange = () =>
+    const handlePlayerChange = () => {
+      player.off("play", handlePlayerChange);
       player.playByExternalId(playerPlaying?.externalId || null);
+    };
     // If the user paused the track before playerPlaying change,
     // delay the switch until they press play again to avoid
     // unexpected play
     if (player.wasPlaying) {
       handlePlayerChange();
     } else {
-      player.on("playing", handlePlayerChange);
-      return () => player.off("playing", handlePlayerChange);
+      player.on("play", handlePlayerChange);
+      return () => player.off("play", handlePlayerChange);
     }
   }, [playerPlaying?.externalId]);
 

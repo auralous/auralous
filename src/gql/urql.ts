@@ -43,6 +43,7 @@ const cacheExchange = createCacheExchange({
   keys: {
     QueueItem: () => null,
     Me: () => null,
+    NowPlayingReactionItem: () => null,
   },
   resolvers: {
     Query: {
