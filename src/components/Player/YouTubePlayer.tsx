@@ -35,7 +35,7 @@ export default function YouTubePlayer() {
     function playByExternalId(externalId: string | null) {
       if (!externalId) return ytPlayer.pauseVideo();
       ytPlayer.loadVideoById(externalId);
-      ytPlayer.playVideo();
+      player.play();
     }
 
     async function init(hadLoaded: boolean) {

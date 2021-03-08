@@ -41,29 +41,20 @@ const usePlayFromNowPlaying = (story: Story | null) => {
 
   useEffect(() => {
     if (!nowPlaying) return undefined;
-
-    let wasSeeked = false;
-
-    const onPaused = () => (wasSeeked = false); // The player paused and should be seeked next time
-    const onPlaying = async () => {
-      if (!nowPlaying?.currentTrack) return;
-      // When the player buffering due to seeking, this got triggered continously
-      // We must treat buffering as "Playing"
-      if (!wasSeeked) {
-        // Resume to current live position
-        // Delay a bit for player to load
-        await new Promise((resolve) => {
-          window.setTimeout(resolve, 1000);
-        });
-        player.seek(Date.now() - nowPlaying.currentTrack.playedAt.getTime());
-        wasSeeked = true;
-      }
+    let waitPlayTimeout: number;
+    const onPlay = async () => {
+      const currentTrack = nowPlaying.currentTrack;
+      if (!currentTrack) return;
+      // Resume to current live position
+      // Delay a bit for player to load
+      waitPlayTimeout = window.setTimeout(() => {
+        player.seek(Date.now() - currentTrack.playedAt.getTime());
+      }, 1000);
     };
-    player.on("playing", onPlaying);
-    player.on("paused", onPaused);
+    player.on("play", onPlay);
     return () => {
-      player.off("playing", onPlaying);
-      player.off("paused", onPaused);
+      window.clearTimeout(waitPlayTimeout);
+      player.off("play", onPlay);
     };
   }, [nowPlaying]);
 
@@ -247,6 +238,10 @@ const PlayerProvider: React.FC = ({ children }) => {
     if (!crossTracks) return (player.playerPlaying = null);
     return (player.playerPlaying = crossTracks[playingPlatform] || null);
   }, [crossTracks, playingPlatform]);
+
+  useEffect(() => {
+    console.log(playerPlaying?.id);
+  }, [playerPlaying]);
 
   // Show a message if track is not found
   useEffect(() => {

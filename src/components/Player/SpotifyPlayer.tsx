@@ -44,6 +44,8 @@ export default function SpotifyPlayer() {
           });
         else onError(resp.data.error);
       }
+
+      player.play(); // this just to confirm play status
     };
 
     const onReady: Spotify.PlaybackInstanceListener = ({ device_id }) => {

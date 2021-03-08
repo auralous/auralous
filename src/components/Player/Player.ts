@@ -14,12 +14,16 @@ interface PlayerHandle {
 
 interface Player {
   // on
-  on(state: "playing", fn: () => void): void;
-  on(state: "paused", fn: () => void): void;
+  on(state: "play", fn: () => void): void; // Trigger play
+  on(state: "pause", fn: () => void): void; // Trigger pause
+  on(state: "playing", fn: () => void): void; // Actually playing
+  on(state: "paused", fn: () => void): void; // Actually pausing
   on(state: "seeked", fn: () => void): void;
   on(state: "ended", fn: () => void): void;
   on(state: "time", fn: (ms: number) => void): void;
   // off
+  off(state: "play", fn: () => void): void;
+  off(state: "pause", fn: () => void): void;
   off(state: "playing", fn: () => void): void;
   off(state: "paused", fn: () => void): void;
   off(state: "seeked", fn: () => void): void;
@@ -76,11 +80,13 @@ class Player {
   }
 
   play() {
+    this.emit("play");
     this.wasPlaying = true;
     this.playerFn?.play();
   }
 
   pause() {
+    this.emit("pause");
     this.wasPlaying = false;
     this.playerFn?.pause();
   }
