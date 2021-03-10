@@ -5,8 +5,6 @@ import { PlayerProvider } from "components/Player";
 import * as Fathom from "fathom-client";
 import { createUrqlClient } from "gql/urql";
 import { I18n } from "i18n/index";
-// polyfill
-import "intersection-observer";
 import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
 import { Fragment, useEffect, useMemo, useState } from "react";

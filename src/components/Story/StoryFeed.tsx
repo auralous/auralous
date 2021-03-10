@@ -4,12 +4,12 @@ import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
+import { useInView } from "hooks/useInView";
 import { useMeLiveStory } from "hooks/user";
 import { t as i18nT, useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import { useInView } from "react-intersection-observer";
 
 const StorySlider = dynamic(() => import("./StorySlider"), { ssr: false });
 
