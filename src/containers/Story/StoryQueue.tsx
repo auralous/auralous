@@ -3,6 +3,7 @@ import { useLogin } from "components/Auth";
 import { useModal } from "components/Modal";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
+import StoryQueueable from "components/Story/StoryQueueable";
 import { Box } from "components/View";
 import { Story } from "gql/gql.gen";
 import { useMe } from "hooks/user";
@@ -50,7 +51,7 @@ const StoryQueue: React.FC<{ story: Story; inactive?: boolean }> = ({
     return (
       <Box fullHeight>
         <StoryQueueAdder story={story} active={active} close={close} />
-        <Box alignItems="center" paddingY="xs">
+        <Box row gap="xs" justifyContent="center" paddingY="xs">
           <Button
             title={t("story.queue.adderTitle")}
             icon={<SvgPlayListAdd className="w-4 h-4" />}
@@ -58,6 +59,7 @@ const StoryQueue: React.FC<{ story: Story; inactive?: boolean }> = ({
             onPress={onAddButtonClick}
             shape="circle"
           />
+          {me?.user.id === story.creatorId && <StoryQueueable story={story} />}
         </Box>
         <Box flex={1} minHeight={0}>
           <QueueManager
