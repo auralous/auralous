@@ -1,10 +1,5 @@
-import { SvgShare } from "assets/svg";
 import { AuthBanner } from "components/Auth";
 import { Messenger } from "components/Message/index";
-import { useModal } from "components/Modal";
-import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
-import { StoryShare } from "components/Story";
 import { Box } from "components/View";
 import {
   Story,
@@ -14,35 +9,6 @@ import {
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useEffect } from "react";
-import StoryListeners from "./StoryListeners";
-
-const StoryUsers: React.FC<{ story: Story; userIds: string[] }> = ({
-  story,
-  userIds,
-}) => {
-  const { t } = useI18n();
-  const [active, open, close] = useModal();
-
-  return (
-    <>
-      <Box paddingX="md" paddingY="xs" row>
-        <Button
-          color="primary"
-          accessibilityLabel={t("story.share.title")}
-          onPress={open}
-          icon={<SvgShare className="w-4 h-4" />}
-          shape="circle"
-          size="sm"
-        />
-        <Spacer size={1} axis="horizontal" />
-        <Box flex={1} minWidth={0}>
-          <StoryListeners userIds={userIds} />
-        </Box>
-      </Box>
-      <StoryShare active={active} close={close} story={story} />
-    </>
-  );
-};
 
 const StoryChat: React.FC<{ story: Story; inactive?: boolean }> = ({
   story,
@@ -89,7 +55,6 @@ const StoryChat: React.FC<{ story: Story; inactive?: boolean }> = ({
 
   return (
     <Box fullHeight>
-      {story.isLive && <StoryUsers userIds={storyUsers || []} story={story} />}
       <Box flex={1} minHeight={0}>
         <Messenger id={`story:${story.id}`} inactive={inactive} />
       </Box>

@@ -93,7 +93,7 @@ const Sidebar: React.FC<{ height: number }> = ({ height }) => {
               >
                 {me.user.username}
               </Typography.Paragraph>
-              <Link href={`/user/${me.user.username}`}>
+              <Link href={`/user/${me.user.username}`} passHref>
                 <Typography.Link color="primary" size="xs">
                   {t("user.profile")}
                 </Typography.Link>

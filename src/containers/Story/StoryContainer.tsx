@@ -8,9 +8,11 @@ import { Box } from "components/View";
 import {
   Story,
   useNowPlayingReactionsUpdatedSubscription,
+  useOnStoryUsersUpdatedSubscription,
   useStoryQuery,
   useStoryUpdatedSubscription,
 } from "gql/gql.gen";
+import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
 import { useCallback, useContext, useEffect, useState } from "react";
@@ -79,8 +81,15 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
 
   const height = useWindowHeight();
 
-  // NOTE: we are unmounting the tab to avoid unneccessary load
-  // but this may cause performance issues
+  const me = useMe();
+
+  useOnStoryUsersUpdatedSubscription(
+    {
+      variables: { id: story.id },
+      pause: !me || !story.isLive,
+    },
+    (prev, data) => data
+  );
 
   return (
     <Tabs index={selectedIndex} onChange={setSelectedIndex}>
@@ -100,17 +109,17 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
             <StoryPlayer story={story} />
           </AnimatedTabPanel>
           <AnimatedTabPanel style={tabPanel1Style} className="h-full" as="div">
-            <StoryChat story={story} inactive={selectedIndex !== 1} />
+            <StoryQueue story={story} inactive={selectedIndex !== 1} />
           </AnimatedTabPanel>
           <AnimatedTabPanel style={tabPanel2Style} className="h-full" as="div">
-            <StoryQueue story={story} inactive={selectedIndex !== 2} />
+            <StoryChat story={story} inactive={selectedIndex !== 2} />
           </AnimatedTabPanel>
         </TabPanels>
         <Spacer axis="vertical" size={6} />
         <TabList className="overflow-hidden rounded-t-3xl bg-background-secondary absolute w-full bottom-0 left-0 flex z-10">
           <Tab className="sr-only">{t("player.title")}</Tab>
-          <Tab className={getClassName(1)}>{t("story.chat.title")}</Tab>
-          <Tab className={getClassName(2)}>{t("story.queue.title")}</Tab>
+          <Tab className={getClassName(1)}>{t("story.queue.title")}</Tab>
+          <Tab className={getClassName(2)}>{t("story.chat.title")}</Tab>
         </TabList>
       </Box>
     </Tabs>

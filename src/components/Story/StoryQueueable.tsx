@@ -1,6 +1,7 @@
 import { SvgClose, SvgUserAdd } from "assets/svg";
 import { Input } from "components/Form";
 import { Skeleton } from "components/Loading";
+import { Modal, useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
@@ -156,17 +157,43 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
 };
 
 const StoryQueueable: React.FC<{ story: Story }> = ({ story }) => {
+  const { t } = useI18n();
+  const [active, open, close] = useModal();
   useStoryUpdatedSubscription(
     { variables: { id: story.id } },
     (prev, data) => data
   );
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-      <StoryQueueableAdder story={story} />
-      {story.queueable.map((userId) => (
-        <StoryQueueableUser key={userId} storyId={story.id} userId={userId} />
-      ))}
-    </div>
+    <>
+      <Button
+        title={t("story.queueable.title")}
+        icon={<SvgUserAdd className="w-4 h-4" />}
+        size="sm"
+        onPress={open}
+        shape="circle"
+      />
+      <Modal.Modal
+        active={active}
+        close={close}
+        title={t("story.queueable.title")}
+      >
+        <Modal.Header>
+          <Modal.Title>{t("story.queueable.title")}</Modal.Title>
+        </Modal.Header>
+        <Modal.Content>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <StoryQueueableAdder story={story} />
+            {story.queueable.map((userId) => (
+              <StoryQueueableUser
+                key={userId}
+                storyId={story.id}
+                userId={userId}
+              />
+            ))}
+          </div>
+        </Modal.Content>
+      </Modal.Modal>
+    </>
   );
 };
 

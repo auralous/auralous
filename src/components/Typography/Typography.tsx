@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { forwardRef, ReactNode } from "react";
+import { CSSProperties, forwardRef, ReactNode } from "react";
 
 type TextSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
@@ -21,6 +21,7 @@ interface TypographyProps {
   id?: string;
   truncate?: boolean;
   uppercase?: boolean;
+  style?: CSSProperties;
 }
 
 const commonClsx = (props: TypographyProps) =>
@@ -35,9 +36,9 @@ const commonClsx = (props: TypographyProps) =>
     props.uppercase && "uppercase"
   );
 
-const Text: React.FC<TypographyProps> = ({ children, ...props }) => {
+const Text: React.FC<TypographyProps> = ({ children, style, ...props }) => {
   return (
-    <span id={props.id} className={commonClsx(props)}>
+    <span id={props.id} className={commonClsx(props)} style={style}>
       {children}
     </span>
   );
@@ -47,9 +48,13 @@ const Paragraph: React.FC<
   TypographyProps & {
     noMargin?: boolean;
   }
-> = ({ children, noMargin, ...props }) => {
+> = ({ children, noMargin, style, ...props }) => {
   return (
-    <p id={props.id} className={clsx(commonClsx(props), !noMargin && "mb-4")}>
+    <p
+      id={props.id}
+      className={clsx(commonClsx(props), !noMargin && "mb-4")}
+      style={style}
+    >
       {children}
     </p>
   );
@@ -58,7 +63,7 @@ const Paragraph: React.FC<
 const Link = forwardRef<
   HTMLAnchorElement,
   TypographyProps & { href?: string; target?: string; children?: ReactNode }
->(function Link({ children, href, target, ...props }, ref) {
+>(function Link({ children, href, target, style, ...props }, ref) {
   return (
     <a
       href={href}
@@ -69,6 +74,7 @@ const Link = forwardRef<
         target === "_blank" && { rel: "noopener noreferrer" })}
       className={clsx(commonClsx(props), "text-inline-link")}
       ref={ref}
+      style={style}
     >
       {children}
     </a>
@@ -78,30 +84,30 @@ const Link = forwardRef<
 const defaultTitleSize: TextSize[] = ["3xl", "2xl", "xl", "lg"];
 const Title: React.FC<
   TypographyProps & { level?: 1 | 2 | 3 | 4; noMargin?: boolean }
-> = ({ children, level = 1, noMargin, ...props }) => {
+> = ({ children, level = 1, noMargin, style, ...props }) => {
   props.size = props.size || defaultTitleSize[level - 1];
   props.strong = typeof props.strong === "boolean" ? props.strong : true;
   const className = clsx(commonClsx(props), !noMargin && "mb-2");
   if (level === 2)
     return (
-      <h2 id={props.id} className={className}>
+      <h2 id={props.id} className={className} style={style}>
         {children}
       </h2>
     );
   if (level === 3)
     return (
-      <h3 id={props.id} className={className}>
+      <h3 id={props.id} className={className} style={style}>
         {children}
       </h3>
     );
   if (level === 4)
     return (
-      <h4 id={props.id} className={className}>
+      <h4 id={props.id} className={className} style={style}>
         {children}
       </h4>
     );
   return (
-    <h1 id={props.id} className={className}>
+    <h1 id={props.id} className={className} style={style}>
       {children}
     </h1>
   );
