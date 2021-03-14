@@ -50,10 +50,7 @@ const StorySliderView: React.FC<{ story: Story; close: () => void }> = ({
   });
 
   return (
-    <div
-      className="p-4 box-border mx-auto max-w-full h-full flex flex-col justify-center"
-      style={{ width: 600 }}
-    >
+    <div className="p-4 box-border mx-auto max-w-2xl h-full flex flex-col justify-center">
       <StoryNav onClose={close} story={story} />
       <Box minHeight={0} flex={1} position="relative">
         <PlayerImage track={track} />

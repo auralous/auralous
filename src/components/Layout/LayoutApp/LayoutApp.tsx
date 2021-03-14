@@ -1,19 +1,9 @@
-import { useWindowSize } from "@react-hook/window-size";
 import { LoadingFullpage } from "components/Loading";
 import { Box } from "components/View";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import LayoutAppContext from "./LayoutAppContext";
-
-const LayoutAppDesktop = dynamic(() => import("./LayoutAppDesktop"), {
-  ssr: false,
-  loading: LoadingFullpage,
-});
-const LayoutAppMobile = dynamic(() => import("./LayoutAppMobile"), {
-  ssr: false,
-  loading: LoadingFullpage,
-});
+import LayoutAppMobile from "./LayoutAppMobile";
 
 const LayoutApp: React.FC = ({ children }) => {
   const prevPathnameRef = useRef<string>("");
@@ -46,19 +36,11 @@ const LayoutApp: React.FC = ({ children }) => {
     };
   }, [router]);
 
-  const [viewWidth, viewHeight] = useWindowSize();
-
   return (
     <LayoutAppContext.Provider value={{ back }}>
-      <Box alignItems="start" row justifyContent="center">
-        {viewWidth > 768 ? (
-          <LayoutAppDesktop height={viewHeight} />
-        ) : (
-          <LayoutAppMobile />
-        )}
-        <main className="max-w-full" style={{ width: 600 }}>
-          {children}
-        </main>
+      <Box alignItems="center" justifyContent="center">
+        <LayoutAppMobile />
+        <main className="w-full max-w-2xl">{children}</main>
       </Box>
       <LoadingFullpage isLoading={isLoading} />
     </LayoutAppContext.Provider>

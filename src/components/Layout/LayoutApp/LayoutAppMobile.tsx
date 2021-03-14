@@ -62,10 +62,12 @@ const Appbar: React.FC = () => {
       style={{
         position: "fixed",
         zIndex: 10,
+        left: "50%",
+        transform: "translateX(-50%)",
       }}
       bottom={0}
-      left={0}
       fullWidth
+      maxWidth="2xl"
     >
       <Box padding="xs">
         <PlayerMinibar />
