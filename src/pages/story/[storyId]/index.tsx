@@ -1,10 +1,13 @@
 import { LoadingFullpage } from "components/Loading";
 import { Story } from "gql/gql.gen";
 import { QUERY_STORY } from "gql/story";
-import { GetServerSideProps, NextPage } from "next";
+import {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
-import NotFoundPage from "pages/404";
 import { useMemo } from "react";
 import { CONFIG } from "utils/constants";
 import { forwardSSRHeaders } from "utils/ssr-utils";
@@ -14,19 +17,16 @@ const StoryContainer = dynamic(
   { ssr: false, loading: LoadingFullpage }
 );
 
-const StoryPage: NextPage<{
-  story: Story | null;
-}> = ({ story }) => {
-  const initialStory = useMemo<Story | null>(() => {
-    if (!story) return null;
+const StoryPage: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ story }) => {
+  const initialStory = useMemo<Story>(() => {
     // FIXME: Sometimes createdAt is Invalid Date
     return {
       ...story,
       createdAt: new Date(story.createdAt),
     };
   }, [story]);
-
-  if (!initialStory) return <NotFoundPage />;
 
   return (
     <>
@@ -50,7 +50,7 @@ const StoryPage: NextPage<{
 };
 
 export const getServerSideProps: GetServerSideProps<{
-  story: Story | null;
+  story: Story;
 }> = async ({ params, req, res }) => {
   const result = await fetch(
     `${process.env.API_URI}/graphql?query=${QUERY_STORY.replace(
@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps<{
     { headers: forwardSSRHeaders(req) }
   ).then((response) => response.json());
   const story: Story | null = result.data?.story || null;
-  if (!story) res.statusCode = 404;
+  if (!story) return { notFound: true };
   else {
     if (story.isPublic)
       res.setHeader("cache-control", `public, max-age=${CONFIG.storyMaxAge}`);

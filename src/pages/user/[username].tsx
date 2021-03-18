@@ -2,15 +2,19 @@ import { UserContainer } from "containers/User";
 import { User } from "gql/gql.gen";
 import { QUERY_USER } from "gql/user";
 import { useI18n } from "i18n/index";
-import { GetServerSideProps, NextPage } from "next";
+import {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import { NextSeo } from "next-seo";
-import NotFoundPage from "pages/404";
 import { CONFIG } from "utils/constants";
 import { forwardSSRHeaders } from "utils/ssr-utils";
 
-const UserPage: NextPage<{ user: User | null }> = ({ user }) => {
+const UserPage: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ user }) => {
   const { t } = useI18n();
-  if (!user) return <NotFoundPage />;
   return (
     <>
       <NextSeo
@@ -32,7 +36,7 @@ const UserPage: NextPage<{ user: User | null }> = ({ user }) => {
 };
 
 export const getServerSideProps: GetServerSideProps<{
-  user: User | null;
+  user: User;
 }> = async ({ params, req, res }) => {
   const result = await fetch(
     `${process.env.API_URI}/graphql?query=${QUERY_USER.replace(
@@ -43,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<{
   ).then((response) => response.json());
 
   const user: User | null = result.data?.user || null;
-  if (!user) res.statusCode = 404;
+  if (!user) return { notFound: true };
   else {
     res.setHeader("cache-control", `public, max-age=${CONFIG.userMaxAge}`);
   }
