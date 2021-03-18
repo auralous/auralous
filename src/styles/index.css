@@ -27,18 +27,6 @@
   --danger-label: #fff;
 }
 
-@layer utilities {
-  @variants responsive {
-    .absolute-center {
-      @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
-    }
-    .flex-center {
-      align-items: center;
-      justify-content: center;
-    }
-  }
-}
-
 body {
   @apply text-foreground bg-background;
   font-family: 'Inter', sans-serif;
@@ -68,6 +56,10 @@ html {
 
 [role=button]:disabled, button:disabled, input:disabled {
   @apply cursor-not-allowed opacity-50;
+}
+
+.absolute-center {
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
 }
 
 .label {
@@ -145,37 +137,36 @@ html {
 }
 
 [data-reach-dialog-overlay] {
-  @apply fixed w-full h-full inset-0 flex flex-center z-40;
+  @apply fixed w-full h-full inset-0 flex justify-center items-center z-40;
   background-color: hsla(235, 28%, 9%, .5);
-  [data-reach-dialog-content] {
-    width: theme('maxWidth.3xl');
-    max-width: calc(100vw - 1rem);
-    max-height: calc(100vh - 1rem);
-    @apply bg-background rounded-lg text-foreground overflow-hidden m-0 p-0 border-2 border-background-secondary;
-    @apply relative flex flex-col;
-    @apply transition;
-  }
+}
+
+[data-reach-dialog-content] {
+  width: theme('maxWidth.3xl');
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  @apply bg-background rounded-lg text-foreground overflow-hidden m-0 p-0 border-2 border-background-secondary;
+  @apply relative flex flex-col;
+  @apply transition;
 }
 
 :root {
   --reach-tabs: 1;
 }
 
-[data-reach-tabs] {
-  [data-reach-tab] {
-    &:focus {
-      outline: none;
-    }
-    &:not([disabled]):not([data-selected]) {
-      &:hover, &:focus {
-        @apply opacity-75;
-      }
-    }
-  }
-
-  [data-reach-tab-panel]:focus, [data-reach-tab-panels]:focus {
+[data-reach-tab] {
+  &:focus {
     outline: none;
   }
+  &:not([disabled]):not([data-selected]) {
+    &:hover, &:focus {
+      @apply opacity-75;
+    }
+  }
+}
+
+[data-reach-tab-panel]:focus, [data-reach-tab-panels]:focus {
+  outline: none;
 }
 
 .spinning-border {
