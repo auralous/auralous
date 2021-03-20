@@ -77,7 +77,6 @@
       "authPrompt": "Sign in to connect to your playlists",
       "empty": "You have no playlist"
     },
-    "startEmpty": "Start without songs",
     "fromResult": {
       "startListeningTo": "Start listening together to",
       "featuring": "featuring"

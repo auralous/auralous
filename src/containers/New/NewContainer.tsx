@@ -102,12 +102,6 @@ const SelectTracksView: React.FC<{
           }
           shape="circle"
         />
-        <Button
-          onPress={() => setInitTracks([])}
-          styling="link"
-          title={t("new.startEmpty")}
-          size="sm"
-        />
       </Box>
     </>
   );
