@@ -36,7 +36,7 @@ This is only run whenever the GraphQL operations are modified inside the `graphq
 
 #### `yarn lint`
 
-Run `yarn lint` to check for error in source code using [`eslint`](https://github.com/eslint/eslint). You can also run `yarn lint --fix` to let `eslint` fixed the errors automatically.
+Run `yarn lint` to check for error in source code using [`eslint`](https://github.com/eslint/eslint) and apply formatting with [prettier](https://github.com/prettier/prettier). You can also run `yarn lint --fix` to let `eslint` fixed the errors automatically.
 
 ## Contribution
 
