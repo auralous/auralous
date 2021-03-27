@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps<{
 }> = async ({ params, req, res }) => {
   const result = await fetch(
     `${process.env.API_URI}/graphql` +
-      `?query=query story($id: ID!) { story(id: "${params?.storyId}") { id text image createdAt isPublic isLive creatorId queueable } }` +
+      `?query=query story($id: ID!) { story(id: $id) { id text image createdAt isPublic isLive creatorId queueable } }` +
       `&variables=${JSON.stringify({ id: params?.storyId })}`,
     { headers: forwardSSRHeaders(req) }
   ).then((response) => response.json());
