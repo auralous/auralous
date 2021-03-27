@@ -218,6 +218,7 @@
       "selectSongFrom": "Select songs from {{title}}"
     },
     "result": {
+      "addAll": "Add All Songs",
       "confirmAdded": "This song has already been added. Add again?"
     },
     "search": {

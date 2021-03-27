@@ -218,6 +218,7 @@
       "selectSongFrom": "Chọn bài hát từ {{title}}"
     },
     "result": {
+      "addAll": "Thêm tất cả",
       "confirmAdded": "Bài hát này đã được thêm. Thêm lại?"
     },
     "search": {
