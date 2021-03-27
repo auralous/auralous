@@ -62,9 +62,7 @@
   },
   "new": {
     "title": "Start listening together",
-    "prompt": "What are we listening today?",
     "promptInstruction": "Add at least {{min}} songs to continue",
-    "promptAlmost": "Almost there",
     "tracksInQueue": "{{num}} songs in queue",
     "selectSongs": {
       "title": "Select songs"
@@ -293,6 +291,7 @@
   },
   "common": {
     "back": "Back",
+    "next": "Next",
     "signIn": "Sign in",
     "tracks": "songs",
     "save": "Save",

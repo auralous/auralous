@@ -62,9 +62,7 @@
   },
   "new": {
     "title": "Bắt đầu nghe cùng nhau",
-    "prompt": "Nghe gì hôm nay?",
     "promptInstruction": "Thêm ít nhất {{min}} bài hát để tiếp tục",
-    "promptAlmost": "Bước cuối cùng",
     "tracksInQueue": "{{num}} bài hát trong hàng chờ",
     "selectSongs": {
       "title": "Chọn bài hát"
@@ -293,6 +291,7 @@
   },
   "common": {
     "back": "Trở về",
+    "next": "Tiếp tục",
     "signIn": "Đăng nhập",
     "tracks": "bài hát",
     "save": "Lưu",

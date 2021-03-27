@@ -62,27 +62,39 @@ const NewContainer: React.FC = () => {
   return (
     <>
       <Box
-        padding="md"
+        paddingY="md"
+        paddingX="sm"
         fullWidth
         justifyContent="start"
         style={{ height: "100vh", position: "relative" }}
         position="relative"
       >
-        <Box position="absolute" left={0}>
+        <Box row justifyContent="between">
           {doneSelect ? (
             <Button
-              accessibilityLabel={t("common.back")}
-              icon={<SvgChevronLeft />}
-              onClick={back}
+              title={t("new.selectSongs.title")}
+              icon={<SvgChevronLeft viewBox="4 4 16 16" className="w-4 h-4" />}
+              onClick={() => setDoneSelect(false)}
+              styling="link"
             />
           ) : (
-            <></>
+            <>
+              <Button title={t("common.back")} onClick={back} styling="link" />
+              <Button
+                title={t("common.next")}
+                onClick={() => setDoneSelect(true)}
+                disabled={initTracks.length < 4}
+                color="primary"
+                styling="link"
+              />
+            </>
           )}
         </Box>
-        <Box row justifyContent="between"></Box>
-        <Typography.Title level={2} size="2xl" align="center">
-          {doneSelect ? t("new.promptAlmost") : t("new.prompt")}
-        </Typography.Title>
+        {!doneSelect && (
+          <Typography.Title level={2} size="2xl" align="center">
+            {t("new.selectSongs.title")}
+          </Typography.Title>
+        )}
         <Typography.Paragraph
           size="md"
           align="center"
@@ -107,7 +119,7 @@ const NewContainer: React.FC = () => {
             </>
           )}
         </Typography.Paragraph>
-        <Box flex={1} paddingY="xl" position="relative">
+        <Box flex={1} minHeight={0} position="relative">
           {transitionsCreate.map(({ item, key, props }) =>
             item ? (
               <animated.div key={key} style={props} className="w-full">
