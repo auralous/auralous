@@ -20,7 +20,7 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
   const [{ fetching: fetchingFollow }, followUser] = useUserFollowMutation();
   const [
     { fetching: fetchingUnfollow },
-    unfollowUser,
+    userUnfollow,
   ] = useUserUnfollowMutation();
 
   const followed = userFollowings?.includes(id);
@@ -28,7 +28,7 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
   if (followed)
     return (
       <Button
-        onPress={() => unfollowUser({ id })}
+        onPress={() => userUnfollow({ id })}
         disabled={fetchingUnfollow}
         color="primary"
         styling="link"

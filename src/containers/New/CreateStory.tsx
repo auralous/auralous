@@ -1,7 +1,6 @@
 import { SvgCheck } from "assets/svg";
 import { useLogin } from "components/Auth";
 import { Input } from "components/Form";
-import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
@@ -36,8 +35,6 @@ const CreateStoryFormGroup: React.FC = ({ children }) => (
 
 const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const { t } = useI18n();
-
-  const [, { playStory }] = usePlayer();
 
   const [, logIn] = useLogin();
   const me = useMe();
