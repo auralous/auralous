@@ -17,9 +17,10 @@ Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com
 
 ## Structure
 
-| Codebase             |      Description      |
-| :------------------- | :-------------------: |
-| [web](web) | Next.js frontend |
+| Codebase           |                  Description                  |
+| :----------------- | :-------------------------------------------: |
+| [web](web)         |               Next.js frontend                |
+| [graphql](graphql) | GraphQL Queries, Mutations, and Subscriptions |
 
 ### Workflows
 

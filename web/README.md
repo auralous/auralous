@@ -1,7 +1,9 @@
 # @auralous/web
 
 This is the Next.js frontend of Auralous.
+
 ## Development
+
 ### Prerequisites
 
 The following tools must be installed:
