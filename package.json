@@ -4,7 +4,7 @@
     "web"
   ],
   "version": "0.0.0",
-  "repository": "git@github.com:auralous/app.git",
+  "repository": "git@github.com:auralous/auralous.git",
   "private": true,
   "scripts": {
     "codegen": "node schema-gen && graphql-codegen",
