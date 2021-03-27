@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "codegen": "node schema-gen && graphql-codegen",
+    "build": "yarn workspaces run build",
     "lint": "eslint ."
   },
   "devDependencies": {
