@@ -1,16 +1,15 @@
+import { SvgChevronLeft } from "assets/svg";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
-import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { Track } from "gql/gql.gen";
+import { useRouterBack } from "hooks/router";
 import { useI18n } from "i18n/index";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { animated, config as springConfig, useTransition } from "react-spring";
 import CreateStory from "./CreateStory";
-import SelectFromPlaylists from "./SelectFromPlaylists";
-import SelectFromSearch from "./SelectFromSearch";
+import SelectTracks from "./SelectTracks";
 
 const getFeaturedArtists = (tracks: Track[]): string[] => {
   const o: Record<string, number> = {};
@@ -25,7 +24,7 @@ const getFeaturedArtists = (tracks: Track[]): string[] => {
 
 const transitionConfig = {
   from: {
-    height: "12rem",
+    height: "100%",
     opacity: 0,
     transform: "translateY(10px)",
     position: "static" as const,
@@ -43,142 +42,84 @@ const transitionConfig = {
   config: springConfig.stiff,
 };
 
-const AnimatedBox = animated(Box);
-
-const SelectTracksView: React.FC<{
-  setInitTracks: React.Dispatch<React.SetStateAction<Track[] | null>>;
-}> = ({ setInitTracks }) => {
-  const { t } = useI18n();
-  const [from, setFrom] = useState<"search" | "playlist">("search");
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (router.query.playlist) setFrom("playlist");
-    else if (router.query.search) setFrom("search");
-  }, [router]);
-
-  const transitionsFrom = useTransition(from, null, transitionConfig);
-
-  return (
-    <>
-      {transitionsFrom.map(({ item: from, key, props }) =>
-        from === "search" ? (
-          <AnimatedBox
-            key={key}
-            fullWidth
-            style={props}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <SelectFromSearch onSelected={setInitTracks} />
-          </AnimatedBox>
-        ) : (
-          <AnimatedBox
-            key={key}
-            fullWidth
-            style={props}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <SelectFromPlaylists onSelected={setInitTracks} />
-          </AnimatedBox>
-        )
-      )}
-      <Box alignItems="center" gap="xs">
-        <Spacer size={8} axis="vertical" />
-        <Typography.Text uppercase color="foreground-tertiary" size="sm" strong>
-          {t("new.or")}
-        </Typography.Text>
-        <Spacer size={8} axis="vertical" />
-        <Button
-          onPress={() =>
-            from === "search" ? setFrom("playlist") : setFrom("search")
-          }
-          title={
-            from === "search"
-              ? t("new.fromPlaylist.title")
-              : t("new.fromSearch.title")
-          }
-          shape="circle"
-        />
-      </Box>
-    </>
-  );
-};
-
-const CreateStoryView: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
-  const { t } = useI18n();
-  const router = useRouter();
-
-  return (
-    <>
-      {initTracks.length ? (
-        <Typography.Paragraph
-          size="lg"
-          align="center"
-          color="foreground-secondary"
-        >
-          {t("new.fromResult.startListeningTo")}{" "}
-          <Typography.Text strong color="foreground">
-            {initTracks.length} {t("common.tracks")}
-          </Typography.Text>{" "}
-          {t("new.fromResult.featuring")}{" "}
-          <Typography.Text emphasis color="foreground">
-            {getFeaturedArtists(initTracks).join(", ")}
-          </Typography.Text>
-        </Typography.Paragraph>
-      ) : null}
-      <Spacer size={4} axis="vertical" />
-      <CreateStory initTracks={initTracks} />
-      <Spacer size={2} axis="vertical" />
-      <Box alignItems="center">
-        <Button
-          size="sm"
-          styling="link"
-          onPress={() => router.replace("/new")}
-          title={t("common.back")}
-        />
-      </Box>
-    </>
-  );
-};
-
 const NewContainer: React.FC = () => {
   const { t } = useI18n();
   const [, { playStory }] = usePlayer();
 
-  const [initTracks, setInitTracks] = useState<Track[] | null>(null);
+  const [initTracks, setInitTracks] = useState<Track[]>([]);
 
-  const router = useRouter();
+  const [doneSelect, setDoneSelect] = useState(false);
 
   useEffect(() => {
     // stop ongoing story
     playStory("");
   }, [playStory]);
 
-  useEffect(() => {
-    if (router.asPath === "/new") setInitTracks(null);
-  }, [router]);
+  const transitionsCreate = useTransition(doneSelect, null, transitionConfig);
 
-  const transitionsCreate = useTransition(!!initTracks, null, transitionConfig);
+  const back = useRouterBack();
 
   return (
     <>
-      <Box padding="md" fullWidth>
-        <Spacer size={4} axis="vertical" />
-        <Typography.Title level={2} size="4xl" align="center">
-          {initTracks ? t("new.promptAlmost") : t("new.prompt")}
+      <Box
+        padding="md"
+        fullWidth
+        justifyContent="start"
+        style={{ height: "100vh", position: "relative" }}
+        position="relative"
+      >
+        <Box position="absolute" left={0}>
+          {doneSelect ? (
+            <Button
+              accessibilityLabel={t("common.back")}
+              icon={<SvgChevronLeft />}
+              onClick={back}
+            />
+          ) : (
+            <></>
+          )}
+        </Box>
+        <Box row justifyContent="between"></Box>
+        <Typography.Title level={2} size="2xl" align="center">
+          {doneSelect ? t("new.promptAlmost") : t("new.prompt")}
         </Typography.Title>
-        <Box paddingY="xl" position="relative">
-          {transitionsCreate.map(({ item: doneSelected, key, props }) =>
-            doneSelected ? (
+        <Typography.Paragraph
+          size="md"
+          align="center"
+          color="foreground-secondary"
+        >
+          {doneSelect ? (
+            <>
+              {t("new.fromResult.startListeningTo")}{" "}
+              <Typography.Text strong color="foreground">
+                {initTracks.length} {t("common.tracks")}
+              </Typography.Text>{" "}
+              {t("new.fromResult.featuring")}{" "}
+              <Typography.Text emphasis color="foreground">
+                {getFeaturedArtists(initTracks).join(", ")}
+              </Typography.Text>
+            </>
+          ) : (
+            <>
+              {initTracks.length >= 4
+                ? t("new.tracksInQueue", { num: initTracks.length })
+                : t("new.promptInstruction", { min: 4 })}
+            </>
+          )}
+        </Typography.Paragraph>
+        <Box flex={1} paddingY="xl" position="relative">
+          {transitionsCreate.map(({ item, key, props }) =>
+            item ? (
               <animated.div key={key} style={props} className="w-full">
-                <CreateStoryView initTracks={initTracks || []} />
+                <CreateStory initTracks={initTracks} />
               </animated.div>
             ) : (
               <animated.div key={key} style={props} className="w-full">
-                <SelectTracksView setInitTracks={setInitTracks} />
+                <SelectTracks
+                  initTracks={initTracks}
+                  setInitTracks={setInitTracks}
+                  setDoneSelect={setDoneSelect}
+                />
               </animated.div>
             )
           )}

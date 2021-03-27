@@ -87,8 +87,8 @@ const TrackAdderSearch: React.FC<{
           fullWidth
           type="text"
           name="search"
-          accessibilityLabel={t("track.adder.search.title")}
-          placeholder={t("track.adder.search.placeholder")}
+          accessibilityLabel={t("trackAdder.search.title")}
+          placeholder={t("trackAdder.search.placeholder")}
           required
         />
       </form>
@@ -104,7 +104,7 @@ const TrackAdderSearch: React.FC<{
             color="foreground-secondary"
             align="center"
           >
-            {t("track.adder.search.helpText")}
+            {t("trackAdder.search.helpText")}
           </Typography.Paragraph>
         </div>
       )}

@@ -26,7 +26,7 @@ const SearchResultRow = memo<ListChildComponentProps>(function Row({
   const [isAdding, setIsAdding] = useState(false);
 
   const onAdded = () => {
-    if (added && !window.confirm(t("track.adder.result.confirmAdded"))) return;
+    if (added && !window.confirm(t("trackAdder.result.confirmAdded"))) return;
     setIsAdding(true);
     data.callback([data.items[index]]).then(() => setIsAdding(false));
   };

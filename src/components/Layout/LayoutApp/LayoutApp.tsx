@@ -37,7 +37,7 @@ const LayoutApp: React.FC = ({ children }) => {
   }, [router]);
 
   return (
-    <LayoutAppContext.Provider value={{ back }}>
+    <LayoutAppContext.Provider value={{ prevPathnameRef }}>
       <Box alignItems="center" justifyContent="center">
         <LayoutAppMobile />
         <main className="w-full max-w-2xl">{children}</main>

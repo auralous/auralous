@@ -63,19 +63,11 @@
   "new": {
     "title": "Start listening together",
     "prompt": "What are we listening today?",
+    "promptInstruction": "Add at least {{min}} songs to continue",
     "promptAlmost": "Almost there",
-    "or": "Or",
-    "fromSearch": {
-      "title": "Select from a link",
-      "action": "Search for songs",
-      "altText": "Enter a Playlist Link",
-      "helpText": "Enter a playlist link to listen together",
-      "noResults": "No songs found from the link below. Try a different one!"
-    },
-    "fromPlaylist": {
-      "title": "Select from your playlists",
-      "authPrompt": "Sign in to connect to your playlists",
-      "empty": "You have no playlist"
+    "tracksInQueue": "{{num}} songs in queue",
+    "selectSongs": {
+      "title": "Select songs"
     },
     "fromResult": {
       "startListeningTo": "Start listening together to",
@@ -219,19 +211,21 @@
   },
   "track": {
     "addToPlaylist": "Add to playlist",
-    "listenOn": "Listen on {{platform}}",
-    "adder": {
-      "playlist": {
-        "selectSongFrom": "Select songs from {{title}}"
-      },
-      "result": {
-        "confirmAdded": "This song has already been added. Add again?"
-      },
-      "search": {
-        "title": "Search",
-        "placeholder": "Find by keywords or links",
-        "helpText": "To search, enter some keywords, a song link, or a playlist link"
-      }
+    "listenOn": "Listen on {{platform}}"
+  },
+  "trackAdder": {
+    "playlist": {
+      "title": "Add songs from your playlists",
+      "authPrompt": "Sign in to connect to your playlists",
+      "selectSongFrom": "Select songs from {{title}}"
+    },
+    "result": {
+      "confirmAdded": "This song has already been added. Add again?"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Find by keywords or links",
+      "helpText": "To search, enter some keywords, a song link, or a playlist link"
     }
   },
   "queue": {

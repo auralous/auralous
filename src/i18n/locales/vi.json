@@ -63,19 +63,11 @@
   "new": {
     "title": "Bắt đầu nghe cùng nhau",
     "prompt": "Nghe gì hôm nay?",
+    "promptInstruction": "Thêm ít nhất {{min}} bài hát để tiếp tục",
     "promptAlmost": "Bước cuối cùng",
-    "or": "Hoặc",
-    "fromSearch": {
-      "title": "Chọn từ đường link",
-      "action": "Tìm bài hát",
-      "altText": "Nhập đường link playlist",
-      "helpText": "Nhập đường link playlist để nghe cùng nhau",
-      "noResults": "Không tìm thấy bài hát nào từ đường link dưới. Hãy thử lại!"
-    },
-    "fromPlaylist": {
-      "title": "Chọn từ playlist của bạn",
-      "authPrompt": "Đăng nhập để kết nối với playlist của bạn",
-      "empty": "Bạn không có playlist nào"
+    "tracksInQueue": "{{num}} bài hát trong hàng chờ",
+    "selectSongs": {
+      "title": "Chọn bài hát"
     },
     "fromResult": {
       "startListeningTo": "Bắt đầu nghe",
@@ -219,19 +211,21 @@
   },
   "track": {
     "addToPlaylist": "Thêm vào playlist",
-    "listenOn": "Nghe trên {{platform}}",
-    "adder": {
-      "playlist": {
-        "selectSongFrom": "Chọn bài hát từ {{title}}"
-      },
-      "result": {
-        "confirmAdded": "Bài hát này đã được thêm. Thêm lại?"
-      },
-      "search": {
-        "title": "Tìm kiếm",
-        "placeholder": "Tìm kiếm với từ khoá hoặc đường link",
-        "helpText": "Để tìm kiếm, nhập từ khoá hoặc đường link của bài hát / playlist"
-      }
+    "listenOn": "Nghe trên {{platform}}"
+  },
+  "trackAdder": {
+    "playlist": {
+      "title": "Chọn từ playlist của bạn",
+      "authPrompt": "Đăng nhập để kết nối với playlist của bạn",
+      "selectSongFrom": "Chọn bài hát từ {{title}}"
+    },
+    "result": {
+      "confirmAdded": "Bài hát này đã được thêm. Thêm lại?"
+    },
+    "search": {
+      "title": "Tìm kiếm",
+      "placeholder": "Tìm kiếm với từ khoá hoặc đường link",
+      "helpText": "Để tìm kiếm, nhập từ khoá hoặc đường link của bài hát / playlist"
     }
   },
   "queue": {
