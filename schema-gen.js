@@ -18,6 +18,7 @@ fetch("http://localhost:4000/graphql", {
   .then((result) => result.json())
   .then(({ data }) => {
     const minified = minifyIntrospectionQuery(getIntrospectedSchema(data));
-    fs.writeFileSync("./src/gql/schema.json", JSON.stringify(minified));
+    fs.writeFileSync("./web/src/gql/schema.json", JSON.stringify(minified));
+    fs.writeFileSync("./app/src/gql/schema.json", JSON.stringify(minified));
     console.log("schema.json written");
   });
