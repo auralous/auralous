@@ -1,8 +1,9 @@
 export const FRAGMENT_NOW_PLAYING_QUEUE = /* GraphQL */ `
   fragment NowPlayingQueueParts on NowPlayingQueueItem {
-    id
+    index
     trackId
     playedAt
+    endedAt
     creatorId
   }
 `;

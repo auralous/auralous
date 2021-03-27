@@ -38,12 +38,13 @@ const wsClient =
     : null;
 
 const cacheExchange = createCacheExchange({
-  // @ts-ignore: This is invalid
+  // @ts-ignore: This is invalid ts error
   schema,
   keys: {
     QueueItem: () => null,
     Me: () => null,
     NowPlayingReactionItem: () => null,
+    NowPlayingQueueItem: () => null,
   },
   resolvers: {
     Query: {

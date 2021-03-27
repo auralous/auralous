@@ -1,6 +1,5 @@
 export const FRAGMENT_QUEUE_ITEM = /* GraphQL */ `
   fragment QueueItemParts on QueueItem {
-    id
     trackId
     creatorId
   }

@@ -114,12 +114,9 @@ const Row = memo<
     };
   }
 >(function Row({ data, index, style }) {
+  const key = `${data.queue.items[index].trackId}:${data.queue.items[index].creatorId}`;
   return (
-    <Draggable
-      key={data.queue.items[index].id}
-      draggableId={data.queue.items[index].id}
-      index={index}
-    >
+    <Draggable key={key} draggableId={key} index={index}>
       {(provided1) => (
         <QueueDraggableItem
           style={style}
