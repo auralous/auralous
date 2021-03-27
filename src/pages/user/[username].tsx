@@ -1,6 +1,5 @@
 import { UserContainer } from "containers/User";
 import { User } from "gql/gql.gen";
-import { QUERY_USER } from "gql/user";
 import { useI18n } from "i18n/index";
 import {
   GetServerSideProps,
@@ -39,10 +38,9 @@ export const getServerSideProps: GetServerSideProps<{
   user: User;
 }> = async ({ params, req, res }) => {
   const result = await fetch(
-    `${process.env.API_URI}/graphql?query=${QUERY_USER.replace(
-      /([\s,]|#[^\n\r]+)+/g,
-      " "
-    ).trim()}&variables=${JSON.stringify({ username: params?.username })}`,
+    `${process.env.API_URI}/graphql` +
+      `?query=query user($username: String, $id: ID) { user(username: $username, id: $id) { id username bio profilePicture } }` +
+      `&variables=${JSON.stringify({ username: params?.username })}`,
     { headers: forwardSSRHeaders(req) }
   ).then((response) => response.json());
 

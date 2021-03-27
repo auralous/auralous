@@ -1,6 +1,5 @@
 import { LoadingFullpage } from "components/Loading";
 import { Story } from "gql/gql.gen";
-import { QUERY_STORY } from "gql/story";
 import {
   GetServerSideProps,
   InferGetServerSidePropsType,
@@ -53,10 +52,9 @@ export const getServerSideProps: GetServerSideProps<{
   story: Story;
 }> = async ({ params, req, res }) => {
   const result = await fetch(
-    `${process.env.API_URI}/graphql?query=${QUERY_STORY.replace(
-      /([\s,]|#[^\n\r]+)+/g,
-      " "
-    ).trim()}&variables=${JSON.stringify({ id: params?.storyId })}`,
+    `${process.env.API_URI}/graphql` +
+      `?query=query story($id: ID!) { story(id: "${params?.storyId}") { id text image createdAt isPublic isLive creatorId queueable } }` +
+      `&variables=${JSON.stringify({ id: params?.storyId })}`,
     { headers: forwardSSRHeaders(req) }
   ).then((response) => response.json());
   const story: Story | null = result.data?.story || null;
