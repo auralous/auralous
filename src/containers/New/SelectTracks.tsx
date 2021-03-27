@@ -1,4 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
+import { animated, useSpring } from "@react-spring/web";
 import {
   TrackAdderPlaylist,
   TrackAdderSearch,
@@ -15,7 +16,6 @@ import {
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useCallback, useMemo, useState } from "react";
-import { animated, useSpring } from "react-spring";
 import { useClient } from "urql";
 
 const tabInactiveStyle = { opacity: 0, transform: "translate3d(0px,40px,0px)" };

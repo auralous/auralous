@@ -1,5 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 import { useWindowHeight } from "@react-hook/window-size";
+import { animated, useSpring } from "@react-spring/web";
 import { usePlayer } from "components/Player";
 import { Spacer } from "components/Spacer";
 import { StoryNav } from "components/Story";
@@ -16,7 +17,6 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
-import { animated, useSpring } from "react-spring";
 import StoryPlayer from "./StoryPlayer";
 import StoryQueue from "./StoryQueue";
 import StoryTopPlayer from "./StoryTopPlayer";

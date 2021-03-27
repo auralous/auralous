@@ -1,9 +1,13 @@
 import { DialogOverlay } from "@reach/dialog";
+import {
+  animated,
+  config as springConfig,
+  useTransition,
+} from "@react-spring/web";
 import { SvgClose } from "assets/svg";
 import { Button } from "components/Pressable";
 import { Box } from "components/View";
 import { useI18n } from "i18n";
-import { animated, config as springConfig, useTransition } from "react-spring";
 
 const AnimatedDialogOverlay = animated(DialogOverlay);
 
@@ -14,7 +18,7 @@ const Modal: React.FC<{
 }> = ({ title, active, close, children }) => {
   const { t } = useI18n();
 
-  const transitions = useTransition(active, null, {
+  const transition = useTransition(active, {
     from: {
       opacity: 0,
       transform: "translateY(40px)",
@@ -32,31 +36,27 @@ const Modal: React.FC<{
 
   return (
     <>
-      {transitions.map(
-        ({ item, key, props: style }) =>
-          item && (
-            <AnimatedDialogOverlay
-              key={key}
-              aria-label={title}
-              isOpen={style.opacity !== 0}
-              style={style}
-              className="backdrop-blur"
-              as="div"
-            >
-              {children}
-              {close && (
-                <Box position="absolute" top={4} right={4}>
-                  <Button
-                    accessibilityLabel={t("modal.close")}
-                    onPress={close}
-                    icon={<SvgClose className="w-8 h-8" />}
-                    styling="link"
-                  />
-                </Box>
-              )}
-            </AnimatedDialogOverlay>
-          )
-      )}
+      {transition((style, item) => (
+        <AnimatedDialogOverlay
+          aria-label={title}
+          isOpen={item}
+          style={style}
+          className="backdrop-blur"
+          as="div"
+        >
+          {children}
+          {close && (
+            <Box position="absolute" top={4} right={4}>
+              <Button
+                accessibilityLabel={t("modal.close")}
+                onPress={close}
+                icon={<SvgClose className="w-8 h-8" />}
+                styling="link"
+              />
+            </Box>
+          )}
+        </AnimatedDialogOverlay>
+      ))}
     </>
   );
 };

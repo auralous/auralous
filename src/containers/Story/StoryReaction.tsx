@@ -1,3 +1,4 @@
+import { animated } from "@react-spring/web";
 import { SvgHeart } from "assets/svg";
 import clsx from "clsx";
 import { Button } from "components/Pressable";
@@ -13,7 +14,6 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n";
 import { useCallback, useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
-import { animated } from "react-spring";
 
 const AnimatedSvgHeart = animated(SvgHeart);
 

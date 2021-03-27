@@ -1,3 +1,8 @@
+import {
+  animated,
+  config as springConfig,
+  useTransition,
+} from "@react-spring/web";
 import { SvgChevronLeft } from "assets/svg";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
@@ -7,7 +12,6 @@ import { Track } from "gql/gql.gen";
 import { useRouterBack } from "hooks/router";
 import { useI18n } from "i18n/index";
 import { useEffect, useState } from "react";
-import { animated, config as springConfig, useTransition } from "react-spring";
 import CreateStory from "./CreateStory";
 import SelectTracks from "./SelectTracks";
 
@@ -24,20 +28,16 @@ const getFeaturedArtists = (tracks: Track[]): string[] => {
 
 const transitionConfig = {
   from: {
-    height: "100%",
     opacity: 0,
     transform: "translateY(10px)",
-    position: "static" as const,
   },
   enter: {
     opacity: 1,
     transform: "translateY(0px)",
-    position: "static" as const,
   },
   leave: {
     opacity: 0,
     transform: "translateY(10px)",
-    position: "absolute" as const,
   },
   config: springConfig.stiff,
 };
@@ -55,7 +55,7 @@ const NewContainer: React.FC = () => {
     playStory("");
   }, [playStory]);
 
-  const transitionsCreate = useTransition(doneSelect, null, transitionConfig);
+  const transition = useTransition(doneSelect, transitionConfig);
 
   const back = useRouterBack();
 
@@ -120,13 +120,13 @@ const NewContainer: React.FC = () => {
           )}
         </Typography.Paragraph>
         <Box flex={1} minHeight={0} position="relative">
-          {transitionsCreate.map(({ item, key, props }) =>
+          {transition((style, item) =>
             item ? (
-              <animated.div key={key} style={props} className="w-full">
+              <animated.div style={style} className="absolute w-full h-full">
                 <CreateStory initTracks={initTracks} />
               </animated.div>
             ) : (
-              <animated.div key={key} style={props} className="w-full">
+              <animated.div style={style} className="absolute w-full h-full">
                 <SelectTracks
                   initTracks={initTracks}
                   setInitTracks={setInitTracks}

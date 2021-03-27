@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { useSpring } from "react-spring";
+import { useSpring } from "@react-spring/web";
+import { useCallback, useEffect, useState } from "react";
 
 export function useBoop({
   x = 0,

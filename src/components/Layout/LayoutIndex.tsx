@@ -1,3 +1,4 @@
+import { animated, useSpring } from "@react-spring/web";
 import { SvgClose, SvgLogo, SvgMenu } from "assets/svg";
 import clsx from "clsx";
 import { usePlayer } from "components/Player";
@@ -8,7 +9,6 @@ import { useI18n } from "i18n/index";
 import { Locale } from "i18n/types";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { animated, useSpring } from "react-spring";
 import { LANGUAGES } from "utils/constants";
 
 const baseNavbarClassname = `text-center mx-1 focus:outline-none transition duration-300`;

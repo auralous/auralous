@@ -1,9 +1,9 @@
 import { DialogOverlay } from "@reach/dialog";
+import { animated, config as springConfig, useSpring } from "@react-spring/web";
 import { usePlayer } from "components/Player";
 import { Story } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useEffect, useRef, useState } from "react";
-import { animated, config as springConfig, useSpring } from "react-spring";
 import Swiper from "swiper/bundle";
 import { VirtualData } from "swiper/types/components/virtual";
 import StorySliderInstruction from "./StorySliderInstruction";
@@ -122,9 +122,7 @@ const StorySlider: React.FC<{
   return (
     <AnimatedDialogOverlay
       isOpen={active}
-      style={{
-        opacity: transitions.opacity,
-      }}
+      style={{ opacity: transitions.opacity }}
       aria-label={t("story.feed.title")}
       className="overflow-hidden z-10 backdrop-blur"
       as="div"
