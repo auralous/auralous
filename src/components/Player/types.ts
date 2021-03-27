@@ -9,13 +9,13 @@ export type IPlayerContext = [
     player: Player;
     playerPlaying: PlayerPlaying;
     playingStoryId: string;
-    playingQueueItemId: string | undefined;
+    currQueueIndex: number | undefined;
     crossTracks: ReturnType<typeof useCrossTracks>[0];
     fetching: boolean;
   },
   {
     playStory: (storyId: string) => void;
-    playQueueItem?: (id: string) => void;
+    playQueueItem?: (index: number) => void;
     skipForward?: () => void;
     skipBackward?: () => void;
   }

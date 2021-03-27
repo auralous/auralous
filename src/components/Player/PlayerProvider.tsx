@@ -120,13 +120,6 @@ const usePlayFromQueue = (story: Story | null) => {
     return () => setCurrQueueIndex(currQueueIndex + 1);
   }, [currQueueIndex, queue]);
 
-  const playQueueItem = useMemo(() => {
-    if (!queue) return;
-    return (queueItemId: string) => {
-      setCurrQueueIndex(queue.items.findIndex((i) => i.id === queueItemId));
-    };
-  }, [queue]);
-
   useEffect(() => {
     if (!skipForward) return undefined;
     player.on("ended", skipForward);
@@ -140,8 +133,9 @@ const usePlayFromQueue = (story: Story | null) => {
   }, []);
 
   return [
+    currQueueIndex,
     queue?.items[currQueueIndex],
-    { fetching, skipBackward, skipForward, playQueueItem },
+    { fetching, skipBackward, skipForward, playQueueItem: setCurrQueueIndex },
   ] as const;
 };
 
@@ -214,6 +208,7 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   // For nonlive story
   const [
+    currQueueIndex,
     currQueueTrack,
     {
       fetching: fetchingQueue,
@@ -222,8 +217,6 @@ const PlayerProvider: React.FC = ({ children }) => {
       playQueueItem,
     },
   ] = usePlayFromQueue(story);
-
-  const playingQueueItemId = nowPlayingTrack?.id || currQueueTrack?.id;
 
   const skipBackward = skipBackwardQueue;
   const skipForward = skipForwardNP || skipForwardQueue;
@@ -293,11 +286,11 @@ const PlayerProvider: React.FC = ({ children }) => {
       player,
       playerPlaying,
       playingStoryId,
-      playingQueueItemId,
+      currQueueIndex,
       crossTracks,
       fetching,
     }),
-    [playerPlaying, playingStoryId, playingQueueItemId, crossTracks, fetching]
+    [playerPlaying, playingStoryId, currQueueIndex, crossTracks, fetching]
   );
 
   const playerControls = useMemo(

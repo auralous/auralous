@@ -71,7 +71,9 @@ const StoryQueue: React.FC<{ story: Story; inactive?: boolean }> = ({
       </Box>
     );
 
-  return <QueueViewer queueId={`${story.id}:played`} onClick={playQueueItem} />;
+  return (
+    <QueueViewer queueId={`${story.id}:played`} playQueueItem={playQueueItem} />
+  );
 };
 
 export default StoryQueue;

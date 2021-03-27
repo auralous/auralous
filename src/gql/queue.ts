@@ -1,26 +1,25 @@
 export const FRAGMENT_QUEUE_ITEM = /* GraphQL */ `
   fragment QueueItemParts on QueueItem {
-    id
     trackId
     creatorId
   }
 `;
 
-export const MUTATION_UPDATE_QUEUE = /* GraphQL */ `
-  mutation updateQueue(
-    $id: ID!
-    $action: QueueAction!
-    $tracks: [ID!]
-    $position: Int
-    $insertPosition: Int
-  ) {
-    updateQueue(
-      id: $id
-      action: $action
-      tracks: $tracks
-      position: $position
-      insertPosition: $insertPosition
-    )
+export const MUTATION_QUEUE_ADD = /* GraphQL */ `
+  mutation queueAdd($id: ID!, $tracks: [ID!]!) {
+    queueAdd(id: $id, tracks: $tracks)
+  }
+`;
+
+export const MUTATION_QUEUE_REMOVE = /* GraphQL */ `
+  mutation queueRemove($id: ID!, $trackId: ID!, $creatorId: ID!) {
+    queueRemove(id: $id, trackId: $trackId, creatorId: $creatorId)
+  }
+`;
+
+export const MUTATION_QUEUE_REORDER = /* GraphQL */ `
+  mutation queueReorder($id: ID!, $position: Int!, $insertPosition: Int!) {
+    queueReorder(id: $id, position: $position, insertPosition: $insertPosition)
   }
 `;
 

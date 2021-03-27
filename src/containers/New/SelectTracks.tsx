@@ -3,7 +3,10 @@ import {
   TrackAdderPlaylist,
   TrackAdderSearch,
 } from "components/Track/TrackAdder";
-import { TrackAdderCallbackFn } from "components/Track/TrackAdder/types";
+import {
+  AddTracksCallbackFn,
+  RemoveTrackCallbackFn,
+} from "components/Track/TrackAdder/types";
 import {
   Track,
   TrackDocument,
@@ -46,7 +49,7 @@ const SelectTracks: React.FC<{
 
   const client = useClient();
 
-  const onAddTracks: TrackAdderCallbackFn = async (newTrackArray) => {
+  const onAddTracks: AddTracksCallbackFn = async (newTrackArray) => {
     const tracks = newTrackArray
       .map(
         (trackId) =>
@@ -57,6 +60,13 @@ const SelectTracks: React.FC<{
       .filter((value) => !!value) as Track[];
     setInitTracks((prevInitTracks) => [...prevInitTracks, ...tracks]);
     return false;
+  };
+
+  const onRemoveTrack: RemoveTrackCallbackFn = async (removingTrackId) => {
+    setInitTracks((prevInitTrack) =>
+      prevInitTrack.filter((track) => track.id !== removingTrackId)
+    );
+    return true;
   };
 
   const addedTracks = useMemo(() => initTracks.map((iT) => iT.id), [
@@ -79,13 +89,15 @@ const SelectTracks: React.FC<{
         <TabPanels className="flex-1 min-h-0">
           <AnimatedTabPanel style={tabPanelStyle0} className="h-full" as="div">
             <TrackAdderSearch
-              callback={onAddTracks}
+              onAdd={onAddTracks}
+              onRemove={onRemoveTrack}
               addedTracks={addedTracks}
             />
           </AnimatedTabPanel>
           <AnimatedTabPanel style={tabPanelStyle1} className="h-full" as="div">
             <TrackAdderPlaylist
-              callback={onAddTracks}
+              onAdd={onAddTracks}
+              onRemove={onRemoveTrack}
               addedTracks={addedTracks}
               inactive={selectedIndex !== 1}
             />
