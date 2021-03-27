@@ -55,8 +55,14 @@ export const MUTATION_CREATE_STORY = /* GraphQL */ `
     $text: String!
     $isPublic: Boolean!
     $location: LocationInput
+    $tracks: [ID!]!
   ) {
-    createStory(text: $text, isPublic: $isPublic, location: $location) {
+    createStory(
+      text: $text
+      isPublic: $isPublic
+      location: $location
+      tracks: $tracks
+    ) {
       id
       ...StoryDetailParts
     }

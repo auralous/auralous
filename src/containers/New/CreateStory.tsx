@@ -6,13 +6,7 @@ import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
-import {
-  LocationInput,
-  QueueAction,
-  Track,
-  useCreateStoryMutation,
-  useUpdateQueueMutation,
-} from "gql/gql.gen";
+import { LocationInput, Track, useCreateStoryMutation } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { t as tFn, useI18n } from "i18n/index";
 import { useRouter } from "next/router";
@@ -56,7 +50,6 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
   const [isPublic] = useState(true);
 
   const [{ fetching }, createStory] = useCreateStoryMutation();
-  const [, updateQueue] = useUpdateQueueMutation();
 
   const [loc, setLoc] = useState<LocationInput | undefined>();
 
@@ -89,18 +82,11 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       text: (textRef.current as HTMLInputElement).value,
       isPublic,
       location: addLocation ? loc : undefined,
+      tracks: initTracks.map((initTrack) => initTrack.id),
     });
 
     if (result.data?.createStory) {
       playStory(result.data.createStory.id);
-
-      if (initTracks?.length)
-        await updateQueue({
-          id: result.data.createStory.id,
-          action: QueueAction.Add,
-          tracks: initTracks.map((initTrack) => initTrack.id),
-        });
-
       router.replace(`/story/${result.data.createStory.id}`);
     }
   };

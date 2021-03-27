@@ -1,18 +1,18 @@
 import { useWindowHeight } from "@react-hook/window-size";
 import { SvgChevronLeft } from "assets/svg";
-import LayoutAppContext from "components/Layout/LayoutApp/LayoutAppContext";
 import { Button } from "components/Pressable";
 import StorySlider from "components/Story/StorySlider";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import { Story } from "gql/gql.gen";
+import { useRouterBack } from "hooks/router";
 import { useI18n } from "i18n";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import MapMain from "./MapMain";
 
 const MapContainer: React.FC = () => {
   const { t } = useI18n();
-  const { back } = useContext(LayoutAppContext);
+  const back = useRouterBack();
   const height = useWindowHeight();
 
   const [stories, setStories] = useState<Story[]>([]);

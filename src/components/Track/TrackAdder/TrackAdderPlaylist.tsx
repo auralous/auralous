@@ -1,4 +1,5 @@
 import { SvgChevronLeft, SvgSpinnerAlt } from "assets/svg";
+import { AuthBanner } from "components/Auth";
 import { PlaylistItem } from "components/Playlist";
 import { Button, PressableHighlight } from "components/Pressable";
 import { Typography } from "components/Typography";
@@ -8,6 +9,7 @@ import {
   useMyPlaylistsQuery,
   usePlaylistTracksQuery,
 } from "gql/gql.gen";
+import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useMemo, useState } from "react";
 import { default as TrackAdderResults } from "./TrackAdderResults";
@@ -20,10 +22,12 @@ const TrackAdderPlaylist: React.FC<{
 }> = ({ addedTracks, callback, inactive }) => {
   const { t } = useI18n();
 
+  const me = useMe();
+
   const [
     { data: { myPlaylists } = { myPlaylists: undefined }, fetching },
   ] = useMyPlaylistsQuery({
-    pause: inactive,
+    pause: inactive || !me,
   });
 
   const [selectedPlaylist, setSelectedPlaylist] = useState<null | Playlist>(
@@ -48,6 +52,16 @@ const TrackAdderPlaylist: React.FC<{
     () => playlistTracks?.map((track) => track.id) || null,
     [playlistTracks]
   );
+
+  if (!me)
+    return (
+      <Box fullWidth fullHeight position="relative">
+        <AuthBanner
+          prompt={t("trackAdder.playlist.title")}
+          hook={t("trackAdder.playlist.authPrompt")}
+        />
+      </Box>
+    );
 
   return (
     <Box fullWidth fullHeight position="relative">
@@ -83,7 +97,7 @@ const TrackAdderPlaylist: React.FC<{
           {myPlaylists?.map((playlist) => (
             <PressableHighlight
               key={playlist.id}
-              accessibilityLabel={t("track.adder.playlist.selectSongFrom", {
+              accessibilityLabel={t("trackAdder.playlist.selectSongFrom", {
                 title: playlist.name,
               })}
               onPress={() => handleSelect(playlist)}

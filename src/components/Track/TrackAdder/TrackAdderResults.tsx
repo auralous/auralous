@@ -26,7 +26,7 @@ const SearchResultRow = memo<ListChildComponentProps>(function Row({
   const [isAdding, setIsAdding] = useState(false);
 
   const onAdded = () => {
-    if (added && !window.confirm(t("track.adder.result.confirmAdded"))) return;
+    if (added && !window.confirm(t("trackAdder.result.confirmAdded"))) return;
     setIsAdding(true);
     data.callback([data.items[index]]).then(() => setIsAdding(false));
   };
@@ -65,13 +65,28 @@ const TrackAdderResults: React.FC<{
   callback: TrackAdderCallbackFn;
   addedTracks: string[];
 }> = ({ callback, results, addedTracks }) => {
+  const { t } = useI18n();
+
+  const addAll = () =>
+    callback(results.filter((r) => !addedTracks.includes(r)));
+
   // TODO: a11y
   return (
-    <div
-      role="listbox"
-      className="overflow-hidden flex-1 min-h-0 flex flex-col"
-    >
-      <AutoSizer defaultHeight={1} defaultWidth={1}>
+    <div role="listbox" className="items-center flex-1 min-h-0 flex flex-col">
+      {results.length > 0 && (
+        <Button
+          size="sm"
+          shape="circle"
+          title={t("trackAdder.result.addAll")}
+          style={{ marginBottom: ".1rem" }}
+          onClick={addAll}
+        />
+      )}
+      <AutoSizer
+        style={{ flex: 1, minHeight: 0, width: "100%" }}
+        defaultHeight={1}
+        defaultWidth={1}
+      >
         {({ height, width }) => (
           <FixedSizeList
             height={height}

@@ -1,6 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 import { useWindowHeight } from "@react-hook/window-size";
-import LayoutContext from "components/Layout/LayoutApp/LayoutAppContext";
 import { usePlayer } from "components/Player";
 import { Spacer } from "components/Spacer";
 import { StoryNav } from "components/Story";
@@ -12,10 +11,11 @@ import {
   useStoryQuery,
   useStoryUpdatedSubscription,
 } from "gql/gql.gen";
+import { useRouterBack } from "hooks/router";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import dynamic from "next/dynamic";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import StoryPlayer from "./StoryPlayer";
 import StoryQueue from "./StoryQueue";
@@ -77,7 +77,7 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
     2 === selectedIndex ? tabActiveStyle : tabInactiveStyle
   );
 
-  const { back } = useContext(LayoutContext);
+  const back = useRouterBack();
 
   const height = useWindowHeight();
 
