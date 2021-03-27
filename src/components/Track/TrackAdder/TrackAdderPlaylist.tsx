@@ -13,13 +13,14 @@ import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import { useMemo, useState } from "react";
 import { default as TrackAdderResults } from "./TrackAdderResults";
-import { TrackAdderCallbackFn } from "./types";
+import { AddTracksCallbackFn, RemoveTrackCallbackFn } from "./types";
 
 const TrackAdderPlaylist: React.FC<{
   addedTracks: string[];
-  callback: TrackAdderCallbackFn;
+  onAdd: AddTracksCallbackFn;
+  onRemove: RemoveTrackCallbackFn;
   inactive?: boolean;
-}> = ({ addedTracks, callback, inactive }) => {
+}> = ({ addedTracks, onAdd, onRemove, inactive }) => {
   const { t } = useI18n();
 
   const me = useMe();
@@ -89,7 +90,8 @@ const TrackAdderPlaylist: React.FC<{
       {selectedPlaylist ? (
         <TrackAdderResults
           addedTracks={addedTracks}
-          callback={callback}
+          onAdd={onAdd}
+          onRemove={onRemove}
           results={(!fetchingTracks && queryResults) || []}
         />
       ) : (

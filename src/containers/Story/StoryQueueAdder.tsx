@@ -5,7 +5,16 @@ import {
   TrackAdderPlaylist,
   TrackAdderSearch,
 } from "components/Track/TrackAdder";
-import { Story, useQueueAddMutation, useQueueQuery } from "gql/gql.gen";
+import {
+  AddTracksCallbackFn,
+  RemoveTrackCallbackFn,
+} from "components/Track/TrackAdder/types";
+import {
+  Story,
+  useQueueAddMutation,
+  useQueueQuery,
+  useQueueRemoveMutation,
+} from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useCallback, useMemo, useState } from "react";
 import { animated, useSpring } from "react-spring";
@@ -22,6 +31,8 @@ const StoryQueueAdder: React.FC<{
   const { t } = useI18n();
 
   const [, queueAdd] = useQueueAddMutation();
+  const [, queueRemove] = useQueueRemoveMutation();
+
   const [{ data: { queue } = { queue: undefined } }] = useQueueQuery({
     variables: { id: story.id },
   });
@@ -31,14 +42,29 @@ const StoryQueueAdder: React.FC<{
     return queue.items.map(({ trackId }) => trackId);
   }, [queue]);
 
-  const onAddTracks = useCallback(
-    (newTrackArray: string[]) => {
+  const onAddTracks = useCallback<AddTracksCallbackFn>(
+    (newTrackArray) => {
       return queueAdd({
         id: story.id,
         tracks: newTrackArray,
       }).then((result) => !!result.data?.queueAdd);
     },
     [queueAdd, story]
+  );
+
+  const onRemoveTracks = useCallback<RemoveTrackCallbackFn>(
+    async (trackId) => {
+      const removingQueueItem = queue?.items.find(
+        (item) => item.trackId === trackId
+      );
+      if (!removingQueueItem) return false;
+      return queueRemove({
+        id: story.id,
+        trackId: removingQueueItem.trackId,
+        creatorId: removingQueueItem.creatorId,
+      }).then(({ data }) => !!data?.queueRemove);
+    },
+    [queueRemove, story, queue]
   );
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -85,7 +111,8 @@ const StoryQueueAdder: React.FC<{
               as="div"
             >
               <TrackAdderSearch
-                callback={onAddTracks}
+                onAdd={onAddTracks}
+                onRemove={onRemoveTracks}
                 addedTracks={addedTracks}
               />
             </AnimatedTabPanel>
@@ -95,7 +122,8 @@ const StoryQueueAdder: React.FC<{
               as="div"
             >
               <TrackAdderPlaylist
-                callback={onAddTracks}
+                onAdd={onAddTracks}
+                onRemove={onRemoveTracks}
                 addedTracks={addedTracks}
                 inactive={selectedIndex !== 1}
               />

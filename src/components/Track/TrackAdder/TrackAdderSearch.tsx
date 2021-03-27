@@ -17,12 +17,13 @@ import { useCallback, useRef, useState } from "react";
 import { useClient } from "urql";
 import { maybeGetTrackOrPlaylistIdFromUri } from "utils/platform";
 import { default as TrackAdderResults } from "./TrackAdderResults";
-import { TrackAdderCallbackFn } from "./types";
+import { AddTracksCallbackFn, RemoveTrackCallbackFn } from "./types";
 
 const TrackAdderSearch: React.FC<{
-  callback: TrackAdderCallbackFn;
+  onAdd: AddTracksCallbackFn;
+  onRemove: RemoveTrackCallbackFn;
   addedTracks: string[];
-}> = ({ addedTracks, callback }) => {
+}> = ({ addedTracks, onAdd, onRemove }) => {
   const { t } = useI18n();
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -110,7 +111,8 @@ const TrackAdderSearch: React.FC<{
       )}
       <TrackAdderResults
         addedTracks={addedTracks}
-        callback={callback}
+        onAdd={onAdd}
+        onRemove={onRemove}
         results={queryResults.map(({ id }) => id)}
       />
     </Box>
