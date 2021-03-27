@@ -30,7 +30,7 @@ The repository is a workspace using [yarn](https://classic.yarnpkg.com/en/docs/w
 
 #### `yarn codegen`
 
-Run `yarn codegen` to run the [graphql-codegen-generator](https://github.com/dotansimha/graphql-code-generator). This generates TypeScript definitions inside [`src/graphql/gql.gen.ts`](src/graphql/gql.gen.ts) and [`urql`](https://github.com/FormidableLabs/urql) React hooks.
+Run `yarn codegen` to run the [graphql-codegen-generator](https://github.com/dotansimha/graphql-code-generator). This generates TypeScript definitions and [`urql`](https://github.com/FormidableLabs/urql) React hooks inside [`web/src/graphql/gql.gen.ts`](web/src/graphql/gql.gen.ts) .
 
 This is only run whenever the GraphQL operations are modified inside the `graphql` folder or when the Server GraphQL Schema changes.
 
