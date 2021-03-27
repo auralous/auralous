@@ -16,140 +16,52 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type Artist = {
+  __typename: 'Artist';
+  id: Scalars['ID'];
+  platform: PlatformName;
+  externalId: Scalars['ID'];
+  name: Scalars['String'];
+  image: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type CrossTracks = {
+  __typename: 'CrossTracks';
+  id: Scalars['ID'];
+  youtube?: Maybe<Scalars['ID']>;
+  spotify?: Maybe<Scalars['ID']>;
+};
+
+
+export type LocationInput = {
+  lng: Scalars['Float'];
+  lat: Scalars['Float'];
+};
+
+export type Me = {
+  __typename: 'Me';
+  user: User;
+  oauthId: Scalars['String'];
+  platform: PlatformName;
+  accessToken?: Maybe<Scalars['String']>;
+  expiredAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type Message = {
+  __typename: 'Message';
+  id: Scalars['ID'];
+  creatorId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  text?: Maybe<Scalars['String']>;
+  type: MessageType;
+};
 
 export enum MessageType {
   Message = 'message',
   Join = 'join',
   Play = 'play'
 }
-
-export type Query = {
-  __typename: 'Query';
-  messages?: Maybe<Array<Message>>;
-  notifications: Array<Notification>;
-  nowPlaying?: Maybe<NowPlaying>;
-  nowPlayingReactions?: Maybe<Array<NowPlayingReactionItem>>;
-  queue?: Maybe<Queue>;
-  story?: Maybe<Story>;
-  storyUsers?: Maybe<Array<Scalars['String']>>;
-  stories: Array<Story>;
-  storiesOnMap: Array<Story>;
-  storyLive?: Maybe<Story>;
-  track?: Maybe<Track>;
-  crossTracks?: Maybe<CrossTracks>;
-  playlist?: Maybe<Playlist>;
-  myPlaylists?: Maybe<Array<Playlist>>;
-  playlistTracks: Array<Track>;
-  searchTrack: Array<Track>;
-  me?: Maybe<Me>;
-  user?: Maybe<User>;
-  userStat?: Maybe<UserStat>;
-  userFollowers: Array<Scalars['String']>;
-  userFollowings: Array<Scalars['String']>;
-};
-
-
-export type QueryMessagesArgs = {
-  id: Scalars['ID'];
-  offset?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryNotificationsArgs = {
-  next?: Maybe<Scalars['String']>;
-  limit: Scalars['Int'];
-};
-
-
-export type QueryNowPlayingArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryNowPlayingReactionsArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryQueueArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryStoryArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryStoryUsersArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryStoriesArgs = {
-  id: Scalars['ID'];
-  next?: Maybe<Scalars['String']>;
-  limit: Scalars['Int'];
-};
-
-
-export type QueryStoriesOnMapArgs = {
-  lng: Scalars['Float'];
-  lat: Scalars['Float'];
-  radius: Scalars['Float'];
-};
-
-
-export type QueryStoryLiveArgs = {
-  creatorId?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryTrackArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryCrossTracksArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryPlaylistArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryPlaylistTracksArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QuerySearchTrackArgs = {
-  query: Scalars['String'];
-};
-
-
-export type QueryUserArgs = {
-  username?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryUserStatArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryUserFollowersArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryUserFollowingsArgs = {
-  id: Scalars['ID'];
-};
 
 export type Mutation = {
   __typename: 'Mutation';
@@ -281,6 +193,233 @@ export type MutationUserUnfollowArgs = {
   id: Scalars['ID'];
 };
 
+export type Notification = {
+  id: Scalars['ID'];
+  hasRead: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+};
+
+export type NotificationFollow = Notification & {
+  __typename: 'NotificationFollow';
+  id: Scalars['ID'];
+  hasRead: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  followerId: Scalars['String'];
+};
+
+export type NotificationInvite = Notification & {
+  __typename: 'NotificationInvite';
+  id: Scalars['ID'];
+  hasRead: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  inviterId: Scalars['String'];
+  storyId: Scalars['String'];
+};
+
+export type NotificationNewStory = Notification & {
+  __typename: 'NotificationNewStory';
+  id: Scalars['ID'];
+  hasRead: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  storyId: Scalars['String'];
+  creatorId: Scalars['String'];
+};
+
+export type NowPlaying = {
+  __typename: 'NowPlaying';
+  id: Scalars['ID'];
+  currentTrack?: Maybe<NowPlayingQueueItem>;
+};
+
+export type NowPlayingQueueItem = {
+  __typename: 'NowPlayingQueueItem';
+  index: Scalars['Int'];
+  trackId: Scalars['ID'];
+  playedAt: Scalars['DateTime'];
+  endedAt: Scalars['DateTime'];
+  creatorId: Scalars['ID'];
+};
+
+export type NowPlayingReactionItem = {
+  __typename: 'NowPlayingReactionItem';
+  userId: Scalars['String'];
+  reaction: NowPlayingReactionType;
+};
+
+export enum NowPlayingReactionType {
+  Heart = 'heart',
+  Joy = 'joy',
+  Fire = 'fire',
+  Cry = 'cry'
+}
+
+export enum PlatformName {
+  Youtube = 'youtube',
+  Spotify = 'spotify'
+}
+
+export type Playlist = {
+  __typename: 'Playlist';
+  id: Scalars['ID'];
+  platform: PlatformName;
+  externalId: Scalars['ID'];
+  name: Scalars['String'];
+  image: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type Query = {
+  __typename: 'Query';
+  messages?: Maybe<Array<Message>>;
+  notifications: Array<Notification>;
+  nowPlaying?: Maybe<NowPlaying>;
+  nowPlayingReactions?: Maybe<Array<NowPlayingReactionItem>>;
+  queue?: Maybe<Queue>;
+  story?: Maybe<Story>;
+  storyUsers?: Maybe<Array<Scalars['String']>>;
+  stories: Array<Story>;
+  storiesOnMap: Array<Story>;
+  storyLive?: Maybe<Story>;
+  track?: Maybe<Track>;
+  crossTracks?: Maybe<CrossTracks>;
+  playlist?: Maybe<Playlist>;
+  myPlaylists?: Maybe<Array<Playlist>>;
+  playlistTracks: Array<Track>;
+  searchTrack: Array<Track>;
+  me?: Maybe<Me>;
+  user?: Maybe<User>;
+  userStat?: Maybe<UserStat>;
+  userFollowers: Array<Scalars['String']>;
+  userFollowings: Array<Scalars['String']>;
+};
+
+
+export type QueryMessagesArgs = {
+  id: Scalars['ID'];
+  offset?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryNotificationsArgs = {
+  next?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryNowPlayingArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryNowPlayingReactionsArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryQueueArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryStoryArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryStoryUsersArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryStoriesArgs = {
+  id: Scalars['ID'];
+  next?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryStoriesOnMapArgs = {
+  lng: Scalars['Float'];
+  lat: Scalars['Float'];
+  radius: Scalars['Float'];
+};
+
+
+export type QueryStoryLiveArgs = {
+  creatorId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryTrackArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryCrossTracksArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPlaylistArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPlaylistTracksArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QuerySearchTrackArgs = {
+  query: Scalars['String'];
+};
+
+
+export type QueryUserArgs = {
+  username?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+
+export type QueryUserStatArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryUserFollowersArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryUserFollowingsArgs = {
+  id: Scalars['ID'];
+};
+
+export type Queue = {
+  __typename: 'Queue';
+  id: Scalars['ID'];
+  items: Array<QueueItem>;
+};
+
+export type QueueItem = {
+  __typename: 'QueueItem';
+  trackId: Scalars['String'];
+  creatorId: Scalars['String'];
+};
+
+export type Story = {
+  __typename: 'Story';
+  id: Scalars['ID'];
+  text: Scalars['String'];
+  isPublic: Scalars['Boolean'];
+  image: Scalars['String'];
+  creatorId: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  isLive: Scalars['Boolean'];
+  queueable: Array<Scalars['String']>;
+};
+
 export type Subscription = {
   __typename: 'Subscription';
   messageAdded: Message;
@@ -322,109 +461,6 @@ export type SubscriptionStoryUsersUpdatedArgs = {
   id: Scalars['ID'];
 };
 
-export type Message = {
-  __typename: 'Message';
-  id: Scalars['ID'];
-  creatorId: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  text?: Maybe<Scalars['String']>;
-  type: MessageType;
-};
-
-export type Notification = {
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-};
-
-export type NotificationInvite = Notification & {
-  __typename: 'NotificationInvite';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  inviterId: Scalars['String'];
-  storyId: Scalars['String'];
-};
-
-export type NotificationFollow = Notification & {
-  __typename: 'NotificationFollow';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  followerId: Scalars['String'];
-};
-
-export type NotificationNewStory = Notification & {
-  __typename: 'NotificationNewStory';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  storyId: Scalars['String'];
-  creatorId: Scalars['String'];
-};
-
-export enum NowPlayingReactionType {
-  Heart = 'heart',
-  Joy = 'joy',
-  Fire = 'fire',
-  Cry = 'cry'
-}
-
-export type NowPlayingQueueItem = {
-  __typename: 'NowPlayingQueueItem';
-  index: Scalars['Int'];
-  trackId: Scalars['ID'];
-  playedAt: Scalars['DateTime'];
-  endedAt: Scalars['DateTime'];
-  creatorId: Scalars['ID'];
-};
-
-export type NowPlaying = {
-  __typename: 'NowPlaying';
-  id: Scalars['ID'];
-  currentTrack?: Maybe<NowPlayingQueueItem>;
-};
-
-export type NowPlayingReactionItem = {
-  __typename: 'NowPlayingReactionItem';
-  userId: Scalars['String'];
-  reaction: NowPlayingReactionType;
-};
-
-export type QueueItem = {
-  __typename: 'QueueItem';
-  trackId: Scalars['String'];
-  creatorId: Scalars['String'];
-};
-
-export type Queue = {
-  __typename: 'Queue';
-  id: Scalars['ID'];
-  items: Array<QueueItem>;
-};
-
-export type LocationInput = {
-  lng: Scalars['Float'];
-  lat: Scalars['Float'];
-};
-
-export type Story = {
-  __typename: 'Story';
-  id: Scalars['ID'];
-  text: Scalars['String'];
-  isPublic: Scalars['Boolean'];
-  image: Scalars['String'];
-  creatorId: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  isLive: Scalars['Boolean'];
-  queueable: Array<Scalars['String']>;
-};
-
-export enum PlatformName {
-  Youtube = 'youtube',
-  Spotify = 'spotify'
-}
-
 export type Track = {
   __typename: 'Track';
   id: Scalars['ID'];
@@ -433,33 +469,6 @@ export type Track = {
   artists: Array<Artist>;
   duration: Scalars['Int'];
   title: Scalars['String'];
-  image: Scalars['String'];
-  url: Scalars['String'];
-};
-
-export type CrossTracks = {
-  __typename: 'CrossTracks';
-  id: Scalars['ID'];
-  youtube?: Maybe<Scalars['ID']>;
-  spotify?: Maybe<Scalars['ID']>;
-};
-
-export type Artist = {
-  __typename: 'Artist';
-  id: Scalars['ID'];
-  platform: PlatformName;
-  externalId: Scalars['ID'];
-  name: Scalars['String'];
-  image: Scalars['String'];
-  url: Scalars['String'];
-};
-
-export type Playlist = {
-  __typename: 'Playlist';
-  id: Scalars['ID'];
-  platform: PlatformName;
-  externalId: Scalars['ID'];
-  name: Scalars['String'];
   image: Scalars['String'];
   url: Scalars['String'];
 };
@@ -477,15 +486,6 @@ export type UserStat = {
   id: Scalars['ID'];
   followerCount: Scalars['Int'];
   followingCount: Scalars['Int'];
-};
-
-export type Me = {
-  __typename: 'Me';
-  user: User;
-  oauthId: Scalars['String'];
-  platform: PlatformName;
-  accessToken?: Maybe<Scalars['String']>;
-  expiredAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type MessagePartsFragment = (
@@ -530,11 +530,11 @@ export type NotificationsQueryVariables = Exact<{
 
 
 export type NotificationsQuery = { notifications: Array<(
-    { __typename: 'NotificationInvite' }
-    & Pick<NotificationInvite, 'storyId' | 'inviterId' | 'id' | 'createdAt' | 'hasRead'>
-  ) | (
     { __typename: 'NotificationFollow' }
     & Pick<NotificationFollow, 'followerId' | 'id' | 'createdAt' | 'hasRead'>
+  ) | (
+    { __typename: 'NotificationInvite' }
+    & Pick<NotificationInvite, 'storyId' | 'inviterId' | 'id' | 'createdAt' | 'hasRead'>
   ) | (
     { __typename: 'NotificationNewStory' }
     & Pick<NotificationNewStory, 'storyId' | 'creatorId' | 'id' | 'createdAt' | 'hasRead'>
@@ -551,11 +551,11 @@ export type NotificationAddedSubscriptionVariables = Exact<{ [key: string]: neve
 
 
 export type NotificationAddedSubscription = { notificationAdded: (
-    { __typename: 'NotificationInvite' }
-    & Pick<NotificationInvite, 'storyId' | 'inviterId' | 'id' | 'createdAt' | 'hasRead'>
-  ) | (
     { __typename: 'NotificationFollow' }
     & Pick<NotificationFollow, 'followerId' | 'id' | 'createdAt' | 'hasRead'>
+  ) | (
+    { __typename: 'NotificationInvite' }
+    & Pick<NotificationInvite, 'storyId' | 'inviterId' | 'id' | 'createdAt' | 'hasRead'>
   ) | (
     { __typename: 'NotificationNewStory' }
     & Pick<NotificationNewStory, 'storyId' | 'creatorId' | 'id' | 'createdAt' | 'hasRead'>
