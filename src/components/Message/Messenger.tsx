@@ -9,9 +9,9 @@ import { Box } from "components/View";
 import {
   Message,
   MessageType,
-  useAddMessageMutation,
+  useMessageAddedSubscription,
+  useMessageAddMutation,
   useMessagesQuery,
-  useOnMessageAddedSubscription,
   useTrackQuery,
   useUserQuery,
 } from "gql/gql.gen";
@@ -167,7 +167,7 @@ const MessageList: React.FC<{ id: string; inactive?: boolean }> = ({
     pause: !!inactive,
   });
 
-  const [{ data: newMessages }] = useOnMessageAddedSubscription<Message[]>(
+  const [{ data: newMessages }] = useMessageAddedSubscription<Message[]>(
     { variables: { id }, pause: !prevMessages },
     (prev = [], response) => {
       return [
@@ -268,7 +268,7 @@ const MessageList: React.FC<{ id: string; inactive?: boolean }> = ({
 const MessageInput: React.FC<{ id: string }> = ({ id }) => {
   const { t } = useI18n();
   const [messageContent, setMessageList] = useState("");
-  const [{ fetching }, addMessage] = useAddMessageMutation();
+  const [{ fetching }, addMessage] = useMessageAddMutation();
   function handleSubmitMessage(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const trimMsg = messageContent.trim();

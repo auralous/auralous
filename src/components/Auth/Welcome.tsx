@@ -3,7 +3,7 @@ import { Modal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
-import { useUpdateMeMutation } from "gql/gql.gen";
+import { useMeUpdateMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useCallback, useRef } from "react";
 import toast from "react-hot-toast";
@@ -17,7 +17,7 @@ const Welcome: React.FC<{ active: boolean; close: () => void }> = ({
 
   const usernameRef = useRef<HTMLInputElement>(null);
 
-  const [{ fetching }, updateUser] = useUpdateMeMutation();
+  const [{ fetching }, updateUser] = useMeUpdateMutation();
 
   const onSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {

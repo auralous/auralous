@@ -1,6 +1,6 @@
 import { useLogin } from "components/Auth";
 import { Button } from "components/Pressable";
-import { useFollowUserMutation, useUnfollowUserMutation } from "gql/gql.gen";
+import { useUserFollowMutation, useUserUnfollowMutation } from "gql/gql.gen";
 import { useMe, useMeFollowings } from "hooks/user";
 import { useI18n } from "i18n/index";
 
@@ -17,18 +17,18 @@ const UserFollowButton: React.FC<{ id: string; isTiny?: boolean }> = ({
     { data: { userFollowings } = { userFollowings: undefined } },
   ] = useMeFollowings();
 
-  const [{ fetching: fetchingFollow }, followUser] = useFollowUserMutation();
+  const [{ fetching: fetchingFollow }, followUser] = useUserFollowMutation();
   const [
     { fetching: fetchingUnfollow },
-    unfollowUser,
-  ] = useUnfollowUserMutation();
+    userUnfollow,
+  ] = useUserUnfollowMutation();
 
   const followed = userFollowings?.includes(id);
 
   if (followed)
     return (
       <Button
-        onPress={() => unfollowUser({ id })}
+        onPress={() => userUnfollow({ id })}
         disabled={fetchingUnfollow}
         color="primary"
         styling="link"

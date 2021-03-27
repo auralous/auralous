@@ -3,8 +3,8 @@ import { Messenger } from "components/Message/index";
 import { Box } from "components/View";
 import {
   Story,
-  useOnStoryUsersUpdatedSubscription,
   useStoryUsersQuery,
+  useStoryUsersUpdatedSubscription,
 } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -35,7 +35,7 @@ const StoryChat: React.FC<{ story: Story; inactive?: boolean }> = ({
     return () => window.clearInterval(i);
   }, [fetchStoryUsers]);
 
-  useOnStoryUsersUpdatedSubscription(
+  useStoryUsersUpdatedSubscription(
     {
       variables: { id: story.id || "" },
       pause: !storyUsers || !story.isLive || !!inactive,

@@ -6,7 +6,7 @@ import {
   Story,
   useNowPlayingQuery,
   useNowPlayingReactionsQuery,
-  useReactNowPlayingMutation,
+  useNowPlayingReactMutation,
 } from "gql/gql.gen";
 import { useBoop } from "hooks/animation";
 import { useMe } from "hooks/user";
@@ -44,7 +44,7 @@ const StoryReaction: React.FC<{ story: Story }> = ({ story }) => {
     scale: 1.1,
   });
 
-  const [, reactNowPlaying] = useReactNowPlayingMutation();
+  const [, reactNowPlaying] = useNowPlayingReactMutation();
 
   useEffect(triggerAnimated, [nowPlayingReactions, triggerAnimated]);
 

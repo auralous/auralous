@@ -8,9 +8,9 @@ import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import {
   PlatformName,
-  useDeleteMeMutation,
+  useMeDeleteMutation,
+  useMeUpdateMutation,
   User,
-  useUpdateMeMutation,
 } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
@@ -31,7 +31,7 @@ const SettingTitle: React.FC = ({ children }) => (
 );
 
 const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
-  const [{ fetching }, deleteUser] = useDeleteMeMutation();
+  const [{ fetching }, deleteUser] = useMeDeleteMutation();
   const [confirmUsername, setConfirmUsername] = useState("");
   const [activeDelete, openDelete, close] = useModal();
   const { t } = useI18n();
@@ -43,7 +43,7 @@ const DeleteAccount: React.FC<{ user: User }> = ({ user }) => {
 
   function onDelete() {
     deleteUser().then((result) => {
-      result.data?.deleteMe &&
+      result.data?.meDelete &&
         toast.success(t("settings.dangerZone.delete.success"));
     });
   }
@@ -147,7 +147,7 @@ const LeftSection: React.FC = () => {
 
   const me = useMe();
 
-  const [, updateUser] = useUpdateMeMutation();
+  const [, updateUser] = useMeUpdateMutation();
 
   const formRef = useRef<HTMLFormElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);

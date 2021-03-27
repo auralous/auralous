@@ -28,7 +28,7 @@ const SearchResultRow = memo<ListChildComponentProps>(function Row({
   const onPress = async () => {
     setIsLoading(true);
     // add if not exist otherwise remove
-    if (!added) await data.onAdd(data.items[index]);
+    if (!added) await data.onAdd([data.items[index]]);
     else await data.onRemove(data.items[index]);
     setIsLoading(false);
   };

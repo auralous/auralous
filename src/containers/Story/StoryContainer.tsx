@@ -7,9 +7,9 @@ import { Box } from "components/View";
 import {
   Story,
   useNowPlayingReactionsUpdatedSubscription,
-  useOnStoryUsersUpdatedSubscription,
   useStoryQuery,
   useStoryUpdatedSubscription,
+  useStoryUsersUpdatedSubscription,
 } from "gql/gql.gen";
 import { useRouterBack } from "hooks/router";
 import { useMe } from "hooks/user";
@@ -83,7 +83,7 @@ const StoryContainer: React.FC<{ initialStory: Story }> = ({
 
   const me = useMe();
 
-  useOnStoryUsersUpdatedSubscription(
+  useStoryUsersUpdatedSubscription(
     {
       variables: { id: story.id },
       pause: !me || !story.isLive,

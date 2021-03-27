@@ -8,7 +8,7 @@ import { UserList, UserPill } from "components/User";
 import { Box } from "components/View";
 import {
   Story,
-  useSendStoryInvitesMutation,
+  useStorySendInvitesMutation,
   useUserFollowingsQuery,
 } from "gql/gql.gen";
 import { useMe } from "hooks/user";
@@ -39,7 +39,7 @@ const StoryShare: React.FC<{
 
   const InviteUserElement = useMemo(() => {
     const UserListInvitee: React.FC<{ id: string }> = ({ id }) => {
-      const [, sendStoryInvites] = useSendStoryInvitesMutation();
+      const [, sendStoryInvites] = useStorySendInvitesMutation();
       const [hasInvited, setHasInvited] = useState(false);
       const { t } = useI18n();
 
@@ -48,7 +48,7 @@ const StoryShare: React.FC<{
           id: story.id,
           invitedIds: [id],
         });
-        if (!result.data?.sendStoryInvites) return;
+        if (!result.data?.storySendInvites) return;
         toast.success(t("story.invite.success"));
         setHasInvited(true);
       }, [t, id, sendStoryInvites]);
