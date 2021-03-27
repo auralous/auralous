@@ -1,6 +1,6 @@
-# Contribute to auralous/web
+# Contribute to auralous
 
-:+1::tada: Thank you for being here. It is people like you that make `auralous/web` great and help shape a better open-source community.
+:+1::tada: Thank you for being here. It is people like you that make `auralous` great and help shape a better open-source community.
 
 ## What we are looking for
 

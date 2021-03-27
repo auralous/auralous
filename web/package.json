@@ -4,11 +4,11 @@
   "description": "Web App for Auralous",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/auralous/web.git",
+    "url": "git+https://github.com/auralous/auralous.git",
     "directory": "web"
   },
   "bugs": {
-    "url": "https://github.com/auralous/web/issues"
+    "url": "https://github.com/auralous/auralous/issues"
   },
   "author": "Hoang Vo (https://hoangvvo.com/)",
   "license": "AGPL-3.0",

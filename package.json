@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "codegen": "node schema-gen && graphql-codegen",
-    "lint": "eslint ./ --ext js,ts,tsx --ignore-path .gitignore"
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.3",
