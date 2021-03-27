@@ -53,20 +53,20 @@ export const QUERY_USER_FOLLOWINGs = /* GraphQL */ `
   }
 `;
 
-export const MUTATION_FOLLOW_USER = /* GraphQL */ `
-  mutation followUser($id: ID!) {
-    followUser(id: $id)
+export const MUTATION_USER_FOLLOW = /* GraphQL */ `
+  mutation userFollow($id: ID!) {
+    userFollow(id: $id)
   }
 `;
 
-export const MUTATION_UNFOLLOW_USER = /* GraphQL */ `
-  mutation unfollowUser($id: ID!) {
-    unfollowUser(id: $id)
+export const MUTATION_USER_UNFOLLOW = /* GraphQL */ `
+  mutation userUnfollow($id: ID!) {
+    userUnfollow(id: $id)
   }
 `;
 
-export const MUTATION_UPDATE_CURRENT_USER = /* GraphQL */ `
-  mutation updateMe($name: String, $username: String) {
+export const MUTATION_ME_UPDATE = /* GraphQL */ `
+  mutation meUpdate($name: String, $username: String) {
     me(name: $name, username: $username) {
       ...UserPublicParts
     }
@@ -74,8 +74,8 @@ export const MUTATION_UPDATE_CURRENT_USER = /* GraphQL */ `
   ${FRAGMENT_USER_PUBLIC}
 `;
 
-export const MUTATION_DELETE_CURRENT_USER = /* GraphQL */ `
-  mutation deleteMe {
-    deleteMe
+export const MUTATION_ME_DELETE = /* GraphQL */ `
+  mutation meDelete {
+    meDelete
   }
 `;

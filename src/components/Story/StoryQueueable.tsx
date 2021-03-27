@@ -8,10 +8,10 @@ import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import {
   Story,
-  useChangeStoryQueueableMutation,
   UserDocument,
   UserQuery,
   UserQueryVariables,
+  useStoryChangeQueueableMutation,
   useStoryUpdatedSubscription,
   useUserQuery,
 } from "gql/gql.gen";
@@ -27,7 +27,7 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
   const [
     { fetching },
     changeStoryQueueable,
-  ] = useChangeStoryQueueableMutation();
+  ] = useStoryChangeQueueableMutation();
   const onUserAdd = useCallback(
     async (ev: React.FormEvent<HTMLFormElement>) => {
       ev.preventDefault();
@@ -48,7 +48,7 @@ const StoryQueueableAdder: React.FC<{ story: Story }> = ({ story }) => {
         userId: result.data.user.id,
         isRemoving: false,
       });
-      if (addResult.data?.changeStoryQueueable) {
+      if (addResult.data?.storyChangeQueueable) {
         toast.success(
           t("story.queueable.addSuccess", {
             username: result.data.user.username,
@@ -104,7 +104,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
   const [
     { fetching },
     changeStoryQueueable,
-  ] = useChangeStoryQueueableMutation();
+  ] = useStoryChangeQueueableMutation();
   const [{ data: { user } = { user: undefined } }] = useUserQuery({
     variables: { id: userId },
   });
@@ -114,7 +114,7 @@ const StoryQueueableUser: React.FC<{ userId: string; storyId: string }> = ({
       userId,
       isRemoving: true,
     });
-    if (result.data?.changeStoryQueueable) {
+    if (result.data?.storyChangeQueueable) {
       toast.success(
         t("story.queueable.removeSuccess", { username: user?.username })
       );

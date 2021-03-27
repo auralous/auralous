@@ -91,15 +91,15 @@ export const QUERY_PLAYLIST_TRACKS = /* GraphQL */ `
   ${FRAGMENT_TRACK}
 `;
 
-export const MUTATION_ADD_PLAYLIST_TRACKS = /* GraphQL */ `
-  mutation addPlaylistTracks($id: ID!, $trackIds: [String!]!) {
-    addPlaylistTracks(id: $id, trackIds: $trackIds)
+export const MUTATION_PLAYLIST_ADD_TRACKS = /* GraphQL */ `
+  mutation playlistAddTracks($id: ID!, $trackIds: [String!]!) {
+    playlistAddTracks(id: $id, trackIds: $trackIds)
   }
 `;
 
-export const MUTATION_CREATE_PLAYLIST = /* GraphQL */ `
-  mutation createPlaylist($name: String!, $trackIds: [String!]!) {
-    createPlaylist(name: $name, trackIds: $trackIds) {
+export const MUTATION_PLAYLIST_CREATE = /* GraphQL */ `
+  mutation playlistCreate($name: String!, $trackIds: [String!]!) {
+    playlistCreate(name: $name, trackIds: $trackIds) {
       ...PlaylistParts
     }
   }

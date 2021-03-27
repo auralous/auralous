@@ -4,9 +4,9 @@ import {
   PlatformName,
   Story,
   useMeQuery,
-  usePingStoryMutation,
+  useNowPlayingSkipMutation,
   useQueueQuery,
-  useSkipNowPlayingMutation,
+  useStoryPingMutation,
   useStoryQuery,
 } from "gql/gql.gen";
 import { useCrossTracks } from "hooks/track";
@@ -37,7 +37,7 @@ const usePlayFromNowPlaying = (story: Story | null) => {
   const [
     { fetching: fetchingSkip },
     skipNowPlaying,
-  ] = useSkipNowPlayingMutation();
+  ] = useNowPlayingSkipMutation();
 
   useEffect(() => {
     if (!nowPlaying) return undefined;
@@ -73,7 +73,7 @@ const usePlayFromNowPlaying = (story: Story | null) => {
   }, [story, nowPlaying, me, fetchingSkip, skipNowPlaying]);
 
   // This informs that the user is present in story
-  const [, pingStory] = usePingStoryMutation();
+  const [, pingStory] = useStoryPingMutation();
 
   useEffect(() => {
     // story presence does not apply to unlive story

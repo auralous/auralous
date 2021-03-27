@@ -6,7 +6,7 @@ import { Button } from "components/Pressable";
 import { Spacer } from "components/Spacer";
 import { Typography } from "components/Typography";
 import { Box } from "components/View";
-import { LocationInput, Track, useCreateStoryMutation } from "gql/gql.gen";
+import { LocationInput, Track, useStoryCreateMutation } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { t as tFn, useI18n } from "i18n/index";
 import { useRouter } from "next/router";
@@ -49,7 +49,7 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
 
   const [isPublic] = useState(true);
 
-  const [{ fetching }, createStory] = useCreateStoryMutation();
+  const [{ fetching }, createStory] = useStoryCreateMutation();
 
   const [loc, setLoc] = useState<LocationInput | undefined>();
 
@@ -85,10 +85,8 @@ const CreateStory: React.FC<{ initTracks: Track[] }> = ({ initTracks }) => {
       tracks: initTracks.map((initTrack) => initTrack.id),
     });
 
-    if (result.data?.createStory) {
-      playStory(result.data.createStory.id);
-      router.replace(`/story/${result.data.createStory.id}`);
-    }
+    if (result.data?.storyCreate)
+      router.replace(`/story/${result.data.storyCreate.id}`);
   };
 
   return (

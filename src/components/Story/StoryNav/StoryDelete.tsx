@@ -2,7 +2,7 @@ import { Modal } from "components/Modal";
 import { usePlayer } from "components/Player";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
-import { Story, useDeleteStoryMutation } from "gql/gql.gen";
+import { Story, useStoryDeleteMutation } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import toast from "react-hot-toast";
 
@@ -13,7 +13,7 @@ const StoryDelete: React.FC<{
 }> = ({ story, active, close }) => {
   const [{ playingStoryId }, { playStory }] = usePlayer();
 
-  const [{ fetching }, deleteStory] = useDeleteStoryMutation();
+  const [{ fetching }, deleteStory] = useStoryDeleteMutation();
   const { t } = useI18n();
 
   function onDelete() {

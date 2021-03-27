@@ -6,10 +6,10 @@ import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import {
   Queue,
-  useOnQueueUpdatedSubscription,
   useQueueQuery,
   useQueueRemoveMutation,
   useQueueReorderMutation,
+  useQueueUpdatedSubscription,
   useTrackQuery,
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
@@ -144,7 +144,7 @@ const QueueManager: React.FC<{
     pause: inactive,
   });
 
-  useOnQueueUpdatedSubscription({
+  useQueueUpdatedSubscription({
     variables: { id: queueId },
     pause: !queue,
   });

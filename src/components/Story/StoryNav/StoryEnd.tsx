@@ -1,7 +1,7 @@
 import { Modal, useModal } from "components/Modal";
 import { Button } from "components/Pressable";
 import { Typography } from "components/Typography";
-import { Story, useUnliveStoryMutation } from "gql/gql.gen";
+import { Story, useStoryUnliveMutation } from "gql/gql.gen";
 import { useMe } from "hooks/user";
 import { useI18n } from "i18n/index";
 import toast from "react-hot-toast";
@@ -13,10 +13,10 @@ const StoryEnd: React.FC<{
   const { t } = useI18n();
   const [active, open, close] = useModal();
   const me = useMe();
-  const [{ fetching }, unliveStory] = useUnliveStoryMutation();
+  const [{ fetching }, unliveStory] = useStoryUnliveMutation();
   const onEndStory = async () => {
     const result = await unliveStory({ id: story.id });
-    if (result.data?.unliveStory) {
+    if (result.data?.storyUnlive) {
       toast.success(t("story.end.success"));
       close();
     }

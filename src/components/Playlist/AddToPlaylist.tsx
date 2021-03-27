@@ -9,9 +9,9 @@ import {
   PlatformName,
   Playlist,
   Track,
-  useAddPlaylistTracksMutation,
-  useCreatePlaylistMutation,
   useMyPlaylistsQuery,
+  usePlaylistAddTracksMutation,
+  usePlaylistCreateMutation,
   useTrackQuery,
 } from "gql/gql.gen";
 import { useMe } from "hooks/user";
@@ -29,7 +29,7 @@ const CreatePlaylist: React.FC<{
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [{ fetching }, createPlaylist] = useCreatePlaylistMutation();
+  const [{ fetching }, createPlaylist] = usePlaylistCreateMutation();
 
   const handleCreatePlaylistAndAdd = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +46,7 @@ const CreatePlaylist: React.FC<{
         trackIds: [track.id],
       });
 
-      if (result.data?.createPlaylist) {
+      if (result.data?.playlistCreate) {
         toast.success(t("playlist.new.success", { title: playlistTitle }));
         done();
       }
@@ -109,7 +109,7 @@ const AddToExistingPlaylist: React.FC<{
     },
   ] = useMyPlaylistsQuery();
 
-  const [{ fetching }, insertPlaylistTracks] = useAddPlaylistTracksMutation();
+  const [{ fetching }, insertPlaylistTracks] = usePlaylistAddTracksMutation();
 
   const handleAdd = useCallback(
     async (playlist: Playlist) => {
@@ -118,7 +118,7 @@ const AddToExistingPlaylist: React.FC<{
         id: playlist.id,
         trackIds: [track.id],
       });
-      if (result.data?.addPlaylistTracks) {
+      if (result.data?.playlistAddTracks) {
         toast.success(
           t("playlist.add.success", {
             trackTitle: track.title,

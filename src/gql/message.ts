@@ -16,14 +16,14 @@ export const QUERY_MESSAGE = /* GraphQL */ `
   }
 `;
 
-export const MUTATION_SEND_MESSAGE = /* GraphQL */ `
-  mutation addMessage($id: ID!, $text: String!) {
-    addMessage(id: $id, text: $text)
+export const MUTATION_MESSAGE_ADD = /* GraphQL */ `
+  mutation messageAdd($id: ID!, $text: String!) {
+    messageAdd(id: $id, text: $text)
   }
 `;
 
-export const SUBSCRIPTION_MESSAGE = /* GraphQL */ `
-  subscription onMessageAdded($id: ID!) {
+export const SUBSCRIPTION_MESSAGE_ADDED = /* GraphQL */ `
+  subscription messageAdded($id: ID!) {
     messageAdded(id: $id) {
       ...MessageParts
     }

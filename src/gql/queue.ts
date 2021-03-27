@@ -36,7 +36,7 @@ export const QUERY_QUEUE = /* GraphQL */ `
 `;
 
 export const SUBSCRIPTION_QUEUE = /* GraphQL */ `
-  subscription onQueueUpdated($id: ID!) {
+  subscription queueUpdated($id: ID!) {
     queueUpdated(id: $id) {
       id
       items {

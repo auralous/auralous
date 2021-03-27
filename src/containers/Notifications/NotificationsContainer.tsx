@@ -11,8 +11,8 @@ import {
   NotificationNewStory,
   NotificationsQuery,
   useNotificationAddedSubscription,
+  useNotificationsMarkReadMutation,
   useNotificationsQuery,
-  useReadNotificationsMutation,
   useStoryQuery,
   useUserQuery,
 } from "gql/gql.gen";
@@ -213,7 +213,7 @@ const NotificationsContainer: React.FC = () => {
     return subData;
   });
 
-  const [, markRead] = useReadNotificationsMutation();
+  const [, markRead] = useNotificationsMarkReadMutation();
 
   useEffect(() => {
     // dataRef is used on unmount useEffect below

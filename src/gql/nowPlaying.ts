@@ -20,9 +20,9 @@ export const QUERY_NOW_PLAYING = /* GraphQL */ `
   ${FRAGMENT_NOW_PLAYING_QUEUE}
 `;
 
-export const MUTATION_SKIP_NOW_PLAYING = /* GraphQL */ `
-  mutation skipNowPlaying($id: ID!) {
-    skipNowPlaying(id: $id)
+export const MUTATION_NOW_PLAYING_SKIP = /* GraphQL */ `
+  mutation nowPlayingSkip($id: ID!) {
+    nowPlayingSkip(id: $id)
   }
 `;
 
@@ -56,8 +56,8 @@ export const SUBSCRIPTION_NOW_PLAYING_REACTION = /* GraphQL */ `
   }
 `;
 
-export const MUTATION_REACT_NOW_PLAYING = /* GraphQL */ `
-  mutation reactNowPlaying($id: ID!, $reaction: NowPlayingReactionType!) {
-    reactNowPlaying(id: $id, reaction: $reaction)
+export const MUTATION_NOW_PLAYING_REACT = /* GraphQL */ `
+  mutation nowPlayingReact($id: ID!, $reaction: NowPlayingReactionType!) {
+    nowPlayingReact(id: $id, reaction: $reaction)
   }
 `;

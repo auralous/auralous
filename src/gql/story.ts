@@ -50,14 +50,14 @@ export const QUERY_STORY_LIVE = /* GraphQL */ `
   ${FRAGMENT_STORY_DETAIL}
 `;
 
-export const MUTATION_CREATE_STORY = /* GraphQL */ `
-  mutation createStory(
+export const MUTATION_STORY_CREATE = /* GraphQL */ `
+  mutation storyCreate(
     $text: String!
     $isPublic: Boolean!
     $location: LocationInput
     $tracks: [ID!]!
   ) {
-    createStory(
+    storyCreate(
       text: $text
       isPublic: $isPublic
       location: $location
@@ -70,25 +70,25 @@ export const MUTATION_CREATE_STORY = /* GraphQL */ `
   ${FRAGMENT_STORY_DETAIL}
 `;
 
-export const MUTATION_CHANGE_STORY_QUEUEABLE = /* GraphQL */ `
-  mutation changeStoryQueueable(
+export const MUTATION_STORY_CHANGE_QUEUEABLE = /* GraphQL */ `
+  mutation storyChangeQueueable(
     $id: ID!
     $userId: String!
     $isRemoving: Boolean!
   ) {
-    changeStoryQueueable(id: $id, userId: $userId, isRemoving: $isRemoving)
+    storyChangeQueueable(id: $id, userId: $userId, isRemoving: $isRemoving)
   }
 `;
 
-export const MUTATION_DELETE_STORY = /* GraphQL */ `
-  mutation deleteStory($id: ID!) {
-    deleteStory(id: $id)
+export const MUTATION_STORY_DELETE = /* GraphQL */ `
+  mutation storyDelete($id: ID!) {
+    storyDelete(id: $id)
   }
 `;
 
-export const MUTATION_UNLIVE_STORY = /* GraphQL */ `
-  mutation unliveStory($id: ID!) {
-    unliveStory(id: $id) {
+export const MUTATION_STORY_UNLIVE = /* GraphQL */ `
+  mutation storyUnlive($id: ID!) {
+    storyUnlive(id: $id) {
       id
       ...StoryDetailParts
     }
@@ -102,9 +102,9 @@ export const QUERY_STORY_USERS = /* GraphQL */ `
   }
 `;
 
-export const MUTATION_PING_STORY = /* GraphQL */ `
-  mutation pingStory($id: ID!) {
-    pingStory(id: $id)
+export const MUTATION_STORY_PING = /* GraphQL */ `
+  mutation storyPing($id: ID!) {
+    storyPing(id: $id)
   }
 `;
 
@@ -119,13 +119,13 @@ export const SUBSCRIPTION_STORY = /* GraphQL */ `
 `;
 
 export const SUBSCRIPTION_STORY_USERS = /* GraphQL */ `
-  subscription onStoryUsersUpdated($id: ID!) {
+  subscription storyUsersUpdated($id: ID!) {
     storyUsersUpdated(id: $id)
   }
 `;
 
-export const MUTATION_SEND_STORY_INVITES = /* GraphQL */ `
-  mutation sendStoryInvites($id: ID!, $invitedIds: [String!]!) {
-    sendStoryInvites(id: $id, invitedIds: $invitedIds)
+export const MUTATION_STORY_SEND_INVITES = /* GraphQL */ `
+  mutation storySendInvites($id: ID!, $invitedIds: [String!]!) {
+    storySendInvites(id: $id, invitedIds: $invitedIds)
   }
 `;
