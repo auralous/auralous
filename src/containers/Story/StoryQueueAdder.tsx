@@ -5,12 +5,7 @@ import {
   TrackAdderPlaylist,
   TrackAdderSearch,
 } from "components/Track/TrackAdder";
-import {
-  QueueAction,
-  Story,
-  useQueueQuery,
-  useUpdateQueueMutation,
-} from "gql/gql.gen";
+import { Story, useQueueAddMutation, useQueueQuery } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { useCallback, useMemo, useState } from "react";
 import { animated, useSpring } from "react-spring";
@@ -26,7 +21,7 @@ const StoryQueueAdder: React.FC<{
 }> = ({ story, active, close }) => {
   const { t } = useI18n();
 
-  const [, updateQueue] = useUpdateQueueMutation();
+  const [, queueAdd] = useQueueAddMutation();
   const [{ data: { queue } = { queue: undefined } }] = useQueueQuery({
     variables: { id: story.id },
   });
@@ -38,13 +33,12 @@ const StoryQueueAdder: React.FC<{
 
   const onAddTracks = useCallback(
     (newTrackArray: string[]) => {
-      return updateQueue({
+      return queueAdd({
         id: story.id,
         tracks: newTrackArray,
-        action: QueueAction.Add,
-      }).then((result) => !!result.data?.updateQueue);
+      }).then((result) => !!result.data?.queueAdd);
     },
-    [updateQueue, story]
+    [queueAdd, story]
   );
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);

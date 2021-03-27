@@ -6,11 +6,11 @@ import { Typography } from "components/Typography";
 import { Box } from "components/View";
 import {
   Queue,
-  QueueAction,
   useOnQueueUpdatedSubscription,
   useQueueQuery,
+  useQueueRemoveMutation,
+  useQueueReorderMutation,
   useTrackQuery,
-  useUpdateQueueMutation,
 } from "gql/gql.gen";
 import { useI18n } from "i18n/index";
 import { memo, useCallback, useMemo } from "react";
@@ -47,18 +47,17 @@ const QueueDraggableItem: React.FC<{
     variables: { id: queue.items[index].trackId },
   });
 
-  const [, updateQueue] = useUpdateQueueMutation();
+  const [, queueRemove] = useQueueRemoveMutation();
   const removeItem = useCallback(async () => {
     if (!queue) return;
-    const { error } = await updateQueue({
+    const { data } = await queueRemove({
       id: queue.id,
-      action: QueueAction.Remove,
-      position: index,
+      trackId: queue.items[index].trackId,
+      creatorId: queue.items[index].creatorId,
     });
-    if (!error) {
+    if (data?.queueRemove)
       toast.success(t("queue.manager.removeSuccess", { title: track?.title }));
-    }
-  }, [t, queue, updateQueue, track, index]);
+  }, [t, queue, queueRemove, track, index]);
 
   return (
     <div
@@ -150,7 +149,7 @@ const QueueManager: React.FC<{
     pause: !queue,
   });
 
-  const [, updateQueue] = useUpdateQueueMutation();
+  const [, queueReorder] = useQueueReorderMutation();
 
   const onDragEnd = useCallback(
     async ({ source: origin, destination }: DropResult) => {
@@ -159,17 +158,15 @@ const QueueManager: React.FC<{
         !destination ||
         (origin.index === destination.index &&
           origin.droppableId === destination.droppableId)
-      ) {
+      )
         return;
-      }
-      await updateQueue({
+      await queueReorder({
         id: queue.id,
-        action: QueueAction.Reorder,
         position: origin.index,
         insertPosition: destination.index,
       });
     },
-    [queue, updateQueue]
+    [queue, queueReorder]
   );
 
   const itemData = useMemo(

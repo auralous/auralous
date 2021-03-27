@@ -157,7 +157,9 @@ export type Mutation = {
   readNotifications: Scalars['Int'];
   reactNowPlaying?: Maybe<Scalars['Boolean']>;
   skipNowPlaying?: Maybe<Scalars['Boolean']>;
-  updateQueue: Scalars['Boolean'];
+  queueAdd: Scalars['Boolean'];
+  queueRemove: Scalars['Boolean'];
+  queueReorder: Scalars['Boolean'];
   createStory: Story;
   deleteStory: Scalars['ID'];
   changeStoryQueueable: Scalars['Boolean'];
@@ -195,12 +197,23 @@ export type MutationSkipNowPlayingArgs = {
 };
 
 
-export type MutationUpdateQueueArgs = {
+export type MutationQueueAddArgs = {
   id: Scalars['ID'];
-  action: QueueAction;
-  tracks?: Maybe<Array<Scalars['ID']>>;
-  position?: Maybe<Scalars['Int']>;
-  insertPosition?: Maybe<Scalars['Int']>;
+  tracks: Array<Scalars['ID']>;
+};
+
+
+export type MutationQueueRemoveArgs = {
+  id: Scalars['ID'];
+  trackId: Scalars['ID'];
+  creatorId: Scalars['ID'];
+};
+
+
+export type MutationQueueReorderArgs = {
+  id: Scalars['ID'];
+  position: Scalars['Int'];
+  insertPosition: Scalars['Int'];
 };
 
 
@@ -377,13 +390,6 @@ export type NowPlayingReactionItem = {
   userId: Scalars['String'];
   reaction: NowPlayingReactionType;
 };
-
-export enum QueueAction {
-  Remove = 'remove',
-  Reorder = 'reorder',
-  Add = 'add',
-  Clear = 'clear'
-}
 
 export type QueueItem = {
   __typename: 'QueueItem';
@@ -628,16 +634,31 @@ export type QueueItemPartsFragment = (
   & Pick<QueueItem, 'trackId' | 'creatorId'>
 );
 
-export type UpdateQueueMutationVariables = Exact<{
+export type QueueAddMutationVariables = Exact<{
   id: Scalars['ID'];
-  action: QueueAction;
-  tracks?: Maybe<Array<Scalars['ID']> | Scalars['ID']>;
-  position?: Maybe<Scalars['Int']>;
-  insertPosition?: Maybe<Scalars['Int']>;
+  tracks: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
-export type UpdateQueueMutation = Pick<Mutation, 'updateQueue'>;
+export type QueueAddMutation = Pick<Mutation, 'queueAdd'>;
+
+export type QueueRemoveMutationVariables = Exact<{
+  id: Scalars['ID'];
+  trackId: Scalars['ID'];
+  creatorId: Scalars['ID'];
+}>;
+
+
+export type QueueRemoveMutation = Pick<Mutation, 'queueRemove'>;
+
+export type QueueReorderMutationVariables = Exact<{
+  id: Scalars['ID'];
+  position: Scalars['Int'];
+  insertPosition: Scalars['Int'];
+}>;
+
+
+export type QueueReorderMutation = Pick<Mutation, 'queueReorder'>;
 
 export type QueueQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1047,10 +1068,20 @@ export const ReactNowPlayingDocument: DocumentNode = {"kind":"Document","definit
 export function useReactNowPlayingMutation() {
   return Urql.useMutation<ReactNowPlayingMutation, ReactNowPlayingMutationVariables>(ReactNowPlayingDocument);
 };
-export const UpdateQueueDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"updateQueue"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"action"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"QueueAction"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"position"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"insertPosition"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateQueue"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"action"},"value":{"kind":"Variable","name":{"kind":"Name","value":"action"}}},{"kind":"Argument","name":{"kind":"Name","value":"tracks"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}}},{"kind":"Argument","name":{"kind":"Name","value":"position"},"value":{"kind":"Variable","name":{"kind":"Name","value":"position"}}},{"kind":"Argument","name":{"kind":"Name","value":"insertPosition"},"value":{"kind":"Variable","name":{"kind":"Name","value":"insertPosition"}}}]}]}}]};
+export const QueueAddDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"queueAdd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queueAdd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"tracks"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}}}]}]}}]};
 
-export function useUpdateQueueMutation() {
-  return Urql.useMutation<UpdateQueueMutation, UpdateQueueMutationVariables>(UpdateQueueDocument);
+export function useQueueAddMutation() {
+  return Urql.useMutation<QueueAddMutation, QueueAddMutationVariables>(QueueAddDocument);
+};
+export const QueueRemoveDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"queueRemove"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"trackId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queueRemove"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"trackId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"trackId"}}},{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}}]}]}}]};
+
+export function useQueueRemoveMutation() {
+  return Urql.useMutation<QueueRemoveMutation, QueueRemoveMutationVariables>(QueueRemoveDocument);
+};
+export const QueueReorderDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"queueReorder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"position"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"insertPosition"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queueReorder"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"position"},"value":{"kind":"Variable","name":{"kind":"Name","value":"position"}}},{"kind":"Argument","name":{"kind":"Name","value":"insertPosition"},"value":{"kind":"Variable","name":{"kind":"Name","value":"insertPosition"}}}]}]}}]};
+
+export function useQueueReorderMutation() {
+  return Urql.useMutation<QueueReorderMutation, QueueReorderMutationVariables>(QueueReorderDocument);
 };
 export const QueueDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"queue"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queue"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QueueItemParts"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]};
 
