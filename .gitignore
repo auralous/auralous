@@ -104,9 +104,6 @@ dist
 # TernJS port file
 .tern-port
 
-# Ignore package-lock.json because we use yarn
-package-lock.json
-
 .vercel
 
 # Sonarqube

@@ -21,10 +21,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn
+    - run: npm i
     - name: Lint
-      run: yarn lint
+      run: npm run lint
     - name: Build
-      run: yarn build
+      run: npm run build
       env:
         SENTRY_DSN: https://foo@bar.ingest.sentry.io/0

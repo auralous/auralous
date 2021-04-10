@@ -8,8 +8,7 @@ This is the Next.js frontend of Auralous.
 
 The following tools must be installed:
 
-- [Node](https://nodejs.org/) 12.x or 14.x ([nvm](https://github.com/nvm-sh/nvm) recommended)
-- [Yarn](https://yarnpkg.com/) 1.x: See [Installation](https://classic.yarnpkg.com/en/docs/install)
+- [Node](https://nodejs.org/) 14.x ([nvm](https://github.com/nvm-sh/nvm) recommended)
 
 ### Environment variables
 
@@ -32,15 +31,15 @@ You cannot sign in to Auralous directly from the development app. See [#17](http
 
 ### Workflows
 
-Upon cloning this repository, run `yarn` to install required dependencies.
+Upon cloning this repository, run `npm i` to install required dependencies.
 
-#### `yarn dev`
+#### `npm run dev`
 
-Run `yarn dev` to start the app in development mode. This enables hot-code reloading and error reporting. See [`next dev`](https://nextjs.org/docs/api-reference/cli#development).
+Run `npm run dev` to start the app in development mode. This enables hot-code reloading and error reporting. See [`next dev`](https://nextjs.org/docs/api-reference/cli#development).
 
-#### `yarn build`
+#### `npm run build`
 
-Running `yarn build` will create an optimized production build of your application. To also analyzing build size set the env variable `ANALYZE=true`.
+Running `npm run build` will create an optimized production build of your application. To also analyzing build size set the env variable `ANALYZE=true`.
 
 ## License
 
