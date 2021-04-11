@@ -1,49 +1,62 @@
-import { format as formatMs } from "@lukeed/ms";
-import { Spacer } from "components/Spacer";
+import { Avatar } from "components/Avatar";
 import { Text } from "components/Typography";
-import { Story, useUserQuery } from "gql/gql.gen";
-import React, { useMemo } from "react";
-import { View } from "react-native";
+import { Maybe, Story, User } from "gql/gql.gen";
+import React from "react";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { Size } from "styles";
-import { useTranslation } from "utils/i18n";
 
-const StoryItem: React.FC<{ story: Story }> = ({ story }) => {
-  const { t } = useTranslation();
+interface StoryItemProps {
+  story: Maybe<Story>;
+  creator: Maybe<User>;
+  loading?: boolean;
+}
 
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: story.creatorId },
-  });
+const styles = StyleSheet.create({
+  root: {
+    width: Size[44],
+    height: Size[44] * 1.5625,
+    backgroundColor: "red",
+    borderRadius: Size[2],
+    overflow: "hidden",
+  },
+  background: {
+    flex: 1,
+    resizeMode: "cover",
+  },
+  overlay: { flex: 1, backgroundColor: "rgba(0,0,0,.5)", padding: Size[4] },
+  top: {
+    flex: 1,
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+});
 
-  const dateStr = useMemo(() => {
-    const d = Date.now() - story.createdAt.getTime();
-    return d ? formatMs(d) : "";
-  }, [story]);
-
-  const altText = `${t("story.ofUsername", {
-    username: user?.username || "",
-  })} - ${story.text}`;
-
+const StoryItem: React.FC<StoryItemProps> = ({ story, creator }) => {
   return (
-    <View
-      style={{ width: "100%" }}
-      aria-label={`${t("story.play")}: ${altText}`}
-    >
-      <View style={{ padding: Size[2], width: "100%" }}>
-        <Text bold align="left">
-          {story.text}
-        </Text>
-        <Text color="textSecondary" align="left" size="sm">
-          {story.isLive ? (
-            <span className="font-bold bg-primary animate-pulse uppercase leading-none py-0.5 px-1 rounded-full">
-              {t("common.live")}
-            </span>
-          ) : (
-            <Text color="textSecondary">{dateStr} •</Text>
-          )}
-          <Spacer size={1} axis="horizontal" />
-          <Text>{user?.username}</Text>
-        </Text>
-      </View>
+    <View style={styles.root}>
+      <ImageBackground source={{ uri: story?.image }} style={styles.background}>
+        <View style={styles.overlay}>
+          <View style={styles.top}>
+            {creator && (
+              <Avatar
+                href={creator.profilePicture}
+                username={creator.username}
+                size={12}
+              />
+            )}
+          </View>
+          <View style={styles.bottom}>
+            <Text bold size="xl">
+              {creator?.username}
+            </Text>
+            <Text color="textSecondary" numberOfLines={3}>
+              {story?.text}
+            </Text>
+          </View>
+        </View>
+      </ImageBackground>
     </View>
   );
 };

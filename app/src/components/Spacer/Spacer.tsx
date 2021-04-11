@@ -3,18 +3,18 @@ import { StyleProp, View, ViewStyle } from "react-native";
 import { Size } from "styles";
 
 interface SpacerProps {
-  size: 1 | 2 | 4 | 8 | 12;
-  axis?: "vertical" | "horizontal";
+  x?: keyof typeof Size;
+  y?: keyof typeof Size;
   style?: StyleProp<ViewStyle>;
 }
 
-const Spacer: React.FC<SpacerProps> = ({ size, axis, style }) => {
+const Spacer: React.FC<SpacerProps> = ({ x, y, style }) => {
   return (
     <View
       style={[
         {
-          width: axis !== "horizontal" ? Size[size] : 1,
-          height: axis !== "vertical" ? Size[size] : 1,
+          width: x ? Size[x] : 1,
+          height: y ? Size[y] : 1,
         },
         style,
       ]}

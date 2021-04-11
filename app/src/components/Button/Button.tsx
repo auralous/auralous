@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: Size[4],
+    borderRadius: Size[16],
   },
   baseText: {
     fontWeight: "600",
-    fontSize: Size[4],
+    fontSize: 14,
   },
 });
 

@@ -1,25 +1,26 @@
 import React from "react";
-import { StyleProp, StyleSheet, Text as RNText, TextStyle } from "react-native";
+import { StyleSheet, Text as RNText, TextStyle } from "react-native";
 import { Size, ThemeColor, useColors } from "styles";
 
-const levelSize = [48, 36, 30, 24, 20, 18];
+const levelSize = [40, 36, 30, 24, 20, 18];
 
 const sizes = {
-  xs: 12,
-  sm: 14,
-  md: 16,
-  lg: 18,
-  xl: 20,
-  "2xl": 24,
+  xs: 10,
+  sm: 12,
+  md: 14,
+  lg: 16,
+  xl: 18,
+  "2xl": 20,
 };
 
 interface TextProps {
-  bold?: boolean;
+  bold?: boolean | "medium";
   italic?: boolean;
-  style?: StyleProp<TextStyle>;
+  style?: TextStyle | TextStyle[];
   color?: ThemeColor;
   align?: TextStyle["textAlign"];
   size?: keyof typeof sizes;
+  numberOfLines?: number;
 }
 
 const styles = StyleSheet.create({
@@ -32,22 +33,37 @@ const styles = StyleSheet.create({
 const commonStyleFn = (
   colors: Record<ThemeColor, string>,
   props: TextProps
-): TextStyle[] => [
-  {
-    ...(props.bold && { fontFamily: "Inter-Bold" }),
-    ...(props.italic && { fontStyle: "italic" }),
-    ...(props.align && { textAlign: props.align }),
-    ...(props.size && { fontSize: sizes[props.size] }),
+): TextStyle[] => {
+  const style: TextStyle = {
+    fontFamily: props.bold
+      ? props.bold === "medium"
+        ? "Inter-Medium"
+        : "Inter-Bold"
+      : undefined,
+    fontStyle: props.italic ? "italic" : undefined,
+    textAlign: props.align,
+    fontSize: props.size ? sizes[props.size] : undefined,
     color: colors[props.color || "text"],
-  },
-  // @ts-ignore
-  ...(Array.isArray(props.style) ? props.style : [props.style]),
-];
+  };
+  if (props.style) {
+    return Array.isArray(props.style)
+      ? [style, ...props.style]
+      : [style, props.style];
+  }
+  return [style];
+};
 
-export const Text: React.FC<TextProps> = ({ children, ...props }) => {
+export const Text: React.FC<TextProps> = ({
+  children,
+  numberOfLines,
+  ...props
+}) => {
   const colors = useColors();
   return (
-    <RNText style={[styles.base, ...commonStyleFn(colors, props)]}>
+    <RNText
+      numberOfLines={numberOfLines}
+      style={[styles.base, ...commonStyleFn(colors, props)]}
+    >
       {children}
     </RNText>
   );
@@ -60,12 +76,14 @@ interface HeadingProps {
 export const Heading: React.FC<TextProps & HeadingProps> = ({
   children,
   level,
+  numberOfLines,
   ...props
 }) => {
   const colors = useColors();
   props.bold = props.bold ?? true;
   return (
     <RNText
+      numberOfLines={numberOfLines}
       style={[
         styles.base,
         { fontSize: levelSize[level - 1] },
