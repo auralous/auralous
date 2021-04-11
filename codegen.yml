@@ -13,3 +13,15 @@ generates:
       documentMode: "documentNode"
       nonOptionalTypename: true
       skipTypeNameForRoot: true
+  ./app/src/gql/gql.gen.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-urql
+    config:
+      # immutableTypes: true
+      withComponent: false
+      withHooks: true
+      documentMode: "documentNode"
+      nonOptionalTypename: true
+      skipTypeNameForRoot: true
