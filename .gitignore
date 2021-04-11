@@ -108,3 +108,8 @@ dist
 
 # Sonarqube
 .scannerwork
+
+# npm monorepo
+
+*/package-lock.json
+yarn.lock
