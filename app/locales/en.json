@@ -1,5 +1,32 @@
 {
-  "listen": {
-    "title": "Listen"
+  "home": {
+    "title": "Home",
+    "featured_playlists": {
+      "title": "Featured Playlists"
+    },
+    "friends_playlists": {
+      "title": "In Your Circle",
+      "description": "Discover what your friends are jamming to"
+    },
+    "recent_stories": {
+      "title": "Recent Stories",
+      "description": "Listen together from all around the world"
+    },
+    "radio_stations": {
+      "title": "Radio Stations",
+      "description": "Music curated by listeners like you"
+    }
+  },
+  "sign_in": {
+    "title": "Sign in"
+  },
+  "common": {
+    "status": {
+      "live": "live"
+    },
+    "time": {
+      "ago": "{{time}} ago",
+      "just_now": "just now"
+    }
   }
 }

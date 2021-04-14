@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { HomeContainer } from "containers/Home";
 import { createUrqlClient } from "gql/urql";
 import React, { useState } from "react";
-import "react-native-gesture-handler";
 import { useColors } from "styles";
 import { Provider } from "urql";
 
@@ -27,7 +27,9 @@ const App = () => {
           },
         }}
       >
-        <Tab.Navigator></Tab.Navigator>
+        <Tab.Navigator>
+          <Tab.Screen name="home" component={HomeContainer} />
+        </Tab.Navigator>
       </NavigationContainer>
     </Provider>
   );

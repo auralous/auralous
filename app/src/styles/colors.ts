@@ -1,17 +1,17 @@
 import create from "zustand";
 
 export const Colors = {
-  background: "#000000",
-  backgroundSecondary: "#080808",
-  text: "hsla(0, 0%, 100%, 0.85)",
-  textSecondary: "hsla(0, 0%, 100%, 0.6)",
-  textTertiary: "hsla(0, 0%, 100%, 0.35)",
-  primary: "#ff2e54",
-  primaryDark: "#d12948",
-  primaryText: "hsla(0, 0%, 100%, 0.85)",
-  control: "#191a20",
-  controlDark: "#0f1016",
-  controlText: "hsla(0, 0%, 100%, 0.85)",
+  background: "#121421",
+  backgroundSecondary: "#1C2031",
+  text: "#FFFFFF",
+  textSecondary: "rgba(235, 325, 245, 0.6)",
+  textTertiary: "rgba(235, 235, 245, 0.3)",
+  primary: "#FF2E54",
+  primaryDark: "#D12948",
+  primaryText: "#FFFFFF",
+  control: "#FFFFFF",
+  controlDark: "#F2F2F7",
+  controlText: "#2F2F2F",
 };
 
 export type ThemeColor = keyof typeof Colors;

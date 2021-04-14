@@ -86,8 +86,8 @@ export const Heading: React.FC<TextProps & HeadingProps> = ({
       numberOfLines={numberOfLines}
       style={[
         styles.base,
-        { fontSize: levelSize[level - 1] },
         ...commonStyleFn(colors, props),
+        { fontSize: levelSize[level - 1] },
       ]}
     >
       {children}

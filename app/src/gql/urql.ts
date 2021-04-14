@@ -208,10 +208,9 @@ const cacheExchange = createCacheExchange({
   },
 });
 
-export const createUrqlClient = () =>
-  createClient({
+export const createUrqlClient = () => {
+  return createClient({
     url: `${Config.API_URI}/graphql`,
-    fetchOptions: { credentials: "include" },
     exchanges: [
       dedupExchange,
       cacheExchange,
@@ -234,14 +233,14 @@ export const createUrqlClient = () =>
           // });
         },
       }),
-      authExchange<{ accessToken?: string }>({
+      authExchange<{ accessToken?: string | null }>({
         async getAuth({ authState }) {
           if (!authState) {
-            const accessToken = await AsyncStorage.getItem("accessToken");
-            if (accessToken) {
-              return { accessToken };
-            }
-            return null;
+            return {
+              accessToken:
+                Config.DEBUG_ACCESS_TOKEN ||
+                (await AsyncStorage.getItem("accessToken")),
+            };
           }
           return null;
         },
@@ -280,3 +279,4 @@ export const createUrqlClient = () =>
       }),
     ].filter(Boolean) as Exchange[],
   });
+};

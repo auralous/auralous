@@ -1,5 +1,32 @@
 {
-  "listen": {
-    "title": "Nghe nhạc"
+  "home": {
+    "title": "Nhạc",
+    "featured_playlists": {
+      "title": "Playlist nổi bật"
+    },
+    "friends_playlists": {
+      "title": "Trong vòng kết nối",
+      "description": "Khám phá âm nhạc từ bạn bè của bạn"
+    },
+    "recent_stories": {
+      "title": "Story gần đây",
+      "description": "Nghe nhạc cùng nhau khắp mọi nơi"
+    },
+    "radio_stations": {
+      "title": "Đài phát thanh",
+      "description": "Âm nhạc biên soạn bởi người nghe nhạc như bạn"
+    }
+  },
+  "sign_in": {
+    "title": "Đăng nhập"
+  },
+  "common": {
+    "status": {
+      "live": "trực tiếp"
+    },
+    "time": {
+      "ago": "{{time}} trước",
+      "just_now": "bây giờ"
+    }
   }
 }

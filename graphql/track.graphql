@@ -20,15 +20,6 @@ fragment TrackParts on Track {
   }
 }
 
-fragment PlaylistParts on Playlist {
-  id
-  platform
-  externalId
-  name
-  image
-  url
-}
-
 query track($id: ID!) {
   track(id: $id) {
     ...TrackParts
@@ -46,33 +37,5 @@ query crossTracks($id: ID!) {
 query searchTrack($query: String!) {
   searchTrack(query: $query) {
     ...TrackParts
-  }
-}
-
-query playlist($id: ID!) {
-  playlist(id: $id) {
-    ...PlaylistParts
-  }
-}
-
-query myPlaylists {
-  myPlaylists {
-    ...PlaylistParts
-  }
-}
-
-query playlistTracks($id: ID!) {
-  playlistTracks(id: $id) {
-    ...TrackParts
-  }
-}
-
-mutation playlistAddTracks($id: ID!, $trackIds: [String!]!) {
-  playlistAddTracks(id: $id, trackIds: $trackIds)
-}
-
-mutation playlistCreate($name: String!, $trackIds: [String!]!) {
-  playlistCreate(name: $name, trackIds: $trackIds) {
-    ...PlaylistParts
   }
 }

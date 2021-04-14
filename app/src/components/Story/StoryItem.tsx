@@ -1,9 +1,11 @@
 import { Avatar } from "components/Avatar";
 import { Text } from "components/Typography";
 import { Maybe, Story, User } from "gql/gql.gen";
-import React from "react";
+import React, { useMemo } from "react";
 import { ImageBackground, StyleSheet, View } from "react-native";
-import { Size } from "styles";
+import { Size, useColors } from "styles";
+import { useTranslation } from "utils/i18n";
+import { format as formatMs } from "utils/ms";
 
 interface StoryItemProps {
   story: Maybe<Story>;
@@ -30,10 +32,32 @@ const styles = StyleSheet.create({
   bottom: {
     flex: 1,
     justifyContent: "flex-end",
+    alignItems: "flex-start",
+  },
+  text: {
+    lineHeight: 18,
+  },
+  tag: {
+    paddingHorizontal: Size[3],
+    paddingVertical: 3,
+    borderRadius: 99,
+    flexGrow: 0,
+    marginTop: Size[1],
   },
 });
 
 const StoryItem: React.FC<StoryItemProps> = ({ story, creator }) => {
+  const { t } = useTranslation();
+
+  const colors = useColors();
+
+  const dateStr = useMemo(() => {
+    if (!story) return "";
+    if (story.isLive) return t("common.status.live").toUpperCase();
+    const d = Date.now() - story.createdAt.getTime();
+    return t("common.time.ago", { time: formatMs(t, d) });
+  }, [story, t]);
+
   return (
     <View style={styles.root}>
       <ImageBackground source={{ uri: story?.image }} style={styles.background}>
@@ -48,12 +72,26 @@ const StoryItem: React.FC<StoryItemProps> = ({ story, creator }) => {
             )}
           </View>
           <View style={styles.bottom}>
-            <Text bold size="xl">
+            <Text style={styles.text} bold size="xl">
               {creator?.username}
             </Text>
-            <Text color="textSecondary" numberOfLines={3}>
-              {story?.text}
-            </Text>
+            {Boolean(story?.text) && (
+              <Text style={styles.text} color="textSecondary" numberOfLines={3}>
+                {story?.text}
+              </Text>
+            )}
+            <View
+              style={[
+                styles.tag,
+                {
+                  backgroundColor: story?.isLive
+                    ? colors.primary
+                    : "rgba(0,0,0,.5)",
+                },
+              ]}
+            >
+              <Text size="xs">{dateStr}</Text>
+            </View>
           </View>
         </View>
       </ImageBackground>
