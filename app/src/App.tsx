@@ -1,6 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { TabBar } from "components/TabBar";
 import { HomeContainer } from "containers/Home";
+import { MapContainer } from "containers/Map";
 import { createUrqlClient } from "gql/urql";
 import React, { useState } from "react";
 import { useColors } from "styles";
@@ -27,8 +29,9 @@ const App = () => {
           },
         }}
       >
-        <Tab.Navigator>
+        <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
           <Tab.Screen name="home" component={HomeContainer} />
+          <Tab.Screen name="map" component={MapContainer} />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>

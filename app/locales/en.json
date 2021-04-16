@@ -17,6 +17,9 @@
       "description": "Music curated by listeners like you"
     }
   },
+  "map": {
+    "title": "Map"
+  },
   "sign_in": {
     "title": "Sign in"
   },

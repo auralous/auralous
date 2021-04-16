@@ -17,6 +17,9 @@
       "description": "Âm nhạc biên soạn bởi người nghe nhạc như bạn"
     }
   },
+  "map": {
+    "title": "Bản đồ"
+  },
   "sign_in": {
     "title": "Đăng nhập"
   },
