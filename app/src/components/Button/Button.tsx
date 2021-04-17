@@ -1,14 +1,12 @@
 import { Text } from "components/Typography";
-import React, { useMemo } from "react";
-import {
-  Pressable,
-  PressableStateCallbackType,
-  StyleProp,
-  StyleSheet,
-  TextStyle,
-  ViewStyle,
-} from "react-native";
+import React from "react";
+import { ColorValue, Pressable, StyleSheet, ViewStyle } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import { Size, useColors } from "styles";
+import { useSharedValuePressed } from "utils/animation";
 
 interface ButtonProps {
   onPress: () => void;
@@ -33,28 +31,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const pressableStylesFn = (
-  color: string,
-  activeColor: string
-): Record<"base" | "pressed", StyleProp<ViewStyle>> => {
-  return {
-    base: {
-      backgroundColor: color,
-    },
-    pressed: {
-      backgroundColor: activeColor,
-    },
-  };
-};
-
-const textStylesFn = (
-  colorLabel: string
-): Record<"base", StyleProp<TextStyle>> => {
-  return {
-    base: { color: colorLabel },
-  };
-};
-
 export const Button: React.FC<ButtonProps> = ({
   icon,
   children,
@@ -64,41 +40,37 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const colors = useColors();
 
-  const pressableStyle = useMemo<
-    (state: PressableStateCallbackType) => StyleProp<ViewStyle>
-  >(() => {
-    const pressable = pressableStylesFn(
-      colors[color as keyof typeof colors],
-      colors[`${color}Dark` as keyof typeof colors]
-    );
-    return ({ pressed }) => [
-      styles.base,
-      pressable.base,
-      pressed && pressable.pressed,
-    ];
-  }, [color, colors]);
+  const [pressed, pressedProps] = useSharedValuePressed();
 
-  const textStyle = useMemo<
-    (state: PressableStateCallbackType) => StyleProp<TextStyle>
-  >(() => {
-    const text = textStylesFn(colors[`${color}Text` as keyof typeof colors]);
-    return () => [styles.baseText, text.base];
-  }, [color, colors]);
+  const animatedStyles = useAnimatedStyle<ViewStyle>(() => {
+    return {
+      backgroundColor: (withTiming(
+        pressed.value
+          ? colors[`${color}Dark` as keyof typeof colors]
+          : colors[color as keyof typeof colors],
+        { duration: 200 }
+      ) as unknown) as ColorValue,
+    };
+  });
 
   return (
     <Pressable
-      style={pressableStyle}
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}
+      {...pressedProps}
     >
-      {(state) => (
-        <>
-          {icon}
-          <Text bold style={textStyle(state)}>
-            {children}
-          </Text>
-        </>
-      )}
+      <Animated.View style={[styles.base, animatedStyles]}>
+        {icon}
+        <Text
+          bold
+          style={[
+            styles.baseText,
+            { color: colors[`${color}Text` as keyof typeof colors] },
+          ]}
+        >
+          {children}
+        </Text>
+      </Animated.View>
     </Pressable>
   );
 };
