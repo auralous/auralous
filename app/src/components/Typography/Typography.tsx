@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text as RNText, TextStyle } from "react-native";
+import { Pressable, StyleSheet, Text as RNText, TextStyle } from "react-native";
 import { Size, ThemeColor, useColors } from "styles";
 
 const levelSize = [40, 36, 30, 24, 20, 18];
@@ -66,6 +66,37 @@ export const Text: React.FC<TextProps> = ({
     >
       {children}
     </RNText>
+  );
+};
+
+interface TextLinkProps {
+  color?: ThemeColor;
+  activeColor?: ThemeColor;
+}
+
+export const TextLink: React.FC<TextProps & TextLinkProps> = ({
+  children,
+  numberOfLines,
+  color = "primary",
+  activeColor = "primaryDark",
+  ...props
+}) => {
+  const colors = useColors();
+  return (
+    <Pressable>
+      {({ pressed }) => (
+        <RNText
+          numberOfLines={numberOfLines}
+          style={[
+            styles.base,
+            ...commonStyleFn(colors, { ...props, color }),
+            pressed && { color: colors[activeColor] },
+          ]}
+        >
+          {children}
+        </RNText>
+      )}
+    </Pressable>
   );
 };
 

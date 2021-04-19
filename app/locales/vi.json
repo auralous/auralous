@@ -21,7 +21,10 @@
     "title": "Bản đồ"
   },
   "sign_in": {
-    "title": "Đăng nhập"
+    "title": "Đăng nhập",
+    "continue_with": "Tiếp tục với {{name}}",
+    "listen_on": "Nghe nhạc trên {{name}}",
+    "sign_up_note": "Nếu bạn chưa có tài khoản, chúng mình sẽ tạo một tài khoản cho bạn."
   },
   "common": {
     "status": {

@@ -21,7 +21,10 @@
     "title": "Map"
   },
   "sign_in": {
-    "title": "Sign in"
+    "title": "Sign in",
+    "continue_with": "Continue with {{name}}",
+    "listen_on": "Listen on {{name}}",
+    "sign_up_note": "If you did not previously sign up, we will create for you a new account."
   },
   "common": {
     "status": {

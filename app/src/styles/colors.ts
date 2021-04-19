@@ -12,6 +12,10 @@ export const Colors = {
   control: "#FFFFFF",
   controlDark: "#F2F2F7",
   controlText: "#2F2F2F",
+  spotify: "#1db954",
+  spotifyLabel: "#FFFFFF",
+  google: "#FFFFFF",
+  googleLabel: "rgba(0, 0, 0, 0.5)",
 };
 
 export type ThemeColor = keyof typeof Colors;

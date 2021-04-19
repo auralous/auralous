@@ -21,12 +21,12 @@ import Config from "react-native-config";
 import {
   createClient,
   dedupExchange,
-  errorExchange,
   Exchange,
   fetchExchange,
   makeOperation,
   subscriptionExchange,
 } from "urql";
+import { ASYNC_STORAGE_AUTH } from "utils/auth";
 import schema from "./schema.json";
 import { nextCursorPagination } from "./_pagination";
 
@@ -214,32 +214,11 @@ export const createUrqlClient = () => {
     exchanges: [
       dedupExchange,
       cacheExchange,
-      errorExchange({
-        onError() {
-          // if (typeof window === "undefined") return;
-          // if (networkError) toast.error("Unable to connect to server.");
-          // graphQLErrors.forEach((error) => {
-          //   let message = error.message;
-          //   const code = error.extensions?.code;
-          //   if (code === "PERSISTED_QUERY_NOT_FOUND") return;
-          //   if (message.startsWith("Internal error:")) {
-          //     // We log this error to console so dev can look into it
-          //     console.error(error);
-          //     message = t("error.internal");
-          //   }
-          //   if (code === "UNAUTHENTICATED")
-          //     message = t("error.unauthenticated");
-          //   toast.error(message);
-          // });
-        },
-      }),
       authExchange<{ accessToken?: string | null }>({
         async getAuth({ authState }) {
           if (!authState) {
             return {
-              accessToken:
-                Config.DEBUG_ACCESS_TOKEN ||
-                (await AsyncStorage.getItem("accessToken")),
+              accessToken: await AsyncStorage.getItem(ASYNC_STORAGE_AUTH),
             };
           }
           return null;

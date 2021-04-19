@@ -1,10 +1,10 @@
+import { useNavigation } from "@react-navigation/core";
 import { Avatar } from "components/Avatar";
 import { Button } from "components/Button";
 import { Heading } from "components/Typography";
 import { useMe } from "gql/hooks";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { openLoginLink } from "utils/auth";
 import { useTranslation } from "utils/i18n";
 
 const header = StyleSheet.create({
@@ -19,6 +19,8 @@ const header = StyleSheet.create({
 const Header: React.FC = () => {
   const { t } = useTranslation();
   const me = useMe();
+  const navigation = useNavigation();
+
   return (
     <View style={header.root}>
       <Heading level={2}>{t("home.title")}</Heading>
@@ -32,7 +34,9 @@ const Header: React.FC = () => {
         </View>
       ) : (
         <View>
-          <Button onPress={openLoginLink}>{t("sign_in.title")}</Button>
+          <Button onPress={() => navigation.navigate("sign-in")}>
+            {t("sign_in.title")}
+          </Button>
         </View>
       )}
     </View>

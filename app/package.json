@@ -32,7 +32,7 @@
     "react-native-svg-transformer": "^0.14.3",
     "rosetta": "^1.1.0",
     "urql": "^2.0.1",
-    "zustand": "^3.3.3"
+    "zustand": "^3.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.13.13",
