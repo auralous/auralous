@@ -26,6 +26,9 @@
     "listen_on": "Listen on {{name}}",
     "sign_up_note": "If you did not previously sign up, we will create for you a new account."
   },
+  "legal": {
+    "accept_continue_text": "By continuing, you agree to our <0>friendly Privacy Policy</0>, <1>YouTube Terms of Service</1> and/or <2>Spotify Privacy Policy</2> where applicable."
+  },
   "common": {
     "status": {
       "live": "live"

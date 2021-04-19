@@ -26,6 +26,9 @@
     "listen_on": "Nghe nhạc trên {{name}}",
     "sign_up_note": "Nếu bạn chưa có tài khoản, chúng mình sẽ tạo một tài khoản cho bạn."
   },
+  "legal": {
+    "accept_continue_text": "Khi tiếp tục, bạn đồng ý với <0>Chính sách riêng tư của chúng mình</0>, <1>Điều khoản sử dụng của YouTube</1> và/hoặc <2> Chính sách riêng tư của Spotify</2> ở nơi áp dụng."
+  },
   "common": {
     "status": {
       "live": "trực tiếp"

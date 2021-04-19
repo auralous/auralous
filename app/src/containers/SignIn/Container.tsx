@@ -2,12 +2,13 @@ import { useNavigation, useRoute } from "@react-navigation/core";
 import { GoogleColor, Logo, Spotify } from "assets/svg";
 import { Header } from "components/Header";
 import { Spacer } from "components/Spacer";
-import { Text } from "components/Typography";
+import { Text, TextLink } from "components/Typography";
 import { useMe } from "gql/hooks";
 import { useAuthActions } from "gql/store";
 import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import Config from "react-native-config";
 import { Size, useColors } from "styles";
 import ContinueButton from "./ContinueButton";
 
@@ -24,13 +25,20 @@ const styles = StyleSheet.create({
     marginBottom: Size[4],
   },
   smallText: {
-    marginTop: Size[6],
     textAlign: "center",
+  },
+  smallTextContainer: {
+    marginTop: Size[6],
+  },
+  smallTextLinkFix: {
+    transform: [{ translateY: 4 }],
+    textDecorationLine: "underline",
   },
   top: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: Size[12],
   },
   logo: {
     width: Size[8],
@@ -88,9 +96,47 @@ const Container: React.FC = () => {
             listenOn="YouTube"
           />
         </View>
-        <Text style={styles.smallText} color="textSecondary">
-          {t("sign_in.sign_up_note")}
-        </Text>
+        <View style={styles.smallTextContainer}>
+          <Text size="sm" style={styles.smallText} color="textSecondary">
+            {t("sign_in.sign_up_note")}
+          </Text>
+          <Text
+            size="sm"
+            style={[styles.smallText, { marginTop: Size[1] }]}
+            color="textSecondary"
+          >
+            <Trans
+              t={t}
+              i18nKey="legal.accept_continue_text"
+              components={[
+                <TextLink
+                  size="sm"
+                  color="textSecondary"
+                  activeColor="text"
+                  key="privacy"
+                  href={`${Config.WEB_URI}/privacy`}
+                  style={styles.smallTextLinkFix}
+                />,
+                <TextLink
+                  size="sm"
+                  color="textSecondary"
+                  activeColor="text"
+                  key="youtube"
+                  href="https://www.youtube.com/t/terms"
+                  style={styles.smallTextLinkFix}
+                />,
+                <TextLink
+                  size="sm"
+                  color="textSecondary"
+                  activeColor="text"
+                  key="spotify"
+                  href="https://www.spotify.com/us/legal/privacy-policy/"
+                  style={styles.smallTextLinkFix}
+                />,
+              ]}
+            />
+          </Text>
+        </View>
       </View>
     </>
   );

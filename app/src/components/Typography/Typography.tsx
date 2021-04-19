@@ -1,5 +1,11 @@
 import React from "react";
-import { Pressable, StyleSheet, Text as RNText, TextStyle } from "react-native";
+import {
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text as RNText,
+  TextStyle,
+} from "react-native";
 import { Size, ThemeColor, useColors } from "styles";
 
 const levelSize = [40, 36, 30, 24, 20, 18];
@@ -72,18 +78,20 @@ export const Text: React.FC<TextProps> = ({
 interface TextLinkProps {
   color?: ThemeColor;
   activeColor?: ThemeColor;
+  href: string;
 }
 
 export const TextLink: React.FC<TextProps & TextLinkProps> = ({
   children,
   numberOfLines,
+  href,
   color = "primary",
   activeColor = "primaryDark",
   ...props
 }) => {
   const colors = useColors();
   return (
-    <Pressable>
+    <Pressable onPress={() => Linking.openURL(href)}>
       {({ pressed }) => (
         <RNText
           numberOfLines={numberOfLines}

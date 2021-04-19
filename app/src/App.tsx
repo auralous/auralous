@@ -10,7 +10,6 @@ import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useColors } from "styles";
 import { Provider } from "urql";
-import "./i18n";
 
 const Tab = createBottomTabNavigator();
 
