@@ -1,9 +1,9 @@
 import { Heading, Text } from "components/Typography";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView, StatusBar, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Size, useColors } from "styles";
-import { useTranslation } from "utils/i18n";
 import FeaturedPlaylists from "./FeaturedPlaylists";
 import FriendsPlaylists from "./FriendsPlaylists";
 import Header from "./Header";

@@ -4,8 +4,8 @@ import { Button } from "components/Button";
 import { Heading } from "components/Typography";
 import { useMe } from "gql/hooks";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { useTranslation } from "utils/i18n";
 
 const header = StyleSheet.create({
   root: {

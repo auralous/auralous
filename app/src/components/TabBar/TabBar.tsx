@@ -4,9 +4,9 @@ import {
 } from "@react-navigation/bottom-tabs";
 import { Home, MapPin } from "assets/svg";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Size, useColors } from "styles";
-import { useTranslation } from "utils/i18n";
 import AddButton from "./AddButton";
 import Tab from "./Tab";
 

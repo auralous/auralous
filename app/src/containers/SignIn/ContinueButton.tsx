@@ -1,9 +1,9 @@
 import { Text } from "components/Typography";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Linking, Pressable, StyleSheet, View } from "react-native";
 import Config from "react-native-config";
 import { Size, useColors } from "styles";
-import { useTranslation } from "utils/i18n";
 
 const styles = StyleSheet.create({
   root: {

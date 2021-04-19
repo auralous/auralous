@@ -2,9 +2,9 @@ import { Avatar } from "components/Avatar";
 import { Text } from "components/Typography";
 import { Maybe, Story, User } from "gql/gql.gen";
 import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import { Size, useColors } from "styles";
-import { useTranslation } from "utils/i18n";
 import { format as formatMs } from "utils/ms";
 
 interface StoryItemProps {

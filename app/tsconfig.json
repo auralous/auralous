@@ -22,8 +22,7 @@
     "jest.config.js"
   ],
   "include": [
-    "types.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
+    "@types",
+    "src",
   ]
 }

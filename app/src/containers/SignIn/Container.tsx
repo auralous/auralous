@@ -6,9 +6,9 @@ import { Text } from "components/Typography";
 import { useMe } from "gql/hooks";
 import { useAuthActions } from "gql/store";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Size, useColors } from "styles";
-import { useTranslation } from "utils/i18n";
 import ContinueButton from "./ContinueButton";
 
 const styles = StyleSheet.create({

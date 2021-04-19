@@ -1,9 +1,9 @@
 import { Text } from "components/Typography";
 import { Maybe, Playlist } from "gql/gql.gen";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { Size } from "styles";
-import { useTranslation } from "utils/i18n";
 
 interface PlaylistItemProps {
   playlist: Maybe<Playlist>;
@@ -38,7 +38,7 @@ const PlaylistItem: React.FC<PlaylistItemProps> = ({ playlist }) => {
           {playlist?.name}
         </Text>
         <Text size="sm" color="textTertiary">
-          {t(`music_platform.${playlist?.platform}.name`)}
+          {t(`music_platform.${playlist?.platform}.name` as const)}
         </Text>
       </View>
     </View>
