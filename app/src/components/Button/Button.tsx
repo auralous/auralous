@@ -9,11 +9,12 @@ import { Size, useColors } from "styles";
 import { useSharedValuePressed } from "utils/animation";
 
 interface ButtonProps {
-  onPress: () => void;
+  onPress(): void;
   accessibilityLabel?: string;
   color?: "primary" | "danger";
   icon?: React.ReactNode;
   children?: string;
+  disabled?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -37,6 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
   onPress,
   accessibilityLabel,
   color = "control",
+  disabled,
 }) => {
   const colors = useColors();
 
@@ -57,9 +59,20 @@ export const Button: React.FC<ButtonProps> = ({
     <Pressable
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}
+      disabled={disabled}
       {...pressedProps}
     >
-      <Animated.View style={[styles.base, animatedStyles]}>
+      <Animated.View
+        style={[
+          styles.base,
+          disabled
+            ? {
+                opacity: 0.5,
+                backgroundColor: colors[color as keyof typeof colors],
+              }
+            : animatedStyles,
+        ]}
+      >
         {icon}
         <Text
           bold

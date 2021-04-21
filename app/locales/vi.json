@@ -20,6 +20,13 @@
   "map": {
     "title": "Bản đồ"
   },
+  "user": {
+    "follow": "Theo dõi",
+    "unfollow": "Bỏ theo dõi",
+    "followers": "Người theo dõi",
+    "followings": "Đang theo dõi",
+    "of_user": "<0>{{name}}</0> của {{username}}"
+  },
   "sign_in": {
     "title": "Đăng nhập",
     "continue_with": "Tiếp tục với {{name}}",
@@ -29,6 +36,10 @@
   "legal": {
     "accept_continue_text": "Khi tiếp tục, bạn đồng ý với <0>Chính sách riêng tư của chúng mình</0>, <1>Điều khoản sử dụng của YouTube</1> và/hoặc <2> Chính sách riêng tư của Spotify</2> ở nơi áp dụng."
   },
+  "not_found": {
+    "title": "Không tìm thấy",
+    "description": "Bạn thoáng nghe tiếng nhạc bên tai nhưng không thấy gì ở trước mắt."
+  },
   "common": {
     "status": {
       "live": "trực tiếp"
@@ -36,6 +47,9 @@
     "time": {
       "ago": "{{time}} trước",
       "just_now": "bây giờ"
+    },
+    "navigation": {
+      "go_back": "Trở về"
     }
   }
 }

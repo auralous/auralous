@@ -20,6 +20,13 @@
   "map": {
     "title": "Map"
   },
+  "user": {
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": "Followers",
+    "followings": "Following",
+    "of_user": "{{username}}'s <0>{{name}}</0>"
+  },
   "sign_in": {
     "title": "Sign in",
     "continue_with": "Continue with {{name}}",
@@ -29,6 +36,10 @@
   "legal": {
     "accept_continue_text": "By continuing, you agree to our <0>friendly Privacy Policy</0>, <1>YouTube Terms of Service</1> and/or <2>Spotify Privacy Policy</2> where applicable."
   },
+  "not_found": {
+    "title": "Not Found",
+    "description": "You hear music in the distance, but nothing can be seen here."
+  },
   "common": {
     "status": {
       "live": "live"
@@ -36,6 +47,9 @@
     "time": {
       "ago": "{{time}} ago",
       "just_now": "just now"
+    },
+    "navigation": {
+      "go_back": "Go back"
     }
   }
 }

@@ -1,0 +1,50 @@
+import { Avatar } from "components/Avatar";
+import { Text } from "components/Typography";
+import { Maybe, User } from "gql/gql.gen";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Size } from "styles";
+
+interface UserListItemProps {
+  user: Maybe<User>;
+  loading?: boolean;
+}
+
+const styles = StyleSheet.create({
+  root: {
+    flexDirection: "row",
+    flex: 1,
+  },
+  info: {
+    padding: Size[1],
+    paddingLeft: Size[2],
+    justifyContent: "center",
+  },
+  name: {
+    lineHeight: Size[4],
+  },
+});
+
+const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
+  return (
+    <View style={styles.root}>
+      {user && (
+        <>
+          <Avatar
+            username={user.username}
+            href={user.profilePicture}
+            size={10}
+          />
+          <View style={styles.info}>
+            <Text style={styles.name} bold size="xl">
+              {user.username}
+            </Text>
+            {user.bio && <Text color="textTertiary" />}
+          </View>
+        </>
+      )}
+    </View>
+  );
+};
+
+export default UserListItem;

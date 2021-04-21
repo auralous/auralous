@@ -1,8 +1,8 @@
 import create from "zustand";
 
 export const Colors = {
-  background: "#121421",
-  backgroundSecondary: "#1C2031",
+  background: "#070915",
+  backgroundSecondary: "#0E111F",
   text: "#FFFFFF",
   textSecondary: "rgba(235, 325, 245, 0.6)",
   textTertiary: "rgba(235, 235, 245, 0.3)",

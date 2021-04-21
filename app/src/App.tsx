@@ -5,6 +5,7 @@ import { TabBar } from "components/TabBar";
 import { HomeContainer } from "containers/Home";
 import { MapContainer } from "containers/Map";
 import { SignInContainer } from "containers/SignIn";
+import { UserContainer } from "containers/User";
 import { useStoreAPI } from "gql/store";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -20,6 +21,7 @@ const linking: LinkingOptions = {
   config: {
     screens: {
       "sign-in": "sign-in",
+      user: "user/:username",
     },
   },
 };
@@ -57,6 +59,7 @@ const App = () => {
           <Stack.Navigator headerMode="none">
             <Stack.Screen name="main" component={MainScreen} />
             <Stack.Screen name="sign-in" component={SignInContainer} />
+            <Stack.Screen name="user" component={UserContainer} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

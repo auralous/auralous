@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import { ChevronLeft } from "assets/svg";
 import { Text } from "components/Typography";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Size, useColors } from "styles";
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
 const Header: React.FC<HeaderProps> = ({ title }) => {
   const navigation = useNavigation();
   const colors = useColors();
+  const { t } = useTranslation();
   return (
     <>
       <View style={styles.height} />
@@ -50,6 +52,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
             <TouchableOpacity
               style={[styles.button]}
               onPress={() => navigation.goBack()}
+              accessibilityLabel={t("common.navigation.go_back")}
             >
               <ChevronLeft stroke={colors.text} height={27} width={27} />
             </TouchableOpacity>
