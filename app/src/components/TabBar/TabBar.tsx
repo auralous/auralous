@@ -12,13 +12,15 @@ import Tab from "./Tab";
 
 const styles = StyleSheet.create({
   root: {
-    height: 52,
     width: "100%",
     flexDirection: "row",
-  },
-  add: {
-    padding: Size[6],
-    borderRadius: 9999,
+    zIndex: 100,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    borderTopWidth: 1,
+    alignItems: "center",
+    height: Size[16],
   },
 });
 
@@ -33,7 +35,10 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
 
   return (
     <View
-      style={[styles.root, { backgroundColor: colors.backgroundSecondary }]}
+      style={[
+        styles.root,
+        { backgroundColor: colors.background, borderTopColor: colors.outline },
+      ]}
     >
       <Tab
         name="home"

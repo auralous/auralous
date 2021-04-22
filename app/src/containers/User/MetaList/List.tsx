@@ -5,7 +5,7 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 import { LoadingBlock } from "components/Loading";
 import { Heading } from "components/Typography";
-import { Maybe } from "graphql/jsutils/Maybe";
+import { Maybe } from "gql/gql.gen";
 import React, { useCallback, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { ListRenderItem, StyleSheet, View } from "react-native";

@@ -1,11 +1,11 @@
 import create from "zustand";
 
-export const Colors = {
-  background: "#070915",
-  backgroundSecondary: "#0E111F",
+const Colors = {
+  background: "#191925",
+  backgroundSecondary: "#222433",
   text: "#FFFFFF",
-  textSecondary: "rgba(235, 325, 245, 0.6)",
-  textTertiary: "rgba(235, 235, 245, 0.3)",
+  textSecondary: "rgba(255, 255, 255, 0.6)",
+  textTertiary: "rgba(255, 255, 255, 0.3)",
   primary: "#FF2E54",
   primaryDark: "#D12948",
   primaryText: "#FFFFFF",
@@ -16,6 +16,7 @@ export const Colors = {
   spotifyLabel: "#FFFFFF",
   google: "#FFFFFF",
   googleLabel: "rgba(0, 0, 0, 0.5)",
+  outline: "rgba(103,126,186,.08)",
 };
 
 export type ThemeColor = keyof typeof Colors;

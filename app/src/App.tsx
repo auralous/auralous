@@ -4,10 +4,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { TabBar } from "components/TabBar";
 import { HomeContainer } from "containers/Home";
 import { MapContainer } from "containers/Map";
+import { NewContainer } from "containers/New";
 import { SignInContainer } from "containers/SignIn";
 import { UserContainer } from "containers/User";
 import { useStoreAPI } from "gql/store";
 import React from "react";
+import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useColors } from "styles";
 import { Provider } from "urql";
@@ -42,6 +44,7 @@ const App = () => {
   return (
     <Provider value={client}>
       <SafeAreaProvider style={{ backgroundColor: colors.background }}>
+        <StatusBar backgroundColor={colors.background} animated />
         <NavigationContainer
           theme={{
             dark: true,
@@ -60,6 +63,7 @@ const App = () => {
             <Stack.Screen name="main" component={MainScreen} />
             <Stack.Screen name="sign-in" component={SignInContainer} />
             <Stack.Screen name="user" component={UserContainer} />
+            <Stack.Screen name="new" component={NewContainer} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

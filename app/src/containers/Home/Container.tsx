@@ -1,9 +1,9 @@
 import { Heading, Text } from "components/Typography";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StatusBar, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Size, useColors } from "styles";
+import { Size } from "styles";
 import FeaturedPlaylists from "./FeaturedPlaylists";
 import FriendsPlaylists from "./FriendsPlaylists";
 import Header from "./Header";
@@ -52,10 +52,8 @@ const container = StyleSheet.create({
 
 const Container: React.FC = () => {
   const { t } = useTranslation();
-  const colors = useColors();
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar backgroundColor={colors.background} animated />
       <ScrollView style={container.root}>
         <Header />
         <Section title={t("home.featured_playlists.title")}>

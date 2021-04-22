@@ -11,6 +11,9 @@ interface PlaylistItemProps {
 }
 
 const styles = StyleSheet.create({
+  root: {
+    width: Size[32],
+  },
   image: {
     width: Size[32],
     height: Size[32],
@@ -31,10 +34,10 @@ const PlaylistItem: React.FC<PlaylistItemProps> = ({ playlist }) => {
   const { t } = useTranslation();
 
   return (
-    <View>
+    <View style={styles.root}>
       <Image source={{ uri: playlist?.image }} style={styles.image} />
       <View style={styles.meta}>
-        <Text style={styles.metaTitle} bold="medium">
+        <Text style={styles.metaTitle} bold="medium" numberOfLines={1}>
           {playlist?.name}
         </Text>
         <Text size="sm" color="textTertiary">

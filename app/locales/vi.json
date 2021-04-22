@@ -20,6 +20,20 @@
   "map": {
     "title": "Bản đồ"
   },
+  "new": {
+    "title": "Tạo Story",
+    "select_songs": {
+      "title": "Chọn bài hát",
+      "songs": "Bài hát",
+      "playlists": "Playlist",
+      "num_selected": "{{count}} bài hát được chọn",
+      "search_placeholder": "Nhập từ khóa hoặc URL để tìm kiếm",
+      "finish_add": "Hoàn tất thêm nhạc"
+    },
+    "quick_share": {
+      "title": "Chia sẻ nhanh"
+    }
+  },
   "user": {
     "follow": "Theo dõi",
     "unfollow": "Bỏ theo dõi",
@@ -40,6 +54,14 @@
     "title": "Không tìm thấy",
     "description": "Bạn thoáng nghe tiếng nhạc bên tai nhưng không thấy gì ở trước mắt."
   },
+  "music_platform": {
+    "youtube": {
+      "name": "YouTube"
+    },
+    "spotify": {
+      "name": "Spotify"
+    }
+  },
   "common": {
     "status": {
       "live": "trực tiếp"
@@ -50,6 +72,9 @@
     },
     "navigation": {
       "go_back": "Trở về"
+    },
+    "label": {
+      "search": "Tìm kiếm"
     }
   }
 }

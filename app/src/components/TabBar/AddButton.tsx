@@ -1,28 +1,63 @@
+import { useNavigation } from "@react-navigation/core";
 import { Plus } from "assets/svg";
 import React from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import Animated, {
+  useAnimatedStyle,
+  withSpring,
+} from "react-native-reanimated";
 import { Size } from "styles";
+import { useSharedValuePressed } from "utils/animation";
 
 const styles = StyleSheet.create({
-  wrapper: {
-    padding: Size[6],
+  root: {
+    width: Size[12],
+    height: Size[12],
     borderRadius: 9999,
-    transform: [{ translateY: -30 }],
+    overflow: "hidden",
+  },
+  view: {
+    width: "100%",
+    height: "100%",
+  },
+  gradient: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
 const AddButton: React.FC = () => {
+  const { t } = useTranslation();
+
+  const navigation = useNavigation();
+
+  const [pressed, pressedProps] = useSharedValuePressed();
+
+  const animatedStyles = useAnimatedStyle<ViewStyle>(() => ({
+    opacity: withSpring(pressed.value ? 0.5 : 1, { stiffness: 200 }),
+  }));
+
   return (
-    <Pressable>
-      <LinearGradient colors={["#ff2e54", "#f5a524"]} style={styles.wrapper}>
-        <Plus
-          width={Size[6]}
-          height={Size[6]}
-          strokeWidth={3}
-          stroke="#ffffff"
-        />
-      </LinearGradient>
+    <Pressable
+      style={styles.root}
+      onPress={() => navigation.navigate("new")}
+      accessibilityLabel={t("new.title")}
+      {...pressedProps}
+    >
+      <Animated.View style={[styles.view, animatedStyles]}>
+        <LinearGradient colors={["#ff2e54", "#f5a524"]} style={styles.gradient}>
+          <Plus
+            width={Size[6]}
+            height={Size[6]}
+            strokeWidth={3}
+            stroke="#ffffff"
+          />
+        </LinearGradient>
+      </Animated.View>
     </Pressable>
   );
 };

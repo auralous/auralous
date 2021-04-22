@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
   },
   text: {
     lineHeight: 18,
+    color: "#ffffff",
+  },
+  textSecondary: {
+    color: "rgba(255, 255, 255, 0.75)",
   },
   tag: {
     paddingHorizontal: Size[3],
@@ -76,7 +80,10 @@ const StoryItem: React.FC<StoryItemProps> = ({ story, creator }) => {
               {creator?.username}
             </Text>
             {Boolean(story?.text) && (
-              <Text style={styles.text} color="textSecondary" numberOfLines={3}>
+              <Text
+                style={[styles.text, styles.textSecondary]}
+                numberOfLines={3}
+              >
                 {story?.text}
               </Text>
             )}
@@ -90,7 +97,9 @@ const StoryItem: React.FC<StoryItemProps> = ({ story, creator }) => {
                 },
               ]}
             >
-              <Text size="xs">{dateStr}</Text>
+              <Text size="xs" style={{ color: "#ffffff" }}>
+                {dateStr}
+              </Text>
             </View>
           </View>
         </View>
