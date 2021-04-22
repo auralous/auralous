@@ -41,6 +41,9 @@
     "followings": "Đang theo dõi",
     "of_user": "<0>{{name}}</0> của {{username}}"
   },
+  "playlist": {
+    "my_playlists": "Playlist của bạn"
+  },
   "sign_in": {
     "title": "Đăng nhập",
     "continue_with": "Tiếp tục với {{name}}",
@@ -75,6 +78,9 @@
     },
     "label": {
       "search": "Tìm kiếm"
+    },
+    "result": {
+      "search_empty": "Không tìm thấy kết quả. Thử lại nào!"
     }
   }
 }

@@ -10,14 +10,10 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { Size, useColors } from "styles";
+import { commonStyles } from "styles/common";
 import { useSharedValuePressed } from "utils/animation";
 
 const styles = StyleSheet.create({
-  pressable: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   content: {
     justifyContent: "center",
     alignItems: "center",
@@ -55,7 +51,10 @@ const Tab: React.FC<TabProps> = ({
 
   return (
     <Pressable
-      style={[styles.pressable, currentRoute !== name && { opacity: 0.5 }]}
+      style={[
+        commonStyles.fillAndCentered,
+        currentRoute !== name && { opacity: 0.5 },
+      ]}
       onPress={() => navigation.navigate(name)}
       {...pressedProps}
     >

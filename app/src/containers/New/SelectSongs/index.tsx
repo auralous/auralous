@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Size } from "styles";
 import Header from "./Header";
 import SearchInput from "./SearchInput";
+import SelectByPlaylists from "./SelectByPlaylists";
 import SelectBySongs from "./SelectBySongs";
 import SelectedTrackListView from "./SelectedTrackListView";
 import Tabs from "./Tabs";
@@ -13,7 +14,10 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingTop: Size[2],
-    paddingHorizontal: Size[6],
+    paddingHorizontal: Size[4],
+    flex: 1,
+  },
+  contentInner: {
     flex: 1,
   },
 });
@@ -25,10 +29,15 @@ const SelectSongs: React.FC<{ onFinish(selectedTracks: string[]): void }> = ({
   const [search, setSearch] = useState("");
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
 
+  useEffect(() => {
+    setSearch("");
+  }, [tab]);
+
   const addTracks = useCallback(
     (trackIds: string[]) => setSelectedTracks((prev) => [...prev, ...trackIds]),
     []
   );
+
   const removeTrack = useCallback(
     (trackId: string) =>
       setSelectedTracks((prev) => prev.filter((t) => t !== trackId)),
@@ -41,14 +50,23 @@ const SelectSongs: React.FC<{ onFinish(selectedTracks: string[]): void }> = ({
       <Tabs tab={tab} setTab={setTab} />
       <SearchInput value={search} onSubmit={setSearch} />
       <View style={styles.content}>
-        {tab === "songs" ? (
-          <SelectBySongs
-            search={search}
-            selectedTracks={selectedTracks}
-            addTracks={addTracks}
-            removeTrack={removeTrack}
-          />
-        ) : null}
+        <View style={styles.contentInner}>
+          {tab === "songs" ? (
+            <SelectBySongs
+              search={search}
+              selectedTracks={selectedTracks}
+              addTracks={addTracks}
+              removeTrack={removeTrack}
+            />
+          ) : (
+            <SelectByPlaylists
+              search={search}
+              selectedTracks={selectedTracks}
+              addTracks={addTracks}
+              removeTrack={removeTrack}
+            />
+          )}
+        </View>
       </View>
       <SelectedTrackListView
         addTracks={addTracks}

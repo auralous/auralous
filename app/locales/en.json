@@ -41,6 +41,9 @@
     "followings": "Following",
     "of_user": "{{username}}'s <0>{{name}}</0>"
   },
+  "playlist": {
+    "my_playlists": "My Playlists"
+  },
   "sign_in": {
     "title": "Sign in",
     "continue_with": "Continue with {{name}}",
@@ -75,6 +78,9 @@
     },
     "label": {
       "search": "Search"
+    },
+    "result": {
+      "search_empty": "Cannot not find anything here. Let's try something different!"
     }
   }
 }

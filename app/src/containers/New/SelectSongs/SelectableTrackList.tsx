@@ -1,25 +1,24 @@
 import { LoadingBlock } from "components/Loading";
 import { Track } from "gql/gql.gen";
 import React, { useCallback } from "react";
-import { ListRenderItem, StyleSheet, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import SelectTrackListItem from "./SelectTrackListItem";
+import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
+import { commonStyles } from "styles/common";
+import SearchEmpty from "./SearchEmpty";
+import SelectableTrackListItem from "./SelectableTrackListItem";
 import { TrackListProps } from "./types";
 
 const styles = StyleSheet.create({
-  loading: {
+  list: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 
-const SelectTrackList: React.FC<
+const SelectableTrackList: React.FC<
   TrackListProps & { fetching: boolean; data: Track[] }
 > = ({ selectedTracks, addTracks, removeTrack, fetching, data }) => {
   const renderItem = useCallback<ListRenderItem<Track>>(
     ({ item }) => (
-      <SelectTrackListItem
+      <SelectableTrackListItem
         selectedTracks={selectedTracks}
         addTracks={addTracks}
         removeTrack={removeTrack}
@@ -32,12 +31,17 @@ const SelectTrackList: React.FC<
 
   if (fetching)
     return (
-      <View style={styles.loading}>
+      <View style={commonStyles.fillAndCentered}>
         <LoadingBlock />
       </View>
     );
 
-  return <FlatList data={data} renderItem={renderItem} />;
+  return (
+    <>
+      {data.length === 0 && <SearchEmpty />}
+      <FlatList style={styles.list} data={data} renderItem={renderItem} />
+    </>
+  );
 };
 
-export default SelectTrackList;
+export default SelectableTrackList;

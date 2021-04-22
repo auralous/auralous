@@ -2,8 +2,7 @@ import { Check, Plus } from "assets/svg";
 import { TrackItem } from "components/Track";
 import { Track } from "gql/gql.gen";
 import React, { useMemo } from "react";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Size, useColors } from "styles";
 import { TrackListProps } from "./types";
 
@@ -20,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SelectTrackListItem: React.FC<
+const SelectableTrackListItem: React.FC<
   Omit<TrackListProps, "selectedTracks"> & {
     track: Track;
     selectedTracks: string[] | boolean;
@@ -56,4 +55,4 @@ const SelectTrackListItem: React.FC<
   );
 };
 
-export default SelectTrackListItem;
+export default SelectableTrackListItem;

@@ -1,6 +1,6 @@
 import { useSearchTrackQuery } from "gql/gql.gen";
 import React from "react";
-import SelectTrackList from "./SelectTrackList";
+import SelectableTrackList from "./SelectableTrackList";
 import { TrackListProps } from "./types";
 
 interface SelectBySongsProps extends TrackListProps {
@@ -20,7 +20,7 @@ const SelectBySongs: React.FC<SelectBySongsProps> = ({
   if (!search) return null;
 
   return (
-    <SelectTrackList
+    <SelectableTrackList
       selectedTracks={selectedTracks}
       data={searchTrack || []}
       addTracks={addTracks}

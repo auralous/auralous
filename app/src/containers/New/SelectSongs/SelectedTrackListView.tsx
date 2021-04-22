@@ -8,20 +8,20 @@ import {
   StatusBar,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   useWindowDimensions,
   View,
 } from "react-native";
 import DraggableFlatList, {
   RenderItemParams,
 } from "react-native-draggable-flatlist";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import { Size, useColors } from "styles";
-import SelectTrackListItem from "./SelectTrackListItem";
+import SelectableTrackListItem from "./SelectableTrackListItem";
 import { TrackListProps } from "./types";
 
 const cascadedHeight = 112;
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const LoadableSelectTrackListItem: React.FC<
+const LoadableSelectableTrackListItem: React.FC<
   {
     params: RenderItemParams<string>;
   } & Pick<TrackListProps, "addTracks" | "removeTrack">
@@ -65,7 +65,7 @@ const LoadableSelectTrackListItem: React.FC<
       style={[styles.flexFill, params.isActive && { opacity: 0.5 }]}
       onLongPress={params.drag}
     >
-      <SelectTrackListItem
+      <SelectableTrackListItem
         addTracks={addTracks}
         removeTrack={removeTrack}
         key={params.item}
@@ -114,7 +114,7 @@ const SelectedTrackListView: React.FC<
 
   const renderItem = useCallback(
     (params: RenderItemParams<string>) => (
-      <LoadableSelectTrackListItem
+      <LoadableSelectableTrackListItem
         params={params}
         addTracks={addTracks}
         removeTrack={removeTrack}
@@ -138,7 +138,7 @@ const SelectedTrackListView: React.FC<
         ]}
       >
         <View style={styles.metaBar}>
-          <Text align="center" color="textSecondary">
+          <Text color="textSecondary">
             {t("new.select_songs.num_selected", {
               count: selectedTracks.length,
             })}

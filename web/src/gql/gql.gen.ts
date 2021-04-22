@@ -279,6 +279,7 @@ export type Query = {
   playlistTracks: Array<Track>;
   playlistsFeatured: Array<Playlist>;
   playlistsFriends: Array<Playlist>;
+  playlistsSearch: Array<Playlist>;
   queue?: Maybe<Queue>;
   story?: Maybe<Story>;
   storyUsers?: Maybe<Array<Scalars['String']>>;
@@ -326,6 +327,11 @@ export type QueryPlaylistArgs = {
 
 export type QueryPlaylistTracksArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryPlaylistsSearchArgs = {
+  query: Scalars['String'];
 };
 
 
@@ -676,6 +682,16 @@ export type PlaylistsFriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PlaylistsFriendsQuery = { playlistsFriends: Array<(
+    { __typename: 'Playlist' }
+    & PlaylistPartsFragment
+  )> };
+
+export type PlaylistsSearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type PlaylistsSearchQuery = { playlistsSearch: Array<(
     { __typename: 'Playlist' }
     & PlaylistPartsFragment
   )> };
@@ -1110,6 +1126,11 @@ export const PlaylistsFriendsDocument: DocumentNode = {"kind":"Document","defini
 
 export function usePlaylistsFriendsQuery(options: Omit<Urql.UseQueryArgs<PlaylistsFriendsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PlaylistsFriendsQuery>({ query: PlaylistsFriendsDocument, ...options });
+};
+export const PlaylistsSearchDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"playlistsSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playlistsSearch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]};
+
+export function usePlaylistsSearchQuery(options: Omit<Urql.UseQueryArgs<PlaylistsSearchQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PlaylistsSearchQuery>({ query: PlaylistsSearchDocument, ...options });
 };
 export const PlaylistAddTracksDocument: DocumentNode = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"playlistAddTracks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"trackIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playlistAddTracks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"trackIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"trackIds"}}}]}]}}]};
 

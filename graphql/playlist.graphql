@@ -37,6 +37,12 @@ query playlistsFriends {
   }
 }
 
+query playlistsSearch($query: String!) {
+  playlistsSearch(query: $query) {
+    ...PlaylistParts
+  }
+}
+
 mutation playlistAddTracks($id: ID!, $trackIds: [String!]!) {
   playlistAddTracks(id: $id, trackIds: $trackIds)
 }

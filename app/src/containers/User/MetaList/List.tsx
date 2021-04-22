@@ -14,6 +14,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { Size, useColors } from "styles";
+import { commonStyles } from "styles/common";
 import useStoreBottomSheet from "./store";
 
 interface ListProps<Item = any> {
@@ -35,7 +36,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[4],
   },
   heading: { marginBottom: Size[3] },
-  loading: { flex: 1, justifyContent: "center", alignItems: "center" },
   flatList: { flex: 1 },
 });
 
@@ -113,7 +113,7 @@ const List: React.FC<ListProps> = ({
         />
       </Heading>
       {fetching && !data ? (
-        <View style={styles.loading}>
+        <View style={commonStyles.fillAndCentered}>
           <LoadingBlock />
         </View>
       ) : (

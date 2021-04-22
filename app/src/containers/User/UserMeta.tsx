@@ -3,8 +3,7 @@ import { Text } from "components/Typography";
 import { User, useUserStatQuery } from "gql/gql.gen";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Size } from "styles";
 import useStoreBottomSheet from "./MetaList/store";
 

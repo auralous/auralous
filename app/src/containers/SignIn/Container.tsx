@@ -10,6 +10,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Config from "react-native-config";
 import { Size, useColors } from "styles";
+import { commonStyles } from "styles/common";
 import ContinueButton from "./ContinueButton";
 
 const styles = StyleSheet.create({
@@ -35,9 +36,6 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
   top: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     paddingBottom: Size[12],
   },
   logo: {
@@ -70,7 +68,7 @@ const Container: React.FC = () => {
     <>
       <Header title={t("sign_in.title")} />
       <View style={styles.root}>
-        <View style={styles.top}>
+        <View style={[commonStyles.fillAndCentered, styles.top]}>
           <Logo
             style={styles.logo}
             width={256}
