@@ -1,16 +1,16 @@
-import { Avatar } from "components/Avatar";
-import { Text } from "components/Typography";
-import { Maybe, Story, User } from "gql/gql.gen";
+import { Avatar } from "@/components/Avatar";
+import { Text } from "@/components/Typography";
+import { Maybe, Story, User } from "@/gql/gql.gen";
+import { Size, useColors } from "@/styles";
+import { format as formatMs } from "@/utils/ms";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, StyleSheet, View } from "react-native";
-import { Size, useColors } from "styles";
-import { format as formatMs } from "utils/ms";
 
 interface StoryItemProps {
   story: Maybe<Story>;
   creator: Maybe<User>;
-  loading?: boolean;
+  fetching?: boolean;
 }
 
 const styles = StyleSheet.create({

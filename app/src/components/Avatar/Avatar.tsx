@@ -1,7 +1,7 @@
+import { useColors } from "@/styles";
+import { Size } from "@/styles/layout";
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { useColors } from "styles";
-import { Size } from "styles/layout";
 
 interface AvatarProps {
   href: string;

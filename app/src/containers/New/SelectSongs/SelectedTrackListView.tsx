@@ -1,26 +1,26 @@
-import { ChevronDown, ChevronUp } from "assets/svg";
-import { Button } from "components/Button";
-import { Text } from "components/Typography";
-import { Track, useTrackQuery } from "gql/gql.gen";
+import { IconChevronDown, IconChevronUp } from "@/assets/svg";
+import { Button } from "@/components/Button";
+import { Text } from "@/components/Typography";
+import { Track, useTrackQuery } from "@/gql/gql.gen";
+import { Size, useColors } from "@/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   StatusBar,
   StyleSheet,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   useWindowDimensions,
   View,
 } from "react-native";
 import DraggableFlatList, {
   RenderItemParams,
 } from "react-native-draggable-flatlist";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Size, useColors } from "styles";
 import SelectableTrackListItem from "./SelectableTrackListItem";
 import { TrackListProps } from "./types";
 
@@ -145,9 +145,9 @@ const SelectedTrackListView: React.FC<
           </Text>
           <TouchableOpacity onPress={toggle} style={styles.toggleExpand}>
             {expanded ? (
-              <ChevronDown stroke={colors.textSecondary} />
+              <IconChevronDown stroke={colors.textSecondary} />
             ) : (
-              <ChevronUp stroke={colors.textSecondary} />
+              <IconChevronUp stroke={colors.textSecondary} />
             )}
           </TouchableOpacity>
         </View>

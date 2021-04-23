@@ -1,10 +1,11 @@
-import { Search, X } from "assets/svg";
-import { Input } from "components/Input";
+import { IconSearch, IconX } from "@/assets/svg";
+import { Input } from "@/components/Input";
+import { Size, useColors } from "@/styles";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Size, useColors } from "styles";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   root: {
@@ -40,11 +41,15 @@ const SearchInput: React.FC<{
         endIcon={
           value.trim().length > 0 ? (
             <TouchableOpacity onPress={resetSearch}>
-              <X stroke={colors.textSecondary} width={20} height={20} />
+              <IconX stroke={colors.textSecondary} width={20} height={20} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={onHandleSubmit}>
-              <Search stroke={colors.textSecondary} width={20} height={20} />
+              <IconSearch
+                stroke={colors.textSecondary}
+                width={20}
+                height={20}
+              />
             </TouchableOpacity>
           )
         }

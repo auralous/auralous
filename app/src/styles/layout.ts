@@ -1,4 +1,4 @@
-import { ArrayElement } from "utils/types";
+import { ArrayElement } from "@/utils/types";
 
 const sizeUnitValues = [
   0,

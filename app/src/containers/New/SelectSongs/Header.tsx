@@ -1,10 +1,11 @@
+import { IconChevronLeft } from "@/assets/svg";
+import { Text } from "@/components/Typography";
+import { Size, useColors } from "@/styles";
 import { useNavigation } from "@react-navigation/core";
-import { ChevronLeft } from "assets/svg";
-import { Text } from "components/Typography";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Size, useColors } from "styles";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   header: {
@@ -38,7 +39,7 @@ const Header: React.FC = () => {
           style={[styles.button]}
           onPress={() => navigation.goBack()}
         >
-          <ChevronLeft stroke={colors.text} height={27} width={27} />
+          <IconChevronLeft stroke={colors.text} height={27} width={27} />
           <Text bold>{t("common.navigation.go_back")}</Text>
         </TouchableOpacity>
       </View>

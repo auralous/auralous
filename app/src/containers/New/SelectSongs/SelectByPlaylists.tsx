@@ -1,15 +1,16 @@
-import { X } from "assets/svg";
-import { Text } from "components/Typography";
+import { IconX } from "@/assets/svg";
+import { Text } from "@/components/Typography";
 import {
   Playlist,
   useMyPlaylistsQuery,
   usePlaylistsSearchQuery,
   usePlaylistTracksQuery,
-} from "gql/gql.gen";
+} from "@/gql/gql.gen";
+import { Size, useColors } from "@/styles";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Size, useColors } from "styles";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import SelectablePlaylistList from "./SelectablePlaylistList";
 import SelectableTrackList from "./SelectableTrackList";
 import { TrackListProps } from "./types";
@@ -91,7 +92,7 @@ const PlaylistTrackList: React.FC<
       <View style={styles.metaBar}>
         <Text bold>{playlist.name}</Text>
         <TouchableOpacity style={styles.close} onPress={close}>
-          <X stroke={colors.textSecondary} />
+          <IconX stroke={colors.textSecondary} />
         </TouchableOpacity>
       </View>
       <View style={styles.tracks}>

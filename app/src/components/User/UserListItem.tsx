@@ -1,13 +1,13 @@
-import { Avatar } from "components/Avatar";
-import { Text } from "components/Typography";
-import { Maybe, User } from "gql/gql.gen";
+import { Avatar } from "@/components/Avatar";
+import { Text } from "@/components/Typography";
+import { Maybe, User } from "@/gql/gql.gen";
+import { Size } from "@/styles";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Size } from "styles";
 
 interface UserListItemProps {
   user: Maybe<User>;
-  loading?: boolean;
+  fetching?: boolean;
 }
 
 const styles = StyleSheet.create({

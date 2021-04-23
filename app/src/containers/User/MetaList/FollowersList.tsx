@@ -1,4 +1,4 @@
-import { User, useUserFollowersQuery } from "gql/gql.gen";
+import { User, useUserFollowersQuery } from "@/gql/gql.gen";
 import React from "react";
 import { ListRenderItem } from "react-native";
 import List from "./List";

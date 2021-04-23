@@ -1,9 +1,9 @@
+import { Avatar } from "@/components/Avatar";
+import { Button } from "@/components/Button";
+import { Heading } from "@/components/Typography";
+import { useMe } from "@/gql/hooks";
 import { useNavigation } from "@react-navigation/core";
 import { useLinkTo } from "@react-navigation/native";
-import { Avatar } from "components/Avatar";
-import { Button } from "components/Button";
-import { Heading } from "components/Typography";
-import { useMe } from "gql/hooks";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";

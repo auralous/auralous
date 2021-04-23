@@ -1,16 +1,11 @@
-import { LoadingBlock } from "components/Loading";
-import { PlaylistListItem } from "components/Playlist";
-import { Playlist } from "gql/gql.gen";
+import { LoadingBlock } from "@/components/Loading";
+import { PlaylistListItem } from "@/components/Playlist";
+import { Playlist } from "@/gql/gql.gen";
+import { Size } from "@/styles";
+import { commonStyles } from "@/styles/common";
 import React, { useCallback } from "react";
-import {
-  FlatList,
-  ListRenderItem,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { Size } from "styles";
-import { commonStyles } from "styles/common";
+import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import SearchEmpty from "./SearchEmpty";
 
 interface SelectablePlaylistListProps {

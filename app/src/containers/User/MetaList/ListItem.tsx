@@ -1,16 +1,16 @@
-import { useNavigation } from "@react-navigation/core";
-import { Button, TextButton } from "components/Button";
-import { UserListItem } from "components/User";
+import { Button, TextButton } from "@/components/Button";
+import { UserListItem } from "@/components/User";
 import {
   useUserFollowMutation,
   useUserQuery,
   useUserUnfollowMutation,
-} from "gql/gql.gen";
-import { useMe, useMeFollowings } from "gql/hooks";
+} from "@/gql/gql.gen";
+import { useMe, useMeFollowings } from "@/gql/hooks";
+import { Size } from "@/styles";
+import { useNavigation } from "@react-navigation/core";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { Size } from "styles";
 
 const styles = StyleSheet.create({
   root: {
@@ -45,7 +45,7 @@ const ListItem: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <View style={styles.root}>
-      <UserListItem user={data?.user || null} loading={fetching} />
+      <UserListItem user={data?.user || null} fetching={fetching} />
       {followed ? (
         <TextButton
           onPress={() =>

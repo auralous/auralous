@@ -1,15 +1,15 @@
-import { SvgByPlatformName } from "assets/svg/constants";
-import { Spacer } from "components/Spacer";
-import { Text } from "components/Typography";
-import { Maybe, Track } from "gql/gql.gen";
+import { SvgByPlatformName } from "@/assets/svg/constants";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
+import { Maybe, Track } from "@/gql/gql.gen";
+import { Size, useColors } from "@/styles";
+import { msToHMS } from "@/utils/ms";
 import React, { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { Size, useColors } from "styles";
-import { msToHMS } from "utils/ms";
 
 interface TrackItemProps {
   track: Maybe<Track>;
-  loading?: boolean;
+  fetching?: boolean;
 }
 
 const styles = StyleSheet.create({

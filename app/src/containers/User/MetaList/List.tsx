@@ -1,11 +1,13 @@
+import { LoadingBlock } from "@/components/Loading";
+import { Heading } from "@/components/Typography";
+import { Maybe } from "@/gql/gql.gen";
+import { Size, useColors } from "@/styles";
+import { commonStyles } from "@/styles/common";
 import BottomSheet, {
   BottomSheetBackdropProps,
   BottomSheetBackgroundProps,
   BottomSheetFlatList,
 } from "@gorhom/bottom-sheet";
-import { LoadingBlock } from "components/Loading";
-import { Heading } from "components/Typography";
-import { Maybe } from "gql/gql.gen";
 import React, { useCallback, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { ListRenderItem, StyleSheet, View } from "react-native";
@@ -13,8 +15,6 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { Size, useColors } from "styles";
-import { commonStyles } from "styles/common";
 import useStoreBottomSheet from "./store";
 
 interface ListProps<Item = any> {

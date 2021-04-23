@@ -1,6 +1,6 @@
+import { Size } from "@/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Size } from "styles";
 import Header from "./Header";
 import SearchInput from "./SearchInput";
 import SelectByPlaylists from "./SelectByPlaylists";

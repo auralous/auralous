@@ -1,8 +1,8 @@
-import { LoadingBlock } from "components/Loading";
-import { Track } from "gql/gql.gen";
+import { LoadingBlock } from "@/components/Loading";
+import { Track } from "@/gql/gql.gen";
+import { commonStyles } from "@/styles/common";
 import React, { useCallback } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
-import { commonStyles } from "styles/common";
 import SearchEmpty from "./SearchEmpty";
 import SelectableTrackListItem from "./SelectableTrackListItem";
 import { TrackListProps } from "./types";

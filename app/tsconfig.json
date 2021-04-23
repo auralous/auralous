@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "target": "esnext",
     "module": "commonjs",
     "lib": ["es2017"],
@@ -9,7 +13,6 @@
     "isolatedModules": true,
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": "src",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": false,

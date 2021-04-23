@@ -1,4 +1,4 @@
-import { useSearchTrackQuery } from "gql/gql.gen";
+import { useSearchTrackQuery } from "@/gql/gql.gen";
 import React from "react";
 import SelectableTrackList from "./SelectableTrackList";
 import { TrackListProps } from "./types";

@@ -1,6 +1,6 @@
+import { useColors } from "@/styles";
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import { useColors } from "styles";
 
 const LoadingBlock: React.FC = () => {
   const colors = useColors();

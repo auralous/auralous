@@ -1,6 +1,6 @@
+import { ASYNC_STORAGE_AUTH } from "@/utils/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Client } from "@urql/core";
-import { ASYNC_STORAGE_AUTH } from "utils/auth";
 import create, { State } from "zustand";
 import { createUrqlClient } from "./urql";
 

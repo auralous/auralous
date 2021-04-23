@@ -1,11 +1,12 @@
-import { Music, PlayListAdd } from "assets/svg";
-import { Header } from "components/Header";
-import { Spacer } from "components/Spacer";
-import { Text } from "components/Typography";
+import { IconMusic, PlayListAdd } from "@/assets/svg";
+import { Header } from "@/components/Header";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
+import { Size } from "@/styles";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ColorValue, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Size } from "styles";
+import { ColorValue, StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   root: {
@@ -67,7 +68,7 @@ const ModeSelector: React.FC<{
         <Choice
           backgroundColor="#4C2889"
           title={t("new.quick_share.title")}
-          icon={<Music stroke="white" width={Size[8]} height={Size[8]} />}
+          icon={<IconMusic stroke="white" width={Size[8]} height={Size[8]} />}
           onPress={() => setMode("select")}
         />
       </View>

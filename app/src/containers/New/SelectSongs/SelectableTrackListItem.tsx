@@ -1,9 +1,10 @@
-import { Check, Plus } from "assets/svg";
-import { TrackItem } from "components/Track";
-import { Track } from "gql/gql.gen";
+import { IconCheck, IconPlus } from "@/assets/svg";
+import { TrackItem } from "@/components/Track";
+import { Track } from "@/gql/gql.gen";
+import { Size, useColors } from "@/styles";
 import React, { useMemo } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Size, useColors } from "styles";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { TrackListProps } from "./types";
 
 const styles = StyleSheet.create({
@@ -46,9 +47,9 @@ const SelectableTrackListItem: React.FC<
         }
       >
         {selected ? (
-          <Check stroke={colors.text} />
+          <IconCheck stroke={colors.text} />
         ) : (
-          <Plus stroke={colors.text} />
+          <IconPlus stroke={colors.text} />
         )}
       </TouchableOpacity>
     </View>

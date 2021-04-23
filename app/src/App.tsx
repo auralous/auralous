@@ -1,17 +1,17 @@
+import { TabBar } from "@/components/TabBar";
+import { HomeContainer } from "@/containers/Home";
+import { MapContainer } from "@/containers/Map";
+import { NewContainer } from "@/containers/New";
+import { SignInContainer } from "@/containers/SignIn";
+import { UserContainer } from "@/containers/User";
+import { useStoreAPI } from "@/gql/store";
+import { useColors } from "@/styles";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { TabBar } from "components/TabBar";
-import { HomeContainer } from "containers/Home";
-import { MapContainer } from "containers/Map";
-import { NewContainer } from "containers/New";
-import { SignInContainer } from "containers/SignIn";
-import { UserContainer } from "containers/User";
-import { useStoreAPI } from "gql/store";
 import React from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useColors } from "styles";
 import { Provider } from "urql";
 
 const Tab = createBottomTabNavigator();

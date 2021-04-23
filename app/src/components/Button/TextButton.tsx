@@ -1,7 +1,7 @@
-import { Text } from "components/Typography";
+import { Text } from "@/components/Typography";
+import { Size, useColors } from "@/styles";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import { Size, useColors } from "styles";
 
 interface TextButtonProps {
   onPress(): void;

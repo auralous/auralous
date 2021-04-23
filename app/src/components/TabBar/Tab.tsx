@@ -1,17 +1,17 @@
+import { Text } from "@/components/Typography";
+import { Size, useColors } from "@/styles";
+import { commonStyles } from "@/styles/common";
+import { useSharedValuePressed } from "@/utils/animation";
 import {
   BottomTabBarOptions,
   BottomTabBarProps,
 } from "@react-navigation/bottom-tabs";
-import { Text } from "components/Typography";
 import React from "react";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import { Size, useColors } from "styles";
-import { commonStyles } from "styles/common";
-import { useSharedValuePressed } from "utils/animation";
 
 const styles = StyleSheet.create({
   content: {

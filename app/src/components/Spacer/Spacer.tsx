@@ -1,6 +1,6 @@
+import { Size } from "@/styles";
 import React from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
-import { Size } from "styles";
 
 interface SpacerProps {
   x?: keyof typeof Size;

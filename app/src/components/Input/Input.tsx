@@ -1,3 +1,4 @@
+import { Size, useColors } from "@/styles";
 import React from "react";
 import { Control, useController } from "react-hook-form";
 import {
@@ -6,7 +7,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { Size, useColors } from "styles";
 
 interface InputProps<TFieldValues> {
   endIcon?: React.ReactNode;

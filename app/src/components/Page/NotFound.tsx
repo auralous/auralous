@@ -1,11 +1,11 @@
+import { IconChevronLeft } from "@/assets/svg";
+import { Button } from "@/components/Button";
+import { Heading, Text } from "@/components/Typography";
+import { Size, useColors } from "@/styles";
 import { useNavigation } from "@react-navigation/core";
-import { ChevronLeft } from "assets/svg";
-import { Button } from "components/Button";
-import { Heading, Text } from "components/Typography";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { Size, useColors } from "styles";
 
 const styles = StyleSheet.create({
   root: {
@@ -37,7 +37,11 @@ const NotFound: React.FC = () => {
       <View style={styles.buttonContainer}>
         <Button
           icon={
-            <ChevronLeft stroke={colors.controlText} width={24} height={24} />
+            <IconChevronLeft
+              stroke={colors.controlText}
+              width={24}
+              height={24}
+            />
           }
           onPress={() => navigation.goBack()}
         >

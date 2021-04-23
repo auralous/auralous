@@ -1,12 +1,12 @@
+import { IconHome, IconMapPin } from "@/assets/svg";
+import { Size, useColors } from "@/styles";
 import {
   BottomTabBarOptions,
   BottomTabBarProps,
 } from "@react-navigation/bottom-tabs";
-import { Home, MapPin } from "assets/svg";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { Size, useColors } from "styles";
 import AddButton from "./AddButton";
 import Tab from "./Tab";
 
@@ -43,7 +43,7 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
       <Tab
         name="home"
         title={t("home.title")}
-        Icon={Home}
+        Icon={IconHome}
         navigation={navigation}
         currentRoute={currentRoute}
       />
@@ -51,7 +51,7 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
       <Tab
         name="map"
         title={t("map.title")}
-        Icon={MapPin}
+        Icon={IconMapPin}
         navigation={navigation}
         currentRoute={currentRoute}
       />

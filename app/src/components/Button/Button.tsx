@@ -1,12 +1,12 @@
-import { Text } from "components/Typography";
+import { Text } from "@/components/Typography";
+import { Size, useColors } from "@/styles";
+import { useSharedValuePressed } from "@/utils/animation";
 import React from "react";
 import { ColorValue, Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { Size, useColors } from "styles";
-import { useSharedValuePressed } from "utils/animation";
 
 interface ButtonProps {
   onPress(): void;

@@ -1,8 +1,8 @@
+import { Header } from "@/components/Header";
+import { LoadingBlock } from "@/components/Loading";
+import { NotFound } from "@/components/Page";
+import { User, useUserQuery } from "@/gql/gql.gen";
 import { useRoute } from "@react-navigation/core";
-import { Header } from "components/Header";
-import { LoadingBlock } from "components/Loading";
-import { NotFound } from "components/Page";
-import { User, useUserQuery } from "gql/gql.gen";
 import React, { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import FollowersList from "./MetaList/FollowersList";

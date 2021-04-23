@@ -1,16 +1,16 @@
+import { IconGoogleColor, IconSpotify, Logo } from "@/assets/svg";
+import { Header } from "@/components/Header";
+import { Spacer } from "@/components/Spacer";
+import { Text, TextLink } from "@/components/Typography";
+import { useMe } from "@/gql/hooks";
+import { useAuthActions } from "@/gql/store";
+import { Size, useColors } from "@/styles";
+import { commonStyles } from "@/styles/common";
 import { useNavigation, useRoute } from "@react-navigation/core";
-import { GoogleColor, Logo, Spotify } from "assets/svg";
-import { Header } from "components/Header";
-import { Spacer } from "components/Spacer";
-import { Text, TextLink } from "components/Typography";
-import { useMe } from "gql/hooks";
-import { useAuthActions } from "gql/store";
 import React, { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Config from "react-native-config";
-import { Size, useColors } from "styles";
-import { commonStyles } from "styles/common";
 import ContinueButton from "./ContinueButton";
 
 const styles = StyleSheet.create({
@@ -83,14 +83,14 @@ const Container: React.FC = () => {
           <ContinueButton
             platform="google"
             name="Google"
-            icon={<GoogleColor width={21} height={21} />}
+            icon={<IconGoogleColor width={21} height={21} />}
             listenOn="YouTube"
           />
           <Spacer y={4} />
           <ContinueButton
             platform="spotify"
             name="Spotify"
-            icon={<Spotify width={21} height={21} fill="#ffffff" />}
+            icon={<IconSpotify width={21} height={21} fill="#ffffff" />}
             listenOn="YouTube"
           />
         </View>

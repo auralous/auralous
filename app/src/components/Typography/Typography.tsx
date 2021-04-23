@@ -1,3 +1,4 @@
+import { Size, ThemeColor, useColors } from "@/styles";
 import React from "react";
 import {
   Linking,
@@ -6,7 +7,6 @@ import {
   Text as RNText,
   TextStyle,
 } from "react-native";
-import { Size, ThemeColor, useColors } from "styles";
 
 const levelSize = [40, 36, 30, 24, 20, 18];
 

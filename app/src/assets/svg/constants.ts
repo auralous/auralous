@@ -1,10 +1,10 @@
-import { PlatformName } from "gql/gql.gen";
-import { Spotify, Youtube } from ".";
+import { PlatformName } from "@/gql/gql.gen";
+import { IconSpotify, IconYoutube } from ".";
 
 export const SvgByPlatformName: Record<
   PlatformName,
   React.FunctionComponent<React.SVGProps<SVGSVGElement>>
 > = {
-  [PlatformName.Youtube]: Youtube,
-  [PlatformName.Spotify]: Spotify,
+  [PlatformName.Youtube]: IconYoutube,
+  [PlatformName.Spotify]: IconSpotify,
 };

@@ -1,13 +1,13 @@
-import { Text } from "components/Typography";
-import { Maybe, Playlist } from "gql/gql.gen";
+import { Text } from "@/components/Typography";
+import { Maybe, Playlist } from "@/gql/gql.gen";
+import { Size } from "@/styles";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
-import { Size } from "styles";
 
 interface PlaylistItemProps {
   playlist: Maybe<Playlist>;
-  loading?: boolean;
+  fetching?: boolean;
 }
 
 const styles = StyleSheet.create({

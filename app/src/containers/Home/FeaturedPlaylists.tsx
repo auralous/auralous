@@ -1,8 +1,8 @@
-import { PlaylistItem } from "components/Playlist";
-import { usePlaylistsFeaturedQuery } from "gql/gql.gen";
+import { PlaylistItem } from "@/components/Playlist";
+import { usePlaylistsFeaturedQuery } from "@/gql/gql.gen";
+import { Size } from "@/styles";
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Size } from "styles";
 
 const styles = StyleSheet.create({
   playlistItemWrapper: {

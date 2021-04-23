@@ -1,8 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { authExchange } from "@urql/exchange-auth";
-import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
-import { IntrospectionData } from "@urql/exchange-graphcache/dist/types/ast";
-import { simplePagination } from "@urql/exchange-graphcache/extras";
 import {
   MeDocument,
   MeQuery,
@@ -15,7 +10,13 @@ import {
   UserFollowingsDocument,
   UserFollowingsQuery,
   UserFollowingsQueryVariables,
-} from "gql/gql.gen";
+} from "@/gql/gql.gen";
+import { ASYNC_STORAGE_AUTH } from "@/utils/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { authExchange } from "@urql/exchange-auth";
+import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
+import { IntrospectionData } from "@urql/exchange-graphcache/dist/types/ast";
+import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { createClient as createWSClient } from "graphql-ws";
 import Config from "react-native-config";
 import {
@@ -26,7 +27,6 @@ import {
   makeOperation,
   subscriptionExchange,
 } from "urql";
-import { ASYNC_STORAGE_AUTH } from "utils/auth";
 import schema from "./schema.json";
 import { nextCursorPagination } from "./_pagination";
 

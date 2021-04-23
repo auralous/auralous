@@ -1,8 +1,8 @@
-import { StoryItem } from "components/Story";
-import { Story, useStoriesQuery, useUserQuery } from "gql/gql.gen";
+import { StoryItem } from "@/components/Story";
+import { Story, useStoriesQuery, useUserQuery } from "@/gql/gql.gen";
+import { Size } from "@/styles";
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Size } from "styles";
 
 const styles = StyleSheet.create({
   storyItemWrapper: {

@@ -1,5 +1,7 @@
+import { IconPlus } from "@/assets/svg";
+import { Size } from "@/styles";
+import { useSharedValuePressed } from "@/utils/animation";
 import { useNavigation } from "@react-navigation/core";
-import { Plus } from "assets/svg";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
@@ -8,8 +10,6 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import { Size } from "styles";
-import { useSharedValuePressed } from "utils/animation";
 
 const styles = StyleSheet.create({
   root: {
@@ -50,7 +50,7 @@ const AddButton: React.FC = () => {
     >
       <Animated.View style={[styles.view, animatedStyles]}>
         <LinearGradient colors={["#ff2e54", "#f5a524"]} style={styles.gradient}>
-          <Plus
+          <IconPlus
             width={Size[6]}
             height={Size[6]}
             strokeWidth={3}
