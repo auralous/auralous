@@ -39,7 +39,12 @@ const SelectableTrackList: React.FC<
   return (
     <>
       {data.length === 0 && <SearchEmpty />}
-      <FlatList style={styles.list} data={data} renderItem={renderItem} />
+      <FlatList
+        style={styles.list}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
     </>
   );
 };

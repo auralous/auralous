@@ -1,7 +1,8 @@
+import { Header } from "@/components/Header";
 import { Size } from "@/styles";
 import React, { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import Header from "./Header";
 import SearchInput from "./SearchInput";
 import SelectByPlaylists from "./SelectByPlaylists";
 import SelectBySongs from "./SelectBySongs";
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
 const SelectSongs: React.FC<{ onFinish(selectedTracks: string[]): void }> = ({
   onFinish,
 }) => {
+  const { t } = useTranslation();
   const [tab, setTab] = useState<"songs" | "playlists">("songs");
   const [search, setSearch] = useState("");
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
@@ -46,7 +48,7 @@ const SelectSongs: React.FC<{ onFinish(selectedTracks: string[]): void }> = ({
 
   return (
     <View style={styles.root}>
-      <Header />
+      <Header title="" leftText={t("common.navigation.go_back")} />
       <Tabs tab={tab} setTab={setTab} />
       <SearchInput value={search} onSubmit={setSearch} />
       <View style={styles.content}>

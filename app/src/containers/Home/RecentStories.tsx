@@ -1,8 +1,10 @@
 import { StoryItem } from "@/components/Story";
 import { Story, useStoriesQuery, useUserQuery } from "@/gql/gql.gen";
+import { usePlayer } from "@/player";
 import { Size } from "@/styles";
 import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   storyItemWrapper: {
@@ -15,11 +17,16 @@ const StoryItemWithData: React.FC<{ story: Story }> = ({ story }) => {
     variables: { id: story.creatorId },
   });
 
+  const player = usePlayer();
+
   return (
     <>
-      <View style={styles.storyItemWrapper}>
+      <TouchableOpacity
+        style={styles.storyItemWrapper}
+        onPress={() => player.playContext(`story:${story.id}`)}
+      >
         <StoryItem story={story} creator={user || null} />
-      </View>
+      </TouchableOpacity>
     </>
   );
 };

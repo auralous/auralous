@@ -1,20 +1,16 @@
+import {
+  BottomSheetCustomBackdrop,
+  BottomSheetCustomBackground,
+} from "@/components/BottomSheet";
 import { LoadingBlock } from "@/components/Loading";
 import { Heading } from "@/components/Typography";
 import { Maybe } from "@/gql/gql.gen";
-import { Size, useColors } from "@/styles";
+import { Size } from "@/styles";
 import { commonStyles } from "@/styles/common";
-import BottomSheet, {
-  BottomSheetBackdropProps,
-  BottomSheetBackgroundProps,
-  BottomSheetFlatList,
-} from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import React, { useCallback, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { ListRenderItem, StyleSheet, View } from "react-native";
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-} from "react-native-reanimated";
 import useStoreBottomSheet from "./store";
 
 interface ListProps<Item = any> {
@@ -40,31 +36,6 @@ const styles = StyleSheet.create({
 });
 
 const snapPoints = [0, "100%"];
-
-const CustomBackground: React.FC<BottomSheetBackgroundProps> = ({ style }) => {
-  const colors = useColors();
-  return (
-    <View style={[style, { backgroundColor: colors.backgroundSecondary }]} />
-  );
-};
-
-const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
-  const containerAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(animatedIndex.value, [0, 1], [0, 1]),
-  }));
-
-  const colors = useColors();
-
-  return (
-    <Animated.View
-      style={[
-        style,
-        { backgroundColor: colors.background, zIndex: -1 },
-        containerAnimatedStyle,
-      ]}
-    />
-  );
-};
 
 const List: React.FC<ListProps> = ({
   renderItem,
@@ -94,8 +65,8 @@ const List: React.FC<ListProps> = ({
       ref={sheetRef}
       snapPoints={snapPoints}
       onChange={handleSheetChange}
-      backgroundComponent={CustomBackground}
-      backdropComponent={CustomBackdrop}
+      backgroundComponent={BottomSheetCustomBackground}
+      backdropComponent={BottomSheetCustomBackdrop}
       style={styles.root}
     >
       <Heading level={4} color="textSecondary" style={styles.heading}>

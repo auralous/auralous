@@ -1,26 +1,20 @@
 import { IconChevronDown, IconChevronUp } from "@/assets/svg";
+import {
+  BottomSheetCustomBackdrop,
+  BottomSheetCustomBackground,
+} from "@/components/BottomSheet";
 import { Button } from "@/components/Button";
 import { Text } from "@/components/Typography";
 import { Track, useTrackQuery } from "@/gql/gql.gen";
 import { Size, useColors } from "@/styles";
-import React, { useCallback, useEffect, useState } from "react";
+import BottomSheet from "@gorhom/bottom-sheet";
+import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import DraggableFlatList, {
   RenderItemParams,
 } from "react-native-draggable-flatlist";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
 import SelectableTrackListItem from "./SelectableTrackListItem";
 import { TrackListProps } from "./types";
 
@@ -31,13 +25,9 @@ const styles = StyleSheet.create({
     height: cascadedHeight,
   },
   root: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    width: "100%",
     paddingHorizontal: Size[3],
-    paddingVertical: Size[4],
-    borderTopWidth: 2,
+    paddingTop: Size[4],
+    paddingBottom: Size[16],
   },
   metaBar: {
     flexDirection: "row",
@@ -51,6 +41,15 @@ const styles = StyleSheet.create({
   },
   toggleExpand: {
     padding: Size[1],
+  },
+  bottomContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    paddingHorizontal: Size[3],
+    height: Size[16],
+    justifyContent: "center",
+    width: "100%",
   },
 });
 
@@ -76,6 +75,8 @@ const LoadableSelectableTrackListItem: React.FC<
   );
 };
 
+const snapPoints = [cascadedHeight, "100%"];
+
 const SelectedTrackListView: React.FC<
   TrackListProps & {
     setSelectedTracks(selectedTracks: string[]): void;
@@ -88,29 +89,20 @@ const SelectedTrackListView: React.FC<
   setSelectedTracks,
   onFinish,
 }) => {
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
   const [expanded, setExpanded] = useState(false);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    setExpanded(!!index);
+  }, []);
+
   const { t } = useTranslation();
 
-  const sharedExpanded = useSharedValue(false);
-
-  const toggle = useCallback(() => setExpanded((expanded) => !expanded), []);
-
-  useEffect(() => {
-    sharedExpanded.value = expanded;
-  }, [expanded, sharedExpanded]);
-
-  const windowHeight = useWindowDimensions().height;
-
-  const colors = useColors();
-
-  const animatedStyles = useAnimatedStyle(() => ({
-    height: withTiming(
-      sharedExpanded.value
-        ? windowHeight - (StatusBar.currentHeight || 20)
-        : cascadedHeight,
-      { duration: 250 }
-    ),
-  }));
+  const toggle = useCallback(
+    () => bottomSheetRef.current?.snapTo(expanded ? 0 : 1),
+    [expanded]
+  );
 
   const renderItem = useCallback(
     (params: RenderItemParams<string>) => (
@@ -124,18 +116,19 @@ const SelectedTrackListView: React.FC<
     [addTracks, removeTrack]
   );
 
+  const colors = useColors();
+
   return (
     <>
       <View style={styles.placeholder} />
-      <Animated.View
-        style={[
-          styles.root,
-          animatedStyles,
-          {
-            backgroundColor: colors.backgroundSecondary,
-            borderTopColor: colors.outline,
-          },
-        ]}
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        backdropComponent={BottomSheetCustomBackdrop}
+        backgroundComponent={BottomSheetCustomBackground}
+        handleComponent={null}
+        style={styles.root}
       >
         <View style={styles.metaBar}>
           <Text color="textSecondary">
@@ -158,14 +151,20 @@ const SelectedTrackListView: React.FC<
           onDragEnd={({ data }) => setSelectedTracks(data)}
           style={styles.flexFill}
         />
+      </BottomSheet>
+      <View
+        style={[
+          styles.bottomContainer,
+          { backgroundColor: colors.backgroundSecondary },
+        ]}
+      >
         <Button
           onPress={() => onFinish(selectedTracks)}
           disabled={selectedTracks.length === 0}
-          color="primary"
         >
           {t("new.select_songs.finish_add")}
         </Button>
-      </Animated.View>
+      </View>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { Size, useColors } from "@/styles";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Control, useController } from "react-hook-form";
 import {
   ReturnKeyTypeOptions,
@@ -17,7 +17,7 @@ interface InputProps<TFieldValues> {
   placeholder?: string;
   returnKeyType?: ReturnKeyTypeOptions;
   accessibilityLabel?: string;
-  onSubmit(): void;
+  onSubmit?: () => void;
 }
 
 const styles = StyleSheet.create({
@@ -53,9 +53,16 @@ const Input: React.FC<InputProps<any>> = ({
     defaultValue,
     name,
   });
+  const [isFocused, setIsFocused] = useState(false);
+  const onFocused = useCallback(() => setIsFocused(true), []);
+  const onBlur = useCallback(() => setIsFocused(false), []);
+
   return (
     <View
-      style={[styles.root, { backgroundColor: colors.backgroundSecondary }]}
+      style={[
+        styles.root,
+        { backgroundColor: isFocused ? colors.inputFocused : colors.input },
+      ]}
     >
       {startIcon}
       <TextInput
@@ -64,9 +71,11 @@ const Input: React.FC<InputProps<any>> = ({
         placeholder={placeholder}
         value={field.value}
         onChangeText={field.onChange}
-        style={[styles.input, { color: colors.textSecondary }]}
+        style={[styles.input, { color: colors.inputText }]}
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmit}
+        onFocus={onFocused}
+        onBlur={onBlur}
       />
       {endIcon}
     </View>
