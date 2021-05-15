@@ -32,6 +32,10 @@
     },
     "quick_share": {
       "title": "Quick Share"
+    },
+    "final": {
+      "text_label": "How would you describe the story",
+      "start": "Start Story"
     }
   },
   "user": {
@@ -43,6 +47,25 @@
   },
   "playlist": {
     "my_playlists": "My Playlists"
+  },
+  "story": {
+    "story_of_x": "{{username}}'s story"
+  },
+  "player": {
+    "title": "Player",
+    "pause": "Pause",
+    "play": "Play",
+    "skip_forward": "Skip forward",
+    "skip_backward": "Skip backward"
+  },
+  "queue": {
+    "title": "Queue"
+  },
+  "chat": {
+    "title": "Chat",
+    "input_label": "Enter chat message",
+    "play": "{{username}} played a song",
+    "join": "{{username}} has joined"
   },
   "sign_in": {
     "title": "Sign in",
@@ -81,6 +104,9 @@
     },
     "result": {
       "search_empty": "Cannot not find anything here. Let's try something different!"
+    },
+    "input": {
+      "max_x_characters": "Max {{max}} characters"
     }
   }
 }

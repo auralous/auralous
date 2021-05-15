@@ -48,7 +48,7 @@ const SelectSongs: React.FC<{ onFinish(selectedTracks: string[]): void }> = ({
 
   return (
     <View style={styles.root}>
-      <Header title="" leftText={t("common.navigation.go_back")} />
+      <Header title="" backText={t("common.navigation.go_back")} />
       <Tabs tab={tab} setTab={setTab} />
       <SearchInput value={search} onSubmit={setSearch} />
       <View style={styles.content}>

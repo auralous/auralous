@@ -78,7 +78,7 @@ const Create: React.FC<{
 
   return (
     <>
-      <Header title="" leftText={route.params.modeTitle} />
+      <Header title="" backText={route.params.modeTitle} />
       <View style={styles.root}>
         <View style={styles.meta}>
           <Text bold align="center">

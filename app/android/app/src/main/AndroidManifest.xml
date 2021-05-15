@@ -13,5 +13,26 @@
         <data android:scheme="auralous"/>
       </intent-filter>
     </activity>
+    <activity
+      android:exported="true"
+      android:name="com.spotify.sdk.android.authentication.AuthCallbackActivity"
+      android:theme="@android:style/Theme.Translucent.NoTitleBar"
+    >
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data
+          android:scheme="auralous"
+          android:host="oauth"
+        />
+      </intent-filter>
+    </activity>
+    <activity
+      android:name="com.spotify.sdk.android.authentication.LoginActivity"
+      android:theme="@android:style/Theme.Translucent.NoTitleBar"
+    >
+    </activity>
   </application>
 </manifest>

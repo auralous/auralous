@@ -1,4 +1,5 @@
 import { IconHome, IconMapPin } from "@/assets/svg";
+import { PlayerBar } from "@/player";
 import { Size, useColors } from "@/styles";
 import {
   BottomTabBarOptions,
@@ -13,14 +14,17 @@ import Tab from "./Tab";
 const styles = StyleSheet.create({
   root: {
     width: "100%",
-    flexDirection: "row",
     zIndex: 100,
     position: "absolute",
     bottom: 0,
     left: 0,
-    borderTopWidth: 1,
-    alignItems: "center",
+  },
+  tabBars: {
+    flex: 1,
     height: Size[16],
+    alignItems: "center",
+    borderTopWidth: 1,
+    flexDirection: "row",
   },
 });
 
@@ -34,27 +38,33 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
   const currentRoute = state.routeNames[state.index];
 
   return (
-    <View
-      style={[
-        styles.root,
-        { backgroundColor: colors.background, borderTopColor: colors.outline },
-      ]}
-    >
-      <Tab
-        name="home"
-        title={t("home.title")}
-        Icon={IconHome}
-        navigation={navigation}
-        currentRoute={currentRoute}
-      />
-      <AddButton />
-      <Tab
-        name="map"
-        title={t("map.title")}
-        Icon={IconMapPin}
-        navigation={navigation}
-        currentRoute={currentRoute}
-      />
+    <View style={styles.root}>
+      <PlayerBar />
+      <View
+        style={[
+          styles.tabBars,
+          {
+            backgroundColor: colors.background,
+            borderTopColor: colors.outline,
+          },
+        ]}
+      >
+        <Tab
+          name="home"
+          title={t("home.title")}
+          Icon={IconHome}
+          navigation={navigation}
+          currentRoute={currentRoute}
+        />
+        <AddButton />
+        <Tab
+          name="map"
+          title={t("map.title")}
+          Icon={IconMapPin}
+          navigation={navigation}
+          currentRoute={currentRoute}
+        />
+      </View>
     </View>
   );
 };

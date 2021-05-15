@@ -32,6 +32,10 @@
     },
     "quick_share": {
       "title": "Chia sẻ nhanh"
+    },
+    "final": {
+      "text_label": "Bạn miêu tả story này như thế nào",
+      "start": "Bắt đầu Story"
     }
   },
   "user": {
@@ -43,6 +47,16 @@
   },
   "playlist": {
     "my_playlists": "Playlist của bạn"
+  },
+  "story": {
+    "story_of_x": "Story của {{username}}"
+  },
+  "player": {
+    "title": "Trình phát",
+    "pause": "Tạm dừng",
+    "play": "Phát nhạc",
+    "skip_forward": "Bỏ qua bài",
+    "skip_backward": "Phát bài trước"
   },
   "sign_in": {
     "title": "Đăng nhập",
@@ -81,6 +95,9 @@
     },
     "result": {
       "search_empty": "Không tìm thấy kết quả. Thử lại nào!"
+    },
+    "input": {
+      "max_x_characters": "Tối đa {{max}} kí tự"
     }
   }
 }

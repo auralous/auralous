@@ -6,6 +6,7 @@ import { SignInContainer } from "@/containers/SignIn";
 import { UserContainer } from "@/containers/User";
 import { useStoreAPI } from "@/gql/store";
 import { useColors } from "@/styles";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -13,6 +14,7 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "urql";
+import { PlayerProvider } from "./player";
 
 const Tab = createBottomTabNavigator();
 
@@ -42,32 +44,38 @@ const App = () => {
   const client = useStoreAPI((state) => state.client);
 
   return (
-    <Provider value={client}>
-      <SafeAreaProvider style={{ backgroundColor: colors.background }}>
-        <StatusBar backgroundColor={colors.background} animated />
-        <NavigationContainer
-          theme={{
-            dark: true,
-            colors: {
-              background: colors.background,
-              card: "transparent",
-              border: "transparent",
-              primary: colors.primary,
-              text: colors.text,
-              notification: colors.backgroundSecondary,
-            },
-          }}
-          linking={linking}
-        >
-          <Stack.Navigator headerMode="none">
-            <Stack.Screen name="main" component={MainScreen} />
-            <Stack.Screen name="sign-in" component={SignInContainer} />
-            <Stack.Screen name="user" component={UserContainer} />
-            <Stack.Screen name="new" component={NewContainer} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </Provider>
+    <NavigationContainer
+      theme={{
+        dark: true,
+        colors: {
+          background: colors.background,
+          card: "transparent",
+          border: "transparent",
+          primary: colors.primary,
+          text: colors.text,
+          notification: colors.backgroundSecondary,
+        },
+      }}
+      linking={linking}
+    >
+      <Provider value={client}>
+        <BottomSheetModalProvider>
+          <PlayerProvider>
+            <BottomSheetModalProvider>
+              <SafeAreaProvider style={{ backgroundColor: colors.background }}>
+                <StatusBar backgroundColor={colors.background} animated />
+                <Stack.Navigator headerMode="none">
+                  <Stack.Screen name="main" component={MainScreen} />
+                  <Stack.Screen name="sign-in" component={SignInContainer} />
+                  <Stack.Screen name="user" component={UserContainer} />
+                  <Stack.Screen name="new" component={NewContainer} />
+                </Stack.Navigator>
+              </SafeAreaProvider>
+            </BottomSheetModalProvider>
+          </PlayerProvider>
+        </BottomSheetModalProvider>
+      </Provider>
+    </NavigationContainer>
   );
 };
 

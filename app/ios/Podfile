@@ -17,6 +17,9 @@ target 'Auralous' do
     # Pods for testing
   end
 
+	pod 'RNEventEmitter', :path => "../node_modules/react-native-events"
+	pod 'RNSpotifyRemote', :path => '../node_modules/react-native-spotify-remote'
+
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
