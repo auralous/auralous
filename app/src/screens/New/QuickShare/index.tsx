@@ -1,11 +1,11 @@
 import { HeaderBackable } from "@/components/Header";
+import { RootStackParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { RootStackParamListNew } from "../types";
 
 const styles = StyleSheet.create({
   root: {
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 const QuickShare: React.FC<
-  StackScreenProps<RootStackParamListNew, "new/select-songs">
+  StackScreenProps<RootStackParamList, RouteName.NewQuickShare>
 > = ({ navigation }) => {
   const { t } = useTranslation();
 
@@ -27,7 +27,7 @@ const QuickShare: React.FC<
 
   const onFinish = useCallback(
     (selectedTracks: string[]) => {
-      navigation.navigate("new/final", {
+      navigation.navigate(RouteName.NewFinal, {
         selectedTracks,
         modeTitle: title,
       });

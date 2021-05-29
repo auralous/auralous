@@ -4,9 +4,10 @@ import { Spacer } from "@/components/Spacer";
 import { Text, TextLink } from "@/components/Typography";
 import { useMe } from "@/gql/hooks";
 import { useAuthActions } from "@/gql/store";
+import { RootStackParamList, RouteName } from "@/screens/types";
 import { Size, useColors } from "@/styles";
 import { commonStyles } from "@/styles/common";
-import { useNavigation, useRoute } from "@react-navigation/core";
+import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -43,10 +44,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const Container: React.FC = () => {
+const SignInScreen: React.FC<
+  StackScreenProps<RootStackParamList, RouteName.SignIn>
+> = ({ route, navigation }) => {
   const { t } = useTranslation();
-  const route = useRoute();
-  const navigation = useNavigation();
   const { signIn } = useAuthActions();
 
   const me = useMe();
@@ -67,7 +68,7 @@ const Container: React.FC = () => {
   return (
     <>
       <HeaderBackable title={t("sign_in.title")} />
-      <View style={styles.root}>
+      <View>
         <View style={[commonStyles.fillAndCentered, styles.top]}>
           <Logo
             style={styles.logo}
@@ -140,4 +141,4 @@ const Container: React.FC = () => {
   );
 };
 
-export default Container;
+export default SignInScreen;

@@ -1,14 +1,15 @@
 import { TabBar } from "@/components/TabBar";
-import { HomeContainer } from "@/containers/Home";
-import { MapContainer } from "@/containers/Map";
+import { useStoreAPI } from "@/gql/store";
+import HomeScreen from "@/screens/Home";
+import MapScreen from "@/screens/Map";
 import {
   CreateFinalScreen,
   QuickShareScreen,
   SelectSongsScreen,
-} from "@/containers/New";
-import { SignInContainer } from "@/containers/SignIn";
-import { UserContainer } from "@/containers/User";
-import { useStoreAPI } from "@/gql/store";
+} from "@/screens/New";
+import SignInScreen from "@/screens/SignIn";
+import { RouteName } from "@/screens/types";
+import UserScreen from "@/screens/User";
 import { Size, useColors } from "@/styles";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -40,8 +41,8 @@ const MainScreen: React.FC = () => {
       sceneContainerStyle={{ paddingBottom: Size[16] }}
       tabBar={(props) => <TabBar {...props} />}
     >
-      <Tab.Screen name="home" component={HomeContainer} />
-      <Tab.Screen name="map" component={MapContainer} />
+      <Tab.Screen name="home" component={HomeScreen} />
+      <Tab.Screen name="map" component={MapScreen} />
     </Tab.Navigator>
   );
 };
@@ -73,18 +74,21 @@ const App = () => {
                 <StatusBar backgroundColor={colors.background} animated />
                 <Stack.Navigator headerMode="none">
                   <Stack.Screen name="main" component={MainScreen} />
-                  <Stack.Screen name="sign-in" component={SignInContainer} />
-                  <Stack.Screen name="user" component={UserContainer} />
                   <Stack.Screen
-                    name="new/select-songs"
+                    name={RouteName.SignIn}
+                    component={SignInScreen}
+                  />
+                  <Stack.Screen name={RouteName.User} component={UserScreen} />
+                  <Stack.Screen
+                    name={RouteName.NewSelectSongs}
                     component={SelectSongsScreen}
                   />
                   <Stack.Screen
-                    name="new/quick-share"
+                    name={RouteName.NewQuickShare}
                     component={QuickShareScreen}
                   />
                   <Stack.Screen
-                    name="new/quick"
+                    name={RouteName.NewFinal}
                     component={CreateFinalScreen}
                   />
                 </Stack.Navigator>

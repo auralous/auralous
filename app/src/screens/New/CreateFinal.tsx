@@ -5,14 +5,14 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { useStoryCreateMutation } from "@/gql/gql.gen";
 import { usePlayer } from "@/player";
+import { RootStackParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles";
-import { RouteProp, useNavigation } from "@react-navigation/core";
+import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SelectableTrackList } from "./SelectableTrackList";
-import { RootStackParamListNew } from "./types";
 
 const styles = StyleSheet.create({
   root: {
@@ -35,15 +35,13 @@ interface FormValues {
   text: string;
 }
 
-const Create: React.FC<{
-  route: RouteProp<RootStackParamListNew, "new/final">;
-}> = ({ route }) => {
+const Create: React.FC<
+  StackScreenProps<RootStackParamList, RouteName.NewFinal>
+> = ({ route, navigation }) => {
   const { t } = useTranslation();
   const { control, handleSubmit } = useForm<FormValues>();
 
   const [{ fetching }, createStory] = useStoryCreateMutation();
-
-  const navigation = useNavigation();
 
   const player = usePlayer();
 
@@ -56,7 +54,7 @@ const Create: React.FC<{
       });
       if (result.data?.storyCreate) {
         player.playContext(`story:${result.data.storyCreate.id}`);
-        navigation.navigate(`home`);
+        navigation.navigate(RouteName.Home);
       }
     },
     [route, createStory, navigation, player]

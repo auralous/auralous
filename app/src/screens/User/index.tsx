@@ -2,17 +2,14 @@ import { HeaderBackable } from "@/components/Header";
 import { LoadingBlock } from "@/components/Loading";
 import { NotFound } from "@/components/Page";
 import { User, useUserQuery } from "@/gql/gql.gen";
-import { useRoute } from "@react-navigation/core";
+import { RootStackParamList, RouteName } from "@/screens/types";
+import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import FollowersList from "./MetaList/FollowersList";
 import FollowingsList from "./MetaList/FollowingsList";
 import useStoreBottomSheet from "./MetaList/store";
 import UserMeta from "./UserMeta";
-
-interface RouteParams {
-  username: string;
-}
 
 const styles = StyleSheet.create({
   fullPageCenter: {
@@ -38,9 +35,10 @@ const ContainerContent: React.FC<{ user: User }> = ({ user }) => {
   );
 };
 
-const Container: React.FC = () => {
-  const route = useRoute();
-  const username = (route.params as RouteParams | undefined)?.username;
+const UserScreen: React.FC<
+  StackScreenProps<RootStackParamList, RouteName.User>
+> = ({ route }) => {
+  const username = route.params.username;
   const [{ data: { user } = { user: undefined }, fetching }] = useUserQuery({
     variables: { username },
     pause: !username,
@@ -63,4 +61,4 @@ const Container: React.FC = () => {
   );
 };
 
-export default Container;
+export default UserScreen;

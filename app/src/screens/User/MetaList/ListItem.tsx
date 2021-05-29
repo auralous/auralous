@@ -6,6 +6,7 @@ import {
   useUserUnfollowMutation,
 } from "@/gql/gql.gen";
 import { useMe, useMeFollowings } from "@/gql/hooks";
+import { RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { useNavigation } from "@react-navigation/core";
 import React, { useMemo } from "react";
@@ -49,7 +50,7 @@ const ListItem: React.FC<{ id: string }> = ({ id }) => {
       {followed ? (
         <TextButton
           onPress={() =>
-            me ? unfollowUser({ id }) : navigation.navigate("login")
+            me ? unfollowUser({ id }) : navigation.navigate(RouteName.SignIn)
           }
           disabled={fetchingUnfollow}
         >
@@ -58,7 +59,7 @@ const ListItem: React.FC<{ id: string }> = ({ id }) => {
       ) : (
         <Button
           onPress={() =>
-            me ? followUser({ id }) : navigation.navigate("login")
+            me ? followUser({ id }) : navigation.navigate(RouteName.SignIn)
           }
           disabled={fetchingFollow}
         >

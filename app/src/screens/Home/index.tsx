@@ -8,6 +8,7 @@ import FriendsPlaylists from "./FriendsPlaylists";
 import HeaderSection from "./Header";
 import RecentStories from "./RecentStories";
 import Section from "./Section";
+import { HomeScreenProps } from "./types";
 
 const styles = StyleSheet.create({
   root: {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Container: React.FC = () => {
+const HomeScreen: React.FC<HomeScreenProps> = () => {
   const { t } = useTranslation();
   return (
     <SafeAreaView>
@@ -51,4 +52,4 @@ const Container: React.FC = () => {
   );
 };
 
-export default Container;
+export default HomeScreen;

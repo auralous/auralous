@@ -5,11 +5,12 @@ import { Heading } from "@/components/Typography";
 import { useMe } from "@/gql/hooks";
 import { Size } from "@/styles";
 import { useNavigation } from "@react-navigation/core";
-import { useLinkTo } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
+import { RouteName } from "../types";
 import AddButton from "./AddButton";
+import { HomeScreenProps } from "./types";
 
 const styles = StyleSheet.create({
   root: {
@@ -29,8 +30,7 @@ const styles = StyleSheet.create({
 const Header: React.FC = () => {
   const { t } = useTranslation();
   const me = useMe();
-  const navigation = useNavigation();
-  const linkTo = useLinkTo();
+  const navigation = useNavigation<HomeScreenProps["navigation"]>();
 
   return (
     <View style={styles.root}>
@@ -38,7 +38,13 @@ const Header: React.FC = () => {
       <View style={styles.right}>
         {me ? (
           <>
-            <Pressable onPress={() => linkTo(`/user/${me.user.username}`)}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate(RouteName.User, {
+                  username: me.user.username,
+                })
+              }
+            >
               <Avatar
                 size={12}
                 href={me.user.profilePicture}
@@ -50,7 +56,7 @@ const Header: React.FC = () => {
           </>
         ) : (
           <>
-            <Button onPress={() => navigation.navigate("sign-in")}>
+            <Button onPress={() => navigation.navigate(RouteName.SignIn)}>
               {t("sign_in.title")}
             </Button>
           </>

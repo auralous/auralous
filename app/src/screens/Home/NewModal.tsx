@@ -13,6 +13,7 @@ import React, { forwardRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RouteName } from "../types";
 
 const styles = StyleSheet.create({
   newModal: {
@@ -49,7 +50,7 @@ const NewModal = forwardRef<BottomSheetModal>(function NewModal(props, ref) {
   const dismiss = useCallback(() => ref.current.dismiss(), [ref]);
 
   const navigateTo = useCallback(
-    (path: "new/select-songs" | "new/quick-share") => {
+    (path: RouteName) => {
       navigation.navigate(path);
       dismiss();
     },
@@ -79,7 +80,7 @@ const NewModal = forwardRef<BottomSheetModal>(function NewModal(props, ref) {
         <View style={styles.choices}>
           <TouchableOpacity
             style={[styles.choice, { backgroundColor: "#EB367F" }]}
-            onPress={() => navigateTo("new/select-songs")}
+            onPress={() => navigateTo(RouteName.NewSelectSongs)}
           >
             <IconPlaylistAdd color="#ffffff" />
             <Text bold style={{ color: "#ffffff" }}>
@@ -89,7 +90,7 @@ const NewModal = forwardRef<BottomSheetModal>(function NewModal(props, ref) {
           <Spacer x={2} />
           <TouchableOpacity
             style={[styles.choice, { backgroundColor: "#4C2889" }]}
-            onPress={() => navigateTo("new/quick-share")}
+            onPress={() => navigateTo(RouteName.NewQuickShare)}
           >
             <IconMusic color="#ffffff" />
             <Text bold style={{ color: "#ffffff" }}>

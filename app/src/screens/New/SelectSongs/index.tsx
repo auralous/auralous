@@ -1,11 +1,11 @@
 import { HeaderBackable } from "@/components/Header";
+import { RootStackParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { RootStackParamListNew } from "../types";
 import SearchInput from "./SearchInput";
 import SelectByPlaylists from "./SelectByPlaylists";
 import SelectBySongs from "./SelectBySongs";
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 });
 
 const SelectSongs: React.FC<
-  StackScreenProps<RootStackParamListNew, "new/select-songs">
+  StackScreenProps<RootStackParamList, RouteName.NewSelectSongs>
 > = ({ navigation }) => {
   const { t } = useTranslation();
   const [tab, setTab] = useState<"songs" | "playlists">("songs");
@@ -35,7 +35,7 @@ const SelectSongs: React.FC<
 
   const onFinish = useCallback(
     (selectedTracks: string[]) => {
-      navigation.navigate("new/final", {
+      navigation.navigate(RouteName.NewFinal, {
         selectedTracks,
         modeTitle: title,
       });
