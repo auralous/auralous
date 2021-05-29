@@ -1,5 +1,5 @@
 import { IconGoogleColor, IconSpotify, Logo } from "@/assets/svg";
-import { Header } from "@/components/Header";
+import { HeaderBackable } from "@/components/Header";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextLink } from "@/components/Typography";
 import { useMe } from "@/gql/hooks";
@@ -66,7 +66,7 @@ const Container: React.FC = () => {
 
   return (
     <>
-      <Header title={t("sign_in.title")} />
+      <HeaderBackable title={t("sign_in.title")} />
       <View style={styles.root}>
         <View style={[commonStyles.fillAndCentered, styles.top]}>
           <Logo

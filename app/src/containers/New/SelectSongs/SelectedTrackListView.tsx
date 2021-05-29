@@ -1,11 +1,7 @@
 import { IconChevronDown, IconChevronUp } from "@/assets/svg";
-import {
-  BottomSheetCustomBackdrop,
-  BottomSheetCustomBackground,
-} from "@/components/BottomSheet";
+import { BottomSheetCustomBackground } from "@/components/BottomSheet";
 import { Button } from "@/components/Button";
 import { Text } from "@/components/Typography";
-import { Track, useTrackQuery } from "@/gql/gql.gen";
 import { Size, useColors } from "@/styles";
 import BottomSheet from "@gorhom/bottom-sheet";
 import React, { useCallback, useRef, useState } from "react";
@@ -15,8 +11,10 @@ import DraggableFlatList, {
   RenderItemParams,
 } from "react-native-draggable-flatlist";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import SelectableTrackListItem from "./SelectableTrackListItem";
-import { TrackListProps } from "./types";
+import {
+  SelectableTrackListItem,
+  SelectableTrackListProps,
+} from "../SelectableTrackList";
 
 const cascadedHeight = 112;
 
@@ -53,32 +51,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const LoadableSelectableTrackListItem: React.FC<
-  {
-    params: RenderItemParams<string>;
-  } & Pick<TrackListProps, "addTracks" | "removeTrack">
-> = ({ params, addTracks, removeTrack }) => {
-  const [{ data }] = useTrackQuery({ variables: { id: params.item } });
-  return (
-    <TouchableWithoutFeedback
-      style={[styles.flexFill, params.isActive && { opacity: 0.5 }]}
-      onLongPress={params.drag}
-    >
-      <SelectableTrackListItem
-        addTracks={addTracks}
-        removeTrack={removeTrack}
-        key={params.item}
-        track={data?.track as Track}
-        selectedTracks
-      />
-    </TouchableWithoutFeedback>
-  );
-};
-
 const snapPoints = [cascadedHeight, "100%"];
 
 const SelectedTrackListView: React.FC<
-  TrackListProps & {
+  SelectableTrackListProps & {
     setSelectedTracks(selectedTracks: string[]): void;
     onFinish(selectedTracks: string[]): void;
   }
@@ -105,14 +81,22 @@ const SelectedTrackListView: React.FC<
   );
 
   const renderItem = useCallback(
-    (params: RenderItemParams<string>) => (
-      <LoadableSelectableTrackListItem
-        params={params}
-        addTracks={addTracks}
-        removeTrack={removeTrack}
-        key={params.item}
-      />
-    ),
+    (params: RenderItemParams<string>) => {
+      return (
+        <TouchableWithoutFeedback
+          style={[styles.flexFill, params.isActive && { opacity: 0.5 }]}
+          onLongPress={params.drag}
+        >
+          <SelectableTrackListItem
+            addTracks={addTracks}
+            removeTrack={removeTrack}
+            key={params.item}
+            trackId={params.item}
+            selectedTracks
+          />
+        </TouchableWithoutFeedback>
+      );
+    },
     [addTracks, removeTrack]
   );
 
@@ -125,7 +109,6 @@ const SelectedTrackListView: React.FC<
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
-        backdropComponent={BottomSheetCustomBackdrop}
         backgroundComponent={BottomSheetCustomBackground}
         handleComponent={null}
         style={styles.root}

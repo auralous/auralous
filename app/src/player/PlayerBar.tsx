@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
   root: {
     flexDirection: "row",
     height: Size[16],
-    borderTopWidth: 1,
   },
   viewExpandTrigger: {
     flexDirection: "row",
@@ -51,12 +50,7 @@ const PlayerBar: React.FC = () => {
 
   if (!contextId) return null;
   return (
-    <View
-      style={[
-        styles.root,
-        { backgroundColor: colors.background, borderTopColor: colors.outline },
-      ]}
-    >
+    <View style={[styles.root, { backgroundColor: colors.background }]}>
       <Pressable
         style={styles.viewExpandTrigger}
         onPress={() => player.emit("__player_bar_pressed")}

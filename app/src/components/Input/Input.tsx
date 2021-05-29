@@ -1,12 +1,18 @@
 import { Size, useColors } from "@/styles";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { Control, useController } from "react-hook-form";
 import {
+  ColorValue,
   ReturnKeyTypeOptions,
   StyleSheet,
   TextInput,
-  View,
+  ViewStyle,
 } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 interface InputProps<TFieldValues> {
   endIcon?: React.ReactNode;
@@ -23,16 +29,15 @@ interface InputProps<TFieldValues> {
 const styles = StyleSheet.create({
   root: {
     borderRadius: 9999,
-    overflow: "hidden",
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 2,
-    paddingHorizontal: Size[2],
+    borderWidth: 1.5,
+    paddingHorizontal: Size[4],
+    paddingVertical: Size[2],
   },
   input: {
     flex: 1,
     padding: 0,
-    height: "100%",
   },
 });
 
@@ -53,17 +58,21 @@ const Input: React.FC<InputProps<any>> = ({
     defaultValue,
     name,
   });
-  const [isFocused, setIsFocused] = useState(false);
-  const onFocused = useCallback(() => setIsFocused(true), []);
-  const onBlur = useCallback(() => setIsFocused(false), []);
+
+  const isFocused = useSharedValue(false);
+
+  const onFocused = useCallback(() => (isFocused.value = true), [isFocused]);
+  const onBlur = useCallback(() => (isFocused.value = false), [isFocused]);
+
+  const animatedStyles = useAnimatedStyle<ViewStyle>(() => ({
+    borderColor: (withTiming(
+      isFocused.value ? colors.control : colors.controlDark,
+      { duration: 200 }
+    ) as unknown) as ColorValue,
+  }));
 
   return (
-    <View
-      style={[
-        styles.root,
-        { backgroundColor: isFocused ? colors.inputFocused : colors.input },
-      ]}
-    >
+    <Animated.View style={[styles.root, animatedStyles]}>
       {startIcon}
       <TextInput
         accessibilityLabel={accessibilityLabel}
@@ -71,14 +80,15 @@ const Input: React.FC<InputProps<any>> = ({
         placeholder={placeholder}
         value={field.value}
         onChangeText={field.onChange}
-        style={[styles.input, { color: colors.inputText }]}
+        style={[styles.input, { color: colors.textSecondary }]}
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmit}
         onFocus={onFocused}
         onBlur={onBlur}
+        underlineColorAndroid="rgba(0,0,0,0)"
       />
       {endIcon}
-    </View>
+    </Animated.View>
   );
 };
 

@@ -1,49 +1,35 @@
 import { Button } from "@/components/Button";
-import { Header } from "@/components/Header";
+import { HeaderBackable } from "@/components/Header";
 import { Input } from "@/components/Input";
 import { Spacer } from "@/components/Spacer";
-import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
-import { useStoryCreateMutation, useTrackQuery } from "@/gql/gql.gen";
+import { useStoryCreateMutation } from "@/gql/gql.gen";
 import { usePlayer } from "@/player";
 import { Size } from "@/styles";
 import { RouteProp, useNavigation } from "@react-navigation/core";
 import React, { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { SelectableTrackList } from "./SelectableTrackList";
 import { RootStackParamListNew } from "./types";
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: Size[4],
-    paddingVertical: Size[4],
     flex: 1,
   },
-  selectedTracks: {
+  list: {
+    padding: Size[3],
     flex: 1,
-    paddingVertical: Size[1],
-  },
-  selectedTrackItem: {
-    padding: Size[2],
   },
   meta: {
+    paddingHorizontal: Size[8],
     paddingVertical: Size[4],
   },
+  buttonContainer: {
+    padding: Size[3],
+  },
 });
-
-const LoadableTrackItem: React.FC<{ trackId: string }> = ({ trackId }) => {
-  const [{ data, fetching }] = useTrackQuery({ variables: { id: trackId } });
-  return (
-    <View style={styles.selectedTrackItem}>
-      <TrackItem track={data?.track || null} fetching={fetching} />
-    </View>
-  );
-};
-
-const renderItem: ListRenderItem<string> = ({ item }) => {
-  return <LoadableTrackItem key={item} trackId={item} />;
-};
 
 interface FormValues {
   text: string;
@@ -78,7 +64,7 @@ const Create: React.FC<{
 
   return (
     <>
-      <Header title="" backText={route.params.modeTitle} />
+      <HeaderBackable title="" backText={route.params.modeTitle} />
       <View style={styles.root}>
         <View style={styles.meta}>
           <Text bold align="center">
@@ -86,29 +72,29 @@ const Create: React.FC<{
           </Text>
           <Spacer y={2} />
           <Input control={control} name="text" />
+          <Spacer y={1} />
           <Text color="textTertiary" align="center" size="xs">
             {t("common.input.max_x_characters", { max: 60 })}
           </Text>
         </View>
-        <Text align="center" color="textSecondary">
-          {t("new.select_songs.num_selected", {
-            count: route.params.selectedTracks.length,
-          })}
-        </Text>
-        <View style={styles.selectedTracks}>
-          <FlatList
+        <View style={styles.list}>
+          <SelectableTrackList
+            fetching={false}
             data={route.params.selectedTracks}
-            renderItem={renderItem}
-            keyExtractor={(item) => item}
+            selectedTracks={[]}
           />
         </View>
-        <Button
-          onPress={handleSubmit(onCreate)}
-          disabled={fetching}
-          color="primary"
-        >
-          {t("new.final.start")}
-        </Button>
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={handleSubmit(onCreate)}
+            disabled={fetching}
+            variant="primary"
+          >
+            {t("new.final.start", {
+              count: route.params.selectedTracks.length,
+            })}
+          </Button>
+        </View>
       </View>
     </>
   );

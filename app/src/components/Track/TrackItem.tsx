@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   },
   meta: {
     flex: 1,
+    paddingLeft: Size[3],
   },
 });
 
@@ -48,7 +49,6 @@ const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
   return (
     <View style={styles.root}>
       <Image style={styles.image} source={{ uri: track?.image }} />
-      <Spacer x={2} />
       <View style={styles.meta}>
         <View style={styles.title}>
           {SvgPlatformName && (

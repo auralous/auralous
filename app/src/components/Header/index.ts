@@ -1,2 +1,2 @@
 export { default as Header } from "./Header";
-export { default as HeaderBase } from "./HeaderBase";
+export { default as HeaderBackable } from "./HeaderBackable";

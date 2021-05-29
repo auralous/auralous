@@ -1,6 +1,11 @@
-import { IconChevronDown, IconMessageSquare } from "@/assets/svg";
+import {
+  IconChevronDown,
+  IconMessageSquare,
+  IconMoreHorizontal,
+} from "@/assets/svg";
 import { BottomSheetCustomBackground } from "@/components/BottomSheet";
-import { HeaderBase } from "@/components/Header";
+import { Button } from "@/components/Button";
+import { Header } from "@/components/Header";
 import { useTrackQuery } from "@/gql/gql.gen";
 import { Size, useColors } from "@/styles";
 import BottomSheet, { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -93,16 +98,18 @@ const PlayerView: React.FC = () => {
       style={styles.modal}
     >
       <StatusBar translucent hidden />
-      <View style={styles.root}>
-        <View>
-          <HeaderBase
-            onLeftPress={() => bottomSheetRef.current?.dismiss()}
-            left={
-              <IconChevronDown stroke={colors.text} width={32} height={32} />
-            }
-            title={title}
+      <Header
+        title={title}
+        left={
+          <Button
+            onPress={() => bottomSheetRef.current?.dismiss()}
+            icon={<IconChevronDown color={colors.text} />}
+            accessibilityLabel={t("common.navigation.go_back")}
           />
-        </View>
+        }
+        right={<Button icon={<IconMoreHorizontal color={colors.text} />} />}
+      />
+      <View style={styles.root}>
         <View style={styles.content}>
           <PlayerViewMeta track={track || null} />
           <PlayerViewProgress track={track} player={player} />

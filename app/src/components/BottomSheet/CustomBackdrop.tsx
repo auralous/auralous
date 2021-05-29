@@ -12,7 +12,6 @@ const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
 
   return (
     <Animated.View
-      pointerEvents="none"
       style={[
         style,
         { backgroundColor: "rgba(0,0,0,.8)" },

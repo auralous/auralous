@@ -1,4 +1,4 @@
-import { Header } from "@/components/Header";
+import { HeaderBackable } from "@/components/Header";
 import { LoadingBlock } from "@/components/Loading";
 import { NotFound } from "@/components/Page";
 import { User, useUserQuery } from "@/gql/gql.gen";
@@ -47,7 +47,7 @@ const Container: React.FC = () => {
   });
   return (
     <>
-      <Header title="" />
+      <HeaderBackable title="" />
       {fetching ? (
         <View style={styles.fullPageCenter}>
           <LoadingBlock />

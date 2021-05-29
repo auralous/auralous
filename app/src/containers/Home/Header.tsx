@@ -1,19 +1,24 @@
 import { Avatar } from "@/components/Avatar";
 import { Button } from "@/components/Button";
+import { Spacer } from "@/components/Spacer";
 import { Heading } from "@/components/Typography";
 import { useMe } from "@/gql/hooks";
+import { Size } from "@/styles";
 import { useNavigation } from "@react-navigation/core";
 import { useLinkTo } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
+import AddButton from "./AddButton";
 
 const styles = StyleSheet.create({
   root: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
+    paddingHorizontal: Size[6],
+    paddingVertical: Size[1],
+    marginBottom: Size[4],
   },
   right: {
     flexDirection: "row",
@@ -40,6 +45,8 @@ const Header: React.FC = () => {
                 username={me.user.username}
               />
             </Pressable>
+            <Spacer x={2} />
+            <AddButton />
           </>
         ) : (
           <>

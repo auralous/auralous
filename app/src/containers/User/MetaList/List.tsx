@@ -1,7 +1,4 @@
-import {
-  BottomSheetCustomBackdrop,
-  BottomSheetCustomBackground,
-} from "@/components/BottomSheet";
+import { BottomSheetCustomBackground } from "@/components/BottomSheet";
 import { LoadingBlock } from "@/components/Loading";
 import { Heading } from "@/components/Typography";
 import { Maybe } from "@/gql/gql.gen";
@@ -66,7 +63,6 @@ const List: React.FC<ListProps> = ({
       snapPoints={snapPoints}
       onChange={handleSheetChange}
       backgroundComponent={BottomSheetCustomBackground}
-      backdropComponent={BottomSheetCustomBackdrop}
       style={styles.root}
     >
       <Heading level={4} color="textSecondary" style={styles.heading}>

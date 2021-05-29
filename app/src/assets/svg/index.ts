@@ -11,7 +11,7 @@ export { default as IconMessageSquare } from "./message-square.svg";
 export { default as IconMoreHorizontal } from "./more-horizontal.svg";
 export { default as IconMusic } from "./music.svg";
 export { default as IconPause } from "./pause.svg";
-export { default as PlayListAdd } from "./play-list-add.svg";
+export { default as IconPlaylistAdd } from "./play-list-add.svg";
 export { default as IconPlay } from "./play.svg";
 export { default as IconPlus } from "./plus.svg";
 export { default as IconSearch } from "./search.svg";

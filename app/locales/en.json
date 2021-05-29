@@ -35,7 +35,7 @@
     },
     "final": {
       "text_label": "How would you describe the story",
-      "start": "Start Story"
+      "start": "Start playing {{count}} songs"
     }
   },
   "user": {

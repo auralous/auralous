@@ -68,17 +68,9 @@ const PlayerViewControl: React.FC<{
           disabled={!trackId}
         >
           {isPlaying ? (
-            <IconPause
-              width={Size[8]}
-              height={Size[8]}
-              fill={colors.controlText}
-            />
+            <IconPause width={Size[8]} height={Size[8]} fill={colors.text} />
           ) : (
-            <IconPlay
-              width={Size[8]}
-              height={Size[8]}
-              fill={colors.controlText}
-            />
+            <IconPlay width={Size[8]} height={Size[8]} fill={colors.text} />
           )}
         </TouchableOpacity>
       </View>

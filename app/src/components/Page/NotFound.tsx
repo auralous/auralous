@@ -36,13 +36,7 @@ const NotFound: React.FC = () => {
       </Text>
       <View style={styles.buttonContainer}>
         <Button
-          icon={
-            <IconChevronLeft
-              stroke={colors.controlText}
-              width={24}
-              height={24}
-            />
-          }
+          icon={<IconChevronLeft stroke={colors.text} width={24} height={24} />}
           onPress={() => navigation.goBack()}
         >
           {t("common.navigation.go_back")}

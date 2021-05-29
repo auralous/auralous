@@ -1,25 +1,24 @@
 import create from "zustand";
 
 const Colors = {
-  background: "#191925",
-  backgroundSecondary: "#222433",
+  background: "#010101",
+  backgroundSecondary: "#0C0C0C",
   text: "#FFFFFF",
   textSecondary: "rgba(255, 255, 255, 0.6)",
   textTertiary: "rgba(255, 255, 255, 0.3)",
   primary: "#FF2E54",
   primaryDark: "#D12948",
   primaryText: "#FFFFFF",
-  control: "#FFFFFF",
-  controlDark: "#F2F2F7",
-  controlText: "#2F2F2F",
-  input: "#343649",
-  inputFocused: "#232536",
-  inputText: "rgba(255, 255, 255, 0.6)",
+  control: "rgba(255, 255, 255, 0.2)",
+  controlDark: "rgba(255, 255, 255, 0.1)",
   spotify: "#1db954",
   spotifyLabel: "#FFFFFF",
   google: "#FFFFFF",
   googleLabel: "rgba(0, 0, 0, 0.5)",
-  outline: "rgba(103,126,186,.08)",
+  gradientRainbow: {
+    colors: ["#1FF7FD", "#B33BF6", "#FF844C", "#FF844B"],
+    locations: [0.1, 0.5, 0.8, 1],
+  },
 };
 
 export type ThemeColor = keyof typeof Colors;

@@ -12,11 +12,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[8],
     paddingVertical: Size[2],
   },
-  input: {
-    paddingVertical: 2,
-    paddingHorizontal: Size[4],
-    borderRadius: 9999,
-  },
 });
 
 const SearchInput: React.FC<{

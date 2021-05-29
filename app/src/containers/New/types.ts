@@ -5,4 +5,6 @@ export interface RootStackParamListNew extends ParamListBase {
     selectedTracks: string[];
     modeTitle: string;
   };
+  "new/select-songs": undefined;
+  "new/quick-share": undefined;
 }

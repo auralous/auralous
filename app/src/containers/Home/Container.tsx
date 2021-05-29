@@ -1,4 +1,3 @@
-import { Heading, Text } from "@/components/Typography";
 import { Size } from "@/styles";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -6,75 +5,47 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FeaturedPlaylists from "./FeaturedPlaylists";
 import FriendsPlaylists from "./FriendsPlaylists";
-import Header from "./Header";
+import HeaderSection from "./Header";
 import RecentStories from "./RecentStories";
+import Section from "./Section";
 
-interface SectionProps {
-  title: string;
-  description?: string;
-}
-
-const section = StyleSheet.create({
-  root: {
-    paddingVertical: Size[3],
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: Size[2],
-  },
-});
-
-const Section: React.FC<SectionProps> = ({ title, description, children }) => {
-  return (
-    <View style={section.root}>
-      <View style={section.header}>
-        <View>
-          <Heading level={6}>{title}</Heading>
-          {Boolean(description) && (
-            <Text color="textSecondary">{description}</Text>
-          )}
-        </View>
-        <View></View>
-      </View>
-      <View>{children}</View>
-    </View>
-  );
-};
-
-const container = StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     paddingVertical: Size[2],
+  },
+  content: {
     paddingHorizontal: Size[6],
+    paddingVertical: Size[3],
   },
 });
 
 const Container: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={container.root}>
-        <Header />
-        <Section title={t("home.featured_playlists.title")}>
-          <FeaturedPlaylists />
-        </Section>
-        <Section
-          title={t("home.friends_playlists.title")}
-          description={t("home.friends_playlists.description")}
-        >
-          <FriendsPlaylists />
-        </Section>
-        <Section
-          title={t("home.recent_stories.title")}
-          description={t("home.recent_stories.description")}
-        >
-          <RecentStories />
-        </Section>
-        <Section
-          title={t("home.radio_stations.title")}
-          description={t("home.radio_stations.description")}
-        ></Section>
+    <SafeAreaView>
+      <ScrollView style={styles.root}>
+        <HeaderSection />
+        <View style={styles.content}>
+          <Section title={t("home.featured_playlists.title")}>
+            <FeaturedPlaylists />
+          </Section>
+          <Section
+            title={t("home.friends_playlists.title")}
+            description={t("home.friends_playlists.description")}
+          >
+            <FriendsPlaylists />
+          </Section>
+          <Section
+            title={t("home.recent_stories.title")}
+            description={t("home.recent_stories.description")}
+          >
+            <RecentStories />
+          </Section>
+          <Section
+            title={t("home.radio_stations.title")}
+            description={t("home.radio_stations.description")}
+          ></Section>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -11,11 +11,13 @@ import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  SelectableTrackList,
+  SelectableTrackListProps,
+} from "../SelectableTrackList";
 import SelectablePlaylistList from "./SelectablePlaylistList";
-import SelectableTrackList from "./SelectableTrackList";
-import { TrackListProps } from "./types";
 
-interface SelectByPlaylistsProps extends TrackListProps {
+interface SelectByPlaylistsProps extends SelectableTrackListProps {
   search: string;
 }
 
@@ -79,7 +81,7 @@ const SearchPlaylists: React.FC<{
 };
 
 const PlaylistTrackList: React.FC<
-  TrackListProps & { playlist: Playlist; close(): void }
+  SelectableTrackListProps & { playlist: Playlist; close(): void }
 > = ({ playlist, selectedTracks, addTracks, removeTrack, close }) => {
   const [
     { data: { playlistTracks } = { playlistTracks: undefined }, fetching },

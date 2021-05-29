@@ -59,7 +59,7 @@ const Tab: React.FC<TabProps> = ({
       {...pressedProps}
     >
       <Animated.View style={[styles.content, animatedStyles]}>
-        <Icon stroke={colors.control} style={styles.icon} />
+        <Icon stroke={colors.text} style={styles.icon} />
         <Text size="sm" bold>
           {title}
         </Text>

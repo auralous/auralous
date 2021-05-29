@@ -1,9 +1,11 @@
 import { useSearchTrackQuery } from "@/gql/gql.gen";
 import React from "react";
-import SelectableTrackList from "./SelectableTrackList";
-import { TrackListProps } from "./types";
+import {
+  SelectableTrackList,
+  SelectableTrackListProps,
+} from "../SelectableTrackList";
 
-interface SelectBySongsProps extends TrackListProps {
+interface SelectBySongsProps extends SelectableTrackListProps {
   search: string;
 }
 

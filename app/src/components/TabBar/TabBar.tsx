@@ -8,7 +8,6 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import AddButton from "./AddButton";
 import Tab from "./Tab";
 
 const styles = StyleSheet.create({
@@ -23,7 +22,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: Size[16],
     alignItems: "center",
-    borderTopWidth: 1,
     flexDirection: "row",
   },
 });
@@ -38,34 +36,32 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
   const currentRoute = state.routeNames[state.index];
 
   return (
-    <View style={styles.root}>
-      <PlayerBar />
-      <View
-        style={[
-          styles.tabBars,
-          {
-            backgroundColor: colors.background,
-            borderTopColor: colors.outline,
-          },
-        ]}
-      >
-        <Tab
-          name="home"
-          title={t("home.title")}
-          Icon={IconHome}
-          navigation={navigation}
-          currentRoute={currentRoute}
-        />
-        <AddButton />
-        <Tab
-          name="map"
-          title={t("map.title")}
-          Icon={IconMapPin}
-          navigation={navigation}
-          currentRoute={currentRoute}
-        />
+    <>
+      <View style={styles.root}>
+        <PlayerBar />
+        <View
+          style={[
+            styles.tabBars,
+            { backgroundColor: colors.backgroundSecondary },
+          ]}
+        >
+          <Tab
+            name="home"
+            title={t("home.title")}
+            Icon={IconHome}
+            navigation={navigation}
+            currentRoute={currentRoute}
+          />
+          <Tab
+            name="map"
+            title={t("map.title")}
+            Icon={IconMapPin}
+            navigation={navigation}
+            currentRoute={currentRoute}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

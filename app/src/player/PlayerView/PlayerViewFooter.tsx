@@ -1,4 +1,4 @@
-import { Size, useColors } from "@/styles";
+import { Size } from "@/styles";
 import { commonStyles } from "@/styles/common";
 import { useSharedValuePressed } from "@/utils/animation";
 import React from "react";
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: Size[16],
     alignItems: "center",
-    borderTopWidth: 1,
   },
   tab: {
     justifyContent: "center",
@@ -56,10 +55,8 @@ const Tab: React.FC<{ item: Item }> = ({ item }) => {
 };
 
 const PlayerViewFooter: React.FC<PlayerViewFooterProps> = ({ items }) => {
-  const colors = useColors();
-
   return (
-    <View style={[styles.root, { borderTopColor: colors.outline }]}>
+    <View style={styles.root}>
       {items.map((item) => (
         <Tab key={item.title} item={item} />
       ))}

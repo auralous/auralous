@@ -35,7 +35,7 @@
     },
     "final": {
       "text_label": "Bạn miêu tả story này như thế nào",
-      "start": "Bắt đầu Story"
+      "start": "Bắt đầu nghe {{count}} bài hát"
     }
   },
   "user": {

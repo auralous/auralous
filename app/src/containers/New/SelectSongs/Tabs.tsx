@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   root: {
     flexDirection: "row",
     justifyContent: "center",
+    paddingVertical: Size[2],
   },
   tab: {
     paddingVertical: Size[2],

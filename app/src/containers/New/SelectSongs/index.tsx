@@ -1,8 +1,11 @@
-import { Header } from "@/components/Header";
+import { HeaderBackable } from "@/components/Header";
 import { Size } from "@/styles";
+import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { RootStackParamListNew } from "../types";
 import SearchInput from "./SearchInput";
 import SelectByPlaylists from "./SelectByPlaylists";
 import SelectBySongs from "./SelectBySongs";
@@ -14,22 +17,31 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    paddingTop: Size[2],
-    paddingHorizontal: Size[4],
-    flex: 1,
-  },
-  contentInner: {
+    padding: Size[3],
+    paddingBottom: 0,
     flex: 1,
   },
 });
 
-const SelectSongs: React.FC<{ onFinish(selectedTracks: string[]): void }> = ({
-  onFinish,
-}) => {
+const SelectSongs: React.FC<
+  StackScreenProps<RootStackParamListNew, "new/select-songs">
+> = ({ navigation }) => {
   const { t } = useTranslation();
   const [tab, setTab] = useState<"songs" | "playlists">("songs");
   const [search, setSearch] = useState("");
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
+
+  const title = t("new.select_songs.title");
+
+  const onFinish = useCallback(
+    (selectedTracks: string[]) => {
+      navigation.navigate("new/final", {
+        selectedTracks,
+        modeTitle: title,
+      });
+    },
+    [navigation, title]
+  );
 
   useEffect(() => {
     setSearch("");
@@ -47,12 +59,12 @@ const SelectSongs: React.FC<{ onFinish(selectedTracks: string[]): void }> = ({
   );
 
   return (
-    <View style={styles.root}>
-      <Header title="" backText={t("common.navigation.go_back")} />
-      <Tabs tab={tab} setTab={setTab} />
-      <SearchInput value={search} onSubmit={setSearch} />
-      <View style={styles.content}>
-        <View style={styles.contentInner}>
+    <>
+      <SafeAreaView style={styles.root}>
+        <HeaderBackable title={title} />
+        <Tabs tab={tab} setTab={setTab} />
+        <SearchInput value={search} onSubmit={setSearch} />
+        <View style={styles.content}>
           {tab === "songs" ? (
             <SelectBySongs
               search={search}
@@ -69,15 +81,15 @@ const SelectSongs: React.FC<{ onFinish(selectedTracks: string[]): void }> = ({
             />
           )}
         </View>
-      </View>
-      <SelectedTrackListView
-        addTracks={addTracks}
-        removeTrack={removeTrack}
-        selectedTracks={selectedTracks}
-        setSelectedTracks={setSelectedTracks}
-        onFinish={onFinish}
-      />
-    </View>
+        <SelectedTrackListView
+          addTracks={addTracks}
+          removeTrack={removeTrack}
+          selectedTracks={selectedTracks}
+          setSelectedTracks={setSelectedTracks}
+          onFinish={onFinish}
+        />
+      </SafeAreaView>
+    </>
   );
 };
 

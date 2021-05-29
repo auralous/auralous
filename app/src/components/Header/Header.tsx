@@ -1,35 +1,46 @@
-import { IconChevronLeft } from "@/assets/svg";
-import { useColors } from "@/styles";
-import { useNavigation } from "@react-navigation/core";
-import React, { useCallback } from "react";
-import { useTranslation } from "react-i18next";
-import { Text } from "../Typography";
-import HeaderBase from "./HeaderBase";
+import { Text } from "@/components/Typography";
+import { Size } from "@/styles";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 interface HeaderProps {
   title: string;
+  left?: React.ReactNode;
+  right?: React.ReactNode;
   translucent?: boolean;
-  backText?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, backText, translucent }) => {
-  const navigation = useNavigation();
-  const goBack = useCallback(() => navigation.goBack(), [navigation]);
-  const colors = useColors();
-  const { t } = useTranslation();
+const styles = StyleSheet.create({
+  root: {
+    paddingVertical: Size[2],
+    paddingHorizontal: Size[6],
+    flexDirection: "row",
+    width: "100%",
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    minWidth: Size[10],
+  },
+  title: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
+
+const Header: React.FC<HeaderProps> = ({ title, left, right }) => {
   return (
-    <HeaderBase
-      title={title}
-      translucent={translucent}
-      left={
-        <>
-          <IconChevronLeft stroke={colors.text} height={27} width={27} />
-          {backText && <Text bold>{backText}</Text>}
-        </>
-      }
-      leftLabel={t("common.navigation.go_back")}
-      onLeftPress={goBack}
-    />
+    <View style={[styles.root]}>
+      <View style={styles.button}>{left}</View>
+      <View pointerEvents="none" style={styles.title}>
+        <Text bold align="center" size="lg">
+          {title}
+        </Text>
+      </View>
+      <View style={styles.button}>{right}</View>
+    </View>
   );
 };
 
