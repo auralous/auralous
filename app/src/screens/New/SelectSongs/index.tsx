@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { SelectableTrackListProvider } from "../SelectableTrackList/Context";
 import SearchInput from "./SearchInput";
 import SelectByPlaylists from "./SelectByPlaylists";
 import SelectBySongs from "./SelectBySongs";
@@ -29,7 +30,6 @@ const SelectSongs: React.FC<
   const { t } = useTranslation();
   const [tab, setTab] = useState<"songs" | "playlists">("songs");
   const [search, setSearch] = useState("");
-  const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
 
   const title = t("new.select_songs.title");
 
@@ -47,49 +47,22 @@ const SelectSongs: React.FC<
     setSearch("");
   }, [tab]);
 
-  const addTracks = useCallback(
-    (trackIds: string[]) => setSelectedTracks((prev) => [...prev, ...trackIds]),
-    []
-  );
-
-  const removeTrack = useCallback(
-    (trackId: string) =>
-      setSelectedTracks((prev) => prev.filter((t) => t !== trackId)),
-    []
-  );
-
   return (
-    <>
+    <SelectableTrackListProvider>
       <SafeAreaView style={styles.root}>
         <HeaderBackable title={title} />
         <Tabs tab={tab} setTab={setTab} />
         <SearchInput value={search} onSubmit={setSearch} />
         <View style={styles.content}>
           {tab === "songs" ? (
-            <SelectBySongs
-              search={search}
-              selectedTracks={selectedTracks}
-              addTracks={addTracks}
-              removeTrack={removeTrack}
-            />
+            <SelectBySongs search={search} />
           ) : (
-            <SelectByPlaylists
-              search={search}
-              selectedTracks={selectedTracks}
-              addTracks={addTracks}
-              removeTrack={removeTrack}
-            />
+            <SelectByPlaylists search={search} />
           )}
         </View>
-        <SelectedTrackListView
-          addTracks={addTracks}
-          removeTrack={removeTrack}
-          selectedTracks={selectedTracks}
-          setSelectedTracks={setSelectedTracks}
-          onFinish={onFinish}
-        />
+        <SelectedTrackListView onFinish={onFinish} />
       </SafeAreaView>
-    </>
+    </SelectableTrackListProvider>
   );
 };
 

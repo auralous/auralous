@@ -1,35 +1,19 @@
 import { useSearchTrackQuery } from "@/gql/gql.gen";
 import React from "react";
-import {
-  SelectableTrackList,
-  SelectableTrackListProps,
-} from "../SelectableTrackList";
+import { SelectableTrackList } from "../SelectableTrackList";
 
-interface SelectBySongsProps extends SelectableTrackListProps {
+interface SelectBySongsProps {
   search: string;
 }
 
-const SelectBySongs: React.FC<SelectBySongsProps> = ({
-  search,
-  selectedTracks,
-  addTracks,
-  removeTrack,
-}) => {
+const SelectBySongs: React.FC<SelectBySongsProps> = ({ search }) => {
   const [
     { data: { searchTrack } = { searchTrack: undefined }, fetching },
   ] = useSearchTrackQuery({ variables: { query: search }, pause: !search });
 
   if (!search) return null;
 
-  return (
-    <SelectableTrackList
-      selectedTracks={selectedTracks}
-      data={searchTrack || []}
-      addTracks={addTracks}
-      removeTrack={removeTrack}
-      fetching={fetching}
-    />
-  );
+  return <SelectableTrackList data={searchTrack || []} fetching={fetching} />;
 };
 
 export default SelectBySongs;

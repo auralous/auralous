@@ -13,6 +13,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SelectableTrackList } from "./SelectableTrackList";
+import { SelectableTrackListProvider } from "./SelectableTrackList/Context";
 
 const styles = StyleSheet.create({
   root: {
@@ -62,7 +63,7 @@ const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
   );
 
   return (
-    <>
+    <SelectableTrackListProvider noChange>
       <HeaderBackable title="" backText={route.params.modeTitle} />
       <View style={styles.root}>
         <View style={styles.meta}>
@@ -80,7 +81,6 @@ const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
           <SelectableTrackList
             fetching={false}
             data={route.params.selectedTracks}
-            selectedTracks={[]}
           />
         </View>
         <View style={styles.buttonContainer}>
@@ -95,7 +95,7 @@ const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
           </Button>
         </View>
       </View>
-    </>
+    </SelectableTrackListProvider>
   );
 };
 

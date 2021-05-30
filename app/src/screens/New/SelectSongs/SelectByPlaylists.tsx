@@ -11,13 +11,10 @@ import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import {
-  SelectableTrackList,
-  SelectableTrackListProps,
-} from "../SelectableTrackList";
+import { SelectableTrackList } from "../SelectableTrackList";
 import SelectablePlaylistList from "./SelectablePlaylistList";
 
-interface SelectByPlaylistsProps extends SelectableTrackListProps {
+interface SelectByPlaylistsProps {
   search: string;
 }
 
@@ -80,9 +77,10 @@ const SearchPlaylists: React.FC<{
   );
 };
 
-const PlaylistTrackList: React.FC<
-  SelectableTrackListProps & { playlist: Playlist; close(): void }
-> = ({ playlist, selectedTracks, addTracks, removeTrack, close }) => {
+const PlaylistTrackList: React.FC<{ playlist: Playlist; close(): void }> = ({
+  playlist,
+  close,
+}) => {
   const [
     { data: { playlistTracks } = { playlistTracks: undefined }, fetching },
   ] = usePlaylistTracksQuery({ variables: { id: playlist.id } });
@@ -98,24 +96,13 @@ const PlaylistTrackList: React.FC<
         </TouchableOpacity>
       </View>
       <View style={styles.tracks}>
-        <SelectableTrackList
-          selectedTracks={selectedTracks}
-          data={playlistTracks || []}
-          addTracks={addTracks}
-          removeTrack={removeTrack}
-          fetching={fetching}
-        />
+        <SelectableTrackList data={playlistTracks || []} fetching={fetching} />
       </View>
     </>
   );
 };
 
-const SelectByPlaylists: React.FC<SelectByPlaylistsProps> = ({
-  search,
-  selectedTracks,
-  addTracks,
-  removeTrack,
-}) => {
+const SelectByPlaylists: React.FC<SelectByPlaylistsProps> = ({ search }) => {
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(
     null
   );
@@ -124,13 +111,7 @@ const SelectByPlaylists: React.FC<SelectByPlaylistsProps> = ({
 
   if (selectedPlaylist)
     return (
-      <PlaylistTrackList
-        playlist={selectedPlaylist}
-        selectedTracks={selectedTracks}
-        addTracks={addTracks}
-        removeTrack={removeTrack}
-        close={closePlaylist}
-      />
+      <PlaylistTrackList playlist={selectedPlaylist} close={closePlaylist} />
     );
   if (!search) return <MyPlaylists onSelect={setSelectedPlaylist} />;
 

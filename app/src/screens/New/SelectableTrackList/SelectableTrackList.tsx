@@ -1,11 +1,10 @@
 import { LoadingBlock } from "@/components/Loading";
 import { Track } from "@/gql/gql.gen";
 import { commonStyles } from "@/styles/common";
-import React, { useCallback } from "react";
+import React from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import SearchEmpty from "../SelectSongs/SearchEmpty";
 import SelectableTrackListItem from "./SelectableTrackListItem";
-import { SelectableTrackListProps } from "./types";
 
 const styles = StyleSheet.create({
   list: {
@@ -16,22 +15,19 @@ const styles = StyleSheet.create({
 const trackIdFromTrackOrTrackId = (item: Track | string) =>
   typeof item === "string" ? item : item.id;
 
-const SelectableTrackList: React.FC<
-  SelectableTrackListProps & { fetching: boolean; data: (Track | string)[] }
-> = ({ selectedTracks, addTracks, removeTrack, fetching, data }) => {
-  const renderItem = useCallback<ListRenderItem<Track | string>>(
-    ({ item }) => (
-      <SelectableTrackListItem
-        selectedTracks={selectedTracks}
-        addTracks={addTracks}
-        removeTrack={removeTrack}
-        key={trackIdFromTrackOrTrackId(item)}
-        trackId={trackIdFromTrackOrTrackId(item)}
-      />
-    ),
-    [addTracks, removeTrack, selectedTracks]
+const renderItem: ListRenderItem<Track | string> = ({ item }) => {
+  return (
+    <SelectableTrackListItem
+      key={trackIdFromTrackOrTrackId(item)}
+      trackId={trackIdFromTrackOrTrackId(item)}
+    />
   );
+};
 
+const SelectableTrackList: React.FC<{
+  fetching: boolean;
+  data: (Track | string)[];
+}> = ({ fetching, data }) => {
   if (fetching) {
     return (
       <View style={commonStyles.fillAndCentered}>
@@ -48,6 +44,7 @@ const SelectableTrackList: React.FC<
         data={data}
         renderItem={renderItem}
         keyExtractor={trackIdFromTrackOrTrackId}
+        windowSize={2}
       />
     </>
   );

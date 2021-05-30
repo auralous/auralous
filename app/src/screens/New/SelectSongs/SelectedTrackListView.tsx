@@ -14,10 +14,11 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
+import { SelectableTrackListItem } from "../SelectableTrackList";
 import {
-  SelectableTrackListItem,
-  SelectableTrackListProps,
-} from "../SelectableTrackList";
+  useSelectedTracks,
+  useUpdateTracks,
+} from "../SelectableTrackList/Context";
 
 const cascadedHeight = 112;
 
@@ -56,18 +57,18 @@ const styles = StyleSheet.create({
 
 const snapPoints = [cascadedHeight, "100%"];
 
-const SelectedTrackListView: React.FC<
-  SelectableTrackListProps & {
-    setSelectedTracks(selectedTracks: string[]): void;
-    onFinish(selectedTracks: string[]): void;
-  }
-> = ({
-  selectedTracks,
-  addTracks,
-  removeTrack,
-  setSelectedTracks,
-  onFinish,
-}) => {
+const renderItem = (params: RenderItemParams<string>) => (
+  <TouchableWithoutFeedback
+    style={[styles.flexFill, params.isActive && { opacity: 0.5 }]}
+    onLongPress={params.drag}
+  >
+    <SelectableTrackListItem key={params.item} trackId={params.item} />
+  </TouchableWithoutFeedback>
+);
+
+const SelectedTrackListView: React.FC<{
+  onFinish(selectedTracks: string[]): void;
+}> = ({ onFinish }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [expanded, setExpanded] = useState(false);
@@ -83,25 +84,8 @@ const SelectedTrackListView: React.FC<
     [expanded]
   );
 
-  const renderItem = useCallback(
-    (params: RenderItemParams<string>) => {
-      return (
-        <TouchableWithoutFeedback
-          style={[styles.flexFill, params.isActive && { opacity: 0.5 }]}
-          onLongPress={params.drag}
-        >
-          <SelectableTrackListItem
-            addTracks={addTracks}
-            removeTrack={removeTrack}
-            key={params.item}
-            trackId={params.item}
-            selectedTracks
-          />
-        </TouchableWithoutFeedback>
-      );
-    },
-    [addTracks, removeTrack]
-  );
+  const selectedTracks = useSelectedTracks();
+  const updateTracksActions = useUpdateTracks();
 
   const colors = useColors();
 
@@ -134,8 +118,9 @@ const SelectedTrackListView: React.FC<
           data={selectedTracks}
           renderItem={renderItem}
           keyExtractor={(item) => item}
-          onDragEnd={({ data }) => setSelectedTracks(data)}
+          onDragEnd={({ data }) => updateTracksActions?.setSelectedTracks(data)}
           style={styles.flexFill}
+          windowSize={3}
         />
       </BottomSheet>
       <View

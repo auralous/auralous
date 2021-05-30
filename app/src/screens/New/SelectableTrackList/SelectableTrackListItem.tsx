@@ -2,10 +2,10 @@ import { IconCheck, IconPlus } from "@/assets/svg";
 import { TrackItem } from "@/components/Track";
 import { useTrackQuery } from "@/gql/gql.gen";
 import { Size, useColors } from "@/styles";
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { SelectableTrackListProps } from "./types";
+import { useSelectedTracks, useUpdateTracks } from "./Context";
 
 const styles = StyleSheet.create({
   item: {
@@ -27,45 +27,44 @@ const styles = StyleSheet.create({
   },
 });
 
-const SelectableTrackListItem: React.FC<
-  Omit<SelectableTrackListProps, "selectedTracks"> & {
-    trackId: string;
-    selectedTracks: string[] | boolean;
-  }
-> = ({ trackId, selectedTracks, addTracks, removeTrack }) => {
-  const [{ data, fetching }] = useTrackQuery({ variables: { id: trackId } });
+const SelectableTrackListItem = memo<{ trackId: string }>(
+  function SelectableTrackListItem({ trackId }) {
+    const [{ data, fetching }] = useTrackQuery({ variables: { id: trackId } });
 
-  const selected = useMemo(
-    () =>
-      typeof selectedTracks === "boolean"
-        ? selectedTracks
-        : selectedTracks.indexOf(trackId) > -1,
-    [trackId, selectedTracks]
-  );
+    const selectedTracks = useSelectedTracks();
+    const updateTracksActions = useUpdateTracks();
 
-  const colors = useColors();
+    const selected = useMemo(() => selectedTracks.indexOf(trackId) > -1, [
+      trackId,
+      selectedTracks,
+    ]);
 
-  return (
-    <View style={[styles.item, selected && { opacity: 0.5 }]}>
-      <View style={styles.itemContent}>
-        <TrackItem track={data?.track || null} fetching={fetching} />
+    const colors = useColors();
+
+    return (
+      <View style={[styles.item, selected && { opacity: 0.5 }]}>
+        <View style={styles.itemContent}>
+          <TrackItem track={data?.track || null} fetching={fetching} />
+        </View>
+        {updateTracksActions && (
+          <TouchableOpacity
+            onPress={() =>
+              !selected
+                ? updateTracksActions.addTracks([trackId])
+                : updateTracksActions.removeTrack(trackId)
+            }
+            style={styles.button}
+          >
+            {selected ? (
+              <IconCheck stroke={colors.text} />
+            ) : (
+              <IconPlus stroke={colors.text} />
+            )}
+          </TouchableOpacity>
+        )}
       </View>
-      {!!addTracks && !!removeTrack && (
-        <TouchableOpacity
-          onPress={() =>
-            !selected ? addTracks([trackId]) : removeTrack(trackId)
-          }
-          style={styles.button}
-        >
-          {selected ? (
-            <IconCheck stroke={colors.text} />
-          ) : (
-            <IconPlus stroke={colors.text} />
-          )}
-        </TouchableOpacity>
-      )}
-    </View>
-  );
-};
+    );
+  }
+);
 
 export default SelectableTrackListItem;
