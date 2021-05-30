@@ -4,7 +4,8 @@ import { Heading } from "@/components/Typography";
 import { Size, useColors } from "@/styles";
 import BottomSheet from "@gorhom/bottom-sheet";
 import React, { forwardRef } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface PlayerViewSheetProps {
   children: React.ReactNode;

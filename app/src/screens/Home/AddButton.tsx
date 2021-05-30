@@ -1,16 +1,26 @@
-import { IconPlus } from "@/assets/svg";
+import { IconMusic, IconPlaylistAdd, IconPlus, IconX } from "@/assets/svg";
+import {
+  BottomSheetCustomBackdrop,
+  BottomSheetCustomBackground,
+} from "@/components/BottomSheet";
+import { Button } from "@/components/Button";
+import { Spacer } from "@/components/Spacer";
+import { Heading, Text } from "@/components/Typography";
+import { RouteName } from "@/screens/types";
 import { Size, useColors } from "@/styles";
 import { useSharedValuePressed } from "@/utils/animation";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useRef } from "react";
+import { useNavigation } from "@react-navigation/core";
+import React, { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import NewModal from "./NewModal";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
   root: {
@@ -29,12 +39,33 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  newModal: {
+    flex: 1,
+    paddingVertical: Size[2],
+    paddingHorizontal: Size[4],
+  },
+  header: {
+    paddingBottom: Size[4],
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  choices: {
+    height: 60,
+    flexDirection: "row",
+  },
+  choice: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    borderRadius: 9999,
+  },
 });
 
 const AddButton: React.FC = () => {
   const { t } = useTranslation();
 
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const ref = useRef<BottomSheetModal>(null);
 
   const [pressed, pressedProps] = useSharedValuePressed();
 
@@ -42,13 +73,23 @@ const AddButton: React.FC = () => {
     opacity: withSpring(pressed.value ? 0.5 : 1, { stiffness: 200 }),
   }));
 
+  const navigation = useNavigation();
+
+  const navigateTo = useCallback(
+    (path: RouteName) => {
+      navigation.navigate(path);
+      ref.current?.dismiss();
+    },
+    [navigation]
+  );
+
   const colors = useColors();
 
   return (
     <>
       <Pressable
         style={styles.root}
-        onPress={() => bottomSheetRef.current?.present()}
+        onPress={() => ref.current?.present()}
         accessibilityLabel={t("new.title")}
         {...pressedProps}
       >
@@ -69,7 +110,45 @@ const AddButton: React.FC = () => {
           </LinearGradient>
         </Animated.View>
       </Pressable>
-      <NewModal ref={bottomSheetRef} />
+      <BottomSheetModal
+        backdropComponent={BottomSheetCustomBackdrop}
+        backgroundComponent={BottomSheetCustomBackground}
+        handleHeight={0}
+        ref={ref}
+        snapPoints={[Size[32]]}
+        style={styles.newModal}
+      >
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={styles.header}>
+            <Heading level={3}>{t("new.title")}</Heading>
+            <Button
+              icon={<IconX color={colors.text} />}
+              onPress={() => ref.current?.dismiss()}
+            />
+          </View>
+          <View style={styles.choices}>
+            <TouchableOpacity
+              style={[styles.choice, { backgroundColor: "#EB367F" }]}
+              onPress={() => navigateTo(RouteName.NewSelectSongs)}
+            >
+              <IconPlaylistAdd color="#ffffff" />
+              <Text bold style={{ color: "#ffffff" }}>
+                {t("new.select_songs.title")}
+              </Text>
+            </TouchableOpacity>
+            <Spacer x={2} />
+            <TouchableOpacity
+              style={[styles.choice, { backgroundColor: "#4C2889" }]}
+              onPress={() => navigateTo(RouteName.NewQuickShare)}
+            >
+              <IconMusic color="#ffffff" />
+              <Text bold style={{ color: "#ffffff" }}>
+                {t("new.quick_share.title")}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </BottomSheetModal>
     </>
   );
 };

@@ -5,7 +5,7 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { useStoryCreateMutation } from "@/gql/gql.gen";
 import { usePlayer } from "@/player";
-import { RootStackParamList, RouteName } from "@/screens/types";
+import { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback } from "react";
@@ -35,9 +35,10 @@ interface FormValues {
   text: string;
 }
 
-const Create: React.FC<
-  StackScreenProps<RootStackParamList, RouteName.NewFinal>
-> = ({ route, navigation }) => {
+const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
+  route,
+  navigation,
+}) => {
   const { t } = useTranslation();
   const { control, handleSubmit } = useForm<FormValues>();
 

@@ -4,7 +4,7 @@ import { Spacer } from "@/components/Spacer";
 import { Text, TextLink } from "@/components/Typography";
 import { useMe } from "@/gql/hooks";
 import { useAuthActions } from "@/gql/store";
-import { RootStackParamList, RouteName } from "@/screens/types";
+import { ParamList, RouteName } from "@/screens/types";
 import { Size, useColors } from "@/styles";
 import { commonStyles } from "@/styles/common";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -12,6 +12,7 @@ import React, { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Config from "react-native-config";
+import { SafeAreaView } from "react-native-safe-area-context";
 import ContinueButton from "./ContinueButton";
 
 const styles = StyleSheet.create({
@@ -44,9 +45,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const SignInScreen: React.FC<
-  StackScreenProps<RootStackParamList, RouteName.SignIn>
-> = ({ route, navigation }) => {
+const SignInScreen: React.FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
+  route,
+  navigation,
+}) => {
   const { t } = useTranslation();
   const { signIn } = useAuthActions();
 
@@ -68,7 +70,7 @@ const SignInScreen: React.FC<
   return (
     <>
       <HeaderBackable title={t("sign_in.title")} />
-      <View>
+      <SafeAreaView style={styles.root}>
         <View style={[commonStyles.fillAndCentered, styles.top]}>
           <Logo
             style={styles.logo}
@@ -136,7 +138,7 @@ const SignInScreen: React.FC<
             />
           </Text>
         </View>
-      </View>
+      </SafeAreaView>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { HeaderBackable } from "@/components/Header";
-import { RootStackParamList, RouteName } from "@/screens/types";
+import { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback } from "react";
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 const QuickShare: React.FC<
-  StackScreenProps<RootStackParamList, RouteName.NewQuickShare>
+  StackScreenProps<ParamList, RouteName.NewQuickShare>
 > = ({ navigation }) => {
   const { t } = useTranslation();
 

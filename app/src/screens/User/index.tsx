@@ -2,7 +2,7 @@ import { HeaderBackable } from "@/components/Header";
 import { LoadingBlock } from "@/components/Loading";
 import { NotFound } from "@/components/Page";
 import { User, useUserQuery } from "@/gql/gql.gen";
-import { RootStackParamList, RouteName } from "@/screens/types";
+import { ParamList, RouteName } from "@/screens/types";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -35,9 +35,9 @@ const ContainerContent: React.FC<{ user: User }> = ({ user }) => {
   );
 };
 
-const UserScreen: React.FC<
-  StackScreenProps<RootStackParamList, RouteName.User>
-> = ({ route }) => {
+const UserScreen: React.FC<StackScreenProps<ParamList, RouteName.User>> = ({
+  route,
+}) => {
   const username = route.params.username;
   const [{ data: { user } = { user: undefined }, fetching }] = useUserQuery({
     variables: { username },

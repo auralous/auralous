@@ -10,7 +10,7 @@ export enum RouteName {
   NewQuickShare = "new/quick-share",
 }
 
-export interface RootStackParamList extends ParamListBase {
+export interface ParamList extends ParamListBase {
   [RouteName.Home]: undefined;
   [RouteName.SignIn]: undefined;
   [RouteName.User]: {

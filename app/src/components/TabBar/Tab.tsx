@@ -2,10 +2,7 @@ import { Text } from "@/components/Typography";
 import { Size, useColors } from "@/styles";
 import { commonStyles } from "@/styles/common";
 import { useSharedValuePressed } from "@/utils/animation";
-import {
-  BottomTabBarOptions,
-  BottomTabBarProps,
-} from "@react-navigation/bottom-tabs";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
@@ -28,7 +25,7 @@ interface TabProps {
   name: string;
   title: string;
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  navigation: BottomTabBarProps<BottomTabBarOptions>["navigation"];
+  navigation: BottomTabBarProps["navigation"];
   currentRoute: string;
 }
 

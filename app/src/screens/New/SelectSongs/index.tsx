@@ -1,5 +1,5 @@
 import { HeaderBackable } from "@/components/Header";
-import { RootStackParamList, RouteName } from "@/screens/types";
+import { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useState } from "react";
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 });
 
 const SelectSongs: React.FC<
-  StackScreenProps<RootStackParamList, RouteName.NewSelectSongs>
+  StackScreenProps<ParamList, RouteName.NewSelectSongs>
 > = ({ navigation }) => {
   const { t } = useTranslation();
   const [tab, setTab] = useState<"songs" | "playlists">("songs");

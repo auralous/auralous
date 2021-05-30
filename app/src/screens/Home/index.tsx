@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   const { t } = useTranslation();
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={styles.root}>
         <HeaderSection />
         <View style={styles.content}>

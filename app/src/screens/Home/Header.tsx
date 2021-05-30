@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 import { RouteName } from "../types";
 import AddButton from "./AddButton";
-import { HomeScreenProps } from "./types";
 
 const styles = StyleSheet.create({
   root: {
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
 const Header: React.FC = () => {
   const { t } = useTranslation();
   const me = useMe();
-  const navigation = useNavigation<HomeScreenProps["navigation"]>();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.root}>
