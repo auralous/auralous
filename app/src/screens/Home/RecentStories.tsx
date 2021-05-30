@@ -3,8 +3,7 @@ import { Story, useStoriesQuery, useUserQuery } from "@/gql/gql.gen";
 import { usePlayer } from "@/player";
 import { Size } from "@/styles";
 import React from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
   storyItemWrapper: {

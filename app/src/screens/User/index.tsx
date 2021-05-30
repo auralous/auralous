@@ -4,11 +4,11 @@ import { NotFound } from "@/components/Page";
 import { User, useUserQuery } from "@/gql/gql.gen";
 import { ParamList, RouteName } from "@/screens/types";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { ContextMetaList, MetaListState } from "./MetaList/Context";
 import FollowersList from "./MetaList/FollowersList";
 import FollowingsList from "./MetaList/FollowingsList";
-import useStoreBottomSheet from "./MetaList/store";
 import UserMeta from "./UserMeta";
 
 const styles = StyleSheet.create({
@@ -20,18 +20,19 @@ const styles = StyleSheet.create({
 });
 
 const ContainerContent: React.FC<{ user: User }> = ({ user }) => {
-  const closeSheet = useStoreBottomSheet((state) => state.close);
+  const [list, setList] = useState<MetaListState[0]>(null);
+
   useEffect(() => {
-    return () => closeSheet();
-  }, [closeSheet]);
+    return () => setList(null);
+  }, []);
   return (
-    <>
+    <ContextMetaList.Provider value={[list, setList]}>
       <ScrollView>
         <UserMeta user={user} />
       </ScrollView>
       <FollowersList user={user} />
       <FollowingsList user={user} />
-    </>
+    </ContextMetaList.Provider>
   );
 };
 

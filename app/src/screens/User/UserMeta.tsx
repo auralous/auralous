@@ -4,9 +4,8 @@ import { User, useUserStatQuery } from "@/gql/gql.gen";
 import { Size } from "@/styles";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import useStoreBottomSheet from "./MetaList/store";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { useListState } from "./MetaList/Context";
 
 const styles = StyleSheet.create({
   root: {
@@ -42,12 +41,12 @@ interface UserStatProps {
 }
 
 const UserStat: React.FC<UserStatProps> = ({ name, value, list }) => {
-  const open = useStoreBottomSheet((state) => state.open);
+  const [, setList] = useListState();
   return (
     <View style={styles.stat}>
       <TouchableOpacity
         style={styles.statTouchable}
-        onPress={() => list && open(list)}
+        onPress={() => list && setList(list)}
       >
         <Text bold size="xl" color="textSecondary" style={styles.statValue}>
           {value}

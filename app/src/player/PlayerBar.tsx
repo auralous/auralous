@@ -4,8 +4,13 @@ import { useTrackQuery } from "@/gql/gql.gen";
 import { Size, useColors } from "@/styles";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { usePlaybackState, usePlayer } from "./Context";
 
 const styles = StyleSheet.create({

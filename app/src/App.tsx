@@ -1,5 +1,4 @@
 import { TabBar } from "@/components/TabBar";
-import { useStoreAPI } from "@/gql/store";
 import HomeScreen from "@/screens/Home";
 import MapScreen from "@/screens/Map";
 import {
@@ -18,7 +17,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Provider } from "urql";
+import { ApiProvider } from "./gql/context";
 import { PlayerProvider } from "./player";
 
 const Tab = createBottomTabNavigator();
@@ -50,7 +49,6 @@ const MainScreen: React.FC = () => {
 
 const App = () => {
   const colors = useColors();
-  const client = useStoreAPI((state) => state.client);
 
   return (
     <NavigationContainer
@@ -67,7 +65,7 @@ const App = () => {
       }}
       linking={linking}
     >
-      <Provider value={client}>
+      <ApiProvider>
         <BottomSheetModalProvider>
           <PlayerProvider>
             <BottomSheetModalProvider>
@@ -100,7 +98,7 @@ const App = () => {
             </BottomSheetModalProvider>
           </PlayerProvider>
         </BottomSheetModalProvider>
-      </Provider>
+      </ApiProvider>
     </NavigationContainer>
   );
 };

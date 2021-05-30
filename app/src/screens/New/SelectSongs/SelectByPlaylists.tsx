@@ -9,8 +9,7 @@ import {
 import { Size, useColors } from "@/styles";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import {
   SelectableTrackList,
   SelectableTrackListProps,

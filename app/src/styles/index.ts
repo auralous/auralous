@@ -1,3 +1,3 @@
-export { useColors } from "./colors";
-export type { ThemeColor } from "./colors";
 export { Size } from "./layout";
+export { useColors } from "./theme";
+export type { ThemeColor } from "./theme";

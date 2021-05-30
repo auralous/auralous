@@ -1,4 +1,7 @@
-import create from "zustand";
+import {
+  createContext,
+  useContextSelector,
+} from "@fluentui/react-context-selector";
 
 const Colors = {
   background: "#010101",
@@ -25,8 +28,14 @@ export type ThemeColor = keyof typeof Colors;
 
 // ColorsLight = {}
 
-export const useStore = create(() => ({
-  colors: Colors,
-}));
+type IThemeContext = {
+  colors: typeof Colors;
+};
 
-export const useColors = () => useStore((state) => state.colors);
+const ThemeContext = createContext<IThemeContext>({
+  colors: Colors,
+});
+
+const colorSelector = (v: IThemeContext) => v.colors;
+
+export const useColors = () => useContextSelector(ThemeContext, colorSelector);

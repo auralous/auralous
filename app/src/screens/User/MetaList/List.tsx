@@ -4,11 +4,14 @@ import { Heading } from "@/components/Typography";
 import { Maybe } from "@/gql/gql.gen";
 import { Size } from "@/styles";
 import { commonStyles } from "@/styles/common";
-import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetFlatList,
+} from "@gorhom/bottom-sheet";
 import React, { useCallback, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { ListRenderItem, StyleSheet, View } from "react-native";
-import useStoreBottomSheet from "./store";
+import { useListState } from "./Context";
 
 interface ListProps<Item = any> {
   renderItem: ListRenderItem<Item>;
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
   flatList: { flex: 1 },
 });
 
-const snapPoints = [0, "100%"];
+const snapPoints = [0, "90%"];
 
 const List: React.FC<ListProps> = ({
   renderItem,
@@ -46,11 +49,11 @@ const List: React.FC<ListProps> = ({
   const { t } = useTranslation();
   const sheetRef = useRef<BottomSheet>(null);
 
-  const close = useStoreBottomSheet((state) => state.close);
+  const [, setList] = useListState();
 
   const handleSheetChange = useCallback(
-    (index: number) => index === 0 && close(),
-    [close]
+    (index: number) => index === 0 && setList(null),
+    [setList]
   );
 
   useEffect(() => {
@@ -63,6 +66,7 @@ const List: React.FC<ListProps> = ({
       snapPoints={snapPoints}
       onChange={handleSheetChange}
       backgroundComponent={BottomSheetCustomBackground}
+      backdropComponent={BottomSheetBackdrop}
       style={styles.root}
     >
       <Heading level={4} color="textSecondary" style={styles.heading}>

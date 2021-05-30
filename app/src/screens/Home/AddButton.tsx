@@ -1,20 +1,22 @@
 import { IconMusic, IconPlaylistAdd, IconPlus, IconX } from "@/assets/svg";
-import {
-  BottomSheetCustomBackdrop,
-  BottomSheetCustomBackground,
-} from "@/components/BottomSheet";
+import { BottomSheetCustomBackground } from "@/components/BottomSheet";
 import { Button } from "@/components/Button";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { Size, useColors } from "@/styles";
 import { useSharedValuePressed } from "@/utils/animation";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/core";
 import React, { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, {
   useAnimatedStyle,
@@ -52,6 +54,7 @@ const styles = StyleSheet.create({
   choices: {
     height: 60,
     flexDirection: "row",
+    width: "100%",
   },
   choice: {
     flex: 1,
@@ -111,7 +114,7 @@ const AddButton: React.FC = () => {
         </Animated.View>
       </Pressable>
       <BottomSheetModal
-        backdropComponent={BottomSheetCustomBackdrop}
+        backdropComponent={BottomSheetBackdrop}
         backgroundComponent={BottomSheetCustomBackground}
         handleHeight={0}
         ref={ref}

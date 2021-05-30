@@ -1,9 +1,9 @@
 import { User, useUserFollowersQuery } from "@/gql/gql.gen";
 import React from "react";
 import { ListRenderItem } from "react-native";
+import { useListState } from "./Context";
 import List from "./List";
 import ListUserItem from "./ListItem";
-import useStoreBottomSheet from "./store";
 
 interface FollowersList {
   user: User;
@@ -14,7 +14,7 @@ const renderItem: ListRenderItem<string> = ({ item }) => (
 );
 
 const FollowersList: React.FC<FollowersList> = ({ user }) => {
-  const list = useStoreBottomSheet((state) => state.list);
+  const [list] = useListState();
 
   const visible = list === "followers";
 
