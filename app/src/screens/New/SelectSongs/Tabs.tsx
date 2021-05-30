@@ -2,7 +2,8 @@ import { Heading } from "@/components/Typography";
 import { Size } from "@/styles";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface TabProps {
   title: string;

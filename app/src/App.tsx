@@ -13,7 +13,7 @@ import { Size, useColors } from "@/styles";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -22,7 +22,7 @@ import { PlayerProvider } from "./player";
 
 const Tab = createBottomTabNavigator();
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const linking: LinkingOptions<ParamList> = {
   prefixes: ["auralous://"],
@@ -76,18 +76,15 @@ const App = () => {
                   <Stack.Screen
                     name={RouteName.SignIn}
                     component={SignInScreen}
-                    options={{ presentation: "modal" }}
                   />
                   <Stack.Screen name={RouteName.User} component={UserScreen} />
                   <Stack.Screen
                     name={RouteName.NewSelectSongs}
                     component={SelectSongsScreen}
-                    options={{ presentation: "modal" }}
                   />
                   <Stack.Screen
                     name={RouteName.NewQuickShare}
                     component={QuickShareScreen}
-                    options={{ presentation: "modal" }}
                   />
                   <Stack.Screen
                     name={RouteName.NewFinal}

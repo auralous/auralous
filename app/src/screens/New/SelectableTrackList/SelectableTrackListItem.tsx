@@ -3,7 +3,8 @@ import { TrackItem } from "@/components/Track";
 import { useTrackQuery } from "@/gql/gql.gen";
 import { Size, useColors } from "@/styles";
 import React, { useMemo } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { SelectableTrackListProps } from "./types";
 
 const styles = StyleSheet.create({
