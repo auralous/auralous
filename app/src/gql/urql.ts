@@ -1,4 +1,5 @@
 import {
+  GraphCacheConfig,
   MeDocument,
   MeQuery,
   NowPlayingReactionsDocument,
@@ -15,7 +16,6 @@ import { ASYNC_STORAGE_AUTH } from "@/utils/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authExchange } from "@urql/exchange-auth";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
-import { IntrospectionData } from "@urql/exchange-graphcache/dist/types/ast";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { createClient as createWSClient } from "graphql-ws";
 import Config from "react-native-config";
@@ -27,15 +27,16 @@ import {
   makeOperation,
   subscriptionExchange,
 } from "urql";
-import schema from "./schema.json";
+import schema from "./introspection.gen";
 import { nextCursorPagination } from "./_pagination";
 
 const wsClient = createWSClient({
   url: `${Config.WEBSOCKET_URI}/graphql`,
 });
 
-const cacheExchange = createCacheExchange({
-  schema: (schema as unknown) as IntrospectionData,
+// @ts-ignore
+const cacheExchange = createCacheExchange<GraphCacheConfig>({
+  schema,
   keys: {
     QueueItem: () => null,
     Me: () => null,
@@ -55,7 +56,6 @@ const cacheExchange = createCacheExchange({
       // user: (parent, args) => ({ __typename: "User", id: args.id }),
     },
     Message: {
-      // @ts-ignore
       createdAt: (parent) => new Date(parent.createdAt),
     },
     NowPlayingQueueItem: {
@@ -67,24 +67,19 @@ const cacheExchange = createCacheExchange({
           : undefined,
     },
     Story: {
-      // @ts-ignore
-      createdAt: (parent: Story) => new Date(parent.createdAt),
+      createdAt: (parent) => new Date(parent.createdAt),
     },
     NotificationInvite: {
-      // @ts-ignore
       createdAt: (parent) => new Date(parent.createdAt),
     },
     NotificationFollow: {
-      // @ts-ignore
       createdAt: (parent) => new Date(parent.createdAt),
     },
     NotificationNewStory: {
-      // @ts-ignore
       createdAt: (parent) => new Date(parent.createdAt),
     },
     Me: {
       expiredAt: (parent) =>
-        // @ts-ignore
         parent.expiredAt ? new Date(parent.expiredAt) : parent.expiredAt,
     },
   },

@@ -1,4 +1,4 @@
-schema: http://localhost:4000/graphql
+schema: ../api/src/graphql/*/*.graphql
 documents: './graphql/*.graphql'
 generates:
   ./web/src/gql/gql.gen.ts:
@@ -6,6 +6,7 @@ generates:
       - typescript
       - typescript-operations
       - typescript-urql
+      - typescript-urql-graphcache
     config:
       # immutableTypes: true
       withComponent: false
@@ -18,6 +19,7 @@ generates:
       - typescript
       - typescript-operations
       - typescript-urql
+      - typescript-urql-graphcache
     config:
       # immutableTypes: true
       withComponent: false
@@ -25,3 +27,13 @@ generates:
       documentMode: "documentNode"
       nonOptionalTypename: true
       skipTypeNameForRoot: true
+  ./web/src/gql/introspection.gen.ts:
+    plugins:
+      - urql-introspection
+    config:
+      useTypeImports: true
+  ./app/src/gql/introspection.gen.ts:
+    plugins:
+      - urql-introspection
+    config:
+      useTypeImports: true

@@ -38,7 +38,7 @@
     "graphql": "^15.5.0",
     "graphql-ws": "^4.3.1",
     "mapbox-gl": "^2.2.0",
-    "next": "10.0.9",
+    "next": "^10.2.3",
     "next-seo": "^4.23.0",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
@@ -69,7 +69,7 @@
     "@types/youtube": "^0.0.42",
     "postcss": "^8.2.8",
     "postcss-import": "^14.0.0",
-    "postcss-nesting": "^7.0.1",
+    "postcss-nesting": "^8.0.1",
     "typescript": "^4.2.3"
   },
   "engines": {
