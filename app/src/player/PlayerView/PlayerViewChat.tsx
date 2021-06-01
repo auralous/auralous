@@ -10,7 +10,6 @@ import {
   useMessageAddMutation,
   useMessagesQuery,
   useTrackQuery,
-  useUserQuery,
 } from "@/gql/gql.gen";
 import { Size, useColors } from "@/styles";
 import { format as formatMs } from "@lukeed/ms";
@@ -66,9 +65,6 @@ const ChatItemJoin: React.FC<{
 }> = ({ message }) => {
   const { t } = useTranslation();
 
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: message.creatorId },
-  });
   const colors = useColors();
 
   return (
@@ -77,7 +73,7 @@ const ChatItemJoin: React.FC<{
         <IconLogIn width={18} height={18} stroke={colors.textSecondary} />
         <Spacer x={2} />
         <Text color="textSecondary">
-          {t("chat.play", { username: user?.username })}
+          {t("chat.play", { username: message.creator.username })}
           {" • "}
           {getDateDiffTxt(t, message.createdAt)}
         </Text>
@@ -90,9 +86,7 @@ const ChatItemPlay: React.FC<{
   message: Message;
 }> = ({ message }) => {
   const { t } = useTranslation();
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: message.creatorId },
-  });
+
   const [{ data: { track } = { track: undefined } }] = useTrackQuery({
     variables: { id: message.text || "" },
     pause: !message.text,
@@ -106,7 +100,7 @@ const ChatItemPlay: React.FC<{
         <IconMusic width={18} height={18} stroke={colors.textSecondary} />
         <Spacer x={2} />
         <Text color="textSecondary">
-          {t("chat.play", { username: user?.username })}
+          {t("chat.play", { username: message.creator.username })}
           {" • "}
           {getDateDiffTxt(t, message.createdAt)}
         </Text>
@@ -122,21 +116,17 @@ const ChatItemText: React.FC<{
   message: Message;
 }> = ({ message }) => {
   const { t } = useTranslation();
-  const [{ data: { user } = { user: undefined } }] = useUserQuery({
-    variables: { id: message.creatorId },
-  });
+
   return (
     <View style={styles.listItem}>
       <View style={styles.chatHead}>
-        {user && (
-          <Avatar
-            size={6}
-            username={user.username}
-            href={user.profilePicture}
-          />
-        )}
+        <Avatar
+          size={6}
+          username={message.creator.username}
+          href={message.creator.profilePicture}
+        />
         <Spacer x={2} />
-        <Text bold>{user?.username}</Text>
+        <Text bold>{message.creator.username}</Text>
         <Text color="textSecondary">
           {" • "}
           {getDateDiffTxt(t, message.createdAt)}
@@ -164,12 +154,11 @@ const ChatList: React.FC<{ id: string }> = ({ id }) => {
   const scrollShouldFollow = useRef(true);
 
   const [offset, setOffset] = useState(0);
-  const [
-    { data: { messages: prevMessages } = { messages: undefined } },
-  ] = useMessagesQuery({
-    variables: { id, limit: 20, offset },
-    requestPolicy: "cache-and-network",
-  });
+  const [{ data: { messages: prevMessages } = { messages: undefined } }] =
+    useMessagesQuery({
+      variables: { id, limit: 20, offset },
+      requestPolicy: "cache-and-network",
+    });
 
   const [{ data: newMessages }] = useMessageAddedSubscription<Message[]>(
     { variables: { id }, pause: !prevMessages },

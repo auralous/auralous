@@ -6,6 +6,11 @@ fragment StoryDetailParts on Story {
   isLive
   creatorId
   queueable
+  creator {
+    id
+    username
+    profilePicture
+  }
 }
 
 query story($id: ID!) {

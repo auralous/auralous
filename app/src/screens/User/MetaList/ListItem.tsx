@@ -29,20 +29,17 @@ const ListItem: React.FC<{ id: string }> = ({ id }) => {
 
   const navigation = useNavigation();
 
-  const [
-    { data: { userFollowings } = { userFollowings: undefined } },
-  ] = useMeFollowings();
+  const [{ data: { userFollowings } = { userFollowings: undefined } }] =
+    useMeFollowings();
 
-  const followed = useMemo(() => Boolean(userFollowings?.includes(id)), [
-    userFollowings,
-    id,
-  ]);
+  const followed = useMemo(
+    () => Boolean(userFollowings?.includes(id)),
+    [userFollowings, id]
+  );
 
   const [{ fetching: fetchingFollow }, followUser] = useUserFollowMutation();
-  const [
-    { fetching: fetchingUnfollow },
-    unfollowUser,
-  ] = useUserUnfollowMutation();
+  const [{ fetching: fetchingUnfollow }, unfollowUser] =
+    useUserUnfollowMutation();
 
   return (
     <View style={styles.root}>

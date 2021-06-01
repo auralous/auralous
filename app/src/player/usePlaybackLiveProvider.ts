@@ -54,10 +54,8 @@ const usePlaybackLiveProvider = (
     };
   }, [player, nowPlaying]);
 
-  const [
-    { fetching: fetchingSkip },
-    skipNowPlaying,
-  ] = useNowPlayingSkipMutation();
+  const [{ fetching: fetchingSkip }, skipNowPlaying] =
+    useNowPlayingSkipMutation();
 
   const canSkipForward = Boolean(
     active &&

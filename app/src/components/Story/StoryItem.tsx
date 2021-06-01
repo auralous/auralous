@@ -1,6 +1,6 @@
 import { Avatar } from "@/components/Avatar";
 import { Text } from "@/components/Typography";
-import { Maybe, Story, User } from "@/gql/gql.gen";
+import { Story } from "@/gql/gql.gen";
 import { Size, useColors } from "@/styles";
 import { format as formatMs } from "@/utils/ms";
 import React, { useMemo } from "react";
@@ -8,9 +8,7 @@ import { useTranslation } from "react-i18next";
 import { ImageBackground, StyleSheet, View } from "react-native";
 
 interface StoryItemProps {
-  story: Maybe<Story>;
-  creator: Maybe<User>;
-  fetching?: boolean;
+  story: Story;
 }
 
 const styles = StyleSheet.create({
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const StoryItem: React.FC<StoryItemProps> = ({ story, creator }) => {
+const StoryItem: React.FC<StoryItemProps> = ({ story }) => {
   const { t } = useTranslation();
 
   const colors = useColors();
@@ -64,34 +62,32 @@ const StoryItem: React.FC<StoryItemProps> = ({ story, creator }) => {
 
   return (
     <View style={styles.root}>
-      <ImageBackground source={{ uri: story?.image }} style={styles.background}>
+      <ImageBackground source={{ uri: story.image }} style={styles.background}>
         <View style={styles.overlay}>
           <View style={styles.top}>
-            {creator && (
-              <Avatar
-                href={creator.profilePicture}
-                username={creator.username}
-                size={12}
-              />
-            )}
+            <Avatar
+              href={story.creator.profilePicture}
+              username={story.creator.username}
+              size={12}
+            />
           </View>
           <View style={styles.bottom}>
             <Text style={styles.text} bold size="xl">
-              {creator?.username}
+              {story.creator.username}
             </Text>
-            {Boolean(story?.text) && (
+            {Boolean(story.text) && (
               <Text
                 style={[styles.text, styles.textSecondary]}
                 numberOfLines={3}
               >
-                {story?.text}
+                {story.text}
               </Text>
             )}
             <View
               style={[
                 styles.tag,
                 {
-                  backgroundColor: story?.isLive
+                  backgroundColor: story.isLive
                     ? colors.primary
                     : "rgba(0,0,0,.5)",
                 },

@@ -1,4 +1,4 @@
-import { useStoryQuery, useUserQuery } from "@/gql/gql.gen";
+import { useStoryQuery } from "@/gql/gql.gen";
 import { PlaybackContextType } from "./Context";
 
 export const usePlaybackContextData = (
@@ -11,15 +11,6 @@ export const usePlaybackContextData = (
   });
 
   const story = !staleStory ? dataStory?.story : null;
-
-  const [{ data: dataUser, stale: staleUser }] = useUserQuery({
-    variables: {
-      id: story?.creatorId || "",
-    },
-    pause: !story?.creatorId,
-  });
-
-  const creator = !staleUser ? dataUser?.user : null;
-
+  const creator = story?.creator;
   return { story, creator } as const;
 };
