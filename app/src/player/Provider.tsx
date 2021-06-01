@@ -8,6 +8,7 @@ import PlayerYoutube from "./PlayerYoutube";
 import usePlaybackAuthentication from "./usePlaybackAuthentication";
 import usePlaybackLiveProvider from "./usePlaybackLiveProvider";
 import usePlaybackOnDemandProvider from "./usePlaybackOnDemandProvider";
+import { useTrackColors } from "./useTrackColors";
 
 const player = new Player();
 
@@ -117,6 +118,9 @@ const Provider: React.FC = ({ children }) => {
   const fetching =
     providedOnDemand.fetching || providedLive.fetching || fetchingCrossTracks;
 
+  // Colors for theme
+  const colors = useTrackColors(playingTrackId);
+
   const playbackState = useMemo(
     () => ({
       contextId,
@@ -129,6 +133,7 @@ const Provider: React.FC = ({ children }) => {
         (providedOnDemand.canSkipForward || providedLive.canSkipForward),
       trackId: playingTrackId,
       queueIndex: providedOnDemand.queueIndex || providedLive.queueIndex,
+      colors,
       fetching,
       isPlaying,
     }),
@@ -139,6 +144,7 @@ const Provider: React.FC = ({ children }) => {
       providedOnDemand,
       isPlaying,
       playingTrackId,
+      colors,
       fetching,
     ]
   );

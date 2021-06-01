@@ -5,7 +5,7 @@ import {
 
 const Colors = {
   background: "#010101",
-  backgroundSecondary: "#0C0C0C",
+  backgroundSecondary: "#111111",
   text: "#FFFFFF",
   textSecondary: "rgba(255, 255, 255, 0.6)",
   textTertiary: "rgba(255, 255, 255, 0.3)",

@@ -8,8 +8,7 @@ import { Spacer } from "@/components/Spacer";
 import { Size, useColors } from "@/styles";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { PlaybackState } from "../Context";
 import Player from "../Player";
 
@@ -22,12 +21,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   backPrev: {
+    width: Size[16],
+    height: Size[16],
     justifyContent: "center",
     alignItems: "center",
-    padding: Size[3],
   },
   playPause: {
-    padding: Size[4],
+    width: Size[16],
+    height: Size[16],
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 9999,
   },
 });
@@ -64,14 +67,14 @@ const PlayerViewControl: React.FC<{
       <View style={trackId ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
           onPress={() => (isPlaying ? player.pause() : player.play())}
-          style={[styles.playPause, { backgroundColor: colors.control }]}
+          style={[styles.playPause, { backgroundColor: colors.textTertiary }]}
           accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
           disabled={!trackId}
         >
           {isPlaying ? (
-            <IconPause width={Size[8]} height={Size[8]} fill={colors.text} />
+            <IconPause width={Size[10]} height={Size[10]} fill={colors.text} />
           ) : (
-            <IconPlay width={Size[8]} height={Size[8]} fill={colors.text} />
+            <IconPlay width={Size[10]} height={Size[10]} fill={colors.text} />
           )}
         </TouchableOpacity>
       </View>

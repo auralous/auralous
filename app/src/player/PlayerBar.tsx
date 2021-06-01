@@ -39,7 +39,12 @@ const styles = StyleSheet.create({
 const PlayerBar: React.FC = () => {
   const { t } = useTranslation();
 
-  const { trackId, contextId, isPlaying } = usePlaybackState();
+  const {
+    trackId,
+    contextId,
+    isPlaying,
+    colors: gradientColors,
+  } = usePlaybackState();
   const player = usePlayer();
   const [{ data: { track } = { track: undefined } }] = useTrackQuery({
     variables: { id: trackId || "" },
@@ -50,7 +55,7 @@ const PlayerBar: React.FC = () => {
 
   if (!contextId) return null;
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
+    <View style={[styles.root, { backgroundColor: gradientColors[1] }]}>
       <Pressable
         style={styles.viewExpandTrigger}
         onPress={() => player.emit("__player_bar_pressed")}

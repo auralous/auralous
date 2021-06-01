@@ -3,7 +3,6 @@ import {
   IconMessageSquare,
   IconMoreHorizontal,
 } from "@/assets/svg";
-import { BottomSheetCustomBackground } from "@/components/BottomSheet";
 import { Button } from "@/components/Button";
 import { Header } from "@/components/Header";
 import { useTrackQuery } from "@/gql/gql.gen";
@@ -12,6 +11,7 @@ import BottomSheet, { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet, View } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import { usePlaybackState, usePlayer } from "../Context";
 import PlayerQueue from "../PlayerQueue";
 import { usePlaybackContextData } from "../usePlaybackContextData";
@@ -25,15 +25,12 @@ import PlayerViewSheet from "./PlayerViewSheet";
 const snapPoints = ["100%"];
 
 const styles = StyleSheet.create({
-  modal: {
+  fill: {
     flex: 1,
   },
   root: {
     flex: 1,
     padding: Size[6],
-  },
-  content: {
-    flex: 1,
   },
 });
 
@@ -93,44 +90,44 @@ const PlayerView: React.FC = () => {
     <BottomSheetModal
       ref={bottomSheetRef}
       snapPoints={snapPoints}
-      backgroundComponent={BottomSheetCustomBackground}
       handleComponent={null}
-      style={styles.modal}
     >
       <StatusBar translucent hidden />
-      <Header
-        title={title}
-        left={
-          <Button
-            onPress={() => bottomSheetRef.current?.dismiss()}
-            icon={<IconChevronDown color={colors.text} />}
-            accessibilityLabel={t("common.navigation.go_back")}
-          />
-        }
-        right={<Button icon={<IconMoreHorizontal color={colors.text} />} />}
-      />
-      <View style={styles.root}>
-        <View style={styles.content}>
-          <PlayerViewMeta track={track || null} />
-          <PlayerViewProgress track={track} player={player} />
-          <PlayerViewControl playbackState={playbackState} player={player} />
-          <PlayerViewFooter items={footerItems} />
+      <LinearGradient colors={playbackState.colors} style={styles.fill}>
+        <Header
+          title={title}
+          left={
+            <Button
+              onPress={() => bottomSheetRef.current?.dismiss()}
+              icon={<IconChevronDown color={colors.text} />}
+              accessibilityLabel={t("common.navigation.go_back")}
+            />
+          }
+          right={<Button icon={<IconMoreHorizontal color={colors.text} />} />}
+        />
+        <View style={styles.root}>
+          <View style={styles.fill}>
+            <PlayerViewMeta track={track || null} />
+            <PlayerViewProgress track={track} player={player} />
+            <PlayerViewControl playbackState={playbackState} player={player} />
+            <PlayerViewFooter items={footerItems} />
+          </View>
         </View>
-      </View>
-      <PlayerViewSheet
-        ref={refChat}
-        title={t("chat.title")}
-        onClose={() => refChat.current?.snapTo(0)}
-      >
-        <PlayerViewChat playbackState={playbackState} />
-      </PlayerViewSheet>
-      <PlayerViewSheet
-        ref={refQueue}
-        title={t("queue.title")}
-        onClose={() => refQueue.current?.snapTo(0)}
-      >
-        <PlayerQueue />
-      </PlayerViewSheet>
+        <PlayerViewSheet
+          ref={refChat}
+          title={t("chat.title")}
+          onClose={() => refChat.current?.snapTo(0)}
+        >
+          <PlayerViewChat playbackState={playbackState} />
+        </PlayerViewSheet>
+        <PlayerViewSheet
+          ref={refQueue}
+          title={t("queue.title")}
+          onClose={() => refQueue.current?.snapTo(0)}
+        >
+          <PlayerQueue />
+        </PlayerViewSheet>
+      </LinearGradient>
     </BottomSheetModal>
   );
 };

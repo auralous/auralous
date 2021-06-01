@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingVertical: Size[2],
+    padding: Size[2],
   },
 });
 
@@ -22,10 +22,10 @@ const PlayerViewMeta: React.FC<{ track: Maybe<Track> }> = ({ track }) => {
         source={{ uri: track?.image }}
       />
       <View style={styles.header}>
-        <Text size="xl" bold>
+        <Text size="xl" bold numberOfLines={1}>
           {track?.title}
         </Text>
-        <Text size="lg" color="textSecondary">
+        <Text size="lg" color="textSecondary" numberOfLines={1}>
           {track?.artists.map((artist) => artist.name).join(", ")}
         </Text>
       </View>

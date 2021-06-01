@@ -116,9 +116,9 @@ const AddButton: React.FC = () => {
       <BottomSheetModal
         backdropComponent={BottomSheetBackdrop}
         backgroundComponent={BottomSheetCustomBackground}
-        handleHeight={0}
+        handleComponent={null}
         ref={ref}
-        snapPoints={[Size[32]]}
+        snapPoints={[Size[36]]}
         style={styles.newModal}
       >
         <SafeAreaView style={{ flex: 1 }}>

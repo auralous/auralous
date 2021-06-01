@@ -15,6 +15,7 @@ export interface PlaybackState {
   queueIndex: number | null;
   fetching: boolean;
   isPlaying: boolean;
+  colors: [string, string];
 }
 
 export const PlaybackContext = createContext({} as PlaybackState);
