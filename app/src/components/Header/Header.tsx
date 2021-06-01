@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ title, left, right }) => {
     <View style={[styles.root]}>
       <View style={styles.button}>{left}</View>
       <View pointerEvents="none" style={styles.title}>
-        <Text bold align="center" size="lg">
+        <Text bold align="center" size="lg" numberOfLines={1}>
           {title}
         </Text>
       </View>

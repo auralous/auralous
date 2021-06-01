@@ -5,12 +5,12 @@ import {
   IconSkipForward,
 } from "@/assets/svg";
 import { Spacer } from "@/components/Spacer";
+import { PlaybackState } from "@/player/Context";
+import Player from "@/player/Player";
 import { Size, useColors } from "@/styles";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { PlaybackState } from "../Context";
-import Player from "../Player";
 
 const styles = StyleSheet.create({
   root: {
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   backPrev: {
-    width: Size[16],
-    height: Size[16],
+    width: Size[10],
+    height: Size[10],
     justifyContent: "center",
     alignItems: "center",
   },
@@ -63,7 +63,7 @@ const PlayerViewControl: React.FC<{
           />
         </TouchableOpacity>
       </View>
-      <Spacer x={4} />
+      <Spacer x={8} />
       <View style={trackId ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
           onPress={() => (isPlaying ? player.pause() : player.play())}
@@ -78,7 +78,7 @@ const PlayerViewControl: React.FC<{
           )}
         </TouchableOpacity>
       </View>
-      <Spacer x={4} />
+      <Spacer x={8} />
       <View style={canSkipForward ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
           style={styles.backPrev}

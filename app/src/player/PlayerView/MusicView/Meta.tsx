@@ -7,6 +7,7 @@ import { ImageBackground, StyleSheet, View } from "react-native";
 const styles = StyleSheet.create({
   image: {
     flex: 1,
+    marginVertical: Size[2],
   },
   header: {
     padding: Size[2],

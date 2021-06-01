@@ -1,38 +1,64 @@
-import {
-  IconChevronDown,
-  IconMessageSquare,
-  IconMoreHorizontal,
-} from "@/assets/svg";
+import { IconChevronDown, IconMoreHorizontal } from "@/assets/svg";
 import { Button } from "@/components/Button";
 import { Header } from "@/components/Header";
-import { useTrackQuery } from "@/gql/gql.gen";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
+import { usePlaybackState, usePlayer } from "@/player/Context";
+import { usePlaybackContextData } from "@/player/usePlaybackContextData";
 import { Size, useColors } from "@/styles";
-import BottomSheet, { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useEffect, useMemo, useRef } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { Pressable, StatusBar, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { usePlaybackState, usePlayer } from "../Context";
-import PlayerQueue from "../PlayerQueue";
-import { usePlaybackContextData } from "../usePlaybackContextData";
-import PlayerViewChat from "./PlayerViewChat";
-import PlayerViewControl from "./PlayerViewControl";
-import PlayerViewFooter from "./PlayerViewFooter";
-import PlayerViewMeta from "./PlayerViewMeta";
-import PlayerViewProgress from "./PlayerViewProgress";
-import PlayerViewSheet from "./PlayerViewSheet";
+import PagerView from "react-native-pager-view";
+import ChatView from "./ChatView";
+import MusicView from "./MusicView";
 
 const snapPoints = ["100%"];
 
 const styles = StyleSheet.create({
-  fill: {
-    flex: 1,
-  },
   root: {
     flex: 1,
+    paddingTop: Size[2],
+  },
+  content: {
     padding: Size[6],
+    paddingTop: 0,
+    flex: 1,
+  },
+  pagerView: {
+    flex: 1,
+  },
+  tab: {
+    paddingHorizontal: Size[2],
+    paddingVertical: Size[1],
+    borderRadius: 9999,
+  },
+  tabs: {
+    padding: Size[2],
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });
+
+const TabButton: React.FC<{
+  title: string;
+  onPress(): void;
+  selected: boolean;
+}> = ({ title, onPress, selected }) => {
+  const colors = useColors();
+  return (
+    <Pressable
+      onPress={onPress}
+      style={[styles.tab, selected && { backgroundColor: colors.control }]}
+    >
+      <Text bold size="sm" color="text">
+        {title}
+      </Text>
+    </Pressable>
+  );
+};
 
 const PlayerView: React.FC = () => {
   const { t } = useTranslation();
@@ -43,11 +69,6 @@ const PlayerView: React.FC = () => {
     playbackState.contextType,
     playbackState.contextId
   );
-
-  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
-    variables: { id: playbackState.trackId || "" },
-    pause: !playbackState.trackId,
-  });
 
   const title = useMemo(() => {
     if (contextData.story)
@@ -63,28 +84,10 @@ const PlayerView: React.FC = () => {
     return () => player.off("__player_bar_pressed", playerBarPressed);
   }, [player]);
 
+  const pagerRef = useRef<PagerView>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+
   const colors = useColors();
-
-  // React ref for bottom sheet screens
-  const refChat = useRef<BottomSheet>(null);
-  const refQueue = useRef<BottomSheet>(null);
-
-  // footer items
-  const footerItems = useMemo(
-    () => [
-      {
-        icon: <IconMessageSquare color={colors.text} width={24} height={24} />,
-        title: t("chat.title"),
-        onPress: () => refChat.current?.snapTo(1),
-      },
-      {
-        icon: <IconMessageSquare color={colors.text} width={24} height={24} />,
-        title: t("queue.title"),
-        onPress: () => refQueue.current?.snapTo(1),
-      },
-    ],
-    [refChat, t, colors]
-  );
 
   return (
     <BottomSheetModal
@@ -93,7 +96,7 @@ const PlayerView: React.FC = () => {
       handleComponent={null}
     >
       <StatusBar translucent hidden />
-      <LinearGradient colors={playbackState.colors} style={styles.fill}>
+      <LinearGradient colors={playbackState.colors} style={styles.root}>
         <Header
           title={title}
           left={
@@ -105,28 +108,40 @@ const PlayerView: React.FC = () => {
           }
           right={<Button icon={<IconMoreHorizontal color={colors.text} />} />}
         />
-        <View style={styles.root}>
-          <View style={styles.fill}>
-            <PlayerViewMeta track={track || null} />
-            <PlayerViewProgress track={track} player={player} />
-            <PlayerViewControl playbackState={playbackState} player={player} />
-            <PlayerViewFooter items={footerItems} />
+        <View style={styles.content}>
+          <View style={styles.tabs}>
+            <TabButton
+              onPress={() => pagerRef.current?.setPage(0)}
+              selected={currentPage === 0}
+              title={t("music.title")}
+            />
+            <Spacer x={2} />
+            <TabButton
+              onPress={() => pagerRef.current?.setPage(1)}
+              selected={currentPage === 1}
+              title={t("chat.title")}
+            />
           </View>
+          <PagerView
+            onPageSelected={({ nativeEvent }) =>
+              setCurrentPage(nativeEvent.position)
+            }
+            ref={pagerRef}
+            style={styles.pagerView}
+            initialPage={0}
+          >
+            <View key={0}>
+              <MusicView
+                key={0}
+                player={player}
+                playbackState={playbackState}
+              />
+            </View>
+            <View>
+              <ChatView playbackState={playbackState} key={1} />
+            </View>
+          </PagerView>
         </View>
-        <PlayerViewSheet
-          ref={refChat}
-          title={t("chat.title")}
-          onClose={() => refChat.current?.snapTo(0)}
-        >
-          <PlayerViewChat playbackState={playbackState} />
-        </PlayerViewSheet>
-        <PlayerViewSheet
-          ref={refQueue}
-          title={t("queue.title")}
-          onClose={() => refQueue.current?.snapTo(0)}
-        >
-          <PlayerQueue />
-        </PlayerViewSheet>
       </LinearGradient>
     </BottomSheetModal>
   );

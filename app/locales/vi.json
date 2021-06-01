@@ -58,6 +58,18 @@
     "skip_forward": "Bỏ qua bài",
     "skip_backward": "Phát bài trước"
   },
+  "queue": {
+    "title": "Hàng chờ"
+  },
+  "music": {
+    "title": "Nhạc"
+  },
+  "chat": {
+    "title": "Chat",
+    "input_label": "Nhập tin nhắn",
+    "play": "{{username}} phát bài hát",
+    "join": "{{username}} đã tham gia"
+  },
   "sign_in": {
     "title": "Đăng nhập",
     "continue_with": "Tiếp tục với {{name}}",

@@ -11,6 +11,7 @@ import {
   useMessagesQuery,
   useTrackQuery,
 } from "@/gql/gql.gen";
+import { PlaybackState } from "@/player/Context";
 import { Size, useColors } from "@/styles";
 import { format as formatMs } from "@lukeed/ms";
 import { TFunction } from "i18next";
@@ -31,7 +32,6 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { PlaybackState } from "../Context";
 
 const styles = StyleSheet.create({
   root: {
@@ -163,6 +163,7 @@ const ChatList: React.FC<{ id: string }> = ({ id }) => {
   const [{ data: newMessages }] = useMessageAddedSubscription<Message[]>(
     { variables: { id }, pause: !prevMessages },
     (prev = [], response) => {
+      if (!response) return prev;
       return [
         ...prev,
         {
@@ -232,12 +233,13 @@ const ChatInput: React.FC<{ id: string }> = ({ id }) => {
         control={control}
         name="chat"
         accessibilityLabel={t("chat.input_label")}
+        placeholder={t("chat.input_label")}
       />
     </View>
   );
 };
 
-const PlayerViewChat: React.FC<{ playbackState: PlaybackState }> = ({
+const ChatView: React.FC<{ playbackState: PlaybackState }> = ({
   playbackState,
 }) => {
   const id = `${playbackState.contextType}:${playbackState.contextId}`;
@@ -249,4 +251,4 @@ const PlayerViewChat: React.FC<{ playbackState: PlaybackState }> = ({
   );
 };
 
-export default PlayerViewChat;
+export default ChatView;

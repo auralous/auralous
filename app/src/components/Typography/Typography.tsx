@@ -1,4 +1,5 @@
 import { Size, ThemeColor, useColors } from "@/styles";
+import { IColors } from "@/styles/theme";
 import React from "react";
 import {
   Linking,
@@ -36,10 +37,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const commonStyleFn = (
-  colors: Record<ThemeColor, string>,
-  props: TextProps
-): TextStyle[] => {
+const commonStyleFn = (colors: IColors, props: TextProps): TextStyle[] => {
   const style: TextStyle = {
     fontFamily: props.bold
       ? props.bold === "medium"
@@ -49,7 +47,7 @@ const commonStyleFn = (
     fontStyle: props.italic ? "italic" : undefined,
     textAlign: props.align,
     fontSize: props.size ? sizes[props.size] : undefined,
-    color: colors[props.color || "text"],
+    color: colors[props.color || "text"] as string,
   };
   if (props.style) {
     return Array.isArray(props.style)
@@ -98,7 +96,7 @@ export const TextLink: React.FC<TextProps & TextLinkProps> = ({
           style={[
             styles.base,
             ...commonStyleFn(colors, { ...props, color }),
-            pressed && { color: colors[activeColor] },
+            pressed && { color: colors[activeColor] as string },
           ]}
         >
           {children}

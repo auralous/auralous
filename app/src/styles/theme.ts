@@ -24,6 +24,8 @@ const Colors = {
   },
 };
 
+export type IColors = typeof Colors;
+
 export type ThemeColor = keyof typeof Colors;
 
 // ColorsLight = {}

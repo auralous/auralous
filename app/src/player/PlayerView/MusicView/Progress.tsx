@@ -1,10 +1,10 @@
 import { Text } from "@/components/Typography";
 import { Maybe, Track } from "@/gql/gql.gen";
+import Player from "@/player/Player";
 import { Size } from "@/styles";
 import { msToHMS } from "@/utils/ms";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import Player from "../Player";
 
 const styles = StyleSheet.create({
   root: {
