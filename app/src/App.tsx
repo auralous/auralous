@@ -13,16 +13,17 @@ import { Size, useColors } from "@/styles";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, { useMemo } from "react";
 import { StatusBar } from "react-native";
+import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ApiProvider } from "./gql/context";
 import { PlayerProvider } from "./player";
 
 const Tab = createBottomTabNavigator();
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const linking: LinkingOptions<ParamList> = {
   prefixes: ["auralous://"],
@@ -47,8 +48,45 @@ const MainScreen: React.FC = () => {
   );
 };
 
+const routes = [
+  {
+    name: "main",
+    component: gestureHandlerRootHOC(MainScreen),
+  },
+  {
+    name: RouteName.SignIn,
+    component: gestureHandlerRootHOC(SignInScreen),
+  },
+  {
+    name: RouteName.User,
+    component: gestureHandlerRootHOC(UserScreen),
+  },
+  {
+    name: RouteName.NewSelectSongs,
+    component: gestureHandlerRootHOC(SelectSongsScreen),
+  },
+  {
+    name: RouteName.NewQuickShare,
+    component: gestureHandlerRootHOC(QuickShareScreen),
+  },
+  {
+    name: RouteName.NewFinal,
+    component: gestureHandlerRootHOC(CreateFinalScreen),
+  },
+];
+
 const App = () => {
   const colors = useColors();
+
+  const stackRoutes = useMemo(() => {
+    return routes.map((route) => (
+      <Stack.Screen
+        key={route.name}
+        name={route.name}
+        component={route.component}
+      />
+    ));
+  }, []);
 
   return (
     <NavigationContainer
@@ -72,24 +110,7 @@ const App = () => {
               <SafeAreaProvider style={{ backgroundColor: colors.background }}>
                 <StatusBar backgroundColor={colors.background} animated />
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="main" component={MainScreen} />
-                  <Stack.Screen
-                    name={RouteName.SignIn}
-                    component={SignInScreen}
-                  />
-                  <Stack.Screen name={RouteName.User} component={UserScreen} />
-                  <Stack.Screen
-                    name={RouteName.NewSelectSongs}
-                    component={SelectSongsScreen}
-                  />
-                  <Stack.Screen
-                    name={RouteName.NewQuickShare}
-                    component={QuickShareScreen}
-                  />
-                  <Stack.Screen
-                    name={RouteName.NewFinal}
-                    component={CreateFinalScreen}
-                  />
+                  {stackRoutes}
                 </Stack.Navigator>
               </SafeAreaProvider>
             </BottomSheetModalProvider>

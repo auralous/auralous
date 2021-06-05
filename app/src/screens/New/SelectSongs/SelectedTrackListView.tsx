@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import DraggableFlatList, {
   RenderItemParams,
+  ScaleDecorator,
 } from "react-native-draggable-flatlist";
 import {
   TouchableOpacity,
@@ -57,14 +58,15 @@ const styles = StyleSheet.create({
 
 const snapPoints = [cascadedHeight, "100%"];
 
-const renderItem = (params: RenderItemParams<string>) => (
-  <TouchableWithoutFeedback
-    style={[styles.flexFill, params.isActive && { opacity: 0.5 }]}
-    onLongPress={params.drag}
-  >
-    <SelectableTrackListItem key={params.item} trackId={params.item} />
-  </TouchableWithoutFeedback>
-);
+const renderItem = (params: RenderItemParams<string>) => {
+  return (
+    <ScaleDecorator>
+      <TouchableWithoutFeedback onLongPress={params.drag}>
+        <SelectableTrackListItem key={params.item} trackId={params.item} />
+      </TouchableWithoutFeedback>
+    </ScaleDecorator>
+  );
+};
 
 const SelectedTrackListView: React.FC<{
   onFinish(selectedTracks: string[]): void;
@@ -114,14 +116,17 @@ const SelectedTrackListView: React.FC<{
             )}
           </TouchableOpacity>
         </View>
-        <DraggableFlatList
-          data={selectedTracks}
-          renderItem={renderItem}
-          keyExtractor={(item) => item}
-          onDragEnd={({ data }) => updateTracksActions?.setSelectedTracks(data)}
-          style={styles.flexFill}
-          windowSize={3}
-        />
+        <View style={styles.flexFill}>
+          <DraggableFlatList
+            data={selectedTracks}
+            renderItem={renderItem}
+            keyExtractor={(item) => item}
+            onDragEnd={({ data }) =>
+              updateTracksActions?.setSelectedTracks(data)
+            }
+            windowSize={3}
+          />
+        </View>
       </BottomSheet>
       <View
         style={[

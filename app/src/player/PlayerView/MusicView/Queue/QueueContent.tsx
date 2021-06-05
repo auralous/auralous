@@ -7,10 +7,11 @@ import Player from "@/player/Player";
 import { Size } from "@/styles";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import DraggableFlatList, {
   DragEndParams,
   RenderItemParams,
+  ScaleDecorator,
 } from "react-native-draggable-flatlist";
 import "react-native-gesture-handler";
 
@@ -18,13 +19,16 @@ const styles = StyleSheet.create({
   trackItemNumbered: {
     paddingVertical: Size[1],
     marginBottom: Size[1],
-    paddingHorizontal: Size[4],
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
   filled: {
     flex: 1,
+  },
+  number: {
+    width: Size[8],
+    textAlign: "right",
   },
 });
 
@@ -34,7 +38,7 @@ const TrackItemWithNumber: React.FC<{ track: Maybe<Track>; index: number }> = ({
 }) => {
   return (
     <View style={styles.trackItemNumbered}>
-      <Text color="textSecondary" size="lg" bold="medium">
+      <Text color="textSecondary" size="lg" bold="medium" style={styles.number}>
         {index + 1}
       </Text>
       <Spacer x={4} />
@@ -56,9 +60,11 @@ const DraggableQueueItem: React.FC<RenderItemParams<QueueItem>> = ({
     },
   });
   return (
-    <TouchableOpacity onLongPress={drag}>
-      <TrackItemWithNumber track={track || null} index={(index || 0) + 1} />
-    </TouchableOpacity>
+    <ScaleDecorator>
+      <Pressable onLongPress={drag}>
+        <TrackItemWithNumber track={track || null} index={(index || 0) + 1} />
+      </Pressable>
+    </ScaleDecorator>
   );
 };
 
@@ -102,14 +108,14 @@ const QueueContent: React.FC<{
         {t("queue.up_next")}
       </Heading>
       <Spacer y={2} />
-      <DraggableFlatList
-        data={trackItems}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        style={styles.filled}
-        windowSize={3}
-        onDragEnd={onDragEnd}
-      />
+      <View style={styles.filled}>
+        <DraggableFlatList
+          data={trackItems}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          onDragEnd={onDragEnd}
+        />
+      </View>
     </View>
   );
 };
