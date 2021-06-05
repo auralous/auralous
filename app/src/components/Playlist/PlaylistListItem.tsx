@@ -36,7 +36,16 @@ const PlaylistListItem: React.FC<PlaylistListItemProps> = ({ playlist }) => {
 
   return (
     <View style={styles.root}>
-      <Image style={styles.image} source={{ uri: playlist?.image }} />
+      <Image
+        style={styles.image}
+        source={
+          playlist?.image
+            ? { uri: playlist?.image }
+            : require("@/assets/images/default_playlist.jpg")
+        }
+        defaultSource={require("@/assets/images/default_playlist.jpg")}
+        accessibilityLabel={playlist?.name}
+      />
       <Spacer x={2} />
       <View style={styles.meta}>
         <View style={styles.title}>

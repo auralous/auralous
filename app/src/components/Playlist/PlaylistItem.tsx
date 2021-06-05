@@ -32,10 +32,18 @@ const styles = StyleSheet.create({
 
 const PlaylistItem: React.FC<PlaylistItemProps> = ({ playlist }) => {
   const { t } = useTranslation();
-
   return (
     <View style={styles.root}>
-      <Image source={{ uri: playlist?.image }} style={styles.image} />
+      <Image
+        source={
+          playlist?.image
+            ? { uri: playlist?.image }
+            : require("@/assets/images/default_playlist.jpg")
+        }
+        defaultSource={require("@/assets/images/default_playlist.jpg")}
+        style={styles.image}
+        accessibilityLabel={playlist?.name}
+      />
       <View style={styles.meta}>
         <Text style={styles.metaTitle} bold="medium" numberOfLines={1}>
           {playlist?.name}

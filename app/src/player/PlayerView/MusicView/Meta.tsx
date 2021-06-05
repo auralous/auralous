@@ -20,7 +20,12 @@ const PlayerViewMeta: React.FC<{ track: Maybe<Track> }> = ({ track }) => {
       <ImageBackground
         style={styles.image}
         resizeMode="contain"
-        source={{ uri: track?.image }}
+        source={
+          track?.image
+            ? { uri: track?.image }
+            : require("@/assets/images/default_track.jpg")
+        }
+        defaultSource={require("@/assets/images/default_track.jpg")}
       />
       <View style={styles.header}>
         <Text size="xl" bold numberOfLines={1}>

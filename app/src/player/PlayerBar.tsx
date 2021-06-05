@@ -60,7 +60,16 @@ const PlayerBar: React.FC = () => {
         style={styles.viewExpandTrigger}
         onPress={() => player.emit("__player_bar_pressed")}
       >
-        <Image style={styles.image} source={{ uri: track?.image }} />
+        <Image
+          style={styles.image}
+          source={
+            track?.image
+              ? { uri: track?.image }
+              : require("@/assets/images/default_track.jpg")
+          }
+          defaultSource={require("@/assets/images/default_track.jpg")}
+          accessibilityLabel={track?.title}
+        />
         <View style={styles.meta}>
           <Text bold size="sm" numberOfLines={1}>
             {track?.title}

@@ -4,7 +4,7 @@ import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 interface AvatarProps {
-  href: string;
+  href?: string | null;
   username: string;
   size: keyof typeof Size;
 }
@@ -36,7 +36,10 @@ const Avatar: React.FC<AvatarProps> = ({ href, username, size }) => {
     >
       <Image
         style={styles.image}
-        source={{ uri: href }}
+        source={
+          href ? { uri: href } : require("@/assets/images/default_user.jpg")
+        }
+        defaultSource={require("@/assets/images/default_user.jpg")}
         accessibilityLabel={username}
       />
     </View>

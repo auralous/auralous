@@ -22,12 +22,11 @@ export function useMeFollowings() {
 export function useMeLiveStory() {
   const me = useMe();
 
-  const [
-    { data: { storyLive } = { storyLive: undefined } },
-  ] = useStoryLiveQuery({
-    variables: { creatorId: me?.user.id },
-    pause: !me,
-  });
+  const [{ data: { storyLive } = { storyLive: undefined } }] =
+    useStoryLiveQuery({
+      variables: { creatorId: me?.user.id },
+      pause: !me,
+    });
 
   return storyLive;
 }

@@ -22,7 +22,7 @@ export type Artist = {
   platform: PlatformName;
   externalId: Scalars['ID'];
   name: Scalars['String'];
-  image: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
   url: Scalars['String'];
 };
 
@@ -265,7 +265,7 @@ export type Playlist = {
   platform: PlatformName;
   externalId: Scalars['ID'];
   name: Scalars['String'];
-  image: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
   url: Scalars['String'];
 };
 
@@ -422,7 +422,7 @@ export type Story = {
   id: Scalars['ID'];
   text: Scalars['String'];
   isPublic: Scalars['Boolean'];
-  image: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
   creatorId: Scalars['ID'];
   creator: User;
   createdAt: Scalars['DateTime'];
@@ -479,7 +479,7 @@ export type Track = {
   artists: Array<Artist>;
   duration: Scalars['Int'];
   title: Scalars['String'];
-  image: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
   url: Scalars['String'];
 };
 
@@ -488,7 +488,7 @@ export type User = {
   id: Scalars['ID'];
   username: Scalars['String'];
   bio?: Maybe<Scalars['String']>;
-  profilePicture: Scalars['String'];
+  profilePicture?: Maybe<Scalars['String']>;
 };
 
 export type UserStat = {

@@ -48,7 +48,16 @@ const TrackItem: React.FC<TrackItemProps> = ({ track }) => {
 
   return (
     <View style={styles.root}>
-      <Image style={styles.image} source={{ uri: track?.image }} />
+      <Image
+        style={styles.image}
+        source={
+          track?.image
+            ? { uri: track?.image }
+            : require("@/assets/images/default_track.jpg")
+        }
+        defaultSource={require("@/assets/images/default_track.jpg")}
+        accessibilityLabel={track?.title}
+      />
       <View style={styles.meta}>
         <View style={styles.title}>
           {SvgPlatformName && (

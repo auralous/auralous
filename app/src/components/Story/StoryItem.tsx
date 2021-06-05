@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
   root: {
     width: Size[44],
     height: Size[44] * 1.5625,
-    backgroundColor: "red",
     borderRadius: Size[2],
     overflow: "hidden",
   },
@@ -61,8 +60,18 @@ const StoryItem: React.FC<StoryItemProps> = ({ story }) => {
   }, [story, t]);
 
   return (
-    <View style={styles.root}>
-      <ImageBackground source={{ uri: story.image }} style={styles.background}>
+    <View
+      style={[styles.root, { backgroundColor: colors.backgroundSecondary }]}
+    >
+      <ImageBackground
+        source={
+          story.image
+            ? { uri: story.image }
+            : require("@/assets/images/default_playlist.jpg")
+        }
+        defaultSource={require("@/assets/images/default_playlist.jpg")}
+        style={styles.background}
+      >
         <View style={styles.overlay}>
           <View style={styles.top}>
             <Avatar
