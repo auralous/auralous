@@ -1,20 +1,16 @@
 import { useQueueQuery } from "@/gql/gql.gen";
 import { useEffect, useState } from "react";
-import { PlaybackContextType } from "./Context";
+import { PlaybackContextProvided } from "./Context";
 import Player from "./Player";
 import { usePlaybackContextData } from "./usePlaybackContextData";
 
 const usePlaybackOnDemandProvider = (
+  active: boolean,
   player: Player,
-  contextType: PlaybackContextType | null,
-  contextId: string | null
-) => {
-  const contextData = usePlaybackContextData(contextType, contextId);
-
-  const active = contextData.story?.isLive === false;
-
+  contextData: ReturnType<typeof usePlaybackContextData>
+): PlaybackContextProvided => {
   const [{ data: dataQueue, fetching, stale: staleQueue }] = useQueueQuery({
-    variables: { id: contextId + ":played" },
+    variables: { id: contextData?.id + ":played" },
     pause: !active,
   });
 
@@ -42,6 +38,7 @@ const usePlaybackOnDemandProvider = (
   }, [player, queueIndex, canSkipBackward, canSkipForward]);
 
   return {
+    queue: queue || null,
     queueIndex,
     trackId: queue?.items[queueIndex]?.trackId || null,
     canSkipBackward,

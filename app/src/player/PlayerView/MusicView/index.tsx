@@ -28,7 +28,12 @@ const MusicView: React.FC<{
       <PlayerViewMeta track={track || null} />
       <PlayerViewProgress track={track} player={player} />
       <PlayerViewControl playbackState={playbackState} player={player} />
-      <Queue />
+      <Queue
+        currentTrack={track || null}
+        playbackState={playbackState}
+        player={player}
+        queue={playbackState.queue}
+      />
     </View>
   );
 };

@@ -242,7 +242,8 @@ const ChatInput: React.FC<{ id: string }> = ({ id }) => {
 const ChatView: React.FC<{ playbackState: PlaybackState }> = ({
   playbackState,
 }) => {
-  const id = `${playbackState.contextType}:${playbackState.contextId}`;
+  const id = playbackState.playbackCurrentContext?.id;
+  if (!id) return null;
   return (
     <View style={styles.root}>
       <ChatList id={id} />

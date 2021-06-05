@@ -5,6 +5,7 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { useStoryCreateMutation } from "@/gql/gql.gen";
 import { usePlayer } from "@/player";
+import { PlaybackContextType } from "@/player/Context";
 import { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -55,7 +56,10 @@ const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
         tracks: route.params.selectedTracks,
       });
       if (result.data?.storyCreate) {
-        player.playContext(`story:${result.data.storyCreate.id}`);
+        player.playContext({
+          type: PlaybackContextType.Story,
+          id: result.data.storyCreate.id,
+        });
         navigation.navigate(RouteName.Home);
       }
     },

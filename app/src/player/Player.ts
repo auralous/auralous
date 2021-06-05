@@ -1,3 +1,5 @@
+import { PlaybackCurrentContext } from "./Context";
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 type HandlerFn = Function;
 
@@ -12,7 +14,10 @@ interface PlayerHandle {
 
 interface Player {
   // on
-  on(state: "context", fn: (context: null | string) => void): void;
+  on(
+    state: "context",
+    fn: (context: null | PlaybackCurrentContext) => void
+  ): void;
   on(state: "play", fn: () => void): void; // Trigger play
   on(state: "pause", fn: () => void): void; // Trigger pause
   on(state: "playing", fn: () => void): void; // Actually playing
@@ -23,9 +28,10 @@ interface Player {
   on(state: "skip-forward", fn: () => void): void;
   on(state: "skip-backward", fn: () => void): void;
   on(state: "play-index", fn: (index: number) => void): void;
+  on(state: "queue-reorder", fn: (from: number, to: number) => void): void;
   on(state: "__player_bar_pressed", fn: () => void): void;
   // off
-  off(state: "context", fn: (context: null | string) => void): void;
+  off(state: "context", fn: (context: PlaybackCurrentContext) => void): void;
   off(state: "play", fn: () => void): void;
   off(state: "pause", fn: () => void): void;
   off(state: "playing", fn: () => void): void;
@@ -36,6 +42,7 @@ interface Player {
   off(state: "skip-forward", fn: () => void): void;
   off(state: "skip-backward", fn: () => void): void;
   off(state: "play-index", fn: (index: number) => void): void;
+  off(state: "queue-reorder", fn: (from: number, to: number) => void): void;
   off(state: "__player_bar_pressed", fn: () => void): void;
 }
 
@@ -91,8 +98,8 @@ class Player {
     this.playerFn = null;
   }
 
-  playContext(context: string | null) {
-    this.emit("context", context);
+  playContext(currentContextSelector: PlaybackCurrentContext) {
+    this.emit("context", currentContextSelector);
   }
 
   seek(ms: number) {

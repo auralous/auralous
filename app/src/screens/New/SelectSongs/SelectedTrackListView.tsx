@@ -132,6 +132,7 @@ const SelectedTrackListView: React.FC<{
         <Button
           onPress={() => onFinish(selectedTracks)}
           disabled={selectedTracks.length === 0}
+          variant="filled"
         >
           {t("new.select_songs.finish_add")}
         </Button>

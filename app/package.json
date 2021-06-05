@@ -12,7 +12,6 @@
   "dependencies": {
     "@fluentui/react-context-selector": "^0.53.4",
     "@gorhom/bottom-sheet": "^3.6.5",
-    "@gorhom/portal": "^1.0.4",
     "@lukeed/ms": "^2.0.0",
     "@react-native-async-storage/async-storage": "^1.15.4",
     "@react-native-community/masked-view": "^0.1.11",

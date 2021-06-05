@@ -56,10 +56,15 @@
     "pause": "Pause",
     "play": "Play",
     "skip_forward": "Skip forward",
-    "skip_backward": "Skip backward"
+    "skip_backward": "Skip backward",
+    "no_playing": "Nothing is playing"
   },
   "queue": {
-    "title": "Queue"
+    "title": "Queue",
+    "up_next": "Up next"
+  },
+  "now_playing": {
+    "title": "Now Playing"
   },
   "music": {
     "title": "Music"

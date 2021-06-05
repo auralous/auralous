@@ -1,3 +1,4 @@
+import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size, useColors } from "@/styles";
 import { useSharedValuePressed } from "@/utils/animation";
@@ -7,12 +8,11 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { Spacer } from "../Spacer";
 
 interface ButtonProps {
   onPress?(): void;
   accessibilityLabel?: string;
-  variant?: "primary" | "filled" | "default";
+  variant?: "primary" | "filled";
   icon?: React.ReactNode;
   children?: string;
   disabled?: boolean;
@@ -51,34 +51,34 @@ export const Button: React.FC<ButtonProps> = ({
   const animatedStyles = useAnimatedStyle<ViewStyle>(() => {
     if (variant === "primary") {
       return {
-        backgroundColor: (withTiming(
+        backgroundColor: withTiming(
           !disabled && pressed.value ? colors.primaryDark : colors.primary,
           { duration: 200 }
-        ) as unknown) as ColorValue,
+        ) as unknown as ColorValue,
       };
     }
     if (variant === "filled") {
       return {
-        backgroundColor: (withTiming(
+        backgroundColor: withTiming(
           !disabled && pressed.value ? colors.textSecondary : colors.text,
           { duration: 200 }
-        ) as unknown) as ColorValue,
+        ) as unknown as ColorValue,
       };
     }
 
     return {
       backgroundColor: "transparent",
-      borderColor: (withTiming(
+      borderColor: withTiming(
         !disabled && pressed.value ? colors.controlDark : colors.control,
         { duration: 200 }
-      ) as unknown) as ColorValue,
+      ) as unknown as ColorValue,
       borderWidth: 1.5,
     };
   });
 
   const textColor = useMemo(() => {
     if (variant === "primary") return colors.primaryText;
-    if (variant === "default") return colors.control;
+    if (variant === "filled") return colors.backgroundSecondary;
     return colors.text;
   }, [variant, colors]);
 

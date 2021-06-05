@@ -56,10 +56,15 @@
     "pause": "Tạm dừng",
     "play": "Phát nhạc",
     "skip_forward": "Bỏ qua bài",
-    "skip_backward": "Phát bài trước"
+    "skip_backward": "Phát bài trước",
+    "no_playing": "Đang không phát nhạc"
   },
   "queue": {
-    "title": "Hàng chờ"
+    "title": "Hàng chờ",
+    "up_next": "Tiếp theo"
+  },
+  "now_playing": {
+    "title": "Đang phát"
   },
   "music": {
     "title": "Nhạc"

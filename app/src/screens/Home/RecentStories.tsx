@@ -1,6 +1,7 @@
 import { StoryItem } from "@/components/Story";
 import { useStoriesQuery } from "@/gql/gql.gen";
 import { usePlayer } from "@/player";
+import { PlaybackContextType } from "@/player/Context";
 import { Size } from "@/styles";
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
@@ -24,7 +25,12 @@ const RecentStories: React.FC = () => {
         <TouchableOpacity
           key={story.id}
           style={styles.storyItemWrapper}
-          onPress={() => player.playContext(`story:${story.id}`)}
+          onPress={() =>
+            player.playContext({
+              type: PlaybackContextType.Story,
+              id: story.id,
+            })
+          }
         >
           <StoryItem story={story} />
         </TouchableOpacity>

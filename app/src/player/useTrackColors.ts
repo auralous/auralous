@@ -17,9 +17,8 @@ export const useTrackColors = (trackId?: string | null) => {
     [colors]
   );
 
-  const [gradientColors, setGradientColors] = useState<[string, string]>(
-    defaultGradients
-  );
+  const [gradientColors, setGradientColors] =
+    useState<[string, string]>(defaultGradients);
 
   useEffect(() => {
     if (!image) return setGradientColors(defaultGradients);

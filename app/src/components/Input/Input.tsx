@@ -65,10 +65,10 @@ const Input: React.FC<InputProps<any>> = ({
   const onBlur = useCallback(() => (isFocused.value = false), [isFocused]);
 
   const animatedStyles = useAnimatedStyle<ViewStyle>(() => ({
-    borderColor: (withTiming(
+    borderColor: withTiming(
       isFocused.value ? colors.control : colors.controlDark,
       { duration: 200 }
-    ) as unknown) as ColorValue,
+    ) as unknown as ColorValue,
   }));
 
   return (

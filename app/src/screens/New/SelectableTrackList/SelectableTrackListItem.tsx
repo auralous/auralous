@@ -34,15 +34,15 @@ const SelectableTrackListItem = memo<{ trackId: string }>(
     const selectedTracks = useSelectedTracks();
     const updateTracksActions = useUpdateTracks();
 
-    const selected = useMemo(() => selectedTracks.indexOf(trackId) > -1, [
-      trackId,
-      selectedTracks,
-    ]);
+    const selected = useMemo(
+      () => selectedTracks.indexOf(trackId) > -1,
+      [trackId, selectedTracks]
+    );
 
     const colors = useColors();
 
     return (
-      <View style={[styles.item, selected && { opacity: 0.5 }]}>
+      <View style={styles.item}>
         <View style={styles.itemContent}>
           <TrackItem track={data?.track || null} fetching={fetching} />
         </View>

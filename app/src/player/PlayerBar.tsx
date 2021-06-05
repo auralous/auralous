@@ -41,7 +41,7 @@ const PlayerBar: React.FC = () => {
 
   const {
     trackId,
-    contextId,
+    playbackCurrentContext,
     isPlaying,
     colors: gradientColors,
   } = usePlaybackState();
@@ -53,7 +53,7 @@ const PlayerBar: React.FC = () => {
 
   const colors = useColors();
 
-  if (!contextId) return null;
+  if (!playbackCurrentContext) return null;
   return (
     <View style={[styles.root, { backgroundColor: gradientColors[1] }]}>
       <Pressable

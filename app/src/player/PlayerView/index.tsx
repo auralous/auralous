@@ -66,12 +66,11 @@ const PlayerView: React.FC = () => {
   const playbackState = usePlaybackState();
 
   const contextData = usePlaybackContextData(
-    playbackState.contextType,
-    playbackState.contextId
+    playbackState.playbackCurrentContext
   );
 
   const title = useMemo(() => {
-    if (contextData.story)
+    if (contextData?.__typename === "Story")
       return t("story.story_of_x", { username: contextData.creator?.username });
     return "";
   }, [contextData, t]);

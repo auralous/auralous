@@ -11,6 +11,7 @@ fragment StoryDetailParts on Story {
     username
     profilePicture
   }
+  __typename
 }
 
 query story($id: ID!) {

@@ -1,52 +1,33 @@
 import { PlatformName, useCrossTracksQuery } from "@/gql/gql.gen";
 import React, { useEffect, useMemo, useState } from "react";
-import { PlaybackContext, PlaybackContextType, PlayerContext } from "./Context";
+import {
+  PlaybackContext,
+  PlaybackCurrentContext,
+  PlayerContext,
+} from "./Context";
 import Player from "./Player";
 import PlayerSpotify from "./PlayerSpotify";
 import PlayerView from "./PlayerView";
 import PlayerYoutube from "./PlayerYoutube";
 import usePlaybackAuthentication from "./usePlaybackAuthentication";
-import usePlaybackLiveProvider from "./usePlaybackLiveProvider";
-import usePlaybackOnDemandProvider from "./usePlaybackOnDemandProvider";
+import usePlaybackContextProvider from "./usePlaybackContextProvider";
 import { useTrackColors } from "./useTrackColors";
 
 const player = new Player();
 
 const Provider: React.FC = ({ children }) => {
-  /**
-   * ContextUri has the form of <type>:<id>, defining
-   * what the player will be playing.
-   * ex. `'story:abc123efg'`, `'playlist:zxc789qwe'`
-   */
-  const [contextUri, playContextUri] = useState<
-    `${PlaybackContextType}:${string}` | null
-  >(null);
+  const [playbackCurrentContext, setContextSelector] =
+    useState<PlaybackCurrentContext | null>(null);
 
   useEffect(() => {
-    player.on("context", playContextUri);
-    return () => player.off("context", playContextUri);
+    player.on("context", setContextSelector);
+    return () => player.off("context", setContextSelector);
   }, []);
 
-  const { contextType, contextId } = useMemo(() => {
-    if (!contextUri) return { contextType: null, contextId: null };
-    // set player.__wasPlaying to start playing now
-    player.__wasPlaying = true;
-    // split to get context parts
-    const [contextType, contextId] = contextUri?.split(":");
-    return { contextType: contextType as PlaybackContextType, contextId };
-  }, [contextUri]);
-
-  /**
-   * Use provided data from either from one of the two hooks:
-   * - usePlaybackOnDemandProvider: for offline story or playlist
-   * - usePlayerLive: for ongoing story
-   */
-  const providedOnDemand = usePlaybackOnDemandProvider(
+  const playbackProvided = usePlaybackContextProvider(
     player,
-    contextType,
-    contextId
+    playbackCurrentContext
   );
-  const providedLive = usePlaybackLiveProvider(player, contextType, contextId);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -66,8 +47,8 @@ const Provider: React.FC = ({ children }) => {
   // Player Component
   const [hasPlayed, setHasPlayed] = useState(false);
   useEffect(() => {
-    if (contextUri) setHasPlayed(true);
-  }, [contextUri]);
+    if (playbackCurrentContext) setHasPlayed(true);
+  }, [playbackCurrentContext]);
   const DynamicPlayer = useMemo(() => {
     if (!playingPlatform || !hasPlayed) return null;
     if (playingPlatform === PlatformName.Youtube) return PlayerYoutube;
@@ -83,8 +64,8 @@ const Provider: React.FC = ({ children }) => {
       stale: staleCrossTracks,
     },
   ] = useCrossTracksQuery({
-    variables: { id: providedOnDemand.trackId || providedLive.trackId || "" },
-    pause: !(providedOnDemand.trackId || providedLive.trackId),
+    variables: { id: playbackProvided?.trackId || "" },
+    pause: !playbackProvided?.trackId,
   });
 
   const playingTrackId = useMemo(() => {
@@ -115,33 +96,26 @@ const Provider: React.FC = ({ children }) => {
   }, [playingTrackId]);
 
   // Combine fetching states
-  const fetching =
-    providedOnDemand.fetching || providedLive.fetching || fetchingCrossTracks;
+  const fetching = Boolean(playbackProvided?.fetching || fetchingCrossTracks);
 
   // Colors for theme
   const colors = useTrackColors(playingTrackId);
 
   const playbackState = useMemo(
     () => ({
-      contextId,
-      contextType,
-      canSkipBackward:
-        !fetching &&
-        (providedOnDemand.canSkipBackward || providedLive.canSkipBackward),
-      canSkipForward:
-        !fetching &&
-        (providedOnDemand.canSkipForward || providedLive.canSkipForward),
+      playbackCurrentContext,
+      canSkipBackward: !fetching && !!playbackProvided?.canSkipBackward,
+      canSkipForward: !fetching && !!playbackProvided?.canSkipForward,
       trackId: playingTrackId,
-      queueIndex: providedOnDemand.queueIndex || providedLive.queueIndex,
+      queueIndex: playbackProvided?.queueIndex || null,
+      queue: playbackProvided?.queue || null,
       colors,
       fetching,
       isPlaying,
     }),
     [
-      contextId,
-      contextType,
-      providedLive,
-      providedOnDemand,
+      playbackCurrentContext,
+      playbackProvided,
       isPlaying,
       playingTrackId,
       colors,
