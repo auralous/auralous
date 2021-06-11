@@ -4,6 +4,8 @@ import React from "react";
 import {
   Linking,
   Pressable,
+  RecursiveArray,
+  StyleProp,
   StyleSheet,
   Text as RNText,
   TextStyle,
@@ -23,7 +25,7 @@ const sizes = {
 interface TextProps {
   bold?: boolean | "medium";
   italic?: boolean;
-  style?: TextStyle | TextStyle[];
+  style?: StyleProp<TextStyle>;
   color?: ThemeColor;
   align?: TextStyle["textAlign"];
   size?: keyof typeof sizes;
@@ -37,7 +39,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const commonStyleFn = (colors: IColors, props: TextProps): TextStyle[] => {
+const commonStyleFn = (
+  colors: IColors,
+  props: TextProps
+): RecursiveArray<TextStyle> => {
   const style: TextStyle = {
     fontFamily: props.bold
       ? props.bold === "medium"
@@ -50,9 +55,11 @@ const commonStyleFn = (colors: IColors, props: TextProps): TextStyle[] => {
     color: colors[props.color || "text"] as string,
   };
   if (props.style) {
-    return Array.isArray(props.style)
-      ? [style, ...props.style]
-      : [style, props.style];
+    return (
+      Array.isArray(props.style)
+        ? [style, ...props.style]
+        : [style, props.style]
+    ) as RecursiveArray<TextStyle>;
   }
   return [style];
 };

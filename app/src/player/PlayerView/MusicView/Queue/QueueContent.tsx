@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   number: {
-    width: Size[8],
+    width: Size[6],
     textAlign: "right",
   },
 });

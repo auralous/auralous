@@ -1,6 +1,7 @@
 import { useTrackQuery } from "@/gql/gql.gen";
 import { PlaybackState } from "@/player/Context";
 import Player from "@/player/Player";
+import { Size } from "@/styles";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import PlayerViewControl from "./Control";
@@ -11,6 +12,8 @@ import Queue from "./Queue";
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    padding: Size[6],
+    paddingTop: Size[2],
   },
 });
 

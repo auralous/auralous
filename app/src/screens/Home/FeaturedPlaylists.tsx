@@ -11,9 +11,8 @@ const styles = StyleSheet.create({
 });
 
 const FeaturedPlaylists: React.FC = () => {
-  const [
-    { data: { playlistsFeatured } = { playlistsFeatured: undefined } },
-  ] = usePlaylistsFeaturedQuery();
+  const [{ data: { playlistsFeatured } = { playlistsFeatured: undefined } }] =
+    usePlaylistsFeaturedQuery();
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>

@@ -23,7 +23,7 @@ const QuickShare: React.FC<
 > = ({ navigation }) => {
   const { t } = useTranslation();
 
-  const title = t("new.select_songs.title");
+  const title = t("new.quick_share.title");
 
   const onFinish = useCallback(
     (selectedTracks: string[]) => {

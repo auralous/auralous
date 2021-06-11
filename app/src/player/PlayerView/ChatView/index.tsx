@@ -36,9 +36,12 @@ import {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    padding: Size[6],
+    paddingTop: Size[2],
   },
   list: {
     flex: 1,
+    paddingHorizontal: Size[1],
   },
   listItem: {
     paddingVertical: Size[2],

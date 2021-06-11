@@ -20,6 +20,11 @@ const Provider: React.FC = ({ children }) => {
     useState<PlaybackCurrentContext | null>(null);
 
   useEffect(() => {
+    // Every time an intent is sent, set __wasPlaying = true
+    player.__wasPlaying = true;
+  }, [playbackCurrentContext]);
+
+  useEffect(() => {
     player.on("context", setContextSelector);
     return () => player.off("context", setContextSelector);
   }, []);
@@ -87,6 +92,7 @@ const Provider: React.FC = ({ children }) => {
     // If the user paused the track before playerPlaying change,
     // delay the switch until they press play again to avoid
     // unexpected play
+
     if (player.__wasPlaying) {
       handlePlayerChange();
     } else {

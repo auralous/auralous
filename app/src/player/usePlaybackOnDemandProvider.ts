@@ -22,6 +22,7 @@ const usePlaybackOnDemandProvider = (
   const canSkipForward = !!queue && queueIndex < queue.items.length - 1;
 
   useEffect(() => {
+    if (!active) return;
     const skipForward = () => canSkipForward && setQueueIndex(queueIndex + 1);
     const skipBackward = () => canSkipBackward && setQueueIndex(queueIndex - 1);
     const onEnded = () => (canSkipForward ? skipForward() : player.pause());
@@ -35,7 +36,7 @@ const usePlaybackOnDemandProvider = (
       player.off("skip-backward", skipBackward);
       player.off("ended", onEnded);
     };
-  }, [player, queueIndex, canSkipBackward, canSkipForward]);
+  }, [active, player, queueIndex, canSkipBackward, canSkipForward]);
 
   return {
     queue: queue || null,

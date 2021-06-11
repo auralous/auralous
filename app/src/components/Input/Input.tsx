@@ -66,8 +66,7 @@ const Input: React.FC<InputProps<any>> = ({
 
   const animatedStyles = useAnimatedStyle<ViewStyle>(() => ({
     borderColor: withTiming(
-      isFocused.value ? colors.control : colors.controlDark,
-      { duration: 200 }
+      isFocused.value ? colors.control : colors.controlDark
     ) as unknown as ColorValue,
   }));
 

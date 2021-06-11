@@ -28,12 +28,18 @@ const MetaAndButton: React.FC<{
   onPress(): void;
 }> = ({ playbackState, onPress }) => {
   const { t } = useTranslation();
-  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
+  const nextTrackId =
+    typeof playbackState.queueIndex === "number" && playbackState.queue
+      ? playbackState.queue.items[playbackState.queueIndex + 1]?.trackId
+      : undefined;
+  const [{ data: dataNextTrack, stale: staleNextTrack }] = useTrackQuery({
     variables: {
-      id: playbackState.trackId || "",
+      id: nextTrackId || "",
     },
-    pause: !playbackState.trackId,
+    pause: !nextTrackId,
   });
+
+  const nextTrack = !staleNextTrack && dataNextTrack?.track;
 
   return (
     <TouchableOpacity style={styles.root} onPress={onPress}>
@@ -42,8 +48,10 @@ const MetaAndButton: React.FC<{
           {t("queue.up_next")}
         </Text>
         <Text color="text" size="sm" bold numberOfLines={1}>
-          {!!track &&
-            `${track.artists.map((a) => a.name).join(", ")} - ${track.title}`}
+          {!!nextTrack &&
+            `${nextTrack.artists.map((a) => a.name).join(", ")} - ${
+              nextTrack.title
+            }`}
         </Text>
       </View>
       <View style={styles.button}>

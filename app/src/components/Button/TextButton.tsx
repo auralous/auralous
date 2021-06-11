@@ -1,41 +1,25 @@
 import { Text } from "@/components/Typography";
-import { Size, useColors } from "@/styles";
+import { useColors } from "@/styles";
 import React from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { ColorValue, Pressable, View } from "react-native";
+import { Spacer } from "../Spacer";
+import { baseStyleFn, baseStyles } from "./styles";
+import { BaseButtonProps } from "./types";
 
-interface TextButtonProps {
-  onPress(): void;
-  accessibilityLabel?: string;
+interface TextButtonProps extends BaseButtonProps {
   color?: "primary" | "danger";
-  icon?: React.ReactNode;
-  children?: string;
-  disabled?: boolean;
 }
 
-const styles = StyleSheet.create({
-  base: {
-    paddingVertical: Size[2],
-    paddingHorizontal: Size[4],
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  baseText: {
-    fontWeight: "600",
-    fontSize: 14,
-  },
-});
-
-export const TextButton: React.FC<TextButtonProps> = ({
-  icon,
-  children,
-  onPress,
-  accessibilityLabel,
-  color = "control",
-  disabled,
-}) => {
+export const TextButton: React.FC<TextButtonProps> = (props) => {
   const colors = useColors();
-
+  const {
+    icon,
+    children,
+    onPress,
+    accessibilityLabel,
+    color = "control",
+    disabled,
+  } = props;
   return (
     <Pressable
       accessibilityLabel={accessibilityLabel}
@@ -43,16 +27,17 @@ export const TextButton: React.FC<TextButtonProps> = ({
       disabled={disabled}
     >
       {({ pressed }) => (
-        <View style={[styles.base, disabled && { opacity: 0.5 }]}>
+        <View style={baseStyleFn(props)}>
           {icon}
+          {!!(icon && children) && <Spacer x={1} />}
           <Text
             bold
             style={[
-              styles.baseText,
+              baseStyles.text,
               {
-                color: pressed
+                color: (pressed
                   ? colors[`${color}Dark` as keyof typeof colors]
-                  : colors[color as keyof typeof colors],
+                  : colors[color as keyof typeof colors]) as ColorValue,
               },
             ]}
           >

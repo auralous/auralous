@@ -1,49 +1,26 @@
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { Size, useColors } from "@/styles";
+import { useColors } from "@/styles";
 import { useSharedValuePressed } from "@/utils/animation";
 import React, { useMemo } from "react";
-import { ColorValue, Pressable, StyleSheet, ViewStyle } from "react-native";
+import { ColorValue, Pressable, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { baseStyleFn, baseStyles } from "./styles";
+import { BaseButtonProps } from "./types";
 
-interface ButtonProps {
-  onPress?(): void;
-  accessibilityLabel?: string;
+interface ButtonProps extends BaseButtonProps {
   variant?: "primary" | "filled";
-  icon?: React.ReactNode;
-  children?: string;
-  disabled?: boolean;
 }
 
-const styles = StyleSheet.create({
-  base: {
-    paddingVertical: Size[2],
-    paddingHorizontal: Size[4],
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: Size[16],
-  },
-  iconOnly: {
-    paddingHorizontal: Size[2],
-  },
-  baseText: {
-    fontWeight: "600",
-    fontSize: 14,
-  },
-});
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-export const Button: React.FC<ButtonProps> = ({
-  icon,
-  children,
-  onPress,
-  accessibilityLabel,
-  variant,
-  disabled,
-}) => {
+export const Button: React.FC<ButtonProps> = (props) => {
+  const { icon, children, onPress, accessibilityLabel, variant, disabled } =
+    props;
+
   const colors = useColors();
 
   const [pressed, pressedProps] = useSharedValuePressed();
@@ -52,16 +29,14 @@ export const Button: React.FC<ButtonProps> = ({
     if (variant === "primary") {
       return {
         backgroundColor: withTiming(
-          !disabled && pressed.value ? colors.primaryDark : colors.primary,
-          { duration: 200 }
+          !disabled && pressed.value ? colors.primaryDark : colors.primary
         ) as unknown as ColorValue,
       };
     }
     if (variant === "filled") {
       return {
         backgroundColor: withTiming(
-          !disabled && pressed.value ? colors.textSecondary : colors.text,
-          { duration: 200 }
+          !disabled && pressed.value ? colors.textSecondary : colors.text
         ) as unknown as ColorValue,
       };
     }
@@ -69,8 +44,7 @@ export const Button: React.FC<ButtonProps> = ({
     return {
       backgroundColor: "transparent",
       borderColor: withTiming(
-        !disabled && pressed.value ? colors.controlDark : colors.control,
-        { duration: 200 }
+        !disabled && pressed.value ? colors.controlDark : colors.control
       ) as unknown as ColorValue,
       borderWidth: 1.5,
     };
@@ -83,26 +57,18 @@ export const Button: React.FC<ButtonProps> = ({
   }, [variant, colors]);
 
   return (
-    <Pressable
+    <AnimatedPressable
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}
       disabled={disabled}
       {...pressedProps}
+      style={[...baseStyleFn(props), animatedStyles]}
     >
-      <Animated.View
-        style={[
-          styles.base,
-          !!icon && !children && styles.iconOnly,
-          animatedStyles,
-          disabled && { opacity: 0.5 },
-        ]}
-      >
-        {icon}
-        {!!(icon && children) && <Spacer x={1} />}
-        <Text bold style={[styles.baseText, { color: textColor }]}>
-          {children}
-        </Text>
-      </Animated.View>
-    </Pressable>
+      {icon}
+      {!!(icon && children) && <Spacer x={1} />}
+      <Text bold style={[baseStyles.text, { color: textColor }]}>
+        {children}
+      </Text>
+    </AnimatedPressable>
   );
 };

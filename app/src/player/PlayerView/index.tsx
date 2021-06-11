@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     paddingTop: Size[2],
   },
   content: {
-    padding: Size[6],
     paddingTop: 0,
     flex: 1,
   },
@@ -37,6 +36,7 @@ const styles = StyleSheet.create({
   },
   tabs: {
     padding: Size[2],
+    paddingBottom: Size[0],
     flexDirection: "row",
     justifyContent: "center",
   },

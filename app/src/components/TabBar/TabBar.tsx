@@ -1,10 +1,7 @@
 import { IconHome, IconMapPin } from "@/assets/svg";
 import { PlayerBar } from "@/player";
 import { Size, useColors } from "@/styles";
-import {
-  BottomTabBarOptions,
-  BottomTabBarProps,
-} from "@react-navigation/bottom-tabs";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -26,10 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
-  navigation,
-  state,
-}) => {
+const TabBar: React.FC<BottomTabBarProps> = ({ navigation, state }) => {
   const { t } = useTranslation();
   const colors = useColors();
 
@@ -39,12 +33,7 @@ const TabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
     <>
       <View style={styles.root}>
         <PlayerBar />
-        <View
-          style={[
-            styles.tabBars,
-            { backgroundColor: colors.backgroundSecondary },
-          ]}
-        >
+        <View style={[styles.tabBars, { backgroundColor: colors.background }]}>
           <Tab
             name="home"
             title={t("home.title")}
