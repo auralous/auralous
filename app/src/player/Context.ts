@@ -1,4 +1,4 @@
-import { Queue } from "@/gql/gql.gen";
+import { QueueItem } from "@/gql/gql.gen";
 import { createContext, useContext } from "react";
 import Player from "./Player";
 
@@ -18,11 +18,10 @@ export interface PlaybackCurrentContext {
 }
 
 export interface PlaybackContextProvided {
-  queue: Queue | null;
+  nextItems: QueueItem[];
   canSkipBackward: boolean;
   canSkipForward: boolean;
   trackId: string | null;
-  queueIndex: number | null;
   fetching: boolean;
 }
 
@@ -33,7 +32,8 @@ export interface PlaybackState extends PlaybackContextProvided {
 }
 
 export const PlaybackContext = createContext({} as PlaybackState);
-export const PlayerContext = createContext({} as Player);
 
-export const usePlayer = () => useContext(PlayerContext);
 export const usePlaybackState = () => useContext(PlaybackContext);
+
+// create a singleton instance of player
+export const player = new Player();

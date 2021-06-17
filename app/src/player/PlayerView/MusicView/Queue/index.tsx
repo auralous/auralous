@@ -1,13 +1,12 @@
 import { IconX } from "@/assets/svg";
 import { Heading } from "@/components/Typography";
-import { Queue, Track } from "@/gql/gql.gen";
+import { Track } from "@/gql/gql.gen";
 import { PlaybackState } from "@/player/Context";
-import Player from "@/player/Player";
 import { Size, useColors } from "@/styles";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { BackHandler, StatusBar, StyleSheet, View } from "react-native";
 import {
   gestureHandlerRootHOC,
   TouchableOpacity,
@@ -36,16 +35,26 @@ const snapPoints = ["100%"];
 const QueueSheet: React.FC<{
   playbackState: PlaybackState;
   currentTrack: Track | null;
-  queue: Queue;
-  player: Player;
   onClose(): void;
-}> = ({ onClose, playbackState, currentTrack, queue, player }) => {
+}> = ({ onClose, playbackState, currentTrack }) => {
   const { t } = useTranslation();
   const colors = useColors();
+
+  useEffect(() => {
+    const onBackPress = () => {
+      onClose();
+      return true;
+    };
+    BackHandler.addEventListener("hardwareBackPress", onBackPress);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+  }, [onClose]);
+
   return (
     <View
       style={[styles.root, { backgroundColor: colors.backgroundSecondary }]}
     >
+      <View style={{ height: StatusBar.currentHeight }} />
       <View style={styles.header}>
         <Heading level={3}>{t("queue.title")}</Heading>
         <TouchableOpacity onPress={onClose}>
@@ -56,8 +65,6 @@ const QueueSheet: React.FC<{
         <QueueContent
           currentTrack={currentTrack}
           playbackState={playbackState}
-          queue={queue}
-          player={player}
         />
       </View>
     </View>
@@ -67,14 +74,10 @@ const QueueSheet: React.FC<{
 const QueueSheetWithHoc = gestureHandlerRootHOC(QueueSheet);
 
 const QueueModal: React.FC<{
-  player: Player;
   playbackState: PlaybackState;
   currentTrack: Track | null;
-  queue: Queue | null;
-}> = ({ playbackState, currentTrack, queue, player }) => {
+}> = ({ playbackState, currentTrack }) => {
   const ref = useRef<BottomSheetModal>(null);
-
-  if (!queue) return null;
 
   return (
     <>
@@ -91,8 +94,6 @@ const QueueModal: React.FC<{
         <QueueSheetWithHoc
           currentTrack={currentTrack}
           playbackState={playbackState}
-          queue={queue}
-          player={player}
           onClose={() => ref.current?.dismiss()}
         />
       </BottomSheetModal>

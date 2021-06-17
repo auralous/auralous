@@ -7,9 +7,14 @@ import { Size } from "@/styles";
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
 import { useNavigation } from "@react-navigation/core";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import {
+  BackHandler,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 
 const styles = StyleSheet.create({
   button: {
@@ -32,20 +37,76 @@ const styles = StyleSheet.create({
   },
 });
 
-const AddButton: React.FC = () => {
-  const { t } = useTranslation();
+const snapPoints = ["100%"];
 
-  const ref = useRef<BottomSheetModal>(null);
+const AddButtonModalContent: React.FC<{
+  onDismiss(): boolean;
+}> = ({ onDismiss }) => {
+  const { t } = useTranslation();
 
   const navigation = useNavigation();
 
   const navigateTo = useCallback(
     (path: RouteName) => {
       navigation.navigate(path);
-      ref.current?.dismiss();
+      onDismiss();
     },
-    [navigation]
+    [navigation, onDismiss]
   );
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", onDismiss);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", onDismiss);
+  }, [onDismiss]);
+
+  return (
+    <>
+      <TouchableWithoutFeedback
+        onPress={onDismiss}
+        accessibilityLabel={t("common.navigation.go_back")}
+        style={StyleSheet.absoluteFillObject}
+      >
+        <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
+      </TouchableWithoutFeedback>
+      <View style={styles.newModal}>
+        <Heading level={2}>{t("new.title")}</Heading>
+        <Spacer y={6} />
+        <View style={styles.choices}>
+          <Button
+            variant="primary"
+            onPress={() => navigateTo(RouteName.NewSelectSongs)}
+            style={styles.choice}
+          >
+            {t("new.select_songs.title")}
+          </Button>
+          <Spacer x={3} />
+          <GradientButton
+            onPress={() => navigateTo(RouteName.NewQuickShare)}
+            style={styles.choice}
+          >
+            {t("new.quick_share.title")}
+          </GradientButton>
+        </View>
+        <Spacer y={6} />
+        {/** For a11y */}
+        <TextButton onPress={onDismiss} style={{ opacity: 0, height: 0 }}>
+          {t("common.navigation.go_back")}
+        </TextButton>
+      </View>
+    </>
+  );
+};
+
+const AddButton: React.FC = () => {
+  const { t } = useTranslation();
+
+  const ref = useRef<BottomSheetModal>(null);
+
+  const onDismiss = useCallback(() => {
+    ref.current?.dismiss();
+    return true;
+  }, []);
 
   return (
     <>
@@ -67,37 +128,9 @@ const AddButton: React.FC = () => {
         backgroundComponent={null}
         handleComponent={null}
         ref={ref}
-        snapPoints={["100%"]}
+        snapPoints={snapPoints}
       >
-        <BlurView
-          style={StyleSheet.absoluteFillObject}
-          blurType="dark"
-          blurAmount={1}
-        />
-        <View style={styles.newModal}>
-          <Heading level={2}>{t("new.title")}</Heading>
-          <Spacer y={6} />
-          <View style={styles.choices}>
-            <Button
-              variant="primary"
-              onPress={() => navigateTo(RouteName.NewSelectSongs)}
-              style={styles.choice}
-            >
-              {t("new.select_songs.title")}
-            </Button>
-            <Spacer x={3} />
-            <GradientButton
-              onPress={() => navigateTo(RouteName.NewQuickShare)}
-              style={styles.choice}
-            >
-              {t("new.quick_share.title")}
-            </GradientButton>
-          </View>
-          <Spacer y={6} />
-          <TextButton onPress={() => ref.current?.dismiss()}>
-            {t("common.navigation.go_back")}
-          </TextButton>
-        </View>
+        <AddButtonModalContent onDismiss={onDismiss} />
       </BottomSheetModal>
     </>
   );

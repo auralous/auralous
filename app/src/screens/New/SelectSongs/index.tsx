@@ -1,17 +1,13 @@
 import { HeaderBackable } from "@/components/Header";
+import { SongSelector, SongSelectorContext } from "@/components/SongSelector";
 import { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SelectableTrackListProvider } from "../SelectableTrackList/Context";
-import SearchInput from "./SearchInput";
-import SelectByPlaylists from "./SelectByPlaylists";
-import SelectBySongs from "./SelectBySongs";
 import SelectedTrackListView from "./SelectedTrackListView";
-import Tabs from "./Tabs";
 
 const styles = StyleSheet.create({
   root: {
@@ -28,10 +24,18 @@ const SelectSongs: React.FC<
   StackScreenProps<ParamList, RouteName.NewSelectSongs>
 > = ({ navigation }) => {
   const { t } = useTranslation();
-  const [tab, setTab] = useState<"songs" | "playlists">("songs");
-  const [search, setSearch] = useState("");
 
   const title = t("new.select_songs.title");
+
+  const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
+
+  const addTracks = useCallback((trackIds: string[]) => {
+    setSelectedTracks((prev) => [...prev, ...trackIds]);
+  }, []);
+
+  const removeTrack = useCallback((trackId: string) => {
+    setSelectedTracks((prev) => prev.filter((t) => t !== trackId));
+  }, []);
 
   const onFinish = useCallback(
     (selectedTracks: string[]) => {
@@ -43,26 +47,24 @@ const SelectSongs: React.FC<
     [navigation, title]
   );
 
-  useEffect(() => {
-    setSearch("");
-  }, [tab]);
-
   return (
-    <SelectableTrackListProvider>
-      <SafeAreaView style={styles.root}>
-        <HeaderBackable title={title} />
-        <Tabs tab={tab} setTab={setTab} />
-        <SearchInput value={search} onSubmit={setSearch} />
-        <View style={styles.content}>
-          {tab === "songs" ? (
-            <SelectBySongs search={search} />
-          ) : (
-            <SelectByPlaylists search={search} />
-          )}
-        </View>
-        <SelectedTrackListView onFinish={onFinish} />
-      </SafeAreaView>
-    </SelectableTrackListProvider>
+    <SafeAreaView style={styles.root}>
+      <HeaderBackable title={title} />
+      <SongSelector
+        selectedTracks={selectedTracks}
+        addTracks={addTracks}
+        removeTrack={removeTrack}
+      />
+      <SongSelectorContext.Provider
+        value={{ addTracks, removeTrack, selectedTracks }}
+      >
+        <SelectedTrackListView
+          selectedTracks={selectedTracks}
+          setSelectedTracks={setSelectedTracks}
+          onFinish={onFinish}
+        />
+      </SongSelectorContext.Provider>
+    </SafeAreaView>
   );
 };
 

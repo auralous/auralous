@@ -1,5 +1,5 @@
 fragment NowPlayingQueueParts on NowPlayingQueueItem {
-  index
+  uid
   trackId
   playedAt
   endedAt

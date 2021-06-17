@@ -56,6 +56,9 @@ const routes = [
   {
     name: RouteName.SignIn,
     component: gestureHandlerRootHOC(SignInScreen),
+    options: {
+      presentation: "modal" as const,
+    },
   },
   {
     name: RouteName.User,
@@ -72,6 +75,9 @@ const routes = [
   {
     name: RouteName.NewFinal,
     component: gestureHandlerRootHOC(CreateFinalScreen),
+    options: {
+      animation: "fade" as const,
+    },
   },
 ];
 
@@ -84,6 +90,7 @@ const App = () => {
         key={route.name}
         name={route.name}
         component={route.component}
+        options={route.options}
       />
     ));
   }, []);
@@ -106,14 +113,12 @@ const App = () => {
       <ApiProvider>
         <BottomSheetModalProvider>
           <PlayerProvider>
-            <BottomSheetModalProvider>
-              <SafeAreaProvider style={{ backgroundColor: colors.background }}>
-                <StatusBar backgroundColor={colors.background} animated />
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                  {stackRoutes}
-                </Stack.Navigator>
-              </SafeAreaProvider>
-            </BottomSheetModalProvider>
+            <SafeAreaProvider style={{ backgroundColor: colors.background }}>
+              <StatusBar backgroundColor={colors.background} />
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                {stackRoutes}
+              </Stack.Navigator>
+            </SafeAreaProvider>
           </PlayerProvider>
         </BottomSheetModalProvider>
       </ApiProvider>

@@ -8,7 +8,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { baseStyleFn, baseStyles } from "./styles";
+import { baseStyleFn, baseStyleTextFn } from "./styles";
 import { BaseButtonProps } from "./types";
 
 interface ButtonProps extends BaseButtonProps {
@@ -66,7 +66,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     >
       {icon}
       {!!(icon && children) && <Spacer x={1} />}
-      <Text bold style={[baseStyles.text, { color: textColor }]}>
+      <Text bold style={[...baseStyleTextFn(props), { color: textColor }]}>
         {children}
       </Text>
     </AnimatedPressable>

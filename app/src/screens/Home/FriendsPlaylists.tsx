@@ -11,9 +11,8 @@ const styles = StyleSheet.create({
 });
 
 const FriendsPlaylists: React.FC = () => {
-  const [
-    { data: { playlistsFriends } = { playlistsFriends: undefined } },
-  ] = usePlaylistsFriendsQuery();
+  const [{ data: { playlistsFriends } = { playlistsFriends: undefined } }] =
+    usePlaylistsFriendsQuery();
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>

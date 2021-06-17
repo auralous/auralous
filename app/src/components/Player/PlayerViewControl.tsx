@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
 });
 
 const PlayerViewControl: React.FC<{
-  player: Player;
   playbackState: PlaybackState;
+  player: Player;
 }> = ({
-  player,
   playbackState: { canSkipBackward, canSkipForward, isPlaying, trackId },
+  player,
 }) => {
   const { t } = useTranslation();
 

@@ -1,3 +1,3 @@
-export { usePlaybackState, usePlayer } from "./Context";
+export { player, usePlaybackState } from "./Context";
 export { default as PlayerBar } from "./PlayerBar";
-export { default as PlayerProvider } from "./Provider";
+export { PlayerProvider } from "./PlayerProvider";

@@ -1,105 +1,125 @@
 import { Button } from "@/components/Button";
-import { HeaderBackable } from "@/components/Header";
-import { Input } from "@/components/Input";
 import { Spacer } from "@/components/Spacer";
-import { Text } from "@/components/Typography";
+import { Heading, Text } from "@/components/Typography";
 import { useStoryCreateMutation } from "@/gql/gql.gen";
-import { usePlayer } from "@/player";
-import { PlaybackContextType } from "@/player/Context";
+import { PlaybackContextType, player } from "@/player/Context";
 import { ParamList, RouteName } from "@/screens/types";
-import { Size } from "@/styles";
+import { Size, useColors } from "@/styles";
+import { useFocusEffect } from "@react-navigation/core";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useCallback } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { SelectableTrackList } from "./SelectableTrackList";
-import { SelectableTrackListProvider } from "./SelectableTrackList/Context";
+import {
+  ActivityIndicator,
+  BackHandler,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-  },
-  list: {
-    padding: Size[3],
-    flex: 1,
-  },
-  meta: {
-    paddingHorizontal: Size[8],
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: Size[4],
+    paddingHorizontal: Size[1],
   },
-  buttonContainer: {
-    padding: Size[3],
+  number: {
+    fontSize: 144,
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
+  textColor: {
+    color: "#ffffff",
   },
 });
-
-interface FormValues {
-  text: string;
-}
 
 const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
   route,
   navigation,
 }) => {
   const { t } = useTranslation();
-  const { control, handleSubmit } = useForm<FormValues>();
 
   const [{ fetching }, createStory] = useStoryCreateMutation();
 
-  const player = usePlayer();
-
-  const onCreate = useCallback<SubmitHandler<FormValues>>(
-    async (data) => {
-      const result = await createStory({
-        text: data.text,
-        isPublic: true,
-        tracks: route.params.selectedTracks,
+  const onCreate = useCallback(async () => {
+    const result = await createStory({
+      text: "",
+      isPublic: true,
+      tracks: route.params.selectedTracks,
+    });
+    if (result.data?.storyCreate) {
+      player.playContext({
+        type: PlaybackContextType.Story,
+        id: result.data.storyCreate.id,
       });
-      if (result.data?.storyCreate) {
-        player.playContext({
-          type: PlaybackContextType.Story,
-          id: result.data.storyCreate.id,
-        });
-        navigation.navigate(RouteName.Home);
-      }
-    },
-    [route, createStory, navigation, player]
+      navigation.navigate(RouteName.Home);
+    }
+  }, [route, createStory, navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        // Prevent going back while creating story
+        return fetching;
+      };
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [fetching])
   );
 
+  const colors = useColors();
+
+  const [sec, setSec] = useState(4);
+  useEffect(() => {
+    if (sec <= 0) {
+      onCreate();
+      return;
+    }
+    const intv = setTimeout(() => setSec(sec - 1), 1000);
+    return () => clearTimeout(intv);
+  }, [sec, onCreate]);
+
   return (
-    <SelectableTrackListProvider noChange>
-      <HeaderBackable title="" backText={route.params.modeTitle} />
-      <View style={styles.root}>
-        <View style={styles.meta}>
-          <Text bold align="center">
-            {t("new.final.text_label")}
-          </Text>
+    <LinearGradient
+      colors={colors.gradientRainbow.colors}
+      locations={colors.gradientRainbow.locations}
+      start={{ x: 1, y: 1 }}
+      end={{ x: 0, y: 0 }}
+      style={StyleSheet.absoluteFillObject}
+    >
+      <SafeAreaView style={styles.root}>
+        <StatusBar translucent backgroundColor="transparent" />
+        <View style={styles.root}>
+          <Text style={styles.number}>{sec}</Text>
+          <Heading level={3} style={styles.textColor}>
+            {t("new.final.title")}
+          </Heading>
           <Spacer y={2} />
-          <Input control={control} name="text" />
-          <Spacer y={1} />
-          <Text color="textTertiary" align="center" size="xs">
-            {t("common.input.max_x_characters", { max: 60 })}
-          </Text>
-        </View>
-        <View style={styles.list}>
-          <SelectableTrackList
-            fetching={false}
-            data={route.params.selectedTracks}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={handleSubmit(onCreate)}
-            disabled={fetching}
-            variant="primary"
-          >
-            {t("new.final.start", {
-              count: route.params.selectedTracks.length,
-            })}
+          <Text color="textSecondary">{t("new.final.subtitle")}</Text>
+          <Spacer y={12} />
+          <Button onPress={() => navigation.goBack()}>
+            {t("common.action.cancel")}
           </Button>
         </View>
-      </View>
-    </SelectableTrackListProvider>
+      </SafeAreaView>
+      {fetching && (
+        <View
+          style={{
+            ...StyleSheet.absoluteFillObject,
+            backgroundColor: "rgba(0,0,0,.5)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator animating color="#ffffff" size="large" />
+        </View>
+      )}
+    </LinearGradient>
   );
 };
 

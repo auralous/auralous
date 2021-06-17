@@ -28,7 +28,10 @@ interface Player {
   on(state: "skip-forward", fn: () => void): void;
   on(state: "skip-backward", fn: () => void): void;
   on(state: "play-index", fn: (index: number) => void): void;
-  on(state: "queue-reorder", fn: (from: number, to: number) => void): void;
+  on(
+    state: "queue-reorder",
+    fn: (from: number, to: number, data: unknown[]) => void
+  ): void;
   on(state: "__player_bar_pressed", fn: () => void): void;
   // off
   off(state: "context", fn: (context: PlaybackCurrentContext) => void): void;
@@ -42,7 +45,10 @@ interface Player {
   off(state: "skip-forward", fn: () => void): void;
   off(state: "skip-backward", fn: () => void): void;
   off(state: "play-index", fn: (index: number) => void): void;
-  off(state: "queue-reorder", fn: (from: number, to: number) => void): void;
+  off(
+    state: "queue-reorder",
+    fn: (from: number, to: number, data: unknown[]) => void
+  ): void;
   off(state: "__player_bar_pressed", fn: () => void): void;
 }
 

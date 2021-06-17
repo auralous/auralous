@@ -1,14 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
-import Player from "./Player";
+import { player } from "./Context";
 
-interface PlayerYoutubeProps {
-  player: Player;
-  accessToken: string | null;
-}
-
-const PlayerYoutube: React.FC<PlayerYoutubeProps> = ({ player }) => {
+const PlayerYoutube: React.FC = () => {
   const youtubeRef = useRef<YoutubeIframeRef>(null);
   const isPlayingRef = useRef<boolean>(false);
   const [videoId, setVideoId] = useState<string | null>(null);
@@ -16,19 +11,16 @@ const PlayerYoutube: React.FC<PlayerYoutubeProps> = ({ player }) => {
 
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const onChangeState = useCallback(
-    (event: string) => {
-      // https://lonelycpp.github.io/react-native-youtube-iframe/component-props#onchangestate
-      if (event === "paused") {
-        isPlayingRef.current = false;
-        player.emit("paused");
-      } else if (event === "playing") {
-        player.emit("playing");
-        isPlayingRef.current = true;
-      } else if (event === "ended") player.emit("ended");
-    },
-    [player]
-  );
+  const onChangeState = useCallback((event: string) => {
+    // https://lonelycpp.github.io/react-native-youtube-iframe/component-props#onchangestate
+    if (event === "paused") {
+      isPlayingRef.current = false;
+      player.emit("paused");
+    } else if (event === "playing") {
+      player.emit("playing");
+      isPlayingRef.current = true;
+    } else if (event === "ended") player.emit("ended");
+  }, []);
 
   useEffect(() => {
     const playByExternalId = (externalId: string | null) => {
@@ -57,7 +49,7 @@ const PlayerYoutube: React.FC<PlayerYoutubeProps> = ({ player }) => {
       clearInterval(durationInterval);
       player.unregisterPlayer();
     };
-  }, [player]);
+  }, []);
 
   return (
     <View

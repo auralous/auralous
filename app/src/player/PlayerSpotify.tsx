@@ -8,7 +8,7 @@ import {
   remote as SpotifyRemote,
   SpotifySession,
 } from "react-native-spotify-remote";
-import Player from "./Player";
+import { player } from "./Context";
 
 const spotifyConfig: ApiConfig = {
   clientID: Config.SPOTIFY_CLIENT_ID,
@@ -23,12 +23,7 @@ const spotifyConfig: ApiConfig = {
   showDialog: false,
 };
 
-interface PlayerSpotifyProps {
-  accessToken: string | null;
-  player: Player;
-}
-
-const PlayerSpotify: React.FC<PlayerSpotifyProps> = ({ player }) => {
+const PlayerSpotify: React.FC = () => {
   const [session, setSession] = useState<SpotifySession | null>(null);
   const [, setError] = useState();
 
@@ -126,7 +121,7 @@ const PlayerSpotify: React.FC<PlayerSpotifyProps> = ({ player }) => {
 
       SpotifyRemote.disconnect();
     };
-  }, [player, session]);
+  }, [session]);
 
   return null;
 };

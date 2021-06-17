@@ -533,6 +533,16 @@ export default {
                 }
               },
               {
+                "name": "uid",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
                 "name": "trackId",
                 "type": {
                   "kind": "NON_NULL",
@@ -1122,7 +1132,7 @@ export default {
         "name": "NowPlayingQueueItem",
         "fields": [
           {
-            "name": "index",
+            "name": "uid",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -1931,6 +1941,17 @@ export default {
         "kind": "OBJECT",
         "name": "QueueItem",
         "fields": [
+          {
+            "name": "uid",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
           {
             "name": "trackId",
             "type": {

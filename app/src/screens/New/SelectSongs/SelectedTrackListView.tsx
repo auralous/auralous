@@ -1,6 +1,7 @@
 import { IconChevronDown, IconChevronUp } from "@/assets/svg";
 import { BottomSheetCustomBackground } from "@/components/BottomSheet";
 import { Button } from "@/components/Button";
+import SelectableTrackListItem from "@/components/SongSelector/SelectableTrackListItem";
 import { Text } from "@/components/Typography";
 import { Size, useColors } from "@/styles";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -8,18 +9,13 @@ import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import DraggableFlatList, {
+  OpacityDecorator,
   RenderItemParams,
-  ScaleDecorator,
 } from "react-native-draggable-flatlist";
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import { SelectableTrackListItem } from "../SelectableTrackList";
-import {
-  useSelectedTracks,
-  useUpdateTracks,
-} from "../SelectableTrackList/Context";
 
 const cascadedHeight = 112;
 
@@ -60,17 +56,19 @@ const snapPoints = [cascadedHeight, "100%"];
 
 const renderItem = (params: RenderItemParams<string>) => {
   return (
-    <ScaleDecorator>
+    <OpacityDecorator>
       <TouchableWithoutFeedback onLongPress={params.drag}>
         <SelectableTrackListItem key={params.item} trackId={params.item} />
       </TouchableWithoutFeedback>
-    </ScaleDecorator>
+    </OpacityDecorator>
   );
 };
 
 const SelectedTrackListView: React.FC<{
   onFinish(selectedTracks: string[]): void;
-}> = ({ onFinish }) => {
+  selectedTracks: string[];
+  setSelectedTracks(selectedTracks: string[]): void;
+}> = ({ onFinish, selectedTracks, setSelectedTracks }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [expanded, setExpanded] = useState(false);
@@ -85,9 +83,6 @@ const SelectedTrackListView: React.FC<{
     () => bottomSheetRef.current?.snapTo(expanded ? 0 : 1),
     [expanded]
   );
-
-  const selectedTracks = useSelectedTracks();
-  const updateTracksActions = useUpdateTracks();
 
   const colors = useColors();
 
@@ -121,9 +116,7 @@ const SelectedTrackListView: React.FC<{
             data={selectedTracks}
             renderItem={renderItem}
             keyExtractor={(item) => item}
-            onDragEnd={({ data }) =>
-              updateTracksActions?.setSelectedTracks(data)
-            }
+            onDragEnd={({ data }) => setSelectedTracks(data)}
             windowSize={3}
           />
         </View>

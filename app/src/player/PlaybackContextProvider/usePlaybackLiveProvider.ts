@@ -7,14 +7,12 @@ import {
   useQueueUpdatedSubscription,
 } from "@/gql/gql.gen";
 import { useMe } from "@/gql/hooks";
+import { PlaybackContextProvided, player } from "@/player/Context";
 import { useEffect } from "react";
-import { PlaybackContextProvided } from "./Context";
-import Player from "./Player";
 import { usePlaybackContextData } from "./usePlaybackContextData";
 
 const usePlaybackLiveProvider = (
   active: boolean,
-  player: Player,
   contextData: ReturnType<typeof usePlaybackContextData>
 ): PlaybackContextProvided => {
   const me = useMe();
@@ -39,7 +37,7 @@ const usePlaybackLiveProvider = (
   });
   useQueueUpdatedSubscription({
     variables: { id: queue?.id || "" },
-    pause: !queue,
+    pause: !queue || !active,
   });
 
   const [, queueReorder] = useQueueReorderMutation();
@@ -47,7 +45,7 @@ const usePlaybackLiveProvider = (
   useEffect(() => {
     // We hook into `play` event to trigger
     // seeking to live position on resume
-    if (!nowPlaying) return undefined;
+    if (!nowPlaying || !active) return undefined;
     let waitPlayTimeout: ReturnType<typeof setTimeout>;
     const onPlay = () => {
       const currentTrack = nowPlaying.currentTrack;
@@ -64,14 +62,13 @@ const usePlaybackLiveProvider = (
       clearTimeout(waitPlayTimeout);
       player.off("play", onPlay);
     };
-  }, [player, nowPlaying]);
+  }, [active, nowPlaying]);
 
   const [{ fetching: fetchingSkip }, skipNowPlaying] =
     useNowPlayingSkipMutation();
 
   const canSkipForward = Boolean(
-    active &&
-      !fetchingSkip &&
+    !fetchingSkip &&
       !!queue?.items.length &&
       me &&
       (contextData?.queueable.includes(me.user.id) ||
@@ -84,7 +81,7 @@ const usePlaybackLiveProvider = (
     player.on("skip-forward", skipFn);
     const onReorder = (from: number, to: number) => {
       queueReorder({
-        id: queue?.id || "",
+        id: queue?.id as string,
         position: from,
         insertPosition: to,
       });
@@ -96,7 +93,6 @@ const usePlaybackLiveProvider = (
     };
   }, [
     active,
-    player,
     queueReorder,
     canSkipForward,
     contextData,
@@ -105,8 +101,7 @@ const usePlaybackLiveProvider = (
   ]);
 
   return {
-    queue: queue || null,
-    queueIndex: -1,
+    nextItems: queue?.items || [],
     trackId: nowPlaying?.currentTrack?.trackId || null,
     canSkipForward,
     canSkipBackward: false,

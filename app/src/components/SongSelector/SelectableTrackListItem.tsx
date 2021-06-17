@@ -10,7 +10,7 @@ import { useSelectedTracks, useUpdateTracks } from "./Context";
 const styles = StyleSheet.create({
   item: {
     padding: Size[1],
-    marginBottom: Size[1],
+    marginBottom: Size[3],
     flexDirection: "row",
     alignItems: "center",
   },

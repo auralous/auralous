@@ -28,18 +28,16 @@ const MetaAndButton: React.FC<{
   onPress(): void;
 }> = ({ playbackState, onPress }) => {
   const { t } = useTranslation();
-  const nextTrackId =
-    typeof playbackState.queueIndex === "number" && playbackState.queue
-      ? playbackState.queue.items[playbackState.queueIndex + 1]?.trackId
-      : undefined;
-  const [{ data: dataNextTrack, stale: staleNextTrack }] = useTrackQuery({
+  const nextTrackId = playbackState.nextItems[0]?.trackId || undefined;
+
+  const [{ data: dataNextTrack }] = useTrackQuery({
     variables: {
       id: nextTrackId || "",
     },
     pause: !nextTrackId,
   });
 
-  const nextTrack = !staleNextTrack && dataNextTrack?.track;
+  const nextTrack = nextTrackId && dataNextTrack?.track;
 
   return (
     <TouchableOpacity style={styles.root} onPress={onPress}>

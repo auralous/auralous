@@ -1,3 +1,5 @@
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
 import { useColors } from "@/styles";
 import { useSharedValuePressed } from "@/utils/animation";
 import React from "react";
@@ -7,9 +9,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { Spacer } from "../Spacer";
-import { Text } from "../Typography";
-import { baseStyleFn, baseStyles } from "./styles";
+import { baseStyleFn, baseStyleTextFn } from "./styles";
 import { BaseButtonProps } from "./types";
 
 type GradientButtonProps = BaseButtonProps;
@@ -43,7 +43,7 @@ export const GradientButton: React.FC<GradientButtonProps> = (props) => {
       />
       {icon}
       {!!(icon && children) && <Spacer x={1} />}
-      <Text bold style={(baseStyles.text, { color: "#ffffff" })}>
+      <Text bold style={[...baseStyleTextFn(props), { color: "#ffffff" }]}>
         {children}
       </Text>
     </AnimatedPressable>

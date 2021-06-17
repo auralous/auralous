@@ -3,13 +3,25 @@ import { Button } from "@/components/Button";
 import { Header } from "@/components/Header";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { usePlaybackState, usePlayer } from "@/player/Context";
-import { usePlaybackContextData } from "@/player/usePlaybackContextData";
+import { player, usePlaybackState } from "@/player/Context";
+import { usePlaybackContextData } from "@/player/PlaybackContextProvider";
 import { Size, useColors } from "@/styles";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StatusBar, StyleSheet, View } from "react-native";
+import {
+  BackHandler,
+  Pressable,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import PagerView from "react-native-pager-view";
 import ChatView from "./ChatView";
@@ -62,7 +74,6 @@ const TabButton: React.FC<{
 
 const PlayerView: React.FC = () => {
   const { t } = useTranslation();
-  const player = usePlayer();
   const playbackState = usePlaybackState();
 
   const contextData = usePlaybackContextData(
@@ -81,21 +92,38 @@ const PlayerView: React.FC = () => {
     const playerBarPressed = () => bottomSheetRef.current?.present();
     player.on("__player_bar_pressed", playerBarPressed);
     return () => player.off("__player_bar_pressed", playerBarPressed);
-  }, [player]);
+  }, []);
+
+  const dismiss = useCallback(() => bottomSheetRef.current?.dismiss(), []);
 
   const pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
   const colors = useColors();
 
+  const [sheetIndex, setSheetIndex] = useState(-1);
+
+  useEffect(() => {
+    const onBackPress = () => {
+      if (sheetIndex !== 0) return false;
+      dismiss();
+      return true;
+    };
+    BackHandler.addEventListener("hardwareBackPress", onBackPress);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+  }, [dismiss, sheetIndex]);
+
   return (
     <BottomSheetModal
+      onChange={setSheetIndex}
       ref={bottomSheetRef}
       snapPoints={snapPoints}
       handleComponent={null}
     >
-      <StatusBar translucent hidden />
+      <StatusBar translucent backgroundColor="transparent" />
       <LinearGradient colors={playbackState.colors} style={styles.root}>
+        <View style={{ height: StatusBar.currentHeight }} />
         <Header
           title={title}
           left={
@@ -130,11 +158,7 @@ const PlayerView: React.FC = () => {
             initialPage={0}
           >
             <View key={0}>
-              <MusicView
-                key={0}
-                player={player}
-                playbackState={playbackState}
-              />
+              <MusicView key={0} playbackState={playbackState} />
             </View>
             <View>
               <ChatView playbackState={playbackState} key={1} />

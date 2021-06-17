@@ -1,13 +1,14 @@
+import {
+  PlayerViewControl,
+  PlayerViewMeta,
+  PlayerViewProgress,
+} from "@/components/Player";
 import { useTrackQuery } from "@/gql/gql.gen";
-import { PlaybackState } from "@/player/Context";
-import Player from "@/player/Player";
+import { PlaybackState, player } from "@/player/Context";
 import { Size } from "@/styles";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import PlayerViewControl from "./Control";
-import PlayerViewMeta from "./Meta";
-import PlayerViewProgress from "./Progress";
-import Queue from "./Queue";
+import QueueModal from "./Queue";
 
 const styles = StyleSheet.create({
   root: {
@@ -18,9 +19,8 @@ const styles = StyleSheet.create({
 });
 
 const MusicView: React.FC<{
-  player: Player;
   playbackState: PlaybackState;
-}> = ({ player, playbackState }) => {
+}> = ({ playbackState }) => {
   const [{ data: { track } = { track: undefined } }] = useTrackQuery({
     variables: { id: playbackState.trackId || "" },
     pause: !playbackState.trackId,
@@ -31,12 +31,7 @@ const MusicView: React.FC<{
       <PlayerViewMeta track={track || null} />
       <PlayerViewProgress track={track} player={player} />
       <PlayerViewControl playbackState={playbackState} player={player} />
-      <Queue
-        currentTrack={track || null}
-        playbackState={playbackState}
-        player={player}
-        queue={playbackState.queue}
-      />
+      <QueueModal currentTrack={track || null} playbackState={playbackState} />
     </View>
   );
 };

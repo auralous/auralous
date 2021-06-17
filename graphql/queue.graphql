@@ -1,4 +1,5 @@
 fragment QueueItemParts on QueueItem {
+  uid
   trackId
   creatorId
 }
@@ -7,8 +8,8 @@ mutation queueAdd($id: ID!, $tracks: [ID!]!) {
   queueAdd(id: $id, tracks: $tracks)
 }
 
-mutation queueRemove($id: ID!, $trackId: ID!, $creatorId: ID!) {
-  queueRemove(id: $id, trackId: $trackId, creatorId: $creatorId)
+mutation queueRemove($id: ID!, $uid: String! $trackId: String!, $creatorId: String!) {
+  queueRemove(id: $id, uid: $uid, trackId: $trackId, creatorId: $creatorId)
 }
 
 mutation queueReorder($id: ID!, $position: Int!, $insertPosition: Int!) {

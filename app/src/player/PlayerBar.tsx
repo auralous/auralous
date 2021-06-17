@@ -6,7 +6,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { usePlaybackState, usePlayer } from "./Context";
+import { player, usePlaybackState } from "./Context";
 
 const styles = StyleSheet.create({
   root: {
@@ -45,7 +45,6 @@ const PlayerBar: React.FC = () => {
     isPlaying,
     colors: gradientColors,
   } = usePlaybackState();
-  const player = usePlayer();
   const [{ data: { track } = { track: undefined } }] = useTrackQuery({
     variables: { id: trackId || "" },
     pause: !trackId,

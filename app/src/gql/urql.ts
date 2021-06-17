@@ -193,8 +193,9 @@ const cacheExchange = createCacheExchange<GraphCacheConfig>({
               variables: { id: args.id },
             },
             () => ({
-              nowPlayingReactions: (result as NowPlayingReactionsUpdatedSubscription)
-                .nowPlayingReactionsUpdated,
+              nowPlayingReactions: (
+                result as NowPlayingReactionsUpdatedSubscription
+              ).nowPlayingReactionsUpdated,
             })
           );
         }

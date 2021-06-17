@@ -98,9 +98,6 @@ const SignInScreen: React.FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
           />
         </View>
         <View style={styles.smallTextContainer}>
-          <Text size="sm" style={styles.smallText} color="textSecondary">
-            {t("sign_in.sign_up_note")}
-          </Text>
           <Text
             size="sm"
             style={[styles.smallText, { marginTop: Size[1] }]}

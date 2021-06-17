@@ -7,6 +7,7 @@ export { default as IconHome } from "./home.svg";
 export { default as IconLogIn } from "./log-in.svg";
 export { default as Logo } from "./logo.svg";
 export { default as IconMapPin } from "./map-pin.svg";
+export { default as IconMenu } from "./menu.svg";
 export { default as IconMessageSquare } from "./message-square.svg";
 export { default as IconMoreHorizontal } from "./more-horizontal.svg";
 export { default as IconMusic } from "./music.svg";

@@ -11,8 +11,8 @@ import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { SelectableTrackList } from "../SelectableTrackList";
 import SelectablePlaylistList from "./SelectablePlaylistList";
+import SelectableTrackList from "./SelectableTrackList";
 
 interface SelectByPlaylistsProps {
   search: string;
@@ -40,9 +40,8 @@ const MyPlaylists: React.FC<{
 }> = ({ onSelect }) => {
   const { t } = useTranslation();
 
-  const [
-    { data: { myPlaylists } = { myPlaylists: undefined }, fetching },
-  ] = useMyPlaylistsQuery();
+  const [{ data: { myPlaylists } = { myPlaylists: undefined }, fetching }] =
+    useMyPlaylistsQuery();
 
   return (
     <>
@@ -103,9 +102,8 @@ const PlaylistTrackList: React.FC<{ playlist: Playlist; close(): void }> = ({
 };
 
 const SelectByPlaylists: React.FC<SelectByPlaylistsProps> = ({ search }) => {
-  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(
-    null
-  );
+  const [selectedPlaylist, setSelectedPlaylist] =
+    useState<Playlist | null>(null);
 
   const closePlaylist = useCallback(() => setSelectedPlaylist(null), []);
 

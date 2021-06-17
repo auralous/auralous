@@ -1,6 +1,6 @@
 import { StoryItem } from "@/components/Story";
 import { useStoriesQuery } from "@/gql/gql.gen";
-import { usePlayer } from "@/player";
+import { player } from "@/player";
 import { PlaybackContextType } from "@/player/Context";
 import { Size } from "@/styles";
 import React from "react";
@@ -17,7 +17,6 @@ const RecentStories: React.FC = () => {
   const [{ data: { stories } = { stories: undefined } }] = useStoriesQuery({
     variables: { id: "PUBLIC", limit: 8 },
   });
-  const player = usePlayer();
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>

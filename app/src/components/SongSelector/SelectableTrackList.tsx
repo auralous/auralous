@@ -3,7 +3,7 @@ import { Track } from "@/gql/gql.gen";
 import { commonStyles } from "@/styles/common";
 import React from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
-import SearchEmpty from "../SelectSongs/SearchEmpty";
+import SearchEmpty from "./SearchEmpty";
 import SelectableTrackListItem from "./SelectableTrackListItem";
 
 const styles = StyleSheet.create({

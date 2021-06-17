@@ -34,8 +34,8 @@
       "title": "Chia sẻ nhanh"
     },
     "final": {
-      "text_label": "Bạn miêu tả story này như thế nào",
-      "start": "Bắt đầu nghe {{count}} bài hát"
+      "title": "Chuẩn bị lên sóng",
+      "subtitle": "Tụ tập bàn bè và nghe nhạc bên nhau nào."
     }
   },
   "user": {
@@ -61,7 +61,8 @@
   },
   "queue": {
     "title": "Hàng chờ",
-    "up_next": "Tiếp theo"
+    "up_next": "Tiếp theo",
+    "add_songs": "Thêm nhạc"
   },
   "now_playing": {
     "title": "Đang phát"
@@ -78,8 +79,7 @@
   "sign_in": {
     "title": "Đăng nhập",
     "continue_with": "Tiếp tục với {{name}}",
-    "listen_on": "Nghe nhạc trên {{name}}",
-    "sign_up_note": "Nếu bạn chưa có tài khoản, chúng mình sẽ tạo một tài khoản cho bạn."
+    "listen_on": "Nghe nhạc trên {{name}}"
   },
   "legal": {
     "accept_continue_text": "Khi tiếp tục, bạn đồng ý với <0>Chính sách riêng tư của chúng mình</0>, <1>Điều khoản sử dụng của YouTube</1> và/hoặc <2> Chính sách riêng tư của Spotify</2> ở nơi áp dụng."
@@ -115,6 +115,10 @@
     },
     "input": {
       "max_x_characters": "Tối đa {{max}} kí tự"
+    },
+    "action": {
+      "cancel": "Hủy bỏ",
+      "confirm": "Xác nhận"
     }
   }
 }

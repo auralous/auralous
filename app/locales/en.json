@@ -34,8 +34,8 @@
       "title": "Quick Share"
     },
     "final": {
-      "text_label": "How would you describe the story",
-      "start": "Start playing {{count}} songs"
+      "title": "Ready. Set. Listen.",
+      "subtitle": "Get your friends together. The show is about to start."
     }
   },
   "user": {
@@ -61,7 +61,8 @@
   },
   "queue": {
     "title": "Queue",
-    "up_next": "Up next"
+    "up_next": "Up next",
+    "add_songs": "Add songs"
   },
   "now_playing": {
     "title": "Now Playing"
@@ -78,8 +79,7 @@
   "sign_in": {
     "title": "Sign in",
     "continue_with": "Continue with {{name}}",
-    "listen_on": "Listen on {{name}}",
-    "sign_up_note": "If you did not previously sign up, we will create for you a new account."
+    "listen_on": "Listen on {{name}}"
   },
   "legal": {
     "accept_continue_text": "By continuing, you agree to our <0>friendly Privacy Policy</0>, <1>YouTube Terms of Service</1> and/or <2>Spotify Privacy Policy</2> where applicable."
@@ -115,6 +115,10 @@
     },
     "input": {
       "max_x_characters": "Max {{max}} characters"
+    },
+    "action": {
+      "cancel": "Cancel",
+      "confirm": "Confirm"
     }
   }
 }

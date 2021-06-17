@@ -1,9 +1,9 @@
+import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { useColors } from "@/styles";
 import React from "react";
 import { ColorValue, Pressable, View } from "react-native";
-import { Spacer } from "../Spacer";
-import { baseStyleFn, baseStyles } from "./styles";
+import { baseStyleFn, baseStyleTextFn } from "./styles";
 import { BaseButtonProps } from "./types";
 
 interface TextButtonProps extends BaseButtonProps {
@@ -33,7 +33,7 @@ export const TextButton: React.FC<TextButtonProps> = (props) => {
           <Text
             bold
             style={[
-              baseStyles.text,
+              ...baseStyleTextFn(props),
               {
                 color: (pressed
                   ? colors[`${color}Dark` as keyof typeof colors]

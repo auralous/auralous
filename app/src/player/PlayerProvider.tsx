@@ -1,21 +1,14 @@
 import { PlatformName, useCrossTracksQuery } from "@/gql/gql.gen";
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  PlaybackContext,
-  PlaybackCurrentContext,
-  PlayerContext,
-} from "./Context";
-import Player from "./Player";
+import { PlaybackContext, PlaybackCurrentContext, player } from "./Context";
+import { usePlaybackContextProvider } from "./PlaybackContextProvider";
 import PlayerSpotify from "./PlayerSpotify";
 import PlayerView from "./PlayerView";
 import PlayerYoutube from "./PlayerYoutube";
 import usePlaybackAuthentication from "./usePlaybackAuthentication";
-import usePlaybackContextProvider from "./usePlaybackContextProvider";
 import { useTrackColors } from "./useTrackColors";
 
-const player = new Player();
-
-const Provider: React.FC = ({ children }) => {
+export const PlayerProvider: React.FC = ({ children }) => {
   const [playbackCurrentContext, setContextSelector] =
     useState<PlaybackCurrentContext | null>(null);
 
@@ -29,10 +22,7 @@ const Provider: React.FC = ({ children }) => {
     return () => player.off("context", setContextSelector);
   }, []);
 
-  const playbackProvided = usePlaybackContextProvider(
-    player,
-    playbackCurrentContext
-  );
+  const playbackProvided = usePlaybackContextProvider(playbackCurrentContext);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -47,7 +37,7 @@ const Provider: React.FC = ({ children }) => {
     };
   }, []);
 
-  const { playingPlatform, accessToken } = usePlaybackAuthentication();
+  const { playingPlatform } = usePlaybackAuthentication();
 
   // Player Component
   const [hasPlayed, setHasPlayed] = useState(false);
@@ -76,11 +66,23 @@ const Provider: React.FC = ({ children }) => {
   const playingTrackId = useMemo(() => {
     const crossTracks =
       (!staleCrossTracks && dataCrossTracks?.crossTracks) || null;
+
+    // Use playingPlatform or fallback to YouTube as preferred platform
     const platform = playingPlatform || PlatformName.Youtube;
+
+    // If source track id is the same as preferred, use as it
+    if (playbackProvided?.trackId?.split(":")[0] === platform)
+      return playbackProvided?.trackId;
+
     const externalId = crossTracks?.[platform];
     if (!externalId) return null;
     return `${platform}:${externalId}`;
-  }, [dataCrossTracks, staleCrossTracks, playingPlatform]);
+  }, [
+    dataCrossTracks,
+    staleCrossTracks,
+    playingPlatform,
+    playbackProvided?.trackId,
+  ]);
 
   // Control the player using playerPlaying
 
@@ -113,8 +115,7 @@ const Provider: React.FC = ({ children }) => {
       canSkipBackward: !fetching && !!playbackProvided?.canSkipBackward,
       canSkipForward: !fetching && !!playbackProvided?.canSkipForward,
       trackId: playingTrackId,
-      queueIndex: playbackProvided?.queueIndex || null,
-      queue: playbackProvided?.queue || null,
+      nextItems: playbackProvided?.nextItems || [],
       colors,
       fetching,
       isPlaying,
@@ -130,16 +131,10 @@ const Provider: React.FC = ({ children }) => {
   );
 
   return (
-    <PlayerContext.Provider value={player}>
-      <PlaybackContext.Provider value={playbackState}>
-        {DynamicPlayer && (
-          <DynamicPlayer player={player} accessToken={accessToken} />
-        )}
-        <PlayerView />
-        {children}
-      </PlaybackContext.Provider>
-    </PlayerContext.Provider>
+    <PlaybackContext.Provider value={playbackState}>
+      {DynamicPlayer && <DynamicPlayer />}
+      <PlayerView />
+      {children}
+    </PlaybackContext.Provider>
   );
 };
-
-export default Provider;
