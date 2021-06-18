@@ -22,6 +22,7 @@ const Colors = {
     colors: ["#1FF7FD", "#B33BF6", "#FF844C", "#FF844B"],
     locations: [0.1, 0.5, 0.8, 1],
   },
+  border: "rgb(58,58,60)",
 };
 
 export type IColors = typeof Colors;

@@ -62,7 +62,10 @@
   "queue": {
     "title": "Queue",
     "up_next": "Up next",
-    "add_songs": "Add songs"
+    "add_songs": "Add songs",
+    "remove": "Remove",
+    "play_next": "Play Next",
+    "move_to_top": "Move to top"
   },
   "now_playing": {
     "title": "Now Playing"

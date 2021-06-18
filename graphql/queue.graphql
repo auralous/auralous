@@ -8,12 +8,16 @@ mutation queueAdd($id: ID!, $tracks: [ID!]!) {
   queueAdd(id: $id, tracks: $tracks)
 }
 
-mutation queueRemove($id: ID!, $uid: String! $trackId: String!, $creatorId: String!) {
-  queueRemove(id: $id, uid: $uid, trackId: $trackId, creatorId: $creatorId)
+mutation queueRemove($id: ID!, $uids: [ID!]!) {
+  queueRemove(id: $id, uids: $uids)
 }
 
 mutation queueReorder($id: ID!, $position: Int!, $insertPosition: Int!) {
   queueReorder(id: $id, position: $position, insertPosition: $insertPosition)
+}
+
+mutation queueToTop($id: ID!, $uids: [ID!]!) {
+  queueToTop(id: $id, uids: $uids)
 }
 
 query queue($id: ID!) {

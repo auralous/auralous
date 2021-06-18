@@ -38,7 +38,7 @@ const usePlaybackOnDemandProvider = (
       canSkipBackward && setPlayingIndex(playingIndex - 1);
     player.on("skip-forward", skipForward);
     player.on("skip-backward", skipBackward);
-    const onQueueReorder = (from: number, to: number, data: QueueItem[]) => {
+    const onReorder = (from: number, to: number, data: QueueItem[]) => {
       // data is the array of only nextItems,
       // we have to merge it with the played tracks
       setLocalQueueItems((prevLocalQueueItems) => [
@@ -46,14 +46,41 @@ const usePlaybackOnDemandProvider = (
         ...data,
       ]);
     };
-
-    player.on("queue-reorder", onQueueReorder);
+    player.on("queue-reorder", onReorder);
+    const onRemove = (uids: string[]) => {
+      setLocalQueueItems((localQueueItems) =>
+        localQueueItems.filter((item) => !uids.includes(item.uid))
+      );
+    };
+    player.on("queue-remove", onRemove);
+    const onPlayNext = (uids: string[]) => {
+      setLocalQueueItems((prevLocalQueueItems) => {
+        const toTopItems: QueueItem[] = [];
+        const afterQueueItems = prevLocalQueueItems
+          .slice(playingIndex + 1)
+          .filter((item) => {
+            if (uids.includes(item.uid)) {
+              toTopItems.push(item);
+              return false;
+            }
+            return true;
+          });
+        return [
+          ...prevLocalQueueItems.slice(0, playingIndex + 1),
+          ...toTopItems,
+          ...afterQueueItems,
+        ];
+      });
+    };
+    player.on("play-next", onPlayNext);
     return () => {
       player.off("play-index", setPlayingIndex);
       player.off("ended", onEnded);
       player.off("skip-forward", skipForward);
       player.off("skip-backward", skipBackward);
-      player.off("queue-reorder", onQueueReorder);
+      player.off("queue-reorder", onReorder);
+      player.off("queue-remove", onRemove);
+      player.off("play-next", onPlayNext);
     };
   }, [active, playingIndex, canSkipBackward, canSkipForward]);
 

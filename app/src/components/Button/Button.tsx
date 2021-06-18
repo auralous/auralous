@@ -18,8 +18,15 @@ interface ButtonProps extends BaseButtonProps {
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const Button: React.FC<ButtonProps> = (props) => {
-  const { icon, children, onPress, accessibilityLabel, variant, disabled } =
-    props;
+  const {
+    icon,
+    children,
+    onPress,
+    accessibilityLabel,
+    variant,
+    disabled,
+    textProps,
+  } = props;
 
   const colors = useColors();
 
@@ -66,7 +73,11 @@ export const Button: React.FC<ButtonProps> = (props) => {
     >
       {icon}
       {!!(icon && children) && <Spacer x={1} />}
-      <Text bold style={[...baseStyleTextFn(props), { color: textColor }]}>
+      <Text
+        bold
+        {...textProps}
+        style={[...baseStyleTextFn(props), { color: textColor }]}
+      >
         {children}
       </Text>
     </AnimatedPressable>

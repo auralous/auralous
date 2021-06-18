@@ -73,7 +73,7 @@ const QueueSheet: React.FC<{
 
 const QueueSheetWithHoc = gestureHandlerRootHOC(QueueSheet);
 
-const QueueModal: React.FC<{
+export const QueueModal: React.FC<{
   playbackState: PlaybackState;
   currentTrack: Track | null;
 }> = ({ playbackState, currentTrack }) => {
@@ -100,5 +100,3 @@ const QueueModal: React.FC<{
     </>
   );
 };
-
-export default QueueModal;

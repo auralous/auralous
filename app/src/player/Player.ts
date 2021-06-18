@@ -13,7 +13,6 @@ interface PlayerHandle {
 }
 
 interface Player {
-  // on
   on(
     state: "context",
     fn: (context: null | PlaybackCurrentContext) => void
@@ -28,12 +27,13 @@ interface Player {
   on(state: "skip-forward", fn: () => void): void;
   on(state: "skip-backward", fn: () => void): void;
   on(state: "play-index", fn: (index: number) => void): void;
+  on(state: "play-next", fn: (uids: string[]) => void): void;
   on(
     state: "queue-reorder",
     fn: (from: number, to: number, data: unknown[]) => void
   ): void;
+  on(state: "queue-remove", fn: (uids: string[]) => void): void;
   on(state: "__player_bar_pressed", fn: () => void): void;
-  // off
   off(state: "context", fn: (context: PlaybackCurrentContext) => void): void;
   off(state: "play", fn: () => void): void;
   off(state: "pause", fn: () => void): void;
@@ -45,11 +45,30 @@ interface Player {
   off(state: "skip-forward", fn: () => void): void;
   off(state: "skip-backward", fn: () => void): void;
   off(state: "play-index", fn: (index: number) => void): void;
+  off(state: "play-next", fn: (uids: string[]) => void): void;
   off(
     state: "queue-reorder",
     fn: (from: number, to: number, data: unknown[]) => void
   ): void;
+  off(state: "queue-remove", fn: (uids: string[]) => void): void;
   off(state: "__player_bar_pressed", fn: () => void): void;
+  emit(
+    state: "context",
+    fn: (context: null | PlaybackCurrentContext) => void
+  ): void;
+  emit(state: "play"): void; // Trigger play
+  emit(state: "pause"): void; // Trigger pause
+  emit(state: "playing"): void; // Actually playing
+  emit(state: "paused"): void; // Actually pausing
+  emit(state: "seeked"): void;
+  emit(state: "ended"): void;
+  emit(state: "time", ms: number): void;
+  emit(state: "skip-forward"): void;
+  emit(state: "skip-backward"): void;
+  emit(state: "play-index", index: number): void;
+  emit(state: "play-next", uids: string[]): void;
+  emit(state: "queue-reorder", from: number, to: number, data: unknown[]): void;
+  emit(state: "queue-remove", uids: string[]): void;
 }
 
 class Player {

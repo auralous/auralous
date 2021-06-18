@@ -35,6 +35,6 @@ export const baseStyleFn = ({
   ];
 };
 
-export const baseStyleTextFn = ({ textStyle }: BaseButtonProps) => {
-  return [baseStyles.text, textStyle];
+export const baseStyleTextFn = ({ textProps }: BaseButtonProps) => {
+  return [baseStyles.text, textProps?.style];
 };

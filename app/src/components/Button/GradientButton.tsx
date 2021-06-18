@@ -17,7 +17,8 @@ type GradientButtonProps = BaseButtonProps;
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const GradientButton: React.FC<GradientButtonProps> = (props) => {
-  const { icon, children, onPress, accessibilityLabel, disabled } = props;
+  const { icon, children, onPress, accessibilityLabel, disabled, textProps } =
+    props;
 
   const [pressed, pressedProps] = useSharedValuePressed();
   const colors = useColors();
@@ -43,7 +44,11 @@ export const GradientButton: React.FC<GradientButtonProps> = (props) => {
       />
       {icon}
       {!!(icon && children) && <Spacer x={1} />}
-      <Text bold style={[...baseStyleTextFn(props), { color: "#ffffff" }]}>
+      <Text
+        bold
+        {...textProps}
+        style={[...baseStyleTextFn(props), { color: "#ffffff" }]}
+      >
         {children}
       </Text>
     </AnimatedPressable>

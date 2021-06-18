@@ -1,4 +1,5 @@
 import { Size, ThemeColor, useColors } from "@/styles";
+import { Font } from "@/styles/layout";
 import { IColors } from "@/styles/theme";
 import React from "react";
 import {
@@ -46,8 +47,8 @@ const commonStyleFn = (
   const style: TextStyle = {
     fontFamily: props.bold
       ? props.bold === "medium"
-        ? "Inter-Medium"
-        : "Inter-Bold"
+        ? Font.Medium
+        : Font.Bold
       : undefined,
     fontStyle: props.italic ? "italic" : undefined,
     textAlign: props.align,

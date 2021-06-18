@@ -62,7 +62,10 @@
   "queue": {
     "title": "Hàng chờ",
     "up_next": "Tiếp theo",
-    "add_songs": "Thêm nhạc"
+    "add_songs": "Thêm nhạc",
+    "remove": "Xóa",
+    "play_next": "Phát tiếp theo",
+    "move_to_top": "Chuyên lên đầu"
   },
   "now_playing": {
     "title": "Đang phát"

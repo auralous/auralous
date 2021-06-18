@@ -12,3 +12,9 @@ function buildSizes() {
 }
 
 export const Size = buildSizes();
+
+export enum Font {
+  Normal = "Inter-Regular",
+  Medium = "Inter-Medium",
+  Bold = "Inter-Bold",
+}

@@ -1,21 +1,28 @@
 import { IconChevronDown, IconChevronUp } from "@/assets/svg";
 import { BottomSheetCustomBackground } from "@/components/BottomSheet";
-import { Button } from "@/components/Button";
-import SelectableTrackListItem from "@/components/SongSelector/SelectableTrackListItem";
+import { Button, TextButton } from "@/components/Button";
+import { QueueTrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
+import { useTrackQuery } from "@/gql/gql.gen";
 import { Size, useColors } from "@/styles";
+import { Font } from "@/styles/layout";
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useCallback, useRef, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import DraggableFlatList, {
   OpacityDecorator,
   RenderItemParams,
 } from "react-native-draggable-flatlist";
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const cascadedHeight = 112;
 
@@ -50,16 +57,51 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
   },
+  selectOpts: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: Size[2],
+  },
+  selectOptsText: {
+    fontFamily: Font.Medium,
+    textTransform: "uppercase",
+  },
 });
 
 const snapPoints = [cascadedHeight, "100%"];
 
+const CheckedContext = createContext(
+  {} as {
+    toggleChecked(uid: string): void;
+    checked: Record<string, undefined | boolean>;
+  }
+);
+
+const LoadableQueueTrackItem: React.FC<{
+  params: RenderItemParams<string>;
+}> = ({ params }) => {
+  const [{ data, fetching }] = useTrackQuery({
+    variables: { id: params.item },
+  });
+
+  const { toggleChecked, checked } = useContext(CheckedContext);
+
+  return (
+    <QueueTrackItem
+      checked={!!checked[params.item]}
+      drag={params.drag}
+      onToggle={() => toggleChecked(params.item)}
+      track={data?.track || null}
+      fetching={fetching}
+    />
+  );
+};
+
 const renderItem = (params: RenderItemParams<string>) => {
   return (
     <OpacityDecorator>
-      <TouchableWithoutFeedback onLongPress={params.drag}>
-        <SelectableTrackListItem key={params.item} trackId={params.item} />
-      </TouchableWithoutFeedback>
+      <LoadableQueueTrackItem params={params} />
     </OpacityDecorator>
   );
 };
@@ -86,8 +128,60 @@ const SelectedTrackListView: React.FC<{
 
   const colors = useColors();
 
+  const [checked, setChecked] = useState<Record<string, undefined | boolean>>(
+    {}
+  );
+
+  useEffect(() => {
+    if (!expanded) setChecked({});
+  }, [expanded]);
+
+  const toggleChecked = useCallback(
+    (uid: string) =>
+      setChecked((checked) => ({ ...checked, [uid]: !checked[uid] })),
+    []
+  );
+
+  const hasChecked = useMemo(
+    () => expanded && Object.values(checked).includes(true),
+    [checked, expanded]
+  );
+
+  const removeChecked = useCallback(() => {
+    const checkedClone = { ...checked };
+
+    const removingUids = Object.keys(checked).filter((checkedKey) => {
+      if (checked[checkedKey]) {
+        delete checkedClone[checkedKey];
+        return true;
+      }
+      return false;
+    });
+
+    setChecked(checkedClone);
+    setSelectedTracks(selectedTracks.filter((t) => !removingUids.includes(t)));
+  }, [selectedTracks, setSelectedTracks, checked]);
+
+  const moveToTopChecked = useCallback(() => {
+    const checkedClone = { ...checked };
+
+    const toTopUids = Object.keys(checked).filter((checkedKey) => {
+      if (checked[checkedKey]) {
+        delete checkedClone[checkedKey];
+        return true;
+      }
+      return false;
+    });
+
+    setChecked(checkedClone);
+    setSelectedTracks([
+      ...toTopUids,
+      ...selectedTracks.filter((t) => !toTopUids.includes(t)),
+    ]);
+  }, [selectedTracks, setSelectedTracks, checked]);
+
   return (
-    <>
+    <CheckedContext.Provider value={{ toggleChecked, checked }}>
       <View style={styles.placeholder} />
       <BottomSheet
         ref={bottomSheetRef}
@@ -127,15 +221,32 @@ const SelectedTrackListView: React.FC<{
           { backgroundColor: colors.backgroundSecondary },
         ]}
       >
-        <Button
-          onPress={() => onFinish(selectedTracks)}
-          disabled={selectedTracks.length === 0}
-          variant="filled"
-        >
-          {t("new.select_songs.finish_add")}
-        </Button>
+        {hasChecked ? (
+          <View style={[styles.selectOpts, { borderColor: colors.border }]}>
+            <TextButton
+              onPress={removeChecked}
+              textProps={{ style: styles.selectOptsText }}
+            >
+              {t("queue.remove")}
+            </TextButton>
+            <TextButton
+              onPress={moveToTopChecked}
+              textProps={{ style: styles.selectOptsText }}
+            >
+              {t("queue.move_to_top")}
+            </TextButton>
+          </View>
+        ) : (
+          <Button
+            onPress={() => onFinish(selectedTracks)}
+            disabled={selectedTracks.length === 0}
+            variant="filled"
+          >
+            {t("new.select_songs.finish_add")}
+          </Button>
+        )}
       </View>
-    </>
+    </CheckedContext.Provider>
   );
 };
 

@@ -3,12 +3,12 @@ import {
   PlayerViewMeta,
   PlayerViewProgress,
 } from "@/components/Player";
+import { QueueModal } from "@/components/Queue";
 import { useTrackQuery } from "@/gql/gql.gen";
 import { PlaybackState, player } from "@/player/Context";
 import { Size } from "@/styles";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import QueueModal from "./Queue";
 
 const styles = StyleSheet.create({
   root: {

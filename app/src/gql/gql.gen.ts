@@ -77,6 +77,7 @@ export type Mutation = {
   queueAdd: Scalars['Boolean'];
   queueRemove: Scalars['Boolean'];
   queueReorder: Scalars['Boolean'];
+  queueToTop: Scalars['Boolean'];
   storyChangeQueueable: Scalars['Boolean'];
   storyCreate: Story;
   storyDelete: Scalars['ID'];
@@ -137,9 +138,7 @@ export type MutationQueueAddArgs = {
 
 export type MutationQueueRemoveArgs = {
   id: Scalars['ID'];
-  uid: Scalars['String'];
-  trackId: Scalars['String'];
-  creatorId: Scalars['String'];
+  uids: Array<Scalars['ID']>;
 };
 
 
@@ -147,6 +146,12 @@ export type MutationQueueReorderArgs = {
   id: Scalars['ID'];
   position: Scalars['Int'];
   insertPosition: Scalars['Int'];
+};
+
+
+export type MutationQueueToTopArgs = {
+  id: Scalars['ID'];
+  uids: Array<Scalars['ID']>;
 };
 
 
@@ -738,9 +743,7 @@ export type QueueAddMutation = Pick<Mutation, 'queueAdd'>;
 
 export type QueueRemoveMutationVariables = Exact<{
   id: Scalars['ID'];
-  uid: Scalars['String'];
-  trackId: Scalars['String'];
-  creatorId: Scalars['String'];
+  uids: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
@@ -754,6 +757,14 @@ export type QueueReorderMutationVariables = Exact<{
 
 
 export type QueueReorderMutation = Pick<Mutation, 'queueReorder'>;
+
+export type QueueToTopMutationVariables = Exact<{
+  id: Scalars['ID'];
+  uids: Array<Scalars['ID']> | Scalars['ID'];
+}>;
+
+
+export type QueueToTopMutation = Pick<Mutation, 'queueToTop'>;
 
 export type QueueQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1160,7 +1171,7 @@ export const QueueAddDocument = {"kind":"Document","definitions":[{"kind":"Opera
 export function useQueueAddMutation() {
   return Urql.useMutation<QueueAddMutation, QueueAddMutationVariables>(QueueAddDocument);
 };
-export const QueueRemoveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"queueRemove"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"uid"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"trackId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queueRemove"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"uid"},"value":{"kind":"Variable","name":{"kind":"Name","value":"uid"}}},{"kind":"Argument","name":{"kind":"Name","value":"trackId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"trackId"}}},{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}}]}]}}]} as unknown as DocumentNode;
+export const QueueRemoveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"queueRemove"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"uids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queueRemove"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"uids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"uids"}}}]}]}}]} as unknown as DocumentNode;
 
 export function useQueueRemoveMutation() {
   return Urql.useMutation<QueueRemoveMutation, QueueRemoveMutationVariables>(QueueRemoveDocument);
@@ -1169,6 +1180,11 @@ export const QueueReorderDocument = {"kind":"Document","definitions":[{"kind":"O
 
 export function useQueueReorderMutation() {
   return Urql.useMutation<QueueReorderMutation, QueueReorderMutationVariables>(QueueReorderDocument);
+};
+export const QueueToTopDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"queueToTop"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"uids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queueToTop"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"uids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"uids"}}}]}]}}]} as unknown as DocumentNode;
+
+export function useQueueToTopMutation() {
+  return Urql.useMutation<QueueToTopMutation, QueueToTopMutationVariables>(QueueToTopDocument);
 };
 export const QueueDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"queue"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queue"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QueueItemParts"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
 
@@ -1480,6 +1496,7 @@ export type GraphCacheOptimisticUpdaters = {
   queueAdd?: GraphCacheOptimisticMutationResolver<MutationQueueAddArgs, Scalars['Boolean']>,
   queueRemove?: GraphCacheOptimisticMutationResolver<MutationQueueRemoveArgs, Scalars['Boolean']>,
   queueReorder?: GraphCacheOptimisticMutationResolver<MutationQueueReorderArgs, Scalars['Boolean']>,
+  queueToTop?: GraphCacheOptimisticMutationResolver<MutationQueueToTopArgs, Scalars['Boolean']>,
   storyChangeQueueable?: GraphCacheOptimisticMutationResolver<MutationStoryChangeQueueableArgs, Scalars['Boolean']>,
   storyCreate?: GraphCacheOptimisticMutationResolver<MutationStoryCreateArgs, WithTypename<Story>>,
   storyDelete?: GraphCacheOptimisticMutationResolver<MutationStoryDeleteArgs, Scalars['ID']>,
@@ -1503,6 +1520,7 @@ export type GraphCacheUpdaters = {
     queueAdd?: GraphCacheUpdateResolver<{ queueAdd: Scalars['Boolean'] }, MutationQueueAddArgs>,
     queueRemove?: GraphCacheUpdateResolver<{ queueRemove: Scalars['Boolean'] }, MutationQueueRemoveArgs>,
     queueReorder?: GraphCacheUpdateResolver<{ queueReorder: Scalars['Boolean'] }, MutationQueueReorderArgs>,
+    queueToTop?: GraphCacheUpdateResolver<{ queueToTop: Scalars['Boolean'] }, MutationQueueToTopArgs>,
     storyChangeQueueable?: GraphCacheUpdateResolver<{ storyChangeQueueable: Scalars['Boolean'] }, MutationStoryChangeQueueableArgs>,
     storyCreate?: GraphCacheUpdateResolver<{ storyCreate: WithTypename<Story> }, MutationStoryCreateArgs>,
     storyDelete?: GraphCacheUpdateResolver<{ storyDelete: Scalars['ID'] }, MutationStoryDeleteArgs>,

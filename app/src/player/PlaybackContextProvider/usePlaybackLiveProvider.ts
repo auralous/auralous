@@ -3,7 +3,9 @@ import {
   useNowPlayingSkipMutation,
   useOnNowPlayingUpdatedSubscription,
   useQueueQuery,
+  useQueueRemoveMutation,
   useQueueReorderMutation,
+  useQueueToTopMutation,
   useQueueUpdatedSubscription,
 } from "@/gql/gql.gen";
 import { useMe } from "@/gql/hooks";
@@ -39,8 +41,9 @@ const usePlaybackLiveProvider = (
     variables: { id: queue?.id || "" },
     pause: !queue || !active,
   });
-
+  const [, queueRemove] = useQueueRemoveMutation();
   const [, queueReorder] = useQueueReorderMutation();
+  const [, queueToTop] = useQueueToTopMutation();
 
   useEffect(() => {
     // We hook into `play` event to trigger
@@ -76,28 +79,47 @@ const usePlaybackLiveProvider = (
   );
 
   useEffect(() => {
-    if (!canSkipForward || !active) return;
+    if (!canSkipForward || !active || !queue?.id) return;
+    const id = queue.id;
     const skipFn = () => skipNowPlaying({ id: contextData?.id || "" });
     player.on("skip-forward", skipFn);
     const onReorder = (from: number, to: number) => {
       queueReorder({
-        id: queue?.id as string,
+        id,
         position: from,
         insertPosition: to,
       });
     };
+    const onRemove = (uids: string[]) => {
+      queueRemove({
+        id,
+        uids,
+      });
+    };
+    const onPlayNext = (uids: string[]) => {
+      queueToTop({
+        id,
+        uids,
+      });
+    };
     player.on("queue-reorder", onReorder);
+    player.on("queue-remove", onRemove);
+    player.on("play-next", onPlayNext);
     return () => {
       player.off("skip-forward", skipFn);
       player.off("queue-reorder", onReorder);
+      player.off("queue-remove", onRemove);
+      player.off("play-next", onPlayNext);
     };
   }, [
     active,
     queueReorder,
+    queueRemove,
     canSkipForward,
     contextData,
     skipNowPlaying,
-    queue,
+    queueToTop,
+    queue?.id,
   ]);
 
   return {

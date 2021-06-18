@@ -1,4 +1,6 @@
-import { StyleProp, TextStyle, ViewStyle } from "react-native";
+import { Text } from "@/components/Typography";
+import { ComponentProps } from "react";
+import { StyleProp, ViewStyle } from "react-native";
 
 export interface BaseButtonProps {
   onPress?(): void;
@@ -7,5 +9,5 @@ export interface BaseButtonProps {
   disabled?: boolean;
   icon?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
+  textProps?: ComponentProps<typeof Text>;
 }
