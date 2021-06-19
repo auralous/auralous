@@ -1,11 +1,11 @@
 import { watch } from "chokidar";
-import { copyFileSync, existsSync, mkdirSync } from "fs";
+import { copyFileSync, existsSync, mkdirSync, rmdirSync } from "fs";
 import { dirname } from "path";
 
 const setup = (app, pkg) => {
   const downstreamDir = `./${app}/src/@auralous/${pkg}`;
-  if (!existsSync(downstreamDir)) {
-    mkdirSync(downstreamDir, { recursive: true });
+  if (existsSync(downstreamDir)) {
+    rmdirSync(downstreamDir, { recursive: true });
   }
   watch(`./${pkg}/src`).on("all", (_, p) => {
     if (p.indexOf(".") === -1) return;
@@ -19,3 +19,6 @@ const setup = (app, pkg) => {
 };
 
 setup("app", "ui");
+setup("app", "api");
+setup("app", "player");
+setup("app", "locales");

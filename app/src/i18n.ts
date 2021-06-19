@@ -1,7 +1,7 @@
+import en from "@auralous/locales/en.json";
+import vi from "@auralous/locales/vi.json";
 import i18n, { Resource } from "i18next";
 import { initReactI18next } from "react-i18next";
-import en from "../locales/en.json";
-import vi from "../locales/vi.json";
 
 export const resources: Resource = {
   en: {
