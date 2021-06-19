@@ -102,8 +102,9 @@ const PlaylistTrackList: FC<{ playlist: Playlist; close(): void }> = ({
 };
 
 const SelectByPlaylists: FC<SelectByPlaylistsProps> = ({ search }) => {
-  const [selectedPlaylist, setSelectedPlaylist] =
-    useState<Playlist | null>(null);
+  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(
+    null
+  );
 
   const closePlaylist = useCallback(() => setSelectedPlaylist(null), []);
 

@@ -1,32 +1,21 @@
 {
+  "type": "module",
   "name": "auralous",
-  "workspaces": {
-    "packages": [
-      "web",
-      "app",
-      "ui",
-      "api",
-      "player"
-    ],
-    "nohoist": []
-  },
   "version": "0.0.0",
   "repository": "git@github.com:auralous/auralous.git",
   "private": true,
   "scripts": {
-    "codegen": "graphql-codegen",
-    "build": "npm run build --workspaces",
     "lint": "eslint .",
-    "android": "yarn workspace app android",
-    "ios": "yarn workspace app ios"
+    "dev-setup": "node dev-setup.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.6",
     "@babel/preset-typescript": "^7.14.5",
-    "babel-plugin-module-resolver": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "chokidar": "^3.5.2",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",

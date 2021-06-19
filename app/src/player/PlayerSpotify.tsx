@@ -1,3 +1,4 @@
+import player from "@auralous/player";
 import React, { useCallback, useEffect, useState } from "react";
 import Config from "react-native-config";
 import {
@@ -8,7 +9,6 @@ import {
   remote as SpotifyRemote,
   SpotifySession,
 } from "react-native-spotify-remote";
-import { player } from "./Context";
 
 const spotifyConfig: ApiConfig = {
   clientID: Config.SPOTIFY_CLIENT_ID,

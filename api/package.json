@@ -19,16 +19,17 @@
     "url": "https://github.com/auralous/auralous/issues"
   },
   "homepage": "https://github.com/auralous/auralous#readme",
+  "dependencies": {
+    "graphql": "*",
+    "urql": "*",
+    "@urql/exchange-graphcache": "*"
+  },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.5",
     "@graphql-codegen/typescript": "^1.22.1",
     "@graphql-codegen/typescript-operations": "^1.18.0",
     "@graphql-codegen/typescript-urql": "^2.0.7",
     "@graphql-codegen/typescript-urql-graphcache": "^1.0.2",
-    "@graphql-codegen/urql-introspection": "^1.3.0",
-    "@urql/exchange-graphcache": "*",
-    "graphql": "*",
-    "urql": "*",
-    "typescript": "^4.3.2"
+    "@graphql-codegen/urql-introspection": "^1.3.0"
   }
 }

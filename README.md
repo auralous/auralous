@@ -17,22 +17,23 @@ Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com
 
 ## Structure
 
-| Codebase           |                  Description                  |
-| :----------------- | :-------------------------------------------: |
-| [web](web)         |               Next.js frontend                |
-| [graphql](graphql) | GraphQL Queries, Mutations, and Subscriptions |
+| Codebase         |                  Description                  |
+| :--------------- | :-------------------------------------------: |
+| [web](web)       |               Next.js frontend                |
+| [app](app)       |               React Native App                |
+| [ui](ui)         |           Shared components, styles           |
+| [api](api)       | GraphQL API / URQL code, hooks, and exchanges |
+| [player](player) |      The Player class and React Context       |
 
 ### Workflows
 
-The repository is a [npm workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces). Upon cloning this repository, run `npm i` to install the required dependencies.
+The repository is **NOT** a workspace despite its look. We use a custom setup that copied file from shared module into each "app". For example, code from `ui/src` will be copied to `app/src/@auralous/ui` on changes.
 
 `package.json` contains the several scripts in the workspace root.
 
-#### `yarn codegen`
+#### `yarn dev-setup`
 
-Run `yarn codegen` to run the [graphql-codegen-generator](https://github.com/dotansimha/graphql-code-generator). This generates TypeScript definitions and [`urql`](https://github.com/FormidableLabs/urql) React hooks inside [`web/src/graphql/gql.gen.ts`](web/src/graphql/gql.gen.ts) .
-
-This is only run whenever the GraphQL operations are modified inside the `graphql` folder or when the Server GraphQL Schema changes.
+This script must be run and kept in the background to continously copy shared files into apps.
 
 #### `yarn lint`
 

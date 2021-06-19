@@ -1,3 +1,4 @@
+import { TabBar } from "@/components/TabBar";
 import { ApiProvider } from "@/gql/context";
 import HomeScreen from "@/screens/Home";
 import MapScreen from "@/screens/Map";
@@ -9,7 +10,7 @@ import {
 import SignInScreen from "@/screens/SignIn";
 import { ParamList, RouteName } from "@/screens/types";
 import UserScreen from "@/screens/User";
-import { Size, TabBar, useColors } from "@auralous/ui";
+import { Size, useColors } from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";

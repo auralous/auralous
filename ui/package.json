@@ -3,11 +3,8 @@
   "version": "0.0.0",
   "description": "Shared UI for Auralous",
   "scripts": {
-    "build": "tsc && babel src -d dist --extensions .ts,.tsx",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/auralous/auralous.git",
@@ -19,13 +16,15 @@
   },
   "homepage": "https://github.com/auralous/auralous#readme",
   "dependencies": {
-    "@auralous/api": "0.0.0",
-    "@auralous/player": "0.0.0",
-    "@fluentui/react-context-selector": "^0.53.4",
-    "@types/react": "*",
-    "@types/react-native": "*",
+    "@fluentui/react-context-selector": "*",
     "react": "*",
     "react-native": "*",
-    "react-native-draggable-flatlist": "^3.0.0-beta.7"
+    "react-native-draggable-flatlist": "^3.0.0-beta.7",
+    "react-i18next": "*",
+    "react-native-gesture-handler": "*"
+  },
+  "devDependencies": {
+    "@types/react": "*",
+    "@types/react-native": "*"
   }
 }

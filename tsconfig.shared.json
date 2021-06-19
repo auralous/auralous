@@ -1,10 +1,16 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@auralous/api": ["./api/src"],
+      "@auralous/player": ["./player/src"],
+      "@auralous/ui": ["./ui/src"],
+      "@auralous/ui/*": ["./ui/src/*"]
+    },
     "module": "ESNext",
     "target": "ESNext",
-    "skipLibCheck": true,
-    "declaration": true,
-    "emitDeclarationOnly": true
+    "noEmit": true
   }
 }

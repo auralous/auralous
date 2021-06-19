@@ -1,7 +1,7 @@
+import player from "@auralous/player";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
-import { player } from "./Context";
 
 const PlayerYoutube: React.FC = () => {
   const youtubeRef = useRef<YoutubeIframeRef>(null);

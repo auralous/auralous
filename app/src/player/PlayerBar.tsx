@@ -62,9 +62,9 @@ const PlayerBar: React.FC = () => {
           source={
             track?.image
               ? { uri: track?.image }
-              : require("@/assets/images/default_track.jpg")
+              : require("@auralous/ui/assets/images/default_track.jpg")
           }
-          defaultSource={require("@/assets/images/default_track.jpg")}
+          defaultSource={require("@auralous/ui/assets/images/default_track.jpg")}
           accessibilityLabel={track?.title}
         />
         <View style={styles.meta}>
