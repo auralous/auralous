@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@auralous/*": ["./src/@auralous/*"]
+      "@auralous/locales/*": ["../locales/src/*"],
+      "@auralous/player": ["../player/src"],
+      "@auralous/ui": ["../ui/src"],
+      "@auralous/api": ["../api/src"]
     },
     "target": "esnext",
     "module": "commonjs",
