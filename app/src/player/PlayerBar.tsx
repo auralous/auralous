@@ -1,12 +1,10 @@
-import { IconPause, IconPlay } from "@/assets/svg";
-import { Text } from "@/components/Typography";
-import { useTrackQuery } from "@/gql/gql.gen";
-import { Size, useColors } from "@/styles";
+import { useTrackQuery } from "@auralous/api";
+import player, { usePlaybackState } from "@auralous/player";
+import { IconPause, IconPlay, Size, Text, useColors } from "@auralous/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { player, usePlaybackState } from "./Context";
 
 const styles = StyleSheet.create({
   root: {

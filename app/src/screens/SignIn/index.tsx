@@ -1,12 +1,18 @@
-import { IconGoogleColor, IconSpotify, Logo } from "@/assets/svg";
-import { HeaderBackable } from "@/components/Header";
-import { Spacer } from "@/components/Spacer";
-import { Text, TextLink } from "@/components/Typography";
 import { useAuthActions } from "@/gql/context";
-import { useMe } from "@/gql/hooks";
 import { ParamList, RouteName } from "@/screens/types";
-import { Size, useColors } from "@/styles";
-import { commonStyles } from "@/styles/common";
+import { useMe } from "@auralous/api";
+import {
+  commonStyles,
+  HeaderBackable,
+  IconGoogleColor,
+  IconSpotify,
+  Logo,
+  Size,
+  Spacer,
+  Text,
+  TextLink,
+  useColors,
+} from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";

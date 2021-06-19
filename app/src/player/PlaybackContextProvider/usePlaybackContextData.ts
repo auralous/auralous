@@ -1,5 +1,5 @@
-import { useStoryQuery } from "@/gql/gql.gen";
-import { PlaybackContextType, PlaybackCurrentContext } from "@/player/Context";
+import { useStoryQuery } from "@auralous/api";
+import { PlaybackContextType, PlaybackCurrentContext } from "@auralous/player";
 
 export const usePlaybackContextData = (
   playbackCurrentContext: PlaybackCurrentContext | null

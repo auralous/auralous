@@ -1,13 +1,12 @@
-import { Button, TextButton } from "@/components/Button";
-import { UserListItem } from "@/components/User";
+import { RouteName } from "@/screens/types";
 import {
+  useMe,
+  useMeFollowings,
   useUserFollowMutation,
   useUserQuery,
   useUserUnfollowMutation,
-} from "@/gql/gql.gen";
-import { useMe, useMeFollowings } from "@/gql/hooks";
-import { RouteName } from "@/screens/types";
-import { Size } from "@/styles";
+} from "@auralous/api";
+import { Button, Size, TextButton, UserListItem } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/core";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";

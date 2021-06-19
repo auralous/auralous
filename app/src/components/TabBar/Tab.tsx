@@ -1,9 +1,12 @@
-import { Text } from "@/components/Typography";
-import { Size, useColors } from "@/styles";
-import { commonStyles } from "@/styles/common";
-import { useSharedValuePressed } from "@/utils/animation";
+import {
+  commonStyles,
+  Size,
+  Text,
+  useColors,
+  useSharedValuePressed,
+} from "@auralous/ui";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import React from "react";
+import { FC } from "react";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -24,18 +27,12 @@ const styles = StyleSheet.create({
 interface TabProps {
   name: string;
   title: string;
-  Icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  Icon: FC<React.SVGProps<SVGSVGElement>>;
   navigation: BottomTabBarProps["navigation"];
   currentRoute: string;
 }
 
-const Tab: React.FC<TabProps> = ({
-  Icon,
-  navigation,
-  name,
-  title,
-  currentRoute,
-}) => {
+const Tab: FC<TabProps> = ({ Icon, navigation, name, title, currentRoute }) => {
   const colors = useColors();
 
   const [pressed, pressedProps] = useSharedValuePressed();

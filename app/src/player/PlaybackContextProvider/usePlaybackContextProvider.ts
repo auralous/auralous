@@ -15,7 +15,7 @@
 import {
   PlaybackContextProvided,
   PlaybackCurrentContext,
-} from "@/player/Context";
+} from "@auralous/player";
 import { useMemo } from "react";
 import { usePlaybackContextData } from "./usePlaybackContextData";
 import usePlaybackLiveProvider from "./usePlaybackLiveProvider";

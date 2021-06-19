@@ -1,9 +1,11 @@
-import { BottomSheetCustomBackground } from "@/components/BottomSheet";
-import { LoadingBlock } from "@/components/Loading";
-import { Heading } from "@/components/Typography";
-import { Maybe } from "@/gql/gql.gen";
-import { Size } from "@/styles";
-import { commonStyles } from "@/styles/common";
+import { Maybe } from "@auralous/api";
+import {
+  BottomSheetCustomBackground,
+  commonStyles,
+  Heading,
+  LoadingBlock,
+  Size,
+} from "@auralous/ui";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetFlatList,

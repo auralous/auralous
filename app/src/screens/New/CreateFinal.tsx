@@ -1,10 +1,14 @@
-import { Button } from "@/components/Button";
-import { Spacer } from "@/components/Spacer";
-import { Heading, Text } from "@/components/Typography";
-import { useStoryCreateMutation } from "@/gql/gql.gen";
-import { PlaybackContextType, player } from "@/player/Context";
 import { ParamList, RouteName } from "@/screens/types";
-import { Size, useColors } from "@/styles";
+import { useStoryCreateMutation } from "@auralous/api";
+import player, { PlaybackContextType } from "@auralous/player";
+import {
+  Button,
+  GradientColors,
+  Heading,
+  Size,
+  Spacer,
+  Text,
+} from "@auralous/ui";
 import { useFocusEffect } from "@react-navigation/core";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useState } from "react";
@@ -72,8 +76,6 @@ const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
     }, [fetching])
   );
 
-  const colors = useColors();
-
   const [sec, setSec] = useState(4);
   useEffect(() => {
     if (sec <= 0) {
@@ -86,8 +88,8 @@ const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
 
   return (
     <LinearGradient
-      colors={colors.gradientRainbow.colors}
-      locations={colors.gradientRainbow.locations}
+      colors={GradientColors.rainbow.colors}
+      locations={GradientColors.rainbow.locations}
       start={{ x: 1, y: 1 }}
       end={{ x: 0, y: 0 }}
       style={StyleSheet.absoluteFillObject}

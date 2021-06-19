@@ -1,5 +1,4 @@
-import { Text } from "@/components/Typography";
-import { Size, useColors } from "@/styles";
+import { Size, Text, useColors } from "@auralous/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Linking, Pressable, StyleSheet, View } from "react-native";

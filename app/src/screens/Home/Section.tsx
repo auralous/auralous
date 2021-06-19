@@ -1,5 +1,4 @@
-import { Heading, Text } from "@/components/Typography";
-import { Size } from "@/styles";
+import { Heading, Size, Text } from "@auralous/ui";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 

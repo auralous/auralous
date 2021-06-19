@@ -1,6 +1,9 @@
-import { PlatformName, useCrossTracksQuery } from "@/gql/gql.gen";
+import { PlatformName, useCrossTracksQuery } from "@auralous/api";
+import player, {
+  PlaybackContext,
+  PlaybackCurrentContext,
+} from "@auralous/player";
 import React, { useEffect, useMemo, useState } from "react";
-import { PlaybackContext, PlaybackCurrentContext, player } from "./Context";
 import { usePlaybackContextProvider } from "./PlaybackContextProvider";
 import PlayerSpotify from "./PlayerSpotify";
 import PlayerView from "./PlayerView";

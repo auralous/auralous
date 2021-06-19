@@ -38,6 +38,7 @@ const authActionsSelector = (v: ApiState) => ({
   signIn: v.signIn,
   signOut: v.signOut,
 });
+
 export function useAuthActions() {
   return useContextSelector(ApiContext, authActionsSelector);
 }

@@ -1,4 +1,4 @@
-import { Size } from "@/styles";
+import { Size } from "@auralous/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";

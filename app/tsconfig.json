@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@auralous/ui": ["../ui/src/index"],
+      "@auralous/api": ["../api/src/index"],
+      "@auralous/player": ["../player/src/index"]
     },
     "target": "esnext",
     "module": "commonjs",

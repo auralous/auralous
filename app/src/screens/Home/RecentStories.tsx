@@ -1,8 +1,6 @@
-import { StoryItem } from "@/components/Story";
-import { useStoriesQuery } from "@/gql/gql.gen";
-import { player } from "@/player";
-import { PlaybackContextType } from "@/player/Context";
-import { Size } from "@/styles";
+import { useStoriesQuery } from "@auralous/api";
+import player, { PlaybackContextType } from "@auralous/player";
+import { Size, StoryItem } from "@auralous/ui";
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

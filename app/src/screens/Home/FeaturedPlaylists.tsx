@@ -1,6 +1,5 @@
-import { PlaylistItem } from "@/components/Playlist";
-import { usePlaylistsFeaturedQuery } from "@/gql/gql.gen";
-import { Size } from "@/styles";
+import { usePlaylistsFeaturedQuery } from "@auralous/api";
+import { PlaylistItem, Size } from "@auralous/ui";
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 

@@ -1,8 +1,7 @@
-import { IconHome, IconMapPin } from "@/assets/svg";
 import { PlayerBar } from "@/player";
-import { Size, useColors } from "@/styles";
+import { IconHome, IconMapPin, Size, useColors } from "@auralous/ui";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import React from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Tab from "./Tab";
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const TabBar: React.FC<BottomTabBarProps> = ({ navigation, state }) => {
+const TabBar: FC<BottomTabBarProps> = ({ navigation, state }) => {
   const { t } = useTranslation();
   const colors = useColors();
 

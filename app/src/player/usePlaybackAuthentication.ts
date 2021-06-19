@@ -1,4 +1,4 @@
-import { PlatformName, useMeQuery } from "@/gql/gql.gen";
+import { PlatformName, useMeQuery } from "@auralous/api";
 import { useMemo } from "react";
 
 const usePlaybackAuthentication = () => {

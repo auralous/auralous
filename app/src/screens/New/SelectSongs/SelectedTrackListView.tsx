@@ -1,11 +1,16 @@
-import { IconChevronDown, IconChevronUp } from "@/assets/svg";
-import { BottomSheetCustomBackground } from "@/components/BottomSheet";
-import { Button, TextButton } from "@/components/Button";
-import { QueueTrackItem } from "@/components/Track";
-import { Text } from "@/components/Typography";
-import { useTrackQuery } from "@/gql/gql.gen";
-import { Size, useColors } from "@/styles";
-import { Font } from "@/styles/layout";
+import { useTrackQuery } from "@auralous/api";
+import {
+  BottomSheetCustomBackground,
+  Button,
+  Font,
+  IconChevronDown,
+  IconChevronUp,
+  QueueTrackItem,
+  Size,
+  Text,
+  TextButton,
+  useColors,
+} from "@auralous/ui";
 import BottomSheet from "@gorhom/bottom-sheet";
 import React, {
   createContext,

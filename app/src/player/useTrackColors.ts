@@ -1,5 +1,5 @@
-import { useTrackQuery } from "@/gql/gql.gen";
-import { useColors } from "@/styles";
+import { useTrackQuery } from "@auralous/api";
+import { useColors } from "@auralous/ui";
 import { useEffect, useMemo, useState } from "react";
 import ImageColors from "react-native-image-colors";
 

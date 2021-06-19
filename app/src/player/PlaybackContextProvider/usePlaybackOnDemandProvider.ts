@@ -1,5 +1,5 @@
-import { QueueItem, useQueueQuery } from "@/gql/gql.gen";
-import { PlaybackContextProvided, player } from "@/player/Context";
+import { QueueItem, useQueueQuery } from "@auralous/api";
+import player, { PlaybackContextProvided } from "@auralous/player";
 import { useEffect, useMemo, useState } from "react";
 import { usePlaybackContextData } from "./usePlaybackContextData";
 

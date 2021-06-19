@@ -1,7 +1,5 @@
-import { Avatar } from "@/components/Avatar";
-import { Text } from "@/components/Typography";
-import { User, useUserStatQuery } from "@/gql/gql.gen";
-import { Size } from "@/styles";
+import { User, useUserStatQuery } from "@auralous/api";
+import { Avatar, Size, Text } from "@auralous/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";

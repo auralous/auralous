@@ -1,9 +1,13 @@
-import { IconPlus } from "@/assets/svg";
-import { Button, GradientButton, TextButton } from "@/components/Button";
-import { Spacer } from "@/components/Spacer";
-import { Heading } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
-import { Size } from "@/styles";
+import {
+  Button,
+  GradientButton,
+  Heading,
+  IconPlus,
+  Size,
+  Spacer,
+  TextButton,
+} from "@auralous/ui";
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
 import { useNavigation } from "@react-navigation/core";

@@ -14,10 +14,10 @@ module.exports = {
           ".json",
         ],
         alias: {
-          "@": "./src"
-        }
+          "@": "./src",
+        },
       },
     ],
-    "react-native-reanimated/plugin"
+    "react-native-reanimated/plugin",
   ],
 };

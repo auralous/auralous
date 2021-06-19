@@ -1,0 +1,25 @@
+{
+  "name": "@auralous/ui",
+  "version": "0.0.0",
+  "description": "Shared UI for Auralous",
+  "scripts": {
+    "build": "tsc && babel src -d dist --extensions .ts,.tsx",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/auralous/auralous.git",
+    "directory": "ui"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/auralous/auralous/issues"
+  },
+  "homepage": "https://github.com/auralous/auralous#readme",
+  "dependencies": {
+    "@fluentui/react-context-selector": "^0.53.4",
+    "react-native-draggable-flatlist": "^3.0.0-beta.7"
+  }
+}

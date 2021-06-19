@@ -1,12 +1,12 @@
+import { useTrackQuery } from "@auralous/api";
+import player, { PlaybackState } from "@auralous/player";
 import {
   PlayerViewControl,
   PlayerViewMeta,
   PlayerViewProgress,
-} from "@/components/Player";
-import { QueueModal } from "@/components/Queue";
-import { useTrackQuery } from "@/gql/gql.gen";
-import { PlaybackState, player } from "@/player/Context";
-import { Size } from "@/styles";
+  QueueModal,
+  Size,
+} from "@auralous/ui";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 

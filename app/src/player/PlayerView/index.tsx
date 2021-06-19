@@ -1,11 +1,15 @@
-import { IconChevronDown, IconMoreHorizontal } from "@/assets/svg";
-import { Button } from "@/components/Button";
-import { Header } from "@/components/Header";
-import { Spacer } from "@/components/Spacer";
-import { Text } from "@/components/Typography";
-import { player, usePlaybackState } from "@/player/Context";
 import { usePlaybackContextData } from "@/player/PlaybackContextProvider";
-import { Size, useColors } from "@/styles";
+import player, { usePlaybackState } from "@auralous/player";
+import {
+  Button,
+  Header,
+  IconChevronDown,
+  IconMoreHorizontal,
+  Size,
+  Spacer,
+  Text,
+  useColors,
+} from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, {
   useCallback,

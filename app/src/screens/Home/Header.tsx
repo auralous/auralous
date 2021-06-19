@@ -1,9 +1,5 @@
-import { Avatar } from "@/components/Avatar";
-import { Button } from "@/components/Button";
-import { Spacer } from "@/components/Spacer";
-import { Heading } from "@/components/Typography";
-import { useMe } from "@/gql/hooks";
-import { Size } from "@/styles";
+import { useMe } from "@auralous/api";
+import { Avatar, Button, Heading, Size, Spacer } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { useTranslation } from "react-i18next";

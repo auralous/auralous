@@ -1,8 +1,6 @@
-import { HeaderBackable } from "@/components/Header";
-import { LoadingBlock } from "@/components/Loading";
-import { NotFound } from "@/components/Page";
-import { User, useUserQuery } from "@/gql/gql.gen";
 import { ParamList, RouteName } from "@/screens/types";
+import { User, useUserQuery } from "@auralous/api";
+import { HeaderBackable, LoadingBlock, NotFound } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";

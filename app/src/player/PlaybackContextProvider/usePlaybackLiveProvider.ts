@@ -1,4 +1,5 @@
 import {
+  useMe,
   useNowPlayingQuery,
   useNowPlayingSkipMutation,
   useOnNowPlayingUpdatedSubscription,
@@ -7,9 +8,8 @@ import {
   useQueueReorderMutation,
   useQueueToTopMutation,
   useQueueUpdatedSubscription,
-} from "@/gql/gql.gen";
-import { useMe } from "@/gql/hooks";
-import { PlaybackContextProvided, player } from "@/player/Context";
+} from "@auralous/api";
+import player, { PlaybackContextProvided } from "@auralous/player";
 import { useEffect } from "react";
 import { usePlaybackContextData } from "./usePlaybackContextData";
 

@@ -1,8 +1,3 @@
-import { IconLogIn, IconMusic } from "@/assets/svg";
-import { Avatar } from "@/components/Avatar";
-import { Input } from "@/components/Input";
-import { Spacer } from "@/components/Spacer";
-import { Text } from "@/components/Typography";
 import {
   Message,
   MessageType,
@@ -10,9 +5,18 @@ import {
   useMessageAddMutation,
   useMessagesQuery,
   useTrackQuery,
-} from "@/gql/gql.gen";
-import { PlaybackState } from "@/player/Context";
-import { Size, useColors } from "@/styles";
+} from "@auralous/api";
+import { PlaybackState } from "@auralous/player";
+import {
+  Avatar,
+  IconLogIn,
+  IconMusic,
+  Input,
+  Size,
+  Spacer,
+  Text,
+  useColors,
+} from "@auralous/ui";
 import { format as formatMs } from "@lukeed/ms";
 import { TFunction } from "i18next";
 import React, {

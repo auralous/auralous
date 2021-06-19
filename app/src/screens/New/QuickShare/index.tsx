@@ -1,6 +1,5 @@
-import { HeaderBackable } from "@/components/Header";
 import { ParamList, RouteName } from "@/screens/types";
-import { Size } from "@/styles";
+import { HeaderBackable, Size } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";

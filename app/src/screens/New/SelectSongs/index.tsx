@@ -1,7 +1,10 @@
-import { HeaderBackable } from "@/components/Header";
-import { SongSelector, SongSelectorContext } from "@/components/SongSelector";
 import { ParamList, RouteName } from "@/screens/types";
-import { Size } from "@/styles";
+import {
+  HeaderBackable,
+  Size,
+  SongSelector,
+  SongSelectorContext,
+} from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
