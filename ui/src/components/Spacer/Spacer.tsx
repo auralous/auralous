@@ -1,4 +1,4 @@
-import { Size } from "@/styles";
+import { Size } from "@auralous/ui/styles";
 import { FC } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 

@@ -1,7 +1,7 @@
-import { Spacer } from "@/components/Spacer";
-import { Text } from "@/components/Typography";
-import { GradientColors } from "@/styles";
-import { useSharedValuePressed } from "@/utils";
+import { Spacer } from "@auralous/ui/components/Spacer";
+import { Text } from "@auralous/ui/components/Typography";
+import { GradientColors } from "@auralous/ui/styles";
+import { useSharedValuePressed } from "@auralous/ui/utils";
 import { FC } from "react";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";

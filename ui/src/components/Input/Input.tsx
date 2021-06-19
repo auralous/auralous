@@ -1,4 +1,4 @@
-import { Size, useColors } from "@/styles";
+import { Size, useColors } from "@auralous/ui/styles";
 import { FC, useCallback } from "react";
 import { Control, useController } from "react-hook-form";
 import {

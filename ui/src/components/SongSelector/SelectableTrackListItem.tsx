@@ -1,7 +1,7 @@
-import { IconCheck, IconPlus } from "@/assets";
-import { TrackItem } from "@/components/Track";
-import { Size, useColors } from "@/styles";
 import { useTrackQuery } from "@auralous/api";
+import { IconCheck, IconPlus } from "@auralous/ui/assets";
+import { TrackItem } from "@auralous/ui/components/Track";
+import { Size, useColors } from "@auralous/ui/styles";
 import { memo, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

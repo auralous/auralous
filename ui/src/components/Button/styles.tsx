@@ -1,4 +1,4 @@
-import { Size } from "@/styles";
+import { Size } from "@auralous/ui/styles";
 import { StyleSheet } from "react-native";
 import { BaseButtonProps } from "./types";
 

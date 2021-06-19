@@ -1,4 +1,4 @@
-import { useColors } from "@/styles";
+import { useColors } from "@auralous/ui/styles";
 import { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { FC } from "react";
 import { View } from "react-native";

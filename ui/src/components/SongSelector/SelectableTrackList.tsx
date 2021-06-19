@@ -1,6 +1,6 @@
-import { LoadingBlock } from "@/components/Loading";
-import { commonStyles } from "@/styles";
 import { Track } from "@auralous/api";
+import { LoadingBlock } from "@auralous/ui/components/Loading";
+import { commonStyles } from "@auralous/ui/styles";
 import { FC } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import SearchEmpty from "./SearchEmpty";

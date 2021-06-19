@@ -1,4 +1,4 @@
-import { Text } from "@/components/Typography";
+import { Text } from "@auralous/ui/components/Typography";
 import { ComponentProps } from "react";
 import { StyleProp, ViewStyle } from "react-native";
 

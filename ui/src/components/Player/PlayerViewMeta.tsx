@@ -1,6 +1,6 @@
-import { Text } from "@/components/Typography";
-import { Size } from "@/styles";
 import { Maybe, Track } from "@auralous/api";
+import { Text } from "@auralous/ui/components/Typography";
+import { Size } from "@auralous/ui/styles";
 import { FC } from "react";
 import { ImageBackground, StyleSheet, View } from "react-native";
 
@@ -23,9 +23,9 @@ const PlayerViewMeta: FC<{ track: Maybe<Track> }> = ({ track }) => {
         source={
           track?.image
             ? { uri: track?.image }
-            : require("@/assets/images/default_track.jpg")
+            : require("@auralous/ui/assets/images/default_track.jpg")
         }
-        defaultSource={require("@/assets/images/default_track.jpg")}
+        defaultSource={require("@auralous/ui/assets/images/default_track.jpg")}
       />
       <View style={styles.header}>
         <Text size="xl" bold numberOfLines={1}>

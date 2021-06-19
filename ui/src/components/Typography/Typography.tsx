@@ -1,4 +1,10 @@
-import { Font, IColors, Size, ThemeColor, useColors } from "@/styles";
+import {
+  Font,
+  IColors,
+  Size,
+  ThemeColor,
+  useColors
+} from "@auralous/ui/styles";
 import { FC } from "react";
 import {
   Linking,
@@ -7,7 +13,7 @@ import {
   StyleProp,
   StyleSheet,
   Text as RNText,
-  TextStyle,
+  TextStyle
 } from "react-native";
 
 const levelSize = [40, 36, 30, 24, 20, 18];

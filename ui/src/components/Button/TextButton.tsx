@@ -1,6 +1,6 @@
-import { Spacer } from "@/components/Spacer";
-import { Text } from "@/components/Typography";
-import { useColors } from "@/styles";
+import { Spacer } from "@auralous/ui/components/Spacer";
+import { Text } from "@auralous/ui/components/Typography";
+import { useColors } from "@auralous/ui/styles";
 import { FC } from "react";
 import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

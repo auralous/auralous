@@ -1,6 +1,6 @@
-import { IconSearch, IconX } from "@/assets";
-import { Input } from "@/components/Input";
-import { Size, useColors } from "@/styles";
+import { IconSearch, IconX } from "@auralous/ui/assets";
+import { Input } from "@auralous/ui/components/Input";
+import { Size, useColors } from "@auralous/ui/styles";
 import { FC, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

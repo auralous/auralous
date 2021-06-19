@@ -1,7 +1,7 @@
-import { IconChevronLeft } from "@/assets";
-import { Button } from "@/components/Button";
-import { Heading, Text } from "@/components/Typography";
-import { Size, useColors } from "@/styles";
+import { IconChevronLeft } from "@auralous/ui/assets";
+import { Button } from "@auralous/ui/components/Button";
+import { Heading, Text } from "@auralous/ui/components/Typography";
+import { Size, useColors } from "@auralous/ui/styles";
 import { useNavigation } from "@react-navigation/core";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";

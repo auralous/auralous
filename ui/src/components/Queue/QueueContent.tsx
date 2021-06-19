@@ -1,10 +1,10 @@
-import { Button, TextButton } from "@/components/Button";
-import { Spacer } from "@/components/Spacer";
-import { QueueTrackItem, TrackItem } from "@/components/Track";
-import { Heading, Text } from "@/components/Typography";
-import { Font, Size, useColors } from "@/styles";
 import { QueueItem, Track, useTrackQuery } from "@auralous/api";
 import player, { PlaybackState } from "@auralous/player";
+import { Button, TextButton } from "@auralous/ui/components/Button";
+import { Spacer } from "@auralous/ui/components/Spacer";
+import { QueueTrackItem, TrackItem } from "@auralous/ui/components/Track";
+import { Heading, Text } from "@auralous/ui/components/Typography";
+import { Font, Size, useColors } from "@auralous/ui/styles";
 import {
   createContext,
   FC,

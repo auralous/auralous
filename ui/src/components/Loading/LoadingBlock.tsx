@@ -1,4 +1,4 @@
-import { useColors } from "@/styles";
+import { useColors } from "@auralous/ui/styles";
 import { FC } from "react";
 import { ActivityIndicator } from "react-native";
 

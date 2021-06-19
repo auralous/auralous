@@ -1,7 +1,7 @@
-import { IconMenu } from "@/assets";
-import { Checkbox } from "@/components/Checkbox";
-import { Size, useColors } from "@/styles";
 import { Maybe, Track } from "@auralous/api";
+import { IconMenu } from "@auralous/ui/assets";
+import { Checkbox } from "@auralous/ui/components/Checkbox";
+import { Size, useColors } from "@auralous/ui/styles";
 import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";

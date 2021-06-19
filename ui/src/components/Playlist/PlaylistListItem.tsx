@@ -1,7 +1,7 @@
-import { Spacer } from "@/components/Spacer";
-import { Text } from "@/components/Typography";
-import { Size } from "@/styles";
 import { Maybe, Playlist } from "@auralous/api";
+import { Spacer } from "@auralous/ui/components/Spacer";
+import { Text } from "@auralous/ui/components/Typography";
+import { Size } from "@auralous/ui/styles";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
@@ -41,9 +41,9 @@ const PlaylistListItem: FC<PlaylistListItemProps> = ({ playlist }) => {
         source={
           playlist?.image
             ? { uri: playlist?.image }
-            : require("@/assets/images/default_playlist.jpg")
+            : require("@auralous/ui/assets/images/default_playlist.jpg")
         }
-        defaultSource={require("@/assets/images/default_playlist.jpg")}
+        defaultSource={require("@auralous/ui/assets/images/default_playlist.jpg")}
         accessibilityLabel={playlist?.name}
       />
       <Spacer x={2} />

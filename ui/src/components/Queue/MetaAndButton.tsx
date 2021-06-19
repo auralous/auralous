@@ -1,8 +1,8 @@
-import { IconChevronUp } from "@/assets";
-import { Text } from "@/components/Typography";
-import { Size } from "@/styles";
 import { useTrackQuery } from "@auralous/api";
 import { PlaybackState } from "@auralous/player";
+import { IconChevronUp } from "@auralous/ui/assets";
+import { Text } from "@auralous/ui/components/Typography";
+import { Size } from "@auralous/ui/styles";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";

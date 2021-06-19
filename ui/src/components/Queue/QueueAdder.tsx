@@ -1,9 +1,9 @@
-import { IconChevronLeft } from "@/assets";
-import { Button } from "@/components/Button";
-import { Header } from "@/components/Header";
-import { SongSelector } from "@/components/SongSelector";
-import { useColors } from "@/styles";
 import { QueueItem } from "@auralous/api";
+import { IconChevronLeft } from "@auralous/ui/assets";
+import { Button } from "@auralous/ui/components/Button";
+import { Header } from "@auralous/ui/components/Header";
+import { SongSelector } from "@auralous/ui/components/SongSelector";
+import { useColors } from "@auralous/ui/styles";
 import { FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Modal, StyleSheet, View } from "react-native";

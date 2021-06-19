@@ -1,8 +1,8 @@
-import { Avatar } from "@/components/Avatar";
-import { Text } from "@/components/Typography";
-import { Size, useColors } from "@/styles";
-import { format as formatMs } from "@/utils";
 import { Story } from "@auralous/api";
+import { Avatar } from "@auralous/ui/components/Avatar";
+import { Text } from "@auralous/ui/components/Typography";
+import { Size, useColors } from "@auralous/ui/styles";
+import { format as formatMs } from "@auralous/ui/utils";
 import { FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, StyleSheet, View } from "react-native";
@@ -67,9 +67,9 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
         source={
           story.image
             ? { uri: story.image }
-            : require("@/assets/images/default_playlist.jpg")
+            : require("@auralous/ui/assets/images/default_playlist.jpg")
         }
-        defaultSource={require("@/assets/images/default_playlist.jpg")}
+        defaultSource={require("@auralous/ui/assets/images/default_playlist.jpg")}
         style={styles.background}
       >
         <View style={styles.overlay}>

@@ -8,7 +8,7 @@
     "paths": {
       "@auralous/api": ["../api"],
       "@auralous/player": ["../player"],
-      "@/*": ["./src/*"]
+      "@auralous/ui/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"]

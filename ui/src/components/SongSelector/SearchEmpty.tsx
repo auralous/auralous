@@ -1,4 +1,4 @@
-import { Text } from "@/components/Typography";
+import { Text } from "@auralous/ui/components/Typography";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";

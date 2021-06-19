@@ -1,8 +1,13 @@
-import { IconPause, IconPlay, IconSkipBack, IconSkipForward } from "@/assets";
-import { Spacer } from "@/components/Spacer";
-import { Size, useColors } from "@/styles";
 import type { Player } from "@auralous/player";
 import { PlaybackState } from "@auralous/player";
+import {
+  IconPause,
+  IconPlay,
+  IconSkipBack,
+  IconSkipForward,
+} from "@auralous/ui/assets";
+import { Spacer } from "@auralous/ui/components/Spacer";
+import { Size, useColors } from "@auralous/ui/styles";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";

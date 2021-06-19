@@ -1,7 +1,7 @@
-import { Spacer } from "@/components/Spacer";
-import { Text } from "@/components/Typography";
-import { useColors } from "@/styles";
-import { useSharedValuePressed } from "@/utils";
+import { Spacer } from "@auralous/ui/components/Spacer";
+import { Text } from "@auralous/ui/components/Typography";
+import { useColors } from "@auralous/ui/styles";
+import { useSharedValuePressed } from "@auralous/ui/utils";
 import { FC, useMemo } from "react";
 import { ColorValue, Pressable, ViewStyle } from "react-native";
 import Animated, {

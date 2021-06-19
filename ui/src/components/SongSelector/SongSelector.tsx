@@ -1,4 +1,4 @@
-import { Size } from "@/styles";
+import { Size } from "@auralous/ui/styles";
 import { FC, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SongSelectorContext, SongSelectorState } from "./Context";

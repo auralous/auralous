@@ -1,12 +1,12 @@
-import { IconX } from "@/assets";
-import { Text } from "@/components/Typography";
-import { Size, useColors } from "@/styles";
 import {
   Playlist,
   useMyPlaylistsQuery,
   usePlaylistsSearchQuery,
   usePlaylistTracksQuery,
 } from "@auralous/api";
+import { IconX } from "@auralous/ui/assets";
+import { Text } from "@auralous/ui/components/Typography";
+import { Size, useColors } from "@auralous/ui/styles";
 import { FC, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";

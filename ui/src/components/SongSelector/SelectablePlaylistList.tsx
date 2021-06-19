@@ -1,7 +1,7 @@
-import { LoadingBlock } from "@/components/Loading";
-import { PlaylistListItem } from "@/components/Playlist";
-import { commonStyles, Size } from "@/styles";
 import { Playlist } from "@auralous/api";
+import { LoadingBlock } from "@auralous/ui/components/Loading";
+import { PlaylistListItem } from "@auralous/ui/components/Playlist";
+import { commonStyles, Size } from "@auralous/ui/styles";
 import { FC, useCallback } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
