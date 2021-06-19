@@ -19,13 +19,7 @@
   },
   "homepage": "https://github.com/auralous/auralous#readme",
   "dependencies": {
-    "@fluentui/react-context-selector": "^0.53.4",
-    "react-native-draggable-flatlist": "^3.0.0-beta.7"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.14.5",
-    "@babel/core": "^7.14.6",
-    "@babel/preset-typescript": "^7.14.5",
-    "babel-plugin-module-resolver": "^4.1.0"
+    "@auralous/api": "0.0.0",
+    "react": "*"
   }
 }

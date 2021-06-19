@@ -1,18 +1,24 @@
 {
   "name": "auralous",
-  "workspaces": [
-    "web",
-    "app",
-    "ui",
-    "api"
-  ],
+  "workspaces": {
+    "packages": [
+      "web",
+      "app",
+      "ui",
+      "api",
+      "player"
+    ],
+    "nohoist": []
+  },
   "version": "0.0.0",
   "repository": "git@github.com:auralous/auralous.git",
   "private": true,
   "scripts": {
     "codegen": "graphql-codegen",
     "build": "npm run build --workspaces",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "android": "yarn workspace app android",
+    "ios": "yarn workspace app ios"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

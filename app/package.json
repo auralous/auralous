@@ -10,6 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@auralous/ui": "0.0.0",
+    "@auralous/api": "0.0.0",
+    "@auralous/player": "0.0.0",
     "@fluentui/react-context-selector": "^0.53.4",
     "@gorhom/bottom-sheet": "^3.6.5",
     "@lukeed/ms": "^2.0.0",

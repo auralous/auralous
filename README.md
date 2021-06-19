@@ -28,15 +28,15 @@ The repository is a [npm workspace](https://docs.npmjs.com/cli/v7/using-npm/work
 
 `package.json` contains the several scripts in the workspace root.
 
-#### `npm run codegen`
+#### `yarn codegen`
 
-Run `npm run codegen` to run the [graphql-codegen-generator](https://github.com/dotansimha/graphql-code-generator). This generates TypeScript definitions and [`urql`](https://github.com/FormidableLabs/urql) React hooks inside [`web/src/graphql/gql.gen.ts`](web/src/graphql/gql.gen.ts) .
+Run `yarn codegen` to run the [graphql-codegen-generator](https://github.com/dotansimha/graphql-code-generator). This generates TypeScript definitions and [`urql`](https://github.com/FormidableLabs/urql) React hooks inside [`web/src/graphql/gql.gen.ts`](web/src/graphql/gql.gen.ts) .
 
 This is only run whenever the GraphQL operations are modified inside the `graphql` folder or when the Server GraphQL Schema changes.
 
-#### `npm run lint`
+#### `yarn lint`
 
-Run `npm run lint` to check for errors in source code using [`eslint`](https://github.com/eslint/eslint) and apply formatting with [prettier](https://github.com/prettier/prettier). You can also run `npm run lint -- --fix` to let `eslint` fixed the errors automatically.
+Run `yarn lint` to check for errors in source code using [`eslint`](https://github.com/eslint/eslint) and apply formatting with [prettier](https://github.com/prettier/prettier). You can also run `yarn lint --fix` to let `eslint` fixed the errors automatically.
 
 ## Contribution
 

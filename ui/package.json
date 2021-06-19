@@ -19,7 +19,13 @@
   },
   "homepage": "https://github.com/auralous/auralous#readme",
   "dependencies": {
+    "@auralous/api": "0.0.0",
+    "@auralous/player": "0.0.0",
     "@fluentui/react-context-selector": "^0.53.4",
+    "@types/react": "*",
+    "@types/react-native": "*",
+    "react": "*",
+    "react-native": "*",
     "react-native-draggable-flatlist": "^3.0.0-beta.7"
   }
 }
