@@ -5,11 +5,11 @@ import {
   Font,
   IconChevronDown,
   IconChevronUp,
+  makeStyles,
   QueueTrackItem,
   Size,
   Text,
   TextButton,
-  useColors,
 } from "@auralous/ui";
 import BottomSheet from "@gorhom/bottom-sheet";
 import React, {
@@ -53,6 +53,20 @@ const styles = StyleSheet.create({
   toggleExpand: {
     padding: Size[1],
   },
+  selectOptsText: {
+    fontFamily: Font.Medium,
+    textTransform: "uppercase",
+  },
+});
+
+const useStyles = makeStyles((theme) => ({
+  selectOpts: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: Size[2],
+    borderColor: theme.colors.border,
+  },
   bottomContainer: {
     position: "absolute",
     bottom: 0,
@@ -61,18 +75,9 @@ const styles = StyleSheet.create({
     height: Size[16],
     justifyContent: "center",
     width: "100%",
+    backgroundColor: theme.colors.backgroundSecondary,
   },
-  selectOpts: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderTopWidth: StyleSheet.hairlineWidth,
-    paddingTop: Size[2],
-  },
-  selectOptsText: {
-    fontFamily: Font.Medium,
-    textTransform: "uppercase",
-  },
-});
+}));
 
 const snapPoints = [cascadedHeight, "100%"];
 
@@ -116,6 +121,7 @@ const SelectedTrackListView: React.FC<{
   selectedTracks: string[];
   setSelectedTracks(selectedTracks: string[]): void;
 }> = ({ onFinish, selectedTracks, setSelectedTracks }) => {
+  const dstyles = useStyles();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [expanded, setExpanded] = useState(false);
@@ -130,8 +136,6 @@ const SelectedTrackListView: React.FC<{
     () => bottomSheetRef.current?.snapTo(expanded ? 0 : 1),
     [expanded]
   );
-
-  const colors = useColors();
 
   const [checked, setChecked] = useState<Record<string, undefined | boolean>>(
     {}
@@ -203,11 +207,7 @@ const SelectedTrackListView: React.FC<{
             })}
           </Text>
           <TouchableOpacity onPress={toggle} style={styles.toggleExpand}>
-            {expanded ? (
-              <IconChevronDown stroke={colors.textSecondary} />
-            ) : (
-              <IconChevronUp stroke={colors.textSecondary} />
-            )}
+            {expanded ? <IconChevronDown /> : <IconChevronUp />}
           </TouchableOpacity>
         </View>
         <View style={styles.flexFill}>
@@ -220,14 +220,9 @@ const SelectedTrackListView: React.FC<{
           />
         </View>
       </BottomSheet>
-      <View
-        style={[
-          styles.bottomContainer,
-          { backgroundColor: colors.backgroundSecondary },
-        ]}
-      >
+      <View style={dstyles.bottomContainer}>
         {hasChecked ? (
-          <View style={[styles.selectOpts, { borderColor: colors.border }]}>
+          <View style={dstyles.selectOpts}>
             <TextButton
               onPress={removeChecked}
               textProps={{ style: styles.selectOptsText }}

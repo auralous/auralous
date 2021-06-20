@@ -1,10 +1,4 @@
-import {
-  commonStyles,
-  Size,
-  Text,
-  useColors,
-  useSharedValuePressed,
-} from "@auralous/ui";
+import { Size, Text, useSharedValuePressed } from "@auralous/ui";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { FC } from "react";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
@@ -12,11 +6,14 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
+import { SvgProps } from "react-native-svg";
 
 const styles = StyleSheet.create({
-  content: {
+  pressable: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    opacity: 1,
   },
   icon: {
     width: Size[4],
@@ -27,17 +24,17 @@ const styles = StyleSheet.create({
 interface TabProps {
   name: string;
   title: string;
-  Icon: FC<React.SVGProps<SVGSVGElement>>;
+  Icon: FC<SvgProps>;
   navigation: BottomTabBarProps["navigation"];
   currentRoute: string;
 }
 
 const Tab: FC<TabProps> = ({ Icon, navigation, name, title, currentRoute }) => {
-  const colors = useColors();
-
   const [pressed, pressedProps] = useSharedValuePressed();
 
-  const animatedStyles = useAnimatedStyle<ViewStyle>(() => ({
+  const stylesContent = useAnimatedStyle<ViewStyle>(() => ({
+    justifyContent: "center",
+    alignItems: "center",
     transform: [
       { scale: withSpring(pressed.value ? 0.9 : 1, { stiffness: 200 }) },
     ],
@@ -45,15 +42,16 @@ const Tab: FC<TabProps> = ({ Icon, navigation, name, title, currentRoute }) => {
 
   return (
     <Pressable
-      style={[
-        commonStyles.fillAndCentered,
-        currentRoute !== name && { opacity: 0.5 },
-      ]}
+      style={StyleSheet.compose(
+        styles.pressable,
+        // @ts-ignore
+        currentRoute !== name && { opacity: 0.5 }
+      )}
       onPress={() => navigation.navigate(name)}
       {...pressedProps}
     >
-      <Animated.View style={[styles.content, animatedStyles]}>
-        <Icon stroke={colors.text} style={styles.icon} />
+      <Animated.View style={stylesContent}>
+        <Icon style={styles.icon} />
         <Text size="sm" bold>
           {title}
         </Text>

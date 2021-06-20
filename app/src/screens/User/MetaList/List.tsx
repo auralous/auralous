@@ -1,7 +1,6 @@
 import { Maybe } from "@auralous/api";
 import {
   BottomSheetCustomBackground,
-  commonStyles,
   Heading,
   LoadingBlock,
   Size,
@@ -35,6 +34,11 @@ const styles = StyleSheet.create({
   },
   heading: { marginBottom: Size[3] },
   flatList: { flex: 1 },
+  full: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 const snapPoints = [0, "90%"];
@@ -86,7 +90,7 @@ const List: React.FC<ListProps> = ({
         />
       </Heading>
       {fetching && !data ? (
-        <View style={commonStyles.fillAndCentered}>
+        <View style={styles.full}>
           <LoadingBlock />
         </View>
       ) : (

@@ -2,7 +2,7 @@ import { Track } from "@auralous/api";
 import { PlaybackState } from "@auralous/player";
 import { IconX } from "@auralous/ui/assets";
 import { Heading } from "@auralous/ui/components/Typography";
-import { Size, useColors } from "@auralous/ui/styles";
+import { makeStyles, Size } from "@auralous/ui/styles";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,10 +15,6 @@ import MetaAndButton from "./MetaAndButton";
 import QueueContent from "./QueueContent";
 
 const styles = StyleSheet.create({
-  root: {
-    padding: Size[4],
-    flex: 1,
-  },
   content: {
     flex: 1,
   },
@@ -30,6 +26,14 @@ const styles = StyleSheet.create({
   },
 });
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: Size[4],
+    flex: 1,
+    backgroundColor: theme.colors.backgroundSecondary,
+  },
+}));
+
 const snapPoints = ["100%"];
 
 const QueueSheet: FC<{
@@ -38,7 +42,8 @@ const QueueSheet: FC<{
   onClose(): void;
 }> = ({ onClose, playbackState, currentTrack }) => {
   const { t } = useTranslation();
-  const colors = useColors();
+
+  const dstyles = useStyles();
 
   useEffect(() => {
     const onBackPress = () => {
@@ -51,14 +56,12 @@ const QueueSheet: FC<{
   }, [onClose]);
 
   return (
-    <View
-      style={[styles.root, { backgroundColor: colors.backgroundSecondary }]}
-    >
+    <View style={dstyles.root}>
       <View style={{ height: StatusBar.currentHeight }} />
       <View style={styles.header}>
         <Heading level={3}>{t("queue.title")}</Heading>
         <TouchableOpacity onPress={onClose}>
-          <IconX width={Size[8]} height={Size[8]} stroke={colors.text} />
+          <IconX width={Size[8]} height={Size[8]} />
         </TouchableOpacity>
       </View>
       <View style={styles.content}>

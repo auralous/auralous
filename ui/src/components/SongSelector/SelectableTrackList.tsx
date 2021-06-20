@@ -1,6 +1,5 @@
 import { Track } from "@auralous/api";
 import { LoadingBlock } from "@auralous/ui/components/Loading";
-import { commonStyles } from "@auralous/ui/styles";
 import { FC } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import SearchEmpty from "./SearchEmpty";
@@ -9,6 +8,11 @@ import SelectableTrackListItem from "./SelectableTrackListItem";
 const styles = StyleSheet.create({
   list: {
     flex: 1,
+  },
+  full: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -30,7 +34,7 @@ const SelectableTrackList: FC<{
 }> = ({ fetching, data }) => {
   if (fetching) {
     return (
-      <View style={commonStyles.fillAndCentered}>
+      <View style={styles.full}>
         <LoadingBlock />
       </View>
     );

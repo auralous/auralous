@@ -6,7 +6,7 @@ import {
 } from "@auralous/api";
 import { IconX } from "@auralous/ui/assets";
 import { Text } from "@auralous/ui/components/Typography";
-import { Size, useColors } from "@auralous/ui/styles";
+import { Size } from "@auralous/ui/styles";
 import { FC, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -84,14 +84,12 @@ const PlaylistTrackList: FC<{ playlist: Playlist; close(): void }> = ({
     { data: { playlistTracks } = { playlistTracks: undefined }, fetching },
   ] = usePlaylistTracksQuery({ variables: { id: playlist.id } });
 
-  const colors = useColors();
-
   return (
     <>
       <View style={styles.metaBar}>
         <Text bold>{playlist.name}</Text>
         <TouchableOpacity style={styles.close} onPress={close}>
-          <IconX stroke={colors.textSecondary} />
+          <IconX />
         </TouchableOpacity>
       </View>
       <View style={styles.tracks}>

@@ -1,5 +1,6 @@
 import { PlayerBar } from "@/player";
-import { IconHome, IconMapPin, Size, useColors } from "@auralous/ui";
+import { usePlaybackState } from "@auralous/player";
+import { IconHome, IconMapPin, makeStyles, Size } from "@auralous/ui";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,17 +15,26 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
   },
-  tabBars: {
-    flex: 1,
-    height: Size[16],
-    alignItems: "center",
-    flexDirection: "row",
-  },
 });
 
+const useStyles = makeStyles((theme, colors: [string, string]) => ({
+  tabBars: {
+    flex: 1,
+    height: Size[14],
+    alignItems: "center",
+    flexDirection: "row",
+    backgroundColor: colors[1],
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: theme.colors.border,
+  },
+}));
+
 const TabBar: FC<BottomTabBarProps> = ({ navigation, state }) => {
+  const playbackState = usePlaybackState();
+
   const { t } = useTranslation();
-  const colors = useColors();
+
+  const dstyles = useStyles(playbackState.colors);
 
   const currentRoute = state.routeNames[state.index];
 
@@ -32,7 +42,7 @@ const TabBar: FC<BottomTabBarProps> = ({ navigation, state }) => {
     <>
       <View style={styles.root}>
         <PlayerBar />
-        <View style={[styles.tabBars, { backgroundColor: colors.background }]}>
+        <View style={dstyles.tabBars}>
           <Tab
             name="home"
             title={t("home.title")}

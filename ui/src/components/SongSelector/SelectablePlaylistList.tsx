@@ -1,7 +1,7 @@
 import { Playlist } from "@auralous/api";
 import { LoadingBlock } from "@auralous/ui/components/Loading";
 import { PlaylistListItem } from "@auralous/ui/components/Playlist";
-import { commonStyles, Size } from "@auralous/ui/styles";
+import { Size } from "@auralous/ui/styles";
 import { FC, useCallback } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -19,6 +19,11 @@ const styles = StyleSheet.create({
   },
   item: {
     padding: Size[2],
+  },
+  full: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -38,7 +43,7 @@ const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
 
   if (fetching)
     return (
-      <View style={commonStyles.fillAndCentered}>
+      <View style={styles.full}>
         <LoadingBlock />
       </View>
     );

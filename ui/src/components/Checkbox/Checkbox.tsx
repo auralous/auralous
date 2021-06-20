@@ -1,8 +1,8 @@
 import { IconCheck } from "@auralous/ui/assets";
-import { useColors } from "@auralous/ui/styles";
+import { makeStyles, useColors } from "@auralous/ui/styles";
 import { useSharedValuePressed } from "@auralous/ui/utils";
 import { FC, useCallback } from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -14,13 +14,7 @@ interface CheckboxProps {
   onValueChange(checked: boolean): void;
 }
 
-const styles = StyleSheet.create({
-  root: {
-    width: 32,
-    height: 32,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+const useStyles = makeStyles((theme, checked: boolean) => ({
   check: {
     width: 20,
     height: 20,
@@ -28,16 +22,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
+    borderColor: checked ? theme.colors.text : theme.colors.textTertiary,
+    backgroundColor: checked ? theme.colors.text : "transparent",
   },
-});
+}));
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const Checkbox: FC<CheckboxProps> = ({ checked, disabled, onValueChange }) => {
   const colors = useColors();
+  const dstyles = useStyles(checked);
   const [pressed, pressedProps] = useSharedValuePressed();
 
-  const animatedStyle = useAnimatedStyle<ViewStyle>(() => ({
+  const stylesRoot = useAnimatedStyle<ViewStyle>(() => ({
+    width: 32,
+    height: 32,
+    justifyContent: "center",
+    alignItems: "center",
     transform: [{ scale: withTiming(pressed.value ? 0.8 : 1) }],
   }));
 
@@ -53,19 +54,11 @@ const Checkbox: FC<CheckboxProps> = ({ checked, disabled, onValueChange }) => {
         disabled,
       }}
       accessibilityRole="checkbox"
-      style={[styles.root, animatedStyle]}
+      style={stylesRoot}
       onPress={onPress}
       {...pressedProps}
     >
-      <View
-        style={[
-          styles.check,
-          {
-            borderColor: checked ? colors.text : colors.textTertiary,
-            backgroundColor: checked ? colors.text : "transparent",
-          },
-        ]}
-      >
+      <View style={dstyles.check}>
         {checked && (
           <IconCheck color={colors.background} width={16} height={16} />
         )}

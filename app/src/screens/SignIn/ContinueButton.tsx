@@ -1,25 +1,27 @@
-import { Size, Text, useColors } from "@auralous/ui";
+import { ThemeColorKey } from "@/@auralous/ui";
+import { makeStyles, Size, Text } from "@auralous/ui";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, Pressable, StyleSheet, View } from "react-native";
+import { Linking, Pressable, View } from "react-native";
 import Config from "react-native-config";
 
-const styles = StyleSheet.create({
-  root: {
-    alignItems: "center",
-  },
-  pressable: {
-    padding: Size[3],
-    borderRadius: 9999,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: Size[1],
-  },
-  text: {
-    marginLeft: Size[1],
-  },
-});
+const useStyles = makeStyles(
+  (theme, platform: ContinueButtonProps["platform"]) => ({
+    text: {
+      marginLeft: Size[1],
+      color: theme.colors[`${platform}Label` as ThemeColorKey],
+    },
+    pressable: {
+      padding: Size[3],
+      borderRadius: 9999,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: Size[1],
+      backgroundColor: theme.colors[platform],
+    },
+  })
+);
 
 interface ContinueButtonProps {
   name: string;
@@ -34,7 +36,7 @@ const ContinueButton: React.FC<ContinueButtonProps> = ({
   icon,
   listenOn,
 }) => {
-  const colors = useColors();
+  const dstyles = useStyles(platform);
   const { t } = useTranslation();
   return (
     <View>
@@ -43,21 +45,15 @@ const ContinueButton: React.FC<ContinueButtonProps> = ({
       </Text>
       <Pressable
         style={({ pressed }) => [
-          styles.pressable,
-          { opacity: pressed ? 0.75 : 1, backgroundColor: colors[platform] },
+          dstyles.pressable,
+          { opacity: pressed ? 0.75 : 1 },
         ]}
         onPress={() =>
           Linking.openURL(`${Config.API_URI}/auth/${platform}?is_app_login=1`)
         }
       >
         {icon}
-        <Text
-          style={[
-            styles.text,
-            { color: colors[`${platform}Label` as keyof typeof colors] },
-          ]}
-          bold
-        >
+        <Text style={dstyles.text} bold>
           {t("sign_in.continue_with", { name })}
         </Text>
       </Pressable>

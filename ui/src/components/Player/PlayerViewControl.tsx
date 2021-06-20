@@ -7,7 +7,7 @@ import {
   IconSkipForward,
 } from "@auralous/ui/assets";
 import { Spacer } from "@auralous/ui/components/Spacer";
-import { Size, useColors } from "@auralous/ui/styles";
+import { makeStyles, Size, useColors } from "@auralous/ui/styles";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -26,14 +26,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+});
+
+const useStyles = makeStyles((theme) => ({
   playPause: {
     width: Size[16],
     height: Size[16],
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 9999,
+    backgroundColor: theme.colors.textTertiary,
   },
-});
+}));
 
 const PlayerViewControl: FC<{
   playbackState: PlaybackState;
@@ -46,6 +50,8 @@ const PlayerViewControl: FC<{
 
   const colors = useColors();
 
+  const dstyles = useStyles();
+
   return (
     <View style={styles.root}>
       <View style={canSkipBackward ? undefined : { opacity: 0.5 }}>
@@ -55,19 +61,14 @@ const PlayerViewControl: FC<{
           onPress={() => player.skipBackward()}
           accessibilityLabel={t("player.skip_backward")}
         >
-          <IconSkipBack
-            width={Size[8]}
-            height={Size[8]}
-            fill={colors.text}
-            stroke={colors.text}
-          />
+          <IconSkipBack width={Size[8]} height={Size[8]} fill={colors.text} />
         </TouchableOpacity>
       </View>
       <Spacer x={8} />
       <View style={trackId ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
           onPress={() => (isPlaying ? player.pause() : player.play())}
-          style={[styles.playPause, { backgroundColor: colors.textTertiary }]}
+          style={dstyles.playPause}
           accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
           disabled={!trackId}
         >
@@ -90,7 +91,6 @@ const PlayerViewControl: FC<{
             width={Size[8]}
             height={Size[8]}
             fill={colors.text}
-            stroke={colors.text}
           />
         </TouchableOpacity>
       </View>

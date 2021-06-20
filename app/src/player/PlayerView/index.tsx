@@ -5,10 +5,10 @@ import {
   Header,
   IconChevronDown,
   IconMoreHorizontal,
+  makeStyles,
   Size,
   Spacer,
   Text,
-  useColors,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, {
@@ -45,11 +45,7 @@ const styles = StyleSheet.create({
   pagerView: {
     flex: 1,
   },
-  tab: {
-    paddingHorizontal: Size[2],
-    paddingVertical: Size[1],
-    borderRadius: 9999,
-  },
+
   tabs: {
     padding: Size[2],
     paddingBottom: Size[0],
@@ -58,17 +54,24 @@ const styles = StyleSheet.create({
   },
 });
 
+const useStyles = makeStyles((theme, props: { selected: boolean }) => ({
+  tab: {
+    paddingHorizontal: Size[2],
+    paddingVertical: Size[1],
+    borderRadius: 9999,
+    backgroundColor: props.selected ? theme.colors.control : "transparent",
+  },
+}));
+
 const TabButton: React.FC<{
   title: string;
   onPress(): void;
   selected: boolean;
 }> = ({ title, onPress, selected }) => {
-  const colors = useColors();
+  const dstyles = useStyles({ selected });
+
   return (
-    <Pressable
-      onPress={onPress}
-      style={[styles.tab, selected && { backgroundColor: colors.control }]}
-    >
+    <Pressable onPress={onPress} style={dstyles.tab}>
       <Text bold size="sm" color="text">
         {title}
       </Text>
@@ -103,8 +106,6 @@ const PlayerView: React.FC = () => {
   const pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
-  const colors = useColors();
-
   const [sheetIndex, setSheetIndex] = useState(-1);
 
   useEffect(() => {
@@ -133,11 +134,11 @@ const PlayerView: React.FC = () => {
           left={
             <Button
               onPress={() => bottomSheetRef.current?.dismiss()}
-              icon={<IconChevronDown color={colors.text} />}
+              icon={<IconChevronDown />}
               accessibilityLabel={t("common.navigation.go_back")}
             />
           }
-          right={<Button icon={<IconMoreHorizontal color={colors.text} />} />}
+          right={<Button icon={<IconMoreHorizontal />} />}
         />
         <View style={styles.content}>
           <View style={styles.tabs}>

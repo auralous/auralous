@@ -1,15 +1,14 @@
 import {
   Font,
-  IColors,
+  makeStyles,
   Size,
-  ThemeColor,
+  ThemeColorKey,
   useColors,
 } from "@auralous/ui/styles";
 import { FC } from "react";
 import {
   Linking,
   Pressable,
-  RecursiveArray,
   StyleProp,
   StyleSheet,
   Text as RNText,
@@ -31,50 +30,38 @@ interface TextProps {
   bold?: boolean | "medium";
   italic?: boolean;
   style?: StyleProp<TextStyle>;
-  color?: ThemeColor;
+  color?: ThemeColorKey;
   align?: TextStyle["textAlign"];
   size?: keyof typeof sizes;
   numberOfLines?: number;
 }
 
-const styles = StyleSheet.create({
-  base: {
-    fontFamily: "Inter-Regular",
-    fontSize: Size[4],
-  },
-});
-
-const commonStyleFn = (
-  colors: IColors,
-  props: TextProps
-): RecursiveArray<TextStyle> => {
-  const style: TextStyle = {
-    fontFamily: props.bold
-      ? props.bold === "medium"
-        ? Font.Medium
-        : Font.Bold
-      : undefined,
-    fontStyle: props.italic ? "italic" : undefined,
-    textAlign: props.align,
-    fontSize: props.size ? sizes[props.size] : undefined,
-    color: colors[props.color || "text"] as string,
-  };
-  if (props.style) {
-    return (
-      Array.isArray(props.style)
-        ? [style, ...props.style]
-        : [style, props.style]
-    ) as RecursiveArray<TextStyle>;
-  }
-  return [style];
-};
+export const useStyles = makeStyles(
+  (theme, props: TextProps & { level?: number }) => ({
+    base: {
+      fontFamily: props.bold
+        ? props.bold === "medium"
+          ? Font.Medium
+          : Font.Bold
+        : "Inter-Regular",
+      fontStyle: props.italic ? "italic" : undefined,
+      textAlign: props.align,
+      fontSize: props.size
+        ? sizes[props.size]
+        : props.level
+        ? levelSize[props.level - 1]
+        : Size[4],
+      color: theme.colors[props.color || "text"] as string,
+    },
+  })
+);
 
 export const Text: FC<TextProps> = ({ children, numberOfLines, ...props }) => {
-  const colors = useColors();
+  const styles = useStyles(props);
   return (
     <RNText
       numberOfLines={numberOfLines}
-      style={[styles.base, ...commonStyleFn(colors, props)]}
+      style={StyleSheet.compose(styles.base, props.style)}
     >
       {children}
     </RNText>
@@ -82,8 +69,8 @@ export const Text: FC<TextProps> = ({ children, numberOfLines, ...props }) => {
 };
 
 interface TextLinkProps {
-  color?: ThemeColor;
-  activeColor?: ThemeColor;
+  color?: ThemeColorKey;
+  activeColor?: ThemeColorKey;
   href: string;
 }
 
@@ -91,19 +78,19 @@ export const TextLink: FC<TextProps & TextLinkProps> = ({
   children,
   numberOfLines,
   href,
-  color = "primary",
   activeColor = "primaryDark",
   ...props
 }) => {
+  if (!props.color) props.color = "primary";
   const colors = useColors();
+  const styles = useStyles(props);
   return (
     <Pressable onPress={() => Linking.openURL(href)}>
       {({ pressed }) => (
         <RNText
           numberOfLines={numberOfLines}
           style={[
-            styles.base,
-            ...commonStyleFn(colors, { ...props, color }),
+            StyleSheet.compose(styles.base, props.style),
             pressed && { color: colors[activeColor] as string },
           ]}
         >
@@ -120,20 +107,15 @@ interface HeadingProps {
 
 export const Heading: FC<TextProps & HeadingProps> = ({
   children,
-  level,
   numberOfLines,
   ...props
 }) => {
-  const colors = useColors();
   props.bold = props.bold ?? true;
+  const styles = useStyles(props);
   return (
     <RNText
       numberOfLines={numberOfLines}
-      style={[
-        styles.base,
-        ...commonStyleFn(colors, props),
-        { fontSize: levelSize[level - 1] },
-      ]}
+      style={StyleSheet.compose(styles.base, props.style)}
     >
       {children}
     </RNText>

@@ -2,7 +2,6 @@ import { useAuthActions } from "@/gql/context";
 import { ParamList, RouteName } from "@/screens/types";
 import { useMe } from "@auralous/api";
 import {
-  commonStyles,
   HeaderBackable,
   IconGoogleColor,
   IconSpotify,
@@ -35,6 +34,7 @@ const styles = StyleSheet.create({
   },
   smallText: {
     textAlign: "center",
+    marginTop: Size[1],
   },
   smallTextContainer: {
     marginTop: Size[6],
@@ -45,6 +45,9 @@ const styles = StyleSheet.create({
   },
   top: {
     paddingBottom: Size[12],
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   logo: {
     width: Size[8],
@@ -77,7 +80,7 @@ const SignInScreen: React.FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
     <>
       <HeaderBackable title={t("sign_in.title")} />
       <SafeAreaView style={styles.root}>
-        <View style={[commonStyles.fillAndCentered, styles.top]}>
+        <View style={styles.top}>
           <Logo
             style={styles.logo}
             width={256}
@@ -104,11 +107,7 @@ const SignInScreen: React.FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
           />
         </View>
         <View style={styles.smallTextContainer}>
-          <Text
-            size="sm"
-            style={[styles.smallText, { marginTop: Size[1] }]}
-            color="textSecondary"
-          >
+          <Text size="sm" style={styles.smallText} color="textSecondary">
             <Trans
               t={t}
               i18nKey="legal.accept_continue_text"

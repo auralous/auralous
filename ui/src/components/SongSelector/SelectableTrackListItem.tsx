@@ -1,7 +1,7 @@
 import { useTrackQuery } from "@auralous/api";
 import { IconCheck, IconPlus } from "@auralous/ui/assets";
 import { TrackItem } from "@auralous/ui/components/Track";
-import { Size, useColors } from "@auralous/ui/styles";
+import { Size } from "@auralous/ui/styles";
 import { memo, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -39,8 +39,6 @@ const SelectableTrackListItem = memo<{ trackId: string }>(
       [trackId, selectedTracks]
     );
 
-    const colors = useColors();
-
     return (
       <View style={styles.item}>
         <View style={styles.itemContent}>
@@ -55,11 +53,7 @@ const SelectableTrackListItem = memo<{ trackId: string }>(
             }
             style={styles.button}
           >
-            {selected ? (
-              <IconCheck stroke={colors.text} />
-            ) : (
-              <IconPlus stroke={colors.text} />
-            )}
+            {selected ? <IconCheck /> : <IconPlus />}
           </TouchableOpacity>
         )}
       </View>

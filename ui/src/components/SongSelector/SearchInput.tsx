@@ -1,6 +1,6 @@
 import { IconSearch, IconX } from "@auralous/ui/assets";
 import { Input } from "@auralous/ui/components/Input";
-import { Size, useColors } from "@auralous/ui/styles";
+import { Size } from "@auralous/ui/styles";
 import { FC, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,6 @@ const SearchInput: FC<{
   value: string;
   onSubmit(value: string): void;
 }> = ({ onSubmit, value }) => {
-  const colors = useColors();
   const { control, getValues, setValue } = useForm<{ search: string }>();
   const onHandleSubmit = useCallback(
     () => onSubmit(getValues().search.trim()),
@@ -36,15 +35,11 @@ const SearchInput: FC<{
         endIcon={
           value.trim().length > 0 ? (
             <TouchableOpacity onPress={resetSearch}>
-              <IconX stroke={colors.textSecondary} width={20} height={20} />
+              <IconX width={20} height={20} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={onHandleSubmit}>
-              <IconSearch
-                stroke={colors.textSecondary}
-                width={20}
-                height={20}
-              />
+              <IconSearch width={20} height={20} />
             </TouchableOpacity>
           )
         }

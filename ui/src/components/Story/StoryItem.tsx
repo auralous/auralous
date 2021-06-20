@@ -1,7 +1,7 @@
 import { Story } from "@auralous/api";
 import { Avatar } from "@auralous/ui/components/Avatar";
 import { Text } from "@auralous/ui/components/Typography";
-import { Size, useColors } from "@auralous/ui/styles";
+import { makeStyles, Size } from "@auralous/ui/styles";
 import { format as formatMs } from "@auralous/ui/utils";
 import { FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,12 +12,6 @@ interface StoryItemProps {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    width: Size[44],
-    height: Size[44] * 1.5625,
-    borderRadius: Size[2],
-    overflow: "hidden",
-  },
   background: {
     flex: 1,
     resizeMode: "cover",
@@ -36,7 +30,18 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   textSecondary: {
+    lineHeight: 18,
     color: "rgba(255, 255, 255, 0.75)",
+  },
+});
+
+const useStyles = makeStyles((theme, isLive: boolean) => ({
+  root: {
+    width: Size[44],
+    height: Size[44] * 1.5625,
+    borderRadius: Size[2],
+    overflow: "hidden",
+    backgroundColor: theme.colors.backgroundSecondary,
   },
   tag: {
     paddingHorizontal: Size[3],
@@ -44,13 +49,14 @@ const styles = StyleSheet.create({
     borderRadius: 99,
     flexGrow: 0,
     marginTop: Size[1],
+    ackgroundColor: isLive ? theme.colors.primary : "rgba(0,0,0,.5)",
   },
-});
+}));
 
 const StoryItem: FC<StoryItemProps> = ({ story }) => {
   const { t } = useTranslation();
 
-  const colors = useColors();
+  const dstyles = useStyles();
 
   const dateStr = useMemo(() => {
     if (!story) return "";
@@ -60,9 +66,7 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
   }, [story, t]);
 
   return (
-    <View
-      style={[styles.root, { backgroundColor: colors.backgroundSecondary }]}
-    >
+    <View style={dstyles.root}>
       <ImageBackground
         source={
           story.image
@@ -85,23 +89,11 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
               {story.creator.username}
             </Text>
             {Boolean(story.text) && (
-              <Text
-                style={[styles.text, styles.textSecondary]}
-                numberOfLines={3}
-              >
+              <Text style={styles.textSecondary} numberOfLines={3}>
                 {story.text}
               </Text>
             )}
-            <View
-              style={[
-                styles.tag,
-                {
-                  backgroundColor: story.isLive
-                    ? colors.primary
-                    : "rgba(0,0,0,.5)",
-                },
-              ]}
-            >
+            <View style={dstyles.tag}>
               <Text size="xs" style={{ color: "#ffffff" }}>
                 {dateStr}
               </Text>

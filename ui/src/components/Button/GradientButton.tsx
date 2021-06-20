@@ -9,7 +9,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { baseStyleFn, baseStyleTextFn } from "./styles";
+import { useStyles } from "./styles";
 import { BaseButtonProps } from "./types";
 
 type GradientButtonProps = BaseButtonProps;
@@ -17,6 +17,7 @@ type GradientButtonProps = BaseButtonProps;
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const GradientButton: FC<GradientButtonProps> = (props) => {
+  const styles = useStyles(props);
   const { icon, children, onPress, accessibilityLabel, disabled, textProps } =
     props;
 
@@ -32,7 +33,7 @@ export const GradientButton: FC<GradientButtonProps> = (props) => {
       onPress={onPress}
       disabled={disabled}
       {...pressedProps}
-      style={[...baseStyleFn(props), animatedStyles]}
+      style={[StyleSheet.compose(styles.base, props.style), animatedStyles]}
     >
       <LinearGradient
         colors={GradientColors.rainbow.colors}
@@ -47,7 +48,7 @@ export const GradientButton: FC<GradientButtonProps> = (props) => {
         bold
         {...textProps}
         style={[
-          ...baseStyleTextFn(props),
+          StyleSheet.compose(styles.text, textProps?.style),
           { color: GradientColors.rainbow.text },
         ]}
       >

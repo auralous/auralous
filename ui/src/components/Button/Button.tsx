@@ -3,12 +3,12 @@ import { Text } from "@auralous/ui/components/Typography";
 import { useColors } from "@auralous/ui/styles";
 import { useSharedValuePressed } from "@auralous/ui/utils";
 import { FC, useMemo } from "react";
-import { ColorValue, Pressable, ViewStyle } from "react-native";
+import { ColorValue, Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { baseStyleFn, baseStyleTextFn } from "./styles";
+import { useStyles } from "./styles";
 import { BaseButtonProps } from "./types";
 
 interface ButtonProps extends BaseButtonProps {
@@ -27,6 +27,8 @@ export const Button: FC<ButtonProps> = (props) => {
     disabled,
     textProps,
   } = props;
+
+  const styles = useStyles(props);
 
   const colors = useColors();
 
@@ -69,14 +71,17 @@ export const Button: FC<ButtonProps> = (props) => {
       onPress={onPress}
       disabled={disabled}
       {...pressedProps}
-      style={[...baseStyleFn(props), animatedStyles]}
+      style={[StyleSheet.compose(styles.base, props.style), animatedStyles]}
     >
       {icon}
       {!!(icon && children) && <Spacer x={1} />}
       <Text
         bold
         {...textProps}
-        style={[...baseStyleTextFn(props), { color: textColor }]}
+        style={[
+          StyleSheet.compose(styles.text, textProps?.style),
+          { color: textColor },
+        ]}
       >
         {children}
       </Text>

@@ -3,19 +3,13 @@ import { IconChevronLeft } from "@auralous/ui/assets";
 import { Button } from "@auralous/ui/components/Button";
 import { Header } from "@auralous/ui/components/Header";
 import { SongSelector } from "@auralous/ui/components/SongSelector";
-import { useColors } from "@auralous/ui/styles";
+import { makeStyles } from "@auralous/ui/styles";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-  },
-});
 
 interface QueueAdderProps {
   visible: boolean;
@@ -24,6 +18,16 @@ interface QueueAdderProps {
   onAddTracks: (trackIds: string[]) => void;
   onRemoveTracks: (trackIds: string[]) => void;
 }
+
+const useStyles = makeStyles((theme) => ({
+  sav: {
+    flex: 1,
+    backgroundColor: theme.colors.backgroundSecondary,
+  },
+  content: {
+    flex: 1,
+  },
+}));
 
 const QueueAdderContent = gestureHandlerRootHOC(
   ({
@@ -38,18 +42,14 @@ const QueueAdderContent = gestureHandlerRootHOC(
       [items]
     );
 
-    const colors = useColors();
+    const styles = useStyles();
 
     return (
-      <SafeAreaView
-        style={{ flex: 1, backgroundColor: colors.backgroundSecondary }}
-      >
+      <SafeAreaView style={styles.sav}>
         <Header
           left={
             <Button
-              icon={
-                <IconChevronLeft stroke={colors.text} width={24} height={24} />
-              }
+              icon={<IconChevronLeft width={24} height={24} />}
               onPress={onClose}
               accessibilityLabel={t("common.navigation.go_back")}
             />

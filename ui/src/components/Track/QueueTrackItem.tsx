@@ -1,7 +1,7 @@
 import { Maybe, Track } from "@auralous/api";
 import { IconMenu } from "@auralous/ui/assets";
 import { Checkbox } from "@auralous/ui/components/Checkbox";
-import { Size, useColors } from "@auralous/ui/styles";
+import { Size } from "@auralous/ui/styles";
 import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -48,8 +48,6 @@ const QueueTrackItem: FC<QueueTrackItemProps> = ({
   checked,
   onToggle,
 }) => {
-  const colors = useColors();
-
   return (
     <View style={styles.root}>
       <View style={styles.check}>
@@ -59,7 +57,7 @@ const QueueTrackItem: FC<QueueTrackItemProps> = ({
         <TrackItem track={track} fetching={fetching} />
       </View>
       <TouchableWithoutFeedback onPressIn={drag} style={styles.drag}>
-        <IconMenu stroke={colors.text} />
+        <IconMenu />
       </TouchableWithoutFeedback>
     </View>
   );

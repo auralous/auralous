@@ -1,10 +1,9 @@
-import { Size, useColors } from "@auralous/ui/styles";
+import { makeStyles, Size, useColors } from "@auralous/ui/styles";
 import { FC, useCallback } from "react";
 import { Control, useController } from "react-hook-form";
 import {
   ColorValue,
   ReturnKeyTypeOptions,
-  StyleSheet,
   TextInput,
   ViewStyle,
 } from "react-native";
@@ -26,20 +25,13 @@ interface InputProps<TFieldValues> {
   onSubmit?: () => void;
 }
 
-const styles = StyleSheet.create({
-  root: {
-    borderRadius: 9999,
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1.5,
-    paddingHorizontal: Size[4],
-    paddingVertical: Size[2],
-  },
+const useStyles = makeStyles((theme) => ({
   input: {
     flex: 1,
     padding: 0,
+    color: theme.colors.textSecondary,
   },
-});
+}));
 
 const Input: FC<InputProps<any>> = ({
   startIcon,
@@ -52,6 +44,7 @@ const Input: FC<InputProps<any>> = ({
   accessibilityLabel,
   onSubmit,
 }) => {
+  const dstyles = useStyles();
   const colors = useColors();
   const { field } = useController({
     control,
@@ -64,14 +57,20 @@ const Input: FC<InputProps<any>> = ({
   const onFocused = useCallback(() => (isFocused.value = true), [isFocused]);
   const onBlur = useCallback(() => (isFocused.value = false), [isFocused]);
 
-  const animatedStyles = useAnimatedStyle<ViewStyle>(() => ({
+  const stylesRoot = useAnimatedStyle<ViewStyle>(() => ({
+    borderRadius: 9999,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1.5,
+    paddingHorizontal: Size[4],
+    paddingVertical: Size[2],
     borderColor: withTiming(
       isFocused.value ? colors.control : colors.controlDark
     ) as unknown as ColorValue,
   }));
 
   return (
-    <Animated.View style={[styles.root, animatedStyles]}>
+    <Animated.View style={stylesRoot}>
       {startIcon}
       <TextInput
         accessibilityLabel={accessibilityLabel}
@@ -79,7 +78,7 @@ const Input: FC<InputProps<any>> = ({
         placeholder={placeholder}
         value={field.value}
         onChangeText={field.onChange}
-        style={[styles.input, { color: colors.textSecondary }]}
+        style={dstyles.input}
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmit}
         onFocus={onFocused}

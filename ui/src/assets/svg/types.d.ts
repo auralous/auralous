@@ -1,6 +1,5 @@
 declare module "*.svg" {
-  const ReactComponent: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement> & { title?: string }
-  >;
+  import { SvgProps } from "react-native-svg";
+  const ReactComponent: React.FunctionComponent<SvgProps>;
   export default ReactComponent;
 }

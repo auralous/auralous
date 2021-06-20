@@ -4,7 +4,7 @@ import { Button, TextButton } from "@auralous/ui/components/Button";
 import { Spacer } from "@auralous/ui/components/Spacer";
 import { QueueTrackItem, TrackItem } from "@auralous/ui/components/Track";
 import { Heading, Text } from "@auralous/ui/components/Typography";
-import { Font, Size, useColors } from "@auralous/ui/styles";
+import { Font, makeStyles, Size } from "@auralous/ui/styles";
 import {
   createContext,
   FC,
@@ -39,17 +39,21 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: Size[1],
   },
-  selectOpts: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderTopWidth: StyleSheet.hairlineWidth,
-    paddingTop: Size[2],
-  },
   selectOptsText: {
     fontFamily: Font.Medium,
     textTransform: "uppercase",
   },
 });
+
+const useStyles = makeStyles((theme) => ({
+  selectOpts: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: Size[2],
+    borderColor: theme.colors.border,
+  },
+}));
 
 const DraggableQueueItem: FC<{ params: RenderItemParams<QueueItem> }> = ({
   params: { item, drag },
@@ -94,6 +98,7 @@ const QueueContent: FC<{
   currentTrack: Track | null;
 }> = ({ playbackState, currentTrack }) => {
   const { t } = useTranslation();
+  const dstyles = useStyles();
 
   // Store a temporary nextItems state
   // When the queue is updated, it takes awhile for
@@ -176,8 +181,6 @@ const QueueContent: FC<{
 
   const closeAdd = useCallback(() => setAddVisible(false), []);
 
-  const colors = useColors();
-
   return (
     <QueueContext.Provider value={{ toggleSelected, selected }}>
       <View style={styles.filled}>
@@ -205,7 +208,7 @@ const QueueContent: FC<{
         </View>
         <Spacer y={1} />
         {hasSelected ? (
-          <View style={[styles.selectOpts, { borderColor: colors.border }]}>
+          <View style={dstyles.selectOpts}>
             <TextButton
               onPress={removeSelected}
               textProps={{ style: styles.selectOptsText }}

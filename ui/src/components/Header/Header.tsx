@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 
 const Header: FC<HeaderProps> = ({ title, left, right }) => {
   return (
-    <View style={[styles.root]}>
+    <View style={styles.root}>
       <View style={styles.button}>{left}</View>
       <View pointerEvents="none" style={styles.title}>
         <Text bold align="center" size="lg" numberOfLines={1}>

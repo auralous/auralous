@@ -1,7 +1,7 @@
 import { useColors } from "@auralous/ui/styles";
 import { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { FC } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 const CustomBackground: FC<BottomSheetBackgroundProps> = ({
   style,
@@ -11,7 +11,10 @@ const CustomBackground: FC<BottomSheetBackgroundProps> = ({
   return (
     <View
       pointerEvents={pointerEvents}
-      style={[style, { backgroundColor: colors.backgroundSecondary }]}
+      style={StyleSheet.compose(
+        { backgroundColor: colors.backgroundSecondary },
+        style
+      )}
     />
   );
 };

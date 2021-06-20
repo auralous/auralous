@@ -10,7 +10,7 @@ import {
 import SignInScreen from "@/screens/SignIn";
 import { ParamList, RouteName } from "@/screens/types";
 import UserScreen from "@/screens/User";
-import { Size, useColors } from "@auralous/ui";
+import { makeStyles, useTheme } from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
@@ -38,7 +38,6 @@ const linking: LinkingOptions<ParamList> = {
 const MainScreen: React.FC = () => {
   return (
     <Tab.Navigator
-      sceneContainerStyle={{ paddingBottom: Size[16] }}
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={{ headerShown: false }}
     >
@@ -81,8 +80,16 @@ const routes = [
   },
 ];
 
+const useStyles = makeStyles((theme) => ({
+  sap: {
+    backgroundColor: theme.colors.background,
+  },
+}));
+
 const App = () => {
-  const colors = useColors();
+  const theme = useTheme();
+
+  const styles = useStyles();
 
   const stackRoutes = useMemo(() => {
     return routes.map((route) => (
@@ -95,26 +102,28 @@ const App = () => {
     ));
   }, []);
 
+  const navigationTheme = useMemo(
+    () => ({
+      dark: true,
+      colors: {
+        background: theme.colors.background,
+        card: "transparent",
+        border: "transparent",
+        primary: theme.colors.primary,
+        text: theme.colors.text,
+        notification: theme.colors.backgroundSecondary,
+      },
+    }),
+    [theme]
+  );
+
   return (
-    <NavigationContainer
-      theme={{
-        dark: true,
-        colors: {
-          background: colors.background,
-          card: "transparent",
-          border: "transparent",
-          primary: colors.primary,
-          text: colors.text,
-          notification: colors.backgroundSecondary,
-        },
-      }}
-      linking={linking}
-    >
+    <NavigationContainer theme={navigationTheme} linking={linking}>
       <ApiProvider>
         <BottomSheetModalProvider>
           <PlayerProvider>
-            <SafeAreaProvider style={{ backgroundColor: colors.background }}>
-              <StatusBar backgroundColor={colors.background} />
+            <SafeAreaProvider style={styles.sap}>
+              <StatusBar backgroundColor={theme.colors.background} />
               <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {stackRoutes}
               </Stack.Navigator>

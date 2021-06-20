@@ -1,6 +1,6 @@
 import { Size } from "@auralous/ui/styles";
 import { FC } from "react";
-import { StyleProp, View, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 interface SpacerProps {
   x?: keyof typeof Size;
@@ -11,13 +11,13 @@ interface SpacerProps {
 const Spacer: FC<SpacerProps> = ({ x, y, style }) => {
   return (
     <View
-      style={[
+      style={StyleSheet.compose(
         {
           width: x ? Size[x] : 1,
           height: y ? Size[y] : 1,
         },
-        style,
-      ]}
+        style
+      )}
     />
   );
 };

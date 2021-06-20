@@ -7,14 +7,18 @@ const setup = (app, pkg) => {
   if (existsSync(downstreamDir)) {
     rmdirSync(downstreamDir, { recursive: true });
   }
-  watch(`./${pkg}/src`).on("all", (_, p) => {
-    if (p.indexOf(".") === -1) return;
+  watch(`./${pkg}/src`).on("all", (event, p) => {
+    if (event === "addDir" || event === "unlinkDir") return;
     const dest = `./${app}/src/@auralous/${p.replace("src/", "")}`;
     const destDir = dirname(dest);
     if (destDir === p) return;
     if (!existsSync(destDir)) mkdirSync(destDir, { recursive: true });
-    copyFileSync(p, dest);
-    console.log(`${p} ==> ${destDir}`);
+    if (event === "unlink") {
+      console.log(`${p} ==> REMOVED`);
+    } else {
+      copyFileSync(p, dest);
+      console.log(`${p} ==> ${destDir}`);
+    }
   });
 };
 

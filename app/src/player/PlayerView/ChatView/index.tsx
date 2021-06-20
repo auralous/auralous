@@ -15,7 +15,6 @@ import {
   Size,
   Spacer,
   Text,
-  useColors,
 } from "@auralous/ui";
 import { format as formatMs } from "@lukeed/ms";
 import { TFunction } from "i18next";
@@ -72,12 +71,10 @@ const ChatItemJoin: React.FC<{
 }> = ({ message }) => {
   const { t } = useTranslation();
 
-  const colors = useColors();
-
   return (
     <View style={styles.listItem}>
       <View style={styles.chatHead}>
-        <IconLogIn width={18} height={18} stroke={colors.textSecondary} />
+        <IconLogIn width={18} height={18} />
         <Spacer x={2} />
         <Text color="textSecondary">
           {t("chat.play", { username: message.creator.username })}
@@ -99,12 +96,10 @@ const ChatItemPlay: React.FC<{
     pause: !message.text,
   });
 
-  const colors = useColors();
-
   return (
     <View style={styles.listItem}>
       <View style={styles.chatHead}>
-        <IconMusic width={18} height={18} stroke={colors.textSecondary} />
+        <IconMusic width={18} height={18} />
         <Spacer x={2} />
         <Text color="textSecondary">
           {t("chat.play", { username: message.creator.username })}
