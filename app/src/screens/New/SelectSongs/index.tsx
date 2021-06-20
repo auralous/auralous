@@ -36,8 +36,8 @@ const SelectSongs: React.FC<
     setSelectedTracks((prev) => [...prev, ...trackIds]);
   }, []);
 
-  const removeTrack = useCallback((trackId: string) => {
-    setSelectedTracks((prev) => prev.filter((t) => t !== trackId));
+  const removeTracks = useCallback((trackIds: string[]) => {
+    setSelectedTracks((prev) => prev.filter((t) => !trackIds.includes(t)));
   }, []);
 
   const onFinish = useCallback(
@@ -56,10 +56,10 @@ const SelectSongs: React.FC<
       <SongSelector
         selectedTracks={selectedTracks}
         addTracks={addTracks}
-        removeTrack={removeTrack}
+        removeTracks={removeTracks}
       />
       <SongSelectorContext.Provider
-        value={{ addTracks, removeTrack, selectedTracks }}
+        value={{ addTracks, removeTracks, selectedTracks }}
       >
         <SelectedTrackListView
           selectedTracks={selectedTracks}

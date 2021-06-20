@@ -141,10 +141,9 @@ const QueueContent: FC<{
 
   const removeSelected = useCallback(() => {
     const removingUids = extractUidsFromSelected(selected);
-    setItems((items) =>
-      items.filter((item) => !removingUids.includes(item.uid))
-    );
     player.emit("queue-remove", removingUids);
+    // No need to update temp items because this does not
+    // cause render flicker
   }, [selected]);
 
   const playNextSelected = useCallback(() => {
@@ -155,18 +154,23 @@ const QueueContent: FC<{
     }
     setSelected(selectedClone);
     player.emit("play-next", toTopUids);
-    setItems((items) => {
-      const nextItems: QueueItem[] = [];
-      const afterItems = items.filter((item) => {
-        if (toTopUids.includes(item.uid)) {
-          nextItems.push(item);
-          return false;
-        }
-        return true;
-      });
-      return [...nextItems, ...afterItems];
-    });
+    // No need to update temp items because this does not
+    // cause render flicker
   }, [selected]);
+
+  const onAddTracks = useCallback((trackIds: string[]) => {
+    player.emit("queue-add", trackIds);
+  }, []);
+  const onRemoveTracks = useCallback(
+    (trackIds: string[]) => {
+      const removingUids: string[] = [];
+      items.forEach(
+        (item) => trackIds.includes(item.trackId) && removingUids.push(item.uid)
+      );
+      player.emit("queue-remove", removingUids);
+    },
+    [items]
+  );
 
   const [addVisible, setAddVisible] = useState(false);
 
@@ -220,7 +224,13 @@ const QueueContent: FC<{
             {t("queue.add_songs")}
           </Button>
         )}
-        <QueueAdder onClose={closeAdd} visible={addVisible} items={items} />
+        <QueueAdder
+          onAddTracks={onAddTracks}
+          onRemoveTracks={onRemoveTracks}
+          onClose={closeAdd}
+          visible={addVisible}
+          items={items}
+        />
       </View>
     </QueueContext.Provider>
   );

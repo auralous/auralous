@@ -3,6 +3,7 @@ import {
   useNowPlayingQuery,
   useNowPlayingSkipMutation,
   useOnNowPlayingUpdatedSubscription,
+  useQueueAddMutation,
   useQueueQuery,
   useQueueRemoveMutation,
   useQueueReorderMutation,
@@ -44,6 +45,7 @@ const usePlaybackLiveProvider = (
   const [, queueRemove] = useQueueRemoveMutation();
   const [, queueReorder] = useQueueReorderMutation();
   const [, queueToTop] = useQueueToTopMutation();
+  const [, queueAdd] = useQueueAddMutation();
 
   useEffect(() => {
     // We hook into `play` event to trigger
@@ -102,14 +104,22 @@ const usePlaybackLiveProvider = (
         uids,
       });
     };
+    const onAdd = (trackIds: string[]) => {
+      queueAdd({
+        id,
+        tracks: trackIds,
+      });
+    };
     player.on("queue-reorder", onReorder);
     player.on("queue-remove", onRemove);
     player.on("play-next", onPlayNext);
+    player.on("queue-add", onAdd);
     return () => {
       player.off("skip-forward", skipFn);
       player.off("queue-reorder", onReorder);
       player.off("queue-remove", onRemove);
       player.off("play-next", onPlayNext);
+      player.off("queue-add", onAdd);
     };
   }, [
     active,
@@ -119,6 +129,7 @@ const usePlaybackLiveProvider = (
     contextData,
     skipNowPlaying,
     queueToTop,
+    queueAdd,
     queue?.id,
   ]);
 

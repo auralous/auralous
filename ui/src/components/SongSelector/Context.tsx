@@ -10,7 +10,7 @@ export type SongSelectorState =
   | {
       selectedTracks: string[];
       addTracks(trackIds: string[]): void;
-      removeTrack(trackId: string): void;
+      removeTracks(trackIds: string[]): void;
     };
 
 export const SongSelectorContext = createContext({} as SongSelectorState);
@@ -23,7 +23,7 @@ const updateTracksSelector = (v: SongSelectorState) =>
   "addTracks" in v
     ? {
         addTracks: v.addTracks,
-        removeTrack: v.removeTrack,
+        removeTracks: v.removeTracks,
       }
     : undefined;
 export const useUpdateTracks = () =>

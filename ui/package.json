@@ -17,11 +17,13 @@
   "homepage": "https://github.com/auralous/auralous#readme",
   "dependencies": {
     "@fluentui/react-context-selector": "*",
+    "@gorhom/bottom-sheet": "^3.6.5",
     "react": "*",
+    "react-i18next": "*",
     "react-native": "*",
     "react-native-draggable-flatlist": "^3.0.0-beta.7",
-    "react-i18next": "*",
-    "react-native-gesture-handler": "*"
+    "react-native-gesture-handler": "*",
+    "react-native-safe-area-context": "^3.2.0"
   },
   "devDependencies": {
     "@types/react": "*",

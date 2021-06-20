@@ -51,7 +51,7 @@ const SelectableTrackListItem = memo<{ trackId: string }>(
             onPress={() =>
               !selected
                 ? updateTracksActions.addTracks([trackId])
-                : updateTracksActions.removeTrack(trackId)
+                : updateTracksActions.removeTracks([trackId])
             }
             style={styles.button}
           >

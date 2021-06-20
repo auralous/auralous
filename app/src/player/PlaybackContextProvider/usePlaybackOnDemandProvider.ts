@@ -1,4 +1,4 @@
-import { QueueItem, useQueueQuery } from "@auralous/api";
+import { QueueItem, useMe, useQueueQuery } from "@auralous/api";
 import player, { PlaybackContextProvided } from "@auralous/player";
 import { useEffect, useMemo, useState } from "react";
 import { usePlaybackContextData } from "./usePlaybackContextData";
@@ -27,17 +27,15 @@ const usePlaybackOnDemandProvider = (
   const canSkipBackward = !!dataQueue?.queue && playingIndex > 0;
   const canSkipForward = nextItems.length > 0;
 
+  const me = useMe();
+
   useEffect(() => {
     if (!active) return;
     const onEnded = () => (canSkipForward ? skipForward() : player.pause());
-    player.on("play-index", setPlayingIndex);
-    player.on("ended", onEnded);
     const skipForward = () =>
       canSkipForward && setPlayingIndex(playingIndex + 1);
     const skipBackward = () =>
       canSkipBackward && setPlayingIndex(playingIndex - 1);
-    player.on("skip-forward", skipForward);
-    player.on("skip-backward", skipBackward);
     const onReorder = (from: number, to: number, data: QueueItem[]) => {
       // data is the array of only nextItems,
       // we have to merge it with the played tracks
@@ -46,13 +44,11 @@ const usePlaybackOnDemandProvider = (
         ...data,
       ]);
     };
-    player.on("queue-reorder", onReorder);
     const onRemove = (uids: string[]) => {
       setLocalQueueItems((localQueueItems) =>
         localQueueItems.filter((item) => !uids.includes(item.uid))
       );
     };
-    player.on("queue-remove", onRemove);
     const onPlayNext = (uids: string[]) => {
       setLocalQueueItems((prevLocalQueueItems) => {
         const toTopItems: QueueItem[] = [];
@@ -72,7 +68,25 @@ const usePlaybackOnDemandProvider = (
         ];
       });
     };
+    const onAdd = (trackIds: string[]) => {
+      setLocalQueueItems((prevLocalQueueItems) => [
+        ...prevLocalQueueItems,
+        ...trackIds.map((trackId) => ({
+          uid: Math.random().toString(36).substr(2, 6), // random id
+          trackId,
+          creatorId: me?.user.id || "",
+          __typename: "QueueItem" as const,
+        })),
+      ]);
+    };
+    player.on("play-index", setPlayingIndex);
+    player.on("ended", onEnded);
+    player.on("skip-forward", skipForward);
+    player.on("skip-backward", skipBackward);
+    player.on("queue-reorder", onReorder);
+    player.on("queue-remove", onRemove);
     player.on("play-next", onPlayNext);
+    player.on("queue-add", onAdd);
     return () => {
       player.off("play-index", setPlayingIndex);
       player.off("ended", onEnded);
@@ -81,8 +95,9 @@ const usePlaybackOnDemandProvider = (
       player.off("queue-reorder", onReorder);
       player.off("queue-remove", onRemove);
       player.off("play-next", onPlayNext);
+      player.off("queue-add", onAdd);
     };
-  }, [active, playingIndex, canSkipBackward, canSkipForward]);
+  }, [active, playingIndex, canSkipBackward, canSkipForward, me?.user.id]);
 
   return {
     nextItems,

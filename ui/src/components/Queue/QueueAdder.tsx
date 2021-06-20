@@ -4,10 +4,12 @@ import { Button } from "@auralous/ui/components/Button";
 import { Header } from "@auralous/ui/components/Header";
 import { SongSelector } from "@auralous/ui/components/SongSelector";
 import { useColors } from "@auralous/ui/styles";
-import { FC, useMemo } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
   content: {
@@ -19,49 +21,75 @@ interface QueueAdderProps {
   visible: boolean;
   onClose(): void;
   items: QueueItem[];
+  onAddTracks: (trackIds: string[]) => void;
+  onRemoveTracks: (trackIds: string[]) => void;
 }
 
-const QueueAdderContent = gestureHandlerRootHOC(function QueueAdderContent({
-  onClose,
-  items,
-}) {
-  const { t } = useTranslation();
-  const selectedTracks = useMemo(
-    () => items.map((item) => item.trackId),
-    [items]
-  );
+const QueueAdderContent = gestureHandlerRootHOC(
+  ({
+    onClose,
+    items,
+    onAddTracks,
+    onRemoveTracks,
+  }: Omit<QueueAdderProps, "visible">) => {
+    const { t } = useTranslation();
+    const selectedTracks = useMemo(
+      () => items.map((item) => item.trackId),
+      [items]
+    );
 
-  const colors = useColors();
+    const colors = useColors();
 
-  return (
-    <View style={{ flex: 1, backgroundColor: colors.backgroundSecondary }}>
-      <Header
-        left={
-          <Button
-            icon={
-              <IconChevronLeft stroke={colors.text} width={24} height={24} />
-            }
-            onPress={onClose}
-            accessibilityLabel={t("common.navigation.go_back")}
+    return (
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: colors.backgroundSecondary }}
+      >
+        <Header
+          left={
+            <Button
+              icon={
+                <IconChevronLeft stroke={colors.text} width={24} height={24} />
+              }
+              onPress={onClose}
+              accessibilityLabel={t("common.navigation.go_back")}
+            />
+          }
+          title={t("queue.add_songs")}
+        />
+        <View style={styles.content}>
+          <SongSelector
+            addTracks={onAddTracks}
+            removeTracks={onRemoveTracks}
+            selectedTracks={selectedTracks}
           />
-        }
-        title={t("queue.add_songs")}
-      />
-      <View style={styles.content}>
-        <SongSelector selectedTracks={selectedTracks} />
-      </View>
-    </View>
-  );
-} as FC<Omit<QueueAdderProps, "visible">>);
+        </View>
+      </SafeAreaView>
+    );
+  }
+);
 
-export const QueueAdder: FC<QueueAdderProps> = ({
-  visible,
-  onClose,
-  items,
-}) => {
+const snapPoints = ["100%"];
+
+export const QueueAdder: FC<QueueAdderProps> = (props) => {
+  const ref = useRef<BottomSheetModal>(null);
+  useEffect(() => {
+    if (props.visible) ref.current?.present();
+    else ref.current?.dismiss();
+  });
+  const onChange = useCallback(
+    (index: number) => index === -1 && props.onClose(),
+    [props]
+  );
+
   return (
-    <Modal onRequestClose={onClose} visible={visible} animationType="fade">
-      <QueueAdderContent onClose={onClose} items={items} />
-    </Modal>
+    <BottomSheetModal
+      stackBehavior="push"
+      onChange={onChange}
+      ref={ref}
+      handleComponent={null}
+      snapPoints={snapPoints}
+    >
+      <QueueAdderContent {...props} />
+    </BottomSheetModal>
   );
 };

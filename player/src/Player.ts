@@ -33,6 +33,7 @@ interface Player {
     fn: (from: number, to: number, data: unknown[]) => void
   ): void;
   on(state: "queue-remove", fn: (uids: string[]) => void): void;
+  on(state: "queue-add", fn: (trackIds: string[]) => void): void;
   on(state: "__player_bar_pressed", fn: () => void): void;
   off(state: "context", fn: (context: PlaybackCurrentContext) => void): void;
   off(state: "play", fn: () => void): void;
@@ -51,6 +52,7 @@ interface Player {
     fn: (from: number, to: number, data: unknown[]) => void
   ): void;
   off(state: "queue-remove", fn: (uids: string[]) => void): void;
+  off(state: "queue-add", fn: (trackIds: string[]) => void): void;
   off(state: "__player_bar_pressed", fn: () => void): void;
   emit(
     state: "context",
@@ -69,6 +71,7 @@ interface Player {
   emit(state: "play-next", uids: string[]): void;
   emit(state: "queue-reorder", from: number, to: number, data: unknown[]): void;
   emit(state: "queue-remove", uids: string[]): void;
+  emit(state: "queue-add", trackIds: string[]): void;
 }
 
 class Player {
