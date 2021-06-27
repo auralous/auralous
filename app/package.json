@@ -7,6 +7,7 @@
     "android": "react-native run-android && adb reverse tcp:4000 tcp:4000",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "dev": "npx concurrently \"node ../dev-setup.js\" \"npm run start -- --reset-cache\"",
     "test": "jest",
     "lint": "eslint ."
   },

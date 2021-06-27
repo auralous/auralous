@@ -204,6 +204,7 @@ const QueueContent: FC<{
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             onDragEnd={onDragEnd}
+            // getItemLayout={getItemLayoutQueueTrackItem}
           />
         </View>
         <Spacer y={1} />

@@ -8,6 +8,7 @@ export enum RouteName {
   NewFinal = "new/final",
   NewSelectSongs = "new/select-songs",
   NewQuickShare = "new/quick-share",
+  Playlist = "playlist",
 }
 
 export interface ParamList extends ParamListBase {
@@ -23,4 +24,7 @@ export interface ParamList extends ParamListBase {
   };
   [RouteName.NewSelectSongs]: undefined;
   [RouteName.NewQuickShare]: undefined;
+  [RouteName.Playlist]: {
+    id: string;
+  };
 }

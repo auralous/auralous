@@ -10,31 +10,37 @@ import {
   useQueueToTopMutation,
   useQueueUpdatedSubscription,
 } from "@auralous/api";
-import player, { PlaybackContextProvided } from "@auralous/player";
+import player, {
+  PlaybackContextProvided,
+  PlaybackContextType,
+} from "@auralous/player";
 import { useEffect } from "react";
 import { usePlaybackContextData } from "./usePlaybackContextData";
 
 const usePlaybackLiveProvider = (
   active: boolean,
-  contextData: ReturnType<typeof usePlaybackContextData>
+  contextData: Extract<
+    ReturnType<typeof usePlaybackContextData>,
+    { type: PlaybackContextType.Story }
+  >
 ): PlaybackContextProvided => {
   const me = useMe();
 
   const [
     { data: { nowPlaying } = { nowPlaying: undefined }, fetching: fetchingNP },
   ] = useNowPlayingQuery({
-    variables: { id: contextData?.id || "" },
+    variables: { id: contextData?.data?.id || "" },
     pause: !active,
     requestPolicy: "cache-and-network",
   });
   useOnNowPlayingUpdatedSubscription({
-    variables: { id: contextData?.id || "" },
+    variables: { id: contextData?.data?.id || "" },
     pause: !active,
   });
 
   const [{ data: { queue } = { queue: undefined } }] = useQueueQuery({
     variables: {
-      id: contextData?.id || "",
+      id: contextData?.data?.id || "",
     },
     pause: !active,
   });
@@ -76,14 +82,14 @@ const usePlaybackLiveProvider = (
     !fetchingSkip &&
       !!queue?.items.length &&
       me &&
-      (contextData?.queueable.includes(me.user.id) ||
-        contextData?.creatorId === me?.user.id)
+      (contextData?.data?.queueable.includes(me.user.id) ||
+        contextData?.data?.creatorId === me?.user.id)
   );
 
   useEffect(() => {
     if (!canSkipForward || !active || !queue?.id) return;
     const id = queue.id;
-    const skipFn = () => skipNowPlaying({ id: contextData?.id || "" });
+    const skipFn = () => skipNowPlaying({ id: contextData?.data?.id || "" });
     player.on("skip-forward", skipFn);
     const onReorder = (from: number, to: number) => {
       queueReorder({

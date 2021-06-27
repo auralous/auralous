@@ -27,6 +27,12 @@ const styles = StyleSheet.create({
   },
 });
 
+export const getItemLayout = (data: unknown, index: number) => ({
+  length: Size[12] + 2 * Size[1],
+  offset: Size[12] * index + Size[3] * index,
+  index,
+});
+
 const SelectableTrackListItem = memo<{ trackId: string }>(
   function SelectableTrackListItem({ trackId }) {
     const [{ data, fetching }] = useTrackQuery({ variables: { id: trackId } });

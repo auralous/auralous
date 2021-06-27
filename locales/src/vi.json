@@ -46,10 +46,13 @@
     "of_user": "<0>{{name}}</0> của {{username}}"
   },
   "playlist": {
-    "my_playlists": "Playlist của bạn"
+    "title": "Playlist",
+    "my_playlists": "Playlist của bạn",
+    "x_song": "{{count}} bài hát",
+    "x_song_plural": "{{count}} bài hát"
   },
   "story": {
-    "story_of_x": "Story của {{username}}"
+    "title": "Story"
   },
   "player": {
     "title": "Trình phát",
@@ -57,7 +60,9 @@
     "play": "Phát nhạc",
     "skip_forward": "Bỏ qua bài",
     "skip_backward": "Phát bài trước",
-    "no_playing": "Đang không phát nhạc"
+    "no_playing": "Đang không phát nhạc",
+    "shuffle_play": "Phát ngẫu nhiên",
+    "playing_from": "Phát nhạc từ $t({{entity}}.title)"
   },
   "queue": {
     "title": "Hàng chờ",

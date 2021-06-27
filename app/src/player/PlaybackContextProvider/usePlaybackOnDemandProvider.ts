@@ -1,5 +1,13 @@
-import { QueueItem, useMe, useQueueQuery } from "@auralous/api";
-import player, { PlaybackContextProvided } from "@auralous/player";
+import {
+  QueueItem,
+  useMe,
+  usePlaylistTracksQuery,
+  useStoryTracksQuery,
+} from "@auralous/api";
+import player, {
+  PlaybackContextProvided,
+  PlaybackContextType,
+} from "@auralous/player";
 import { useEffect, useMemo, useState } from "react";
 import { usePlaybackContextData } from "./usePlaybackContextData";
 
@@ -7,24 +15,51 @@ const usePlaybackOnDemandProvider = (
   active: boolean,
   contextData: ReturnType<typeof usePlaybackContextData>
 ): PlaybackContextProvided => {
-  const [{ data: dataQueue, fetching }] = useQueueQuery({
-    variables: { id: contextData?.id + ":played" },
-    pause: !active,
-  });
+  const o = {
+    [PlaybackContextType.Story]: useStoryTracksQuery({
+      variables: {
+        id: contextData?.data?.id || "",
+      },
+      pause: contextData?.type !== PlaybackContextType.Story,
+    }),
+    [PlaybackContextType.Playlist]: usePlaylistTracksQuery({
+      variables: {
+        id: contextData?.data?.id || "",
+      },
+      pause: contextData?.type !== PlaybackContextType.Playlist,
+    }),
+  };
+
+  const { data, fetching } = contextData?.type
+    ? o[contextData.type][0]
+    : { data: undefined, fetching: false };
+
+  const queueItems = useMemo<QueueItem[]>(() => {
+    if (!data) return [];
+    let tracks = [];
+    if ("storyTracks" in data) tracks = data.storyTracks || [];
+    else tracks = data.playlistTracks || [];
+    return tracks.map((track, index) => ({
+      creatorId: "",
+      trackId: track.id,
+      uid: `${index}${track.id}`,
+      __typename: "QueueItem",
+    }));
+  }, [data]);
 
   const [localQueueItems, setLocalQueueItems] = useState<QueueItem[]>([]);
 
   const [playingIndex, setPlayingIndex] = useState(0);
 
   useEffect(() => {
-    setLocalQueueItems(dataQueue?.queue?.items || []);
-  }, [dataQueue?.queue]);
+    setLocalQueueItems(queueItems);
+  }, [queueItems]);
 
   const nextItems = useMemo(() => {
     return localQueueItems.slice(playingIndex + 1);
   }, [localQueueItems, playingIndex]);
 
-  const canSkipBackward = !!dataQueue?.queue && playingIndex > 0;
+  const canSkipBackward = !!queueItems && playingIndex > 0;
   const canSkipForward = nextItems.length > 0;
 
   const me = useMe();

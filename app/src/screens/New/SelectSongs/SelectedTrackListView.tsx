@@ -3,6 +3,7 @@ import {
   BottomSheetCustomBackground,
   Button,
   Font,
+  getItemLayoutQueueTrackItem,
   IconChevronDown,
   IconChevronUp,
   makeStyles,
@@ -216,7 +217,7 @@ const SelectedTrackListView: React.FC<{
             renderItem={renderItem}
             keyExtractor={(item) => item}
             onDragEnd={({ data }) => setSelectedTracks(data)}
-            windowSize={3}
+            getItemLayout={getItemLayoutQueueTrackItem}
           />
         </View>
       </BottomSheet>

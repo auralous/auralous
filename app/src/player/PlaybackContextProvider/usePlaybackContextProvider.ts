@@ -12,8 +12,10 @@
  * Depending on playbackCurrentContext, we can choose between them
  */
 
+import { Story } from "@auralous/api";
 import {
   PlaybackContextProvided,
+  PlaybackContextType,
   PlaybackCurrentContext,
 } from "@auralous/player";
 import { useMemo } from "react";
@@ -27,24 +29,27 @@ const usePlaybackContextProvider = (
   const contextData = usePlaybackContextData(playbackCurrentContext);
   const playbackMode: "live" | "onDemand" | null = useMemo(() => {
     if (!contextData) return null;
-    if (contextData.__typename === "Story") {
-      if (contextData.isLive) return "live";
-      return "onDemand";
+    if (
+      contextData.type === PlaybackContextType.Story &&
+      contextData.data?.isLive
+    ) {
+      return "live";
     }
-    return null;
+    return "onDemand";
   }, [contextData]);
 
-  const liveProvided = usePlaybackLiveProvider(
-    playbackMode === "live",
-    contextData
-  );
-
-  const onDemandProvided = usePlaybackOnDemandProvider(
-    playbackMode === "onDemand",
-    contextData
-  );
-
-  return playbackMode === "live" ? liveProvided : onDemandProvided;
+  const o = {
+    live: usePlaybackLiveProvider(
+      playbackMode === "live",
+      contextData as { data: Story | null; type: PlaybackContextType.Story }
+    ),
+    onDemand: usePlaybackOnDemandProvider(
+      playbackMode === "onDemand",
+      contextData
+    ),
+  };
+  if (!playbackMode) return null;
+  return o[playbackMode];
 };
 
 export default usePlaybackContextProvider;

@@ -7,6 +7,7 @@ import {
   QuickShareScreen,
   SelectSongsScreen,
 } from "@/screens/New";
+import PlaylistScreen from "@/screens/Playlist";
 import SignInScreen from "@/screens/SignIn";
 import { ParamList, RouteName } from "@/screens/types";
 import UserScreen from "@/screens/User";
@@ -77,6 +78,10 @@ const routes = [
     options: {
       animation: "fade" as const,
     },
+  },
+  {
+    name: RouteName.Playlist,
+    component: gestureHandlerRootHOC(PlaylistScreen),
   },
 ];
 

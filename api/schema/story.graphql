@@ -42,6 +42,12 @@ query storyLive($creatorId: String) {
   }
 }
 
+query storyTracks($id: ID!) {
+  storyTracks(id: $id) {
+    ...TrackParts
+  }
+}
+
 mutation storyCreate(
   $text: String!
   $isPublic: Boolean!

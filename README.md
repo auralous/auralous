@@ -31,10 +31,6 @@ The repository is **NOT** a workspace despite its look. We use a custom setup th
 
 `package.json` contains the several scripts in the workspace root.
 
-#### `yarn dev-setup`
-
-This script must be run and kept in the background to continously copy shared files into apps.
-
 #### `yarn lint`
 
 Run `yarn lint` to check for errors in source code using [`eslint`](https://github.com/eslint/eslint) and apply formatting with [prettier](https://github.com/prettier/prettier). You can also run `yarn lint --fix` to let `eslint` fixed the errors automatically.

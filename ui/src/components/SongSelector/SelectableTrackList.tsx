@@ -3,7 +3,9 @@ import { LoadingBlock } from "@auralous/ui/components/Loading";
 import { FC } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import SearchEmpty from "./SearchEmpty";
-import SelectableTrackListItem from "./SelectableTrackListItem";
+import SelectableTrackListItem, {
+  getItemLayout,
+} from "./SelectableTrackListItem";
 
 const styles = StyleSheet.create({
   list: {
@@ -48,7 +50,7 @@ const SelectableTrackList: FC<{
         data={data}
         renderItem={renderItem}
         keyExtractor={trackIdFromTrackOrTrackId}
-        windowSize={2}
+        getItemLayout={getItemLayout}
       />
     </>
   );

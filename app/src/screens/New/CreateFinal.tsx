@@ -102,7 +102,9 @@ const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
             {t("new.final.title")}
           </Heading>
           <Spacer y={2} />
-          <Text color="textSecondary">{t("new.final.subtitle")}</Text>
+          <Text align="center" color="textSecondary">
+            {t("new.final.subtitle")}
+          </Text>
           <Spacer y={12} />
           <Button onPress={() => navigation.goBack()}>
             {t("common.action.cancel")}

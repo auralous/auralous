@@ -1,17 +1,13 @@
+import { LoadingScreen } from "@/components/Loading";
 import { Maybe } from "@auralous/api";
-import {
-  BottomSheetCustomBackground,
-  Heading,
-  LoadingBlock,
-  Size,
-} from "@auralous/ui";
+import { BottomSheetCustomBackground, Heading, Size } from "@auralous/ui";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetFlatList,
 } from "@gorhom/bottom-sheet";
 import React, { useCallback, useEffect, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { ListRenderItem, StyleSheet, View } from "react-native";
+import { ListRenderItem, StyleSheet } from "react-native";
 import { useListState } from "./Context";
 
 interface ListProps<Item = any> {
@@ -34,11 +30,6 @@ const styles = StyleSheet.create({
   },
   heading: { marginBottom: Size[3] },
   flatList: { flex: 1 },
-  full: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });
 
 const snapPoints = [0, "90%"];
@@ -90,9 +81,7 @@ const List: React.FC<ListProps> = ({
         />
       </Heading>
       {fetching && !data ? (
-        <View style={styles.full}>
-          <LoadingBlock />
-        </View>
+        <LoadingScreen />
       ) : (
         <BottomSheetFlatList
           data={data || []}

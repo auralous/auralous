@@ -1,17 +1,23 @@
 import { watch } from "chokidar";
 import { copyFileSync, existsSync, mkdirSync, rmdirSync } from "fs";
-import { dirname } from "path";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const setup = (app, pkg) => {
-  const downstreamDir = `./${app}/src/@auralous/${pkg}`;
+  const downstreamDir = join(__dirname, `${app}/src/@auralous/${pkg}`);
+  const upstreamDir = join(__dirname, `${pkg}/src`);
+  console.log("Watching ", upstreamDir);
   if (existsSync(downstreamDir)) {
     rmdirSync(downstreamDir, { recursive: true });
   }
-  watch(`./${pkg}/src`).on("all", (event, p) => {
+  watch(upstreamDir).on("all", (event, p) => {
     if (event === "addDir" || event === "unlinkDir") return;
-    const dest = `./${app}/src/@auralous/${p.replace("src/", "")}`;
+    const dest = join(
+      __dirname,
+      `/${app}/src/@auralous/${pkg}${p.substring(upstreamDir.length)}`
+    );
     const destDir = dirname(dest);
-    if (destDir === p) return;
     if (!existsSync(destDir)) mkdirSync(destDir, { recursive: true });
     if (event === "unlink") {
       console.log(`${p} ==> REMOVED`);

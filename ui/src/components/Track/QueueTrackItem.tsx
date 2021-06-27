@@ -10,7 +10,7 @@ import TrackItem from "./TrackItem";
 const styles = StyleSheet.create({
   root: {
     width: "100%",
-    paddingVertical: Size[1],
+    padding: Size[1],
     marginBottom: Size[3],
     flexDirection: "row",
     alignItems: "center",
@@ -31,6 +31,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+});
+
+export const getItemLayout = (data: unknown, index: number) => ({
+  length: Size[12] + 2 * Size[1],
+  offset: Size[12] * index + Size[3] * index,
+  index,
 });
 
 interface QueueTrackItemProps {

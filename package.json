@@ -5,8 +5,7 @@
   "repository": "git@github.com:auralous/auralous.git",
   "private": true,
   "scripts": {
-    "lint": "eslint .",
-    "dev-setup": "node dev-setup.js"
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

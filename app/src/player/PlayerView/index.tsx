@@ -1,5 +1,8 @@
 import { usePlaybackContextData } from "@/player/PlaybackContextProvider";
-import player, { usePlaybackState } from "@auralous/player";
+import player, {
+  PlaybackContextType,
+  usePlaybackState,
+} from "@auralous/player";
 import {
   Button,
   Header,
@@ -11,13 +14,7 @@ import {
   Text,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   BackHandler,
@@ -51,6 +48,9 @@ const styles = StyleSheet.create({
     paddingBottom: Size[0],
     flexDirection: "row",
     justifyContent: "center",
+  },
+  playingFromText: {
+    textTransform: "uppercase",
   },
 });
 
@@ -86,12 +86,6 @@ const PlayerView: React.FC = () => {
   const contextData = usePlaybackContextData(
     playbackState.playbackCurrentContext
   );
-
-  const title = useMemo(() => {
-    if (contextData?.__typename === "Story")
-      return t("story.story_of_x", { username: contextData.creator?.username });
-    return "";
-  }, [contextData, t]);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -130,7 +124,23 @@ const PlayerView: React.FC = () => {
       <LinearGradient colors={playbackState.colors} style={styles.root}>
         <View style={{ height: StatusBar.currentHeight }} />
         <Header
-          title={title}
+          title={
+            contextData ? (
+              <View>
+                <Text size="xs" style={styles.playingFromText} align="center">
+                  {t("player.playing_from", { entity: contextData.type })}
+                </Text>
+                <Text size="sm" bold align="center">
+                  {contextData.type === PlaybackContextType.Story
+                    ? contextData.data?.text ||
+                      contextData.data?.creator.username
+                    : contextData.data?.name}
+                </Text>
+              </View>
+            ) : (
+              ""
+            )
+          }
           left={
             <Button
               onPress={() => bottomSheetRef.current?.dismiss()}

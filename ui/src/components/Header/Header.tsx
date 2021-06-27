@@ -1,10 +1,10 @@
 import { Text } from "@auralous/ui/components/Typography";
 import { Size } from "@auralous/ui/styles";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 
 interface HeaderProps {
-  title: string;
+  title: string | ReactNode;
   left?: React.ReactNode;
   right?: React.ReactNode;
   translucent?: boolean;
@@ -35,9 +35,13 @@ const Header: FC<HeaderProps> = ({ title, left, right }) => {
     <View style={styles.root}>
       <View style={styles.button}>{left}</View>
       <View pointerEvents="none" style={styles.title}>
-        <Text bold align="center" size="lg" numberOfLines={1}>
-          {title}
-        </Text>
+        {typeof title === "string" ? (
+          <Text bold align="center" size="lg" numberOfLines={1}>
+            {title}
+          </Text>
+        ) : (
+          title
+        )}
       </View>
       <View style={styles.button}>{right}</View>
     </View>

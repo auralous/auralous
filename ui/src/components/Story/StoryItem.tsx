@@ -46,17 +46,17 @@ const useStyles = makeStyles((theme, isLive: boolean) => ({
   tag: {
     paddingHorizontal: Size[3],
     paddingVertical: 3,
-    borderRadius: 99,
+    borderRadius: 9999,
     flexGrow: 0,
     marginTop: Size[1],
-    ackgroundColor: isLive ? theme.colors.primary : "rgba(0,0,0,.5)",
+    backgroundColor: isLive ? theme.colors.primary : "rgba(0,0,0,.5)",
   },
 }));
 
 const StoryItem: FC<StoryItemProps> = ({ story }) => {
   const { t } = useTranslation();
 
-  const dstyles = useStyles();
+  const dstyles = useStyles(story.isLive);
 
   const dateStr = useMemo(() => {
     if (!story) return "";
