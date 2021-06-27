@@ -42,8 +42,7 @@
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": "Followers",
-    "followings": "Following",
-    "of_user": "{{username}}'s <0>{{name}}</0>"
+    "following": "Following"
   },
   "playlist": {
     "title": "Playlist",

@@ -5,6 +5,8 @@ export enum RouteName {
   Map = "map",
   SignIn = "sign-in",
   User = "user",
+  UserFollowers = "user/followers",
+  UserFollowing = "user/following",
   NewFinal = "new/final",
   NewSelectSongs = "new/select-songs",
   NewQuickShare = "new/quick-share",
@@ -15,6 +17,12 @@ export interface ParamList extends ParamListBase {
   [RouteName.Home]: undefined;
   [RouteName.SignIn]: undefined;
   [RouteName.User]: {
+    username: string;
+  };
+  [RouteName.UserFollowers]: {
+    username: string;
+  };
+  [RouteName.UserFollowing]: {
     username: string;
   };
   [RouteName.SignIn]: undefined;

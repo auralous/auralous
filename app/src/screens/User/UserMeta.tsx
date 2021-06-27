@@ -1,10 +1,11 @@
 import { User, useUserStatQuery } from "@auralous/api";
 import { Avatar, Size, Text } from "@auralous/ui";
-import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useListState } from "./MetaList/Context";
+import { RouteName } from "../types";
 
 const styles = StyleSheet.create({
   root: {
@@ -30,24 +31,31 @@ const styles = StyleSheet.create({
   statName: {
     textTransform: "uppercase",
   },
-  statValue: {},
 });
 
 interface UserStatProps {
   name: string;
   value: number;
-  list?: "followers" | "followings";
+  list: "followers" | "following";
+  username: string;
 }
 
-const UserStat: React.FC<UserStatProps> = ({ name, value, list }) => {
-  const [, setList] = useListState();
+const UserStat: FC<UserStatProps> = ({ name, value, list, username }) => {
+  const navigation = useNavigation();
+  const goToList = useCallback(
+    () =>
+      navigation.navigate(
+        list === "followers"
+          ? RouteName.UserFollowers
+          : RouteName.UserFollowing,
+        { username }
+      ),
+    [navigation, username, list]
+  );
   return (
     <View style={styles.stat}>
-      <TouchableOpacity
-        style={styles.statTouchable}
-        onPress={() => list && setList(list)}
-      >
-        <Text bold size="xl" color="textSecondary" style={styles.statValue}>
+      <TouchableOpacity style={styles.statTouchable} onPress={goToList}>
+        <Text bold size="xl" color="textSecondary">
           {value}
         </Text>
         <Text size="sm" color="textTertiary" style={styles.statName}>
@@ -58,7 +66,7 @@ const UserStat: React.FC<UserStatProps> = ({ name, value, list }) => {
   );
 };
 
-const UserMeta: React.FC<{ user: User }> = ({ user }) => {
+const UserMeta: FC<{ user: User }> = ({ user }) => {
   const [{ data: { userStat } = { userStat: undefined } }] = useUserStatQuery({
     variables: { id: user.id },
     requestPolicy: "cache-and-network",
@@ -84,11 +92,13 @@ const UserMeta: React.FC<{ user: User }> = ({ user }) => {
             value={userStat?.followerCount || 0}
             name={t("user.followers")}
             list="followers"
+            username={user.username}
           />
           <UserStat
             value={userStat?.followingCount || 0}
-            name={t("user.followings")}
-            list="followings"
+            name={t("user.following")}
+            list="following"
+            username={user.username}
           />
         </View>
       </View>

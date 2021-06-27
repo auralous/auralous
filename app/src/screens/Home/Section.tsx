@@ -1,5 +1,5 @@
 import { Heading, Size, Text } from "@auralous/ui";
-import React from "react";
+import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 
 interface SectionProps {
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Section: React.FC<SectionProps> = ({ title, description, children }) => {
+const Section: FC<SectionProps> = ({ title, description, children }) => {
   return (
     <View style={styles.root}>
       <View style={styles.header}>

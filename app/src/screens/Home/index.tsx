@@ -1,5 +1,5 @@
 import { Size } from "@auralous/ui";
-import React from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HomeScreen: React.FC<HomeScreenProps> = () => {
+const HomeScreen: FC<HomeScreenProps> = () => {
   const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1 }}>

@@ -1,5 +1,5 @@
 import player from "@auralous/player";
-import React, { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import Config from "react-native-config";
 import {
   ApiConfig,
@@ -23,7 +23,7 @@ const spotifyConfig: ApiConfig = {
   showDialog: false,
 };
 
-const PlayerSpotify: React.FC = () => {
+const PlayerSpotify: FC = () => {
   const [session, setSession] = useState<SpotifySession | null>(null);
   const [, setError] = useState();
 

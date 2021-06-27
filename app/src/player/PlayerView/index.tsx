@@ -14,7 +14,7 @@ import {
   Text,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   BackHandler,
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme, props: { selected: boolean }) => ({
   },
 }));
 
-const TabButton: React.FC<{
+const TabButton: FC<{
   title: string;
   onPress(): void;
   selected: boolean;
@@ -79,7 +79,7 @@ const TabButton: React.FC<{
   );
 };
 
-const PlayerView: React.FC = () => {
+const PlayerView: FC = () => {
   const { t } = useTranslation();
   const playbackState = usePlaybackState();
 

@@ -1,7 +1,7 @@
 import { usePlaylistsFeaturedQuery } from "@auralous/api";
 import { PlaylistItem, Size } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import { FC } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { RouteName } from "../types";
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const FeaturedPlaylists: React.FC = () => {
+const FeaturedPlaylists: FC = () => {
   const [{ data: { playlistsFeatured } = { playlistsFeatured: undefined } }] =
     usePlaylistsFeaturedQuery();
 

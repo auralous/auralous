@@ -18,13 +18,7 @@ import {
 } from "@auralous/ui";
 import { format as formatMs } from "@lukeed/ms";
 import { TFunction } from "i18next";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -66,7 +60,7 @@ const getDateDiffTxt = (t: TFunction, createdAt: Date) => {
   return dateDiff < 1000 ? t("common.time.just_now") : formatMs(dateDiff);
 };
 
-const ChatItemJoin: React.FC<{
+const ChatItemJoin: FC<{
   message: Message;
 }> = ({ message }) => {
   const { t } = useTranslation();
@@ -86,7 +80,7 @@ const ChatItemJoin: React.FC<{
   );
 };
 
-const ChatItemPlay: React.FC<{
+const ChatItemPlay: FC<{
   message: Message;
 }> = ({ message }) => {
   const { t } = useTranslation();
@@ -114,7 +108,7 @@ const ChatItemPlay: React.FC<{
   );
 };
 
-const ChatItemText: React.FC<{
+const ChatItemText: FC<{
   message: Message;
 }> = ({ message }) => {
   const { t } = useTranslation();
@@ -151,7 +145,7 @@ const renderItem: ListRenderItem<Message> = ({ item: message }) => {
   return <ChatItemText key={message.id} message={message} />;
 };
 
-const ChatList: React.FC<{ id: string }> = ({ id }) => {
+const ChatList: FC<{ id: string }> = ({ id }) => {
   const ref = useRef<FlatList>(null);
   const scrollShouldFollow = useRef(true);
 
@@ -212,7 +206,7 @@ const ChatList: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
-const ChatInput: React.FC<{ id: string }> = ({ id }) => {
+const ChatInput: FC<{ id: string }> = ({ id }) => {
   const { t } = useTranslation();
 
   const { control, setValue, handleSubmit } = useForm<{ chat: string }>();
@@ -241,9 +235,7 @@ const ChatInput: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
-const ChatView: React.FC<{ playbackState: PlaybackState }> = ({
-  playbackState,
-}) => {
+const ChatView: FC<{ playbackState: PlaybackState }> = ({ playbackState }) => {
   const id = playbackState.playbackCurrentContext?.id;
   if (!id) return null;
   return (

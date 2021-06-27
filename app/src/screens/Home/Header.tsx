@@ -1,7 +1,7 @@
 import { useMe } from "@auralous/api";
 import { Avatar, Button, Heading, Size, Spacer } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 import { RouteName } from "../types";
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header: React.FC = () => {
+const Header: FC = () => {
   const { t } = useTranslation();
   const me = useMe();
   const navigation = useNavigation();

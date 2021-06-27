@@ -1,7 +1,7 @@
 import { Playlist } from "@auralous/api";
 import player, { PlaybackContextType } from "@auralous/player";
 import { Button, Heading, Size, Spacer, Text } from "@auralous/ui";
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Meta: React.FC<{ playlist: Playlist }> = ({ playlist }) => {
+const Meta: FC<{ playlist: Playlist }> = ({ playlist }) => {
   const { t } = useTranslation();
   const shufflePlay = useCallback(
     () =>

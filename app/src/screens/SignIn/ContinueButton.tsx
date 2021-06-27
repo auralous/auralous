@@ -1,5 +1,5 @@
 import { makeStyles, Size, Text, ThemeColorKey } from "@auralous/ui";
-import React from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking, Pressable, View } from "react-native";
 import Config from "react-native-config";
@@ -29,7 +29,7 @@ interface ContinueButtonProps {
   listenOn: string;
 }
 
-const ContinueButton: React.FC<ContinueButtonProps> = ({
+const ContinueButton: FC<ContinueButtonProps> = ({
   name,
   platform,
   icon,

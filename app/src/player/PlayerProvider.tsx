@@ -3,7 +3,7 @@ import player, {
   PlaybackContext,
   PlaybackCurrentContext,
 } from "@auralous/player";
-import React, { useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { usePlaybackContextProvider } from "./PlaybackContextProvider";
 import PlayerSpotify from "./PlayerSpotify";
 import PlayerView from "./PlayerView";
@@ -11,7 +11,7 @@ import PlayerYoutube from "./PlayerYoutube";
 import usePlaybackAuthentication from "./usePlaybackAuthentication";
 import { useTrackColors } from "./useTrackColors";
 
-export const PlayerProvider: React.FC = ({ children }) => {
+export const PlayerProvider: FC = ({ children }) => {
   const [playbackCurrentContext, setContextSelector] =
     useState<PlaybackCurrentContext | null>(null);
 

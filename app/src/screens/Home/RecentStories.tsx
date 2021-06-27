@@ -1,7 +1,7 @@
 import { useStoriesQuery } from "@auralous/api";
 import player, { PlaybackContextType } from "@auralous/player";
 import { Size, StoryItem } from "@auralous/ui";
-import React from "react";
+import { FC } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const RecentStories: React.FC = () => {
+const RecentStories: FC = () => {
   const [{ data: { stories } = { stories: undefined } }] = useStoriesQuery({
     variables: { id: "PUBLIC", limit: 8 },
   });

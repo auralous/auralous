@@ -1,9 +1,9 @@
 import player from "@auralous/player";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
 
-const PlayerYoutube: React.FC = () => {
+const PlayerYoutube: FC = () => {
   const youtubeRef = useRef<YoutubeIframeRef>(null);
   const isPlayingRef = useRef<boolean>(false);
   const [videoId, setVideoId] = useState<string | null>(null);

@@ -5,7 +5,7 @@ import {
 } from "@fluentui/react-context-selector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Client } from "@urql/core";
-import React, { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { Provider } from "urql";
 import { createUrqlClient } from "./urql";
 
@@ -17,7 +17,7 @@ interface ApiState {
 
 const ApiContext = createContext({} as ApiState);
 
-export const ApiProvider: React.FC = ({ children }) => {
+export const ApiProvider: FC = ({ children }) => {
   const [client, setClient] = useState(createUrqlClient);
   const signIn: ApiState["signIn"] = useCallback(async (token) => {
     await AsyncStorage.setItem(ASYNC_STORAGE_AUTH, token);

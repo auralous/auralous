@@ -10,13 +10,20 @@ import {
 import PlaylistScreen from "@/screens/Playlist";
 import SignInScreen from "@/screens/SignIn";
 import { ParamList, RouteName } from "@/screens/types";
-import UserScreen from "@/screens/User";
+import {
+  UserFollowersScreen,
+  UserFollowingScreen,
+  UserScreen,
+} from "@/screens/User";
 import { makeStyles, useTheme } from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useMemo } from "react";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from "@react-navigation/native-stack";
+import { FC, useMemo } from "react";
 import { StatusBar } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -36,22 +43,14 @@ const linking: LinkingOptions<ParamList> = {
   },
 };
 
-const MainScreen: React.FC = () => {
-  return (
-    <Tab.Navigator
-      tabBar={(props) => <TabBar {...props} />}
-      screenOptions={{ headerShown: false }}
-    >
-      <Tab.Screen name="home" component={HomeScreen} />
-      <Tab.Screen name="map" component={MapScreen} />
-    </Tab.Navigator>
-  );
-};
-
-const routes = [
+const routes: {
+  name: string;
+  component: React.ComponentType<any>;
+  options?: NativeStackNavigationOptions;
+}[] = [
   {
-    name: "main",
-    component: gestureHandlerRootHOC(MainScreen),
+    name: "home",
+    component: gestureHandlerRootHOC(HomeScreen),
   },
   {
     name: RouteName.SignIn,
@@ -63,6 +62,14 @@ const routes = [
   {
     name: RouteName.User,
     component: gestureHandlerRootHOC(UserScreen),
+  },
+  {
+    name: RouteName.UserFollowers,
+    component: gestureHandlerRootHOC(UserFollowersScreen),
+  },
+  {
+    name: RouteName.UserFollowing,
+    component: gestureHandlerRootHOC(UserFollowingScreen),
   },
   {
     name: RouteName.NewSelectSongs,
@@ -85,6 +92,27 @@ const routes = [
   },
 ];
 
+const stackRoutes = routes.map((route) => (
+  <Stack.Screen
+    key={route.name}
+    name={route.name}
+    component={route.component}
+    options={route.options}
+  />
+));
+
+const MainScreen: FC = () => {
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      {stackRoutes}
+    </Stack.Navigator>
+  );
+};
+
+const screenOptions = {
+  headerShown: false,
+};
+
 const useStyles = makeStyles((theme) => ({
   sap: {
     backgroundColor: theme.colors.background,
@@ -95,17 +123,6 @@ const App = () => {
   const theme = useTheme();
 
   const styles = useStyles();
-
-  const stackRoutes = useMemo(() => {
-    return routes.map((route) => (
-      <Stack.Screen
-        key={route.name}
-        name={route.name}
-        component={route.component}
-        options={route.options}
-      />
-    ));
-  }, []);
 
   const navigationTheme = useMemo(
     () => ({
@@ -123,20 +140,24 @@ const App = () => {
   );
 
   return (
-    <NavigationContainer theme={navigationTheme} linking={linking}>
-      <ApiProvider>
-        <BottomSheetModalProvider>
-          <PlayerProvider>
-            <SafeAreaProvider style={styles.sap}>
+    <SafeAreaProvider style={styles.sap}>
+      <NavigationContainer theme={navigationTheme} linking={linking}>
+        <ApiProvider>
+          <BottomSheetModalProvider>
+            <PlayerProvider>
               <StatusBar backgroundColor={theme.colors.background} />
-              <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {stackRoutes}
-              </Stack.Navigator>
-            </SafeAreaProvider>
-          </PlayerProvider>
-        </BottomSheetModalProvider>
-      </ApiProvider>
-    </NavigationContainer>
+              <Tab.Navigator
+                tabBar={(props) => <TabBar {...props} />}
+                screenOptions={{ headerShown: false }}
+              >
+                <Tab.Screen name="main" component={MainScreen} />
+                <Tab.Screen name="map" component={MapScreen} />
+              </Tab.Navigator>
+            </PlayerProvider>
+          </BottomSheetModalProvider>
+        </ApiProvider>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 

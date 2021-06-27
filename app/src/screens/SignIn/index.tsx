@@ -13,7 +13,7 @@ import {
   useColors,
 } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Config from "react-native-config";
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SignInScreen: React.FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
+const SignInScreen: FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
   route,
   navigation,
 }) => {

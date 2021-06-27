@@ -7,7 +7,7 @@ import {
   QueueModal,
   Size,
 } from "@auralous/ui";
-import React from "react";
+import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const MusicView: React.FC<{
+const MusicView: FC<{
   playbackState: PlaybackState;
 }> = ({ playbackState }) => {
   const [{ data: { track } = { track: undefined } }] = useTrackQuery({

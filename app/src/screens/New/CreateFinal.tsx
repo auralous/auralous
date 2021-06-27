@@ -11,7 +11,7 @@ import {
 } from "@auralous/ui";
 import { useFocusEffect } from "@react-navigation/core";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
+const Create: FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
   route,
   navigation,
 }) => {
@@ -65,7 +65,7 @@ const Create: React.FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
   }, [route, createStory, navigation]);
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       const onBackPress = () => {
         // Prevent going back while creating story
         return fetching;

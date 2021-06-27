@@ -6,7 +6,7 @@ import {
   SongSelectorContext,
 } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,52 +23,51 @@ const styles = StyleSheet.create({
   },
 });
 
-const SelectSongs: React.FC<
-  StackScreenProps<ParamList, RouteName.NewSelectSongs>
-> = ({ navigation }) => {
-  const { t } = useTranslation();
+const SelectSongs: FC<StackScreenProps<ParamList, RouteName.NewSelectSongs>> =
+  ({ navigation }) => {
+    const { t } = useTranslation();
 
-  const title = t("new.select_songs.title");
+    const title = t("new.select_songs.title");
 
-  const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
+    const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
 
-  const addTracks = useCallback((trackIds: string[]) => {
-    setSelectedTracks((prev) => [...prev, ...trackIds]);
-  }, []);
+    const addTracks = useCallback((trackIds: string[]) => {
+      setSelectedTracks((prev) => [...prev, ...trackIds]);
+    }, []);
 
-  const removeTracks = useCallback((trackIds: string[]) => {
-    setSelectedTracks((prev) => prev.filter((t) => !trackIds.includes(t)));
-  }, []);
+    const removeTracks = useCallback((trackIds: string[]) => {
+      setSelectedTracks((prev) => prev.filter((t) => !trackIds.includes(t)));
+    }, []);
 
-  const onFinish = useCallback(
-    (selectedTracks: string[]) => {
-      navigation.navigate(RouteName.NewFinal, {
-        selectedTracks,
-        modeTitle: title,
-      });
-    },
-    [navigation, title]
-  );
+    const onFinish = useCallback(
+      (selectedTracks: string[]) => {
+        navigation.navigate(RouteName.NewFinal, {
+          selectedTracks,
+          modeTitle: title,
+        });
+      },
+      [navigation, title]
+    );
 
-  return (
-    <SafeAreaView style={styles.root}>
-      <HeaderBackable title={title} />
-      <SongSelector
-        selectedTracks={selectedTracks}
-        addTracks={addTracks}
-        removeTracks={removeTracks}
-      />
-      <SongSelectorContext.Provider
-        value={{ addTracks, removeTracks, selectedTracks }}
-      >
-        <SelectedTrackListView
+    return (
+      <SafeAreaView style={styles.root}>
+        <HeaderBackable title={title} />
+        <SongSelector
           selectedTracks={selectedTracks}
-          setSelectedTracks={setSelectedTracks}
-          onFinish={onFinish}
+          addTracks={addTracks}
+          removeTracks={removeTracks}
         />
-      </SongSelectorContext.Provider>
-    </SafeAreaView>
-  );
-};
+        <SongSelectorContext.Provider
+          value={{ addTracks, removeTracks, selectedTracks }}
+        >
+          <SelectedTrackListView
+            selectedTracks={selectedTracks}
+            setSelectedTracks={setSelectedTracks}
+            onFinish={onFinish}
+          />
+        </SongSelectorContext.Provider>
+      </SafeAreaView>
+    );
+  };
 
 export default SelectSongs;

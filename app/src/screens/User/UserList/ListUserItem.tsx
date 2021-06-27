@@ -8,7 +8,7 @@ import {
 } from "@auralous/api";
 import { Button, Size, TextButton, UserListItem } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/core";
-import React, { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ListItem: React.FC<{ id: string }> = ({ id }) => {
+const ListUserItem: FC<{ id: string }> = ({ id }) => {
   const { t } = useTranslation();
 
   const [{ data, fetching }] = useUserQuery({ variables: { id } });
@@ -66,4 +66,4 @@ const ListItem: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
-export default ListItem;
+export default ListUserItem;

@@ -10,16 +10,13 @@ import Tab from "./Tab";
 const styles = StyleSheet.create({
   root: {
     width: "100%",
-    zIndex: 100,
-    position: "absolute",
-    bottom: 0,
-    left: 0,
+    justifyContent: "flex-end",
   },
 });
 
 const useStyles = makeStyles((theme, colors: [string, string]) => ({
   tabBars: {
-    flex: 1,
+    width: "100%",
     height: Size[14],
     alignItems: "center",
     flexDirection: "row",
@@ -44,7 +41,7 @@ const TabBar: FC<BottomTabBarProps> = ({ navigation, state }) => {
         <PlayerBar />
         <View style={dstyles.tabBars}>
           <Tab
-            name="home"
+            name="main"
             title={t("home.title")}
             Icon={IconHome}
             navigation={navigation}

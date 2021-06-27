@@ -42,8 +42,7 @@
     "follow": "Theo dõi",
     "unfollow": "Bỏ theo dõi",
     "followers": "Người theo dõi",
-    "followings": "Đang theo dõi",
-    "of_user": "<0>{{name}}</0> của {{username}}"
+    "following": "Đang theo dõi"
   },
   "playlist": {
     "title": "Playlist",

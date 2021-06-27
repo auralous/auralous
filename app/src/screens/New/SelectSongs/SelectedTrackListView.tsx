@@ -13,8 +13,9 @@ import {
   TextButton,
 } from "@auralous/ui";
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, {
+import {
   createContext,
+  FC,
   useCallback,
   useContext,
   useEffect,
@@ -89,7 +90,7 @@ const CheckedContext = createContext(
   }
 );
 
-const LoadableQueueTrackItem: React.FC<{
+const LoadableQueueTrackItem: FC<{
   params: RenderItemParams<string>;
 }> = ({ params }) => {
   const [{ data, fetching }] = useTrackQuery({
@@ -117,7 +118,7 @@ const renderItem = (params: RenderItemParams<string>) => {
   );
 };
 
-const SelectedTrackListView: React.FC<{
+const SelectedTrackListView: FC<{
   onFinish(selectedTracks: string[]): void;
   selectedTracks: string[];
   setSelectedTracks(selectedTracks: string[]): void;

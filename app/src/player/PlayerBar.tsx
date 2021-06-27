@@ -1,7 +1,7 @@
 import { useTrackQuery } from "@auralous/api";
 import player, { usePlaybackState } from "@auralous/player";
 import { IconPause, IconPlay, Size, Text, useColors } from "@auralous/ui";
-import React from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PlayerBar: React.FC = () => {
+const PlayerBar: FC = () => {
   const { t } = useTranslation();
 
   const {

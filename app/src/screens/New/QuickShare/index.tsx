@@ -1,7 +1,7 @@
 import { ParamList, RouteName } from "@/screens/types";
 import { HeaderBackable, Size } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useCallback } from "react";
+import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const QuickShare: React.FC<
-  StackScreenProps<ParamList, RouteName.NewQuickShare>
-> = ({ navigation }) => {
+const QuickShare: FC<StackScreenProps<ParamList, RouteName.NewQuickShare>> = ({
+  navigation,
+}) => {
   const { t } = useTranslation();
 
   const title = t("new.quick_share.title");

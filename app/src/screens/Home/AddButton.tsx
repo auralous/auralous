@@ -11,7 +11,7 @@ import {
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
 import { useNavigation } from "@react-navigation/core";
-import React, { useCallback, useEffect, useRef } from "react";
+import { FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, StyleSheet, View } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
@@ -93,12 +93,12 @@ const AddButtonModalContent = gestureHandlerRootHOC(
         </View>
       </>
     );
-  } as React.FC<{
+  } as FC<{
     onDismiss(): boolean;
   }>
 );
 
-const AddButton: React.FC = () => {
+const AddButton: FC = () => {
   const { t } = useTranslation();
 
   const ref = useRef<BottomSheetModal>(null);

@@ -40,7 +40,7 @@ const renderItem: ListRenderItem<Track> = (params) => (
   </View>
 );
 
-const Content: React.FC<{ playlist: Playlist }> = ({ playlist }) => {
+const Content: FC<{ playlist: Playlist }> = ({ playlist }) => {
   const [{ data: dataPlaylist, fetching }] = usePlaylistTracksQuery({
     variables: {
       id: playlist.id,
