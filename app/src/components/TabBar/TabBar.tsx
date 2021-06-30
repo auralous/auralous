@@ -1,5 +1,6 @@
 import { PlayerBar } from "@/player";
-import { usePlaybackState } from "@auralous/player";
+import { RouteName } from "@/screens/types";
+import { usePlaybackColors } from "@auralous/player";
 import { IconHome, IconMapPin, makeStyles, Size } from "@auralous/ui";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { FC } from "react";
@@ -27,11 +28,11 @@ const useStyles = makeStyles((theme, colors: [string, string]) => ({
 }));
 
 const TabBar: FC<BottomTabBarProps> = ({ navigation, state }) => {
-  const playbackState = usePlaybackState();
+  const playbackColors = usePlaybackColors();
 
   const { t } = useTranslation();
 
-  const dstyles = useStyles(playbackState.colors);
+  const dstyles = useStyles(playbackColors);
 
   const currentRoute = state.routeNames[state.index];
 
@@ -41,7 +42,7 @@ const TabBar: FC<BottomTabBarProps> = ({ navigation, state }) => {
         <PlayerBar />
         <View style={dstyles.tabBars}>
           <Tab
-            name="main"
+            name={RouteName.Main}
             title={t("home.title")}
             Icon={IconHome}
             navigation={navigation}

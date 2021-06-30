@@ -13,10 +13,11 @@ const UserFollowersScreen: FC<
 > = ({ route }) => {
   const { t } = useTranslation();
   const username = route.params.username;
-  const [{ data: { user } = { user: undefined }, fetching }] = useUserQuery({
+  const [{ data: dataUser, fetching }] = useUserQuery({
     variables: { username },
     pause: !username,
   });
+  const user = dataUser?.user;
 
   const [{ data, fetching: fetchingList }] = useUserFollowingsQuery({
     variables: { id: user?.id || "" },

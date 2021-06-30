@@ -5,7 +5,7 @@ const usePlaybackAuthentication = () => {
   /**
    * Player Authentication
    */
-  const [{ data: { me } = { me: undefined } }] = useMeQuery({
+  const [{ data }] = useMeQuery({
     requestPolicy: "cache-and-network",
   });
 
@@ -18,11 +18,14 @@ const usePlaybackAuthentication = () => {
    */
   const playingPlatform = useMemo<PlatformName | null>(() => {
     // if mAuth === undefined, it has not fetched
-    if (me === undefined) return null;
-    return me?.platform || PlatformName.Youtube;
-  }, [me]);
+    if (data?.me === undefined) return null;
+    return data.me?.platform || PlatformName.Youtube;
+  }, [data]);
 
-  return { playingPlatform, accessToken: me?.accessToken || null } as const;
+  return {
+    playingPlatform,
+    accessToken: data?.me?.accessToken || null,
+  } as const;
 };
 
 export default usePlaybackAuthentication;

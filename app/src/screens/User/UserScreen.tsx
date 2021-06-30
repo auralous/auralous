@@ -12,7 +12,7 @@ const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
   route,
 }) => {
   const username = route.params.username;
-  const [{ data: { user } = { user: undefined }, fetching }] = useUserQuery({
+  const [{ data, fetching }] = useUserQuery({
     variables: { username },
     pause: !username,
   });
@@ -21,9 +21,9 @@ const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
       <HeaderBackable title="" />
       {fetching ? (
         <LoadingScreen />
-      ) : user ? (
+      ) : data?.user ? (
         <ScrollView>
-          <UserMeta user={user} />
+          <UserMeta user={data.user} />
         </ScrollView>
       ) : (
         <NotFoundScreen />

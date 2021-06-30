@@ -1,5 +1,9 @@
 import { useTrackQuery } from "@auralous/api";
-import player, { PlaybackState } from "@auralous/player";
+import player, {
+  usePlaybackCurrentControl,
+  usePlaybackNextItems,
+  usePlaybackTrackId,
+} from "@auralous/player";
 import {
   PlayerViewControl,
   PlayerViewMeta,
@@ -18,20 +22,27 @@ const styles = StyleSheet.create({
   },
 });
 
-const MusicView: FC<{
-  playbackState: PlaybackState;
-}> = ({ playbackState }) => {
-  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
-    variables: { id: playbackState.trackId || "" },
-    pause: !playbackState.trackId,
+const MusicView: FC = () => {
+  const trackId = usePlaybackTrackId();
+  const [{ data }] = useTrackQuery({
+    variables: { id: trackId || "" },
+    pause: !trackId,
   });
+  const track = data?.track;
+
+  const currentControl = usePlaybackCurrentControl();
+  const nextItems = usePlaybackNextItems();
 
   return (
     <View style={styles.root}>
       <PlayerViewMeta track={track || null} />
       <PlayerViewProgress track={track} player={player} />
-      <PlayerViewControl playbackState={playbackState} player={player} />
-      <QueueModal currentTrack={track || null} playbackState={playbackState} />
+      <PlayerViewControl
+        trackId={trackId}
+        control={currentControl}
+        player={player}
+      />
+      <QueueModal currentTrack={track || null} nextItems={nextItems} />
     </View>
   );
 };

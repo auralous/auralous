@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/auralous/auralous#readme",
   "dependencies": {
+    "@fluentui/react-context-selector": "*",
     "react": "*"
   },
   "devDependencies": {

@@ -64,9 +64,7 @@ const SignInScreen: FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
   const me = useMe();
 
   useEffect(() => {
-    const accessToken = (route.params as Record<string, string> | undefined)?.[
-      "access_token"
-    ];
+    const accessToken = route.params?.access_token;
     if (accessToken) signIn(accessToken);
   }, [route, signIn]);
 

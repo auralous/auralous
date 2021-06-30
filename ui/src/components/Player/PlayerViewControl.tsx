@@ -40,12 +40,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PlayerViewControl: FC<{
-  playbackState: PlaybackState;
+  control: Pick<
+    PlaybackState,
+    "canSkipBackward" | "canSkipForward" | "isPlaying"
+  >;
+  trackId: string | null;
   player: Player;
-}> = ({
-  playbackState: { canSkipBackward, canSkipForward, isPlaying, trackId },
-  player,
-}) => {
+}> = ({ trackId, control, player }) => {
   const { t } = useTranslation();
 
   const colors = useColors();
@@ -54,10 +55,10 @@ const PlayerViewControl: FC<{
 
   return (
     <View style={styles.root}>
-      <View style={canSkipBackward ? undefined : { opacity: 0.5 }}>
+      <View style={control.canSkipBackward ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
           style={styles.backPrev}
-          disabled={!canSkipBackward}
+          disabled={!control.canSkipBackward}
           onPress={() => player.skipBackward()}
           accessibilityLabel={t("player.skip_backward")}
         >
@@ -67,12 +68,14 @@ const PlayerViewControl: FC<{
       <Spacer x={8} />
       <View style={trackId ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
-          onPress={() => (isPlaying ? player.pause() : player.play())}
+          onPress={() => (control.isPlaying ? player.pause() : player.play())}
           style={dstyles.playPause}
-          accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
+          accessibilityLabel={
+            control.isPlaying ? t("player.pause") : t("player.play")
+          }
           disabled={!trackId}
         >
-          {isPlaying ? (
+          {control.isPlaying ? (
             <IconPause width={Size[10]} height={Size[10]} fill={colors.text} />
           ) : (
             <IconPlay width={Size[10]} height={Size[10]} fill={colors.text} />
@@ -80,10 +83,10 @@ const PlayerViewControl: FC<{
         </TouchableOpacity>
       </View>
       <Spacer x={8} />
-      <View style={canSkipForward ? undefined : { opacity: 0.5 }}>
+      <View style={control.canSkipForward ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
           style={styles.backPrev}
-          disabled={!canSkipForward}
+          disabled={!control.canSkipForward}
           onPress={() => player.skipForward()}
           accessibilityLabel={t("player.skip_forward")}
         >

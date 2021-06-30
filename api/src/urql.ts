@@ -36,7 +36,6 @@ export const cacheExchange = createCacheExchange<GraphCacheConfig>({
       notifications: nextCursorPagination(),
       story: (parent, args) => ({ __typename: "Story", id: args.id }),
       track: (parent, args) => ({ __typename: "Track", id: args.id }),
-      // user: (parent, args) => ({ __typename: "User", id: args.id }),
     },
     Message: {
       createdAt: (parent) => new Date(parent.createdAt),

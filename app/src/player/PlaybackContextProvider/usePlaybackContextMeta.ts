@@ -1,23 +1,13 @@
+import { usePlaylistQuery, useStoryQuery } from "@auralous/api";
 import {
-  Playlist,
-  Story,
-  usePlaylistQuery,
-  useStoryQuery,
-} from "@auralous/api";
-import { PlaybackContextType, PlaybackCurrentContext } from "@auralous/player";
+  PlaybackContextMeta,
+  PlaybackContextType,
+  PlaybackCurrentContext,
+} from "@auralous/player";
 
-export const usePlaybackContextData = (
+export const usePlaybackContextMeta = (
   playbackCurrentContext: PlaybackCurrentContext | null
-):
-  | null
-  | {
-      data: Story | null;
-      type: PlaybackContextType.Story;
-    }
-  | {
-      data: Playlist | null;
-      type: PlaybackContextType.Playlist;
-    } => {
+): PlaybackContextMeta | null => {
   const [{ data: dataStory }] = useStoryQuery({
     variables: { id: playbackCurrentContext?.id || "" },
     pause: playbackCurrentContext?.type !== PlaybackContextType.Story,
@@ -31,12 +21,21 @@ export const usePlaybackContextData = (
 
   if (playbackCurrentContext?.type === PlaybackContextType.Story)
     return {
-      data: dataStory?.story || null,
+      id: playbackCurrentContext.id,
+      contextDescription:
+        dataStory?.story?.text || dataStory?.story?.creator.username || "",
+      contextCollaborators: dataStory?.story?.queueable,
+      contextOwner: dataStory?.story?.creatorId,
+      imageUrl: dataStory?.story?.image,
+      isLive: dataStory?.story?.isLive || false,
       type: PlaybackContextType.Story,
     };
   if (playbackCurrentContext?.type === PlaybackContextType.Playlist)
     return {
-      data: dataPlaylist?.playlist || null,
+      id: playbackCurrentContext.id,
+      contextDescription: dataPlaylist?.playlist?.name || "",
+      imageUrl: dataPlaylist?.playlist?.image,
+      isLive: false,
       type: PlaybackContextType.Playlist,
     };
   return null;

@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
 });
 
 const MetaAndButton: FC<{
-  playbackState: PlaybackState;
+  nextItems: PlaybackState["nextItems"];
   onPress(): void;
-}> = ({ playbackState, onPress }) => {
+}> = ({ nextItems, onPress }) => {
   const { t } = useTranslation();
-  const nextTrackId = playbackState.nextItems[0]?.trackId || undefined;
+  const nextTrackId = nextItems[0]?.trackId || undefined;
 
   const [{ data: dataNextTrack }] = useTrackQuery({
     variables: {

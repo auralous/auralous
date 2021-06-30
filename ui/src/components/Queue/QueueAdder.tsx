@@ -7,7 +7,7 @@ import { makeStyles } from "@auralous/ui/styles";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { BackHandler, View } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -73,8 +73,18 @@ const snapPoints = ["100%"];
 export const QueueAdder: FC<QueueAdderProps> = (props) => {
   const ref = useRef<BottomSheetModal>(null);
   useEffect(() => {
-    if (props.visible) ref.current?.present();
-    else ref.current?.dismiss();
+    if (props.visible) {
+      ref.current?.present();
+      const onBackPress = () => {
+        props.onClose();
+        return true;
+      };
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    } else {
+      ref.current?.dismiss();
+    }
   });
   const onChange = useCallback(
     (index: number) => index === -1 && props.onClose(),

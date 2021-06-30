@@ -3,12 +3,13 @@ import {
   BottomSheetCustomBackground,
   Button,
   Font,
-  getItemLayoutQueueTrackItem,
   IconChevronDown,
   IconChevronUp,
+  identityFn,
   makeStyles,
   QueueTrackItem,
   Size,
+  Spacer,
   Text,
   TextButton,
 } from "@auralous/ui";
@@ -26,6 +27,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import DraggableFlatList, {
+  DragEndParams,
   OpacityDecorator,
   RenderItemParams,
 } from "react-native-draggable-flatlist";
@@ -80,6 +82,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.colors.backgroundSecondary,
   },
 }));
+
+const ItemSeparatorComponent: FC = () => <Spacer y={3} />;
 
 const snapPoints = [cascadedHeight, "100%"];
 
@@ -191,6 +195,11 @@ const SelectedTrackListView: FC<{
     ]);
   }, [selectedTracks, setSelectedTracks, checked]);
 
+  const onDragEnd = useCallback(
+    ({ data }: DragEndParams<string>) => setSelectedTracks(data),
+    [setSelectedTracks]
+  );
+
   return (
     <CheckedContext.Provider value={{ toggleChecked, checked }}>
       <View style={styles.placeholder} />
@@ -216,9 +225,10 @@ const SelectedTrackListView: FC<{
           <DraggableFlatList
             data={selectedTracks}
             renderItem={renderItem}
-            keyExtractor={(item) => item}
-            onDragEnd={({ data }) => setSelectedTracks(data)}
-            getItemLayout={getItemLayoutQueueTrackItem}
+            onDragEnd={onDragEnd}
+            keyExtractor={identityFn}
+            ItemSeparatorComponent={ItemSeparatorComponent}
+            removeClippedSubviews
           />
         </View>
       </BottomSheet>

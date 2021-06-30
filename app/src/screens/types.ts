@@ -1,6 +1,7 @@
 import { ParamListBase } from "@react-navigation/routers";
 
 export enum RouteName {
+  Main = "Main",
   Home = "home",
   Map = "map",
   SignIn = "sign-in",
@@ -15,7 +16,9 @@ export enum RouteName {
 
 export interface ParamList extends ParamListBase {
   [RouteName.Home]: undefined;
-  [RouteName.SignIn]: undefined;
+  [RouteName.SignIn]: {
+    access_token?: string;
+  };
   [RouteName.User]: {
     username: string;
   };
@@ -25,7 +28,6 @@ export interface ParamList extends ParamListBase {
   [RouteName.UserFollowing]: {
     username: string;
   };
-  [RouteName.SignIn]: undefined;
   [RouteName.NewFinal]: {
     selectedTracks: string[];
     modeTitle: string;

@@ -1,11 +1,10 @@
 import { Track } from "@auralous/api";
+import { Spacer } from "@auralous/ui";
 import { LoadingBlock } from "@auralous/ui/components/Loading";
 import { FC } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import SearchEmpty from "./SearchEmpty";
-import SelectableTrackListItem, {
-  getItemLayout,
-} from "./SelectableTrackListItem";
+import SelectableTrackListItem from "./SelectableTrackListItem";
 
 const styles = StyleSheet.create({
   list: {
@@ -18,16 +17,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const trackIdFromTrackOrTrackId = (item: Track | string) =>
-  typeof item === "string" ? item : item.id;
+const ItemSeparatorComponent: FC = () => <Spacer y={3} />;
 
 const renderItem: ListRenderItem<Track | string> = ({ item }) => {
-  return (
-    <SelectableTrackListItem
-      key={trackIdFromTrackOrTrackId(item)}
-      trackId={trackIdFromTrackOrTrackId(item)}
-    />
-  );
+  const trackId = typeof item === "string" ? item : item.id;
+  return <SelectableTrackListItem key={trackId} trackId={trackId} />;
 };
 
 const SelectableTrackList: FC<{
@@ -49,8 +43,8 @@ const SelectableTrackList: FC<{
         style={styles.list}
         data={data}
         renderItem={renderItem}
-        keyExtractor={trackIdFromTrackOrTrackId}
-        getItemLayout={getItemLayout}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        removeClippedSubviews
       />
     </>
   );

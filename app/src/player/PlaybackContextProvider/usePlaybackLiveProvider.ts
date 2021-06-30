@@ -12,35 +12,31 @@ import {
 } from "@auralous/api";
 import player, {
   PlaybackContextProvided,
-  PlaybackContextType,
+  PlaybackCurrentContext,
 } from "@auralous/player";
-import { useEffect } from "react";
-import { usePlaybackContextData } from "./usePlaybackContextData";
+import { useEffect, useMemo } from "react";
+import { usePlaybackContextMeta } from "./usePlaybackContextMeta";
 
 const usePlaybackLiveProvider = (
   active: boolean,
-  contextData: Extract<
-    ReturnType<typeof usePlaybackContextData>,
-    { type: PlaybackContextType.Story }
-  >
+  playbackContext: PlaybackCurrentContext | null
 ): PlaybackContextProvided => {
   const me = useMe();
 
-  const [
-    { data: { nowPlaying } = { nowPlaying: undefined }, fetching: fetchingNP },
-  ] = useNowPlayingQuery({
-    variables: { id: contextData?.data?.id || "" },
-    pause: !active,
-    requestPolicy: "cache-and-network",
-  });
+  const [{ data: { nowPlaying } = { nowPlaying: undefined }, fetching }] =
+    useNowPlayingQuery({
+      variables: { id: playbackContext?.id || "" },
+      pause: !active,
+      requestPolicy: "cache-and-network",
+    });
   useOnNowPlayingUpdatedSubscription({
-    variables: { id: contextData?.data?.id || "" },
+    variables: { id: playbackContext?.id || "" },
     pause: !active,
   });
 
   const [{ data: { queue } = { queue: undefined } }] = useQueueQuery({
     variables: {
-      id: contextData?.data?.id || "",
+      id: playbackContext?.id || "",
     },
     pause: !active,
   });
@@ -78,18 +74,19 @@ const usePlaybackLiveProvider = (
   const [{ fetching: fetchingSkip }, skipNowPlaying] =
     useNowPlayingSkipMutation();
 
+  const meta = usePlaybackContextMeta(playbackContext);
+
   const canSkipForward = Boolean(
     !fetchingSkip &&
       !!queue?.items.length &&
       me &&
-      (contextData?.data?.queueable.includes(me.user.id) ||
-        contextData?.data?.creatorId === me?.user.id)
+      meta?.contextCollaborators?.includes(me.user.id)
   );
 
   useEffect(() => {
     if (!canSkipForward || !active || !queue?.id) return;
     const id = queue.id;
-    const skipFn = () => skipNowPlaying({ id: contextData?.data?.id || "" });
+    const skipFn = () => skipNowPlaying({ id: queue.id });
     player.on("skip-forward", skipFn);
     const onReorder = (from: number, to: number) => {
       queueReorder({
@@ -129,23 +126,25 @@ const usePlaybackLiveProvider = (
     };
   }, [
     active,
+    canSkipForward,
+    skipNowPlaying,
+    queue?.id,
     queueReorder,
     queueRemove,
-    canSkipForward,
-    contextData,
-    skipNowPlaying,
     queueToTop,
     queueAdd,
-    queue?.id,
   ]);
 
-  return {
-    nextItems: queue?.items || [],
-    trackId: nowPlaying?.currentTrack?.trackId || null,
-    canSkipForward,
-    canSkipBackward: false,
-    fetching: fetchingNP,
-  };
+  return useMemo(
+    () => ({
+      nextItems: queue?.items || [],
+      trackId: nowPlaying?.currentTrack?.trackId || null,
+      canSkipForward,
+      canSkipBackward: false,
+      fetching,
+    }),
+    [queue, nowPlaying?.currentTrack?.trackId, fetching, canSkipForward]
+  );
 };
 
 export default usePlaybackLiveProvider;

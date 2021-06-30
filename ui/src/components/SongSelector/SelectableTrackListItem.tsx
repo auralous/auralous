@@ -10,7 +10,6 @@ import { useSelectedTracks, useUpdateTracks } from "./Context";
 const styles = StyleSheet.create({
   item: {
     padding: Size[1],
-    marginBottom: Size[3],
     flexDirection: "row",
     alignItems: "center",
   },
@@ -25,12 +24,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-});
-
-export const getItemLayout = (data: unknown, index: number) => ({
-  length: Size[12] + 2 * Size[1],
-  offset: Size[12] * index + Size[3] * index,
-  index,
 });
 
 const SelectableTrackListItem = memo<{ trackId: string }>(

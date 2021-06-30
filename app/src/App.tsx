@@ -27,7 +27,7 @@ import { FC, useMemo } from "react";
 import { StatusBar } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { PlayerProvider } from "./player";
+import { PlayerComponent, PlayerProvider } from "./player";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,8 +37,13 @@ const linking: LinkingOptions<ParamList> = {
   prefixes: ["auralous://"],
   config: {
     screens: {
-      [RouteName.SignIn]: "sign-in",
-      [RouteName.User]: "user/:username",
+      [RouteName.Main]: {
+        // @ts-ignore
+        screens: {
+          [RouteName.SignIn]: "sign-in",
+          [RouteName.User]: "user/:username",
+        },
+      },
     },
   },
 };
@@ -143,18 +148,20 @@ const App = () => {
     <SafeAreaProvider style={styles.sap}>
       <NavigationContainer theme={navigationTheme} linking={linking}>
         <ApiProvider>
-          <BottomSheetModalProvider>
-            <PlayerProvider>
+          <PlayerProvider>
+            <BottomSheetModalProvider>
+              <PlayerComponent />
+
               <StatusBar backgroundColor={theme.colors.background} />
               <Tab.Navigator
                 tabBar={(props) => <TabBar {...props} />}
                 screenOptions={{ headerShown: false }}
               >
-                <Tab.Screen name="main" component={MainScreen} />
+                <Tab.Screen name={RouteName.Main} component={MainScreen} />
                 <Tab.Screen name="map" component={MapScreen} />
               </Tab.Navigator>
-            </PlayerProvider>
-          </BottomSheetModalProvider>
+            </BottomSheetModalProvider>
+          </PlayerProvider>
         </ApiProvider>
       </NavigationContainer>
     </SafeAreaProvider>

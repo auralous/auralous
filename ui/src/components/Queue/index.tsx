@@ -37,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
 const snapPoints = ["100%"];
 
 const QueueSheet: FC<{
-  playbackState: PlaybackState;
+  nextItems: PlaybackState["nextItems"];
   currentTrack: Track | null;
   onClose(): void;
-}> = ({ onClose, playbackState, currentTrack }) => {
+}> = ({ onClose, nextItems, currentTrack }) => {
   const { t } = useTranslation();
 
   const dstyles = useStyles();
@@ -65,10 +65,7 @@ const QueueSheet: FC<{
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <QueueContent
-          currentTrack={currentTrack}
-          playbackState={playbackState}
-        />
+        <QueueContent currentTrack={currentTrack} nextItems={nextItems} />
       </View>
     </View>
   );
@@ -77,15 +74,15 @@ const QueueSheet: FC<{
 const QueueSheetWithHoc = gestureHandlerRootHOC(QueueSheet);
 
 export const QueueModal: FC<{
-  playbackState: PlaybackState;
+  nextItems: PlaybackState["nextItems"];
   currentTrack: Track | null;
-}> = ({ playbackState, currentTrack }) => {
+}> = ({ nextItems, currentTrack }) => {
   const ref = useRef<BottomSheetModal>(null);
 
   return (
     <>
       <MetaAndButton
-        playbackState={playbackState}
+        nextItems={nextItems}
         onPress={() => ref.current?.present()}
       />
       <BottomSheetModal
@@ -96,7 +93,7 @@ export const QueueModal: FC<{
       >
         <QueueSheetWithHoc
           currentTrack={currentTrack}
-          playbackState={playbackState}
+          nextItems={nextItems}
           onClose={() => ref.current?.dismiss()}
         />
       </BottomSheetModal>

@@ -7,30 +7,20 @@ import {
   usePlaylistQuery,
   usePlaylistTracksQuery,
 } from "@auralous/api";
-import { HeaderBackable, Size, TrackItem } from "@auralous/ui";
+import { HeaderBackable, Size, Spacer, TrackItem } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import { FC } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import Meta from "./Meta";
 
-const getItemLayout = (data: unknown, index: number) => ({
-  length: Size[12] + 2 * Size[1],
-  offset: Size[12] * index + Size[3] * index,
-  index,
-});
-
 const styles = StyleSheet.create({
   list: {
     padding: Size[3],
-  },
-  header: {
-    marginBottom: Size[3],
   },
   item: {
     padding: Size[1],
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: Size[3],
   },
 });
 
@@ -39,6 +29,8 @@ const renderItem: ListRenderItem<Track> = (params) => (
     <TrackItem track={params.item} key={params.index} />
   </View>
 );
+
+const ItemSeparatorComponent: FC = () => <Spacer y={3} />;
 
 const Content: FC<{ playlist: Playlist }> = ({ playlist }) => {
   const [{ data: dataPlaylist, fetching }] = usePlaylistTracksQuery({
@@ -49,12 +41,12 @@ const Content: FC<{ playlist: Playlist }> = ({ playlist }) => {
   return (
     <FlatList
       style={styles.list}
-      ListHeaderComponentStyle={styles.header}
       ListEmptyComponent={fetching && !dataPlaylist ? <LoadingScreen /> : null}
       data={dataPlaylist?.playlistTracks || []}
       renderItem={renderItem}
-      getItemLayout={getItemLayout}
       ListHeaderComponent={<Meta playlist={playlist} />}
+      removeClippedSubviews
+      ItemSeparatorComponent={ItemSeparatorComponent}
     />
   );
 };

@@ -6,7 +6,7 @@ import {
   useMessagesQuery,
   useTrackQuery,
 } from "@auralous/api";
-import { PlaybackState } from "@auralous/player";
+import { PlaybackContextMeta } from "@auralous/player";
 import {
   Avatar,
   IconLogIn,
@@ -85,10 +85,11 @@ const ChatItemPlay: FC<{
 }> = ({ message }) => {
   const { t } = useTranslation();
 
-  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
+  const [{ data }] = useTrackQuery({
     variables: { id: message.text || "" },
     pause: !message.text,
   });
+  const track = data?.track;
 
   return (
     <View style={styles.listItem}>
@@ -202,6 +203,7 @@ const ChatList: FC<{ id: string }> = ({ id }) => {
       renderItem={renderItem}
       data={messages}
       onScroll={onScroll}
+      removeClippedSubviews
     />
   );
 };
@@ -235,8 +237,10 @@ const ChatInput: FC<{ id: string }> = ({ id }) => {
   );
 };
 
-const ChatView: FC<{ playbackState: PlaybackState }> = ({ playbackState }) => {
-  const id = playbackState.playbackCurrentContext?.id;
+const ChatView: FC<{ contextMeta: PlaybackContextMeta | null }> = ({
+  contextMeta,
+}) => {
+  const id = contextMeta?.id;
   if (!id) return null;
   return (
     <View style={styles.root}>

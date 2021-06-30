@@ -13,14 +13,13 @@ const styles = StyleSheet.create({
 });
 
 const FeaturedPlaylists: FC = () => {
-  const [{ data: { playlistsFeatured } = { playlistsFeatured: undefined } }] =
-    usePlaylistsFeaturedQuery();
+  const [{ data }] = usePlaylistsFeaturedQuery();
 
   const { navigate } = useNavigation();
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {playlistsFeatured?.map((playlist) => (
+      {data?.playlistsFeatured?.map((playlist) => (
         <TouchableOpacity
           key={playlist.id}
           style={styles.playlistItemWrapper}

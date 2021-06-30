@@ -5,6 +5,7 @@ import { Size } from "@auralous/ui/styles";
 import { FC, useCallback } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Spacer } from "../Spacer";
 import SearchEmpty from "./SearchEmpty";
 
 interface SelectablePlaylistListProps {
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   item: {
-    padding: Size[2],
+    padding: Size[1],
   },
   full: {
     flex: 1,
@@ -26,6 +27,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+const ItemSeparatorComponent = () => <Spacer y={3} />;
 
 const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
   fetching,
@@ -51,7 +54,13 @@ const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
   return (
     <>
       {playlists.length === 0 && <SearchEmpty />}
-      <FlatList style={styles.root} data={playlists} renderItem={renderItem} />
+      <FlatList
+        style={styles.root}
+        data={playlists}
+        renderItem={renderItem}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        removeClippedSubviews
+      />
     </>
   );
 };

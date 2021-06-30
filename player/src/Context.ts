@@ -1,5 +1,8 @@
 import { QueueItem } from "@auralous/api";
-import { createContext, useContext } from "react";
+import {
+  createContext,
+  useContextSelector,
+} from "@fluentui/react-context-selector";
 
 export enum PlaybackContextType {
   Story = "story",
@@ -32,4 +35,30 @@ export interface PlaybackState extends PlaybackContextProvided {
 
 export const PlaybackContext = createContext({} as PlaybackState);
 
-export const usePlaybackState = () => useContext(PlaybackContext);
+export const usePlaybackState = () =>
+  useContextSelector(PlaybackContext, (value) => value);
+
+const nextItemsSelector = (value: PlaybackState) => value.nextItems;
+export const usePlaybackNextItems = () =>
+  useContextSelector(PlaybackContext, nextItemsSelector);
+
+const playbackCurrentContextSelector = (value: PlaybackState) =>
+  value.playbackCurrentContext;
+export const usePlaybackCurrentContext = () =>
+  useContextSelector(PlaybackContext, playbackCurrentContextSelector);
+
+const playbackCurrentControlSelector = (value: PlaybackState) => ({
+  isPlaying: value.isPlaying,
+  canSkipBackward: value.canSkipBackward,
+  canSkipForward: value.canSkipForward,
+});
+export const usePlaybackCurrentControl = () =>
+  useContextSelector(PlaybackContext, playbackCurrentControlSelector);
+
+const trackIdSelector = (value: PlaybackState) => value.trackId;
+export const usePlaybackTrackId = () =>
+  useContextSelector(PlaybackContext, trackIdSelector);
+
+const playbackColorSelector = (value: PlaybackState) => value.colors;
+export const usePlaybackColors = () =>
+  useContextSelector(PlaybackContext, playbackColorSelector);

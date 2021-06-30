@@ -1,5 +1,9 @@
 import { useTrackQuery } from "@auralous/api";
-import player, { usePlaybackState } from "@auralous/player";
+import player, {
+  usePlaybackColors,
+  usePlaybackCurrentControl,
+  usePlaybackTrackId,
+} from "@auralous/player";
 import { IconPause, IconPlay, Size, Text, useColors } from "@auralous/ui";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
@@ -37,16 +41,16 @@ const styles = StyleSheet.create({
 const PlayerBar: FC = () => {
   const { t } = useTranslation();
 
-  const {
-    trackId,
-    playbackCurrentContext,
-    isPlaying,
-    colors: gradientColors,
-  } = usePlaybackState();
-  const [{ data: { track } = { track: undefined } }] = useTrackQuery({
+  const gradientColors = usePlaybackColors();
+  const isPlaying = usePlaybackCurrentControl();
+  const trackId = usePlaybackTrackId();
+  const playbackCurrentContext = usePlaybackCurrentControl();
+
+  const [{ data }] = useTrackQuery({
     variables: { id: trackId || "" },
     pause: !trackId,
   });
+  const track = data?.track;
 
   const colors = useColors();
 

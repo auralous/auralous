@@ -12,13 +12,13 @@ const styles = StyleSheet.create({
 });
 
 const RecentStories: FC = () => {
-  const [{ data: { stories } = { stories: undefined } }] = useStoriesQuery({
+  const [{ data }] = useStoriesQuery({
     variables: { id: "PUBLIC", limit: 8 },
   });
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {stories?.map((story) => (
+      {data?.stories?.map((story) => (
         <TouchableOpacity
           key={story.id}
           style={styles.storyItemWrapper}

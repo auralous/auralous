@@ -7,12 +7,16 @@ interface SelectBySongsProps {
 }
 
 const SelectBySongs: FC<SelectBySongsProps> = ({ search }) => {
-  const [{ data: { searchTrack } = { searchTrack: undefined }, fetching }] =
-    useSearchTrackQuery({ variables: { query: search }, pause: !search });
+  const [{ data, fetching }] = useSearchTrackQuery({
+    variables: { query: search },
+    pause: !search,
+  });
 
   if (!search) return null;
 
-  return <SelectableTrackList data={searchTrack || []} fetching={fetching} />;
+  return (
+    <SelectableTrackList data={data?.searchTrack || []} fetching={fetching} />
+  );
 };
 
 export default SelectBySongs;

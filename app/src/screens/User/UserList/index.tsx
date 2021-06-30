@@ -29,6 +29,7 @@ const UserList: FC<ListProps> = ({ data, fetching }) => {
         paddingHorizontal: Size[2],
       }}
       style={styles.flatList}
+      removeClippedSubviews
     />
   );
 };

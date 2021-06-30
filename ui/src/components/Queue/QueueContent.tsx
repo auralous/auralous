@@ -93,10 +93,12 @@ const extractUidsFromSelected = (selected: SelectedObject) => {
   return Object.keys(selected).filter((selectedKey) => !!selected[selectedKey]);
 };
 
+const ItemSeparatorComponent: FC = () => <Spacer y={3} />;
+
 const QueueContent: FC<{
-  playbackState: PlaybackState;
+  nextItems: PlaybackState["nextItems"];
   currentTrack: Track | null;
-}> = ({ playbackState, currentTrack }) => {
+}> = ({ nextItems, currentTrack }) => {
   const { t } = useTranslation();
   const dstyles = useStyles();
 
@@ -110,8 +112,8 @@ const QueueContent: FC<{
   // we reset everything to the original
   // nextItems value (clear "temp" items)
   useEffect(() => {
-    setItems(playbackState.nextItems);
-  }, [playbackState.nextItems]);
+    setItems(nextItems);
+  }, [nextItems]);
 
   const onDragEnd = useCallback((params: DragEndParams<QueueItem>) => {
     setItems(params.data);
@@ -204,7 +206,8 @@ const QueueContent: FC<{
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             onDragEnd={onDragEnd}
-            // getItemLayout={getItemLayoutQueueTrackItem}
+            ItemSeparatorComponent={ItemSeparatorComponent}
+            removeClippedSubviews
           />
         </View>
         <Spacer y={1} />

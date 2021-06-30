@@ -1,93 +1,143 @@
 import {
+  PlaylistTracksDocument,
+  PlaylistTracksQuery,
+  PlaylistTracksQueryVariables,
   QueueItem,
+  StoryTracksDocument,
+  StoryTracksQuery,
+  StoryTracksQueryVariables,
+  Track,
   useMe,
-  usePlaylistTracksQuery,
-  useStoryTracksQuery,
 } from "@auralous/api";
 import player, {
   PlaybackContextProvided,
   PlaybackContextType,
+  PlaybackCurrentContext,
 } from "@auralous/player";
 import { useEffect, useMemo, useState } from "react";
-import { usePlaybackContextData } from "./usePlaybackContextData";
+import { useClient } from "urql";
 
 const usePlaybackOnDemandProvider = (
   active: boolean,
-  contextData: ReturnType<typeof usePlaybackContextData>
+  contextData: PlaybackCurrentContext | null
 ): PlaybackContextProvided => {
-  const o = {
-    [PlaybackContextType.Story]: useStoryTracksQuery({
-      variables: {
-        id: contextData?.data?.id || "",
-      },
-      pause: contextData?.type !== PlaybackContextType.Story,
-    }),
-    [PlaybackContextType.Playlist]: usePlaylistTracksQuery({
-      variables: {
-        id: contextData?.data?.id || "",
-      },
-      pause: contextData?.type !== PlaybackContextType.Playlist,
-    }),
-  };
-
-  const { data, fetching } = contextData?.type
-    ? o[contextData.type][0]
-    : { data: undefined, fetching: false };
-
-  const queueItems = useMemo<QueueItem[]>(() => {
-    if (!data) return [];
-    let tracks = [];
-    if ("storyTracks" in data) tracks = data.storyTracks || [];
-    else tracks = data.playlistTracks || [];
-    return tracks.map((track, index) => ({
-      creatorId: "",
-      trackId: track.id,
-      uid: `${index}${track.id}`,
-      __typename: "QueueItem",
-    }));
-  }, [data]);
-
-  const [localQueueItems, setLocalQueueItems] = useState<QueueItem[]>([]);
+  const [queueItems, setQueueItems] = useState<QueueItem[]>([]);
+  const client = useClient();
+  useEffect(() => {
+    let stale = false;
+    if (!contextData) setQueueItems([]);
+    else {
+      let trackPromises: Promise<Track[] | null | undefined>;
+      if (contextData.type === PlaybackContextType.Story) {
+        trackPromises = client
+          .query<StoryTracksQuery, StoryTracksQueryVariables>(
+            StoryTracksDocument,
+            { id: contextData.id }
+          )
+          .toPromise()
+          .then((result) => result.data?.storyTracks);
+      } else {
+        trackPromises = client
+          .query<PlaylistTracksQuery, PlaylistTracksQueryVariables>(
+            PlaylistTracksDocument,
+            { id: contextData.id }
+          )
+          .toPromise()
+          .then((result) => result.data?.playlistTracks);
+      }
+      trackPromises.then((tracks) => {
+        if (stale) return;
+        if (!tracks) return setQueueItems([]);
+        setPlayingIndex(0);
+        setQueueItems(
+          tracks.map((track, index) => ({
+            creatorId: "",
+            trackId: track.id,
+            uid: `${index}${track.id}`,
+            __typename: "QueueItem",
+          }))
+        );
+      });
+    }
+    return () => {
+      stale = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contextData]);
 
   const [playingIndex, setPlayingIndex] = useState(0);
 
-  useEffect(() => {
-    setLocalQueueItems(queueItems);
-  }, [queueItems]);
-
+  // TODO: This takes a lot of time
   const nextItems = useMemo(() => {
-    return localQueueItems.slice(playingIndex + 1);
-  }, [localQueueItems, playingIndex]);
+    return queueItems.slice(playingIndex + 1);
+  }, [queueItems, playingIndex]);
 
   const canSkipBackward = !!queueItems && playingIndex > 0;
-  const canSkipForward = nextItems.length > 0;
+  const canSkipForward = playingIndex < queueItems.length;
 
   const me = useMe();
 
   useEffect(() => {
     if (!active) return;
-    const onEnded = () => (canSkipForward ? skipForward() : player.pause());
     const skipForward = () =>
-      canSkipForward && setPlayingIndex(playingIndex + 1);
+      setPlayingIndex((prevPlayingIndex) =>
+        Math.min(prevPlayingIndex + 1, queueItems.length - 1)
+      );
     const skipBackward = () =>
-      canSkipBackward && setPlayingIndex(playingIndex - 1);
-    const onReorder = (from: number, to: number, data: QueueItem[]) => {
-      // data is the array of only nextItems,
-      // we have to merge it with the played tracks
-      setLocalQueueItems((prevLocalQueueItems) => [
-        ...prevLocalQueueItems.slice(0, playingIndex + 1),
-        ...data,
-      ]);
+      setPlayingIndex((prevPlayingIndex) => Math.max(prevPlayingIndex - 1, 0));
+
+    const onEnded = () =>
+      setPlayingIndex((prevPlayingIndex) => {
+        if (prevPlayingIndex >= queueItems.length - 1) {
+          // reach the end of queue, pause it
+          player.pause();
+          return prevPlayingIndex;
+        } else {
+          return prevPlayingIndex + 1;
+        }
+      });
+
+    player.on("skip-forward", skipForward);
+    player.on("skip-backward", skipBackward);
+    player.on("ended", onEnded);
+    return () => {
+      player.off("ended", onEnded);
+      player.off("skip-forward", skipForward);
+      player.off("skip-backward", skipBackward);
     };
+  }, [active, queueItems.length]);
+
+  useEffect(() => {
+    if (!active) return;
+    player.on("play-index", setPlayingIndex);
     const onRemove = (uids: string[]) => {
-      setLocalQueueItems((localQueueItems) =>
+      setQueueItems((localQueueItems) =>
         localQueueItems.filter((item) => !uids.includes(item.uid))
       );
     };
+    player.on("queue-remove", onRemove);
+    return () => {
+      player.off("play-index", setPlayingIndex);
+      player.off("queue-remove", onRemove);
+    };
+  }, [active]);
+
+  useEffect(() => {
+    if (!active) return;
+
+    const onReorder = (from: number, to: number, data: QueueItem[]) => {
+      // data is the array of only nextItems,
+      // we have to merge it with the played tracks
+      setQueueItems((prevQueueItems) => [
+        ...prevQueueItems.slice(0, playingIndex + 1),
+        ...data,
+      ]);
+    };
+
     const onPlayNext = (uids: string[]) => {
-      setLocalQueueItems((prevLocalQueueItems) => {
+      setQueueItems((prevQueueItems) => {
         const toTopItems: QueueItem[] = [];
-        const afterQueueItems = prevLocalQueueItems
+        const afterQueueItems = prevQueueItems
           .slice(playingIndex + 1)
           .filter((item) => {
             if (uids.includes(item.uid)) {
@@ -97,15 +147,15 @@ const usePlaybackOnDemandProvider = (
             return true;
           });
         return [
-          ...prevLocalQueueItems.slice(0, playingIndex + 1),
+          ...prevQueueItems.slice(0, playingIndex + 1),
           ...toTopItems,
           ...afterQueueItems,
         ];
       });
     };
     const onAdd = (trackIds: string[]) => {
-      setLocalQueueItems((prevLocalQueueItems) => [
-        ...prevLocalQueueItems,
+      setQueueItems((prevQueueItems) => [
+        ...prevQueueItems,
         ...trackIds.map((trackId) => ({
           uid: Math.random().toString(36).substr(2, 6), // random id
           trackId,
@@ -114,33 +164,27 @@ const usePlaybackOnDemandProvider = (
         })),
       ]);
     };
-    player.on("play-index", setPlayingIndex);
-    player.on("ended", onEnded);
-    player.on("skip-forward", skipForward);
-    player.on("skip-backward", skipBackward);
+
     player.on("queue-reorder", onReorder);
-    player.on("queue-remove", onRemove);
     player.on("play-next", onPlayNext);
     player.on("queue-add", onAdd);
     return () => {
-      player.off("play-index", setPlayingIndex);
-      player.off("ended", onEnded);
-      player.off("skip-forward", skipForward);
-      player.off("skip-backward", skipBackward);
       player.off("queue-reorder", onReorder);
-      player.off("queue-remove", onRemove);
       player.off("play-next", onPlayNext);
       player.off("queue-add", onAdd);
     };
-  }, [active, playingIndex, canSkipBackward, canSkipForward, me?.user.id]);
+  }, [active, me?.user.id, playingIndex]);
 
-  return {
-    nextItems,
-    trackId: localQueueItems[playingIndex]?.trackId || null,
-    canSkipBackward,
-    canSkipForward,
-    fetching,
-  };
+  return useMemo(
+    () => ({
+      nextItems,
+      trackId: queueItems[playingIndex]?.trackId || null,
+      canSkipBackward,
+      canSkipForward,
+      fetching: false,
+    }),
+    [nextItems, canSkipBackward, canSkipForward, queueItems, playingIndex]
+  );
 };
 
 export default usePlaybackOnDemandProvider;

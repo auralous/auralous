@@ -1,7 +1,7 @@
-import { usePlaybackContextData } from "@/player/PlaybackContextProvider";
+import { usePlaybackContextMeta } from "@/player/PlaybackContextProvider";
 import player, {
-  PlaybackContextType,
-  usePlaybackState,
+  usePlaybackColors,
+  usePlaybackCurrentContext,
 } from "@auralous/player";
 import {
   Button,
@@ -81,11 +81,10 @@ const TabButton: FC<{
 
 const PlayerView: FC = () => {
   const { t } = useTranslation();
-  const playbackState = usePlaybackState();
+  const currentContext = usePlaybackCurrentContext();
 
-  const contextData = usePlaybackContextData(
-    playbackState.playbackCurrentContext
-  );
+  const contextMeta = usePlaybackContextMeta(currentContext);
+  const playbackColors = usePlaybackColors();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -121,20 +120,17 @@ const PlayerView: FC = () => {
       handleComponent={null}
     >
       <StatusBar translucent backgroundColor="transparent" />
-      <LinearGradient colors={playbackState.colors} style={styles.root}>
+      <LinearGradient colors={playbackColors} style={styles.root}>
         <View style={{ height: StatusBar.currentHeight }} />
         <Header
           title={
-            contextData ? (
+            contextMeta ? (
               <View>
                 <Text size="xs" style={styles.playingFromText} align="center">
-                  {t("player.playing_from", { entity: contextData.type })}
+                  {t("player.playing_from", { entity: contextMeta.type })}
                 </Text>
                 <Text size="sm" bold align="center">
-                  {contextData.type === PlaybackContextType.Story
-                    ? contextData.data?.text ||
-                      contextData.data?.creator.username
-                    : contextData.data?.name}
+                  {contextMeta.contextDescription}
                 </Text>
               </View>
             ) : (
@@ -173,10 +169,10 @@ const PlayerView: FC = () => {
             initialPage={0}
           >
             <View key={0}>
-              <MusicView key={0} playbackState={playbackState} />
+              <MusicView key={0} />
             </View>
             <View>
-              <ChatView playbackState={playbackState} key={1} />
+              <ChatView contextMeta={contextMeta} key={1} />
             </View>
           </PagerView>
         </View>

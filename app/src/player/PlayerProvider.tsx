@@ -5,9 +5,6 @@ import player, {
 } from "@auralous/player";
 import { FC, useEffect, useMemo, useState } from "react";
 import { usePlaybackContextProvider } from "./PlaybackContextProvider";
-import PlayerSpotify from "./PlayerSpotify";
-import PlayerView from "./PlayerView";
-import PlayerYoutube from "./PlayerYoutube";
 import usePlaybackAuthentication from "./usePlaybackAuthentication";
 import { useTrackColors } from "./useTrackColors";
 
@@ -42,19 +39,7 @@ export const PlayerProvider: FC = ({ children }) => {
 
   const { playingPlatform } = usePlaybackAuthentication();
 
-  // Player Component
-  const [hasPlayed, setHasPlayed] = useState(false);
-  useEffect(() => {
-    if (playbackCurrentContext) setHasPlayed(true);
-  }, [playbackCurrentContext]);
-  const DynamicPlayer = useMemo(() => {
-    if (!playingPlatform || !hasPlayed) return null;
-    if (playingPlatform === PlatformName.Youtube) return PlayerYoutube;
-    return PlayerSpotify;
-  }, [playingPlatform, hasPlayed]);
-
   // Get track data based on preferred playingPlatform
-
   const [
     {
       data: dataCrossTracks,
@@ -112,31 +97,19 @@ export const PlayerProvider: FC = ({ children }) => {
   // Colors for theme
   const colors = useTrackColors(playingTrackId);
 
-  const playbackState = useMemo(
-    () => ({
-      playbackCurrentContext,
-      canSkipBackward: !fetching && !!playbackProvided?.canSkipBackward,
-      canSkipForward: !fetching && !!playbackProvided?.canSkipForward,
-      trackId: playingTrackId,
-      nextItems: playbackProvided?.nextItems || [],
-      colors,
-      fetching,
-      isPlaying,
-    }),
-    [
-      playbackCurrentContext,
-      playbackProvided,
-      isPlaying,
-      playingTrackId,
-      colors,
-      fetching,
-    ]
-  );
-
   return (
-    <PlaybackContext.Provider value={playbackState}>
-      {DynamicPlayer && <DynamicPlayer />}
-      <PlayerView />
+    <PlaybackContext.Provider
+      value={{
+        playbackCurrentContext,
+        canSkipBackward: !!playbackProvided?.canSkipBackward,
+        canSkipForward: !!playbackProvided?.canSkipForward,
+        trackId: playingTrackId,
+        nextItems: playbackProvided?.nextItems || [],
+        colors,
+        fetching,
+        isPlaying,
+      }}
+    >
       {children}
     </PlaybackContext.Provider>
   );

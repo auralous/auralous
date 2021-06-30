@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     paddingVertical: Size[3],
     paddingHorizontal: Size[6],
     alignItems: "center",
+    marginBottom: Size[3],
   },
   meta: {
     width: "100%",
