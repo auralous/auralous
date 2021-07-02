@@ -1,6 +1,6 @@
 import { Track } from "@auralous/api";
-import { Spacer } from "@auralous/ui";
 import { LoadingBlock } from "@auralous/ui/components/Loading";
+import { Spacer } from "@auralous/ui/components/Spacer";
 import { FC } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import SearchEmpty from "./SearchEmpty";

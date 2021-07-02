@@ -25,7 +25,7 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { BackHandler, StyleSheet, View } from "react-native";
 import DraggableFlatList, {
   DragEndParams,
   OpacityDecorator,
@@ -199,6 +199,17 @@ const SelectedTrackListView: FC<{
     ({ data }: DragEndParams<string>) => setSelectedTracks(data),
     [setSelectedTracks]
   );
+
+  useEffect(() => {
+    if (!expanded) return;
+    const onBackPress = () => {
+      bottomSheetRef.current?.collapse();
+      return true;
+    };
+    BackHandler.addEventListener("hardwareBackPress", onBackPress);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+  }, [expanded]);
 
   return (
     <CheckedContext.Provider value={{ toggleChecked, checked }}>

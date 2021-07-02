@@ -1,9 +1,11 @@
 import { Playlist } from "@auralous/api";
 import player, { PlaybackContextType } from "@auralous/player";
 import { Button, Heading, Size, Spacer, Text } from "@auralous/ui";
+import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
+import { RouteName } from "../types";
 
 const styles = StyleSheet.create({
   root: {
@@ -29,6 +31,7 @@ const styles = StyleSheet.create({
 
 const Meta: FC<{ playlist: Playlist }> = ({ playlist }) => {
   const { t } = useTranslation();
+
   const shufflePlay = useCallback(
     () =>
       player.playContext({
@@ -37,6 +40,13 @@ const Meta: FC<{ playlist: Playlist }> = ({ playlist }) => {
       }),
     [playlist]
   );
+
+  const navigation = useNavigation();
+
+  const quickPlay = useCallback(() => {
+    navigation.navigate(RouteName.NewQuickShare, { playlist });
+  }, [playlist, navigation]);
+
   return (
     <>
       <View style={styles.root}>
@@ -67,7 +77,9 @@ const Meta: FC<{ playlist: Playlist }> = ({ playlist }) => {
       <View style={styles.buttons}>
         <Button onPress={shufflePlay}>{t("player.shuffle_play")}</Button>
         <Spacer x={2} />
-        <Button variant="primary">{t("new.quick_share.title")}</Button>
+        <Button onPress={quickPlay} variant="primary">
+          {t("new.quick_share.title")}
+        </Button>
       </View>
     </>
   );

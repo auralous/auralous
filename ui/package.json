@@ -19,6 +19,7 @@
     "@fluentui/react-context-selector": "*",
     "@gorhom/bottom-sheet": "^3.6.5",
     "@react-navigation/core": "*",
+    "graphql": "*",
     "react": "*",
     "react-hook-form": "*",
     "react-i18next": "*",

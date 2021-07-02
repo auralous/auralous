@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FeaturedPlaylists from "./FeaturedPlaylists";
-import FriendsPlaylists from "./FriendsPlaylists";
 import HeaderSection from "./Header";
 import RecentStories from "./RecentStories";
 import Section from "./Section";
@@ -29,12 +28,6 @@ const HomeScreen: FC<HomeScreenProps> = () => {
         <View style={styles.content}>
           <Section title={t("home.featured_playlists.title")}>
             <FeaturedPlaylists />
-          </Section>
-          <Section
-            title={t("home.friends_playlists.title")}
-            description={t("home.friends_playlists.description")}
-          >
-            <FriendsPlaylists />
           </Section>
           <Section
             title={t("home.recent_stories.title")}

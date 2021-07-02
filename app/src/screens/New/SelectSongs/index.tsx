@@ -27,8 +27,6 @@ const SelectSongs: FC<StackScreenProps<ParamList, RouteName.NewSelectSongs>> =
   ({ navigation }) => {
     const { t } = useTranslation();
 
-    const title = t("new.select_songs.title");
-
     const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
 
     const addTracks = useCallback((trackIds: string[]) => {
@@ -43,15 +41,15 @@ const SelectSongs: FC<StackScreenProps<ParamList, RouteName.NewSelectSongs>> =
       (selectedTracks: string[]) => {
         navigation.navigate(RouteName.NewFinal, {
           selectedTracks,
-          modeTitle: title,
+          text: "",
         });
       },
-      [navigation, title]
+      [navigation]
     );
 
     return (
       <SafeAreaView style={styles.root}>
-        <HeaderBackable title={title} />
+        <HeaderBackable title={t("new.select_songs.title")} />
         <SongSelector
           selectedTracks={selectedTracks}
           addTracks={addTracks}

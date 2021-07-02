@@ -1,5 +1,7 @@
+import { usePlaybackContextMeta } from "@/player/PlaybackContextProvider";
 import { useTrackQuery } from "@auralous/api";
 import player, {
+  usePlaybackCurrentContext,
   usePlaybackCurrentControl,
   usePlaybackNextItems,
   usePlaybackTrackId,
@@ -32,11 +34,16 @@ const MusicView: FC = () => {
 
   const currentControl = usePlaybackCurrentControl();
   const nextItems = usePlaybackNextItems();
+  const contextMeta = usePlaybackContextMeta(usePlaybackCurrentContext());
 
   return (
     <View style={styles.root}>
       <PlayerViewMeta track={track || null} />
-      <PlayerViewProgress track={track} player={player} />
+      <PlayerViewProgress
+        track={track}
+        player={player}
+        isLive={!!contextMeta?.isLive}
+      />
       <PlayerViewControl
         trackId={trackId}
         control={currentControl}

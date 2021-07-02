@@ -12,6 +12,7 @@ export * from "./Queue";
 export * from "./SongSelector";
 export * from "./Spacer";
 export * from "./Story";
+export * from "./Toast";
 export * from "./Track";
 export * from "./Typography";
 export * from "./User";

@@ -1,3 +1,4 @@
+import { Playlist } from "@auralous/api";
 import { ParamListBase } from "@react-navigation/routers";
 
 export enum RouteName {
@@ -16,7 +17,7 @@ export enum RouteName {
 
 export interface ParamList extends ParamListBase {
   [RouteName.Home]: undefined;
-  [RouteName.SignIn]: {
+  [RouteName.SignIn]?: {
     access_token?: string;
   };
   [RouteName.User]: {
@@ -30,10 +31,12 @@ export interface ParamList extends ParamListBase {
   };
   [RouteName.NewFinal]: {
     selectedTracks: string[];
-    modeTitle: string;
+    text: string;
   };
   [RouteName.NewSelectSongs]: undefined;
-  [RouteName.NewQuickShare]: undefined;
+  [RouteName.NewQuickShare]?: {
+    playlist?: Playlist;
+  };
   [RouteName.Playlist]: {
     id: string;
   };

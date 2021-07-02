@@ -40,7 +40,7 @@ export const GradientButton: FC<GradientButtonProps> = (props) => {
         locations={GradientColors.rainbow.locations}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
-        style={StyleSheet.absoluteFillObject}
+        style={StyleSheet.absoluteFill}
       />
       {icon}
       {!!(icon && children) && <Spacer x={1} />}

@@ -1,9 +1,10 @@
 import { Maybe, Track } from "@auralous/api";
 import type { Player } from "@auralous/player";
 import { Text } from "@auralous/ui/components/Typography";
-import { Size } from "@auralous/ui/styles";
+import { makeStyles, Size } from "@auralous/ui/styles";
 import { msToHMS } from "@auralous/ui/utils";
 import { FC, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
@@ -30,12 +31,27 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
   },
+  rootLive: {
+    marginTop: 20,
+    marginBottom: Size[4],
+    alignItems: "center",
+  },
 });
 
-const PlayerViewProgress: FC<{
+const useStyles = makeStyles((theme) => ({
+  live: {
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: Size[3],
+    paddingVertical: 3,
+    borderRadius: 9999,
+  },
+  liveText: { color: theme.colors.primaryText, textTransform: "uppercase" },
+}));
+
+const PlayerViewProgressOnDemand: FC<{
   track: Maybe<Track> | undefined;
   player: Player;
-}> = ({ track, player }) => {
+}> = ({ player, track }) => {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -67,6 +83,29 @@ const PlayerViewProgress: FC<{
       </View>
     </View>
   );
+};
+
+const PlayerViewProgressLive: FC = () => {
+  const { t } = useTranslation();
+  const dstyle = useStyles();
+  return (
+    <View style={styles.rootLive}>
+      <View style={dstyle.live}>
+        <Text size="xs" style={dstyle.liveText}>
+          {t("common.status.live")}
+        </Text>
+      </View>
+    </View>
+  );
+};
+
+const PlayerViewProgress: FC<{
+  track: Maybe<Track> | undefined;
+  player: Player;
+  isLive: boolean;
+}> = ({ track, player, isLive }) => {
+  if (isLive) return <PlayerViewProgressLive />;
+  return <PlayerViewProgressOnDemand track={track} player={player} />;
 };
 
 export default PlayerViewProgress;

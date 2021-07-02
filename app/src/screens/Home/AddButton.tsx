@@ -62,7 +62,7 @@ const AddButtonModalContent = gestureHandlerRootHOC(
     return (
       <>
         <BlurView
-          style={StyleSheet.absoluteFillObject}
+          style={StyleSheet.absoluteFill}
           blurType="dark"
           blurAmount={1}
         />

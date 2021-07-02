@@ -51,7 +51,7 @@ const Create: FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
 
   const onCreate = useCallback(async () => {
     const result = await createStory({
-      text: "",
+      text: route.params.text,
       isPublic: true,
       tracks: route.params.selectedTracks,
     });
@@ -92,7 +92,7 @@ const Create: FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
       locations={GradientColors.rainbow.locations}
       start={{ x: 1, y: 1 }}
       end={{ x: 0, y: 0 }}
-      style={StyleSheet.absoluteFillObject}
+      style={StyleSheet.absoluteFill}
     >
       <SafeAreaView style={styles.root}>
         <StatusBar translucent backgroundColor="transparent" />

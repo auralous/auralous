@@ -37,10 +37,10 @@ const linking: LinkingOptions<ParamList> = {
   prefixes: ["auralous://"],
   config: {
     screens: {
+      [RouteName.SignIn]: "sign-in",
       [RouteName.Main]: {
         // @ts-ignore
         screens: {
-          [RouteName.SignIn]: "sign-in",
           [RouteName.User]: "user/:username",
         },
       },
@@ -48,21 +48,17 @@ const linking: LinkingOptions<ParamList> = {
   },
 };
 
-const routes: {
+// Routes that should be shown inside tab navigator
+// allow bottom bars to be visible
+type RouteItem = {
   name: string;
   component: React.ComponentType<any>;
   options?: NativeStackNavigationOptions;
-}[] = [
+};
+const routes: RouteItem[] = [
   {
-    name: "home",
+    name: RouteName.Home,
     component: gestureHandlerRootHOC(HomeScreen),
-  },
-  {
-    name: RouteName.SignIn,
-    component: gestureHandlerRootHOC(SignInScreen),
-    options: {
-      presentation: "modal" as const,
-    },
   },
   {
     name: RouteName.User,
@@ -75,21 +71,6 @@ const routes: {
   {
     name: RouteName.UserFollowing,
     component: gestureHandlerRootHOC(UserFollowingScreen),
-  },
-  {
-    name: RouteName.NewSelectSongs,
-    component: gestureHandlerRootHOC(SelectSongsScreen),
-  },
-  {
-    name: RouteName.NewQuickShare,
-    component: gestureHandlerRootHOC(QuickShareScreen),
-  },
-  {
-    name: RouteName.NewFinal,
-    component: gestureHandlerRootHOC(CreateFinalScreen),
-    options: {
-      animation: "fade" as const,
-    },
   },
   {
     name: RouteName.Playlist,
@@ -106,11 +87,59 @@ const stackRoutes = routes.map((route) => (
   />
 ));
 
+// Routes that should be shown outside of tab navigator
+// preventing bottom bars to be visible
+const rootRoutes: RouteItem[] = [
+  {
+    name: RouteName.SignIn,
+    component: gestureHandlerRootHOC(SignInScreen),
+    options: {
+      presentation: "modal" as const,
+    },
+  },
+  {
+    name: RouteName.NewSelectSongs,
+    component: gestureHandlerRootHOC(SelectSongsScreen),
+  },
+  {
+    name: RouteName.NewQuickShare,
+    component: gestureHandlerRootHOC(QuickShareScreen),
+  },
+  {
+    name: RouteName.NewFinal,
+    component: gestureHandlerRootHOC(CreateFinalScreen),
+    options: {
+      animation: "fade" as const,
+    },
+  },
+];
+
+const rootStackRoutes = rootRoutes.map((route) => (
+  <Stack.Screen
+    key={route.name}
+    name={route.name}
+    component={route.component}
+    options={route.options}
+  />
+));
+
 const MainScreen: FC = () => {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       {stackRoutes}
     </Stack.Navigator>
+  );
+};
+
+const RootScreen: FC = () => {
+  return (
+    <Tab.Navigator
+      tabBar={(props) => <TabBar {...props} />}
+      screenOptions={{ headerShown: false }}
+    >
+      <Tab.Screen name={RouteName.Main} component={MainScreen} />
+      <Tab.Screen name="map" component={MapScreen} />
+    </Tab.Navigator>
   );
 };
 
@@ -150,16 +179,12 @@ const App = () => {
         <ApiProvider>
           <PlayerProvider>
             <BottomSheetModalProvider>
-              <PlayerComponent />
-
               <StatusBar backgroundColor={theme.colors.background} />
-              <Tab.Navigator
-                tabBar={(props) => <TabBar {...props} />}
-                screenOptions={{ headerShown: false }}
-              >
-                <Tab.Screen name={RouteName.Main} component={MainScreen} />
-                <Tab.Screen name="map" component={MapScreen} />
-              </Tab.Navigator>
+              <PlayerComponent />
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="root" component={RootScreen} />
+                {rootStackRoutes}
+              </Stack.Navigator>
             </BottomSheetModalProvider>
           </PlayerProvider>
         </ApiProvider>

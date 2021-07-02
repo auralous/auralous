@@ -4,6 +4,7 @@ import { Size, StoryItem } from "@auralous/ui";
 import { FC } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import scrollStyles from "./ScrollView.styles";
 
 const styles = StyleSheet.create({
   storyItemWrapper: {
@@ -17,7 +18,12 @@ const RecentStories: FC = () => {
   });
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+    <ScrollView
+      style={scrollStyles.scroll}
+      contentContainerStyle={scrollStyles.scrollContent}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+    >
       {data?.stories?.map((story) => (
         <TouchableOpacity
           key={story.id}

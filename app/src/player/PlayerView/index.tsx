@@ -120,7 +120,11 @@ const PlayerView: FC = () => {
       handleComponent={null}
     >
       <StatusBar translucent backgroundColor="transparent" />
-      <LinearGradient colors={playbackColors} style={styles.root}>
+      <View style={styles.root}>
+        <LinearGradient
+          colors={playbackColors}
+          style={StyleSheet.absoluteFill}
+        />
         <View style={{ height: StatusBar.currentHeight }} />
         <Header
           title={
@@ -176,7 +180,7 @@ const PlayerView: FC = () => {
             </View>
           </PagerView>
         </View>
-      </LinearGradient>
+      </View>
     </BottomSheetModal>
   );
 };
