@@ -1,12 +1,17 @@
 import { useColors } from "@auralous/ui/styles";
-import { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { FC } from "react";
-import { StyleSheet, View } from "react-native";
+import {
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewProps,
+  ViewStyle,
+} from "react-native";
 
-const CustomBackground: FC<BottomSheetBackgroundProps> = ({
-  style,
-  pointerEvents,
-}) => {
+const CustomBackground: FC<{
+  style: StyleProp<ViewStyle>;
+  pointerEvents: ViewProps["pointerEvents"];
+}> = ({ style, pointerEvents }) => {
   const colors = useColors();
   return (
     <View

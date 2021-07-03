@@ -20,7 +20,6 @@ module.exports = {
         ],
         alias: {
           "@": "./src",
-          "@auralous": "./src/@auralous",
         },
       },
     ],

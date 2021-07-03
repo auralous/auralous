@@ -3,8 +3,14 @@
   "version": "0.0.0",
   "description": "Shared UI for Auralous",
   "scripts": {
+    "build:dts": "tsc",
+    "build:babel": "babel src -d dist --extensions \".ts,.tsx\" --copy-files",
+    "build": "yarn build:dts && yarn build:babel",
+    "build:watch": "concurrently \"yarn build:dts --watch\" \"yarn build:babel -w\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/auralous/auralous.git",
@@ -16,23 +22,17 @@
   },
   "homepage": "https://github.com/auralous/auralous#readme",
   "dependencies": {
+    "@auralous/api": "^0.0.0",
+    "@auralous/player": "^0.0.0"
+  },
+  "peerDependencies": {
     "@fluentui/react-context-selector": "*",
-    "@gorhom/bottom-sheet": "^3.6.5",
-    "@react-navigation/core": "*",
-    "graphql": "*",
     "react": "*",
     "react-hook-form": "*",
     "react-i18next": "*",
     "react-native": "*",
-    "react-native-draggable-flatlist": "^3.0.0-beta.7",
     "react-native-gesture-handler": "*",
-    "react-native-linear-gradient": "*",
     "react-native-reanimated": "*",
-    "react-native-safe-area-context": "*",
     "react-native-svg": "*"
-  },
-  "devDependencies": {
-    "@types/react": "*",
-    "@types/react-native": "*"
   }
 }

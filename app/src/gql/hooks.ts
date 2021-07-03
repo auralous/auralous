@@ -3,7 +3,7 @@ import {
   useMeQuery,
   useStoryLiveQuery,
   useUserFollowingsQuery,
-} from "./gql.gen";
+} from "@auralous/api";
 
 export function useMe(): Me | null | undefined {
   const [{ data, fetching }] = useMeQuery();

@@ -1,8 +1,6 @@
 import { useTrackQuery } from "@auralous/api";
 import { PlaybackState } from "@auralous/player";
-import { IconChevronUp } from "@auralous/ui/assets";
-import { Text } from "@auralous/ui/components/Typography";
-import { Size } from "@auralous/ui/styles";
+import { IconChevronUp, Size, Text } from "@auralous/ui";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";

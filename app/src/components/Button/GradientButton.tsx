@@ -1,7 +1,11 @@
-import { Spacer } from "@auralous/ui/components/Spacer";
-import { Text } from "@auralous/ui/components/Typography";
-import { GradientColors } from "@auralous/ui/styles";
-import { useSharedValuePressed } from "@auralous/ui/utils";
+import {
+  BaseButtonProps,
+  GradientColors,
+  Spacer,
+  Text,
+  useSharedValuePressed,
+  useStylesButton,
+} from "@auralous/ui";
 import { FC } from "react";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -9,15 +13,13 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { useStyles } from "./styles";
-import { BaseButtonProps } from "./types";
 
 type GradientButtonProps = BaseButtonProps;
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const GradientButton: FC<GradientButtonProps> = (props) => {
-  const styles = useStyles(props);
+  const styles = useStylesButton(props);
   const { icon, children, onPress, accessibilityLabel, disabled, textProps } =
     props;
 

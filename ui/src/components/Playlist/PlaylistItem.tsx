@@ -1,4 +1,5 @@
 import { Maybe, Playlist } from "@auralous/api";
+import { imageSources } from "@auralous/ui/assets";
 import { Text } from "@auralous/ui/components/Typography";
 import { Size } from "@auralous/ui/styles";
 import { FC } from "react";
@@ -38,9 +39,9 @@ const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
         source={
           playlist?.image
             ? { uri: playlist?.image }
-            : require("@auralous/ui/assets/images/default_playlist.jpg")
+            : imageSources.defaultPlaylist
         }
-        defaultSource={require("@auralous/ui/assets/images/default_playlist.jpg")}
+        defaultSource={imageSources.defaultPlaylist}
         style={styles.image}
         accessibilityLabel={playlist?.name}
       />

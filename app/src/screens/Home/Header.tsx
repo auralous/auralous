@@ -1,4 +1,4 @@
-import { useMe } from "@auralous/api";
+import { useMe } from "@/gql/hooks";
 import { Avatar, Button, Heading, Size, Spacer } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/core";
 import { FC } from "react";

@@ -7,5 +7,6 @@
     "**/yarn*": true,
     "**/dist/**": true,
     "web/.next/**": true,
+    "**/package-lock.json": true
   }
 }

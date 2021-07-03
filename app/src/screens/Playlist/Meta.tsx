@@ -54,9 +54,9 @@ const Meta: FC<{ playlist: Playlist }> = ({ playlist }) => {
           source={
             playlist.image
               ? { uri: playlist.image }
-              : require("@auralous/ui/assets/images/default_playlist.jpg")
+              : require("@/assets/images/default_playlist.jpg")
           }
-          defaultSource={require("@auralous/ui/assets/images/default_playlist.jpg")}
+          defaultSource={require("@/assets/images/default_playlist.jpg")}
           style={styles.image}
         />
         <View style={styles.meta}>

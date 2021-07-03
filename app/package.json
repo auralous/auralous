@@ -7,11 +7,15 @@
     "android": "react-native run-android && adb reverse tcp:4000 tcp:4000",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "dev": "npx concurrently \"node ../dev-setup.js\" \"npm run start -- --reset-cache\"",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build": "echo \"OK\""
   },
   "dependencies": {
+    "@auralous/api": "^0.0.0",
+    "@auralous/locales": "^0.0.0",
+    "@auralous/player": "^0.0.0",
+    "@auralous/ui": "^0.0.0",
     "@fluentui/react-context-selector": "^0.53.4",
     "@gorhom/bottom-sheet": "^3.6.6",
     "@lukeed/ms": "^2.0.0",

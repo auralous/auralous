@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "description": "APIs for Auralous",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "codegen": "graphql-codegen",
-    "build": "yarn codegen && tsc"
+    "build:babel": "babel src -d dist --extensions \".ts\"",
+    "build:dts": "tsc",
+    "build": "yarn codegen && yarn build:dts && yarn build:babel",
+    "build:watch": "concurrently \"yarn codegen --watch\" \"yarn build:dts --watch\" \"yarn build:babel -w\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +22,7 @@
     "url": "https://github.com/auralous/auralous/issues"
   },
   "homepage": "https://github.com/auralous/auralous#readme",
-  "dependencies": {
+  "peerDependencies": {
     "graphql": "*",
     "urql": "*",
     "@urql/exchange-graphcache": "*"

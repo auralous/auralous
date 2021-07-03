@@ -49,7 +49,10 @@ const SelectSongs: FC<StackScreenProps<ParamList, RouteName.NewSelectSongs>> =
 
     return (
       <SafeAreaView style={styles.root}>
-        <HeaderBackable title={t("new.select_songs.title")} />
+        <HeaderBackable
+          onBack={navigation.goBack}
+          title={t("new.select_songs.title")}
+        />
         <SongSelector
           selectedTracks={selectedTracks}
           addTracks={addTracks}

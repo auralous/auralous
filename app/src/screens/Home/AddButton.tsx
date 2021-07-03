@@ -1,7 +1,7 @@
+import { GradientButton } from "@/components/Button";
 import { RouteName } from "@/screens/types";
 import {
   Button,
-  GradientButton,
   Heading,
   IconPlus,
   Size,

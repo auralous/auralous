@@ -89,7 +89,10 @@ const QuickShare: FC<StackScreenProps<ParamList, RouteName.NewQuickShare>> = ({
 
   return (
     <SafeAreaView style={styles.root}>
-      <HeaderBackable title={t("new.quick_share.title")} />
+      <HeaderBackable
+        onBack={navigation.goBack}
+        title={t("new.quick_share.title")}
+      />
       <ScrollView style={styles.content}>
         <PlaylistsSection
           title={t("home.featured_playlists.title")}

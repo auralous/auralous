@@ -1,8 +1,6 @@
 import { Track } from "@auralous/api";
 import { PlaybackState } from "@auralous/player";
-import { IconX } from "@auralous/ui/assets";
-import { Heading } from "@auralous/ui/components/Typography";
-import { makeStyles, Size } from "@auralous/ui/styles";
+import { Heading, IconX, makeStyles, Size } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";

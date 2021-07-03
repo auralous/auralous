@@ -1368,16 +1368,16 @@ export type GraphCacheKeysConfig = {
 export type GraphCacheResolvers = {
   Query?: {
     crossTracks?: GraphCacheResolver<WithTypename<Query>, QueryCrossTracksArgs, WithTypename<CrossTracks> | string>,
-    me?: GraphCacheResolver<WithTypename<Query>, null, WithTypename<Me> | string>,
+    me?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, WithTypename<Me> | string>,
     messages?: GraphCacheResolver<WithTypename<Query>, QueryMessagesArgs, Array<WithTypename<Message> | string>>,
-    myPlaylists?: GraphCacheResolver<WithTypename<Query>, null, Array<WithTypename<Playlist> | string>>,
+    myPlaylists?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
     notifications?: GraphCacheResolver<WithTypename<Query>, QueryNotificationsArgs, Array<WithTypename<NotificationFollow> | WithTypename<NotificationInvite> | WithTypename<NotificationNewStory> | string>>,
     nowPlaying?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingArgs, WithTypename<NowPlaying> | string>,
     nowPlayingReactions?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingReactionsArgs, Array<WithTypename<NowPlayingReactionItem> | string>>,
     playlist?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistArgs, WithTypename<Playlist> | string>,
     playlistTracks?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistTracksArgs, Array<WithTypename<Track> | string>>,
-    playlistsFeatured?: GraphCacheResolver<WithTypename<Query>, null, Array<WithTypename<Playlist> | string>>,
-    playlistsFriends?: GraphCacheResolver<WithTypename<Query>, null, Array<WithTypename<Playlist> | string>>,
+    playlistsFeatured?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
+    playlistsFriends?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
     playlistsSearch?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistsSearchArgs, Array<WithTypename<Playlist> | string>>,
     queue?: GraphCacheResolver<WithTypename<Query>, QueryQueueArgs, WithTypename<Queue> | string>,
     searchTrack?: GraphCacheResolver<WithTypename<Query>, QuerySearchTrackArgs, Array<WithTypename<Track> | string>>,
@@ -1394,123 +1394,123 @@ export type GraphCacheResolvers = {
     userStat?: GraphCacheResolver<WithTypename<Query>, QueryUserStatArgs, WithTypename<UserStat> | string>
   },
   Artist?: {
-    id?: GraphCacheResolver<WithTypename<Artist>, null, Scalars['ID'] | string>,
-    platform?: GraphCacheResolver<WithTypename<Artist>, null, PlatformName | string>,
-    externalId?: GraphCacheResolver<WithTypename<Artist>, null, Scalars['ID'] | string>,
-    name?: GraphCacheResolver<WithTypename<Artist>, null, Scalars['String'] | string>,
-    image?: GraphCacheResolver<WithTypename<Artist>, null, Scalars['String'] | string>,
-    url?: GraphCacheResolver<WithTypename<Artist>, null, Scalars['String'] | string>
+    id?: GraphCacheResolver<WithTypename<Artist>, Record<string, never>, Scalars['ID'] | string>,
+    platform?: GraphCacheResolver<WithTypename<Artist>, Record<string, never>, PlatformName | string>,
+    externalId?: GraphCacheResolver<WithTypename<Artist>, Record<string, never>, Scalars['ID'] | string>,
+    name?: GraphCacheResolver<WithTypename<Artist>, Record<string, never>, Scalars['String'] | string>,
+    image?: GraphCacheResolver<WithTypename<Artist>, Record<string, never>, Scalars['String'] | string>,
+    url?: GraphCacheResolver<WithTypename<Artist>, Record<string, never>, Scalars['String'] | string>
   },
   CrossTracks?: {
-    id?: GraphCacheResolver<WithTypename<CrossTracks>, null, Scalars['ID'] | string>,
-    youtube?: GraphCacheResolver<WithTypename<CrossTracks>, null, Scalars['ID'] | string>,
-    spotify?: GraphCacheResolver<WithTypename<CrossTracks>, null, Scalars['ID'] | string>
+    id?: GraphCacheResolver<WithTypename<CrossTracks>, Record<string, never>, Scalars['ID'] | string>,
+    youtube?: GraphCacheResolver<WithTypename<CrossTracks>, Record<string, never>, Scalars['ID'] | string>,
+    spotify?: GraphCacheResolver<WithTypename<CrossTracks>, Record<string, never>, Scalars['ID'] | string>
   },
   Me?: {
-    user?: GraphCacheResolver<WithTypename<Me>, null, WithTypename<User> | string>,
-    oauthId?: GraphCacheResolver<WithTypename<Me>, null, Scalars['String'] | string>,
-    platform?: GraphCacheResolver<WithTypename<Me>, null, PlatformName | string>,
-    accessToken?: GraphCacheResolver<WithTypename<Me>, null, Scalars['String'] | string>,
-    expiredAt?: GraphCacheResolver<WithTypename<Me>, null, Scalars['DateTime'] | string>
+    user?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, WithTypename<User> | string>,
+    oauthId?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, Scalars['String'] | string>,
+    platform?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, PlatformName | string>,
+    accessToken?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, Scalars['String'] | string>,
+    expiredAt?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, Scalars['DateTime'] | string>
   },
   Message?: {
-    id?: GraphCacheResolver<WithTypename<Message>, null, Scalars['ID'] | string>,
-    creatorId?: GraphCacheResolver<WithTypename<Message>, null, Scalars['String'] | string>,
-    creator?: GraphCacheResolver<WithTypename<Message>, null, WithTypename<User> | string>,
-    createdAt?: GraphCacheResolver<WithTypename<Message>, null, Scalars['DateTime'] | string>,
-    text?: GraphCacheResolver<WithTypename<Message>, null, Scalars['String'] | string>,
-    type?: GraphCacheResolver<WithTypename<Message>, null, MessageType | string>
+    id?: GraphCacheResolver<WithTypename<Message>, Record<string, never>, Scalars['ID'] | string>,
+    creatorId?: GraphCacheResolver<WithTypename<Message>, Record<string, never>, Scalars['String'] | string>,
+    creator?: GraphCacheResolver<WithTypename<Message>, Record<string, never>, WithTypename<User> | string>,
+    createdAt?: GraphCacheResolver<WithTypename<Message>, Record<string, never>, Scalars['DateTime'] | string>,
+    text?: GraphCacheResolver<WithTypename<Message>, Record<string, never>, Scalars['String'] | string>,
+    type?: GraphCacheResolver<WithTypename<Message>, Record<string, never>, MessageType | string>
   },
   NotificationFollow?: {
-    id?: GraphCacheResolver<WithTypename<NotificationFollow>, null, Scalars['ID'] | string>,
-    hasRead?: GraphCacheResolver<WithTypename<NotificationFollow>, null, Scalars['Boolean'] | string>,
-    createdAt?: GraphCacheResolver<WithTypename<NotificationFollow>, null, Scalars['DateTime'] | string>,
-    followerId?: GraphCacheResolver<WithTypename<NotificationFollow>, null, Scalars['String'] | string>
+    id?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, Scalars['ID'] | string>,
+    hasRead?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, Scalars['Boolean'] | string>,
+    createdAt?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, Scalars['DateTime'] | string>,
+    followerId?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, Scalars['String'] | string>
   },
   NotificationInvite?: {
-    id?: GraphCacheResolver<WithTypename<NotificationInvite>, null, Scalars['ID'] | string>,
-    hasRead?: GraphCacheResolver<WithTypename<NotificationInvite>, null, Scalars['Boolean'] | string>,
-    createdAt?: GraphCacheResolver<WithTypename<NotificationInvite>, null, Scalars['DateTime'] | string>,
-    inviterId?: GraphCacheResolver<WithTypename<NotificationInvite>, null, Scalars['String'] | string>,
-    storyId?: GraphCacheResolver<WithTypename<NotificationInvite>, null, Scalars['String'] | string>
+    id?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['ID'] | string>,
+    hasRead?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['Boolean'] | string>,
+    createdAt?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['DateTime'] | string>,
+    inviterId?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['String'] | string>,
+    storyId?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['String'] | string>
   },
   NotificationNewStory?: {
-    id?: GraphCacheResolver<WithTypename<NotificationNewStory>, null, Scalars['ID'] | string>,
-    hasRead?: GraphCacheResolver<WithTypename<NotificationNewStory>, null, Scalars['Boolean'] | string>,
-    createdAt?: GraphCacheResolver<WithTypename<NotificationNewStory>, null, Scalars['DateTime'] | string>,
-    storyId?: GraphCacheResolver<WithTypename<NotificationNewStory>, null, Scalars['String'] | string>,
-    creatorId?: GraphCacheResolver<WithTypename<NotificationNewStory>, null, Scalars['String'] | string>
+    id?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['ID'] | string>,
+    hasRead?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['Boolean'] | string>,
+    createdAt?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['DateTime'] | string>,
+    storyId?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['String'] | string>,
+    creatorId?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['String'] | string>
   },
   NowPlaying?: {
-    id?: GraphCacheResolver<WithTypename<NowPlaying>, null, Scalars['ID'] | string>,
-    currentTrack?: GraphCacheResolver<WithTypename<NowPlaying>, null, WithTypename<NowPlayingQueueItem> | string>
+    id?: GraphCacheResolver<WithTypename<NowPlaying>, Record<string, never>, Scalars['ID'] | string>,
+    currentTrack?: GraphCacheResolver<WithTypename<NowPlaying>, Record<string, never>, WithTypename<NowPlayingQueueItem> | string>
   },
   NowPlayingQueueItem?: {
-    uid?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, null, Scalars['ID'] | string>,
-    trackId?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, null, Scalars['String'] | string>,
-    playedAt?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, null, Scalars['DateTime'] | string>,
-    endedAt?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, null, Scalars['DateTime'] | string>,
-    creatorId?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, null, Scalars['String'] | string>
+    uid?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['ID'] | string>,
+    trackId?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['String'] | string>,
+    playedAt?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['DateTime'] | string>,
+    endedAt?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['DateTime'] | string>,
+    creatorId?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['String'] | string>
   },
   NowPlayingReactionItem?: {
-    userId?: GraphCacheResolver<WithTypename<NowPlayingReactionItem>, null, Scalars['String'] | string>,
-    reaction?: GraphCacheResolver<WithTypename<NowPlayingReactionItem>, null, NowPlayingReactionType | string>
+    userId?: GraphCacheResolver<WithTypename<NowPlayingReactionItem>, Record<string, never>, Scalars['String'] | string>,
+    reaction?: GraphCacheResolver<WithTypename<NowPlayingReactionItem>, Record<string, never>, NowPlayingReactionType | string>
   },
   Playlist?: {
-    id?: GraphCacheResolver<WithTypename<Playlist>, null, Scalars['ID'] | string>,
-    platform?: GraphCacheResolver<WithTypename<Playlist>, null, PlatformName | string>,
-    externalId?: GraphCacheResolver<WithTypename<Playlist>, null, Scalars['ID'] | string>,
-    name?: GraphCacheResolver<WithTypename<Playlist>, null, Scalars['String'] | string>,
-    image?: GraphCacheResolver<WithTypename<Playlist>, null, Scalars['String'] | string>,
-    url?: GraphCacheResolver<WithTypename<Playlist>, null, Scalars['String'] | string>,
-    total?: GraphCacheResolver<WithTypename<Playlist>, null, Scalars['Int'] | string>
+    id?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, Scalars['ID'] | string>,
+    platform?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, PlatformName | string>,
+    externalId?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, Scalars['ID'] | string>,
+    name?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, Scalars['String'] | string>,
+    image?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, Scalars['String'] | string>,
+    url?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, Scalars['String'] | string>,
+    total?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, Scalars['Int'] | string>
   },
   Queue?: {
-    id?: GraphCacheResolver<WithTypename<Queue>, null, Scalars['ID'] | string>,
-    items?: GraphCacheResolver<WithTypename<Queue>, null, Array<WithTypename<QueueItem> | string>>
+    id?: GraphCacheResolver<WithTypename<Queue>, Record<string, never>, Scalars['ID'] | string>,
+    items?: GraphCacheResolver<WithTypename<Queue>, Record<string, never>, Array<WithTypename<QueueItem> | string>>
   },
   QueueItem?: {
-    uid?: GraphCacheResolver<WithTypename<QueueItem>, null, Scalars['ID'] | string>,
-    trackId?: GraphCacheResolver<WithTypename<QueueItem>, null, Scalars['String'] | string>,
-    creatorId?: GraphCacheResolver<WithTypename<QueueItem>, null, Scalars['String'] | string>
+    uid?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['ID'] | string>,
+    trackId?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['String'] | string>,
+    creatorId?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['String'] | string>
   },
   Story?: {
-    id?: GraphCacheResolver<WithTypename<Story>, null, Scalars['ID'] | string>,
-    text?: GraphCacheResolver<WithTypename<Story>, null, Scalars['String'] | string>,
-    isPublic?: GraphCacheResolver<WithTypename<Story>, null, Scalars['Boolean'] | string>,
-    image?: GraphCacheResolver<WithTypename<Story>, null, Scalars['String'] | string>,
-    creatorId?: GraphCacheResolver<WithTypename<Story>, null, Scalars['ID'] | string>,
-    creator?: GraphCacheResolver<WithTypename<Story>, null, WithTypename<User> | string>,
-    createdAt?: GraphCacheResolver<WithTypename<Story>, null, Scalars['DateTime'] | string>,
-    isLive?: GraphCacheResolver<WithTypename<Story>, null, Scalars['Boolean'] | string>,
-    queueable?: GraphCacheResolver<WithTypename<Story>, null, Array<Scalars['String'] | string>>
+    id?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['ID'] | string>,
+    text?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['String'] | string>,
+    isPublic?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['Boolean'] | string>,
+    image?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['String'] | string>,
+    creatorId?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['ID'] | string>,
+    creator?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, WithTypename<User> | string>,
+    createdAt?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['DateTime'] | string>,
+    isLive?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['Boolean'] | string>,
+    queueable?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Array<Scalars['String'] | string>>
   },
   Track?: {
-    id?: GraphCacheResolver<WithTypename<Track>, null, Scalars['ID'] | string>,
-    platform?: GraphCacheResolver<WithTypename<Track>, null, PlatformName | string>,
-    externalId?: GraphCacheResolver<WithTypename<Track>, null, Scalars['ID'] | string>,
-    artists?: GraphCacheResolver<WithTypename<Track>, null, Array<WithTypename<Artist> | string>>,
-    duration?: GraphCacheResolver<WithTypename<Track>, null, Scalars['Int'] | string>,
-    title?: GraphCacheResolver<WithTypename<Track>, null, Scalars['String'] | string>,
-    image?: GraphCacheResolver<WithTypename<Track>, null, Scalars['String'] | string>,
-    url?: GraphCacheResolver<WithTypename<Track>, null, Scalars['String'] | string>
+    id?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, Scalars['ID'] | string>,
+    platform?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, PlatformName | string>,
+    externalId?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, Scalars['ID'] | string>,
+    artists?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, Array<WithTypename<Artist> | string>>,
+    duration?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, Scalars['Int'] | string>,
+    title?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, Scalars['String'] | string>,
+    image?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, Scalars['String'] | string>,
+    url?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, Scalars['String'] | string>
   },
   User?: {
-    id?: GraphCacheResolver<WithTypename<User>, null, Scalars['ID'] | string>,
-    username?: GraphCacheResolver<WithTypename<User>, null, Scalars['String'] | string>,
-    bio?: GraphCacheResolver<WithTypename<User>, null, Scalars['String'] | string>,
-    profilePicture?: GraphCacheResolver<WithTypename<User>, null, Scalars['String'] | string>
+    id?: GraphCacheResolver<WithTypename<User>, Record<string, never>, Scalars['ID'] | string>,
+    username?: GraphCacheResolver<WithTypename<User>, Record<string, never>, Scalars['String'] | string>,
+    bio?: GraphCacheResolver<WithTypename<User>, Record<string, never>, Scalars['String'] | string>,
+    profilePicture?: GraphCacheResolver<WithTypename<User>, Record<string, never>, Scalars['String'] | string>
   },
   UserStat?: {
-    id?: GraphCacheResolver<WithTypename<UserStat>, null, Scalars['ID'] | string>,
-    followerCount?: GraphCacheResolver<WithTypename<UserStat>, null, Scalars['Int'] | string>,
-    followingCount?: GraphCacheResolver<WithTypename<UserStat>, null, Scalars['Int'] | string>
+    id?: GraphCacheResolver<WithTypename<UserStat>, Record<string, never>, Scalars['ID'] | string>,
+    followerCount?: GraphCacheResolver<WithTypename<UserStat>, Record<string, never>, Scalars['Int'] | string>,
+    followingCount?: GraphCacheResolver<WithTypename<UserStat>, Record<string, never>, Scalars['Int'] | string>
   }
 };
 
 export type GraphCacheOptimisticUpdaters = {
   me?: GraphCacheOptimisticMutationResolver<MutationMeArgs, Maybe<WithTypename<User>>>,
-  meDelete?: GraphCacheOptimisticMutationResolver<{}, Scalars['Boolean']>,
+  meDelete?: GraphCacheOptimisticMutationResolver<Record<string, never>, Scalars['Boolean']>,
   messageAdd?: GraphCacheOptimisticMutationResolver<MutationMessageAddArgs, Scalars['Boolean']>,
   notificationsMarkRead?: GraphCacheOptimisticMutationResolver<MutationNotificationsMarkReadArgs, Scalars['Int']>,
   nowPlayingReact?: GraphCacheOptimisticMutationResolver<MutationNowPlayingReactArgs, Maybe<Scalars['Boolean']>>,
@@ -1534,7 +1534,7 @@ export type GraphCacheOptimisticUpdaters = {
 export type GraphCacheUpdaters = {
   Mutation?: {
     me?: GraphCacheUpdateResolver<{ me: Maybe<WithTypename<User>> }, MutationMeArgs>,
-    meDelete?: GraphCacheUpdateResolver<{ meDelete: Scalars['Boolean'] }, {}>,
+    meDelete?: GraphCacheUpdateResolver<{ meDelete: Scalars['Boolean'] }, Record<string, never>>,
     messageAdd?: GraphCacheUpdateResolver<{ messageAdd: Scalars['Boolean'] }, MutationMessageAddArgs>,
     notificationsMarkRead?: GraphCacheUpdateResolver<{ notificationsMarkRead: Scalars['Int'] }, MutationNotificationsMarkReadArgs>,
     nowPlayingReact?: GraphCacheUpdateResolver<{ nowPlayingReact: Maybe<Scalars['Boolean']> }, MutationNowPlayingReactArgs>,
@@ -1556,7 +1556,7 @@ export type GraphCacheUpdaters = {
   },
   Subscription?: {
     messageAdded?: GraphCacheUpdateResolver<{ messageAdded: WithTypename<Message> }, SubscriptionMessageAddedArgs>,
-    notificationAdded?: GraphCacheUpdateResolver<{ notificationAdded: WithTypename<NotificationFollow> | WithTypename<NotificationInvite> | WithTypename<NotificationNewStory> }, {}>,
+    notificationAdded?: GraphCacheUpdateResolver<{ notificationAdded: WithTypename<NotificationFollow> | WithTypename<NotificationInvite> | WithTypename<NotificationNewStory> }, Record<string, never>>,
     nowPlayingReactionsUpdated?: GraphCacheUpdateResolver<{ nowPlayingReactionsUpdated: Maybe<Array<WithTypename<NowPlayingReactionItem>>> }, SubscriptionNowPlayingReactionsUpdatedArgs>,
     nowPlayingUpdated?: GraphCacheUpdateResolver<{ nowPlayingUpdated: Maybe<WithTypename<NowPlaying>> }, SubscriptionNowPlayingUpdatedArgs>,
     queueUpdated?: GraphCacheUpdateResolver<{ queueUpdated: WithTypename<Queue> }, SubscriptionQueueUpdatedArgs>,

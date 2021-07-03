@@ -1,5 +1,5 @@
 import { Maybe, Track } from "@auralous/api";
-import { SvgByPlatformName } from "@auralous/ui/assets";
+import { imageSources, SvgByPlatformName } from "@auralous/ui/assets";
 import { Spacer } from "@auralous/ui/components/Spacer";
 import { Text } from "@auralous/ui/components/Typography";
 import { Size, useColors } from "@auralous/ui/styles";
@@ -51,11 +51,9 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
       <Image
         style={styles.image}
         source={
-          track?.image
-            ? { uri: track?.image }
-            : require("@auralous/ui/assets/images/default_track.jpg")
+          track?.image ? { uri: track?.image } : imageSources.defaultTrack
         }
-        defaultSource={require("@auralous/ui/assets/images/default_track.jpg")}
+        defaultSource={imageSources.defaultTrack}
         accessibilityLabel={track?.title}
       />
       <View style={styles.meta}>

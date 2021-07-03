@@ -1,3 +1,4 @@
+import { imageSources } from "@auralous/ui/assets";
 import { makeStyles, Size } from "@auralous/ui/styles";
 import { FC } from "react";
 import { Image, StyleSheet, View } from "react-native";
@@ -32,12 +33,8 @@ const Avatar: FC<AvatarProps> = ({ href, username, size }) => {
     <View style={dstyles.root}>
       <Image
         style={styles.image}
-        source={
-          href
-            ? { uri: href }
-            : require("@auralous/ui/assets/images/default_user.jpg")
-        }
-        defaultSource={require("@auralous/ui/assets/images/default_user.jpg")}
+        source={href ? { uri: href } : imageSources.defaultUser}
+        defaultSource={imageSources.defaultUser}
         accessibilityLabel={username}
       />
     </View>

@@ -10,7 +10,7 @@ import UserList from "./UserList";
 
 const UserFollowersScreen: FC<
   StackScreenProps<ParamList, RouteName.UserFollowers>
-> = ({ route }) => {
+> = ({ route, navigation }) => {
   const { t } = useTranslation();
   const username = route.params.username;
   const [{ data: dataUser, fetching }] = useUserQuery({
@@ -26,7 +26,7 @@ const UserFollowersScreen: FC<
 
   return (
     <>
-      <HeaderBackable title={t("user.followers")} />
+      <HeaderBackable onBack={navigation.goBack} title={t("user.followers")} />
       {fetching ? (
         <LoadingScreen />
       ) : user ? (

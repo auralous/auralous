@@ -10,6 +10,7 @@ import UserMeta from "./UserMeta";
 
 const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
   route,
+  navigation,
 }) => {
   const username = route.params.username;
   const [{ data, fetching }] = useUserQuery({
@@ -18,7 +19,7 @@ const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
   });
   return (
     <>
-      <HeaderBackable title="" />
+      <HeaderBackable onBack={navigation.goBack} title="" />
       {fetching ? (
         <LoadingScreen />
       ) : data?.user ? (

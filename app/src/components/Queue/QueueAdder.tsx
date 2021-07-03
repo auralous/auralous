@@ -1,9 +1,11 @@
 import { QueueItem } from "@auralous/api";
-import { IconChevronLeft } from "@auralous/ui/assets";
-import { Button } from "@auralous/ui/components/Button";
-import { Header } from "@auralous/ui/components/Header";
-import { SongSelector } from "@auralous/ui/components/SongSelector";
-import { makeStyles } from "@auralous/ui/styles";
+import {
+  Button,
+  Header,
+  IconChevronLeft,
+  makeStyles,
+  SongSelector,
+} from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";

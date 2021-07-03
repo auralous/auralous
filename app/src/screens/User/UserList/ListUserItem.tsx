@@ -1,7 +1,6 @@
+import { useMe, useMeFollowings } from "@/gql/hooks";
 import { RouteName } from "@/screens/types";
 import {
-  useMe,
-  useMeFollowings,
   useUserFollowMutation,
   useUserQuery,
   useUserUnfollowMutation,

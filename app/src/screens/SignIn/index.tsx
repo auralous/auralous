@@ -1,6 +1,6 @@
 import { useAuthActions } from "@/gql/context";
+import { useMe } from "@/gql/hooks";
 import { ParamList, RouteName } from "@/screens/types";
-import { useMe } from "@auralous/api";
 import {
   HeaderBackable,
   IconGoogleColor,
@@ -76,7 +76,7 @@ const SignInScreen: FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
 
   return (
     <>
-      <HeaderBackable title={t("sign_in.title")} />
+      <HeaderBackable onBack={navigation.goBack} title={t("sign_in.title")} />
       <SafeAreaView style={styles.root}>
         <View style={styles.top}>
           <Logo

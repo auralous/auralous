@@ -2,7 +2,6 @@ import { IconChevronLeft } from "@auralous/ui/assets";
 import { Button } from "@auralous/ui/components/Button";
 import { Heading, Text } from "@auralous/ui/components/Typography";
 import { Size } from "@auralous/ui/styles";
-import { useNavigation } from "@react-navigation/core";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -21,9 +20,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const NotFound: FC = () => {
+const NotFound: FC<{ onBack(): void }> = ({ onBack }) => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
 
   return (
     <View style={styles.root}>
@@ -36,7 +34,7 @@ const NotFound: FC = () => {
       <View style={styles.buttonContainer}>
         <Button
           icon={<IconChevronLeft width={24} height={24} />}
-          onPress={() => navigation.goBack()}
+          onPress={onBack}
         >
           {t("common.navigation.go_back")}
         </Button>

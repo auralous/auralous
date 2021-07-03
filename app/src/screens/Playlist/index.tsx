@@ -53,6 +53,7 @@ const Content: FC<{ playlist: Playlist }> = ({ playlist }) => {
 
 const PlaylistScreen: FC<StackScreenProps<ParamList, RouteName.Playlist>> = ({
   route,
+  navigation,
 }) => {
   const [{ data, fetching }] = usePlaylistQuery({
     variables: {
@@ -62,7 +63,7 @@ const PlaylistScreen: FC<StackScreenProps<ParamList, RouteName.Playlist>> = ({
 
   return (
     <>
-      <HeaderBackable title="" />
+      <HeaderBackable onBack={navigation.goBack} title="" />
       {fetching ? (
         <LoadingScreen />
       ) : data?.playlist ? (

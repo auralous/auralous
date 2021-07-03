@@ -1,5 +1,5 @@
 import { makeStyles, Size } from "@auralous/ui/styles";
-import { ReactNode } from "player/node_modules/@types/react";
+import { ReactNode } from "react";
 import { BaseButtonProps } from "./types";
 
 export const useStyles = makeStyles(

@@ -1,3 +1,4 @@
+import { useMe } from "@/gql/hooks";
 import {
   PlaylistTracksDocument,
   PlaylistTracksQuery,
@@ -7,7 +8,6 @@ import {
   StoryTracksQuery,
   StoryTracksQueryVariables,
   Track,
-  useMe,
 } from "@auralous/api";
 import player, {
   PlaybackContextProvided,

@@ -1,4 +1,5 @@
 import { Story } from "@auralous/api";
+import { imageSources } from "@auralous/ui/assets";
 import { Avatar } from "@auralous/ui/components/Avatar";
 import { Text } from "@auralous/ui/components/Typography";
 import { makeStyles, Size } from "@auralous/ui/styles";
@@ -69,11 +70,9 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
     <View style={dstyles.root}>
       <ImageBackground
         source={
-          story.image
-            ? { uri: story.image }
-            : require("@auralous/ui/assets/images/default_playlist.jpg")
+          story.image ? { uri: story.image } : imageSources.defaultPlaylist
         }
-        defaultSource={require("@auralous/ui/assets/images/default_playlist.jpg")}
+        defaultSource={imageSources.defaultPlaylist}
         style={styles.background}
       >
         <View style={styles.overlay}>

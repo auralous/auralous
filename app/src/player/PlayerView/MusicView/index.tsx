@@ -1,3 +1,4 @@
+import { QueueModal } from "@/components/Queue";
 import { usePlaybackContextMeta } from "@/player/PlaybackContextProvider";
 import { useTrackQuery } from "@auralous/api";
 import player, {
@@ -10,7 +11,6 @@ import {
   PlayerViewControl,
   PlayerViewMeta,
   PlayerViewProgress,
-  QueueModal,
   Size,
 } from "@auralous/ui";
 import { FC } from "react";

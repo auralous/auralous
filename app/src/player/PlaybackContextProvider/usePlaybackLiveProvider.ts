@@ -1,5 +1,5 @@
+import { useMe } from "@/gql/hooks";
 import {
-  useMe,
   useNowPlayingQuery,
   useNowPlayingSkipMutation,
   useOnNowPlayingUpdatedSubscription,

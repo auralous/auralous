@@ -1,6 +1,5 @@
 import { IconChevronLeft } from "@auralous/ui/assets";
 import { Button } from "@auralous/ui/components/Button";
-import { useNavigation } from "@react-navigation/core";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
@@ -11,17 +10,21 @@ import Header from "./Header";
 interface HeaderBackableProps {
   title: string;
   backText?: string;
+  onBack(): void;
 }
 
-const HeaderBackable: FC<HeaderBackableProps> = ({ title, backText }) => {
+const HeaderBackable: FC<HeaderBackableProps> = ({
+  title,
+  backText,
+  onBack,
+}) => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
 
   return (
     <Header
       left={
         <Button
-          onPress={navigation.goBack}
+          onPress={onBack}
           icon={<IconChevronLeft />}
           accessibilityLabel={backText || t("common.navigation.go_back")}
         >
