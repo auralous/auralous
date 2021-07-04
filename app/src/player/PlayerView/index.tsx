@@ -1,8 +1,5 @@
 import { usePlaybackContextMeta } from "@/player/PlaybackContextProvider";
-import player, {
-  usePlaybackColors,
-  usePlaybackCurrentContext,
-} from "@auralous/player";
+import player, { usePlaybackCurrentContext } from "@auralous/player";
 import {
   Button,
   Header,
@@ -23,10 +20,10 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import PagerView from "react-native-pager-view";
 import ChatView from "./ChatView";
 import MusicView from "./MusicView";
+import PlayerViewBackground from "./PlayerViewBackground";
 
 const snapPoints = ["100%"];
 
@@ -84,7 +81,6 @@ const PlayerView: FC = () => {
   const currentContext = usePlaybackCurrentContext();
 
   const contextMeta = usePlaybackContextMeta(currentContext);
-  const playbackColors = usePlaybackColors();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -121,10 +117,7 @@ const PlayerView: FC = () => {
     >
       <StatusBar translucent backgroundColor="transparent" />
       <View style={styles.root}>
-        <LinearGradient
-          colors={playbackColors}
-          style={StyleSheet.absoluteFill}
-        />
+        <PlayerViewBackground />
         <View style={{ height: StatusBar.currentHeight }} />
         <Header
           title={

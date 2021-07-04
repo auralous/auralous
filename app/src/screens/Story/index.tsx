@@ -1,17 +1,18 @@
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
-import { usePlaylistQuery } from "@auralous/api";
+import { useStoryQuery } from "@auralous/api";
 import { HeaderBackable } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import { FC } from "react";
-import PlaylistContent from "./PlaylistContent";
+import StoryLiveContent from "./StoryLiveContent";
+import StoryNonLiveContent from "./StoryNonLiveContent";
 
-const PlaylistScreen: FC<StackScreenProps<ParamList, RouteName.Playlist>> = ({
+const StoryScreen: FC<StackScreenProps<ParamList, RouteName.Story>> = ({
   route,
   navigation,
 }) => {
-  const [{ data, fetching }] = usePlaylistQuery({
+  const [{ data, fetching }] = useStoryQuery({
     variables: {
       id: route.params.id,
     },
@@ -22,8 +23,12 @@ const PlaylistScreen: FC<StackScreenProps<ParamList, RouteName.Playlist>> = ({
       <HeaderBackable onBack={navigation.goBack} title="" />
       {fetching ? (
         <LoadingScreen />
-      ) : data?.playlist ? (
-        <PlaylistContent playlist={data.playlist} />
+      ) : data?.story ? (
+        data.story.isLive ? (
+          <StoryLiveContent story={data.story} />
+        ) : (
+          <StoryNonLiveContent story={data.story} />
+        )
       ) : (
         <NotFoundScreen />
       )}
@@ -31,4 +36,4 @@ const PlaylistScreen: FC<StackScreenProps<ParamList, RouteName.Playlist>> = ({
   );
 };
 
-export default PlaylistScreen;
+export default StoryScreen;

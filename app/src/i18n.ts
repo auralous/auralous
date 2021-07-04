@@ -1,5 +1,5 @@
-import en from "@auralous/locales/dist/en.json";
-import vi from "@auralous/locales/dist/vi.json";
+import en from "@auralous/locales/src/en.json";
+import vi from "@auralous/locales/src/vi.json";
 import i18n, { Resource } from "i18next";
 import { initReactI18next } from "react-i18next";
 

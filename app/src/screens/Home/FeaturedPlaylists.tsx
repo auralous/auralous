@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 const FeaturedPlaylists: FC = () => {
   const [{ data }] = usePlaylistsFeaturedQuery();
 
-  const { navigate } = useNavigation();
+  const navigation = useNavigation();
 
   return (
     <ScrollView
@@ -29,7 +29,9 @@ const FeaturedPlaylists: FC = () => {
         <TouchableOpacity
           key={playlist.id}
           style={styles.item}
-          onPress={() => navigate(RouteName.Playlist, { id: playlist.id })}
+          onPress={() =>
+            navigation.navigate(RouteName.Playlist, { id: playlist.id })
+          }
         >
           <PlaylistItem playlist={playlist} />
         </TouchableOpacity>

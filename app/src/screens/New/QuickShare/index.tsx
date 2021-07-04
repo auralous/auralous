@@ -5,6 +5,10 @@ import {
   PlaylistTracksDocument,
   PlaylistTracksQuery,
   PlaylistTracksQueryVariables,
+  Story,
+  StoryTracksDocument,
+  StoryTracksQuery,
+  StoryTracksQueryVariables,
   usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
 } from "@auralous/api";
@@ -58,7 +62,7 @@ const QuickShare: FC<StackScreenProps<ParamList, RouteName.NewQuickShare>> = ({
     return () => BackHandler.removeEventListener("hardwareBackPress", onBack);
   }, [fetching]);
 
-  const onSelect = useCallback(
+  const onSelectPlaylist = useCallback(
     async (playlist: Playlist) => {
       setFetching(true);
       const result = await client
@@ -78,11 +82,35 @@ const QuickShare: FC<StackScreenProps<ParamList, RouteName.NewQuickShare>> = ({
     [client, onFinish]
   );
 
+  const onSelectStory = useCallback(
+    async (story: Story) => {
+      setFetching(true);
+      const result = await client
+        .query<StoryTracksQuery, StoryTracksQueryVariables>(
+          StoryTracksDocument,
+          {
+            id: story.id,
+          }
+        )
+        .toPromise();
+      if (result.data) {
+        onFinish(
+          result.data.storyTracks.map((storyTrack) => storyTrack.id),
+          story.text
+        );
+      }
+      setFetching(false);
+    },
+    [client, onFinish]
+  );
+
   useEffect(() => {
     if (route.params?.playlist) {
-      onSelect(route.params.playlist);
+      onSelectPlaylist(route.params.playlist);
+    } else if (route.params?.story) {
+      onSelectStory(route.params.story);
     }
-  }, [route, onSelect]);
+  }, [route, onSelectPlaylist, onSelectStory]);
 
   const [{ data: dataFeatured }] = usePlaylistsFeaturedQuery();
   const [{ data: dataFriends }] = usePlaylistsFriendsQuery();
@@ -97,12 +125,12 @@ const QuickShare: FC<StackScreenProps<ParamList, RouteName.NewQuickShare>> = ({
         <PlaylistsSection
           title={t("home.featured_playlists.title")}
           playlists={dataFeatured?.playlistsFeatured || []}
-          onSelect={onSelect}
+          onSelect={onSelectPlaylist}
         />
         <PlaylistsSection
           title={t("home.friends_playlists.title")}
           playlists={dataFriends?.playlistsFriends || []}
-          onSelect={onSelect}
+          onSelect={onSelectPlaylist}
         />
       </ScrollView>
       {fetching && (

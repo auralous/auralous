@@ -17,12 +17,12 @@ export enum PlaybackContextType {
 export interface PlaybackCurrentContext {
   id: string;
   type: PlaybackContextType;
+  shuffle: boolean;
+  initialIndex?: number;
 }
 
 export interface PlaybackContextProvided {
   nextItems: QueueItem[];
-  canSkipBackward: boolean;
-  canSkipForward: boolean;
   trackId: string | null;
   fetching: boolean;
 }
@@ -30,7 +30,7 @@ export interface PlaybackContextProvided {
 export interface PlaybackState extends PlaybackContextProvided {
   playbackCurrentContext: PlaybackCurrentContext | null;
   isPlaying: boolean;
-  colors: [string, string];
+  color: string;
 }
 
 export const PlaybackContext = createContext({} as PlaybackState);
@@ -49,8 +49,6 @@ export const usePlaybackCurrentContext = () =>
 
 const playbackCurrentControlSelector = (value: PlaybackState) => ({
   isPlaying: value.isPlaying,
-  canSkipBackward: value.canSkipBackward,
-  canSkipForward: value.canSkipForward,
 });
 export const usePlaybackCurrentControl = () =>
   useContextSelector(PlaybackContext, playbackCurrentControlSelector);
@@ -59,6 +57,6 @@ const trackIdSelector = (value: PlaybackState) => value.trackId;
 export const usePlaybackTrackId = () =>
   useContextSelector(PlaybackContext, trackIdSelector);
 
-const playbackColorSelector = (value: PlaybackState) => value.colors;
-export const usePlaybackColors = () =>
+const playbackColorSelector = (value: PlaybackState) => value.color;
+export const usePlaybackColor = () =>
   useContextSelector(PlaybackContext, playbackColorSelector);

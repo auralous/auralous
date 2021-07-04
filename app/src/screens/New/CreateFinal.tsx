@@ -59,6 +59,7 @@ const Create: FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
       player.playContext({
         type: PlaybackContextType.Story,
         id: result.data.storyCreate.id,
+        shuffle: false,
       });
       navigation.navigate(RouteName.Home);
     }

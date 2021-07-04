@@ -1,4 +1,4 @@
-import { Playlist } from "@auralous/api";
+import { Playlist, Story } from "@auralous/api";
 import { ParamListBase } from "@react-navigation/routers";
 
 export enum RouteName {
@@ -13,6 +13,7 @@ export enum RouteName {
   NewSelectSongs = "new/select-songs",
   NewQuickShare = "new/quick-share",
   Playlist = "playlist",
+  Story = "story",
 }
 
 export interface ParamList extends ParamListBase {
@@ -36,8 +37,12 @@ export interface ParamList extends ParamListBase {
   [RouteName.NewSelectSongs]: undefined;
   [RouteName.NewQuickShare]?: {
     playlist?: Playlist;
+    story?: Story;
   };
   [RouteName.Playlist]: {
+    id: string;
+  };
+  [RouteName.Story]: {
     id: string;
   };
 }

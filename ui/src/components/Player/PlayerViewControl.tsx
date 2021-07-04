@@ -40,10 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PlayerViewControl: FC<{
-  control: Pick<
-    PlaybackState,
-    "canSkipBackward" | "canSkipForward" | "isPlaying"
-  >;
+  control: Pick<PlaybackState, "isPlaying">;
   trackId: string | null;
   player: Player;
 }> = ({ trackId, control, player }) => {
@@ -55,16 +52,13 @@ const PlayerViewControl: FC<{
 
   return (
     <View style={styles.root}>
-      <View style={control.canSkipBackward ? undefined : { opacity: 0.5 }}>
-        <TouchableOpacity
-          style={styles.backPrev}
-          disabled={!control.canSkipBackward}
-          onPress={() => player.skipBackward()}
-          accessibilityLabel={t("player.skip_backward")}
-        >
-          <IconSkipBack width={Size[8]} height={Size[8]} fill={colors.text} />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={styles.backPrev}
+        onPress={() => player.skipBackward()}
+        accessibilityLabel={t("player.skip_backward")}
+      >
+        <IconSkipBack width={Size[8]} height={Size[8]} fill={colors.text} />
+      </TouchableOpacity>
       <Spacer x={8} />
       <View style={trackId ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
@@ -83,20 +77,13 @@ const PlayerViewControl: FC<{
         </TouchableOpacity>
       </View>
       <Spacer x={8} />
-      <View style={control.canSkipForward ? undefined : { opacity: 0.5 }}>
-        <TouchableOpacity
-          style={styles.backPrev}
-          disabled={!control.canSkipForward}
-          onPress={() => player.skipForward()}
-          accessibilityLabel={t("player.skip_forward")}
-        >
-          <IconSkipForward
-            width={Size[8]}
-            height={Size[8]}
-            fill={colors.text}
-          />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={styles.backPrev}
+        onPress={() => player.skipForward()}
+        accessibilityLabel={t("player.skip_forward")}
+      >
+        <IconSkipForward width={Size[8]} height={Size[8]} fill={colors.text} />
+      </TouchableOpacity>
     </View>
   );
 };

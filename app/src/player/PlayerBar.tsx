@@ -1,6 +1,5 @@
 import { useTrackQuery } from "@auralous/api";
 import player, {
-  usePlaybackColors,
   usePlaybackCurrentControl,
   usePlaybackTrackId,
 } from "@auralous/player";
@@ -41,7 +40,6 @@ const styles = StyleSheet.create({
 const PlayerBar: FC = () => {
   const { t } = useTranslation();
 
-  const gradientColors = usePlaybackColors();
   const isPlaying = usePlaybackCurrentControl();
   const trackId = usePlaybackTrackId();
   const playbackCurrentContext = usePlaybackCurrentControl();
@@ -56,7 +54,7 @@ const PlayerBar: FC = () => {
 
   if (!playbackCurrentContext) return null;
   return (
-    <View style={[styles.root, { backgroundColor: gradientColors[1] }]}>
+    <View style={styles.root}>
       <Pressable
         style={styles.viewExpandTrigger}
         onPress={() => player.emit("__player_bar_pressed")}

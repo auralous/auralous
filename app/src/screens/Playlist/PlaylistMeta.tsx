@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Meta: FC<{ playlist: Playlist }> = ({ playlist }) => {
+const PlaylistMeta: FC<{ playlist: Playlist }> = ({ playlist }) => {
   const { t } = useTranslation();
 
   const shufflePlay = useCallback(
@@ -37,6 +37,7 @@ const Meta: FC<{ playlist: Playlist }> = ({ playlist }) => {
       player.playContext({
         id: playlist.id,
         type: PlaybackContextType.Playlist,
+        shuffle: true,
       }),
     [playlist]
   );
@@ -85,4 +86,4 @@ const Meta: FC<{ playlist: Playlist }> = ({ playlist }) => {
   );
 };
 
-export default Meta;
+export default PlaylistMeta;

@@ -28,6 +28,7 @@ import { StatusBar } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { PlayerComponent, PlayerProvider } from "./player";
+import StoryScreen from "./screens/Story";
 
 const Tab = createBottomTabNavigator();
 
@@ -75,6 +76,10 @@ const routes: RouteItem[] = [
   {
     name: RouteName.Playlist,
     component: gestureHandlerRootHOC(PlaylistScreen),
+  },
+  {
+    name: RouteName.Story,
+    component: gestureHandlerRootHOC(StoryScreen),
   },
 ];
 

@@ -51,7 +51,8 @@
     "x_song_plural": "{{count}} songs"
   },
   "story": {
-    "title": "Story"
+    "title": "Story",
+    "join_live": "Join LIVE"
   },
   "player": {
     "title": "Player",

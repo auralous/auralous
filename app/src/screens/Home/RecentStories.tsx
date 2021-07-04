@@ -1,9 +1,10 @@
 import { useStoriesQuery } from "@auralous/api";
-import player, { PlaybackContextType } from "@auralous/player";
 import { Size, StoryItem } from "@auralous/ui";
+import { useNavigation } from "@react-navigation/native";
 import { FC } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { RouteName } from "../types";
 import scrollStyles from "./ScrollView.styles";
 
 const styles = StyleSheet.create({
@@ -17,6 +18,8 @@ const RecentStories: FC = () => {
     variables: { id: "PUBLIC", limit: 8 },
   });
 
+  const navigation = useNavigation();
+
   return (
     <ScrollView
       style={scrollStyles.scroll}
@@ -28,12 +31,7 @@ const RecentStories: FC = () => {
         <TouchableOpacity
           key={story.id}
           style={styles.storyItemWrapper}
-          onPress={() =>
-            player.playContext({
-              type: PlaybackContextType.Story,
-              id: story.id,
-            })
-          }
+          onPress={() => navigation.navigate(RouteName.Story, { id: story.id })}
         >
           <StoryItem story={story} />
         </TouchableOpacity>

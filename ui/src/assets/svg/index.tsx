@@ -23,6 +23,7 @@ import IconSendRaw from "./send.svg";
 import IconSkipBackRaw from "./skip-back.svg";
 import IconSkipForwardRaw from "./skip-forward.svg";
 import IconSpotifyRaw from "./spotify.svg";
+import IconUserRaw from "./user.svg";
 import IconXRaw from "./x.svg";
 import IconYoutubeRaw from "./youtube.svg";
 
@@ -59,3 +60,4 @@ export const IconSkipForward = wrapIcon(IconSkipForwardRaw);
 export const IconSpotify = wrapIcon(IconSpotifyRaw);
 export const IconX = wrapIcon(IconXRaw);
 export const IconYoutube = wrapIcon(IconYoutubeRaw);
+export const IconUser = wrapIcon(IconUserRaw);

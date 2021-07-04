@@ -51,7 +51,8 @@
     "x_song_plural": "{{count}} bài hát"
   },
   "story": {
-    "title": "Story"
+    "title": "Story",
+    "join_live": "Tham gia"
   },
   "player": {
     "title": "Trình phát",

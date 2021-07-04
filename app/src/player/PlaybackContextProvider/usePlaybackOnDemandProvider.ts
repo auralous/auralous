@@ -14,6 +14,7 @@ import player, {
   PlaybackContextType,
   PlaybackCurrentContext,
 } from "@auralous/player";
+import { shuffle } from "@auralous/ui";
 import { useEffect, useMemo, useState } from "react";
 import { useClient } from "urql";
 
@@ -48,7 +49,10 @@ const usePlaybackOnDemandProvider = (
       trackPromises.then((tracks) => {
         if (stale) return;
         if (!tracks) return setQueueItems([]);
-        setPlayingIndex(0);
+        if (contextData.shuffle) {
+          tracks = shuffle([...tracks]);
+        }
+        setPlayingIndex(contextData.initialIndex ?? 0);
         setQueueItems(
           tracks.map((track, index) => ({
             creatorId: "",
@@ -57,6 +61,7 @@ const usePlaybackOnDemandProvider = (
             __typename: "QueueItem",
           }))
         );
+        player.seek(0);
       });
     }
     return () => {
@@ -72,19 +77,33 @@ const usePlaybackOnDemandProvider = (
     return queueItems.slice(playingIndex + 1);
   }, [queueItems, playingIndex]);
 
-  const canSkipBackward = !!queueItems && playingIndex > 0;
-  const canSkipForward = playingIndex < queueItems.length;
-
   const me = useMe();
 
   useEffect(() => {
     if (!active) return;
-    const skipForward = () =>
-      setPlayingIndex((prevPlayingIndex) =>
-        Math.min(prevPlayingIndex + 1, queueItems.length - 1)
-      );
-    const skipBackward = () =>
-      setPlayingIndex((prevPlayingIndex) => Math.max(prevPlayingIndex - 1, 0));
+    const skipForward = () => {
+      setPlayingIndex((prevPlayingIndex) => {
+        if (prevPlayingIndex === queueItems.length - 1) {
+          // Edge case: if this is the only queue item, seek to beginning of track
+          if (queueItems.length === 0) player.seek(0);
+          // reach end of queue, go back to first track
+          return 0;
+        }
+        return prevPlayingIndex + 1;
+      });
+    };
+    const skipBackward = () => {
+      setPlayingIndex((prevPlayingIndex) => {
+        if (prevPlayingIndex <= 0) {
+          // Edge case: if this is the only queue item, seek to beginning of track
+          if (queueItems.length === 0) player.seek(0);
+          // at first item, go to the last track
+          return queueItems.length - 1;
+        } else {
+          return prevPlayingIndex - 1;
+        }
+      });
+    };
 
     const onEnded = () =>
       setPlayingIndex((prevPlayingIndex) => {
@@ -179,11 +198,9 @@ const usePlaybackOnDemandProvider = (
     () => ({
       nextItems,
       trackId: queueItems[playingIndex]?.trackId || null,
-      canSkipBackward,
-      canSkipForward,
       fetching: false,
     }),
-    [nextItems, canSkipBackward, canSkipForward, queueItems, playingIndex]
+    [nextItems, queueItems, playingIndex]
   );
 };
 

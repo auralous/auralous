@@ -6,7 +6,7 @@ import player, {
 import { FC, useEffect, useMemo, useState } from "react";
 import { usePlaybackContextProvider } from "./PlaybackContextProvider";
 import usePlaybackAuthentication from "./usePlaybackAuthentication";
-import { useTrackColors } from "./useTrackColors";
+import { useTrackColor } from "./useTrackColor";
 
 export const PlayerProvider: FC = ({ children }) => {
   const [playbackCurrentContext, setContextSelector] =
@@ -95,17 +95,15 @@ export const PlayerProvider: FC = ({ children }) => {
   const fetching = Boolean(playbackProvided?.fetching || fetchingCrossTracks);
 
   // Colors for theme
-  const colors = useTrackColors(playingTrackId);
+  const color = useTrackColor(playingTrackId);
 
   return (
     <PlaybackContext.Provider
       value={{
         playbackCurrentContext,
-        canSkipBackward: !!playbackProvided?.canSkipBackward,
-        canSkipForward: !!playbackProvided?.canSkipForward,
         trackId: playingTrackId,
         nextItems: playbackProvided?.nextItems || [],
-        colors,
+        color,
         fetching,
         isPlaying,
       }}

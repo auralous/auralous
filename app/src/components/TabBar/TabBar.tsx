@@ -1,44 +1,48 @@
 import { PlayerBar } from "@/player";
+import { useAnimatedBgColors } from "@/player/useAnimatedBgColors";
 import { RouteName } from "@/screens/types";
-import { usePlaybackColors } from "@auralous/player";
+import { usePlaybackColor } from "@auralous/player";
 import { IconHome, IconMapPin, makeStyles, Size } from "@auralous/ui";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import Animated from "react-native-reanimated";
 import Tab from "./Tab";
 
 const styles = StyleSheet.create({
+  bg: {
+    ...StyleSheet.absoluteFillObject,
+    opacity: 0.7,
+  },
   root: {
     width: "100%",
     justifyContent: "flex-end",
   },
 });
 
-const useStyles = makeStyles((theme, colors: [string, string]) => ({
+const useStyles = makeStyles((theme) => ({
   tabBars: {
     width: "100%",
     height: Size[14],
     alignItems: "center",
     flexDirection: "row",
-    backgroundColor: colors[1],
     borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: theme.colors.border,
   },
 }));
 
 const TabBar: FC<BottomTabBarProps> = ({ navigation, state }) => {
-  const playbackColors = usePlaybackColors();
-
   const { t } = useTranslation();
 
-  const dstyles = useStyles(playbackColors);
-
+  const dstyles = useStyles();
+  const animatedStyle = useAnimatedBgColors(usePlaybackColor());
   const currentRoute = state.routeNames[state.index];
 
   return (
     <>
       <View style={styles.root}>
+        <Animated.View style={[styles.bg, animatedStyle]} />
         <PlayerBar />
         <View style={dstyles.tabBars}>
           <Tab

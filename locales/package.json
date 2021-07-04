@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "description": "I18N for Auralous",
   "scripts": {
-    "build": "yarn format && cp -R src dist",
-    "format": "npx prettier src -w"
+    "build": "npx prettier src -w"
   },
   "repository": {
     "type": "git",
