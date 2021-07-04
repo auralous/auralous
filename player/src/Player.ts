@@ -26,7 +26,7 @@ interface Player {
   on(state: "time", fn: (ms: number) => void): void;
   on(state: "skip-forward", fn: () => void): void;
   on(state: "skip-backward", fn: () => void): void;
-  on(state: "play-index", fn: (index: number) => void): void;
+  on(state: "queue-play-uid", fn: (uid: string) => void): void;
   on(state: "play-next", fn: (uids: string[]) => void): void;
   on(
     state: "queue-reorder",
@@ -45,7 +45,7 @@ interface Player {
   off(state: "time", fn: (ms: number) => void): void;
   off(state: "skip-forward", fn: () => void): void;
   off(state: "skip-backward", fn: () => void): void;
-  off(state: "play-index", fn: (index: number) => void): void;
+  off(state: "queue-play-uid", fn: (uid: string) => void): void;
   off(state: "play-next", fn: (uids: string[]) => void): void;
   off(
     state: "queue-reorder",
@@ -67,7 +67,7 @@ interface Player {
   emit(state: "time", ms: number): void;
   emit(state: "skip-forward"): void;
   emit(state: "skip-backward"): void;
-  emit(state: "play-index", index: number): void;
+  emit(state: "queue-play-uid", uid: string): void;
   emit(state: "play-next", uids: string[]): void;
   emit(state: "queue-reorder", from: number, to: number, data: unknown[]): void;
   emit(state: "queue-remove", uids: string[]): void;

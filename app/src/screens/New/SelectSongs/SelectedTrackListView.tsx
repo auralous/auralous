@@ -1,6 +1,5 @@
 import { useTrackQuery } from "@auralous/api";
 import {
-  BottomSheetCustomBackground,
   Button,
   Font,
   IconChevronDown,
@@ -39,11 +38,6 @@ const styles = StyleSheet.create({
   placeholder: {
     height: cascadedHeight,
   },
-  root: {
-    paddingHorizontal: Size[3],
-    paddingTop: Size[4],
-    paddingBottom: Size[16],
-  },
   metaBar: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -64,6 +58,12 @@ const styles = StyleSheet.create({
 });
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingHorizontal: Size[3],
+    paddingTop: Size[4],
+    paddingBottom: Size[16],
+    backgroundColor: theme.colors.backgroundSecondary,
+  },
   selectOpts: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -110,6 +110,7 @@ const LoadableQueueTrackItem: FC<{
       onToggle={() => toggleChecked(params.item)}
       track={data?.track || null}
       fetching={fetching}
+      uid={params.item} // not uid but not important
     />
   );
 };
@@ -218,9 +219,9 @@ const SelectedTrackListView: FC<{
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
-        backgroundComponent={BottomSheetCustomBackground}
+        backgroundComponent={null}
         handleComponent={null}
-        style={styles.root}
+        style={dstyles.root}
       >
         <View style={styles.metaBar}>
           <Text color="textSecondary">

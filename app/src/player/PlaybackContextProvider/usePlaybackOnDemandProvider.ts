@@ -24,6 +24,9 @@ const usePlaybackOnDemandProvider = (
 ): PlaybackContextProvided => {
   const [queueItems, setQueueItems] = useState<QueueItem[]>([]);
   const client = useClient();
+
+  const [playingIndex, setPlayingIndex] = useState(0);
+
   useEffect(() => {
     let stale = false;
     if (!contextData) setQueueItems([]);
@@ -67,10 +70,7 @@ const usePlaybackOnDemandProvider = (
     return () => {
       stale = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contextData]);
-
-  const [playingIndex, setPlayingIndex] = useState(0);
+  }, [contextData, client]);
 
   // TODO: This takes a lot of time
   const nextItems = useMemo(() => {
@@ -105,22 +105,11 @@ const usePlaybackOnDemandProvider = (
       });
     };
 
-    const onEnded = () =>
-      setPlayingIndex((prevPlayingIndex) => {
-        if (prevPlayingIndex >= queueItems.length - 1) {
-          // reach the end of queue, pause it
-          player.pause();
-          return prevPlayingIndex;
-        } else {
-          return prevPlayingIndex + 1;
-        }
-      });
-
     player.on("skip-forward", skipForward);
     player.on("skip-backward", skipBackward);
-    player.on("ended", onEnded);
+    player.on("ended", skipForward);
     return () => {
-      player.off("ended", onEnded);
+      player.off("ended", skipForward);
       player.off("skip-forward", skipForward);
       player.off("skip-backward", skipBackward);
     };
@@ -128,7 +117,11 @@ const usePlaybackOnDemandProvider = (
 
   useEffect(() => {
     if (!active) return;
-    player.on("play-index", setPlayingIndex);
+    const onPlayUid = (uid: string) => {
+      const index = queueItems.findIndex((value) => value.uid === uid);
+      setPlayingIndex(index);
+    };
+    player.on("queue-play-uid", onPlayUid);
     const onRemove = (uids: string[]) => {
       setQueueItems((localQueueItems) =>
         localQueueItems.filter((item) => !uids.includes(item.uid))
@@ -136,10 +129,10 @@ const usePlaybackOnDemandProvider = (
     };
     player.on("queue-remove", onRemove);
     return () => {
-      player.off("play-index", setPlayingIndex);
+      player.off("queue-play-uid", setPlayingIndex);
       player.off("queue-remove", onRemove);
     };
-  }, [active]);
+  }, [active, queueItems]);
 
   useEffect(() => {
     if (!active) return;

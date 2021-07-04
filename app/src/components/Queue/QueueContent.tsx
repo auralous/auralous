@@ -71,6 +71,11 @@ const DraggableQueueItem: FC<{ params: RenderItemParams<QueueItem> }> = ({
     },
   });
 
+  const onPress = useCallback(
+    (uid: string) => player.emit("queue-play-uid", uid),
+    []
+  );
+
   const { toggleSelected, selected } = useContext(QueueContext);
 
   return (
@@ -81,6 +86,8 @@ const DraggableQueueItem: FC<{ params: RenderItemParams<QueueItem> }> = ({
         drag={drag}
         checked={!!selected[item.uid]}
         onToggle={() => toggleSelected(item.uid)}
+        uid={item.uid}
+        onPress={onPress}
       />
     </OpacityDecorator>
   );

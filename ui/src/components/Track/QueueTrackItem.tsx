@@ -4,7 +4,10 @@ import { Checkbox } from "@auralous/ui/components/Checkbox";
 import { Size } from "@auralous/ui/styles";
 import { FC } from "react";
 import { StyleSheet, View } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import TrackItem from "./TrackItem";
 
 const styles = StyleSheet.create({
@@ -18,6 +21,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: Size[2],
     overflow: "hidden",
+  },
+  tContainer: {
+    flex: 1,
   },
   check: {
     height: Size[12],
@@ -33,28 +39,37 @@ const styles = StyleSheet.create({
 });
 
 interface QueueTrackItemProps {
+  uid: string;
   track: Maybe<Track>;
   fetching?: boolean;
   drag(): void;
   checked: boolean;
   onToggle(checked: boolean): void;
+  onPress?(uid: string): void;
 }
 
 const QueueTrackItem: FC<QueueTrackItemProps> = ({
+  uid,
   track,
   fetching,
   drag,
   checked,
   onToggle,
+  onPress,
 }) => {
   return (
     <View style={styles.root}>
       <View style={styles.check}>
         <Checkbox checked={checked} onValueChange={onToggle} />
       </View>
-      <View style={styles.track}>
+      <TouchableOpacity
+        style={styles.track}
+        containerStyle={styles.tContainer}
+        onPress={onPress ? () => onPress(uid) : undefined}
+        activeOpacity={onPress ? 0.2 : 1}
+      >
         <TrackItem track={track} fetching={fetching} />
-      </View>
+      </TouchableOpacity>
       <TouchableWithoutFeedback onPressIn={drag} style={styles.drag}>
         <IconMenu />
       </TouchableWithoutFeedback>
