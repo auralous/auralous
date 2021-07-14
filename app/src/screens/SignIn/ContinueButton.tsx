@@ -1,7 +1,12 @@
 import { makeStyles, Size, Text, ThemeColorKey } from "@auralous/ui";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, Pressable, View } from "react-native";
+import {
+  Linking,
+  Pressable,
+  PressableStateCallbackType,
+  View,
+} from "react-native";
 import Config from "react-native-config";
 
 const useStyles = makeStyles(
@@ -37,20 +42,24 @@ const ContinueButton: FC<ContinueButtonProps> = ({
 }) => {
   const dstyles = useStyles(platform);
   const { t } = useTranslation();
+  const style = useCallback(
+    ({ pressed }: PressableStateCallbackType) => [
+      dstyles.pressable,
+      { opacity: pressed ? 0.75 : 1 },
+    ],
+    [dstyles]
+  );
+  const doLogin = useCallback(
+    () => Linking.openURL(`${Config.API_URI}/auth/${platform}?is_app_login=1`),
+    [platform]
+  );
+
   return (
     <View>
       <Text color="textSecondary" align="center">
         {t("sign_in.listen_on", { name: listenOn })}
       </Text>
-      <Pressable
-        style={({ pressed }) => [
-          dstyles.pressable,
-          { opacity: pressed ? 0.75 : 1 },
-        ]}
-        onPress={() =>
-          Linking.openURL(`${Config.API_URI}/auth/${platform}?is_app_login=1`)
-        }
-      >
+      <Pressable style={style} onPress={doLogin}>
         {icon}
         <Text style={dstyles.text} bold>
           {t("sign_in.continue_with", { name })}

@@ -1,14 +1,25 @@
-import { LoadingScreen } from "@/components/Loading";
 import { Story, Track, useStoryTracksQuery } from "@auralous/api";
 import player, { PlaybackContextType } from "@auralous/player";
-import { Button, Size, Spacer, Text, TrackItem } from "@auralous/ui";
+import {
+  Button,
+  LoadingScreen,
+  RecyclerList,
+  RecyclerRenderItem,
+  Size,
+  Spacer,
+  Text,
+  TrackItem,
+} from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { createContext, FC, useCallback, useContext } from "react";
+import { createContext, FC, memo, useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { RouteName } from "../types";
 import StoryMeta from "./StoryMeta";
+
+const listPadding = Size[3];
+const itemPadding = Size[1];
 
 const styles = StyleSheet.create({
   tag: {
@@ -20,11 +31,11 @@ const styles = StyleSheet.create({
   tagText: {
     color: "#333333",
   },
-  list: {
-    padding: Size[3],
+  listContent: {
+    padding: listPadding,
   },
   item: {
-    padding: Size[1],
+    padding: itemPadding,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -37,10 +48,10 @@ const styles = StyleSheet.create({
 
 const StoryIdContext = createContext("");
 
-const StoryTrackItem: FC<{
+const StoryTrackItem = memo<{
   track: Track;
   index: number;
-}> = ({ track, index }) => {
+}>(function StoryTrackItem({ track, index }) {
   const storyId = useContext(StoryIdContext);
   const onPress = useCallback(
     () =>
@@ -57,12 +68,10 @@ const StoryTrackItem: FC<{
       <TrackItem track={track} key={index} />
     </TouchableOpacity>
   );
-};
+});
 
-const ItemSeparatorComponent: FC = () => <Spacer y={3} />;
-
-const renderItem: ListRenderItem<Track> = (params) => (
-  <StoryTrackItem key={params.index} track={params.item} index={params.index} />
+const renderItem: RecyclerRenderItem<Track> = ({ item, index }) => (
+  <StoryTrackItem key={index} track={item} index={index} />
 );
 
 const StoryNonLiveContent: FC<{ story: Story }> = ({ story }) => {
@@ -117,13 +126,13 @@ const StoryNonLiveContent: FC<{ story: Story }> = ({ story }) => {
         </Button>
       </View>
       <StoryIdContext.Provider value={story.id}>
-        <FlatList
-          contentContainerStyle={styles.list}
+        <RecyclerList
+          contentContainerStyle={styles.listContent}
           ListEmptyComponent={fetching ? <LoadingScreen /> : null}
           data={data?.storyTracks || []}
+          height={Size[12] + 2 * itemPadding + Size[3]} // height + 2 * padding + seperator
           renderItem={renderItem}
-          removeClippedSubviews
-          ItemSeparatorComponent={ItemSeparatorComponent}
+          contentHorizontalPadding={listPadding}
         />
       </StoryIdContext.Provider>
     </>

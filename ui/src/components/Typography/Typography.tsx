@@ -5,7 +5,7 @@ import {
   ThemeColorKey,
   useColors,
 } from "@auralous/ui/styles";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import {
   Linking,
   Pressable,
@@ -84,8 +84,9 @@ export const TextLink: FC<TextProps & TextLinkProps> = ({
   if (!props.color) props.color = "primary";
   const colors = useColors();
   const styles = useStyles(props);
+  const onPress = useCallback(() => Linking.openURL(href), [href]);
   return (
-    <Pressable onPress={() => Linking.openURL(href)}>
+    <Pressable onPress={onPress}>
       {({ pressed }) => (
         <RNText
           numberOfLines={numberOfLines}

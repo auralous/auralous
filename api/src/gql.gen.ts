@@ -299,6 +299,7 @@ export type Query = {
   storyTracks: Array<Track>;
   storyUsers?: Maybe<Array<Scalars['String']>>;
   track?: Maybe<Track>;
+  tracks: Array<Maybe<Track>>;
   user?: Maybe<User>;
   userFollowers: Array<Scalars['String']>;
   userFollowings: Array<Scalars['String']>;
@@ -395,6 +396,11 @@ export type QueryStoryUsersArgs = {
 
 export type QueryTrackArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryTracksArgs = {
+  ids: Array<Scalars['ID']>;
 };
 
 
@@ -973,6 +979,16 @@ export type TrackQuery = { track?: Maybe<(
     & TrackPartsFragment
   )> };
 
+export type TracksQueryVariables = Exact<{
+  ids: Array<Scalars['ID']> | Scalars['ID'];
+}>;
+
+
+export type TracksQuery = { tracks: Array<Maybe<(
+    { __typename: 'Track' }
+    & TrackPartsFragment
+  )>> };
+
 export type CrossTracksQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1288,6 +1304,11 @@ export const TrackDocument = {"kind":"Document","definitions":[{"kind":"Operatio
 export function useTrackQuery(options: Omit<Urql.UseQueryArgs<TrackQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<TrackQuery>({ query: TrackDocument, ...options });
 };
+export const TracksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"tracks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tracks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"artists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"}}]}}]}}]} as unknown as DocumentNode;
+
+export function useTracksQuery(options: Omit<Urql.UseQueryArgs<TracksQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<TracksQuery>({ query: TracksDocument, ...options });
+};
 export const CrossTracksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"crossTracks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"crossTracks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"youtube"}},{"kind":"Field","name":{"kind":"Name","value":"spotify"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useCrossTracksQuery(options: Omit<Urql.UseQueryArgs<CrossTracksQueryVariables>, 'query'> = {}) {
@@ -1388,6 +1409,7 @@ export type GraphCacheResolvers = {
     storyTracks?: GraphCacheResolver<WithTypename<Query>, QueryStoryTracksArgs, Array<WithTypename<Track> | string>>,
     storyUsers?: GraphCacheResolver<WithTypename<Query>, QueryStoryUsersArgs, Array<Scalars['String'] | string>>,
     track?: GraphCacheResolver<WithTypename<Query>, QueryTrackArgs, WithTypename<Track> | string>,
+    tracks?: GraphCacheResolver<WithTypename<Query>, QueryTracksArgs, Array<WithTypename<Track> | string>>,
     user?: GraphCacheResolver<WithTypename<Query>, QueryUserArgs, WithTypename<User> | string>,
     userFollowers?: GraphCacheResolver<WithTypename<Query>, QueryUserFollowersArgs, Array<Scalars['String'] | string>>,
     userFollowings?: GraphCacheResolver<WithTypename<Query>, QueryUserFollowingsArgs, Array<Scalars['String'] | string>>,

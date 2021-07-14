@@ -4,7 +4,7 @@ import { Avatar } from "@auralous/ui/components/Avatar";
 import { Text } from "@auralous/ui/components/Typography";
 import { makeStyles, Size } from "@auralous/ui/styles";
 import { format as formatMs } from "@auralous/ui/utils";
-import { FC, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, StyleSheet, View } from "react-native";
 
@@ -74,6 +74,7 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
         }
         defaultSource={imageSources.defaultPlaylist}
         style={styles.background}
+        accessible={false}
       >
         <View style={styles.overlay}>
           <View style={styles.top}>
@@ -104,4 +105,4 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
   );
 };
 
-export default StoryItem;
+export default memo(StoryItem);

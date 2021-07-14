@@ -107,7 +107,7 @@ const Create: FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
             {t("new.final.subtitle")}
           </Text>
           <Spacer y={12} />
-          <Button onPress={() => navigation.goBack()}>
+          <Button onPress={navigation.goBack}>
             {t("common.action.cancel")}
           </Button>
         </View>

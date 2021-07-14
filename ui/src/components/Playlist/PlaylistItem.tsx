@@ -2,7 +2,7 @@ import { Maybe, Playlist } from "@auralous/api";
 import { imageSources } from "@auralous/ui/assets";
 import { Text } from "@auralous/ui/components/Typography";
 import { Size } from "@auralous/ui/styles";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -57,4 +57,4 @@ const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
   );
 };
 
-export default PlaylistItem;
+export default memo(PlaylistItem);

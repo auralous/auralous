@@ -25,6 +25,7 @@ const PlayerViewMeta: FC<{ track: Maybe<Track> }> = ({ track }) => {
           track?.image ? { uri: track?.image } : imageSources.defaultTrack
         }
         defaultSource={imageSources.defaultTrack}
+        accessibilityLabel={track?.title}
       />
       <View style={styles.header}>
         <Text size="xl" bold numberOfLines={1}>

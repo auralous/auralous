@@ -20,7 +20,9 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import PagerView from "react-native-pager-view";
+import PagerView, {
+  PagerViewOnPageSelectedEvent,
+} from "react-native-pager-view";
 import ChatView from "./ChatView";
 import MusicView from "./MusicView";
 import PlayerViewBackground from "./PlayerViewBackground";
@@ -108,6 +110,12 @@ const PlayerView: FC = () => {
       BackHandler.removeEventListener("hardwareBackPress", onBackPress);
   }, [dismiss, sheetIndex]);
 
+  const onPageSelected = useCallback(
+    (event: PagerViewOnPageSelectedEvent) =>
+      setCurrentPage(event.nativeEvent.position),
+    []
+  );
+
   return (
     <BottomSheetModal
       onChange={setSheetIndex}
@@ -136,7 +144,7 @@ const PlayerView: FC = () => {
           }
           left={
             <Button
-              onPress={() => bottomSheetRef.current?.dismiss()}
+              onPress={dismiss}
               icon={<IconChevronDown />}
               accessibilityLabel={t("common.navigation.go_back")}
             />
@@ -158,9 +166,7 @@ const PlayerView: FC = () => {
             />
           </View>
           <PagerView
-            onPageSelected={({ nativeEvent }) =>
-              setCurrentPage(nativeEvent.position)
-            }
+            onPageSelected={onPageSelected}
             ref={pagerRef}
             style={styles.pagerView}
             initialPage={0}

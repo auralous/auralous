@@ -4,7 +4,7 @@ import player, {
   usePlaybackTrackId,
 } from "@auralous/player";
 import { IconPause, IconPlay, Size, Text, useColors } from "@auralous/ui";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const onPlayerBarPressed = () => player.emit("__player_bar_pressed");
+
 const PlayerBar: FC = () => {
   const { t } = useTranslation();
 
@@ -52,13 +54,15 @@ const PlayerBar: FC = () => {
 
   const colors = useColors();
 
+  const togglePlay = useCallback(
+    () => (isPlaying ? player.pause() : player.play()),
+    [isPlaying]
+  );
+
   if (!playbackCurrentContext) return null;
   return (
     <View style={styles.root}>
-      <Pressable
-        style={styles.viewExpandTrigger}
-        onPress={() => player.emit("__player_bar_pressed")}
-      >
+      <Pressable style={styles.viewExpandTrigger} onPress={onPlayerBarPressed}>
         <Image
           style={styles.image}
           source={
@@ -80,7 +84,7 @@ const PlayerBar: FC = () => {
       </Pressable>
       <View style={trackId ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
-          onPress={() => (isPlaying ? player.pause() : player.play())}
+          onPress={togglePlay}
           style={styles.button}
           accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
           disabled={!trackId}

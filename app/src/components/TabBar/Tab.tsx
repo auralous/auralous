@@ -1,6 +1,6 @@
 import { Size, Text, useSharedValuePressed } from "@auralous/ui";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -40,6 +40,11 @@ const Tab: FC<TabProps> = ({ Icon, navigation, name, title, currentRoute }) => {
     ],
   }));
 
+  const onPress = useCallback(
+    () => navigation.navigate(name),
+    [name, navigation]
+  );
+
   return (
     <Pressable
       style={StyleSheet.compose(
@@ -47,7 +52,7 @@ const Tab: FC<TabProps> = ({ Icon, navigation, name, title, currentRoute }) => {
         // @ts-ignore
         currentRoute !== name && { opacity: 0.5 }
       )}
-      onPress={() => navigation.navigate(name)}
+      onPress={onPress}
       {...pressedProps}
     >
       <Animated.View style={stylesContent}>

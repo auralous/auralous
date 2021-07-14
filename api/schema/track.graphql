@@ -26,6 +26,12 @@ query track($id: ID!) {
   }
 }
 
+query tracks($ids: [ID!]!) {
+  tracks(ids: $ids) {
+    ...TrackParts
+  }
+}
+
 query crossTracks($id: ID!) {
   crossTracks(id: $id) {
     id

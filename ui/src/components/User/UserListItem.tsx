@@ -2,7 +2,7 @@ import { Maybe, User } from "@auralous/api";
 import { Avatar } from "@auralous/ui/components/Avatar";
 import { Text } from "@auralous/ui/components/Typography";
 import { Size } from "@auralous/ui/styles";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { StyleSheet, View } from "react-native";
 
 interface UserListItemProps {
@@ -47,4 +47,4 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
   );
 };
 
-export default UserListItem;
+export default memo(UserListItem);

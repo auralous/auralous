@@ -1,8 +1,7 @@
-import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
 import { usePlaylistQuery } from "@auralous/api";
-import { HeaderBackable } from "@auralous/ui";
+import { HeaderBackable, LoadingScreen } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import { FC } from "react";
 import PlaylistContent from "./PlaylistContent";

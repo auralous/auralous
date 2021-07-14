@@ -5,9 +5,9 @@ import {
   useUserQuery,
   useUserUnfollowMutation,
 } from "@auralous/api";
-import { Button, Size, TextButton, UserListItem } from "@auralous/ui";
+import { Button, TextButton, UserListItem } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/core";
-import { FC, useMemo } from "react";
+import { FC, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
   root: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: Size[4],
   },
 });
 
@@ -39,25 +38,25 @@ const ListUserItem: FC<{ id: string }> = ({ id }) => {
   const [{ fetching: fetchingUnfollow }, unfollowUser] =
     useUserUnfollowMutation();
 
+  const onUnfollow = useCallback(
+    () => (me ? unfollowUser({ id }) : navigation.navigate(RouteName.SignIn)),
+    [me, unfollowUser, navigation, id]
+  );
+
+  const onFollow = useCallback(
+    () => (me ? followUser({ id }) : navigation.navigate(RouteName.SignIn)),
+    [me, followUser, navigation, id]
+  );
+
   return (
     <View style={styles.root}>
       <UserListItem user={data?.user || null} fetching={fetching} />
       {followed ? (
-        <TextButton
-          onPress={() =>
-            me ? unfollowUser({ id }) : navigation.navigate(RouteName.SignIn)
-          }
-          disabled={fetchingUnfollow}
-        >
+        <TextButton onPress={onUnfollow} disabled={fetchingUnfollow}>
           {t("user.unfollow")}
         </TextButton>
       ) : (
-        <Button
-          onPress={() =>
-            me ? followUser({ id }) : navigation.navigate(RouteName.SignIn)
-          }
-          disabled={fetchingFollow}
-        >
+        <Button onPress={onFollow} disabled={fetchingFollow}>
           {t("user.follow")}
         </Button>
       )}
@@ -65,4 +64,4 @@ const ListUserItem: FC<{ id: string }> = ({ id }) => {
   );
 };
 
-export default ListUserItem;
+export default memo(ListUserItem);

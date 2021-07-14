@@ -3,7 +3,7 @@ import { imageSources } from "@auralous/ui/assets";
 import { Spacer } from "@auralous/ui/components/Spacer";
 import { Text } from "@auralous/ui/components/Typography";
 import { Size } from "@auralous/ui/styles";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -63,4 +63,4 @@ const PlaylistListItem: FC<PlaylistListItemProps> = ({ playlist }) => {
   );
 };
 
-export default PlaylistListItem;
+export default memo(PlaylistListItem);

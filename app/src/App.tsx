@@ -17,7 +17,10 @@ import {
 } from "@/screens/User";
 import { makeStyles, useTheme } from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
@@ -35,6 +38,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const linking: LinkingOptions<ParamList> = {
+  enabled: true,
   prefixes: ["auralous://"],
   config: {
     screens: {
@@ -136,12 +140,11 @@ const MainScreen: FC = () => {
   );
 };
 
+const tabBar = (props: BottomTabBarProps) => <TabBar {...props} />;
+
 const RootScreen: FC = () => {
   return (
-    <Tab.Navigator
-      tabBar={(props) => <TabBar {...props} />}
-      screenOptions={{ headerShown: false }}
-    >
+    <Tab.Navigator tabBar={tabBar} screenOptions={{ headerShown: false }}>
       <Tab.Screen name={RouteName.Main} component={MainScreen} />
       <Tab.Screen name="map" component={MapScreen} />
     </Tab.Navigator>

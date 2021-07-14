@@ -4,7 +4,7 @@ import { Spacer } from "@auralous/ui/components/Spacer";
 import { Text } from "@auralous/ui/components/Typography";
 import { Size, useColors } from "@auralous/ui/styles";
 import { msToHMS } from "@auralous/ui/utils";
-import { FC, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 interface TrackItemProps {
@@ -80,4 +80,4 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
   );
 };
 
-export default TrackItem;
+export default memo(TrackItem);

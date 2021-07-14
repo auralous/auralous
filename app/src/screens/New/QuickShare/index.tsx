@@ -1,4 +1,3 @@
-import { LoadingScreen } from "@/components/Loading";
 import { ParamList, RouteName } from "@/screens/types";
 import {
   Playlist,
@@ -12,7 +11,7 @@ import {
   usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
 } from "@auralous/api";
-import { HeaderBackable, Size } from "@auralous/ui";
+import { HeaderBackable, LoadingScreen, Size } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

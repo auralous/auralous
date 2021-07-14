@@ -2,7 +2,7 @@ import { Track } from "@auralous/api";
 import { PlaybackState } from "@auralous/player";
 import { Heading, IconX, makeStyles, Size } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { FC, useEffect, useRef } from "react";
+import { FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, StatusBar, StyleSheet, View } from "react-native";
 import {
@@ -76,13 +76,12 @@ export const QueueModal: FC<{
   currentTrack: Track | null;
 }> = ({ nextItems, currentTrack }) => {
   const ref = useRef<BottomSheetModal>(null);
+  const onOpen = useCallback(() => ref.current?.present(), []);
+  const onClose = useCallback(() => ref.current?.dismiss(), []);
 
   return (
     <>
-      <MetaAndButton
-        nextItems={nextItems}
-        onPress={() => ref.current?.present()}
-      />
+      <MetaAndButton nextItems={nextItems} onPress={onOpen} />
       <BottomSheetModal
         ref={ref}
         snapPoints={snapPoints}
@@ -92,7 +91,7 @@ export const QueueModal: FC<{
         <QueueSheetWithHoc
           currentTrack={currentTrack}
           nextItems={nextItems}
-          onClose={() => ref.current?.dismiss()}
+          onClose={onClose}
         />
       </BottomSheetModal>
     </>

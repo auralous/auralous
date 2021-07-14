@@ -1,5 +1,5 @@
 import { Size } from "@auralous/ui/styles";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 interface SpacerProps {
@@ -22,4 +22,4 @@ const Spacer: FC<SpacerProps> = ({ x, y, style }) => {
   );
 };
 
-export default Spacer;
+export default memo(Spacer);

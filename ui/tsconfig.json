@@ -25,7 +25,8 @@
       "react-native-reanimated": [
         "../app/node_modules/react-native-reanimated"
       ],
-      "react-native-svg": ["../app/node_modules/react-native-svg"]
+      "react-native-svg": ["../app/node_modules/react-native-svg"],
+      "recyclerlistview": ["../app/node_modules/recyclerlistview"]
     }
   },
   "references": [

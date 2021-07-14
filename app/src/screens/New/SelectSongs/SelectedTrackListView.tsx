@@ -1,21 +1,27 @@
-import { useTrackQuery } from "@auralous/api";
+import { TrackDocument, TrackQuery, TrackQueryVariables } from "@auralous/api";
 import {
   Button,
+  DraggableRecyclerList,
+  DraggableRecyclerRenderItem,
+  DraggableRecyclerRenderItemInfo,
   Font,
   IconChevronDown,
   IconChevronUp,
   identityFn,
   makeStyles,
   QueueTrackItem,
+  reorder,
   Size,
-  Spacer,
   Text,
   TextButton,
 } from "@auralous/ui";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {
   createContext,
+  Dispatch,
   FC,
+  memo,
+  SetStateAction,
   useCallback,
   useContext,
   useEffect,
@@ -25,12 +31,8 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, StyleSheet, View } from "react-native";
-import DraggableFlatList, {
-  DragEndParams,
-  OpacityDecorator,
-  RenderItemParams,
-} from "react-native-draggable-flatlist";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useClient } from "urql";
 
 const cascadedHeight = 112;
 
@@ -44,9 +46,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: Size[4],
     paddingHorizontal: Size[1],
-  },
-  flexFill: {
-    flex: 1,
   },
   toggleExpand: {
     padding: Size[1],
@@ -83,8 +82,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ItemSeparatorComponent: FC = () => <Spacer y={3} />;
-
 const snapPoints = [cascadedHeight, "100%"];
 
 const CheckedContext = createContext(
@@ -94,39 +91,56 @@ const CheckedContext = createContext(
   }
 );
 
-const LoadableQueueTrackItem: FC<{
-  params: RenderItemParams<string>;
-}> = ({ params }) => {
-  const [{ data, fetching }] = useTrackQuery({
-    variables: { id: params.item },
-  });
+const SelectedQueueTrackItem = memo<{
+  params: DraggableRecyclerRenderItemInfo<string>;
+}>(
+  function SelectedQueueTrackItem({ params }) {
+    const client = useClient();
+    // We know for sure that the track has been loaded
+    // before being added as an queue item
+    const track = useMemo(
+      () =>
+        client.readQuery<TrackQuery, TrackQueryVariables>(TrackDocument, {
+          id: params.item,
+        })?.data?.track || null,
+      [client, params.item]
+    );
 
-  const { toggleChecked, checked } = useContext(CheckedContext);
+    const { toggleChecked, checked } = useContext(CheckedContext);
 
-  return (
-    <QueueTrackItem
-      checked={!!checked[params.item]}
-      drag={params.drag}
-      onToggle={() => toggleChecked(params.item)}
-      track={data?.track || null}
-      fetching={fetching}
-      uid={params.item} // not uid but not important
-    />
-  );
-};
+    const onToggle = useCallback(
+      () => toggleChecked(params.item),
+      [toggleChecked, params.item]
+    );
 
-const renderItem = (params: RenderItemParams<string>) => {
-  return (
-    <OpacityDecorator>
-      <LoadableQueueTrackItem params={params} />
-    </OpacityDecorator>
-  );
-};
+    return (
+      <QueueTrackItem
+        checked={!!checked[params.item]}
+        drag={params.drag}
+        onToggle={onToggle}
+        track={track}
+        uid={params.item} // not uid but not important
+      />
+    );
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.params.drag === nextProps.params.drag &&
+      prevProps.params.item === prevProps.params.item
+    );
+  }
+);
+
+const renderItem: DraggableRecyclerRenderItem<string> = (params) => (
+  <SelectedQueueTrackItem params={params} />
+);
+
+const keyExtractor = (item: string) => item;
 
 const SelectedTrackListView: FC<{
   onFinish(selectedTracks: string[]): void;
   selectedTracks: string[];
-  setSelectedTracks(selectedTracks: string[]): void;
+  setSelectedTracks: Dispatch<SetStateAction<string[]>>;
 }> = ({ onFinish, selectedTracks, setSelectedTracks }) => {
   const dstyles = useStyles();
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -175,8 +189,8 @@ const SelectedTrackListView: FC<{
     });
 
     setChecked(checkedClone);
-    setSelectedTracks(selectedTracks.filter((t) => !removingUids.includes(t)));
-  }, [selectedTracks, setSelectedTracks, checked]);
+    setSelectedTracks((prev) => prev.filter((t) => !removingUids.includes(t)));
+  }, [setSelectedTracks, checked]);
 
   const moveToTopChecked = useCallback(() => {
     const checkedClone = { ...checked };
@@ -190,14 +204,16 @@ const SelectedTrackListView: FC<{
     });
 
     setChecked(checkedClone);
-    setSelectedTracks([
+    setSelectedTracks((prev) => [
       ...toTopUids,
-      ...selectedTracks.filter((t) => !toTopUids.includes(t)),
+      ...prev.filter((t) => !toTopUids.includes(t)),
     ]);
-  }, [selectedTracks, setSelectedTracks, checked]);
+  }, [setSelectedTracks, checked]);
 
   const onDragEnd = useCallback(
-    ({ data }: DragEndParams<string>) => setSelectedTracks(data),
+    (from: number, to: number) => {
+      setSelectedTracks((prev) => reorder(prev, from, to));
+    },
     [setSelectedTracks]
   );
 
@@ -233,16 +249,13 @@ const SelectedTrackListView: FC<{
             {expanded ? <IconChevronDown /> : <IconChevronUp />}
           </TouchableOpacity>
         </View>
-        <View style={styles.flexFill}>
-          <DraggableFlatList
-            data={selectedTracks}
-            renderItem={renderItem}
-            onDragEnd={onDragEnd}
-            keyExtractor={identityFn}
-            ItemSeparatorComponent={ItemSeparatorComponent}
-            removeClippedSubviews
-          />
-        </View>
+        <DraggableRecyclerList
+          data={selectedTracks}
+          renderItem={renderItem}
+          onDragEnd={onDragEnd}
+          height={Size[12] + Size[2] + Size[3]} // height + 2 * padding + seperator
+          keyExtractor={identityFn}
+        />
       </BottomSheet>
       <View style={dstyles.bottomContainer}>
         {hasChecked ? (

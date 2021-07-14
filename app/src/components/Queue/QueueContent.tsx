@@ -1,7 +1,16 @@
-import { QueueItem, Track, useTrackQuery } from "@auralous/api";
+import { usePreloadedTrackQueries } from "@/gql/track";
+import {
+  QueueItem,
+  Track,
+  TrackDocument,
+  TrackQuery,
+  TrackQueryVariables,
+} from "@auralous/api";
 import player, { PlaybackState } from "@auralous/player";
 import {
   Button,
+  DraggableRecyclerList,
+  DraggableRecyclerRenderItemInfo,
   Font,
   Heading,
   makeStyles,
@@ -15,6 +24,7 @@ import {
 import {
   createContext,
   FC,
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -23,12 +33,8 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import DraggableFlatList, {
-  DragEndParams,
-  OpacityDecorator,
-  RenderItemParams,
-} from "react-native-draggable-flatlist";
 import "react-native-gesture-handler";
+import { useClient } from "urql";
 import { QueueAdder } from "./QueueAdder";
 
 const QueueContext = createContext(
@@ -39,7 +45,7 @@ const QueueContext = createContext(
 );
 
 const styles = StyleSheet.create({
-  filled: {
+  root: {
     flex: 1,
   },
   np: {
@@ -62,42 +68,54 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DraggableQueueItem: FC<{ params: RenderItemParams<QueueItem> }> = ({
-  params: { item, drag },
-}) => {
-  const [{ data, fetching }] = useTrackQuery({
-    variables: {
-      id: item.trackId,
-    },
-  });
+const DraggableQueueItem = memo<{
+  params: DraggableRecyclerRenderItemInfo<QueueItem>;
+}>(
+  function DraggableQueueItem({ params }) {
+    const onPress = useCallback(
+      (uid: string) => player.emit("queue-play-uid", uid),
+      []
+    );
 
-  const onPress = useCallback(
-    (uid: string) => player.emit("queue-play-uid", uid),
-    []
-  );
+    const client = useClient();
 
-  const { toggleSelected, selected } = useContext(QueueContext);
+    const track = useMemo(
+      () =>
+        client.readQuery<TrackQuery, TrackQueryVariables>(TrackDocument, {
+          id: params.item.trackId,
+        })?.data?.track || null,
+      [client, params.item.trackId]
+    );
 
-  return (
-    <OpacityDecorator>
+    const { toggleSelected, selected } = useContext(QueueContext);
+
+    const onToggle = useCallback(
+      () => toggleSelected(params.item.uid),
+      [params.item.uid, toggleSelected]
+    );
+
+    return (
       <QueueTrackItem
-        track={data?.track || null}
-        fetching={fetching}
-        drag={drag}
-        checked={!!selected[item.uid]}
-        onToggle={() => toggleSelected(item.uid)}
-        uid={item.uid}
+        track={track}
+        drag={params.drag}
+        checked={!!selected[params.item.uid]}
+        onToggle={onToggle}
+        uid={params.item.uid}
         onPress={onPress}
       />
-    </OpacityDecorator>
-  );
-};
-
-const renderItem = (params: RenderItemParams<QueueItem>) => (
-  <DraggableQueueItem params={params} />
+    );
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.params.drag === nextProps.params.drag &&
+      prevProps.params.item === prevProps.params.item
+    );
+  }
 );
 
-const keyExtractor = (item: QueueItem) => item.uid;
+const renderItem = (params: DraggableRecyclerRenderItemInfo<QueueItem>) => (
+  <DraggableQueueItem key={params.item.uid} params={params} />
+);
 
 interface SelectedObject {
   [key: string]: undefined | boolean;
@@ -107,7 +125,7 @@ const extractUidsFromSelected = (selected: SelectedObject) => {
   return Object.keys(selected).filter((selectedKey) => !!selected[selectedKey]);
 };
 
-const ItemSeparatorComponent: FC = () => <Spacer y={3} />;
+const keyExtractor = (item: QueueItem) => item.uid;
 
 const QueueContent: FC<{
   nextItems: PlaybackState["nextItems"];
@@ -129,9 +147,8 @@ const QueueContent: FC<{
     setItems(nextItems);
   }, [nextItems]);
 
-  const onDragEnd = useCallback((params: DragEndParams<QueueItem>) => {
-    setItems(params.data);
-    player.emit("queue-reorder", params.from, params.to, params.data);
+  const onDragEnd = useCallback((from: number, to: number) => {
+    player.emit("queue-reorder", from, to);
   }, []);
 
   const [selected, setSelected] = useState<Record<string, undefined | boolean>>(
@@ -196,10 +213,17 @@ const QueueContent: FC<{
   const [addVisible, setAddVisible] = useState(false);
 
   const closeAdd = useCallback(() => setAddVisible(false), []);
+  const openAdd = useCallback(() => setAddVisible(true), []);
+
+  // This util is used to avoid loading each individual track
+  // in <DraggableQueueItem /> by batching them while checking against cache
+  usePreloadedTrackQueries(
+    useMemo(() => nextItems.map((item) => item.trackId), [nextItems])
+  );
 
   return (
     <QueueContext.Provider value={{ toggleSelected, selected }}>
-      <View style={styles.filled}>
+      <View style={styles.root}>
         <Heading level={6}>{t("now_playing.title")}</Heading>
         <Spacer y={2} />
         {currentTrack ? (
@@ -214,16 +238,13 @@ const QueueContent: FC<{
         <Spacer y={4} />
         <Heading level={6}>{t("queue.up_next")}</Heading>
         <Spacer y={2} />
-        <View style={styles.filled}>
-          <DraggableFlatList
-            data={items}
-            renderItem={renderItem}
-            keyExtractor={keyExtractor}
-            onDragEnd={onDragEnd}
-            ItemSeparatorComponent={ItemSeparatorComponent}
-            removeClippedSubviews
-          />
-        </View>
+        <DraggableRecyclerList
+          data={items}
+          renderItem={renderItem}
+          height={Size[12] + Size[2] + Size[3]} // height + 2 * padding + seperator
+          onDragEnd={onDragEnd}
+          keyExtractor={keyExtractor}
+        />
         <Spacer y={1} />
         {hasSelected ? (
           <View style={dstyles.selectOpts}>
@@ -241,9 +262,7 @@ const QueueContent: FC<{
             </TextButton>
           </View>
         ) : (
-          <Button onPress={() => setAddVisible(true)}>
-            {t("queue.add_songs")}
-          </Button>
+          <Button onPress={openAdd}>{t("queue.add_songs")}</Button>
         )}
         <QueueAdder
           onAddTracks={onAddTracks}

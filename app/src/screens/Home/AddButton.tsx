@@ -108,11 +108,13 @@ const AddButton: FC = () => {
     return true;
   }, []);
 
+  const onOpen = useCallback(() => ref.current?.present(), []);
+
   return (
     <>
       <GradientButton
         style={styles.button}
-        onPress={() => ref.current?.present()}
+        onPress={onOpen}
         accessibilityLabel={t("new.title")}
         icon={
           <IconPlus

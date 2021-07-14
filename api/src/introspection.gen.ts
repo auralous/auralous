@@ -1863,6 +1863,38 @@ export default {
             ]
           },
           {
+            "name": "tracks",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Track",
+                  "ofType": null
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "ids",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Any"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "user",
             "type": {
               "kind": "OBJECT",

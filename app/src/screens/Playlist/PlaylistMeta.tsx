@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
     paddingVertical: Size[3],
     paddingHorizontal: Size[6],
     alignItems: "center",
-    marginBottom: Size[3],
   },
   meta: {
     width: "100%",
@@ -59,6 +58,7 @@ const PlaylistMeta: FC<{ playlist: Playlist }> = ({ playlist }) => {
           }
           defaultSource={require("@/assets/images/default_playlist.jpg")}
           style={styles.image}
+          accessibilityLabel={playlist.name}
         />
         <View style={styles.meta}>
           <View style={{ height: Size[6] }}>

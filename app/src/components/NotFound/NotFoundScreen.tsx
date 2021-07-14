@@ -1,4 +1,5 @@
 import { NotFound } from "@auralous/ui";
+import { useNavigation } from "@react-navigation/native";
 import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -11,9 +12,10 @@ const styles = StyleSheet.create({
 });
 
 const NotFoundScreen: FC = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.root}>
-      <NotFound />
+      <NotFound onBack={navigation.goBack} />
     </View>
   );
 };

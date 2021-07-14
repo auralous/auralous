@@ -8,7 +8,7 @@ import {
 } from "@auralous/ui/assets";
 import { Spacer } from "@auralous/ui/components/Spacer";
 import { makeStyles, Size, useColors } from "@auralous/ui/styles";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
@@ -50,11 +50,18 @@ const PlayerViewControl: FC<{
 
   const dstyles = useStyles();
 
+  const onSkipBackward = useCallback(() => player.skipBackward(), [player]);
+  const onSkipForward = useCallback(() => player.skipForward(), [player]);
+  const togglePlay = useCallback(
+    () => (control.isPlaying ? player.pause() : player.play()),
+    [player, control.isPlaying]
+  );
+
   return (
     <View style={styles.root}>
       <TouchableOpacity
         style={styles.backPrev}
-        onPress={() => player.skipBackward()}
+        onPress={onSkipBackward}
         accessibilityLabel={t("player.skip_backward")}
       >
         <IconSkipBack width={Size[8]} height={Size[8]} fill={colors.text} />
@@ -62,7 +69,7 @@ const PlayerViewControl: FC<{
       <Spacer x={8} />
       <View style={trackId ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
-          onPress={() => (control.isPlaying ? player.pause() : player.play())}
+          onPress={togglePlay}
           style={dstyles.playPause}
           accessibilityLabel={
             control.isPlaying ? t("player.pause") : t("player.play")
@@ -79,7 +86,7 @@ const PlayerViewControl: FC<{
       <Spacer x={8} />
       <TouchableOpacity
         style={styles.backPrev}
-        onPress={() => player.skipForward()}
+        onPress={onSkipForward}
         accessibilityLabel={t("player.skip_forward")}
       >
         <IconSkipForward width={Size[8]} height={Size[8]} fill={colors.text} />

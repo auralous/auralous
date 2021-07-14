@@ -14,7 +14,7 @@ import player, {
   PlaybackContextType,
   PlaybackCurrentContext,
 } from "@auralous/player";
-import { shuffle } from "@auralous/ui";
+import { reorder, shuffle } from "@auralous/ui";
 import { useEffect, useMemo, useState } from "react";
 import { useClient } from "urql";
 
@@ -137,13 +137,13 @@ const usePlaybackOnDemandProvider = (
   useEffect(() => {
     if (!active) return;
 
-    const onReorder = (from: number, to: number, data: QueueItem[]) => {
+    const onReorder = (from: number, to: number) => {
+      // from and to is offsetted depends on currentIndex
       // data is the array of only nextItems,
       // we have to merge it with the played tracks
-      setQueueItems((prevQueueItems) => [
-        ...prevQueueItems.slice(0, playingIndex + 1),
-        ...data,
-      ]);
+      setQueueItems((prevQueueItems) =>
+        reorder(prevQueueItems, from + playingIndex + 1, to + playingIndex + 1)
+      );
     };
 
     const onPlayNext = (uids: string[]) => {
@@ -165,6 +165,7 @@ const usePlaybackOnDemandProvider = (
         ];
       });
     };
+
     const onAdd = (trackIds: string[]) => {
       setQueueItems((prevQueueItems) => [
         ...prevQueueItems,

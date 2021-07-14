@@ -1,6 +1,6 @@
-import { LoadingBlock } from "@auralous/ui";
 import { FC } from "react";
 import { StyleSheet, View } from "react-native";
+import LoadingBlock from "./LoadingBlock";
 
 const styles = StyleSheet.create({
   root: {

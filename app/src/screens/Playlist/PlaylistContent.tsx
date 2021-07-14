@@ -1,32 +1,40 @@
-import { LoadingScreen } from "@/components/Loading";
 import { Playlist, Track, usePlaylistTracksQuery } from "@auralous/api";
 import player, { PlaybackContextType } from "@auralous/player";
-import { Size, Spacer, TrackItem } from "@auralous/ui";
-import { createContext, FC, useCallback, useContext } from "react";
-import { FlatList, ListRenderItem, StyleSheet } from "react-native";
+import {
+  LoadingScreen,
+  RecyclerList,
+  RecyclerRenderItem,
+  Size,
+  TrackItem,
+} from "@auralous/ui";
+import { createContext, FC, memo, useCallback, useContext } from "react";
+import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import PlaylistMeta from "./PlaylistMeta";
 
+const listPadding = Size[3];
+const itemPadding = Size[1];
+
 const styles = StyleSheet.create({
-  list: {
-    padding: Size[3],
-  },
   listContent: {
+    paddingHorizontal: listPadding,
+    paddingTop: Size[3],
     paddingBottom: Size[6],
   },
   item: {
-    padding: Size[1],
+    padding: itemPadding,
     flexDirection: "row",
     alignItems: "center",
+    width: "100%",
   },
 });
 
 const PlaylistIdContext = createContext("");
 
-const PlaylistTrackItem: FC<{
+const PlaylistTrackItem = memo<{
   track: Track;
   index: number;
-}> = ({ track, index }) => {
+}>(function PlaylistTrackItem({ track, index }) {
   const playlistId = useContext(PlaylistIdContext);
   const onPress = useCallback(
     () =>
@@ -43,17 +51,11 @@ const PlaylistTrackItem: FC<{
       <TrackItem track={track} key={index} />
     </TouchableOpacity>
   );
+});
+
+const renderItem: RecyclerRenderItem<Track> = ({ item, index }) => {
+  return <PlaylistTrackItem key={index} track={item} index={index} />;
 };
-
-const renderItem: ListRenderItem<Track> = (params) => (
-  <PlaylistTrackItem
-    key={params.index}
-    track={params.item}
-    index={params.index}
-  />
-);
-
-const ItemSeparatorComponent: FC = () => <Spacer y={3} />;
 
 const PlaylistContent: FC<{ playlist: Playlist }> = ({ playlist }) => {
   const [{ data: dataPlaylist, fetching: fetchingTracks }] =
@@ -65,15 +67,14 @@ const PlaylistContent: FC<{ playlist: Playlist }> = ({ playlist }) => {
 
   return (
     <PlaylistIdContext.Provider value={playlist.id}>
-      <FlatList
-        style={styles.list}
-        contentContainerStyle={styles.listContent}
+      <PlaylistMeta playlist={playlist} />
+      <RecyclerList
         ListEmptyComponent={fetchingTracks ? <LoadingScreen /> : null}
+        contentContainerStyle={styles.listContent}
         data={dataPlaylist?.playlistTracks || []}
+        height={Size[12] + 2 * itemPadding + Size[3]} // height + 2 * padding + seperator
         renderItem={renderItem}
-        ListHeaderComponent={<PlaylistMeta playlist={playlist} />}
-        removeClippedSubviews
-        ItemSeparatorComponent={ItemSeparatorComponent}
+        contentHorizontalPadding={listPadding}
       />
     </PlaylistIdContext.Provider>
   );

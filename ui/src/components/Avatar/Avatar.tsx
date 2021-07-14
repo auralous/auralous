@@ -1,6 +1,6 @@
 import { imageSources } from "@auralous/ui/assets";
 import { makeStyles, Size } from "@auralous/ui/styles";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 interface AvatarProps {
@@ -41,4 +41,4 @@ const Avatar: FC<AvatarProps> = ({ href, username, size }) => {
   );
 };
 
-export default Avatar;
+export default memo(Avatar);

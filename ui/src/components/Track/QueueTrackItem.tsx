@@ -2,7 +2,7 @@ import { Maybe, Track } from "@auralous/api";
 import { IconMenu } from "@auralous/ui/assets";
 import { Checkbox } from "@auralous/ui/components/Checkbox";
 import { Size } from "@auralous/ui/styles";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   TouchableOpacity,
@@ -57,6 +57,10 @@ const QueueTrackItem: FC<QueueTrackItemProps> = ({
   onToggle,
   onPress,
 }) => {
+  const onTrackItemPressed = useMemo(() => {
+    if (!onPress || !uid) return undefined;
+    return () => onPress(uid);
+  }, [onPress, uid]);
   return (
     <View style={styles.root}>
       <View style={styles.check}>
@@ -65,7 +69,7 @@ const QueueTrackItem: FC<QueueTrackItemProps> = ({
       <TouchableOpacity
         style={styles.track}
         containerStyle={styles.tContainer}
-        onPress={onPress ? () => onPress(uid) : undefined}
+        onPress={onTrackItemPressed}
         activeOpacity={onPress ? 0.2 : 1}
       >
         <TrackItem track={track} fetching={fetching} />

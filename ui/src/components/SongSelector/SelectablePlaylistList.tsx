@@ -1,11 +1,14 @@
 import { Playlist } from "@auralous/api";
-import { LoadingBlock } from "@auralous/ui/components/Loading";
+import { LoadingScreen } from "@auralous/ui/components/Loading";
 import { PlaylistListItem } from "@auralous/ui/components/Playlist";
+import {
+  RecyclerList,
+  RecyclerRenderItem,
+} from "@auralous/ui/components/RecyclerList";
 import { Size } from "@auralous/ui/styles";
 import { FC, useCallback } from "react";
-import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Spacer } from "../Spacer";
 import SearchEmpty from "./SearchEmpty";
 
 interface SelectablePlaylistListProps {
@@ -14,12 +17,11 @@ interface SelectablePlaylistListProps {
   onSelect(playlist: Playlist): void;
 }
 
+const itemPadding = Size[1];
+
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
   item: {
-    padding: Size[1],
+    padding: itemPadding,
   },
   full: {
     flex: 1,
@@ -28,40 +30,31 @@ const styles = StyleSheet.create({
   },
 });
 
-const ItemSeparatorComponent = () => <Spacer y={3} />;
-
 const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
   fetching,
   playlists,
   onSelect,
 }) => {
-  const renderItem = useCallback<ListRenderItem<Playlist>>(
+  const renderItem = useCallback<RecyclerRenderItem<Playlist>>(
     ({ item }) => (
-      <TouchableOpacity style={styles.item} onPress={() => onSelect(item)}>
+      <TouchableOpacity
+        key={item.id}
+        style={styles.item}
+        onPress={() => onSelect(item)}
+      >
         <PlaylistListItem playlist={item} />
       </TouchableOpacity>
     ),
     [onSelect]
   );
 
-  if (fetching)
-    return (
-      <View style={styles.full}>
-        <LoadingBlock />
-      </View>
-    );
-
   return (
-    <>
-      {playlists.length === 0 && <SearchEmpty />}
-      <FlatList
-        style={styles.root}
-        data={playlists}
-        renderItem={renderItem}
-        ItemSeparatorComponent={ItemSeparatorComponent}
-        removeClippedSubviews
-      />
-    </>
+    <RecyclerList
+      ListEmptyComponent={fetching ? <LoadingScreen /> : <SearchEmpty />}
+      data={playlists}
+      height={Size[12] + itemPadding * 2 + Size[3]} // height + 2 * padding + seperator
+      renderItem={renderItem}
+    />
   );
 };
 
