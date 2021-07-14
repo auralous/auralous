@@ -5,6 +5,7 @@ import {
   memo,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -23,6 +24,7 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
+  useWorkletCallback,
   withTiming,
 } from "react-native-reanimated";
 import { BaseScrollView, RecyclerListView } from "recyclerlistview";
@@ -49,7 +51,7 @@ class ExternalScrollView extends BaseScrollView {
   }
 }
 
-const styles = StyleSheet.create({ list: { flex: 1 } });
+const styles = StyleSheet.create({ list: { flex: 1, overflow: "hidden" } });
 
 const Context = createContext(
   {} as {
@@ -58,7 +60,6 @@ const Context = createContext(
     spacerIndexAnim: Animated.SharedValue<number>;
     activeCellSize: Animated.SharedValue<number>;
     hoverOffset: Animated.SharedValue<number>;
-    hoverTranslate: Animated.SharedValue<number>;
     hasMoved: Animated.SharedValue<boolean>;
     drag(index: number): void;
   }
@@ -82,17 +83,50 @@ type DraggableRecyclerListProps<ItemT> = Omit<
   keyExtractor(item: ItemT): string;
 };
 
+interface DraggableItemProps<ItemT> {
+  index: number;
+  item: ItemT;
+  renderItem: DraggableRecyclerRenderItem<ItemT>;
+  height: number;
+}
+
+function ClonedDraggableItem<ItemT>({
+  index,
+  item,
+  renderItem,
+}: DraggableItemProps<ItemT>) {
+  const { hoverOffset, hasMoved } = useContext(Context);
+
+  const drag = useCallback(() => {
+    // noop
+  }, []);
+
+  const style = useAnimatedStyle(() => {
+    return {
+      position: "absolute",
+      width: "100%",
+      top: hoverOffset.value,
+      zIndex: 1,
+      opacity: 0.5,
+      // because display: none does not work
+      // https://stackoverflow.com/questions/47378068/using-display-none-instead-of-condition-state-rendering
+      transform: hasMoved.value ? undefined : [{ scale: 0 }],
+    };
+  }, []);
+
+  return (
+    <Animated.View style={style}>
+      {renderItem({ item, index, drag })}
+    </Animated.View>
+  );
+}
+
 function DraggableItem<ItemT>({
   index,
   item,
   renderItem,
   height,
-}: {
-  index: number;
-  item: ItemT;
-  renderItem: DraggableRecyclerRenderItem<ItemT>;
-  height: number;
-}) {
+}: DraggableItemProps<ItemT>) {
   const {
     activeIndexAnim,
     spacerIndexAnim,
@@ -100,7 +134,6 @@ function DraggableItem<ItemT>({
     activeCellSize,
     hoverOffset,
     hasMoved,
-    hoverTranslate,
     scrollOffset,
   } = useContext(Context);
 
@@ -115,13 +148,14 @@ function DraggableItem<ItemT>({
 
   useAnimatedReaction(
     () => {
-      if (!hasMoved.value) return -1;
+      // Do not calculate before moving and if is active cell
+      if (!hasMoved.value || isActiveCell.value) return -1;
       // Distance between hovering cell and edge of scroll view
       const hoverOffsetValue = hoverOffset.value + scrollOffset.value;
       const hoverPlusActiveSize = hoverOffsetValue + activeCellSize.value;
 
-      const isAfterActive = index > activeIndexAnim.value;
-      const isBeforeActive = index < activeIndexAnim.value;
+      const isAfterActive = cellIndex.value > activeIndexAnim.value;
+      const isBeforeActive = cellIndex.value < activeIndexAnim.value;
 
       const offsetPlusHalfSize = cellOffset.value + cellSize.value / 2;
       const offsetPlusSize = cellOffset.value + cellSize.value;
@@ -168,30 +202,25 @@ function DraggableItem<ItemT>({
         spacerIndexAnim.value = desiredSpacerAnim;
       }
     },
-    [index]
+    []
   );
 
   const translateValue = useSharedValue(0);
 
   useAnimatedReaction(
     () => {
-      if (isActiveCell.value) {
-        return { isActiveCellValue: true, translate: hoverTranslate.value };
-      }
+      if (isActiveCell.value) return null;
       const isAfterActive = cellIndex.value > activeIndexAnim.value;
       const shouldTranslate = isAfterActive
         ? cellIndex.value <= spacerIndexAnim.value
         : cellIndex.value >= spacerIndexAnim.value;
-      return {
-        isActiveCellValue: false,
-        translate: shouldTranslate
-          ? activeCellSize.value * (isAfterActive ? -1 : 1)
-          : 0,
-      };
+      return shouldTranslate
+        ? activeCellSize.value * (isAfterActive ? -1 : 1)
+        : 0;
     },
-    ({ isActiveCellValue, translate }) => {
-      if (isActiveCellValue) translateValue.value = translate;
-      else translateValue.value = withTiming(translate);
+    (isActiveCellValue) => {
+      if (typeof isActiveCellValue === "number")
+        translateValue.value = withTiming(isActiveCellValue);
     },
     []
   );
@@ -204,10 +233,10 @@ function DraggableItem<ItemT>({
     return {
       width: "100%",
       transform: [{ translateY: translateValue.value }],
-      zIndex: isActiveCell.value ? 1 : 0,
       opacity: isActiveCell.value ? 0.5 : 1,
+      display: isActiveCell.value && hasMoved.value ? "none" : "flex",
     };
-  });
+  }, []);
 
   return (
     <Animated.View style={style}>
@@ -218,8 +247,8 @@ function DraggableItem<ItemT>({
 
 const MemoizedDraggableItem = memo(DraggableItem);
 
-const autoscrollSpeed = 20;
-const autoscrollThreshold = 30;
+const autoscrollSpeed = 5;
+const autoscrollThreshold = 5;
 
 export default function DraggableRecyclerList<ItemT>({
   height,
@@ -244,36 +273,36 @@ export default function DraggableRecyclerList<ItemT>({
   const touchAbsolute = useSharedValue(0); // Finger position on screen, relative to container (not scroll view)
 
   const touchInset = useSharedValue(0); // Distance from touch to the edge of cell
-  const initialScrollOffset = useSharedValue(0); // Scroll offset when start dragging
 
   const hasMoved = useSharedValue(false);
+
+  const [activeIndex, setActiveIndex] = useState(-1);
 
   const activeIndexAnim = useSharedValue(-1); // Index of hovering cell
   const spacerIndexAnim = useSharedValue(-1); // Index of hovered-over cell
 
   const isHovering = useDerivedValue(() => {
     return activeIndexAnim.value > -1;
-  });
+  }, []);
 
   // Height or width of active cell
-  const activeCellSize = useSharedValue(height);
-  activeCellSize.value = height;
+  const activeCellSize = useDerivedValue(() => height, [height]);
 
   // Distance between active cell and edge of scroll view
   const activeCellOffset = useDerivedValue(() => {
     if (!isHovering.value) return 0;
-    return activeIndexAnim.value * height;
-  }, [activeIndexAnim, height]);
+    return activeIndexAnim.value * activeCellSize.value;
+  }, []);
 
   const scrollRef = useAnimatedRef<RecyclerListView<any, any>>();
   const scrollOffset = useSharedValue(0);
   const scrollViewSize = useSharedValue(0);
 
-  const onScroll = useCallback(
+  const onScroll = useWorkletCallback(
     (rawEvent: unknown, offsetX: number, offsetY: number) => {
       scrollOffset.value = offsetY;
     },
-    [scrollOffset]
+    []
   );
 
   // Prevent user scrolling while dragging
@@ -283,7 +312,7 @@ export default function DraggableRecyclerList<ItemT>({
     (activeIndexAnimValue) => {
       runOnJS(setScrollDisabled)(activeIndexAnimValue !== -1);
     },
-    [activeIndexAnim]
+    []
   );
 
   const scrollViewProps = useMemo<ScrollViewProps>(
@@ -299,49 +328,43 @@ export default function DraggableRecyclerList<ItemT>({
   // Distance between hovering cell and container
   const hoverOffset = useDerivedValue(() => {
     return touchAbsolute.value - touchInset.value;
-  });
-
-  const hoverTranslateBeforeOffset = useSharedValue(0);
-  // hoverTranslate but also take account into scroll offset
-  const hoverTranslate = useDerivedValue(() => {
-    return (
-      hoverTranslateBeforeOffset.value +
-      (scrollOffset.value - initialScrollOffset.value)
-    );
-  });
-
-  const drag = useCallback(
-    (index: number) => {
-      spacerIndexAnim.value = index;
-      activeIndexAnim.value = index;
-    },
-    [spacerIndexAnim, activeIndexAnim]
-  );
+  }, []);
 
   // AutoScroll
   useAnimatedReaction(
     () => {
       return {
-        touchAbsoluteValue: touchAbsolute.value,
+        hoverOffsetValue: hoverOffset.value,
         scrollOffsetValue: scrollOffset.value,
+        activeCellSizeValue: activeCellSize.value,
+        containerSizeValue: containerSize.value,
         scrollRef: scrollRef,
       };
     },
-    ({ touchAbsoluteValue, scrollOffsetValue, scrollRef }) => {
+    ({
+      hoverOffsetValue,
+      scrollOffsetValue,
+      activeCellSizeValue,
+      containerSizeValue,
+      scrollRef,
+    }) => {
       if (!hasMoved.value) return;
       let scrollDelta = 0;
-      if (touchAbsoluteValue <= autoscrollThreshold) {
+
+      const hoverOffsetEndValue = hoverOffsetValue + activeCellSizeValue;
+
+      if (hoverOffsetValue <= autoscrollThreshold) {
         // Should scroll up
         scrollDelta =
-          ((touchAbsoluteValue - autoscrollThreshold) / autoscrollThreshold) *
+          ((hoverOffsetValue - autoscrollThreshold) / autoscrollThreshold) *
           autoscrollSpeed;
       } else if (
-        touchAbsoluteValue >=
-        containerSize.value - autoscrollThreshold
+        hoverOffsetEndValue >=
+        containerSizeValue - autoscrollThreshold
       ) {
         // Should scroll down
         scrollDelta =
-          ((touchAbsoluteValue - (containerSize.value - autoscrollThreshold)) /
+          ((hoverOffsetEndValue - (containerSizeValue - autoscrollThreshold)) /
             autoscrollThreshold) *
           autoscrollSpeed;
       } else {
@@ -354,8 +377,29 @@ export default function DraggableRecyclerList<ItemT>({
         scrollOffsetValue + scrollDelta,
         false
       );
-    }
+    },
+    [autoscrollSpeed, autoscrollThreshold]
   );
+
+  const drag = useCallback(
+    (index: number) => {
+      setActiveIndex(index);
+      spacerIndexAnim.value = index;
+      activeIndexAnim.value = index;
+    },
+    [spacerIndexAnim, activeIndexAnim]
+  );
+
+  const clearAnimState = useWorkletCallback(() => {
+    runOnJS(setActiveIndex)(-1);
+    hasMoved.value = false;
+    touchAbsolute.value = -1;
+    activeIndexAnim.value = -1;
+    spacerIndexAnim.value = -1;
+    touchInset.value = 0;
+  }, []);
+
+  useEffect(clearAnimState, [data, clearAnimState]);
 
   const eventHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>(
     {
@@ -367,13 +411,12 @@ export default function DraggableRecyclerList<ItemT>({
           touchInset.value =
             event.y - (activeCellOffset.value - scrollOffset.value); // Distance from touch to the edge of active cell
           hasMoved.value = true;
-          initialScrollOffset.value = scrollOffset.value;
         }
         touchAbsolute.value = event.y;
-        hoverTranslateBeforeOffset.value = event.translationY;
       },
       // BEGAN ------> ACTIVE ------> END
       onEnd() {
+        if (!hasMoved.value) return;
         const from = activeIndexAnim.value;
         const to = spacerIndexAnim.value;
         if (from !== -1 && to !== -1) {
@@ -385,16 +428,9 @@ export default function DraggableRecyclerList<ItemT>({
       // BEGAN ------> ACTIVE ------> CANCELLED
       // onCancel(event, context) {},
       // BEGAN ------> ANY ------> FINISHED
-      onFinish() {
-        hasMoved.value = false;
-        touchAbsolute.value = -1;
-        activeIndexAnim.value = -1;
-        spacerIndexAnim.value = -1;
-        touchInset.value = 0;
-        hoverTranslateBeforeOffset.value = 0;
-        initialScrollOffset.value = scrollOffset.value;
-      },
-    }
+      onFinish: clearAnimState,
+    },
+    [onDragEnd, clearAnimState]
   );
 
   const draggableRenderItem: RecyclerRenderItem<ItemT> = useCallback(
@@ -419,7 +455,6 @@ export default function DraggableRecyclerList<ItemT>({
         activeIndexAnim,
         spacerIndexAnim,
         activeCellSize,
-        hoverTranslate,
         hoverOffset,
         scrollOffset,
         hasMoved,
@@ -427,6 +462,14 @@ export default function DraggableRecyclerList<ItemT>({
     >
       <PanGestureHandler onGestureEvent={eventHandler} maxPointers={1}>
         <Animated.View style={style || styles.list} onLayout={onLayout}>
+          {activeIndex !== -1 && (
+            <ClonedDraggableItem
+              index={activeIndex}
+              item={data[activeIndex]}
+              renderItem={renderItem}
+              height={height}
+            />
+          )}
           <RecyclerList
             height={height}
             style={styles.list}
