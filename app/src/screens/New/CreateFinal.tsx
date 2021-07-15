@@ -13,13 +13,7 @@ import { useFocusEffect } from "@react-navigation/core";
 import { StackScreenProps } from "@react-navigation/stack";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ActivityIndicator,
-  BackHandler,
-  StatusBar,
-  StyleSheet,
-  View,
-} from "react-native";
+import { ActivityIndicator, BackHandler, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -96,7 +90,6 @@ const Create: FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
       style={StyleSheet.absoluteFill}
     >
       <SafeAreaView style={styles.root}>
-        <StatusBar translucent backgroundColor="transparent" />
         <View style={styles.root}>
           <Text style={styles.number}>{sec}</Text>
           <Heading level={3} style={styles.textColor}>

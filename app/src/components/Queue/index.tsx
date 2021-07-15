@@ -4,11 +4,12 @@ import { Heading, IconX, makeStyles, Size } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, StatusBar, StyleSheet, View } from "react-native";
+import { BackHandler, StyleSheet, View } from "react-native";
 import {
   gestureHandlerRootHOC,
   TouchableOpacity,
 } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 import MetaAndButton from "./MetaAndButton";
 import QueueContent from "./QueueContent";
 
@@ -54,8 +55,7 @@ const QueueSheet: FC<{
   }, [onClose]);
 
   return (
-    <View style={dstyles.root}>
-      <View style={{ height: StatusBar.currentHeight }} />
+    <SafeAreaView style={dstyles.root}>
       <View style={styles.header}>
         <Heading level={3}>{t("queue.title")}</Heading>
         <TouchableOpacity onPress={onClose}>
@@ -65,7 +65,7 @@ const QueueSheet: FC<{
       <View style={styles.content}>
         <QueueContent currentTrack={currentTrack} nextItems={nextItems} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

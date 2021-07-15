@@ -187,7 +187,7 @@ const App = () => {
         <ApiProvider>
           <PlayerProvider>
             <BottomSheetModalProvider>
-              <StatusBar backgroundColor={theme.colors.background} />
+              <StatusBar translucent backgroundColor="transparent" />
               <PlayerComponent />
               <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="root" component={RootScreen} />

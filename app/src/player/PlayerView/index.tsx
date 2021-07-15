@@ -13,16 +13,11 @@ import {
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  BackHandler,
-  Pressable,
-  StatusBar,
-  StyleSheet,
-  View,
-} from "react-native";
+import { BackHandler, Pressable, StyleSheet, View } from "react-native";
 import PagerView, {
   PagerViewOnPageSelectedEvent,
 } from "react-native-pager-view";
+import { SafeAreaView } from "react-native-safe-area-context";
 import ChatView from "./ChatView";
 import MusicView from "./MusicView";
 import PlayerViewBackground from "./PlayerViewBackground";
@@ -123,10 +118,8 @@ const PlayerView: FC = () => {
       snapPoints={snapPoints}
       handleComponent={null}
     >
-      <StatusBar translucent backgroundColor="transparent" />
-      <View style={styles.root}>
+      <SafeAreaView style={styles.root}>
         <PlayerViewBackground />
-        <View style={{ height: StatusBar.currentHeight }} />
         <Header
           title={
             contextMeta ? (
@@ -179,7 +172,7 @@ const PlayerView: FC = () => {
             </View>
           </PagerView>
         </View>
-      </View>
+      </SafeAreaView>
     </BottomSheetModal>
   );
 };

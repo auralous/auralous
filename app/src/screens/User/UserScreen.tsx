@@ -4,8 +4,13 @@ import { useUserQuery } from "@auralous/api";
 import { HeaderBackable, LoadingScreen } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import { FC } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import UserMeta from "./UserMeta";
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+});
 
 const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
   route,
@@ -17,7 +22,7 @@ const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
     pause: !username,
   });
   return (
-    <>
+    <SafeAreaView style={styles.root}>
       <HeaderBackable onBack={navigation.goBack} title="" />
       {fetching ? (
         <LoadingScreen />
@@ -28,7 +33,7 @@ const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
       ) : (
         <NotFoundScreen />
       )}
-    </>
+    </SafeAreaView>
   );
 };
 

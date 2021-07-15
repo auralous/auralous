@@ -5,7 +5,13 @@ import { HeaderBackable, LoadingScreen } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import UserList from "./UserList";
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+});
 
 const UserFollowersScreen: FC<
   StackScreenProps<ParamList, RouteName.UserFollowers>
@@ -24,7 +30,7 @@ const UserFollowersScreen: FC<
   });
 
   return (
-    <>
+    <SafeAreaView style={styles.root}>
       <HeaderBackable onBack={navigation.goBack} title={t("user.followers")} />
       {fetching ? (
         <LoadingScreen />
@@ -33,7 +39,7 @@ const UserFollowersScreen: FC<
       ) : (
         <NotFoundScreen />
       )}
-    </>
+    </SafeAreaView>
   );
 };
 

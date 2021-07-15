@@ -1,11 +1,18 @@
+import { PageHeaderGradient } from "@/components/Colors";
 import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
 import { useStoryQuery } from "@auralous/api";
 import { HeaderBackable, LoadingScreen } from "@auralous/ui";
 import { StackScreenProps } from "@react-navigation/stack";
 import { FC } from "react";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import StoryLiveContent from "./StoryLiveContent";
 import StoryNonLiveContent from "./StoryNonLiveContent";
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+});
 
 const StoryScreen: FC<StackScreenProps<ParamList, RouteName.Story>> = ({
   route,
@@ -18,8 +25,9 @@ const StoryScreen: FC<StackScreenProps<ParamList, RouteName.Story>> = ({
   });
 
   return (
-    <>
+    <SafeAreaView style={styles.root}>
       <HeaderBackable onBack={navigation.goBack} title="" />
+      <PageHeaderGradient image={data?.story?.image} />
       {fetching ? (
         <LoadingScreen />
       ) : data?.story ? (
@@ -31,7 +39,7 @@ const StoryScreen: FC<StackScreenProps<ParamList, RouteName.Story>> = ({
       ) : (
         <NotFoundScreen />
       )}
-    </>
+    </SafeAreaView>
   );
 };
 
