@@ -31,7 +31,11 @@ import { StatusBar } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { PlayerComponent, PlayerProvider } from "./player";
-import StoryScreen from "./screens/Story";
+import {
+  StoryCollaboratorsScreen,
+  StoryInviteScreen,
+  StoryScreen,
+} from "./screens/Story";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,10 +47,18 @@ const linking: LinkingOptions<ParamList> = {
   config: {
     screens: {
       [RouteName.SignIn]: "sign-in",
-      [RouteName.Main]: {
+      root: {
         // @ts-ignore
         screens: {
-          [RouteName.User]: "user/:username",
+          [RouteName.Main]: {
+            screens: {
+              [RouteName.User]: "user/:username",
+              [RouteName.Playlist]: "playlist/:id",
+              [RouteName.Story]: "story/:id",
+              [RouteName.StoryCollaborators]: "story/:id/collaborators",
+              [RouteName.StoryInvite]: "story/:id/invite/:token",
+            },
+          },
         },
       },
     },
@@ -60,7 +72,8 @@ type RouteItem = {
   component: React.ComponentType<any>;
   options?: NativeStackNavigationOptions;
 };
-const routes: RouteItem[] = [
+
+const mainRoutes: RouteItem[] = [
   {
     name: RouteName.Home,
     component: gestureHandlerRootHOC(HomeScreen),
@@ -85,9 +98,18 @@ const routes: RouteItem[] = [
     name: RouteName.Story,
     component: gestureHandlerRootHOC(StoryScreen),
   },
+  {
+    name: RouteName.StoryCollaborators,
+    component: gestureHandlerRootHOC(StoryCollaboratorsScreen),
+  },
+
+  {
+    name: RouteName.StoryInvite,
+    component: gestureHandlerRootHOC(StoryInviteScreen),
+  },
 ];
 
-const stackRoutes = routes.map((route) => (
+const mainRoutesNode = mainRoutes.map((route) => (
   <Stack.Screen
     key={route.name}
     name={route.name}
@@ -123,7 +145,7 @@ const rootRoutes: RouteItem[] = [
   },
 ];
 
-const rootStackRoutes = rootRoutes.map((route) => (
+const rootRoutesNode = rootRoutes.map((route) => (
   <Stack.Screen
     key={route.name}
     name={route.name}
@@ -135,7 +157,7 @@ const rootStackRoutes = rootRoutes.map((route) => (
 const MainScreen: FC = () => {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      {stackRoutes}
+      {mainRoutesNode}
     </Stack.Navigator>
   );
 };
@@ -146,7 +168,7 @@ const RootScreen: FC = () => {
   return (
     <Tab.Navigator tabBar={tabBar} screenOptions={{ headerShown: false }}>
       <Tab.Screen name={RouteName.Main} component={MainScreen} />
-      <Tab.Screen name="map" component={MapScreen} />
+      <Tab.Screen name={RouteName.Map} component={MapScreen} />
     </Tab.Navigator>
   );
 };
@@ -191,7 +213,7 @@ const App = () => {
               <PlayerComponent />
               <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="root" component={RootScreen} />
-                {rootStackRoutes}
+                {rootRoutesNode}
               </Stack.Navigator>
             </BottomSheetModalProvider>
           </PlayerProvider>

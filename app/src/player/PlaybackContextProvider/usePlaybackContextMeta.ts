@@ -22,9 +22,8 @@ export const usePlaybackContextMeta = (
   if (playbackCurrentContext?.type === PlaybackContextType.Story)
     return {
       id: playbackCurrentContext.id,
-      contextDescription:
-        dataStory?.story?.text || dataStory?.story?.creator.username || "",
-      contextCollaborators: dataStory?.story?.queueable,
+      contextDescription: dataStory?.story?.text || "",
+      contextCollaborators: dataStory?.story?.collaboratorIds,
       contextOwner: dataStory?.story?.creatorId,
       imageUrl: dataStory?.story?.image,
       isLive: dataStory?.story?.isLive || false,

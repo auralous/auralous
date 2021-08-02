@@ -15,7 +15,7 @@ import {
   Text,
   TextButton,
 } from "@auralous/ui";
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import {
   createContext,
   Dispatch,
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const snapPoints = [cascadedHeight, "100%"];
+const snapPoints = [cascadedHeight, "75%"];
 
 const CheckedContext = createContext(
   {} as {
@@ -134,8 +134,6 @@ const SelectedQueueTrackItem = memo<{
 const renderItem: DraggableRecyclerRenderItem<string> = (params) => (
   <SelectedQueueTrackItem params={params} />
 );
-
-const keyExtractor = (item: string) => item;
 
 const SelectedTrackListView: FC<{
   onFinish(selectedTracks: string[]): void;
@@ -235,9 +233,10 @@ const SelectedTrackListView: FC<{
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
-        backgroundComponent={null}
         handleComponent={null}
         style={dstyles.root}
+        backgroundComponent={null}
+        backdropComponent={BottomSheetBackdrop}
       >
         <View style={styles.metaBar}>
           <Text color="textSecondary">

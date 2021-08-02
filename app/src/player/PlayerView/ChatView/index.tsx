@@ -12,6 +12,7 @@ import {
   IconLogIn,
   IconMusic,
   Input,
+  InputRef,
   Size,
   Spacer,
   Text,
@@ -19,7 +20,6 @@ import {
 import { format as formatMs } from "@lukeed/ms";
 import { TFunction } from "i18next";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   FlatList,
@@ -210,26 +210,24 @@ const ChatList: FC<{ id: string }> = ({ id }) => {
 
 const ChatInput: FC<{ id: string }> = ({ id }) => {
   const { t } = useTranslation();
-
-  const { control, setValue, handleSubmit } = useForm<{ chat: string }>();
+  const inputRef = useRef<InputRef>(null);
 
   const [{ fetching }, addMessage] = useMessageAddMutation();
 
-  const onSend = useCallback<SubmitHandler<{ chat: string }>>(
-    async (data) => {
-      const trimMsg = data.chat.trim();
+  const onSend = useCallback(
+    async (text: string) => {
+      const trimMsg = text.trim();
       if (fetching || trimMsg.length === 0) return;
-      addMessage({ id, text: trimMsg }).then(() => setValue("chat", ""));
+      addMessage({ id, text: trimMsg }).then(() => inputRef.current?.clear());
     },
-    [fetching, setValue, id, addMessage]
+    [fetching, id, addMessage]
   );
 
   return (
     <View>
       <Input
-        onSubmit={handleSubmit(onSend)}
-        control={control}
-        name="chat"
+        ref={inputRef}
+        onSubmit={onSend}
         accessibilityLabel={t("chat.input_label")}
         placeholder={t("chat.input_label")}
       />

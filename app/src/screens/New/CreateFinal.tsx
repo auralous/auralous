@@ -46,7 +46,6 @@ const Create: FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
   const onCreate = useCallback(async () => {
     const result = await createStory({
       text: route.params.text,
-      isPublic: true,
       tracks: route.params.selectedTracks,
     });
     if (result.data?.storyCreate) {

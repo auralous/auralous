@@ -1,8 +1,7 @@
 import { IconSearch, IconX } from "@auralous/ui/assets";
-import { Input } from "@auralous/ui/components/Input";
+import { Input, InputRef } from "@auralous/ui/components/Input";
 import { Size } from "@auralous/ui/styles";
-import { FC, useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { FC, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -18,20 +17,20 @@ const SearchInput: FC<{
   value: string;
   onSubmit(value: string): void;
 }> = ({ onSubmit, value }) => {
-  const { control, getValues, setValue } = useForm<{ search: string }>();
-  const onHandleSubmit = useCallback(
-    () => onSubmit(getValues().search.trim()),
-    [onSubmit, getValues]
-  );
+  const ref = useRef<InputRef>(null);
+  const onHandleSubmit = useCallback(() => {
+    onSubmit((ref.current?.value || "").trim());
+  }, [onSubmit]);
   const resetSearch = useCallback(() => {
-    setValue("search", "");
+    if (ref.current) ref.current.clear();
     onSubmit("");
-  }, [setValue, onSubmit]);
+  }, [onSubmit]);
   const { t } = useTranslation();
 
   return (
     <View style={styles.root}>
       <Input
+        ref={ref}
         endIcon={
           value.trim().length > 0 ? (
             <TouchableOpacity onPress={resetSearch}>
@@ -43,8 +42,6 @@ const SearchInput: FC<{
             </TouchableOpacity>
           )
         }
-        name="search"
-        control={control}
         onSubmit={onHandleSubmit}
         returnKeyType="search"
         placeholder={t("new.select_songs.search_placeholder")}

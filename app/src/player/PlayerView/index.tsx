@@ -11,6 +11,7 @@ import {
   Text,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, Pressable, StyleSheet, View } from "react-native";
@@ -81,6 +82,8 @@ const PlayerView: FC = () => {
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
+  const navigation = useNavigation();
+
   useEffect(() => {
     const playerBarPressed = () => bottomSheetRef.current?.present();
     player.on("__player_bar_pressed", playerBarPressed);
@@ -88,6 +91,11 @@ const PlayerView: FC = () => {
   }, []);
 
   const dismiss = useCallback(() => bottomSheetRef.current?.dismiss(), []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("state", dismiss);
+    return unsubscribe;
+  }, [navigation, dismiss]);
 
   const pagerRef = useRef<PagerView>(null);
   const [currentPage, setCurrentPage] = useState(0);

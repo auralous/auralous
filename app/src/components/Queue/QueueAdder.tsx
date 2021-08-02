@@ -31,44 +31,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QueueAdderContent = gestureHandlerRootHOC(
-  ({
-    onClose,
-    items,
-    onAddTracks,
-    onRemoveTracks,
-  }: Omit<QueueAdderProps, "visible">) => {
-    const { t } = useTranslation();
-    const selectedTracks = useMemo(
-      () => items.map((item) => item.trackId),
-      [items]
-    );
+const QueueAdderContent = gestureHandlerRootHOC<
+  Omit<QueueAdderProps, "visible">
+>(({ onClose, items, onAddTracks, onRemoveTracks }) => {
+  const { t } = useTranslation();
+  const selectedTracks = useMemo(
+    () => items.map((item) => item.trackId),
+    [items]
+  );
 
-    const styles = useStyles();
+  const styles = useStyles();
 
-    return (
-      <SafeAreaView style={styles.sav}>
-        <Header
-          left={
-            <Button
-              icon={<IconChevronLeft width={24} height={24} />}
-              onPress={onClose}
-              accessibilityLabel={t("common.navigation.go_back")}
-            />
-          }
-          title={t("queue.add_songs")}
-        />
-        <View style={styles.content}>
-          <SongSelector
-            addTracks={onAddTracks}
-            removeTracks={onRemoveTracks}
-            selectedTracks={selectedTracks}
+  return (
+    <SafeAreaView style={styles.sav}>
+      <Header
+        left={
+          <Button
+            icon={<IconChevronLeft width={24} height={24} />}
+            onPress={onClose}
+            accessibilityLabel={t("common.navigation.go_back")}
           />
-        </View>
-      </SafeAreaView>
-    );
-  }
-);
+        }
+        title={t("queue.add_songs")}
+      />
+      <View style={styles.content}>
+        <SongSelector
+          addTracks={onAddTracks}
+          removeTracks={onRemoveTracks}
+          selectedTracks={selectedTracks}
+        />
+      </View>
+    </SafeAreaView>
+  );
+});
 
 const snapPoints = ["100%"];
 

@@ -631,7 +631,7 @@ export default {
             ]
           },
           {
-            "name": "storyChangeQueueable",
+            "name": "storyCollabAddFromToken",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -651,17 +651,7 @@ export default {
                 }
               },
               {
-                "name": "userId",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              },
-              {
-                "name": "isRemoving",
+                "name": "token",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {
@@ -685,16 +675,6 @@ export default {
             "args": [
               {
                 "name": "text",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              },
-              {
-                "name": "isPublic",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {
@@ -767,44 +747,6 @@ export default {
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "Any"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "name": "storySendInvites",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": [
-              {
-                "name": "id",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              },
-              {
-                "name": "invitedIds",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "LIST",
-                    "ofType": {
-                      "kind": "NON_NULL",
-                      "ofType": {
-                        "kind": "SCALAR",
-                        "name": "Any"
-                      }
-                    }
                   }
                 }
               }
@@ -1772,6 +1714,28 @@ export default {
             ]
           },
           {
+            "name": "storyInviteLink",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "storyLive",
             "type": {
               "kind": "OBJECT",
@@ -2100,17 +2064,6 @@ export default {
             "args": []
           },
           {
-            "name": "isPublic",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
             "name": "image",
             "type": {
               "kind": "SCALAR",
@@ -2164,7 +2117,7 @@ export default {
             "args": []
           },
           {
-            "name": "queueable",
+            "name": "collaboratorIds",
             "type": {
               "kind": "NON_NULL",
               "ofType": {

@@ -14,9 +14,12 @@ export enum RouteName {
   NewQuickShare = "new/quick-share",
   Playlist = "playlist",
   Story = "story",
+  StoryCollaborators = "story/collaborators",
+  StoryInvite = "story/invite",
 }
 
 export interface ParamList extends ParamListBase {
+  root: undefined;
   [RouteName.Home]: undefined;
   [RouteName.SignIn]?: {
     access_token?: string;
@@ -44,5 +47,12 @@ export interface ParamList extends ParamListBase {
   };
   [RouteName.Story]: {
     id: string;
+  };
+  [RouteName.StoryCollaborators]: {
+    id: string;
+  };
+  [RouteName.StoryInvite]: {
+    id: string;
+    token: string;
   };
 }

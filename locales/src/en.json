@@ -54,6 +54,11 @@
     "title": "Story",
     "join_live": "Join LIVE"
   },
+  "story_invite": {
+    "title": "You are invited to collaborate in \"{{ name }}\"",
+    "invite_invalid": "This invite link is invalid or has been expired.",
+    "accept_invitation": "Accept and Join"
+  },
   "player": {
     "title": "Player",
     "pause": "Pause",
@@ -104,6 +109,11 @@
       "name": "Spotify"
     }
   },
+  "collab": {
+    "title": "Collaborators",
+    "add_users": "Add collaborators",
+    "name_and_x_others": "{{ name }} + {{ count }} others"
+  },
   "common": {
     "status": {
       "live": "live"
@@ -128,5 +138,8 @@
       "cancel": "Cancel",
       "confirm": "Confirm"
     }
+  },
+  "share": {
+    "invite_friends": "Invite friends"
   }
 }

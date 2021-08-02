@@ -12,10 +12,14 @@
  * Depending on playbackCurrentContext, we can choose between them
  */
 
+import { useMe } from "@/gql/hooks";
+import { useStoryPingMutation } from "@auralous/api";
 import {
   PlaybackContextProvided,
+  PlaybackContextType,
   PlaybackCurrentContext,
 } from "@auralous/player";
+import { useEffect } from "react";
 import { usePlaybackContextMeta } from "./usePlaybackContextMeta";
 import usePlaybackLiveProvider from "./usePlaybackLiveProvider";
 import usePlaybackOnDemandProvider from "./usePlaybackOnDemandProvider";
@@ -34,6 +38,20 @@ const usePlaybackContextProvider = (
     !contextMeta?.isLive,
     playbackCurrentContext
   );
+
+  const me = useMe();
+  const [, storyPing] = useStoryPingMutation();
+
+  // Keep alive ping
+  useEffect(() => {
+    if (!me) return;
+    if (contextMeta?.type === PlaybackContextType.Story && contextMeta.isLive) {
+      const pingInterval = setInterval(() => {
+        storyPing({ id: contextMeta.id });
+      }, 30 * 1000);
+      return () => clearInterval(pingInterval);
+    }
+  }, [me, contextMeta, storyPing]);
 
   if (!contextMeta) return null;
   if (contextMeta.isLive) return live;

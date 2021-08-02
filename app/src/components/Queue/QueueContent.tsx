@@ -140,6 +140,12 @@ const QueueContent: FC<{
   // we hold temporary items
   const [items, setItems] = useState<QueueItem[]>([]);
 
+  // This util is used to avoid loading each individual track
+  // in <DraggableQueueItem /> by batching them while checking against cache
+  usePreloadedTrackQueries(
+    useMemo(() => items.map((item) => item.trackId), [items])
+  );
+
   // Whenever upstream queue updates
   // we reset everything to the original
   // nextItems value (clear "temp" items)
@@ -211,15 +217,8 @@ const QueueContent: FC<{
   );
 
   const [addVisible, setAddVisible] = useState(false);
-
   const closeAdd = useCallback(() => setAddVisible(false), []);
   const openAdd = useCallback(() => setAddVisible(true), []);
-
-  // This util is used to avoid loading each individual track
-  // in <DraggableQueueItem /> by batching them while checking against cache
-  usePreloadedTrackQueries(
-    useMemo(() => nextItems.map((item) => item.trackId), [nextItems])
-  );
 
   return (
     <QueueContext.Provider value={{ toggleSelected, selected }}>

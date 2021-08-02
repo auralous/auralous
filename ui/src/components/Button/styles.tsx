@@ -8,8 +8,9 @@ export const useStyles = makeStyles(
     { children, icon, disabled }: BaseButtonProps & { children?: ReactNode }
   ) => ({
     base: {
-      paddingVertical: Size[2],
-      paddingHorizontal: !!icon && !children ? Size[2] : Size[4],
+      height: Size[10],
+      minWidth: Size[10],
+      paddingHorizontal: !!icon && !children ? 0 : Size[4],
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",

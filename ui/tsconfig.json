@@ -16,7 +16,6 @@
       ],
       "react": ["../app/node_modules/@types/react"],
       "react/*": ["../app/node_modules/@types/react/*"],
-      "react-hook-form": ["../app/node_modules/react-hook-form"],
       "react-i18next": ["../app/node_modules/react-i18next"],
       "react-native": ["../app/node_modules/@types/react-native"],
       "react-native-gesture-handler": [

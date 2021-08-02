@@ -5,7 +5,7 @@ const dateFromObjectId = function (objectId: string) {
   return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
 };
 
-export const nextCursorPagination = (): Resolver => {
+export const nextCursorPagination = (): Resolver<any, any, any> => {
   const offsetArgument = "next";
   const limitArgument = "limit";
   const compareArgs = (

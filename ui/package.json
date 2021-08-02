@@ -28,7 +28,6 @@
   "peerDependencies": {
     "@fluentui/react-context-selector": "*",
     "react": "*",
-    "react-hook-form": "*",
     "react-i18next": "*",
     "react-native": "*",
     "react-native-gesture-handler": "*",

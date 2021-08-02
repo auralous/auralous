@@ -1,6 +1,7 @@
 import { Story } from "@auralous/api";
 import { Avatar, Heading, Size, Spacer, Text } from "@auralous/ui";
 import { FC, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
@@ -15,6 +16,8 @@ const StoryMeta: FC<{ story: Story; tagElement: ReactNode }> = ({
   story,
   tagElement,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.root}>
       <Avatar
@@ -25,10 +28,15 @@ const StoryMeta: FC<{ story: Story; tagElement: ReactNode }> = ({
       <Spacer y={2} />
       {tagElement}
       <Heading level={4} align="center">
-        {story.text || ""}
+        {story.text}
       </Heading>
       <Text color="textSecondary" align="center">
-        {story.creator.username}
+        {story.collaboratorIds.length > 1
+          ? t("collab.name_and_x_others", {
+              name: story.creator.username,
+              count: story.collaboratorIds.length - 1,
+            })
+          : story.creator.username}
       </Text>
     </View>
   );

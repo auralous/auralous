@@ -7,16 +7,20 @@ import {
 } from "@auralous/api";
 import player, { PlaybackContextType } from "@auralous/player";
 import {
+  Button,
   IconUser,
   makeStyles,
   Size,
+  Spacer,
   Text,
   TrackItem,
   useColors,
 } from "@auralous/ui";
+import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import { RouteName } from "../types";
 import StoryMeta from "./StoryMeta";
 
 const useStyles = makeStyles((theme) => ({
@@ -69,6 +73,12 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
     });
   }, [story]);
 
+  const navigation = useNavigation();
+
+  const viewCollabs = useCallback(() => {
+    navigation.navigate(RouteName.StoryCollaborators, { id: story.id });
+  }, [navigation, story.id]);
+
   const [{ data: dataNowPlaying }] = useNowPlayingQuery({
     variables: { id: story.id },
   });
@@ -97,6 +107,8 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
         <GradientButton onPress={joinLive}>
           {t("story.join_live")}
         </GradientButton>
+        <Spacer x={2} />
+        <Button onPress={viewCollabs}>{t("collab.title")}</Button>
       </View>
       <View style={styles.content}>
         <Text bold>{t("now_playing.title")}</Text>

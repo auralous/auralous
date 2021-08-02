@@ -8,7 +8,6 @@ export * from "./Page";
 export * from "./Player";
 export * from "./Playlist";
 export * from "./RecyclerList";
-export * from "./SongSelector";
 export * from "./Spacer";
 export * from "./Story";
 export * from "./Toast";

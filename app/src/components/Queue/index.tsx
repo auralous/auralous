@@ -1,7 +1,22 @@
+import { usePlaybackContextMeta } from "@/player/PlaybackContextProvider";
+import { RouteName } from "@/screens/types";
 import { Track } from "@auralous/api";
-import { PlaybackState } from "@auralous/player";
-import { Heading, IconX, makeStyles, Size } from "@auralous/ui";
+import {
+  PlaybackContextType,
+  PlaybackState,
+  usePlaybackCurrentContext,
+} from "@auralous/player";
+import {
+  Button,
+  Heading,
+  IconChevronLeft,
+  IconUserPlus,
+  makeStyles,
+  Size,
+  Spacer,
+} from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, StyleSheet, View } from "react-native";
@@ -20,8 +35,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "stretch",
+    marginBottom: Size[4],
+  },
+  headerSide: {
+    flexDirection: "row",
     alignItems: "center",
-    paddingBottom: Size[4],
   },
 });
 
@@ -54,13 +73,41 @@ const QueueSheet: FC<{
       BackHandler.removeEventListener("hardwareBackPress", onBackPress);
   }, [onClose]);
 
+  const contextMeta = usePlaybackContextMeta(usePlaybackCurrentContext());
+  const navigation = useNavigation();
+
+  const openCollab = useCallback(() => {
+    if (contextMeta?.isLive) {
+      if (contextMeta.type === PlaybackContextType.Story) {
+        navigation.navigate(RouteName.StoryCollaborators, {
+          id: contextMeta.id,
+        });
+      }
+    } else {
+      // show banner suggesting starting a story
+    }
+  }, [navigation, contextMeta]);
+
   return (
     <SafeAreaView style={dstyles.root}>
       <View style={styles.header}>
-        <Heading level={3}>{t("queue.title")}</Heading>
-        <TouchableOpacity onPress={onClose}>
-          <IconX width={Size[8]} height={Size[8]} />
-        </TouchableOpacity>
+        <View style={styles.headerSide}>
+          <TouchableOpacity
+            accessibilityLabel={t("common.navigation.go_back")}
+            onPress={onClose}
+          >
+            <IconChevronLeft width={Size[10]} height={Size[10]} />
+          </TouchableOpacity>
+          <Spacer x={1} />
+          <Heading level={3}>{t("queue.title")}</Heading>
+        </View>
+        <View style={styles.headerSide}>
+          <Button
+            accessibilityLabel={t("collab.add_users")}
+            icon={<IconUserPlus width={16} height={16} />}
+            onPress={openCollab}
+          />
+        </View>
       </View>
       <View style={styles.content}>
         <QueueContent currentTrack={currentTrack} nextItems={nextItems} />

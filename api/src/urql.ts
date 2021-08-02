@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
 import {
@@ -17,7 +18,6 @@ import {
 import schema from "./introspection.gen";
 import { nextCursorPagination } from "./_pagination";
 
-// @ts-ignore
 export const cacheExchange = createCacheExchange<GraphCacheConfig>({
   schema,
   keys: {
