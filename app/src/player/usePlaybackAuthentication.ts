@@ -1,13 +1,12 @@
-import { PlatformName, useMeQuery } from "@auralous/api";
+import { useMe } from "@/gql/hooks";
+import { PlatformName } from "@auralous/api";
 import { useMemo } from "react";
 
 const usePlaybackAuthentication = () => {
   /**
    * Player Authentication
    */
-  const [{ data }] = useMeQuery({
-    requestPolicy: "cache-and-network",
-  });
+  const me = useMe();
 
   /**
    * Playing Platform
@@ -18,13 +17,15 @@ const usePlaybackAuthentication = () => {
    */
   const playingPlatform = useMemo<PlatformName | null>(() => {
     // if mAuth === undefined, it has not fetched
-    if (data?.me === undefined) return null;
-    return data.me?.platform || PlatformName.Youtube;
-  }, [data]);
+    if (me === undefined) return null;
+    return me?.platform || PlatformName.Youtube;
+  }, [me]);
+
+  console.log(playingPlatform, me);
 
   return {
     playingPlatform,
-    accessToken: data?.me?.accessToken || null,
+    accessToken: me?.accessToken || null,
   } as const;
 };
 

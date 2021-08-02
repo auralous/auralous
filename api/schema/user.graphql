@@ -13,7 +13,6 @@ query me {
     oauthId
     platform
     accessToken
-    expiredAt
   }
 }
 

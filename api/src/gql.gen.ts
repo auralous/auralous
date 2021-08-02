@@ -45,7 +45,6 @@ export type Me = {
   oauthId: Scalars['String'];
   platform: PlatformName;
   accessToken?: Maybe<Scalars['String']>;
-  expiredAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type Message = {
@@ -1012,7 +1011,7 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { me?: Maybe<(
     { __typename: 'Me' }
-    & Pick<Me, 'oauthId' | 'platform' | 'accessToken' | 'expiredAt'>
+    & Pick<Me, 'oauthId' | 'platform' | 'accessToken'>
     & { user: (
       { __typename: 'User' }
       & UserPublicPartsFragment
@@ -1312,7 +1311,7 @@ export const SearchTrackDocument = {"kind":"Document","definitions":[{"kind":"Op
 export function useSearchTrackQuery(options: Omit<Urql.UseQueryArgs<SearchTrackQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SearchTrackQuery>({ query: SearchTrackDocument, ...options });
 };
-export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}},{"kind":"Field","name":{"kind":"Name","value":"oauthId"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}},{"kind":"Field","name":{"kind":"Name","value":"expiredAt"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
+export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}},{"kind":"Field","name":{"kind":"Name","value":"oauthId"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
@@ -1426,8 +1425,7 @@ export type GraphCacheResolvers = {
     user?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, WithTypename<User> | string>,
     oauthId?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, Scalars['String'] | string>,
     platform?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, PlatformName | string>,
-    accessToken?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, Scalars['String'] | string>,
-    expiredAt?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, Scalars['DateTime'] | string>
+    accessToken?: GraphCacheResolver<WithTypename<Me>, Record<string, never>, Scalars['String'] | string>
   },
   Message?: {
     id?: GraphCacheResolver<WithTypename<Message>, Record<string, never>, Scalars['ID'] | string>,

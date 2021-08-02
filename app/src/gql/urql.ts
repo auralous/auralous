@@ -22,7 +22,7 @@ export const createUrqlClient = () => {
     url: `${Config.API_URI}/graphql`,
     exchanges: [
       dedupExchange,
-      cacheExchange,
+      cacheExchange(),
       authExchange<{ accessToken?: string | null }>({
         async getAuth({ authState }) {
           if (!authState) {

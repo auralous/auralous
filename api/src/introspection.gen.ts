@@ -160,14 +160,6 @@ export default {
               "name": "Any"
             },
             "args": []
-          },
-          {
-            "name": "expiredAt",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
           }
         ],
         "interfaces": []
