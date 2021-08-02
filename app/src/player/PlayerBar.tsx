@@ -6,8 +6,13 @@ import player, {
 import { IconPause, IconPlay, Size, Text, useColors } from "@auralous/ui";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const styles = StyleSheet.create({
   root: {
@@ -42,7 +47,7 @@ const onPlayerBarPressed = () => player.emit("__player_bar_pressed");
 const PlayerBar: FC = () => {
   const { t } = useTranslation();
 
-  const isPlaying = usePlaybackCurrentControl();
+  const { isPlaying } = usePlaybackCurrentControl();
   const trackId = usePlaybackTrackId();
   const playbackCurrentContext = usePlaybackCurrentControl();
 

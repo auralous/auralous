@@ -1,3 +1,4 @@
+import { RouteName } from "@/screens/types";
 import { Story, Track, useStoryTracksQuery } from "@auralous/api";
 import player, { PlaybackContextType } from "@auralous/player";
 import {
@@ -15,7 +16,6 @@ import { createContext, FC, memo, useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { RouteName } from "../types";
 import StoryMeta from "./StoryMeta";
 
 const listPadding = Size[3];

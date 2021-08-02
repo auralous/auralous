@@ -6,20 +6,12 @@ import {
   useStoryQuery,
   useUserQuery,
 } from "@auralous/api";
-import {
-  Avatar,
-  Button,
-  HeaderBackable,
-  LoadingScreen,
-  Size,
-  Text,
-} from "@auralous/ui";
-import { StackScreenProps } from "@react-navigation/stack";
+import { Avatar, Button, LoadingScreen, Size, Text } from "@auralous/ui";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Share from "react-native-share";
 
 const styles = StyleSheet.create({
@@ -66,8 +58,8 @@ const StoryCollaborator: FC<{
 };
 
 const StoryCollaboratorsScreen: FC<
-  StackScreenProps<ParamList, RouteName.Story>
-> = ({ navigation, route }) => {
+  NativeStackScreenProps<ParamList, RouteName.Story>
+> = ({ route }) => {
   const { t } = useTranslation();
 
   const [{ data: dataStory, fetching }] = useStoryQuery({
@@ -92,8 +84,7 @@ const StoryCollaboratorsScreen: FC<
   }, [t, dataStory?.story?.text, dataStoryInviteLink?.storyInviteLink]);
 
   return (
-    <SafeAreaView style={styles.root}>
-      <HeaderBackable onBack={navigation.goBack} title={t("collab.title")} />
+    <View style={styles.root}>
       {fetching ? (
         <LoadingScreen />
       ) : dataStory?.story ? (
@@ -114,7 +105,7 @@ const StoryCollaboratorsScreen: FC<
           <Button onPress={onInvitePress}>{t("share.invite_friends")}</Button>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

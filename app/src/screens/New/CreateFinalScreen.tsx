@@ -10,7 +10,7 @@ import {
   Text,
 } from "@auralous/ui";
 import { useFocusEffect } from "@react-navigation/core";
-import { StackScreenProps } from "@react-navigation/stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, BackHandler, StyleSheet, View } from "react-native";
@@ -35,10 +35,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const Create: FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
-  route,
-  navigation,
-}) => {
+const CreateFinalScreen: FC<
+  NativeStackScreenProps<ParamList, RouteName.NewFinal>
+> = ({ route, navigation }) => {
   const { t } = useTranslation();
 
   const [{ fetching }, createStory] = useStoryCreateMutation();
@@ -120,4 +119,4 @@ const Create: FC<StackScreenProps<ParamList, RouteName.NewFinal>> = ({
   );
 };
 
-export default Create;
+export default CreateFinalScreen;

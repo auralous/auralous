@@ -1,3 +1,3 @@
-export { default as CreateFinalScreen } from "./CreateFinal";
-export { default as QuickShareScreen } from "./QuickShare";
-export { default as SelectSongsScreen } from "./SelectSongs";
+export { default as CreateFinalScreen } from "./CreateFinalScreen";
+export { default as QuickShareScreen } from "./QuickShareScreen";
+export { default as SelectSongsScreen } from "./SelectSongsScreen";

@@ -11,14 +11,13 @@ import {
   usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
 } from "@auralous/api";
-import { HeaderBackable, LoadingScreen, Size } from "@auralous/ui";
-import { StackScreenProps } from "@react-navigation/stack";
+import { LoadingScreen, Size } from "@auralous/ui";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, ScrollView, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useClient } from "urql";
-import PlaylistsSection from "./PlaylistsSection";
+import PlaylistsSection from "./components/PlaylistsSection";
 
 const styles = StyleSheet.create({
   root: {
@@ -35,10 +34,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const QuickShare: FC<StackScreenProps<ParamList, RouteName.NewQuickShare>> = ({
-  navigation,
-  route,
-}) => {
+const QuickShareScreen: FC<
+  NativeStackScreenProps<ParamList, RouteName.NewQuickShare>
+> = ({ navigation, route }) => {
   const { t } = useTranslation();
   const [fetching, setFetching] = useState(false);
 
@@ -115,11 +113,7 @@ const QuickShare: FC<StackScreenProps<ParamList, RouteName.NewQuickShare>> = ({
   const [{ data: dataFriends }] = usePlaylistsFriendsQuery();
 
   return (
-    <SafeAreaView style={styles.root}>
-      <HeaderBackable
-        onBack={navigation.goBack}
-        title={t("new.quick_share.title")}
-      />
+    <View style={styles.root}>
       <ScrollView style={styles.content}>
         <PlaylistsSection
           title={t("home.featured_playlists.title")}
@@ -137,8 +131,8 @@ const QuickShare: FC<StackScreenProps<ParamList, RouteName.NewQuickShare>> = ({
           <LoadingScreen />
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 
-export default QuickShare;
+export default QuickShareScreen;

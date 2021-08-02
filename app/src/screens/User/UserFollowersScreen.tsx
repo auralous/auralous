@@ -1,22 +1,19 @@
 import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
 import { useUserFollowingsQuery, useUserQuery } from "@auralous/api";
-import { HeaderBackable, LoadingScreen } from "@auralous/ui";
-import { StackScreenProps } from "@react-navigation/stack";
+import { LoadingScreen } from "@auralous/ui";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import UserList from "./UserList";
+import { StyleSheet, View } from "react-native";
+import UserList from "./components/UserList";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
 });
 
 const UserFollowersScreen: FC<
-  StackScreenProps<ParamList, RouteName.UserFollowers>
-> = ({ route, navigation }) => {
-  const { t } = useTranslation();
+  NativeStackScreenProps<ParamList, RouteName.UserFollowers>
+> = ({ route }) => {
   const username = route.params.username;
   const [{ data: dataUser, fetching }] = useUserQuery({
     variables: { username },
@@ -30,8 +27,7 @@ const UserFollowersScreen: FC<
   });
 
   return (
-    <SafeAreaView style={styles.root}>
-      <HeaderBackable onBack={navigation.goBack} title={t("user.followers")} />
+    <View style={styles.root}>
       {fetching ? (
         <LoadingScreen />
       ) : user ? (
@@ -39,7 +35,7 @@ const UserFollowersScreen: FC<
       ) : (
         <NotFoundScreen />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

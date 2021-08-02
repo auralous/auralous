@@ -43,7 +43,7 @@ export const useStyles = makeStyles(
         ? props.bold === "medium"
           ? Font.Medium
           : Font.Bold
-        : "Inter-Regular",
+        : Font.Normal,
       fontStyle: props.italic ? "italic" : undefined,
       textAlign: props.align,
       fontSize: props.size

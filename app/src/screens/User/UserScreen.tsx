@@ -1,20 +1,18 @@
 import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
 import { useUserQuery } from "@auralous/api";
-import { HeaderBackable, LoadingScreen } from "@auralous/ui";
-import { StackScreenProps } from "@react-navigation/stack";
+import { LoadingScreen } from "@auralous/ui";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import UserMeta from "./UserMeta";
+import { ScrollView, StyleSheet, View } from "react-native";
+import UserMeta from "./components/UserMeta";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
 });
 
-const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
+const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
   route,
-  navigation,
 }) => {
   const username = route.params.username;
   const [{ data, fetching }] = useUserQuery({
@@ -22,8 +20,7 @@ const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
     pause: !username,
   });
   return (
-    <SafeAreaView style={styles.root}>
-      <HeaderBackable onBack={navigation.goBack} title="" />
+    <View style={styles.root}>
       {fetching ? (
         <LoadingScreen />
       ) : data?.user ? (
@@ -33,7 +30,7 @@ const UserScreen: FC<StackScreenProps<ParamList, RouteName.User>> = ({
       ) : (
         <NotFoundScreen />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

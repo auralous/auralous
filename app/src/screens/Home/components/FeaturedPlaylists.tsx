@@ -1,22 +1,20 @@
-import { useStoriesQuery } from "@auralous/api";
-import { Size, StoryItem } from "@auralous/ui";
+import { RouteName } from "@/screens/types";
+import { usePlaylistsFeaturedQuery } from "@auralous/api";
+import { PlaylistItem, Size } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { RouteName } from "../types";
 import scrollStyles from "./ScrollView.styles";
 
 const styles = StyleSheet.create({
-  storyItemWrapper: {
+  item: {
     marginRight: Size[4],
   },
 });
 
-const RecentStories: FC = () => {
-  const [{ data }] = useStoriesQuery({
-    variables: { id: "PUBLIC", limit: 8 },
-  });
+const FeaturedPlaylists: FC = () => {
+  const [{ data }] = usePlaylistsFeaturedQuery();
 
   const navigation = useNavigation();
 
@@ -27,17 +25,19 @@ const RecentStories: FC = () => {
       horizontal
       showsHorizontalScrollIndicator={false}
     >
-      {data?.stories?.map((story) => (
+      {data?.playlistsFeatured?.map((playlist) => (
         <TouchableOpacity
-          key={story.id}
-          style={styles.storyItemWrapper}
-          onPress={() => navigation.navigate(RouteName.Story, { id: story.id })}
+          key={playlist.id}
+          style={styles.item}
+          onPress={() =>
+            navigation.navigate(RouteName.Playlist, { id: playlist.id })
+          }
         >
-          <StoryItem story={story} />
+          <PlaylistItem playlist={playlist} />
         </TouchableOpacity>
       ))}
     </ScrollView>
   );
 };
 
-export default RecentStories;
+export default FeaturedPlaylists;

@@ -1,10 +1,10 @@
 import { ParamList, RouteName } from "@/screens/types";
-import { StackScreenProps } from "@react-navigation/stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const MapScreen: FC<StackScreenProps<ParamList, RouteName.Map>> = () => {
+const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = () => {
   return (
     <SafeAreaView>
       <View></View>

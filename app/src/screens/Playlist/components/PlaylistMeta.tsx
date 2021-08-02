@@ -1,3 +1,4 @@
+import { RouteName } from "@/screens/types";
 import { Playlist } from "@auralous/api";
 import player, { PlaybackContextType } from "@auralous/player";
 import { Button, Heading, Size, Spacer, Text } from "@auralous/ui";
@@ -5,7 +6,6 @@ import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
-import { RouteName } from "../types";
 
 const styles = StyleSheet.create({
   root: {
@@ -62,7 +62,7 @@ const PlaylistMeta: FC<{ playlist: Playlist }> = ({ playlist }) => {
           accessibilityLabel={playlist.name}
         />
         <View style={styles.meta}>
-          <View style={{ height: Size[6] }}>
+          <View style={{ height: Size[4] }}>
             <Text align="center" color="textTertiary" size="sm">
               {t("playlist.title")} •{" "}
               {t("playlist.x_song", { count: playlist.total })}

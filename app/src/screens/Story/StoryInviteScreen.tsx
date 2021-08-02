@@ -9,18 +9,16 @@ import player, { PlaybackContextType } from "@auralous/player";
 import {
   Avatar,
   Button,
-  HeaderBackable,
   Heading,
   LoadingScreen,
   Size,
   Spacer,
   toast,
 } from "@auralous/ui";
-import { StackScreenProps } from "@react-navigation/stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
@@ -29,7 +27,7 @@ const styles = StyleSheet.create({
 });
 
 const StoryInviteScreen: FC<
-  StackScreenProps<ParamList, RouteName.StoryInvite>
+  NativeStackScreenProps<ParamList, RouteName.StoryInvite>
 > = ({ navigation, route }) => {
   const { t } = useTranslation();
 
@@ -73,8 +71,7 @@ const StoryInviteScreen: FC<
   }, [data?.storyCollabAddFromToken, t, playAndNavigate]);
 
   return (
-    <SafeAreaView style={styles.root}>
-      <HeaderBackable title="" onBack={navigation.goBack} />
+    <View style={styles.root}>
       {fetchingStory || me === undefined ? (
         <LoadingScreen />
       ) : dataStory?.story ? (
@@ -97,7 +94,7 @@ const StoryInviteScreen: FC<
       ) : (
         <NotFoundScreen />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,10 +1,10 @@
 import { useMe } from "@/gql/hooks";
+import { RouteName } from "@/screens/types";
 import { Avatar, Button, Heading, Size, Spacer } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/core";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
-import { RouteName } from "../types";
 import AddButton from "./AddButton";
 
 const styles = StyleSheet.create({

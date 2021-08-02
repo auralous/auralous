@@ -2,7 +2,6 @@ import { useAuthActions } from "@/gql/context";
 import { useMe } from "@/gql/hooks";
 import { ParamList, RouteName } from "@/screens/types";
 import {
-  HeaderBackable,
   IconGoogleColor,
   IconSpotify,
   Logo,
@@ -12,13 +11,12 @@ import {
   TextLink,
   useColors,
 } from "@auralous/ui";
-import { StackScreenProps } from "@react-navigation/stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Config from "react-native-config";
-import { SafeAreaView } from "react-native-safe-area-context";
-import ContinueButton from "./ContinueButton";
+import ContinueButton from "./components/ContinueButton";
 
 const styles = StyleSheet.create({
   root: {
@@ -54,7 +52,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SignInScreen: FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
+const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
   route,
   navigation,
 }) => {
@@ -75,71 +73,63 @@ const SignInScreen: FC<StackScreenProps<ParamList, RouteName.SignIn>> = ({
   const colors = useColors();
 
   return (
-    <>
-      <HeaderBackable onBack={navigation.goBack} title={t("sign_in.title")} />
-      <SafeAreaView style={styles.root}>
-        <View style={styles.top}>
-          <Logo
-            style={styles.logo}
-            width={256}
-            height={64}
-            fill={colors.text}
+    <View style={styles.root}>
+      <View style={styles.top}>
+        <Logo style={styles.logo} width={256} height={64} fill={colors.text} />
+        <Text size="lg" bold color="textSecondary">
+          Music Together
+        </Text>
+      </View>
+      <View style={styles.buttonsContainer}>
+        <ContinueButton
+          platform="google"
+          name="Google"
+          icon={<IconGoogleColor width={21} height={21} />}
+          listenOn="YouTube"
+        />
+        <Spacer y={4} />
+        <ContinueButton
+          platform="spotify"
+          name="Spotify"
+          icon={<IconSpotify width={21} height={21} fill="#ffffff" />}
+          listenOn="YouTube"
+        />
+      </View>
+      <View style={styles.smallTextContainer}>
+        <Text size="sm" style={styles.smallText} color="textSecondary">
+          <Trans
+            t={t}
+            i18nKey="legal.accept_continue_text"
+            components={[
+              <TextLink
+                size="sm"
+                color="textSecondary"
+                activeColor="text"
+                key="privacy"
+                href={`${Config.WEB_URI}/privacy`}
+                style={styles.smallTextLinkFix}
+              />,
+              <TextLink
+                size="sm"
+                color="textSecondary"
+                activeColor="text"
+                key="youtube"
+                href="https://www.youtube.com/t/terms"
+                style={styles.smallTextLinkFix}
+              />,
+              <TextLink
+                size="sm"
+                color="textSecondary"
+                activeColor="text"
+                key="spotify"
+                href="https://www.spotify.com/us/legal/privacy-policy/"
+                style={styles.smallTextLinkFix}
+              />,
+            ]}
           />
-          <Text size="lg" bold color="textSecondary">
-            Music Together
-          </Text>
-        </View>
-        <View style={styles.buttonsContainer}>
-          <ContinueButton
-            platform="google"
-            name="Google"
-            icon={<IconGoogleColor width={21} height={21} />}
-            listenOn="YouTube"
-          />
-          <Spacer y={4} />
-          <ContinueButton
-            platform="spotify"
-            name="Spotify"
-            icon={<IconSpotify width={21} height={21} fill="#ffffff" />}
-            listenOn="YouTube"
-          />
-        </View>
-        <View style={styles.smallTextContainer}>
-          <Text size="sm" style={styles.smallText} color="textSecondary">
-            <Trans
-              t={t}
-              i18nKey="legal.accept_continue_text"
-              components={[
-                <TextLink
-                  size="sm"
-                  color="textSecondary"
-                  activeColor="text"
-                  key="privacy"
-                  href={`${Config.WEB_URI}/privacy`}
-                  style={styles.smallTextLinkFix}
-                />,
-                <TextLink
-                  size="sm"
-                  color="textSecondary"
-                  activeColor="text"
-                  key="youtube"
-                  href="https://www.youtube.com/t/terms"
-                  style={styles.smallTextLinkFix}
-                />,
-                <TextLink
-                  size="sm"
-                  color="textSecondary"
-                  activeColor="text"
-                  key="spotify"
-                  href="https://www.spotify.com/us/legal/privacy-policy/"
-                  style={styles.smallTextLinkFix}
-                />,
-              ]}
-            />
-          </Text>
-        </View>
-      </SafeAreaView>
-    </>
+        </Text>
+      </View>
+    </View>
   );
 };
 

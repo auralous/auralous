@@ -1,3 +1,4 @@
+import { RouteName } from "@/screens/types";
 import { User, useUserStatQuery } from "@auralous/api";
 import { Avatar, Size, Text } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
@@ -5,7 +6,6 @@ import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { RouteName } from "../types";
 
 const styles = StyleSheet.create({
   root: {

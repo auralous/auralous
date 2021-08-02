@@ -1,4 +1,5 @@
 import { GradientButton } from "@/components/Button";
+import { RouteName } from "@/screens/types";
 import {
   Story,
   useNowPlayingQuery,
@@ -20,7 +21,6 @@ import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { RouteName } from "../types";
 import StoryMeta from "./StoryMeta";
 
 const useStyles = makeStyles((theme) => ({
