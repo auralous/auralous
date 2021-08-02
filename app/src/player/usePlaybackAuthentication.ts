@@ -21,8 +21,6 @@ const usePlaybackAuthentication = () => {
     return me?.platform || PlatformName.Youtube;
   }, [me]);
 
-  console.log(playingPlatform, me);
-
   return {
     playingPlatform,
     accessToken: me?.accessToken || null,

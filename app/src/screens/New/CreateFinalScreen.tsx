@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
   number: {
     fontSize: 144,
     color: "#ffffff",
-    fontWeight: "bold",
   },
   textColor: {
     color: "#ffffff",
@@ -89,7 +88,9 @@ const CreateFinalScreen: FC<
     >
       <SafeAreaView style={styles.root}>
         <View style={styles.root}>
-          <Text style={styles.number}>{sec}</Text>
+          <Text bold style={styles.number}>
+            {sec}
+          </Text>
           <Heading level={3} style={styles.textColor}>
             {t("new.final.title")}
           </Heading>

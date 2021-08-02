@@ -19,7 +19,6 @@ export const useStyles = makeStyles(
       opacity: disabled ? 0.5 : 1,
     },
     text: {
-      fontWeight: "600",
       fontSize: 14,
     },
   })

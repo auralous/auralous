@@ -105,39 +105,18 @@ const usePlaybackOnDemandProvider = (
       });
     };
 
-    player.on("skip-forward", skipForward);
-    player.on("skip-backward", skipBackward);
-    player.on("ended", skipForward);
-    return () => {
-      player.off("ended", skipForward);
-      player.off("skip-forward", skipForward);
-      player.off("skip-backward", skipBackward);
-    };
-  }, [active, queueItems.length]);
-
-  useEffect(() => {
-    if (!active) return;
-    const onPlayUid = (uid: string) => {
+    const queuePlayUid = (uid: string) => {
       const index = queueItems.findIndex((value) => value.uid === uid);
       setPlayingIndex(index);
     };
-    player.on("queue-play-uid", onPlayUid);
-    const onRemove = (uids: string[]) => {
+
+    const queueRemove = (uids: string[]) => {
       setQueueItems((localQueueItems) =>
         localQueueItems.filter((item) => !uids.includes(item.uid))
       );
     };
-    player.on("queue-remove", onRemove);
-    return () => {
-      player.off("queue-play-uid", setPlayingIndex);
-      player.off("queue-remove", onRemove);
-    };
-  }, [active, queueItems]);
 
-  useEffect(() => {
-    if (!active) return;
-
-    const onReorder = (from: number, to: number) => {
+    const queueReorder = (from: number, to: number) => {
       // from and to is offsetted depends on currentIndex
       // data is the array of only nextItems,
       // we have to merge it with the played tracks
@@ -146,7 +125,7 @@ const usePlaybackOnDemandProvider = (
       );
     };
 
-    const onPlayNext = (uids: string[]) => {
+    const playNext = (uids: string[]) => {
       setQueueItems((prevQueueItems) => {
         const toTopItems: QueueItem[] = [];
         const afterQueueItems = prevQueueItems
@@ -166,7 +145,7 @@ const usePlaybackOnDemandProvider = (
       });
     };
 
-    const onAdd = (trackIds: string[]) => {
+    const queueAdd = (trackIds: string[]) => {
       setQueueItems((prevQueueItems) => [
         ...prevQueueItems,
         ...trackIds.map((trackId) => ({
@@ -178,15 +157,22 @@ const usePlaybackOnDemandProvider = (
       ]);
     };
 
-    player.on("queue-reorder", onReorder);
-    player.on("play-next", onPlayNext);
-    player.on("queue-add", onAdd);
+    player.registerPlaybackHandle({
+      skipForward,
+      skipBackward,
+      queuePlayUid,
+      queueRemove,
+      queueReorder,
+      queueAdd,
+      playNext,
+    });
+
+    player.on("ended", skipForward);
     return () => {
-      player.off("queue-reorder", onReorder);
-      player.off("play-next", onPlayNext);
-      player.off("queue-add", onAdd);
+      player.off("ended", skipForward);
+      player.unregisterPlaybackHandle();
     };
-  }, [active, me?.user.id, playingIndex]);
+  }, [active, queueItems, playingIndex, me?.user.id]);
 
   return useMemo(
     () => ({

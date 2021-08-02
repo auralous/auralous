@@ -47,10 +47,10 @@ const usePlaybackLiveProvider = (
     variables: { id: queue?.id || "" },
     pause: !queue,
   });
-  const [, queueRemove] = useQueueRemoveMutation();
-  const [, queueReorder] = useQueueReorderMutation();
-  const [, queueToTop] = useQueueToTopMutation();
-  const [, queueAdd] = useQueueAddMutation();
+  const [, doQueueRemove] = useQueueRemoveMutation();
+  const [, doQueueReorder] = useQueueReorderMutation();
+  const [, doQueueToTop] = useQueueToTopMutation();
+  const [, doQueueAdd] = useQueueAddMutation();
 
   useEffect(() => {
     // We hook into `play` event to trigger
@@ -78,52 +78,59 @@ const usePlaybackLiveProvider = (
     useNowPlayingSkipMutation();
 
   useEffect(() => {
-    // Do not accept skipping while fetching
-    if (fetchingSkip || !queue) return;
-    const skipFn = () => skipNowPlaying({ id: queue.id });
-    player.on("skip-forward", skipFn);
-    return () => player.off("skip-forward", skipFn);
-  }, [fetchingSkip, queue, skipNowPlaying]);
-
-  useEffect(() => {
     if (!queue) return;
     const id = queue.id;
-    const onReorder = (from: number, to: number) => {
-      queueReorder({
+    const queueReorder = (from: number, to: number) => {
+      doQueueReorder({
         id,
         position: from,
         insertPosition: to,
       });
     };
-    const onRemove = (uids: string[]) => {
-      queueRemove({
+    const queueRemove = (uids: string[]) => {
+      doQueueRemove({
         id,
         uids,
       });
     };
-    const onPlayNext = (uids: string[]) => {
-      queueToTop({
+    const playNext = (uids: string[]) => {
+      doQueueToTop({
         id,
         uids,
       });
     };
-    const onAdd = (trackIds: string[]) => {
-      queueAdd({
+    const queueAdd = (trackIds: string[]) => {
+      doQueueAdd({
         id,
         tracks: trackIds,
       });
     };
-    player.on("queue-reorder", onReorder);
-    player.on("queue-remove", onRemove);
-    player.on("play-next", onPlayNext);
-    player.on("queue-add", onAdd);
+    const skipForward = () => !fetchingSkip && skipNowPlaying({ id: queue.id });
+    const skipBackward = () => undefined;
+    const queuePlayUid = () => undefined;
+
+    player.registerPlaybackHandle({
+      skipForward,
+      skipBackward,
+      queuePlayUid,
+      queueRemove,
+      queueReorder,
+      queueAdd,
+      playNext,
+    });
+
     return () => {
-      player.off("queue-reorder", onReorder);
-      player.off("queue-remove", onRemove);
-      player.off("play-next", onPlayNext);
-      player.off("queue-add", onAdd);
+      player.unregisterPlaybackHandle();
     };
-  }, [queue, skipNowPlaying, queueReorder, queueRemove, queueToTop, queueAdd]);
+  }, [
+    queue,
+    skipNowPlaying,
+    doQueueReorder,
+    doQueueRemove,
+    doQueueToTop,
+    doQueueAdd,
+    fetchingSkip,
+  ]);
 
   return useMemo(
     () => ({

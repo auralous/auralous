@@ -12,6 +12,16 @@ interface PlayerHandle {
   setVolume: (percentage: number) => void;
 }
 
+interface PlaybackHandle {
+  skipForward(): void;
+  skipBackward(): void;
+  playNext(uids: string[]): void;
+  queuePlayUid(uid: string): void;
+  queueReorder(from: number, to: number): void;
+  queueRemove(uids: string[]): void;
+  queueAdd(trackIds: string[]): void;
+}
+
 interface Player {
   on(
     state: "context",
@@ -24,16 +34,6 @@ interface Player {
   on(state: "seeked", fn: () => void): void;
   on(state: "ended", fn: () => void): void;
   on(state: "time", fn: (ms: number) => void): void;
-  on(state: "skip-forward", fn: () => void): void;
-  on(state: "skip-backward", fn: () => void): void;
-  on(state: "queue-play-uid", fn: (uid: string) => void): void;
-  on(state: "play-next", fn: (uids: string[]) => void): void;
-  on(
-    state: "queue-reorder",
-    fn: (from: number, to: number, data: unknown[]) => void
-  ): void;
-  on(state: "queue-remove", fn: (uids: string[]) => void): void;
-  on(state: "queue-add", fn: (trackIds: string[]) => void): void;
   on(state: "__player_bar_pressed", fn: () => void): void;
   off(state: "context", fn: (context: PlaybackCurrentContext) => void): void;
   off(state: "play", fn: () => void): void;
@@ -43,16 +43,6 @@ interface Player {
   off(state: "seeked", fn: () => void): void;
   off(state: "ended", fn: () => void): void;
   off(state: "time", fn: (ms: number) => void): void;
-  off(state: "skip-forward", fn: () => void): void;
-  off(state: "skip-backward", fn: () => void): void;
-  off(state: "queue-play-uid", fn: (uid: string) => void): void;
-  off(state: "play-next", fn: (uids: string[]) => void): void;
-  off(
-    state: "queue-reorder",
-    fn: (from: number, to: number, data: unknown[]) => void
-  ): void;
-  off(state: "queue-remove", fn: (uids: string[]) => void): void;
-  off(state: "queue-add", fn: (trackIds: string[]) => void): void;
   off(state: "__player_bar_pressed", fn: () => void): void;
   emit(
     state: "context",
@@ -65,18 +55,12 @@ interface Player {
   emit(state: "seeked"): void;
   emit(state: "ended"): void;
   emit(state: "time", ms: number): void;
-  emit(state: "skip-forward"): void;
-  emit(state: "skip-backward"): void;
-  emit(state: "queue-play-uid", uid: string): void;
-  emit(state: "play-next", uids: string[]): void;
-  emit(state: "queue-reorder", from: number, to: number, data: unknown[]): void;
-  emit(state: "queue-remove", uids: string[]): void;
-  emit(state: "queue-add", trackIds: string[]): void;
 }
 
 class Player {
   private ee: Record<string, HandlerFn[]>;
   private playerFn: PlayerHandle | null;
+  private playbackFn: PlaybackHandle | null;
 
   __wasPlaying = false;
 
@@ -84,6 +68,7 @@ class Player {
     // developit/mitt
     this.ee = Object.create(null);
     this.playerFn = null;
+    this.playbackFn = null;
   }
 
   on(state: string, handler: HandlerFn) {
@@ -115,6 +100,14 @@ class Player {
     }
   }
 
+  registerPlaybackHandle(registerHandle: PlaybackHandle) {
+    this.playbackFn = registerHandle;
+  }
+
+  unregisterPlaybackHandle() {
+    this.playbackFn = null;
+  }
+
   playByExternalId(externalId: string | null) {
     if (!this.playerFn) {
       this.__queuedPlayingExternalId = externalId;
@@ -144,14 +137,6 @@ class Player {
     this.playerFn?.play();
   }
 
-  skipBackward() {
-    this.emit("skip-backward");
-  }
-
-  skipForward() {
-    this.emit("skip-forward");
-  }
-
   pause() {
     this.emit("pause");
     this.__wasPlaying = false;
@@ -160,6 +145,32 @@ class Player {
 
   setVolume(percentage: number) {
     this.playerFn?.setVolume(percentage);
+  }
+
+  skipForward() {
+    this.playbackFn?.skipForward();
+  }
+
+  skipBackward() {
+    this.playbackFn?.skipBackward();
+  }
+
+  playNext(uids: string[]) {
+    this.playbackFn?.playNext(uids);
+  }
+  queuePlayUid(uid: string) {
+    this.playbackFn?.queuePlayUid(uid);
+  }
+
+  queueReorder(from: number, to: number) {
+    this.playbackFn?.queueReorder(from, to);
+  }
+
+  queueRemove(uids: string[]) {
+    this.playbackFn?.queueRemove(uids);
+  }
+  queueAdd(trackIds: string[]) {
+    this.playbackFn?.queueAdd(trackIds);
   }
 }
 

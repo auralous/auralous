@@ -72,10 +72,7 @@ const DraggableQueueItem = memo<{
   params: DraggableRecyclerRenderItemInfo<QueueItem>;
 }>(
   function DraggableQueueItem({ params }) {
-    const onPress = useCallback(
-      (uid: string) => player.emit("queue-play-uid", uid),
-      []
-    );
+    const onPress = useCallback((uid: string) => player.queuePlayUid(uid), []);
 
     const client = useClient();
 
@@ -154,7 +151,7 @@ const QueueContent: FC<{
   }, [nextItems]);
 
   const onDragEnd = useCallback((from: number, to: number) => {
-    player.emit("queue-reorder", from, to);
+    player.queueReorder(from, to);
   }, []);
 
   const [selected, setSelected] = useState<Record<string, undefined | boolean>>(
@@ -185,7 +182,7 @@ const QueueContent: FC<{
 
   const removeSelected = useCallback(() => {
     const removingUids = extractUidsFromSelected(selected);
-    player.emit("queue-remove", removingUids);
+    player.queueRemove(removingUids);
     // No need to update temp items because this does not
     // cause render flicker
   }, [selected]);
@@ -197,13 +194,13 @@ const QueueContent: FC<{
       delete selectedClone[toTopUid];
     }
     setSelected(selectedClone);
-    player.emit("play-next", toTopUids);
+    player.playNext(toTopUids);
     // No need to update temp items because this does not
     // cause render flicker
   }, [selected]);
 
   const onAddTracks = useCallback((trackIds: string[]) => {
-    player.emit("queue-add", trackIds);
+    player.queueAdd(trackIds);
   }, []);
   const onRemoveTracks = useCallback(
     (trackIds: string[]) => {
@@ -211,7 +208,7 @@ const QueueContent: FC<{
       items.forEach(
         (item) => trackIds.includes(item.trackId) && removingUids.push(item.uid)
       );
-      player.emit("queue-remove", removingUids);
+      player.queueRemove(removingUids);
     },
     [items]
   );
