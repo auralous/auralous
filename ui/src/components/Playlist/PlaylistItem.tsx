@@ -3,7 +3,6 @@ import { imageSources } from "@auralous/ui/assets";
 import { Text } from "@auralous/ui/components/Typography";
 import { Size } from "@auralous/ui/styles";
 import { FC, memo } from "react";
-import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 
 interface PlaylistItemProps {
@@ -32,7 +31,6 @@ const styles = StyleSheet.create({
 });
 
 const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
-  const { t } = useTranslation();
   return (
     <View style={styles.root}>
       <Image
@@ -50,7 +48,7 @@ const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
           {playlist?.name}
         </Text>
         <Text size="sm" color="textTertiary">
-          {t(`music_platform.${playlist?.platform}.name` as const)}
+          {playlist?.creatorName}
         </Text>
       </View>
     </View>

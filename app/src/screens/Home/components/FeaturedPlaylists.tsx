@@ -1,6 +1,6 @@
 import { RouteName } from "@/screens/types";
 import { usePlaylistsFeaturedQuery } from "@auralous/api";
-import { PlaylistItem, Size } from "@auralous/ui";
+import { LoadingScreen, PlaylistItem, Size } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC } from "react";
 import { ScrollView, StyleSheet } from "react-native";
@@ -8,34 +8,41 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import scrollStyles from "./ScrollView.styles";
 
 const styles = StyleSheet.create({
+  root: {
+    height: Size[44],
+  },
   item: {
     marginRight: Size[4],
   },
 });
 
 const FeaturedPlaylists: FC = () => {
-  const [{ data }] = usePlaylistsFeaturedQuery();
+  const [{ data, fetching }] = usePlaylistsFeaturedQuery();
 
   const navigation = useNavigation();
 
   return (
     <ScrollView
-      style={scrollStyles.scroll}
+      style={[scrollStyles.scroll, styles.root]}
       contentContainerStyle={scrollStyles.scrollContent}
       horizontal
       showsHorizontalScrollIndicator={false}
     >
-      {data?.playlistsFeatured?.map((playlist) => (
-        <TouchableOpacity
-          key={playlist.id}
-          style={styles.item}
-          onPress={() =>
-            navigation.navigate(RouteName.Playlist, { id: playlist.id })
-          }
-        >
-          <PlaylistItem playlist={playlist} />
-        </TouchableOpacity>
-      ))}
+      {fetching ? (
+        <LoadingScreen />
+      ) : (
+        data?.playlistsFeatured?.map((playlist) => (
+          <TouchableOpacity
+            key={playlist.id}
+            style={styles.item}
+            onPress={() =>
+              navigation.navigate(RouteName.Playlist, { id: playlist.id })
+            }
+          >
+            <PlaylistItem playlist={playlist} />
+          </TouchableOpacity>
+        ))
+      )}
     </ScrollView>
   );
 };

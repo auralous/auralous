@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 const styles = StyleSheet.create({
   root: {
     marginBottom: Size[4],
+    height: 216,
   },
   title: {
     marginBottom: Size[3],

@@ -8,6 +8,7 @@ import {
   StoryTracksDocument,
   StoryTracksQuery,
   StoryTracksQueryVariables,
+  useMyPlaylistsQuery,
   usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
 } from "@auralous/api";
@@ -111,6 +112,7 @@ const QuickShareScreen: FC<
 
   const [{ data: dataFeatured }] = usePlaylistsFeaturedQuery();
   const [{ data: dataFriends }] = usePlaylistsFriendsQuery();
+  const [{ data: dataMine }] = useMyPlaylistsQuery();
 
   return (
     <View style={styles.root}>
@@ -123,6 +125,11 @@ const QuickShareScreen: FC<
         <PlaylistsSection
           title={t("home.friends_playlists.title")}
           playlists={dataFriends?.playlistsFriends || []}
+          onSelect={onSelectPlaylist}
+        />
+        <PlaylistsSection
+          title={t("playlist.my_playlists")}
+          playlists={dataMine?.myPlaylists || []}
           onSelect={onSelectPlaylist}
         />
       </ScrollView>

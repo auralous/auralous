@@ -72,7 +72,7 @@ const PlaylistMeta: FC<{ playlist: Playlist }> = ({ playlist }) => {
             {playlist.name}
           </Heading>
           <Text color="textSecondary" align="center">
-            Some author
+            {playlist.creatorName}
           </Text>
         </View>
       </View>

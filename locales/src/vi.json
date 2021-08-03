@@ -54,6 +54,11 @@
     "title": "Story",
     "join_live": "Tham gia"
   },
+  "story_invite": {
+    "title": "Bạn được mời cộng tác tại \"{{ name }}\"",
+    "invite_invalid": "Link mời này không hợp lệ hoặc đã hết hạn",
+    "accept_invitation": "Chấp nhận và tham gia"
+  },
   "player": {
     "title": "Trình phát",
     "pause": "Tạm dừng",
@@ -104,6 +109,11 @@
       "name": "Spotify"
     }
   },
+  "collab": {
+    "title": "Cộng tác viên",
+    "add_users": "Thêm cộng tác viên",
+    "name_and_x_others": "{{ name }} + {{ count }} người khác"
+  },
   "common": {
     "status": {
       "live": "trực tiếp"
@@ -128,5 +138,8 @@
       "cancel": "Hủy bỏ",
       "confirm": "Xác nhận"
     }
+  },
+  "share": {
+    "invite_friends": "Mời bạn bè"
   }
 }

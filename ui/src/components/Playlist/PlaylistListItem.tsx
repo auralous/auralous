@@ -4,7 +4,6 @@ import { Spacer } from "@auralous/ui/components/Spacer";
 import { Text } from "@auralous/ui/components/Typography";
 import { Size } from "@auralous/ui/styles";
 import { FC, memo } from "react";
-import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 
 interface PlaylistListItemProps {
@@ -33,8 +32,6 @@ const styles = StyleSheet.create({
 });
 
 const PlaylistListItem: FC<PlaylistListItemProps> = ({ playlist }) => {
-  const { t } = useTranslation();
-
   return (
     <View style={styles.root}>
       <Image
@@ -56,7 +53,7 @@ const PlaylistListItem: FC<PlaylistListItemProps> = ({ playlist }) => {
           </Text>
         </View>
         <Text color="textSecondary" size="sm" numberOfLines={1}>
-          {t(`music_platform.${playlist?.platform}.name` as const)}
+          {playlist?.creatorName}
         </Text>
       </View>
     </View>

@@ -6,6 +6,8 @@ fragment PlaylistParts on Playlist {
   image
   url
   total
+  creatorName
+  creatorImage
   __typename
 }
 
