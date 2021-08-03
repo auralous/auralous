@@ -1,11 +1,5 @@
 import { usePreloadedTrackQueries } from "@/gql/track";
-import {
-  QueueItem,
-  Track,
-  TrackDocument,
-  TrackQuery,
-  TrackQueryVariables,
-} from "@auralous/api";
+import { QueueItem, Track, useTrackQuery } from "@auralous/api";
 import player, { PlaybackState } from "@auralous/player";
 import {
   Button,
@@ -34,7 +28,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import "react-native-gesture-handler";
-import { useClient } from "urql";
 import { QueueAdder } from "./QueueAdder";
 
 const QueueContext = createContext(
@@ -74,15 +67,10 @@ const DraggableQueueItem = memo<{
   function DraggableQueueItem({ params }) {
     const onPress = useCallback((uid: string) => player.queuePlayUid(uid), []);
 
-    const client = useClient();
-
-    const track = useMemo(
-      () =>
-        client.readQuery<TrackQuery, TrackQueryVariables>(TrackDocument, {
-          id: params.item.trackId,
-        })?.data?.track || null,
-      [client, params.item.trackId]
-    );
+    const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
+      variables: { id: params.item.trackId },
+      requestPolicy: "cache-only", // we rely on data from usePreloadedTrackQueries
+    });
 
     const { toggleSelected, selected } = useContext(QueueContext);
 
@@ -93,7 +81,8 @@ const DraggableQueueItem = memo<{
 
     return (
       <QueueTrackItem
-        track={track}
+        track={dataTrack?.track || null}
+        fetching={fetchingTrack}
         drag={params.drag}
         checked={!!selected[params.item.uid]}
         onToggle={onToggle}

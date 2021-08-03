@@ -1,9 +1,16 @@
+import {
+  Dialog,
+  DialogButton,
+  DialogContent,
+  DialogContentText,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/BottomSheet";
 import player, { usePlaybackAuthentication } from "@auralous/player";
-import { Size, Spacer, Text, toast } from "@auralous/ui";
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
-import { FC, useEffect, useRef, useState } from "react";
+import { toast } from "@auralous/ui";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
 import Config from "react-native-config";
 import {
   ApiConfig,
@@ -76,9 +83,14 @@ const PlayerSpotify: FC = () => {
 
   const { accessToken } = usePlaybackAuthentication();
 
+  const doInitialize = useCallback(
+    () => initialize(() => setIsInitialized(true), setError),
+    []
+  );
+
   useEffect(() => {
-    if (!isInitialized) initialize(() => setIsInitialized(true), setError);
-  }, [isInitialized]);
+    if (!isInitialized) doInitialize();
+  }, [isInitialized, doInitialize]);
 
   useEffect(() => {
     if (isInitialized) connectWithAccessToken(accessToken, setError);
@@ -173,30 +185,27 @@ const PlayerSpotify: FC = () => {
 
   if (error)
     return (
-      <BottomSheetModal
-        snapPoints={["100%"]}
-        backdropComponent={BottomSheetBackdrop}
-        backgroundComponent={null}
-        handleComponent={null}
-        ref={bottomSheetRef}
-      >
-        <View
-          style={{
-            flex: 1,
-            padding: Size[8],
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text bold align="center">
-            {t("player.spotify.error_initialize_player")}
-          </Text>
-          <Spacer y={2} />
-          <Text size="sm" align="center">
+      <Dialog visible>
+        <DialogTitle>{t("player.spotify.error_initialize_player")}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
             {t("player.spotify.error_initialize_player_help")}
-          </Text>
-        </View>
-      </BottomSheetModal>
+          </DialogContentText>
+        </DialogContent>
+        <DialogFooter>
+          <DialogButton
+            onPress={() => {
+              setIsInitialized(false);
+              setIsConnected(false);
+              setError(null);
+              doInitialize();
+            }}
+            variant="primary"
+          >
+            {t("common.action.retry")}
+          </DialogButton>
+        </DialogFooter>
+      </Dialog>
     );
 
   return null;

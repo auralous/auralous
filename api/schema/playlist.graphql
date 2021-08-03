@@ -8,7 +8,6 @@ fragment PlaylistParts on Playlist {
   total
   creatorName
   creatorImage
-  __typename
 }
 
 query playlist($id: ID!) {

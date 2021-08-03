@@ -1,5 +1,6 @@
 import { ASYNC_STORAGE_AUTH } from "@/utils/auth";
 import { cacheExchange } from "@auralous/api";
+import { toast } from "@auralous/ui";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authExchange } from "@urql/exchange-auth";
 import { createClient as createWSClient } from "graphql-ws";
@@ -7,6 +8,7 @@ import Config from "react-native-config";
 import {
   createClient,
   dedupExchange,
+  errorExchange,
   Exchange,
   fetchExchange,
   makeOperation,
@@ -50,6 +52,14 @@ export const createUrqlClient = () => {
               },
             },
           });
+        },
+      }),
+      errorExchange({
+        onError(error, operation) {
+          if (operation.kind === "mutation") {
+            // we only show toast error for mutation
+            toast.error(error.graphQLErrors[0].message);
+          }
         },
       }),
       fetchExchange,

@@ -87,6 +87,8 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
     pause: !dataNowPlaying?.nowPlaying,
   });
 
+  const track = dataNowPlaying?.nowPlaying ? dataTrack?.track : null;
+
   return (
     <>
       <StoryMeta
@@ -114,10 +116,7 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
         <Text bold>{t("now_playing.title")}</Text>
         <View style={styles.track}>
           {dataNowPlaying?.nowPlaying?.currentTrack && (
-            <TrackItem
-              track={dataTrack?.track || null}
-              fetching={fetchingTrack}
-            />
+            <TrackItem track={track || null} fetching={fetchingTrack} />
           )}
         </View>
       </View>

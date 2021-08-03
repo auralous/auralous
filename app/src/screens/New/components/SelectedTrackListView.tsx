@@ -1,4 +1,4 @@
-import { TrackDocument, TrackQuery, TrackQueryVariables } from "@auralous/api";
+import { useTrackQuery } from "@auralous/api";
 import {
   Button,
   DraggableRecyclerList,
@@ -32,7 +32,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { BackHandler, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useClient } from "urql";
 
 const cascadedHeight = 112;
 
@@ -95,16 +94,12 @@ const SelectedQueueTrackItem = memo<{
   params: DraggableRecyclerRenderItemInfo<string>;
 }>(
   function SelectedQueueTrackItem({ params }) {
-    const client = useClient();
-    // We know for sure that the track has been loaded
-    // before being added as an queue item
-    const track = useMemo(
-      () =>
-        client.readQuery<TrackQuery, TrackQueryVariables>(TrackDocument, {
-          id: params.item,
-        })?.data?.track || null,
-      [client, params.item]
-    );
+    const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
+      variables: { id: params.item },
+      // We know for sure that the track has been loaded
+      // before being added as an queue item
+      requestPolicy: "cache-only",
+    });
 
     const { toggleChecked, checked } = useContext(CheckedContext);
 
@@ -118,7 +113,8 @@ const SelectedQueueTrackItem = memo<{
         checked={!!checked[params.item]}
         drag={params.drag}
         onToggle={onToggle}
-        track={track}
+        track={dataTrack?.track || null}
+        fetching={fetchingTrack}
         uid={params.item} // not uid but not important
       />
     );

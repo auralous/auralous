@@ -30,7 +30,7 @@ const MusicView: FC = () => {
     variables: { id: trackId || "" },
     pause: !trackId,
   });
-  const track = data?.track;
+  const track = trackId ? data?.track : null;
 
   const currentControl = usePlaybackCurrentControl();
   const nextItems = usePlaybackNextItems();

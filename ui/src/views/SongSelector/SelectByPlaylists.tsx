@@ -40,8 +40,7 @@ const MyPlaylists: FC<{
 }> = ({ onSelect }) => {
   const { t } = useTranslation();
 
-  const [{ data: { myPlaylists } = { myPlaylists: undefined }, fetching }] =
-    useMyPlaylistsQuery();
+  const [{ data, fetching }] = useMyPlaylistsQuery();
 
   return (
     <>
@@ -49,7 +48,7 @@ const MyPlaylists: FC<{
         <Text bold>{t("playlist.my_playlists")}</Text>
       </View>
       <SelectablePlaylistList
-        playlists={myPlaylists || []}
+        playlists={data?.myPlaylists || []}
         fetching={fetching}
         onSelect={onSelect}
       />
@@ -61,15 +60,16 @@ const SearchPlaylists: FC<{
   search: string;
   onSelect(playlist: Playlist): void;
 }> = ({ search, onSelect }) => {
-  const [
-    { data: { playlistsSearch } = { playlistsSearch: undefined }, fetching },
-  ] = usePlaylistsSearchQuery({
+  const [{ data, fetching }] = usePlaylistsSearchQuery({
     variables: { query: search },
     pause: !search,
   });
+
+  const playlistSearch = search ? data?.playlistsSearch : null;
+
   return (
     <SelectablePlaylistList
-      playlists={playlistsSearch || []}
+      playlists={playlistSearch || []}
       fetching={fetching}
       onSelect={onSelect}
     />

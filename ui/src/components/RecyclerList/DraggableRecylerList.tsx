@@ -261,6 +261,7 @@ export default function DraggableRecyclerList<ItemT>({
   ListEmptyComponent,
   onDragEnd,
   keyExtractor,
+  extendedState,
 }: DraggableRecyclerListProps<ItemT>) {
   const containerSize = useSharedValue(0);
   const onLayout = useCallback(
@@ -483,6 +484,7 @@ export default function DraggableRecyclerList<ItemT>({
             externalScrollView={ExternalScrollView}
             onScroll={onScroll}
             _ref={scrollRef}
+            extendedState={extendedState}
           />
         </Animated.View>
       </PanGestureHandler>

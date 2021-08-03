@@ -90,7 +90,7 @@ export const StoryEditMeta: FC<{ story: Story }> = ({ story }) => {
           defaultValue={story.text}
         />
       </View>
-      <View style={styles.item}>
+      <View style={[styles.item, !story.isLive && { opacity: 0.5 }]}>
         <Text align="center" bold>
           {t("map.title_branded")}
         </Text>

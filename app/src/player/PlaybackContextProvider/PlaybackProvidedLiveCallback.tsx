@@ -1,4 +1,5 @@
 import {
+  useMeQuery,
   useNowPlayingQuery,
   useNowPlayingSkipMutation,
   useOnNowPlayingUpdatedSubscription,
@@ -8,45 +9,46 @@ import {
   useQueueReorderMutation,
   useQueueToTopMutation,
   useQueueUpdatedSubscription,
+  useStoryPingMutation,
 } from "@auralous/api";
 import player, {
   PlaybackContextProvided,
+  PlaybackContextType,
   PlaybackCurrentContext,
 } from "@auralous/player";
-import { useEffect, useMemo } from "react";
+import { FC, useEffect } from "react";
 
-const usePlaybackLiveProvider = (
-  active: boolean,
-  playbackContext: PlaybackCurrentContext | null
-): PlaybackContextProvided => {
+/**
+ * This component takes over the state of playbackProvided in PlayerProvider
+ * if the playback is a "live" one
+ */
+export const PlaybackProvidedLiveCallback: FC<{
+  playbackContext: PlaybackCurrentContext;
+  setPlaybackProvided(value: PlaybackContextProvided | null): void;
+}> = ({ playbackContext, setPlaybackProvided }) => {
   const [{ data: { nowPlaying } = { nowPlaying: undefined }, fetching }] =
     useNowPlayingQuery({
-      variables: { id: playbackContext?.id || "" },
-      pause: !active,
+      variables: { id: playbackContext.id },
       requestPolicy: "cache-and-network",
     });
 
   useOnNowPlayingUpdatedSubscription({
-    variables: { id: playbackContext?.id || "" },
-    pause: !active,
+    variables: { id: playbackContext.id },
   });
 
   const [{ data }] = useQueueQuery({
     variables: {
-      id: playbackContext?.id || "",
+      id: playbackContext.id,
     },
-    pause: !active,
   });
 
-  const queue = useMemo(
-    () => (active ? data?.queue : undefined),
-    [data, active]
-  );
+  const queue = data?.queue;
 
   useQueueUpdatedSubscription({
     variables: { id: queue?.id || "" },
     pause: !queue,
   });
+
   const [, doQueueRemove] = useQueueRemoveMutation();
   const [, doQueueReorder] = useQueueReorderMutation();
   const [, doQueueToTop] = useQueueToTopMutation();
@@ -55,7 +57,7 @@ const usePlaybackLiveProvider = (
   useEffect(() => {
     // We hook into `play` event to trigger
     // seeking to live position on resume
-    if (!nowPlaying || !active) return undefined;
+    if (!nowPlaying) return undefined;
     let waitPlayTimeout: ReturnType<typeof setTimeout>;
     const onPlay = () => {
       const currentTrack = nowPlaying.currentTrack;
@@ -72,7 +74,7 @@ const usePlaybackLiveProvider = (
       clearTimeout(waitPlayTimeout);
       player.off("play", onPlay);
     };
-  }, [active, nowPlaying]);
+  }, [nowPlaying]);
 
   const [{ fetching: fetchingSkip }, skipNowPlaying] =
     useNowPlayingSkipMutation();
@@ -132,14 +134,28 @@ const usePlaybackLiveProvider = (
     fetchingSkip,
   ]);
 
-  return useMemo(
-    () => ({
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
+  const [, storyPing] = useStoryPingMutation();
+  useEffect(() => {
+    if (!me) return;
+    if (playbackContext.type !== PlaybackContextType.Story) return;
+    const pingInterval = setInterval(() => {
+      storyPing({ id: playbackContext.id });
+    }, 30 * 1000);
+    return () => clearInterval(pingInterval);
+  }, [playbackContext, me, storyPing]);
+
+  useEffect(() => {
+    setPlaybackProvided({
       nextItems: queue?.items || [],
       trackId: nowPlaying?.currentTrack?.trackId || null,
       fetching,
-    }),
-    [queue, nowPlaying?.currentTrack?.trackId, fetching]
-  );
-};
+    });
+  }, [queue, nowPlaying?.currentTrack?.trackId, fetching, setPlaybackProvided]);
 
-export default usePlaybackLiveProvider;
+  useEffect(() => {
+    return () => setPlaybackProvided(null);
+  }, [setPlaybackProvided]);
+
+  return null;
+};

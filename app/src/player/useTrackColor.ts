@@ -6,7 +6,8 @@ export const useTrackColor = (trackId?: string | null) => {
     variables: { id: trackId || "" },
     pause: !trackId,
   });
-  const image = !stale ? data?.track?.image : undefined;
 
-  return useImageColor(image);
+  const trackImage = !!trackId && !stale ? data?.track?.image : undefined;
+
+  return useImageColor(trackImage);
 };

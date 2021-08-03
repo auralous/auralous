@@ -68,12 +68,15 @@ const StoryCollaboratorsScreen: FC<
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
+  const shouldShowInviteButton = Boolean(
+    dataStory?.story &&
+      me &&
+      dataStory.story.collaboratorIds.includes(me.user.id)
+  );
+
   const [{ data: dataStoryInviteLink }] = useStoryInviteLinkQuery({
     variables: { id: route.params.id },
-    pause:
-      !dataStory?.story ||
-      !me ||
-      !dataStory.story.collaboratorIds.includes(me.user.id),
+    pause: !shouldShowInviteButton,
   });
 
   const onInvitePress = useCallback(() => {
@@ -100,7 +103,7 @@ const StoryCollaboratorsScreen: FC<
       ) : (
         <NotFoundScreen />
       )}
-      {dataStoryInviteLink && (
+      {shouldShowInviteButton && dataStoryInviteLink && (
         <View style={styles.invite}>
           <Button onPress={onInvitePress}>{t("share.invite_friends")}</Button>
         </View>

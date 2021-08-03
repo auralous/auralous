@@ -35,7 +35,7 @@ const MetaAndButton: FC<{
     pause: !nextTrackId,
   });
 
-  const nextTrack = nextTrackId && dataNextTrack?.track;
+  const nextTrack = nextTrackId ? dataNextTrack?.track : null;
 
   return (
     <TouchableOpacity style={styles.root} onPress={onPress}>

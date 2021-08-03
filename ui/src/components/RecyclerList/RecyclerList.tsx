@@ -43,6 +43,7 @@ export interface RecyclerListProps<ItemT> {
   scrollViewProps?: ScrollViewProps;
   onScroll?: RecyclerListViewProps["onScroll"];
   externalScrollView?: RecyclerListViewProps["externalScrollView"];
+  extendedState?: RecyclerListViewProps["extendedState"];
 }
 
 const layoutType = "@@Layout";
@@ -73,6 +74,7 @@ export default function RecyclerList<ItemT>({
   scrollViewProps: extraScrollViewProps,
   onScroll,
   externalScrollView,
+  extendedState,
 }: RecyclerListProps<ItemT>) {
   const [width, setWidth] = useState(initialWidth);
 
@@ -121,6 +123,7 @@ export default function RecyclerList<ItemT>({
       scrollViewProps={scrollViewProps}
       onScroll={onScroll}
       externalScrollView={externalScrollView}
+      extendedState={extendedState}
     />
   );
 }

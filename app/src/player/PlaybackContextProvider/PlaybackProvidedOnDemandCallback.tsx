@@ -14,13 +14,17 @@ import player, {
   PlaybackCurrentContext,
 } from "@auralous/player";
 import { reorder, shuffle } from "@auralous/ui";
-import { useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useClient } from "urql";
 
-const usePlaybackOnDemandProvider = (
-  active: boolean,
-  contextData: PlaybackCurrentContext | null
-): PlaybackContextProvided => {
+/**
+ * This component takes over the state of playbackProvided in PlayerProvider
+ * if the playback is a "on demand" (non-"live") one
+ */
+export const PlaybackProvidedOnDemandCallback: FC<{
+  playbackContext: PlaybackCurrentContext;
+  setPlaybackProvided(value: PlaybackContextProvided | null): void;
+}> = ({ playbackContext, setPlaybackProvided }) => {
   const [queueItems, setQueueItems] = useState<QueueItem[]>([]);
   const client = useClient();
 
@@ -28,48 +32,45 @@ const usePlaybackOnDemandProvider = (
 
   useEffect(() => {
     let stale = false;
-    if (!contextData) setQueueItems([]);
-    else {
-      let trackPromises: Promise<Track[] | null | undefined>;
-      if (contextData.type === PlaybackContextType.Story) {
-        trackPromises = client
-          .query<StoryTracksQuery, StoryTracksQueryVariables>(
-            StoryTracksDocument,
-            { id: contextData.id }
-          )
-          .toPromise()
-          .then((result) => result.data?.storyTracks);
-      } else {
-        trackPromises = client
-          .query<PlaylistTracksQuery, PlaylistTracksQueryVariables>(
-            PlaylistTracksDocument,
-            { id: contextData.id }
-          )
-          .toPromise()
-          .then((result) => result.data?.playlistTracks);
-      }
-      trackPromises.then((tracks) => {
-        if (stale) return;
-        if (!tracks) return setQueueItems([]);
-        if (contextData.shuffle) {
-          tracks = shuffle([...tracks]);
-        }
-        setPlayingIndex(contextData.initialIndex ?? 0);
-        setQueueItems(
-          tracks.map((track, index) => ({
-            creatorId: "",
-            trackId: track.id,
-            uid: `${index}${track.id}`,
-            __typename: "QueueItem",
-          }))
-        );
-        player.seek(0);
-      });
+    let trackPromises: Promise<Track[] | null | undefined>;
+    if (playbackContext.type === PlaybackContextType.Story) {
+      trackPromises = client
+        .query<StoryTracksQuery, StoryTracksQueryVariables>(
+          StoryTracksDocument,
+          { id: playbackContext.id }
+        )
+        .toPromise()
+        .then((result) => result.data?.storyTracks);
+    } else {
+      trackPromises = client
+        .query<PlaylistTracksQuery, PlaylistTracksQueryVariables>(
+          PlaylistTracksDocument,
+          { id: playbackContext.id }
+        )
+        .toPromise()
+        .then((result) => result.data?.playlistTracks);
     }
+    trackPromises.then((tracks) => {
+      if (stale) return;
+      if (!tracks) return setQueueItems([]);
+      if (playbackContext.shuffle) {
+        tracks = shuffle([...tracks]);
+      }
+      setPlayingIndex(playbackContext.initialIndex ?? 0);
+      setQueueItems(
+        tracks.map((track, index) => ({
+          creatorId: "",
+          trackId: track.id,
+          uid: `${index}${track.id}`,
+          __typename: "QueueItem",
+        }))
+      );
+      player.seek(0);
+    });
     return () => {
       stale = true;
     };
-  }, [contextData, client]);
+  }, [playbackContext, client]);
 
   // TODO: This takes a lot of time
   const nextItems = useMemo(() => {
@@ -77,7 +78,6 @@ const usePlaybackOnDemandProvider = (
   }, [queueItems, playingIndex]);
 
   useEffect(() => {
-    if (!active) return;
     const skipForward = () => {
       setPlayingIndex((prevPlayingIndex) => {
         if (prevPlayingIndex === queueItems.length - 1) {
@@ -169,16 +169,19 @@ const usePlaybackOnDemandProvider = (
       player.off("ended", skipForward);
       player.unregisterPlaybackHandle();
     };
-  }, [active, queueItems, playingIndex]);
+  }, [queueItems, playingIndex]);
 
-  return useMemo(
-    () => ({
+  useEffect(() => {
+    setPlaybackProvided({
       nextItems,
       trackId: queueItems[playingIndex]?.trackId || null,
       fetching: false,
-    }),
-    [nextItems, queueItems, playingIndex]
-  );
-};
+    });
+  }, [nextItems, queueItems, playingIndex, setPlaybackProvided]);
 
-export default usePlaybackOnDemandProvider;
+  useEffect(() => {
+    return () => setPlaybackProvided(null);
+  }, [setPlaybackProvided]);
+
+  return null;
+};

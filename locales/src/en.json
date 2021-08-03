@@ -88,7 +88,7 @@
     "playing_from": "Playing from $t({{entity}}.title)",
     "spotify": {
       "error_initialize_player": "Could not load Spotify Player",
-      "error_initialize_player_help": "Make sure the Spotify app is installed and you did not cancel (press outside) while the loading dialog is visible. Please restart this application."
+      "error_initialize_player_help": "Make sure the Spotify app is installed and you did not cancel (press outside) while the loading dialog is visible."
     }
   },
   "queue": {
@@ -159,7 +159,8 @@
     "action": {
       "cancel": "Cancel",
       "confirm": "Confirm",
-      "save": "Save"
+      "save": "Save",
+      "retry": "Retry"
     },
     "prompt": {
       "action_not_revertable": "This action cannot be undone."

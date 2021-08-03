@@ -159,7 +159,8 @@
     "action": {
       "cancel": "Hủy bỏ",
       "confirm": "Xác nhận",
-      "save": "Lưu"
+      "save": "Lưu",
+      "retry": "Thử lại"
     },
     "prompt": {
       "action_not_revertable": "Hành động này sẽ không thể  hoàn tác được"

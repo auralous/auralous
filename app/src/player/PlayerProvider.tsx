@@ -1,10 +1,11 @@
 import { PlatformName, useCrossTracksQuery, useMeQuery } from "@auralous/api";
 import player, {
   PlaybackContext,
+  PlaybackContextProvided,
   PlaybackCurrentContext,
 } from "@auralous/player";
 import { FC, useEffect, useMemo, useState } from "react";
-import { usePlaybackContextProvider } from "./PlaybackContextProvider";
+import { PlaybackProvidedCallback } from "./PlaybackContextProvider";
 import { useTrackColor } from "./useTrackColor";
 
 export const PlayerProvider: FC = ({ children }) => {
@@ -21,7 +22,14 @@ export const PlayerProvider: FC = ({ children }) => {
     return () => player.off("context", setContextSelector);
   }, []);
 
-  const playbackProvided = usePlaybackContextProvider(playbackCurrentContext);
+  /**
+   * This state determines:
+   * - the track that should be played
+   * - the track enqueued (next items)
+   * - underlying fetching state
+   */
+  const [playbackProvided, setPlaybackProvided] =
+    useState<PlaybackContextProvided | null>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -45,21 +53,18 @@ export const PlayerProvider: FC = ({ children }) => {
   }, [me]);
 
   // Get track data based on preferred playingPlatform
-  const [
-    {
-      data: dataCrossTracks,
-      fetching: fetchingCrossTracks,
-      stale: staleCrossTracks,
-    },
-  ] = useCrossTracksQuery({
-    variables: { id: playbackProvided?.trackId || "" },
-    pause: !playbackProvided?.trackId,
-  });
+  const [{ data: dataCrossTracks, fetching: fetchingCrossTracks }] =
+    useCrossTracksQuery({
+      variables: { id: playbackProvided?.trackId || "" },
+      pause: !playbackProvided?.trackId,
+    });
+
+  // paused query can still return data so we do an extra check
+  const crossTracks = playbackProvided?.trackId
+    ? dataCrossTracks?.crossTracks
+    : null;
 
   const playingTrackId = useMemo(() => {
-    const crossTracks =
-      (!staleCrossTracks && dataCrossTracks?.crossTracks) || null;
-
     // Use playingPlatform or fallback to YouTube as preferred platform
     const platform = playingPlatform || PlatformName.Youtube;
 
@@ -70,12 +75,7 @@ export const PlayerProvider: FC = ({ children }) => {
     const externalId = crossTracks?.[platform];
     if (!externalId) return null;
     return `${platform}:${externalId}`;
-  }, [
-    dataCrossTracks,
-    staleCrossTracks,
-    playingPlatform,
-    playbackProvided?.trackId,
-  ]);
+  }, [crossTracks, playingPlatform, playbackProvided?.trackId]);
 
   // Control the player using playerPlaying
 
@@ -115,6 +115,10 @@ export const PlayerProvider: FC = ({ children }) => {
         accessToken: me?.accessToken || null,
       }}
     >
+      <PlaybackProvidedCallback
+        setPlaybackProvided={setPlaybackProvided}
+        playbackCurrentContext={playbackCurrentContext}
+      />
       {children}
     </PlaybackContext.Provider>
   );

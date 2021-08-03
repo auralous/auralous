@@ -17,7 +17,6 @@ const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
   const username = route.params.username;
   const [{ data, fetching }] = useUserQuery({
     variables: { username },
-    pause: !username,
   });
   return (
     <View style={styles.root}>

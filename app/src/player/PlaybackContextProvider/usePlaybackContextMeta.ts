@@ -8,18 +8,22 @@ import {
 export const usePlaybackContextMeta = (
   playbackCurrentContext: PlaybackCurrentContext | null
 ): PlaybackContextMeta | null => {
+  const isStory = playbackCurrentContext?.type === PlaybackContextType.Story;
+  const isPlaylist =
+    playbackCurrentContext?.type === PlaybackContextType.Playlist;
+
   const [{ data: dataStory }] = useStoryQuery({
     variables: { id: playbackCurrentContext?.id || "" },
-    pause: playbackCurrentContext?.type !== PlaybackContextType.Story,
+    pause: !isStory,
   });
   const [{ data: dataPlaylist }] = usePlaylistQuery({
     variables: { id: playbackCurrentContext?.id || "" },
-    pause: playbackCurrentContext?.type !== PlaybackContextType.Playlist,
+    pause: !isPlaylist,
   });
 
   if (!playbackCurrentContext) return null;
 
-  if (playbackCurrentContext?.type === PlaybackContextType.Story)
+  if (isStory)
     return {
       id: playbackCurrentContext.id,
       contextDescription: dataStory?.story?.text || "",
@@ -30,7 +34,7 @@ export const usePlaybackContextMeta = (
       type: PlaybackContextType.Story,
     };
 
-  if (playbackCurrentContext?.type === PlaybackContextType.Playlist)
+  if (isPlaylist)
     return {
       id: playbackCurrentContext.id,
       contextDescription: dataPlaylist?.playlist?.name || "",
