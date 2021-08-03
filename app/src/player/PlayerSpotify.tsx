@@ -1,7 +1,6 @@
-import { CustomBackdropModal } from "@/components/BottomSheet";
 import player, { usePlaybackAuthentication } from "@auralous/player";
 import { Size, Spacer, Text, toast } from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
@@ -176,7 +175,7 @@ const PlayerSpotify: FC = () => {
     return (
       <BottomSheetModal
         snapPoints={["100%"]}
-        backdropComponent={CustomBackdropModal}
+        backdropComponent={BottomSheetBackdrop}
         backgroundComponent={null}
         handleComponent={null}
         ref={bottomSheetRef}

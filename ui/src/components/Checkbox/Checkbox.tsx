@@ -12,6 +12,7 @@ interface CheckboxProps {
   checked: boolean;
   disabled?: boolean;
   onValueChange(checked: boolean): void;
+  accessibilityLabel?: string;
 }
 
 const useStyles = makeStyles((theme, checked: boolean) => ({
@@ -29,7 +30,12 @@ const useStyles = makeStyles((theme, checked: boolean) => ({
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-const Checkbox: FC<CheckboxProps> = ({ checked, disabled, onValueChange }) => {
+const Checkbox: FC<CheckboxProps> = ({
+  checked,
+  disabled,
+  onValueChange,
+  accessibilityLabel,
+}) => {
   const colors = useColors();
   const dstyles = useStyles(checked);
   const [pressed, pressedProps] = useSharedValuePressed();
@@ -56,6 +62,7 @@ const Checkbox: FC<CheckboxProps> = ({ checked, disabled, onValueChange }) => {
       accessibilityRole="checkbox"
       style={stylesRoot}
       onPress={onPress}
+      accessibilityLabel={accessibilityLabel}
       {...pressedProps}
     >
       <View style={dstyles.check}>

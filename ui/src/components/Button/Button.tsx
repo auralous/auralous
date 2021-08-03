@@ -11,7 +11,7 @@ import Animated, {
 import { useStyles } from "./styles";
 import { BaseButtonProps } from "./types";
 
-interface ButtonProps extends BaseButtonProps {
+export interface ButtonProps extends BaseButtonProps {
   variant?: "primary" | "filled";
 }
 

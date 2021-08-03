@@ -1,5 +1,9 @@
 import { usePlaybackContextMeta } from "@/player/PlaybackContextProvider";
-import player, { usePlaybackCurrentContext } from "@auralous/player";
+import { RouteName } from "@/screens/types";
+import player, {
+  PlaybackContextType,
+  usePlaybackCurrentContext,
+} from "@auralous/player";
 import {
   Button,
   Header,
@@ -14,7 +18,13 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, Pressable, StyleSheet, View } from "react-native";
+import {
+  BackHandler,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import PagerView, {
   PagerViewOnPageSelectedEvent,
 } from "react-native-pager-view";
@@ -119,6 +129,15 @@ const PlayerView: FC = () => {
     []
   );
 
+  const onHeaderTitlePress = useCallback(() => {
+    if (!contextMeta) return;
+    if (contextMeta.type === PlaybackContextType.Story) {
+      navigation.navigate(RouteName.Story, { id: contextMeta.id });
+    } else if (contextMeta.type === PlaybackContextType.Playlist) {
+      navigation.navigate(RouteName.Playlist, { id: contextMeta.id });
+    }
+  }, [contextMeta, navigation]);
+
   return (
     <BottomSheetModal
       onChange={setSheetIndex}
@@ -131,14 +150,14 @@ const PlayerView: FC = () => {
         <Header
           title={
             contextMeta ? (
-              <View>
+              <TouchableOpacity onPress={onHeaderTitlePress}>
                 <Text size="xs" style={styles.playingFromText} align="center">
                   {t("player.playing_from", { entity: contextMeta.type })}
                 </Text>
                 <Text size="sm" bold align="center">
                   {contextMeta.contextDescription}
                 </Text>
-              </View>
+              </TouchableOpacity>
             ) : (
               ""
             )

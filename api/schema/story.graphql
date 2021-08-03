@@ -10,6 +10,7 @@ fragment StoryDetailParts on Story {
     username
     profilePicture
   }
+  onMap
   __typename
 }
 
@@ -53,6 +54,13 @@ mutation storyCreate(
   $tracks: [ID!]!
 ) {
   storyCreate(text: $text, location: $location, tracks: $tracks) {
+    id
+    ...StoryDetailParts
+  }
+}
+
+mutation storyUpdate($id: ID!, $text: String, $location: LocationInput) {
+  storyUpdate(id: $id, text: $text, location: $location) {
     id
     ...StoryDetailParts
   }

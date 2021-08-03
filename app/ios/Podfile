@@ -20,6 +20,9 @@ target 'Auralous' do
 	pod 'RNEventEmitter', :path => "../node_modules/react-native-events"
 	pod 'RNSpotifyRemote', :path => '../node_modules/react-native-spotify-remote'
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
+
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and

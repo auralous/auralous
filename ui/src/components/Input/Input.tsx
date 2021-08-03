@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   input: {
     flex: 1,
     padding: 0,
-    color: theme.colors.textSecondary,
+    color: theme.colors.text,
   },
 }));
 

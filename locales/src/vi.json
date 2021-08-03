@@ -18,7 +18,8 @@
     }
   },
   "map": {
-    "title": "Bản đồ"
+    "title": "Bản đồ",
+    "title_branded": "Bản đồ Auralous"
   },
   "new": {
     "title": "Tạo Story",
@@ -52,12 +53,29 @@
   },
   "story": {
     "title": "Story",
-    "join_live": "Tham gia"
+    "join_live": "Tham gia LIVE",
+    "text": "Bạn đang nghĩ gì thế",
+    "story_of_name": "Story của {{ name }}"
   },
   "story_invite": {
     "title": "Bạn được mời cộng tác tại \"{{ name }}\"",
     "invite_invalid": "Link mời này không hợp lệ hoặc đã hết hạn",
     "accept_invitation": "Chấp nhận và tham gia"
+  },
+  "story_edit": {
+    "title": "Chỉnh sửa Story",
+    "add_to_map": "Thêm vào bản đồ",
+    "updated": "Story đã được cập nhật",
+    "live": {
+      "description": "Story này đang phát <0>TRỰC TIẾP</0>",
+      "unlive": "Dừng phát",
+      "unlive_prompt": "Bạn không thể thêm bài hát mới nhưng có thể phát lại những bài đã thêm bất cứ lúc nào.",
+      "unlive_ok": "Story đã ngừng phát trực tiếp"
+    },
+    "delete": {
+      "title": "Xóa Story",
+      "delete_ok": "Story đã được xóa"
+    }
   },
   "player": {
     "title": "Trình phát",
@@ -140,7 +158,16 @@
     },
     "action": {
       "cancel": "Hủy bỏ",
-      "confirm": "Xác nhận"
+      "confirm": "Xác nhận",
+      "save": "Lưu"
+    },
+    "prompt": {
+      "action_not_revertable": "Hành động này sẽ không thể  hoàn tác được"
+    }
+  },
+  "permission": {
+    "location": {
+      "not_allowed": "Quyền vị trí không được cho phép"
     }
   },
   "share": {

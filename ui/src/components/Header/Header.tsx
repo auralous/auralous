@@ -34,7 +34,7 @@ const Header: FC<HeaderProps> = ({ title, left, right }) => {
   return (
     <View style={styles.root}>
       <View style={styles.button}>{left}</View>
-      <View pointerEvents="none" style={styles.title}>
+      <View style={styles.title}>
         {typeof title === "string" ? (
           <Text bold align="center" size="lg" numberOfLines={1}>
             {title}

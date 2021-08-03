@@ -1,7 +1,9 @@
 import { ParamList, RouteName } from "@/screens/types";
+import { useMeQuery } from "@auralous/api";
 import { Size, SongSelector, SongSelectorContext } from "@auralous/ui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import SelectedTrackListView from "./components/SelectedTrackListView";
 
@@ -19,6 +21,8 @@ const styles = StyleSheet.create({
 const SelectSongsScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.NewSelectSongs>
 > = ({ navigation }) => {
+  const { t } = useTranslation();
+
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
 
   const addTracks = useCallback((trackIds: string[]) => {
@@ -29,14 +33,16 @@ const SelectSongsScreen: FC<
     setSelectedTracks((prev) => prev.filter((t) => !trackIds.includes(t)));
   }, []);
 
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
+
   const onFinish = useCallback(
     (selectedTracks: string[]) => {
       navigation.navigate(RouteName.NewFinal, {
         selectedTracks,
-        text: "",
+        text: t("story.story_of_name", { name: me?.user.username }),
       });
     },
-    [navigation]
+    [navigation, me, t]
   );
 
   return (

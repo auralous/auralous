@@ -18,7 +18,8 @@
     }
   },
   "map": {
-    "title": "Map"
+    "title": "Map",
+    "title_branded": "Auralous Map"
   },
   "new": {
     "title": "New Story",
@@ -52,12 +53,29 @@
   },
   "story": {
     "title": "Story",
-    "join_live": "Join LIVE"
+    "join_live": "Join LIVE",
+    "text": "What's on your mind",
+    "story_of_name": "{{ name }}'s story"
   },
   "story_invite": {
     "title": "You are invited to collaborate in \"{{ name }}\"",
     "invite_invalid": "This invite link is invalid or has been expired.",
     "accept_invitation": "Accept and Join"
+  },
+  "story_edit": {
+    "title": "Edit Story",
+    "add_to_map_description": "Broadcast the story to Auralous Map while it is LIVE",
+    "updated": "The story has been updated",
+    "live": {
+      "description": "This story is <0>LIVE</0>",
+      "unlive": "Stop streaming",
+      "unlive_prompt": "You will not be able to add any new songs to this story but will be able to stream played songs at any time later.",
+      "unlive_ok": "Story has been taken offline"
+    },
+    "delete": {
+      "title": "Delete Story",
+      "delete_ok": "Story has been deleted"
+    }
   },
   "player": {
     "title": "Player",
@@ -140,7 +158,16 @@
     },
     "action": {
       "cancel": "Cancel",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "save": "Save"
+    },
+    "prompt": {
+      "action_not_revertable": "This action cannot be undone."
+    }
+  },
+  "permission": {
+    "location": {
+      "not_allowed": "Location permission is not allowed"
     }
   },
   "share": {

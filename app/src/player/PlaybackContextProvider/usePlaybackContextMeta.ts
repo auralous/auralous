@@ -29,6 +29,7 @@ export const usePlaybackContextMeta = (
       isLive: dataStory?.story?.isLive || false,
       type: PlaybackContextType.Story,
     };
+
   if (playbackCurrentContext?.type === PlaybackContextType.Playlist)
     return {
       id: playbackCurrentContext.id,
@@ -37,5 +38,6 @@ export const usePlaybackContextMeta = (
       isLive: false,
       type: PlaybackContextType.Playlist,
     };
+
   return null;
 };

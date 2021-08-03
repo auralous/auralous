@@ -34,6 +34,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { PlayerComponent, PlayerProvider } from "./player";
 import {
   StoryCollaboratorsScreen,
+  StoryEditScreen,
   StoryInviteScreen,
   StoryScreen,
 } from "./screens/Story";
@@ -58,6 +59,7 @@ const linking: LinkingOptions<ParamList> = {
               [RouteName.Story]: "story/:id",
               [RouteName.StoryCollaborators]: "story/:id/collaborators",
               [RouteName.StoryInvite]: "story/:id/invite/:token",
+              [RouteName.StoryEdit]: "story/:id/edit",
             },
           },
         },
@@ -132,12 +134,18 @@ const MainScreen: FC = () => {
           title: t("collab.title"),
         },
       },
-
       {
         name: RouteName.StoryInvite,
         component: gestureHandlerRootHOC(StoryInviteScreen),
         options: {
           headerTitle: "",
+        },
+      },
+      {
+        name: RouteName.StoryEdit,
+        component: gestureHandlerRootHOC(StoryEditScreen),
+        options: {
+          title: t("story_edit.title"),
         },
       },
     ],

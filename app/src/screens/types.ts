@@ -16,6 +16,7 @@ export enum RouteName {
   Story = "story",
   StoryCollaborators = "story/collaborators",
   StoryInvite = "story/invite",
+  StoryEdit = "story/edit",
 }
 
 export interface ParamList extends ParamListBase {
@@ -54,5 +55,8 @@ export interface ParamList extends ParamListBase {
   [RouteName.StoryInvite]: {
     id: string;
     token: string;
+  };
+  [RouteName.StoryEdit]: {
+    id: string;
   };
 }

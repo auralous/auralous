@@ -119,7 +119,7 @@ class Player {
     this.playerFn = null;
   }
 
-  playContext(currentContextSelector: PlaybackCurrentContext) {
+  playContext(currentContextSelector: PlaybackCurrentContext | null) {
     this.emit("context", currentContextSelector);
   }
 
