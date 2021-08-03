@@ -1,7 +1,7 @@
 import { NotFoundScreen } from "@/components/NotFound";
-import { useMe } from "@/gql/hooks";
 import { ParamList, RouteName } from "@/screens/types";
 import {
+  useMeQuery,
   useStoryCollabAddFromTokenMutation,
   useStoryQuery,
 } from "@auralous/api";
@@ -31,7 +31,7 @@ const StoryInviteScreen: FC<
 > = ({ navigation, route }) => {
   const { t } = useTranslation();
 
-  const me = useMe();
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
   const [{ data: dataStory, fetching: fetchingStory }] = useStoryQuery({
     variables: { id: route.params.id },

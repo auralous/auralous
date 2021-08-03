@@ -1,6 +1,7 @@
-import { useMe, useMeFollowings } from "@/gql/hooks";
 import { RouteName } from "@/screens/types";
 import {
+  useMeQuery,
+  useUserFollowingsQuery,
   useUserFollowMutation,
   useUserQuery,
   useUserUnfollowMutation,
@@ -22,12 +23,15 @@ const ListUserItem: FC<{ id: string }> = ({ id }) => {
   const { t } = useTranslation();
 
   const [{ data, fetching }] = useUserQuery({ variables: { id } });
-  const me = useMe();
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
   const navigation = useNavigation();
 
   const [{ data: { userFollowings } = { userFollowings: undefined } }] =
-    useMeFollowings();
+    useUserFollowingsQuery({
+      variables: { id: me?.user.id || "" },
+      pause: !me,
+    });
 
   const followed = useMemo(
     () => Boolean(userFollowings?.includes(id)),

@@ -1,4 +1,4 @@
-import { QueueItem } from "@auralous/api";
+import { PlatformName, QueueItem } from "@auralous/api";
 import {
   createContext,
   useContextSelector,
@@ -31,6 +31,8 @@ export interface PlaybackState extends PlaybackContextProvided {
   playbackCurrentContext: PlaybackCurrentContext | null;
   isPlaying: boolean;
   color: string;
+  playingPlatform: PlatformName | null;
+  accessToken: string | null;
 }
 
 export const PlaybackContext = createContext({} as PlaybackState);
@@ -60,3 +62,11 @@ export const usePlaybackTrackId = () =>
 const playbackColorSelector = (value: PlaybackState) => value.color;
 export const usePlaybackColor = () =>
   useContextSelector(PlaybackContext, playbackColorSelector);
+
+export const playbackAuthenticationSelector = (value: PlaybackState) => ({
+  playingPlatform: value.playingPlatform,
+  accessToken: value.accessToken,
+});
+
+export const usePlaybackAuthentication = () =>
+  useContextSelector(PlaybackContext, playbackAuthenticationSelector);

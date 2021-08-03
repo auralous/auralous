@@ -67,7 +67,11 @@
     "skip_backward": "Skip backward",
     "no_playing": "Nothing is playing",
     "shuffle_play": "Shuffle Play",
-    "playing_from": "Playing from $t({{entity}}.title)"
+    "playing_from": "Playing from $t({{entity}}.title)",
+    "spotify": {
+      "error_initialize_player": "Could not load Spotify Player",
+      "error_initialize_player_help": "Make sure the Spotify app is installed and you did not cancel (press outside) while the loading dialog is visible. Please restart this application."
+    }
   },
   "queue": {
     "title": "Queue",

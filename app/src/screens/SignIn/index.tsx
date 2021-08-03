@@ -1,6 +1,6 @@
 import { useAuthActions } from "@/gql/context";
-import { useMe } from "@/gql/hooks";
 import { ParamList, RouteName } from "@/screens/types";
+import { useMeQuery } from "@auralous/api";
 import {
   IconGoogleColor,
   IconSpotify,
@@ -59,7 +59,7 @@ const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
   const { t } = useTranslation();
   const { signIn } = useAuthActions();
 
-  const me = useMe();
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
   useEffect(() => {
     const accessToken = route.params?.access_token;

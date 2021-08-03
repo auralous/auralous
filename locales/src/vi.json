@@ -67,7 +67,11 @@
     "skip_backward": "Phát bài trước",
     "no_playing": "Đang không phát nhạc",
     "shuffle_play": "Phát ngẫu nhiên",
-    "playing_from": "Phát nhạc từ $t({{entity}}.title)"
+    "playing_from": "Phát nhạc từ $t({{entity}}.title)",
+    "spotify": {
+      "error_initialize_player": "Không thể tải trình phát Spotify",
+      "error_initialize_player_help": "Hãy kiểm tra rằng ứng dụng Spotify đã được cài đặt và bạn không hủy bỏ (nhấn ra ngoài) khi hộp thoại đang tải được hiển thị."
+    }
   },
   "queue": {
     "title": "Hàng chờ",

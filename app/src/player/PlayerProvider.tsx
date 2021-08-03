@@ -1,11 +1,10 @@
-import { PlatformName, useCrossTracksQuery } from "@auralous/api";
+import { PlatformName, useCrossTracksQuery, useMeQuery } from "@auralous/api";
 import player, {
   PlaybackContext,
   PlaybackCurrentContext,
 } from "@auralous/player";
 import { FC, useEffect, useMemo, useState } from "react";
 import { usePlaybackContextProvider } from "./PlaybackContextProvider";
-import usePlaybackAuthentication from "./usePlaybackAuthentication";
 import { useTrackColor } from "./useTrackColor";
 
 export const PlayerProvider: FC = ({ children }) => {
@@ -37,7 +36,13 @@ export const PlayerProvider: FC = ({ children }) => {
     };
   }, []);
 
-  const { playingPlatform } = usePlaybackAuthentication();
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
+
+  const playingPlatform = useMemo<PlatformName | null>(() => {
+    // if me === undefined, it has not fetched
+    if (me === undefined) return null;
+    return me?.platform || PlatformName.Youtube;
+  }, [me]);
 
   // Get track data based on preferred playingPlatform
   const [
@@ -106,6 +111,8 @@ export const PlayerProvider: FC = ({ children }) => {
         color,
         fetching,
         isPlaying,
+        playingPlatform,
+        accessToken: me?.accessToken || null,
       }}
     >
       {children}

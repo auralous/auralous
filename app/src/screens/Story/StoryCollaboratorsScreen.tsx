@@ -1,7 +1,7 @@
 import { NotFoundScreen } from "@/components/NotFound";
-import { useMe } from "@/gql/hooks";
 import { ParamList, RouteName } from "@/screens/types";
 import {
+  useMeQuery,
   useStoryInviteLinkQuery,
   useStoryQuery,
   useUserQuery,
@@ -66,7 +66,7 @@ const StoryCollaboratorsScreen: FC<
     variables: { id: route.params.id },
   });
 
-  const me = useMe();
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
   const [{ data: dataStoryInviteLink }] = useStoryInviteLinkQuery({
     variables: { id: route.params.id },

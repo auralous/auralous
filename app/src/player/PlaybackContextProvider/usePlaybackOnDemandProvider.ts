@@ -1,4 +1,3 @@
-import { useMe } from "@/gql/hooks";
 import {
   PlaylistTracksDocument,
   PlaylistTracksQuery,
@@ -77,8 +76,6 @@ const usePlaybackOnDemandProvider = (
     return queueItems.slice(playingIndex + 1);
   }, [queueItems, playingIndex]);
 
-  const me = useMe();
-
   useEffect(() => {
     if (!active) return;
     const skipForward = () => {
@@ -151,7 +148,7 @@ const usePlaybackOnDemandProvider = (
         ...trackIds.map((trackId) => ({
           uid: Math.random().toString(36).substr(2, 6), // random id
           trackId,
-          creatorId: me?.user.id || "",
+          creatorId: "",
           __typename: "QueueItem" as const,
         })),
       ]);
@@ -172,7 +169,7 @@ const usePlaybackOnDemandProvider = (
       player.off("ended", skipForward);
       player.unregisterPlaybackHandle();
     };
-  }, [active, queueItems, playingIndex, me?.user.id]);
+  }, [active, queueItems, playingIndex]);
 
   return useMemo(
     () => ({

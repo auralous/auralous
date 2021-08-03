@@ -1,48 +1,99 @@
-import player from "@auralous/player";
-import { FC, useCallback, useEffect, useState } from "react";
+import { CustomBackdropModal } from "@/components/BottomSheet";
+import player, { usePlaybackAuthentication } from "@auralous/player";
+import { Size, Spacer, Text, toast } from "@auralous/ui";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { FC, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { View } from "react-native";
 import Config from "react-native-config";
 import {
   ApiConfig,
-  ApiScope,
   auth as SpotifyAuth,
   PlayerState as SpotifyPlayerState,
   remote as SpotifyRemote,
-  SpotifySession,
 } from "react-native-spotify-remote";
 
 const spotifyConfig: ApiConfig = {
   clientID: Config.SPOTIFY_CLIENT_ID,
   redirectURL: `auralous://sign-in/spotify/callback`,
-  tokenRefreshURL: `${Config.API_URI}/spotify/refresh`,
-  tokenSwapURL: `${Config.API_URI}/spotify/swap`,
-  scopes: [
-    ApiScope.AppRemoteControlScope,
-    ApiScope.UserReadPlaybackStateScope,
-    ApiScope.UserReadCurrentlyPlayingScope,
-  ],
-  showDialog: false,
+};
+
+const initialize = async (
+  onSuccess: () => void,
+  onError: (error: Error) => void
+) => {
+  try {
+    // We don't use the result from this
+    // but instead use the API provided access token
+    // This is only to wake up Spotify App
+    await SpotifyAuth.endSession();
+    await SpotifyAuth.authorize(spotifyConfig);
+    onSuccess();
+  } catch (e) {
+    onError(e);
+  }
+};
+
+const connectWithAccessToken = async (
+  accessToken: string | null | undefined,
+  onError: (error: Error) => void
+) => {
+  try {
+    await SpotifyRemote.disconnect();
+    if (accessToken) await SpotifyRemote.connect(accessToken);
+  } catch (e) {
+    onError(e);
+  }
 };
 
 const PlayerSpotify: FC = () => {
-  const [session, setSession] = useState<SpotifySession | null>(null);
-  const [, setError] = useState();
+  const { t } = useTranslation();
 
-  const init = useCallback(async () => {
-    try {
-      const session = await SpotifyAuth.authorize(spotifyConfig);
-      await SpotifyRemote.connect(session.accessToken);
-      setSession(session);
-    } catch (e) {
-      setError(e);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+      bottomSheetRef.current?.present();
+    } else {
+      bottomSheetRef.current?.close();
     }
+  }, [error]);
+
+  useEffect(() => {
+    const onRemoteConnected = () => setIsConnected(true);
+    const onRemoteDisconnected = () => setIsConnected(false);
+    SpotifyRemote.addListener("remoteConnected", onRemoteConnected);
+    SpotifyRemote.addListener("remoteDisconnected", onRemoteDisconnected);
+    return () => {
+      SpotifyRemote.removeListener("remoteConnected", onRemoteConnected);
+      SpotifyRemote.removeListener("remoteDisconnected", onRemoteDisconnected);
+    };
+  }, []);
+
+  const { accessToken } = usePlaybackAuthentication();
+
+  useEffect(() => {
+    if (!isInitialized) initialize(() => setIsInitialized(true), setError);
+  }, [isInitialized]);
+
+  useEffect(() => {
+    if (isInitialized) connectWithAccessToken(accessToken, setError);
+  }, [isInitialized, accessToken]);
+
+  useEffect(() => {
+    return () => {
+      SpotifyAuth.endSession();
+      SpotifyRemote.disconnect();
+    };
   }, []);
 
   useEffect(() => {
-    if (!session) init();
-  }, [session, init]);
-
-  useEffect(() => {
-    if (!session) return;
+    if (!isConnected || !accessToken) return;
 
     const playByExternalId = async (externalId: string | null) => {
       if (!externalId) return SpotifyRemote.pause();
@@ -90,7 +141,7 @@ const PlayerSpotify: FC = () => {
             `?volume_percent=${p * 100}`,
           {
             method: "PUT",
-            headers: { Authorization: `Bearer ${session.accessToken}` },
+            headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
       },
@@ -103,7 +154,7 @@ const PlayerSpotify: FC = () => {
     const durationInterval = setInterval(async () => {
       const playerState = await fetch("https://api.spotify.com/v1/me/player", {
         headers: {
-          authorization: `Bearer ${session.accessToken}`,
+          authorization: `Bearer ${accessToken}`,
         },
       })
         .then((res) => res.json())
@@ -118,10 +169,36 @@ const PlayerSpotify: FC = () => {
       clearInterval(durationInterval);
       player.unregisterPlayer();
       SpotifyRemote.off("playerStateChanged", onStateChange);
-
-      SpotifyRemote.disconnect();
     };
-  }, [session]);
+  }, [isConnected, accessToken]);
+
+  if (error)
+    return (
+      <BottomSheetModal
+        snapPoints={["100%"]}
+        backdropComponent={CustomBackdropModal}
+        backgroundComponent={null}
+        handleComponent={null}
+        ref={bottomSheetRef}
+      >
+        <View
+          style={{
+            flex: 1,
+            padding: Size[8],
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text bold align="center">
+            {t("player.spotify.error_initialize_player")}
+          </Text>
+          <Spacer y={2} />
+          <Text size="sm" align="center">
+            {t("player.spotify.error_initialize_player_help")}
+          </Text>
+        </View>
+      </BottomSheetModal>
+    );
 
   return null;
 };

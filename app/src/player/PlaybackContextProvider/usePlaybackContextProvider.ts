@@ -12,8 +12,7 @@
  * Depending on playbackCurrentContext, we can choose between them
  */
 
-import { useMe } from "@/gql/hooks";
-import { useStoryPingMutation } from "@auralous/api";
+import { useMeQuery, useStoryPingMutation } from "@auralous/api";
 import {
   PlaybackContextProvided,
   PlaybackContextType,
@@ -39,7 +38,7 @@ const usePlaybackContextProvider = (
     playbackCurrentContext
   );
 
-  const me = useMe();
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
   const [, storyPing] = useStoryPingMutation();
 
   // Keep alive ping

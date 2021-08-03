@@ -1,5 +1,5 @@
-import { useMe } from "@/gql/hooks";
 import { RouteName } from "@/screens/types";
+import { useMeQuery } from "@auralous/api";
 import { Avatar, Button, Heading, Size, Spacer } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/core";
 import { FC } from "react";
@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
 
 const Header: FC = () => {
   const { t } = useTranslation();
-  const me = useMe();
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
+
   const navigation = useNavigation();
 
   return (
