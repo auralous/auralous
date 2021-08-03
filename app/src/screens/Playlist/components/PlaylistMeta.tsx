@@ -1,6 +1,6 @@
 import { RouteName } from "@/screens/types";
 import { Playlist } from "@auralous/api";
-import player, { PlaybackContextType } from "@auralous/player";
+import player from "@auralous/player";
 import { Button, Heading, Size, Spacer, Text } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
@@ -36,7 +36,7 @@ const PlaylistMeta: FC<{ playlist: Playlist }> = ({ playlist }) => {
     () =>
       player.playContext({
         id: playlist.id,
-        type: PlaybackContextType.Playlist,
+        type: "playlist",
         shuffle: true,
       }),
     [playlist]

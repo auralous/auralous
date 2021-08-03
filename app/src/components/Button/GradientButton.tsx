@@ -26,7 +26,7 @@ export const GradientButton: FC<GradientButtonProps> = (props) => {
   const [pressed, pressedProps] = useSharedValuePressed();
 
   const animatedStyles = useAnimatedStyle<ViewStyle>(() => ({
-    opacity: withTiming(!disabled && pressed.value ? 0.2 : 1),
+    opacity: disabled ? 0.5 : withTiming(pressed.value ? 0.2 : 1),
   }));
 
   return (

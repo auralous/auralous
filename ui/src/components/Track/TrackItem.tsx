@@ -7,9 +7,10 @@ import { msToHMS } from "@auralous/ui/utils";
 import { FC, memo, useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
-interface TrackItemProps {
+export interface TrackItemProps {
   track: Maybe<Track>;
   fetching?: boolean;
+  active?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -31,6 +32,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: Size[3],
   },
+  playing: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
 const TrackItem: FC<TrackItemProps> = ({ track }) => {
@@ -48,14 +54,16 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
 
   return (
     <View style={styles.root}>
-      <Image
-        style={styles.image}
-        source={
-          track?.image ? { uri: track?.image } : imageSources.defaultTrack
-        }
-        defaultSource={imageSources.defaultTrack}
-        accessibilityLabel={track?.title}
-      />
+      <View>
+        <Image
+          style={styles.image}
+          source={
+            track?.image ? { uri: track?.image } : imageSources.defaultTrack
+          }
+          defaultSource={imageSources.defaultTrack}
+          accessibilityLabel={track?.title}
+        />
+      </View>
       <View style={styles.meta}>
         <View style={styles.title}>
           {SvgPlatformName && (

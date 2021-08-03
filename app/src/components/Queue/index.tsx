@@ -1,9 +1,8 @@
-import { usePlaybackContextMeta } from "@/player/PlaybackContextProvider";
 import { RouteName } from "@/screens/types";
 import { Track } from "@auralous/api";
 import {
-  PlaybackContextType,
   PlaybackState,
+  usePlaybackContextMeta,
   usePlaybackCurrentContext,
 } from "@auralous/player";
 import {
@@ -78,7 +77,7 @@ const QueueSheet: FC<{
 
   const openCollab = useCallback(() => {
     if (contextMeta?.isLive) {
-      if (contextMeta.type === PlaybackContextType.Story) {
+      if (contextMeta.type === "story") {
         navigation.navigate(RouteName.StoryCollaborators, {
           id: contextMeta.id,
         });

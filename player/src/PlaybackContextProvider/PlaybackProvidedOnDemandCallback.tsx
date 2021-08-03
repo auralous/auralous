@@ -8,14 +8,11 @@ import {
   StoryTracksQueryVariables,
   Track,
 } from "@auralous/api";
-import player, {
-  PlaybackContextProvided,
-  PlaybackContextType,
-  PlaybackCurrentContext,
-} from "@auralous/player";
-import { reorder, shuffle } from "@auralous/ui";
 import { FC, useEffect, useMemo, useState } from "react";
 import { useClient } from "urql";
+import { player } from "../playerSingleton";
+import { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
+import { reorder, shuffle } from "../utils";
 
 /**
  * This component takes over the state of playbackProvided in PlayerProvider
@@ -33,7 +30,7 @@ export const PlaybackProvidedOnDemandCallback: FC<{
   useEffect(() => {
     let stale = false;
     let trackPromises: Promise<Track[] | null | undefined>;
-    if (playbackContext.type === PlaybackContextType.Story) {
+    if (playbackContext.type === "story") {
       trackPromises = client
         .query<StoryTracksQuery, StoryTracksQueryVariables>(
           StoryTracksDocument,
@@ -176,6 +173,7 @@ export const PlaybackProvidedOnDemandCallback: FC<{
       nextItems,
       trackId: queueItems[playingIndex]?.trackId || null,
       fetching: false,
+      queueIndex: playingIndex,
     });
   }, [nextItems, queueItems, playingIndex, setPlaybackProvided]);
 

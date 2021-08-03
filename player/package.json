@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Player for Auralous",
   "scripts": {
-    "build:babel": "babel src -d dist --extensions \".ts\"",
+    "build:babel": "babel src -d dist --extensions \".ts,.tsx\"",
     "build:dts": "tsc",
     "build": "yarn build:dts && yarn build:babel",
     "build:watch": "concurrently \"yarn build:dts --watch\" \"yarn build:babel -w\"",
@@ -26,6 +26,7 @@
   },
   "peerDependencies": {
     "@fluentui/react-context-selector": "*",
-    "react": "*"
+    "react": "*",
+    "urql": "*"
   }
 }

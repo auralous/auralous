@@ -6,7 +6,7 @@ import {
   useStoryUsersQuery,
   useTrackQuery,
 } from "@auralous/api";
-import player, { PlaybackContextType } from "@auralous/player";
+import player, { usePlaybackCurrentContext } from "@auralous/player";
 import {
   Button,
   IconUser,
@@ -56,6 +56,8 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
   const dstyles = useStyles();
   const colors = useColors();
 
+  const playbackCurrentContext = usePlaybackCurrentContext();
+
   const { t } = useTranslation();
 
   // FIXME: create more lightweight queries like useStoryUsersCount()
@@ -68,7 +70,7 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
   const joinLive = useCallback(() => {
     player.playContext({
       id: story.id,
-      type: PlaybackContextType.Story,
+      type: "story",
       shuffle: false,
     });
   }, [story]);
@@ -106,7 +108,13 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
         }
       />
       <View style={styles.buttons}>
-        <GradientButton onPress={joinLive}>
+        <GradientButton
+          disabled={
+            playbackCurrentContext?.type === "story" &&
+            playbackCurrentContext.id === story.id
+          }
+          onPress={joinLive}
+        >
           {t("story.join_live")}
         </GradientButton>
         <Spacer x={2} />

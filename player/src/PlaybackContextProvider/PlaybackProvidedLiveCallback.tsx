@@ -11,12 +11,9 @@ import {
   useQueueUpdatedSubscription,
   useStoryPingMutation,
 } from "@auralous/api";
-import player, {
-  PlaybackContextProvided,
-  PlaybackContextType,
-  PlaybackCurrentContext,
-} from "@auralous/player";
 import { FC, useEffect } from "react";
+import { player } from "../playerSingleton";
+import { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
 
 /**
  * This component takes over the state of playbackProvided in PlayerProvider
@@ -138,7 +135,7 @@ export const PlaybackProvidedLiveCallback: FC<{
   const [, storyPing] = useStoryPingMutation();
   useEffect(() => {
     if (!me) return;
-    if (playbackContext.type !== PlaybackContextType.Story) return;
+    if (playbackContext.type !== "story") return;
     const pingInterval = setInterval(() => {
       storyPing({ id: playbackContext.id });
     }, 30 * 1000);
@@ -150,6 +147,7 @@ export const PlaybackProvidedLiveCallback: FC<{
       nextItems: queue?.items || [],
       trackId: nowPlaying?.currentTrack?.trackId || null,
       fetching,
+      queueIndex: 0,
     });
   }, [queue, nowPlaying?.currentTrack?.trackId, fetching, setPlaybackProvided]);
 

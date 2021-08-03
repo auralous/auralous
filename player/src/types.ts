@@ -1,4 +1,4 @@
-import { PlaybackContextType } from "./Context";
+import { PlatformName, QueueItem } from "@auralous/api";
 
 export interface PlaybackContextMeta {
   id: string;
@@ -7,5 +7,32 @@ export interface PlaybackContextMeta {
   imageUrl?: string | null;
   contextCollaborators?: string[];
   isLive: boolean;
-  type: PlaybackContextType;
+  type: "story" | "playlist";
+}
+
+/**
+ * ContextUri has the form of {<type>,<id>}, defining
+ * what the player will be playing.
+ * ex. `{type:"story", id: "foo"}`, `{type:"playlist", id: "bar"}`
+ */
+export interface PlaybackCurrentContext {
+  id: string;
+  type: PlaybackContextMeta["type"];
+  shuffle: boolean;
+  initialIndex?: number;
+}
+
+export interface PlaybackContextProvided {
+  nextItems: QueueItem[];
+  trackId: string | null;
+  fetching: boolean;
+  queueIndex: number;
+}
+
+export interface PlaybackState extends PlaybackContextProvided {
+  playbackCurrentContext: PlaybackCurrentContext | null;
+  isPlaying: boolean;
+  color: string;
+  playingPlatform: PlatformName | null;
+  accessToken: string | null;
 }

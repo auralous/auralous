@@ -1,9 +1,8 @@
 import Player from "./Player";
 
 export * from "./Context";
+export { usePlaybackContextMeta } from "./PlaybackContextProvider/usePlaybackContextMeta";
+export { PlayerProvider } from "./PlayerProvider";
+export { player as default } from "./playerSingleton";
 export * from "./types";
 export type { Player };
-
-// create a singleton instance of player
-const player = new Player();
-export default player;

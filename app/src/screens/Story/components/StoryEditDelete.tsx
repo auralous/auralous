@@ -9,10 +9,7 @@ import {
 } from "@/components/BottomSheet";
 import { RouteName } from "@/screens/types";
 import { Story, useStoryDeleteMutation } from "@auralous/api";
-import player, {
-  PlaybackContextType,
-  usePlaybackCurrentContext,
-} from "@auralous/player";
+import player, { usePlaybackCurrentContext } from "@auralous/player";
 import { Size, TextButton, toast } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
@@ -45,7 +42,7 @@ export const StoryEditDelete: FC<{ story: Story }> = ({ story }) => {
     if (data?.storyDelete) {
       toast(t("story_edit.delete.delete_ok"));
       if (
-        playbackCurrentContext?.type === PlaybackContextType.Story &&
+        playbackCurrentContext?.type === "story" &&
         playbackCurrentContext.id === storyId
       ) {
         player.playContext(null);

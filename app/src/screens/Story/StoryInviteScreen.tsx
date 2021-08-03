@@ -5,7 +5,7 @@ import {
   useStoryCollabAddFromTokenMutation,
   useStoryQuery,
 } from "@auralous/api";
-import player, { PlaybackContextType } from "@auralous/player";
+import player from "@auralous/player";
 import {
   Avatar,
   Button,
@@ -42,7 +42,7 @@ const StoryInviteScreen: FC<
   const playAndNavigate = useCallback(() => {
     player.playContext({
       id: route.params.id,
-      type: PlaybackContextType.Story,
+      type: "story",
       shuffle: false,
     });
     navigation.replace(RouteName.Story, { id: route.params.id });

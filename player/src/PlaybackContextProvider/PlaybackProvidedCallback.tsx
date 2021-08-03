@@ -1,8 +1,5 @@
-import {
-  PlaybackContextProvided,
-  PlaybackCurrentContext,
-} from "@auralous/player";
 import { FC } from "react";
+import { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
 import { PlaybackProvidedLiveCallback } from "./PlaybackProvidedLiveCallback";
 import { PlaybackProvidedOnDemandCallback } from "./PlaybackProvidedOnDemandCallback";
 import { usePlaybackContextMeta } from "./usePlaybackContextMeta";

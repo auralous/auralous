@@ -1,7 +1,6 @@
-import { usePlaybackContextMeta } from "@/player/PlaybackContextProvider";
 import { RouteName } from "@/screens/types";
 import player, {
-  PlaybackContextType,
+  usePlaybackContextMeta,
   usePlaybackCurrentContext,
 } from "@auralous/player";
 import {
@@ -131,9 +130,9 @@ const PlayerView: FC = () => {
 
   const onHeaderTitlePress = useCallback(() => {
     if (!contextMeta) return;
-    if (contextMeta.type === PlaybackContextType.Story) {
+    if (contextMeta.type === "story") {
       navigation.navigate(RouteName.Story, { id: contextMeta.id });
-    } else if (contextMeta.type === PlaybackContextType.Playlist) {
+    } else if (contextMeta.type === "playlist") {
       navigation.navigate(RouteName.Playlist, { id: contextMeta.id });
     }
   }, [contextMeta, navigation]);

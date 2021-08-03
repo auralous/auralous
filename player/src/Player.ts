@@ -1,4 +1,4 @@
-import { PlaybackCurrentContext } from "./Context";
+import { PlaybackCurrentContext } from "./types";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type HandlerFn = Function;

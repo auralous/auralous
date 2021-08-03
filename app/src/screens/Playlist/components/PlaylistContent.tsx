@@ -1,5 +1,8 @@
 import { Playlist, Track, usePlaylistTracksQuery } from "@auralous/api";
-import player, { PlaybackContextType } from "@auralous/player";
+import player, {
+  usePlaybackCurrentContext,
+  usePlaybackQueueIndex,
+} from "@auralous/player";
 import {
   LoadingScreen,
   RecyclerList,
@@ -7,7 +10,14 @@ import {
   Size,
   TrackItem,
 } from "@auralous/ui";
-import { createContext, FC, memo, useCallback, useContext } from "react";
+import {
+  createContext,
+  FC,
+  memo,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import PlaylistMeta from "./PlaylistMeta";
@@ -41,14 +51,26 @@ const PlaylistTrackItem = memo<{
       player.playContext({
         id: playlistId,
         initialIndex: index,
-        type: PlaybackContextType.Playlist,
+        type: "playlist",
         shuffle: false,
       }),
     [playlistId, index]
   );
+
+  const playbackCurrentContext = usePlaybackCurrentContext();
+  const queueIndex = usePlaybackQueueIndex();
+
+  const isCurrentTrack = useMemo(
+    () =>
+      playbackCurrentContext?.type === "playlist" &&
+      playbackCurrentContext.id === playlistId &&
+      queueIndex === index,
+    [queueIndex, playbackCurrentContext, index, playlistId]
+  );
+
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>
-      <TrackItem track={track} key={index} />
+      <TrackItem active={isCurrentTrack} track={track} key={index} />
     </TouchableOpacity>
   );
 });

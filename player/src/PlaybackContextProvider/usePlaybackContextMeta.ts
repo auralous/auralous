@@ -1,16 +1,11 @@
 import { usePlaylistQuery, useStoryQuery } from "@auralous/api";
-import {
-  PlaybackContextMeta,
-  PlaybackContextType,
-  PlaybackCurrentContext,
-} from "@auralous/player";
+import { PlaybackContextMeta, PlaybackCurrentContext } from "../types";
 
 export const usePlaybackContextMeta = (
   playbackCurrentContext: PlaybackCurrentContext | null
 ): PlaybackContextMeta | null => {
-  const isStory = playbackCurrentContext?.type === PlaybackContextType.Story;
-  const isPlaylist =
-    playbackCurrentContext?.type === PlaybackContextType.Playlist;
+  const isStory = playbackCurrentContext?.type === "story";
+  const isPlaylist = playbackCurrentContext?.type === "playlist";
 
   const [{ data: dataStory }] = useStoryQuery({
     variables: { id: playbackCurrentContext?.id || "" },
@@ -31,7 +26,7 @@ export const usePlaybackContextMeta = (
       contextOwner: dataStory?.story?.creatorId,
       imageUrl: dataStory?.story?.image,
       isLive: dataStory?.story?.isLive || false,
-      type: PlaybackContextType.Story,
+      type: "story",
     };
 
   if (isPlaylist)
@@ -40,7 +35,7 @@ export const usePlaybackContextMeta = (
       contextDescription: dataPlaylist?.playlist?.name || "",
       imageUrl: dataPlaylist?.playlist?.image,
       isLive: false,
-      type: PlaybackContextType.Playlist,
+      type: "playlist",
     };
 
   return null;

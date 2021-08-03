@@ -1,7 +1,7 @@
 import { QueueModal } from "@/components/Queue";
-import { usePlaybackContextMeta } from "@/player/PlaybackContextProvider";
 import { useTrackQuery } from "@auralous/api";
 import player, {
+  usePlaybackContextMeta,
   usePlaybackCurrentContext,
   usePlaybackCurrentControl,
   usePlaybackNextItems,

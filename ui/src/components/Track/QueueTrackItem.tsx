@@ -1,4 +1,3 @@
-import { Maybe, Track } from "@auralous/api";
 import { IconMenu } from "@auralous/ui/assets";
 import { Checkbox } from "@auralous/ui/components/Checkbox";
 import { Size } from "@auralous/ui/styles";
@@ -8,7 +7,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import TrackItem from "./TrackItem";
+import TrackItem, { TrackItemProps } from "./TrackItem";
 
 const styles = StyleSheet.create({
   root: {
@@ -38,10 +37,8 @@ const styles = StyleSheet.create({
   },
 });
 
-interface QueueTrackItemProps {
+interface QueueTrackItemProps extends TrackItemProps {
   uid: string;
-  track: Maybe<Track>;
-  fetching?: boolean;
   drag(): void;
   checked: boolean;
   onToggle(checked: boolean): void;
@@ -56,6 +53,7 @@ const QueueTrackItem: FC<QueueTrackItemProps> = ({
   checked,
   onToggle,
   onPress,
+  active,
 }) => {
   const onTrackItemPressed = useMemo(() => {
     if (!onPress || !uid) return undefined;
@@ -72,7 +70,7 @@ const QueueTrackItem: FC<QueueTrackItemProps> = ({
         onPress={onTrackItemPressed}
         activeOpacity={onPress ? 0.2 : 1}
       >
-        <TrackItem track={track} fetching={fetching} />
+        <TrackItem active={active} track={track} fetching={fetching} />
       </TouchableOpacity>
       <TouchableWithoutFeedback onPressIn={drag} style={styles.drag}>
         <IconMenu />

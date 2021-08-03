@@ -1,6 +1,6 @@
 import { RouteName } from "@/screens/types";
 import { Story, Track, useStoryTracksQuery } from "@auralous/api";
-import player, { PlaybackContextType } from "@auralous/player";
+import player from "@auralous/player";
 import {
   Button,
   LoadingScreen,
@@ -58,7 +58,7 @@ const StoryTrackItem = memo<{
       player.playContext({
         id: storyId,
         initialIndex: index,
-        type: PlaybackContextType.Story,
+        type: "story",
         shuffle: false,
       }),
     [storyId, index]
@@ -85,7 +85,7 @@ const StoryNonLiveContent: FC<{ story: Story }> = ({ story }) => {
     () =>
       player.playContext({
         id: story.id,
-        type: PlaybackContextType.Story,
+        type: "story",
         shuffle: true,
       }),
     [story]

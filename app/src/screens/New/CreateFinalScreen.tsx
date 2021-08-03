@@ -1,6 +1,6 @@
 import { ParamList, RouteName } from "@/screens/types";
 import { useStoryCreateMutation } from "@auralous/api";
-import player, { PlaybackContextType } from "@auralous/player";
+import player from "@auralous/player";
 import {
   Button,
   GradientColors,
@@ -48,7 +48,7 @@ const CreateFinalScreen: FC<
     });
     if (result.data?.storyCreate) {
       player.playContext({
-        type: PlaybackContextType.Story,
+        type: "story",
         id: result.data.storyCreate.id,
         shuffle: false,
       });
