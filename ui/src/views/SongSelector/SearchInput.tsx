@@ -1,6 +1,6 @@
-import { IconSearch, IconX } from "@auralous/ui/assets";
-import { Input, InputRef } from "@auralous/ui/components/Input";
-import { Size } from "@auralous/ui/styles";
+import { IconSearch, IconX } from "@/assets";
+import { Input, InputRef } from "@/components/Input";
+import { Size } from "@/styles";
 import { FC, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";

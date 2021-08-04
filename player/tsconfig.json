@@ -8,15 +8,7 @@
     "jsx": "react-jsx",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "composite": true,
-    "paths": {
-      "@fluentui/react-context-selector": [
-        "../app/node_modules/@fluentui/react-context-selector"
-      ],
-      "react": ["../app/node_modules/@types/react"],
-      "react/*": ["../app/node_modules/@types/react/*"],
-      "urql": ["../app/node_modules/urql"]
-    }
+    "composite": true
   },
   "references": [
     {

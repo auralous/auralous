@@ -1,4 +1,4 @@
-import { Size } from "@auralous/ui/styles";
+import { Size } from "@/styles";
 import { FC, memo } from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 

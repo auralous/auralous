@@ -24,6 +24,12 @@
   "dependencies": {
     "@auralous/api": "^0.0.0"
   },
+  "devDependencies": {
+    "@fluentui/react-context-selector": "*",
+    "@types/react": "*",
+    "react": "*",
+    "urql": "*"
+  },
   "peerDependencies": {
     "@fluentui/react-context-selector": "*",
     "react": "*",

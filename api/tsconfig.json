@@ -7,12 +7,7 @@
     "target": "ESNext",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "composite": true,
-    "paths": {
-      "graphql": ["../app/node_modules/graphql"],
-      "urql": ["../app/node_modules/urql"],
-      "@urql/exchange-graphcache": ["../node_modules/@urql/exchange-graphcache"]
-    }
+    "composite": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

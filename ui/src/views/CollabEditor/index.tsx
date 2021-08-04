@@ -1,4 +1,4 @@
-import { Text } from "@auralous/ui/components";
+import { Text } from "@/components";
 import { FC } from "react";
 import { View } from "react-native";
 

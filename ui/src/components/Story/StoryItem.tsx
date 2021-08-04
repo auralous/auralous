@@ -1,9 +1,9 @@
+import { imageSources } from "@/assets";
+import { Avatar } from "@/components/Avatar";
+import { Text } from "@/components/Typography";
+import { makeStyles, Size } from "@/styles";
+import { format as formatMs } from "@/utils";
 import { Story } from "@auralous/api";
-import { imageSources } from "@auralous/ui/assets";
-import { Avatar } from "@auralous/ui/components/Avatar";
-import { Text } from "@auralous/ui/components/Typography";
-import { makeStyles, Size } from "@auralous/ui/styles";
-import { format as formatMs } from "@auralous/ui/utils";
 import { FC, memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, StyleSheet, View } from "react-native";

@@ -1,7 +1,7 @@
+import { imageSources } from "@/assets";
+import { Text } from "@/components/Typography";
+import { Size } from "@/styles";
 import { Maybe, Playlist } from "@auralous/api";
-import { imageSources } from "@auralous/ui/assets";
-import { Text } from "@auralous/ui/components/Typography";
-import { Size } from "@auralous/ui/styles";
 import { FC, memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 

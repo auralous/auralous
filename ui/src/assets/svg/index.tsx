@@ -1,4 +1,4 @@
-import { useColors } from "@auralous/ui/styles";
+import { useColors } from "@/styles";
 import { FC, memo } from "react";
 import { SvgProps } from "react-native-svg";
 import IconCheckRaw from "./check.svg";

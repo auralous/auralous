@@ -1,10 +1,4 @@
-import {
-  Font,
-  makeStyles,
-  Size,
-  ThemeColorKey,
-  useColors,
-} from "@auralous/ui/styles";
+import { Font, makeStyles, Size, ThemeColorKey, useColors } from "@/styles";
 import { FC, useCallback } from "react";
 import {
   Linking,

@@ -295,6 +295,7 @@ export default function DraggableRecyclerList<ItemT>({
     return activeIndexAnim.value * activeCellSize.value;
   }, []);
 
+  // @ts-ignore
   const scrollRef = useAnimatedRef<RecyclerListView<any, any>>();
   const scrollOffset = useSharedValue(0);
   const scrollViewSize = useSharedValue(0);

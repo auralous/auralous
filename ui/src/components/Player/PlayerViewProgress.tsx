@@ -1,8 +1,8 @@
+import { Text } from "@/components/Typography";
+import { makeStyles, Size } from "@/styles";
+import { msToHMS } from "@/utils";
 import { Maybe, Track } from "@auralous/api";
 import type { Player } from "@auralous/player";
-import { Text } from "@auralous/ui/components/Typography";
-import { makeStyles, Size } from "@auralous/ui/styles";
-import { msToHMS } from "@auralous/ui/utils";
 import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";

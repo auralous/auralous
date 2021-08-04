@@ -111,7 +111,7 @@ dist
 
 # npm monorepo
 
-*/package-lock.json
-yarn.lock
+package-lock.json
+*/yarn.lock
 
 @auralous

@@ -1,9 +1,9 @@
+import { imageSources, SvgByPlatformName } from "@/assets";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
+import { Size, useColors } from "@/styles";
+import { msToHMS } from "@/utils";
 import { Maybe, Track } from "@auralous/api";
-import { imageSources, SvgByPlatformName } from "@auralous/ui/assets";
-import { Spacer } from "@auralous/ui/components/Spacer";
-import { Text } from "@auralous/ui/components/Typography";
-import { Size, useColors } from "@auralous/ui/styles";
-import { msToHMS } from "@auralous/ui/utils";
 import { FC, memo, useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 

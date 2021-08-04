@@ -1,6 +1,6 @@
-import { IconCheck } from "@auralous/ui/assets";
-import { makeStyles, useColors } from "@auralous/ui/styles";
-import { useSharedValuePressed } from "@auralous/ui/utils";
+import { IconCheck } from "@/assets";
+import { makeStyles, useColors } from "@/styles";
+import { useSharedValuePressed } from "@/utils";
 import { FC, useCallback } from "react";
 import { Pressable, View, ViewStyle } from "react-native";
 import Animated, {

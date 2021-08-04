@@ -1,6 +1,6 @@
-import { IconMenu } from "@auralous/ui/assets";
-import { Checkbox } from "@auralous/ui/components/Checkbox";
-import { Size } from "@auralous/ui/styles";
+import { IconMenu } from "@/assets";
+import { Checkbox } from "@/components/Checkbox";
+import { Size } from "@/styles";
 import { FC, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import {

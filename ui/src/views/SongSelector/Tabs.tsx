@@ -1,5 +1,5 @@
-import { Heading } from "@auralous/ui/components/Typography";
-import { Size } from "@auralous/ui/styles";
+import { Heading } from "@/components/Typography";
+import { Size } from "@/styles";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";

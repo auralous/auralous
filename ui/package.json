@@ -25,6 +25,18 @@
     "@auralous/api": "^0.0.0",
     "@auralous/player": "^0.0.0"
   },
+  "devDependencies": {
+    "@fluentui/react-context-selector": "*",
+    "@types/react": "*",
+    "@types/react-native": "*",
+    "react": "*",
+    "react-i18next": "*",
+    "react-native": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-reanimated": "*",
+    "react-native-svg": "*",
+    "recyclerlistview": "*"
+  },
   "peerDependencies": {
     "@fluentui/react-context-selector": "*",
     "react": "*",

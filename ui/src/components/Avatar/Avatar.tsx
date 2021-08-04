@@ -1,5 +1,5 @@
-import { imageSources } from "@auralous/ui/assets";
-import { makeStyles, Size } from "@auralous/ui/styles";
+import { imageSources } from "@/assets";
+import { makeStyles, Size } from "@/styles";
 import { FC, memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 

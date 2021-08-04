@@ -1,4 +1,4 @@
-import { makeStyles, Size, useColors } from "@auralous/ui/styles";
+import { makeStyles, Size, useColors } from "@/styles";
 import {
   forwardRef,
   useCallback,

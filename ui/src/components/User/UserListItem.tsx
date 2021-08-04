@@ -1,7 +1,7 @@
+import { Avatar } from "@/components/Avatar";
+import { Text } from "@/components/Typography";
+import { Size } from "@/styles";
 import { Maybe, User } from "@auralous/api";
-import { Avatar } from "@auralous/ui/components/Avatar";
-import { Text } from "@auralous/ui/components/Typography";
-import { Size } from "@auralous/ui/styles";
 import { FC, memo } from "react";
 import { StyleSheet, View } from "react-native";
 

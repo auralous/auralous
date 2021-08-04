@@ -1,4 +1,4 @@
-import { makeStyles, Size } from "@auralous/ui/styles";
+import { makeStyles, Size } from "@/styles";
 import { ReactNode } from "react";
 import { BaseButtonProps } from "./types";
 
