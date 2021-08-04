@@ -1,4 +1,4 @@
-import { TFunction } from "i18next";
+import { TFunction } from "react-i18next";
 
 const SEC = 1e3,
   MIN = SEC * 60,

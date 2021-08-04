@@ -1,7 +1,7 @@
 import { RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
 import { Avatar, Button, Heading, Size, Spacer } from "@auralous/ui";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";

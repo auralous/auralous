@@ -4,9 +4,8 @@ import {
   useContextSelector,
 } from "@fluentui/react-context-selector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Client } from "@urql/core";
 import { FC, useCallback, useState } from "react";
-import { Provider } from "urql";
+import { Client, Provider } from "urql";
 import { createUrqlClient } from "./urql";
 
 interface ApiState {

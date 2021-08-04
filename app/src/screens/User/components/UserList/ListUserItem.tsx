@@ -7,7 +7,7 @@ import {
   useUserUnfollowMutation,
 } from "@auralous/api";
 import { Button, TextButton, UserListItem } from "@auralous/ui";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
 import { FC, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";

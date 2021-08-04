@@ -525,14 +525,7 @@ export type UserStat = {
   followingCount: Scalars['Int'];
 };
 
-export type MessagePartsFragment = (
-  { __typename: 'Message' }
-  & Pick<Message, 'id' | 'creatorId' | 'createdAt' | 'text' | 'type'>
-  & { creator: (
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'profilePicture'>
-  ) }
-);
+export type MessagePartsFragment = { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: Maybe<string>, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } };
 
 export type MessagesQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -541,10 +534,7 @@ export type MessagesQueryVariables = Exact<{
 }>;
 
 
-export type MessagesQuery = { messages?: Maybe<Array<(
-    { __typename: 'Message' }
-    & MessagePartsFragment
-  )>> };
+export type MessagesQuery = { messages?: Maybe<Array<{ __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: Maybe<string>, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }>> };
 
 export type MessageAddMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -552,17 +542,14 @@ export type MessageAddMutationVariables = Exact<{
 }>;
 
 
-export type MessageAddMutation = Pick<Mutation, 'messageAdd'>;
+export type MessageAddMutation = { messageAdd: boolean };
 
 export type MessageAddedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type MessageAddedSubscription = { messageAdded: (
-    { __typename: 'Message' }
-    & MessagePartsFragment
-  ) };
+export type MessageAddedSubscription = { messageAdded: { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: Maybe<string>, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
 export type NotificationsQueryVariables = Exact<{
   next?: Maybe<Scalars['String']>;
@@ -570,97 +557,56 @@ export type NotificationsQueryVariables = Exact<{
 }>;
 
 
-export type NotificationsQuery = { notifications: Array<(
-    { __typename: 'NotificationFollow' }
-    & Pick<NotificationFollow, 'followerId' | 'id' | 'createdAt' | 'hasRead'>
-  ) | (
-    { __typename: 'NotificationInvite' }
-    & Pick<NotificationInvite, 'storyId' | 'inviterId' | 'id' | 'createdAt' | 'hasRead'>
-  ) | (
-    { __typename: 'NotificationNewStory' }
-    & Pick<NotificationNewStory, 'storyId' | 'creatorId' | 'id' | 'createdAt' | 'hasRead'>
-  )> };
+export type NotificationsQuery = { notifications: Array<{ __typename: 'NotificationFollow', followerId: string, id: string, createdAt: any, hasRead: boolean } | { __typename: 'NotificationInvite', storyId: string, inviterId: string, id: string, createdAt: any, hasRead: boolean } | { __typename: 'NotificationNewStory', storyId: string, creatorId: string, id: string, createdAt: any, hasRead: boolean }> };
 
 export type NotificationsMarkReadMutationVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
-export type NotificationsMarkReadMutation = Pick<Mutation, 'notificationsMarkRead'>;
+export type NotificationsMarkReadMutation = { notificationsMarkRead: number };
 
 export type NotificationAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NotificationAddedSubscription = { notificationAdded: (
-    { __typename: 'NotificationFollow' }
-    & Pick<NotificationFollow, 'followerId' | 'id' | 'createdAt' | 'hasRead'>
-  ) | (
-    { __typename: 'NotificationInvite' }
-    & Pick<NotificationInvite, 'storyId' | 'inviterId' | 'id' | 'createdAt' | 'hasRead'>
-  ) | (
-    { __typename: 'NotificationNewStory' }
-    & Pick<NotificationNewStory, 'storyId' | 'creatorId' | 'id' | 'createdAt' | 'hasRead'>
-  ) };
+export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', followerId: string, id: string, createdAt: any, hasRead: boolean } | { __typename: 'NotificationInvite', storyId: string, inviterId: string, id: string, createdAt: any, hasRead: boolean } | { __typename: 'NotificationNewStory', storyId: string, creatorId: string, id: string, createdAt: any, hasRead: boolean } };
 
-export type NowPlayingQueuePartsFragment = (
-  { __typename: 'NowPlayingQueueItem' }
-  & Pick<NowPlayingQueueItem, 'uid' | 'trackId' | 'playedAt' | 'endedAt' | 'creatorId'>
-);
+export type NowPlayingQueuePartsFragment = { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string };
 
 export type NowPlayingQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type NowPlayingQuery = { nowPlaying?: Maybe<(
-    { __typename: 'NowPlaying' }
-    & Pick<NowPlaying, 'id'>
-    & { currentTrack?: Maybe<(
-      { __typename: 'NowPlayingQueueItem' }
-      & NowPlayingQueuePartsFragment
-    )> }
-  )> };
+export type NowPlayingQuery = { nowPlaying?: Maybe<{ __typename: 'NowPlaying', id: string, currentTrack?: Maybe<{ __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string }> }> };
 
 export type NowPlayingSkipMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type NowPlayingSkipMutation = Pick<Mutation, 'nowPlayingSkip'>;
+export type NowPlayingSkipMutation = { nowPlayingSkip?: Maybe<boolean> };
 
 export type OnNowPlayingUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnNowPlayingUpdatedSubscription = { nowPlayingUpdated?: Maybe<(
-    { __typename: 'NowPlaying' }
-    & Pick<NowPlaying, 'id'>
-    & { currentTrack?: Maybe<(
-      { __typename: 'NowPlayingQueueItem' }
-      & NowPlayingQueuePartsFragment
-    )> }
-  )> };
+export type OnNowPlayingUpdatedSubscription = { nowPlayingUpdated?: Maybe<{ __typename: 'NowPlaying', id: string, currentTrack?: Maybe<{ __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string }> }> };
 
 export type NowPlayingReactionsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type NowPlayingReactionsQuery = { nowPlayingReactions?: Maybe<Array<(
-    { __typename: 'NowPlayingReactionItem' }
-    & Pick<NowPlayingReactionItem, 'reaction' | 'userId'>
-  )>> };
+export type NowPlayingReactionsQuery = { nowPlayingReactions?: Maybe<Array<{ __typename: 'NowPlayingReactionItem', reaction: NowPlayingReactionType, userId: string }>> };
 
 export type NowPlayingReactionsUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type NowPlayingReactionsUpdatedSubscription = { nowPlayingReactionsUpdated?: Maybe<Array<(
-    { __typename: 'NowPlayingReactionItem' }
-    & Pick<NowPlayingReactionItem, 'reaction' | 'userId'>
-  )>> };
+export type NowPlayingReactionsUpdatedSubscription = { nowPlayingReactionsUpdated?: Maybe<Array<{ __typename: 'NowPlayingReactionItem', reaction: NowPlayingReactionType, userId: string }>> };
 
 export type NowPlayingReactMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -668,66 +614,45 @@ export type NowPlayingReactMutationVariables = Exact<{
 }>;
 
 
-export type NowPlayingReactMutation = Pick<Mutation, 'nowPlayingReact'>;
+export type NowPlayingReactMutation = { nowPlayingReact?: Maybe<boolean> };
 
-export type PlaylistPartsFragment = (
-  { __typename: 'Playlist' }
-  & Pick<Playlist, 'id' | 'platform' | 'externalId' | 'name' | 'image' | 'url' | 'total' | 'creatorName' | 'creatorImage'>
-);
+export type PlaylistPartsFragment = { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> };
 
 export type PlaylistQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PlaylistQuery = { playlist?: Maybe<(
-    { __typename: 'Playlist' }
-    & PlaylistPartsFragment
-  )> };
+export type PlaylistQuery = { playlist?: Maybe<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
 
 export type MyPlaylistsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyPlaylistsQuery = { myPlaylists?: Maybe<Array<(
-    { __typename: 'Playlist' }
-    & PlaylistPartsFragment
-  )>> };
+export type MyPlaylistsQuery = { myPlaylists?: Maybe<Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }>> };
 
 export type PlaylistTracksQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PlaylistTracksQuery = { playlistTracks: Array<(
-    { __typename: 'Track' }
-    & TrackPartsFragment
-  )> };
+export type PlaylistTracksQuery = { playlistTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
 
 export type PlaylistsFeaturedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlaylistsFeaturedQuery = { playlistsFeatured: Array<(
-    { __typename: 'Playlist' }
-    & PlaylistPartsFragment
-  )> };
+export type PlaylistsFeaturedQuery = { playlistsFeatured: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
 
 export type PlaylistsFriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlaylistsFriendsQuery = { playlistsFriends: Array<(
-    { __typename: 'Playlist' }
-    & PlaylistPartsFragment
-  )> };
+export type PlaylistsFriendsQuery = { playlistsFriends: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
 
 export type PlaylistsSearchQueryVariables = Exact<{
   query: Scalars['String'];
 }>;
 
 
-export type PlaylistsSearchQuery = { playlistsSearch: Array<(
-    { __typename: 'Playlist' }
-    & PlaylistPartsFragment
-  )> };
+export type PlaylistsSearchQuery = { playlistsSearch: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
 
 export type PlaylistAddTracksMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -735,7 +660,7 @@ export type PlaylistAddTracksMutationVariables = Exact<{
 }>;
 
 
-export type PlaylistAddTracksMutation = Pick<Mutation, 'playlistAddTracks'>;
+export type PlaylistAddTracksMutation = { playlistAddTracks: boolean };
 
 export type PlaylistCreateMutationVariables = Exact<{
   name: Scalars['String'];
@@ -743,15 +668,9 @@ export type PlaylistCreateMutationVariables = Exact<{
 }>;
 
 
-export type PlaylistCreateMutation = { playlistCreate: (
-    { __typename: 'Playlist' }
-    & PlaylistPartsFragment
-  ) };
+export type PlaylistCreateMutation = { playlistCreate: { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> } };
 
-export type QueueItemPartsFragment = (
-  { __typename: 'QueueItem' }
-  & Pick<QueueItem, 'uid' | 'trackId' | 'creatorId'>
-);
+export type QueueItemPartsFragment = { __typename: 'QueueItem', uid: string, trackId: string, creatorId: string };
 
 export type QueueAddMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -759,7 +678,7 @@ export type QueueAddMutationVariables = Exact<{
 }>;
 
 
-export type QueueAddMutation = Pick<Mutation, 'queueAdd'>;
+export type QueueAddMutation = { queueAdd: boolean };
 
 export type QueueRemoveMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -767,7 +686,7 @@ export type QueueRemoveMutationVariables = Exact<{
 }>;
 
 
-export type QueueRemoveMutation = Pick<Mutation, 'queueRemove'>;
+export type QueueRemoveMutation = { queueRemove: boolean };
 
 export type QueueReorderMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -776,7 +695,7 @@ export type QueueReorderMutationVariables = Exact<{
 }>;
 
 
-export type QueueReorderMutation = Pick<Mutation, 'queueReorder'>;
+export type QueueReorderMutation = { queueReorder: boolean };
 
 export type QueueToTopMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -784,55 +703,30 @@ export type QueueToTopMutationVariables = Exact<{
 }>;
 
 
-export type QueueToTopMutation = Pick<Mutation, 'queueToTop'>;
+export type QueueToTopMutation = { queueToTop: boolean };
 
 export type QueueQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type QueueQuery = { queue?: Maybe<(
-    { __typename: 'Queue' }
-    & Pick<Queue, 'id'>
-    & { items: Array<(
-      { __typename: 'QueueItem' }
-      & QueueItemPartsFragment
-    )> }
-  )> };
+export type QueueQuery = { queue?: Maybe<{ __typename: 'Queue', id: string, items: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> }> };
 
 export type QueueUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type QueueUpdatedSubscription = { queueUpdated: (
-    { __typename: 'Queue' }
-    & Pick<Queue, 'id'>
-    & { items: Array<(
-      { __typename: 'QueueItem' }
-      & QueueItemPartsFragment
-    )> }
-  ) };
+export type QueueUpdatedSubscription = { queueUpdated: { __typename: 'Queue', id: string, items: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> } };
 
-export type StoryDetailPartsFragment = (
-  { __typename: 'Story' }
-  & Pick<Story, 'text' | 'image' | 'createdAt' | 'isLive' | 'creatorId' | 'collaboratorIds' | 'onMap'>
-  & { creator: (
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'username' | 'profilePicture'>
-  ) }
-);
+export type StoryDetailPartsFragment = { __typename: 'Story', text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } };
 
 export type StoryQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryQuery = { story?: Maybe<(
-    { __typename: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  )> };
+export type StoryQuery = { story?: Maybe<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
 
 export type StoriesQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -841,11 +735,7 @@ export type StoriesQueryVariables = Exact<{
 }>;
 
 
-export type StoriesQuery = { stories: Array<(
-    { __typename: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  )> };
+export type StoriesQuery = { stories: Array<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
 
 export type StoriesOnMapQueryVariables = Exact<{
   lng: Scalars['Float'];
@@ -854,32 +744,21 @@ export type StoriesOnMapQueryVariables = Exact<{
 }>;
 
 
-export type StoriesOnMapQuery = { storiesOnMap: Array<(
-    { __typename: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  )> };
+export type StoriesOnMapQuery = { storiesOnMap: Array<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
 
 export type StoryLiveQueryVariables = Exact<{
   creatorId?: Maybe<Scalars['String']>;
 }>;
 
 
-export type StoryLiveQuery = { storyLive?: Maybe<(
-    { __typename: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  )> };
+export type StoryLiveQuery = { storyLive?: Maybe<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
 
 export type StoryTracksQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryTracksQuery = { storyTracks: Array<(
-    { __typename: 'Track' }
-    & TrackPartsFragment
-  )> };
+export type StoryTracksQuery = { storyTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
 
 export type StoryCreateMutationVariables = Exact<{
   text: Scalars['String'];
@@ -888,11 +767,7 @@ export type StoryCreateMutationVariables = Exact<{
 }>;
 
 
-export type StoryCreateMutation = { storyCreate: (
-    { __typename: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  ) };
+export type StoryCreateMutation = { storyCreate: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
 export type StoryUpdateMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -901,68 +776,56 @@ export type StoryUpdateMutationVariables = Exact<{
 }>;
 
 
-export type StoryUpdateMutation = { storyUpdate: (
-    { __typename: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  ) };
+export type StoryUpdateMutation = { storyUpdate: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
 export type StoryDeleteMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryDeleteMutation = Pick<Mutation, 'storyDelete'>;
+export type StoryDeleteMutation = { storyDelete: string };
 
 export type StoryUnliveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryUnliveMutation = { storyUnlive: (
-    { __typename: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  ) };
+export type StoryUnliveMutation = { storyUnlive: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
 export type StoryUsersQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryUsersQuery = Pick<Query, 'storyUsers'>;
+export type StoryUsersQuery = { storyUsers?: Maybe<Array<string>> };
 
 export type StoryPingMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryPingMutation = Pick<Mutation, 'storyPing'>;
+export type StoryPingMutation = { storyPing: boolean };
 
 export type StoryUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryUpdatedSubscription = { storyUpdated: (
-    { __typename: 'Story' }
-    & Pick<Story, 'id'>
-    & StoryDetailPartsFragment
-  ) };
+export type StoryUpdatedSubscription = { storyUpdated: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
 export type StoryUsersUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryUsersUpdatedSubscription = Pick<Subscription, 'storyUsersUpdated'>;
+export type StoryUsersUpdatedSubscription = { storyUsersUpdated: Array<string> };
 
 export type StoryInviteLinkQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryInviteLinkQuery = Pick<Query, 'storyInviteLink'>;
+export type StoryInviteLinkQuery = { storyInviteLink: string };
 
 export type StoryCollabAddFromTokenMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -970,78 +833,46 @@ export type StoryCollabAddFromTokenMutationVariables = Exact<{
 }>;
 
 
-export type StoryCollabAddFromTokenMutation = Pick<Mutation, 'storyCollabAddFromToken'>;
+export type StoryCollabAddFromTokenMutation = { storyCollabAddFromToken: boolean };
 
-export type ArtistPartsFragment = (
-  { __typename: 'Artist' }
-  & Pick<Artist, 'id' | 'platform' | 'externalId' | 'name' | 'image' | 'url'>
-);
+export type ArtistPartsFragment = { __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string };
 
-export type TrackPartsFragment = (
-  { __typename: 'Track' }
-  & Pick<Track, 'id' | 'platform' | 'externalId' | 'title' | 'duration' | 'image' | 'url'>
-  & { artists: Array<(
-    { __typename: 'Artist' }
-    & ArtistPartsFragment
-  )> }
-);
+export type TrackPartsFragment = { __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> };
 
 export type TrackQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type TrackQuery = { track?: Maybe<(
-    { __typename: 'Track' }
-    & TrackPartsFragment
-  )> };
+export type TrackQuery = { track?: Maybe<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
 
 export type TracksQueryVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
-export type TracksQuery = { tracks: Array<Maybe<(
-    { __typename: 'Track' }
-    & TrackPartsFragment
-  )>> };
+export type TracksQuery = { tracks: Array<Maybe<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }>> };
 
 export type CrossTracksQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type CrossTracksQuery = { crossTracks?: Maybe<(
-    { __typename: 'CrossTracks' }
-    & Pick<CrossTracks, 'id' | 'youtube' | 'spotify'>
-  )> };
+export type CrossTracksQuery = { crossTracks?: Maybe<{ __typename: 'CrossTracks', id: string, youtube?: Maybe<string>, spotify?: Maybe<string> }> };
 
 export type SearchTrackQueryVariables = Exact<{
   query: Scalars['String'];
 }>;
 
 
-export type SearchTrackQuery = { searchTrack: Array<(
-    { __typename: 'Track' }
-    & TrackPartsFragment
-  )> };
+export type SearchTrackQuery = { searchTrack: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
 
-export type UserPublicPartsFragment = (
-  { __typename: 'User' }
-  & Pick<User, 'id' | 'username' | 'bio' | 'profilePicture'>
-);
+export type UserPublicPartsFragment = { __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { me?: Maybe<(
-    { __typename: 'Me' }
-    & Pick<Me, 'oauthId' | 'platform' | 'accessToken'>
-    & { user: (
-      { __typename: 'User' }
-      & UserPublicPartsFragment
-    ) }
-  )> };
+export type MeQuery = { me?: Maybe<{ __typename: 'Me', oauthId: string, platform: PlatformName, accessToken?: Maybe<string>, user: { __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> } }> };
 
 export type UserQueryVariables = Exact<{
   username?: Maybe<Scalars['String']>;
@@ -1049,48 +880,42 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { user?: Maybe<(
-    { __typename: 'User' }
-    & UserPublicPartsFragment
-  )> };
+export type UserQuery = { user?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> };
 
 export type UserStatQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserStatQuery = { userStat?: Maybe<(
-    { __typename: 'UserStat' }
-    & Pick<UserStat, 'id' | 'followerCount' | 'followingCount'>
-  )> };
+export type UserStatQuery = { userStat?: Maybe<{ __typename: 'UserStat', id: string, followerCount: number, followingCount: number }> };
 
 export type UserFollowersQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserFollowersQuery = Pick<Query, 'userFollowers'>;
+export type UserFollowersQuery = { userFollowers: Array<string> };
 
 export type UserFollowingsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserFollowingsQuery = Pick<Query, 'userFollowings'>;
+export type UserFollowingsQuery = { userFollowings: Array<string> };
 
 export type UserFollowMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserFollowMutation = Pick<Mutation, 'userFollow'>;
+export type UserFollowMutation = { userFollow: boolean };
 
 export type UserUnfollowMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserUnfollowMutation = Pick<Mutation, 'userUnfollow'>;
+export type UserUnfollowMutation = { userUnfollow: boolean };
 
 export type MeUpdateMutationVariables = Exact<{
   name?: Maybe<Scalars['String']>;
@@ -1098,15 +923,12 @@ export type MeUpdateMutationVariables = Exact<{
 }>;
 
 
-export type MeUpdateMutation = { me?: Maybe<(
-    { __typename: 'User' }
-    & UserPublicPartsFragment
-  )> };
+export type MeUpdateMutation = { me?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> };
 
 export type MeDeleteMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeDeleteMutation = Pick<Mutation, 'meDelete'>;
+export type MeDeleteMutation = { meDelete: boolean };
 
 export const MessagePartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MessageParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Message"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]} as unknown as DocumentNode;
 export const NowPlayingQueuePartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"endedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;

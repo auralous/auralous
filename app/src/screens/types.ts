@@ -1,5 +1,5 @@
 import { Playlist, Story } from "@auralous/api";
-import { ParamListBase } from "@react-navigation/routers";
+import { ParamListBase } from "@react-navigation/native";
 
 export enum RouteName {
   Main = "Main",

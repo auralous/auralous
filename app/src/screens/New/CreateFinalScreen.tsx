@@ -9,7 +9,7 @@ import {
   Spacer,
   Text,
 } from "@auralous/ui";
-import { useFocusEffect } from "@react-navigation/core";
+import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

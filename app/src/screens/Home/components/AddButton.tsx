@@ -10,7 +10,7 @@ import {
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, StyleSheet, View } from "react-native";
