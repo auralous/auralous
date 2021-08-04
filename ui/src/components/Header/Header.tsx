@@ -11,21 +11,21 @@ interface HeaderProps {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    paddingVertical: Size[2],
-    paddingHorizontal: Size[6],
-    flexDirection: "row",
-    width: "100%",
-  },
   button: {
     alignItems: "center",
-    justifyContent: "center",
     flexDirection: "row",
+    justifyContent: "center",
     minWidth: Size[10],
   },
+  root: {
+    flexDirection: "row",
+    paddingHorizontal: Size[6],
+    paddingVertical: Size[2],
+    width: "100%",
+  },
   title: {
-    flex: 1,
     alignItems: "center",
+    flex: 1,
     justifyContent: "center",
   },
 });

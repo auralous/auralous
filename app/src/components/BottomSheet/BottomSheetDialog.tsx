@@ -4,16 +4,16 @@ import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { BackHandler, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    paddingBottom: Size[4],
-  },
-  footer: {
-    paddingTop: Size[6],
-    flexDirection: "row",
-  },
   button: {
     flex: 1,
     paddingHorizontal: Size[1],
+  },
+  footer: {
+    flexDirection: "row",
+    paddingTop: Size[6],
+  },
+  titleContainer: {
+    paddingBottom: Size[4],
   },
 });
 

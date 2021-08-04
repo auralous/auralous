@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     paddingVertical: Size[2],
   },
   tab: {
-    paddingVertical: Size[2],
     paddingHorizontal: Size[2],
+    paddingVertical: Size[2],
   },
 });
 

@@ -21,8 +21,8 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
+  content: { flex: 1, justifyContent: "space-between", padding: Size[6] },
   root: { flex: 1 },
-  content: { padding: Size[6], justifyContent: "space-between", flex: 1 },
   top: { alignItems: "center", flex: 1 },
 });
 

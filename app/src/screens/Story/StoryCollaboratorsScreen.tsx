@@ -15,24 +15,24 @@ import { ScrollView } from "react-native-gesture-handler";
 import Share from "react-native-share";
 
 const styles = StyleSheet.create({
+  invite: {
+    padding: Size[2],
+  },
+  item: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: Size[4],
+    width: "100%",
+  },
   root: { flex: 1 },
   scroll: {
     flex: 1,
-    paddingVertical: Size[4],
     paddingHorizontal: Size[4],
-  },
-  item: {
-    flexDirection: "row",
-    width: "100%",
-    marginBottom: Size[4],
-    alignItems: "center",
+    paddingVertical: Size[4],
   },
   text: {
-    marginHorizontal: Size[3],
     flex: 1,
-  },
-  invite: {
-    padding: Size[2],
+    marginHorizontal: Size[3],
   },
 });
 

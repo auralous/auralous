@@ -9,9 +9,9 @@ import Tabs from "./Tabs";
 
 const styles = StyleSheet.create({
   content: {
+    flex: 1,
     padding: Size[3],
     paddingBottom: 0,
-    flex: 1,
   },
 });
 

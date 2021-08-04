@@ -20,11 +20,6 @@ const styles = StyleSheet.create({
   item: {
     padding: itemPadding,
   },
-  full: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });
 
 const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({

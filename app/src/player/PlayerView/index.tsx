@@ -35,26 +35,26 @@ import PlayerViewBackground from "./PlayerViewBackground";
 const snapPoints = ["100%"];
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    paddingTop: Size[2],
-  },
   content: {
-    paddingTop: 0,
     flex: 1,
+    paddingTop: 0,
   },
   pagerView: {
     flex: 1,
   },
-
-  tabs: {
-    padding: Size[2],
-    paddingBottom: Size[0],
-    flexDirection: "row",
-    justifyContent: "center",
-  },
   playingFromText: {
     textTransform: "uppercase",
+  },
+
+  root: {
+    flex: 1,
+    paddingTop: Size[2],
+  },
+  tabs: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: Size[2],
+    paddingBottom: Size[0],
   },
 });
 

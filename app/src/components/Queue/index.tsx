@@ -32,14 +32,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
+    alignItems: "stretch",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "stretch",
     marginBottom: Size[4],
   },
   headerSide: {
-    flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
   },
 });
 

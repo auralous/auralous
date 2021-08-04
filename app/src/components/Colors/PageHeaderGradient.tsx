@@ -9,9 +9,9 @@ import { useImageColor } from "./useImageColors";
 const styles = StyleSheet.create({
   root: {
     height: 384,
+    left: 0,
     position: "absolute",
     top: 0,
-    left: 0,
     width: "100%",
     zIndex: -1,
   },

@@ -8,18 +8,18 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
-  root: {
-    paddingVertical: Size[2],
-    paddingHorizontal: Size[1],
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   backPrev: {
-    width: Size[10],
+    alignItems: "center",
     height: Size[10],
     justifyContent: "center",
+    width: Size[10],
+  },
+  root: {
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingHorizontal: Size[1],
+    paddingVertical: Size[2],
   },
 });
 

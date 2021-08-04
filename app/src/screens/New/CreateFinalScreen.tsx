@@ -18,16 +18,22 @@ import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    justifyContent: "center",
+  loading: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: "center",
-    paddingVertical: Size[4],
-    paddingHorizontal: Size[1],
+    backgroundColor: "rgba(0,0,0,.5)",
+    justifyContent: "center",
   },
   number: {
-    fontSize: 144,
     color: "#ffffff",
+    fontSize: 144,
+  },
+  root: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: Size[1],
+    paddingVertical: Size[4],
   },
   textColor: {
     color: "#ffffff",
@@ -105,14 +111,7 @@ const CreateFinalScreen: FC<
         </View>
       </SafeAreaView>
       {fetching && (
-        <View
-          style={{
-            ...StyleSheet.absoluteFillObject,
-            backgroundColor: "rgba(0,0,0,.5)",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.loading}>
           <ActivityIndicator animating color="#ffffff" size="large" />
         </View>
       )}

@@ -11,17 +11,17 @@ interface UserListItemProps {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flexDirection: "row",
-    flex: 1,
-  },
   info: {
+    justifyContent: "center",
     padding: Size[1],
     paddingLeft: Size[2],
-    justifyContent: "center",
   },
   name: {
     lineHeight: Size[4],
+  },
+  root: {
+    flexDirection: "row",
+    flex: 1,
   },
 });
 

@@ -21,17 +21,17 @@ import { useClient } from "urql";
 import PlaylistsSection from "./components/PlaylistsSection";
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
   content: {
-    paddingVertical: Size[3],
-    paddingHorizontal: Size[6],
     flex: 1,
+    paddingHorizontal: Size[6],
+    paddingVertical: Size[3],
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,.5)",
+  },
+  root: {
+    flex: 1,
   },
 });
 

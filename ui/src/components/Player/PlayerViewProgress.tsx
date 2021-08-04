@@ -8,33 +8,33 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
-  root: {
-    height: Size[1],
-    backgroundColor: "rgba(255,255,255,.1)",
-    borderRadius: 9999,
-    marginTop: 20,
-    marginBottom: Size[4],
-  },
   indicator: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    height: Size[1],
     backgroundColor: "white",
     borderRadius: 9999,
-  },
-  texts: {
-    position: "absolute",
-    top: Size[2],
+    height: Size[1],
     left: 0,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
+    position: "absolute",
+    top: 0,
+  },
+  root: {
+    backgroundColor: "rgba(255,255,255,.1)",
+    borderRadius: 9999,
+    height: Size[1],
+    marginBottom: Size[4],
+    marginTop: 20,
   },
   rootLive: {
-    marginTop: 20,
-    marginBottom: Size[4],
     alignItems: "center",
+    marginBottom: Size[4],
+    marginTop: 20,
+  },
+  texts: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    left: 0,
+    position: "absolute",
+    top: Size[2],
+    width: "100%",
   },
 });
 

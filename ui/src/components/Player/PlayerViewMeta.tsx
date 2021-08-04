@@ -6,12 +6,12 @@ import { FC } from "react";
 import { ImageBackground, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
+  header: {
+    padding: Size[2],
+  },
   image: {
     flex: 1,
     marginVertical: Size[2],
-  },
-  header: {
-    padding: Size[2],
   },
 });
 

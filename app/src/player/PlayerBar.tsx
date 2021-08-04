@@ -15,6 +15,23 @@ import {
 } from "react-native";
 
 const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    height: Size[16],
+    justifyContent: "center",
+    width: Size[16],
+  },
+  image: {
+    height: Size[16],
+    resizeMode: "cover",
+    width: Size[16],
+  },
+  meta: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: Size[4],
+    paddingVertical: Size[2],
+  },
   root: {
     flexDirection: "row",
     height: Size[16],
@@ -22,23 +39,6 @@ const styles = StyleSheet.create({
   viewExpandTrigger: {
     flexDirection: "row",
     flex: 1,
-  },
-  image: {
-    width: Size[16],
-    height: Size[16],
-    resizeMode: "cover",
-  },
-  meta: {
-    paddingHorizontal: Size[4],
-    paddingVertical: Size[2],
-    justifyContent: "center",
-    flex: 1,
-  },
-  button: {
-    width: Size[16],
-    height: Size[16],
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 

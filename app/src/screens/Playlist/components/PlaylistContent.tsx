@@ -26,16 +26,16 @@ const listPadding = Size[3];
 const itemPadding = Size[1];
 
 const styles = StyleSheet.create({
+  item: {
+    alignItems: "center",
+    flexDirection: "row",
+    padding: itemPadding,
+    width: "100%",
+  },
   listContent: {
+    paddingBottom: Size[6],
     paddingHorizontal: listPadding,
     paddingTop: Size[3],
-    paddingBottom: Size[6],
-  },
-  item: {
-    padding: itemPadding,
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
   },
 });
 

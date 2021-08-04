@@ -1,7 +1,13 @@
 import player from "@auralous/player";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
+
+const styles = StyleSheet.create({
+  root: {
+    display: "none",
+  },
+});
 
 const PlayerYoutube: FC = () => {
   const youtubeRef = useRef<YoutubeIframeRef>(null);
@@ -52,12 +58,7 @@ const PlayerYoutube: FC = () => {
   }, []);
 
   return (
-    <View
-      style={{
-        display: "none",
-      }}
-      pointerEvents="none"
-    >
+    <View style={styles.root} pointerEvents="none">
       {videoId && (
         <YoutubePlayer
           play={isPlaying}

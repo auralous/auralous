@@ -36,22 +36,22 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 const cascadedHeight = 112;
 
 const styles = StyleSheet.create({
-  placeholder: {
-    height: cascadedHeight,
-  },
   metaBar: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     marginBottom: Size[4],
     paddingHorizontal: Size[1],
   },
-  toggleExpand: {
-    padding: Size[1],
+  placeholder: {
+    height: cascadedHeight,
   },
   selectOptsText: {
     fontFamily: Font.Medium,
     textTransform: "uppercase",
+  },
+  toggleExpand: {
+    padding: Size[1],
   },
 });
 

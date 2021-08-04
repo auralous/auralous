@@ -14,8 +14,8 @@ import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   root: {
-    flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
   },
 });
 

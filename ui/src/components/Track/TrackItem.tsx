@@ -14,28 +14,23 @@ export interface TrackItemProps {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
-    width: "100%",
-  },
-  title: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
   image: {
-    width: Size[12],
     height: Size[12],
+    width: Size[12],
   },
   meta: {
     flex: 1,
     paddingLeft: Size[3],
   },
-  playing: {
-    ...StyleSheet.absoluteFillObject,
+  root: {
     alignItems: "center",
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: "100%",
+  },
+  title: {
+    alignItems: "center",
+    flexDirection: "row",
   },
 });
 

@@ -1,6 +1,6 @@
 import { ParamList, RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
-import { Size, SongSelector, SongSelectorContext } from "@auralous/ui";
+import { SongSelector, SongSelectorContext } from "@auralous/ui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,11 +9,6 @@ import SelectedTrackListView from "./components/SelectedTrackListView";
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
-  },
-  content: {
-    padding: Size[3],
-    paddingBottom: 0,
     flex: 1,
   },
 });

@@ -19,16 +19,16 @@ interface SelectByPlaylistsProps {
 }
 
 const styles = StyleSheet.create({
-  metaBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: Size[1],
-    paddingHorizontal: Size[1],
-    height: Size[8],
-  },
   close: {
     padding: Size[1],
+  },
+  metaBar: {
+    alignItems: "center",
+    flexDirection: "row",
+    height: Size[8],
+    justifyContent: "space-between",
+    marginBottom: Size[1],
+    paddingHorizontal: Size[1],
   },
   tracks: {
     flex: 1,

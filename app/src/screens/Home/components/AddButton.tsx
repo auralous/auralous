@@ -18,22 +18,22 @@ import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   button: {
-    width: Size[16],
     height: Size[12],
+    width: Size[16],
   },
-  newModal: {
-    ...StyleSheet.absoluteFillObject,
-    padding: Size[6],
-    justifyContent: "center",
-    alignItems: "center",
+  choice: {
+    flex: 1,
+    height: 54,
+    padding: Size[4],
   },
   choices: {
     flexDirection: "row",
   },
-  choice: {
-    padding: Size[4],
-    height: 54,
-    flex: 1,
+  newModal: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: Size[6],
   },
 });
 

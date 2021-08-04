@@ -8,11 +8,11 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import scrollStyles from "./ScrollView.styles";
 
 const styles = StyleSheet.create({
-  root: {
-    height: Size[44],
-  },
   item: {
     marginRight: Size[4],
+  },
+  root: {
+    height: Size[44],
   },
 });
 

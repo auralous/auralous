@@ -18,8 +18,8 @@ import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   root: {
-    padding: Size[4],
     alignItems: "center",
+    padding: Size[4],
   },
 });
 

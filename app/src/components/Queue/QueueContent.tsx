@@ -38,12 +38,12 @@ const QueueContext = createContext(
 );
 
 const styles = StyleSheet.create({
+  np: {
+    padding: Size[1],
+    width: "100%",
+  },
   root: {
     flex: 1,
-  },
-  np: {
-    width: "100%",
-    padding: Size[1],
   },
   selectOptsText: {
     fontFamily: Font.Medium,

@@ -10,30 +10,30 @@ import {
 import TrackItem, { TrackItemProps } from "./TrackItem";
 
 const styles = StyleSheet.create({
-  root: {
-    width: "100%",
-    padding: Size[1],
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  track: {
-    flex: 1,
+  check: {
+    height: Size[12],
+    justifyContent: "center",
     paddingHorizontal: Size[2],
-    overflow: "hidden",
+  },
+  drag: {
+    alignItems: "center",
+    height: Size[12],
+    justifyContent: "center",
+    width: Size[12],
+  },
+  root: {
+    alignItems: "center",
+    flexDirection: "row",
+    padding: Size[1],
+    width: "100%",
   },
   tContainer: {
     flex: 1,
   },
-  check: {
-    height: Size[12],
+  track: {
+    flex: 1,
+    overflow: "hidden",
     paddingHorizontal: Size[2],
-    justifyContent: "center",
-  },
-  drag: {
-    width: Size[12],
-    height: Size[12],
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
 

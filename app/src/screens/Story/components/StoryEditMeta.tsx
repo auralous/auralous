@@ -17,16 +17,16 @@ import Geolocation from "react-native-geolocation-service";
 import { Switch } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
+  checkbox: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
   content: { flex: 1, padding: Size[4] },
   contentContainer: {
     alignItems: "center",
   },
   item: { marginBottom: Size[8], width: "100%" },
-  checkbox: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 });
 
 export const StoryEditMeta: FC<{ story: Story }> = ({ story }) => {

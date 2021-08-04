@@ -8,14 +8,14 @@ interface SectionProps {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    marginBottom: Size[6],
-  },
   header: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     marginBottom: Size[2],
+  },
+  root: {
+    marginBottom: Size[6],
   },
 });
 

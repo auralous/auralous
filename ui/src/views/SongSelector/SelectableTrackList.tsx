@@ -13,21 +13,21 @@ import SearchEmpty from "./SearchEmpty";
 const itemPadding = Size[1];
 
 const styles = StyleSheet.create({
-  item: {
-    padding: itemPadding,
-    flexDirection: "row",
+  button: {
     alignItems: "center",
+    height: Size[12],
+    justifyContent: "center",
+    width: Size[12],
+  },
+  item: {
+    alignItems: "center",
+    flexDirection: "row",
+    padding: itemPadding,
   },
   itemContent: {
     flex: 1,
-    paddingRight: Size[2],
     overflow: "hidden",
-  },
-  button: {
-    width: Size[12],
-    height: Size[12],
-    alignItems: "center",
-    justifyContent: "center",
+    paddingRight: Size[2],
   },
 });
 

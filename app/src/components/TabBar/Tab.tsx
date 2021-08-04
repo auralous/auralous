@@ -9,15 +9,15 @@ import Animated, {
 import { SvgProps } from "react-native-svg";
 
 const styles = StyleSheet.create({
+  icon: {
+    height: Size[4],
+    width: Size[4],
+  },
   pressable: {
+    alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
     opacity: 1,
-  },
-  icon: {
-    width: Size[4],
-    height: Size[4],
   },
 });
 

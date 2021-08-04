@@ -6,17 +6,17 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
-  root: {
+  button: {
     padding: Size[2],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
   meta: {
     flex: 1,
     height: Size[10],
   },
-  button: {
+  root: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: Size[2],
   },
 });

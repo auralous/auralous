@@ -7,16 +7,16 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
-  root: {
-    padding: Size[8],
-    justifyContent: "center",
-    alignItems: "center",
+  buttonContainer: {
+    marginTop: Size[8],
   },
   heading: {
     marginBottom: Size[1],
   },
-  buttonContainer: {
-    marginTop: Size[8],
+  root: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: Size[8],
   },
 });
 

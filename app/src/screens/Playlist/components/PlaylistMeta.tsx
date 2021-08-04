@@ -8,24 +8,24 @@ import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
-  root: {
-    paddingVertical: Size[3],
-    paddingHorizontal: Size[6],
+  buttons: {
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: Size[1],
+  },
+  image: {
+    height: Size[40],
+    marginBottom: 10,
+    width: Size[40],
   },
   meta: {
     width: "100%",
   },
-  image: {
-    width: Size[40],
-    height: Size[40],
-    marginBottom: 10,
-  },
-  buttons: {
-    padding: Size[1],
-    flexDirection: "row",
-    justifyContent: "center",
+  root: {
     alignItems: "center",
+    paddingHorizontal: Size[6],
+    paddingVertical: Size[3],
   },
 });
 

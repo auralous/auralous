@@ -5,20 +5,20 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
-  root: {
-    marginBottom: Size[4],
-    height: 216,
+  item: {
+    marginRight: Size[4],
   },
-  title: {
-    marginBottom: Size[3],
+  root: {
+    height: 216,
+    marginBottom: Size[4],
   },
   scroll: {
     marginHorizontal: -Size[6],
     paddingLeft: Size[6],
     paddingRight: Size[3],
   },
-  item: {
-    marginRight: Size[4],
+  title: {
+    marginBottom: Size[3],
   },
 });
 

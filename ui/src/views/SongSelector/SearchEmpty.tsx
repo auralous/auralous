@@ -6,8 +6,8 @@ import { StyleSheet, View } from "react-native";
 const styles = StyleSheet.create({
   root: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
   },
 });
 

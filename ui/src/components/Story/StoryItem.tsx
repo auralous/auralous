@@ -17,22 +17,22 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
   },
-  overlay: { flex: 1, backgroundColor: "rgba(0,0,0,.5)", padding: Size[4] },
-  top: {
-    flex: 1,
-  },
   bottom: {
+    alignItems: "flex-start",
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: "flex-start",
   },
+  overlay: { backgroundColor: "rgba(0,0,0,.5)", flex: 1, padding: Size[4] },
   text: {
-    lineHeight: 18,
     color: "#ffffff",
+    lineHeight: 18,
   },
   textSecondary: {
-    lineHeight: 18,
     color: "rgba(255, 255, 255, 0.75)",
+    lineHeight: 18,
+  },
+  top: {
+    flex: 1,
   },
 });
 
@@ -94,9 +94,7 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
               </Text>
             )}
             <View style={dstyles.tag}>
-              <Text size="xs" style={{ color: "#ffffff" }}>
-                {dateStr}
-              </Text>
+              <Text size="xs">{dateStr}</Text>
             </View>
           </View>
         </View>

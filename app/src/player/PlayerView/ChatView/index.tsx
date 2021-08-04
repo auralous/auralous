@@ -31,10 +31,15 @@ import {
 } from "react-native";
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    padding: Size[6],
-    paddingTop: Size[2],
+  chatHead: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginBottom: Size[2],
+  },
+  chatTrack: {
+    backgroundColor: "rgba(255,255,255,0.01)",
+    borderRadius: 8,
+    padding: Size[2],
   },
   list: {
     flex: 1,
@@ -43,15 +48,10 @@ const styles = StyleSheet.create({
   listItem: {
     paddingVertical: Size[2],
   },
-  chatTrack: {
-    backgroundColor: "rgba(255,255,255,0.01)",
-    padding: Size[2],
-    borderRadius: 8,
-  },
-  chatHead: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: Size[2],
+  root: {
+    flex: 1,
+    padding: Size[6],
+    paddingTop: Size[2],
   },
 });
 

@@ -19,36 +19,36 @@ import Config from "react-native-config";
 import ContinueButton from "./components/ContinueButton";
 
 const styles = StyleSheet.create({
+  buttonsContainer: {
+    marginBottom: Size[4],
+    paddingHorizontal: Size[4],
+    paddingVertical: Size[2],
+  },
+  logo: {
+    width: Size[8],
+  },
   root: {
     flex: 1,
+    justifyContent: "flex-end",
     paddingHorizontal: Size[4],
     paddingVertical: Size[12],
-    justifyContent: "flex-end",
-  },
-  buttonsContainer: {
-    paddingVertical: Size[2],
-    paddingHorizontal: Size[4],
-    marginBottom: Size[4],
   },
   smallText: {
-    textAlign: "center",
     marginTop: Size[1],
+    textAlign: "center",
   },
   smallTextContainer: {
     marginTop: Size[6],
   },
   smallTextLinkFix: {
-    transform: [{ translateY: 4 }],
     textDecorationLine: "underline",
+    transform: [{ translateY: 4 }],
   },
   top: {
-    paddingBottom: Size[12],
+    alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-  },
-  logo: {
-    width: Size[8],
+    paddingBottom: Size[12],
   },
 });
 

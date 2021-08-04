@@ -11,22 +11,22 @@ interface PlaylistItemProps {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    width: Size[32],
-  },
   image: {
-    width: Size[32],
-    height: Size[32],
     borderRadius: Size[2],
-    resizeMode: "cover",
+    height: Size[32],
     marginBottom: Size[1],
+    resizeMode: "cover",
+    width: Size[32],
   },
   meta: {
-    paddingVertical: Size[1],
     paddingHorizontal: Size[1],
+    paddingVertical: Size[1],
   },
   metaTitle: {
     lineHeight: 16,
+  },
+  root: {
+    width: Size[32],
   },
 });
 

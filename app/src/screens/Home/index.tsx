@@ -11,15 +11,15 @@ import RecentStories from "./components/RecentStories";
 import Section from "./components/Section";
 
 const styles = StyleSheet.create({
+  content: {
+    paddingHorizontal: Size[6],
+    paddingVertical: Size[3],
+  },
   root: {
     flex: 1,
   },
   scroll: {
     paddingVertical: Size[2],
-  },
-  content: {
-    paddingHorizontal: Size[6],
-    paddingVertical: Size[3],
   },
 });
 

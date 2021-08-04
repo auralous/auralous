@@ -8,17 +8,17 @@ import { Pressable, StyleSheet, View } from "react-native";
 import AddButton from "./AddButton";
 
 const styles = StyleSheet.create({
+  right: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
   root: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    marginBottom: Size[4],
     paddingHorizontal: Size[6],
     paddingVertical: Size[1],
-    marginBottom: Size[4],
-  },
-  right: {
-    flexDirection: "row",
-    alignItems: "center",
   },
 });
 
