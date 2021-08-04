@@ -4,8 +4,10 @@ import { useUserQuery } from "@auralous/api";
 import { LoadingScreen } from "@auralous/ui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import UserMeta from "./components/UserMeta";
+import { UserTimeline } from "./components/UserTimeline";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
@@ -19,17 +21,18 @@ const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
     variables: { username },
   });
   return (
-    <View style={styles.root}>
+    <SafeAreaView style={styles.root}>
       {fetching ? (
         <LoadingScreen />
       ) : data?.user ? (
-        <ScrollView>
+        <>
           <UserMeta user={data.user} />
-        </ScrollView>
+          <UserTimeline user={data.user} />
+        </>
       ) : (
         <NotFoundScreen />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

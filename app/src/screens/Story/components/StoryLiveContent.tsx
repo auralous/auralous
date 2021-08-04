@@ -35,20 +35,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const styles = StyleSheet.create({
-  textLive: {
-    textTransform: "uppercase",
-  },
   buttons: {
-    padding: Size[1],
     flexDirection: "row",
     justifyContent: "center",
+    padding: Size[1],
   },
   content: {
     padding: Size[3],
   },
+  textLive: {
+    textTransform: "uppercase",
+  },
   track: {
-    padding: Size[1],
     marginTop: Size[1],
+    padding: Size[1],
   },
 });
 

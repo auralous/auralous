@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 
 const RecentStories: FC = () => {
   const [{ data, fetching }] = useStoriesQuery({
-    variables: { id: "PUBLIC", limit: 8 },
+    variables: { limit: 10 },
   });
 
   const navigation = useNavigation();

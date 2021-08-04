@@ -20,8 +20,8 @@ mutation queueToTop($id: ID!, $uids: [ID!]!) {
   queueToTop(id: $id, uids: $uids)
 }
 
-query queue($id: ID!) {
-  queue(id: $id) {
+query queue($id: ID!, $from: Int, $to: Int) {
+  queue(id: $id, from: $from, to: $to) {
     id
     items {
       ...QueueItemParts

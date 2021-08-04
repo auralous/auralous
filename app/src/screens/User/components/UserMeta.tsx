@@ -1,3 +1,4 @@
+import { PageHeaderGradient } from "@/components/Colors";
 import { RouteName } from "@/screens/types";
 import { User, useUserStatQuery } from "@auralous/api";
 import { Avatar, Size, Text } from "@auralous/ui";
@@ -8,28 +9,28 @@ import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
-  root: {
-    padding: Size[2],
-  },
   meta: {
     alignItems: "center",
-    marginBottom: Size[6],
+    marginBottom: Size[2],
   },
-  username: {
-    marginTop: Size[2],
-  },
-  stats: {
-    flexDirection: "row",
+  root: {
+    padding: Size[2],
   },
   stat: {
     flex: 1,
     padding: Size[1],
   },
+  statName: {
+    textTransform: "uppercase",
+  },
   statTouchable: {
     alignItems: "center",
   },
-  statName: {
-    textTransform: "uppercase",
+  stats: {
+    flexDirection: "row",
+  },
+  username: {
+    marginTop: Size[2],
   },
 });
 
@@ -76,6 +77,7 @@ const UserMeta: FC<{ user: User }> = ({ user }) => {
 
   return (
     <>
+      <PageHeaderGradient image={user.profilePicture} />
       <View style={styles.root}>
         <View style={styles.meta}>
           <Avatar

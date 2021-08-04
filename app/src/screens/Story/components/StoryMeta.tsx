@@ -1,14 +1,17 @@
+import { RouteName } from "@/screens/types";
 import { Story } from "@auralous/api";
 import { Avatar, Heading, Size, Spacer, Text } from "@auralous/ui";
-import { FC, ReactNode } from "react";
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
+import { FC, ReactNode, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   root: {
-    paddingVertical: Size[3],
-    paddingHorizontal: Size[6],
     alignItems: "center",
+    paddingHorizontal: Size[6],
+    paddingVertical: Size[3],
   },
 });
 
@@ -17,6 +20,11 @@ const StoryMeta: FC<{ story: Story; tagElement: ReactNode }> = ({
   tagElement,
 }) => {
   const { t } = useTranslation();
+
+  const navigation = useNavigation();
+  const gotoCreator = useCallback(() => {
+    navigation.navigate(RouteName.User, { username: story.creator.username });
+  }, [navigation, story.creator.username]);
 
   return (
     <View style={styles.root}>
@@ -30,14 +38,16 @@ const StoryMeta: FC<{ story: Story; tagElement: ReactNode }> = ({
       <Heading level={4} align="center">
         {story.text}
       </Heading>
-      <Text color="textSecondary" align="center">
-        {story.collaboratorIds.length > 1
-          ? t("collab.name_and_x_others", {
-              name: story.creator.username,
-              count: story.collaboratorIds.length - 1,
-            })
-          : story.creator.username}
-      </Text>
+      <TouchableOpacity onPress={gotoCreator}>
+        <Text color="textSecondary" align="center">
+          {story.collaboratorIds.length > 1
+            ? t("collab.name_and_x_others", {
+                name: story.creator.username,
+                count: story.collaboratorIds.length - 1,
+              })
+            : story.creator.username}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

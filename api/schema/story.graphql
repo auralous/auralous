@@ -11,6 +11,7 @@ fragment StoryDetailParts on Story {
     profilePicture
   }
   onMap
+  trackTotal
 }
 
 query story($id: ID!) {
@@ -20,8 +21,8 @@ query story($id: ID!) {
   }
 }
 
-query stories($id: ID!, $next: String, $limit: Int!) {
-  stories(id: $id, next: $next, limit: $limit) {
+query stories($creatorId: String, $next: String, $limit: Int!) {
+  stories(creatorId: $creatorId, next: $next, limit: $limit) {
     id
     ...StoryDetailParts
   }
@@ -41,8 +42,8 @@ query storyLive($creatorId: String) {
   }
 }
 
-query storyTracks($id: ID!) {
-  storyTracks(id: $id) {
+query storyTracks($id: ID!, $from: Int, $to: Int) {
+  storyTracks(id: $id, from: $from, to: $to) {
     ...TrackParts
   }
 }

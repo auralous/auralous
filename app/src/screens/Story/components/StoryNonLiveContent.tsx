@@ -22,27 +22,27 @@ const listPadding = Size[3];
 const itemPadding = Size[1];
 
 const styles = StyleSheet.create({
-  tag: {
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    borderRadius: 9999,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: Size[1],
   },
-  tagText: {
-    color: "#333333",
+  item: {
+    alignItems: "center",
+    flexDirection: "row",
+    padding: itemPadding,
   },
   listContent: {
     padding: listPadding,
   },
-  item: {
-    padding: itemPadding,
-    flexDirection: "row",
-    alignItems: "center",
+  tag: {
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    borderRadius: 9999,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
   },
-  buttons: {
-    padding: Size[1],
-    flexDirection: "row",
-    justifyContent: "center",
+  tagText: {
+    color: "#333333",
   },
 });
 
@@ -111,9 +111,7 @@ const StoryNonLiveContent: FC<{ story: Story }> = ({ story }) => {
           <View style={styles.tag}>
             <Text size="sm" style={styles.tagText}>
               {t("story.title")} •{" "}
-              {data?.storyTracks
-                ? t("playlist.x_song", { count: data.storyTracks.length })
-                : ""}
+              {t("playlist.x_song", { count: story.trackTotal })}
             </Text>
           </View>
         }

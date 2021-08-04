@@ -95,6 +95,7 @@ const MainScreen: FC = () => {
         component: gestureHandlerRootHOC(UserScreen),
         options: {
           headerTitle: "",
+          headerTranslucent: true,
         },
       },
       {

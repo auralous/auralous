@@ -49,7 +49,8 @@
     "title": "Playlist",
     "my_playlists": "Playlist của bạn",
     "x_song": "{{count}} bài hát",
-    "x_song_plural": "{{count}} bài hát"
+    "x_song_plural": "{{count}} bài hát",
+    "view_all_x_songs": "Xem tất cả {{ count }} bài hát"
   },
   "story": {
     "title": "Story",
