@@ -1,11 +1,12 @@
 import { PlatformName, useCrossTracksQuery, useMeQuery } from "@auralous/api";
 import { FC, useEffect, useMemo, useState } from "react";
+import { Client, Provider, useClient } from "urql";
 import { PlaybackContext } from "./Context";
 import { PlaybackProvidedCallback } from "./PlaybackContextProvider";
 import { player } from "./playerSingleton";
 import { PlaybackContextProvided, PlaybackCurrentContext } from "./types";
 
-export const PlayerProvider: FC<{
+const PlayerProviderInner: FC<{
   useTrackColor: (trackId: string | null | undefined) => string;
 }> = ({ children, useTrackColor }) => {
   const [playbackCurrentContext, setContextSelector] =
@@ -44,6 +45,8 @@ export const PlayerProvider: FC<{
   }, []);
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
+
+  const client = useClient();
 
   const playingPlatform = useMemo<PlatformName | null>(() => {
     // if me === undefined, it has not fetched
@@ -120,5 +123,18 @@ export const PlayerProvider: FC<{
       />
       {children}
     </PlaybackContext.Provider>
+  );
+};
+
+export const PlayerProvider: FC<{
+  useTrackColor: (trackId: string | null | undefined) => string;
+  client: Client;
+}> = ({ children, useTrackColor, client }) => {
+  return (
+    <Provider value={client}>
+      <PlayerProviderInner useTrackColor={useTrackColor}>
+        {children}
+      </PlayerProviderInner>
+    </Provider>
   );
 };

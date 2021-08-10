@@ -5,11 +5,10 @@ import {
 } from "@fluentui/react-context-selector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FC, useCallback, useState } from "react";
-import { Client, Provider } from "urql";
+import { Provider } from "urql";
 import { createUrqlClient } from "./urql";
 
 interface ApiState {
-  client: Client;
   signIn(token: string): Promise<void>;
   signOut(): Promise<void>;
 }
@@ -27,7 +26,7 @@ export const ApiProvider: FC = ({ children }) => {
     setClient(createUrqlClient());
   }, []);
   return (
-    <ApiContext.Provider value={{ client, signIn, signOut }}>
+    <ApiContext.Provider value={{ signIn, signOut }}>
       <Provider value={client}>{children}</Provider>
     </ApiContext.Provider>
   );

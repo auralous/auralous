@@ -19,7 +19,8 @@
   },
   "map": {
     "title": "Map",
-    "title_branded": "Auralous Map"
+    "title_branded": "Auralous Map",
+    "no_stories_found": "No stories found"
   },
   "new": {
     "title": "New Story",
@@ -55,6 +56,7 @@
   "story": {
     "title": "Story",
     "join_live": "Join LIVE",
+    "go_to_story": "Go to story",
     "text": "What's on your mind",
     "story_of_name": "{{ name }}'s story"
   },

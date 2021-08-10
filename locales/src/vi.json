@@ -19,7 +19,8 @@
   },
   "map": {
     "title": "Bản đồ",
-    "title_branded": "Bản đồ Auralous"
+    "title_branded": "Bản đồ Auralous",
+    "no_stories_found": "Không tìm thấy story"
   },
   "new": {
     "title": "Tạo Story",
@@ -55,6 +56,7 @@
   "story": {
     "title": "Story",
     "join_live": "Tham gia LIVE",
+    "go_to_story": "Đi đến story",
     "text": "Bạn đang nghĩ gì thế",
     "story_of_name": "Story của {{ name }}"
   },

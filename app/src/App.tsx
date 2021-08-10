@@ -170,7 +170,10 @@ const tabBar = (props: BottomTabBarProps) => <TabBar {...props} />;
 
 const RootScreen: FC = () => {
   return (
-    <Tab.Navigator tabBar={tabBar} screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      tabBar={tabBar}
+      screenOptions={{ headerShown: false, unmountOnBlur: true }}
+    >
       <Tab.Screen name={RouteName.Main} component={MainScreen} />
       <Tab.Screen name={RouteName.Map} component={MapScreen} />
     </Tab.Navigator>
@@ -250,9 +253,9 @@ const App = () => {
   );
 
   return (
-    <SafeAreaProvider style={styles.sap}>
-      <NavigationContainer theme={navigationTheme} linking={linking}>
-        <ApiProvider>
+    <ApiProvider>
+      <SafeAreaProvider style={styles.sap}>
+        <NavigationContainer theme={navigationTheme} linking={linking}>
           <PlayerProvider>
             <BottomSheetModalProvider>
               <StatusBar translucent backgroundColor="transparent" />
@@ -269,9 +272,9 @@ const App = () => {
               </Stack.Navigator>
             </BottomSheetModalProvider>
           </PlayerProvider>
-        </ApiProvider>
-      </NavigationContainer>
-    </SafeAreaProvider>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </ApiProvider>
   );
 };
 

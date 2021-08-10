@@ -29,6 +29,13 @@ target 'Auralous' do
   use_flipper!()
 
   post_install do |installer|
+    $RNMBGL.post_install(installer)
     react_native_post_install(installer)
   end
+
+  pre_install do |installer|
+    $RNMBGL.pre_install(installer)
+  end
+
+  $ReactNativeMapboxGLIOSVersion = '~> 6.3.0'
 end
