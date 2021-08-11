@@ -1,3 +1,4 @@
+import { Colors } from "@auralous/ui";
 import { FC, useEffect } from "react";
 import { PixelRatio, StyleSheet, View } from "react-native";
 import Animated, {
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
   },
   // add to fix a weird bug in rendering the marker
   workaround: {
-    backgroundColor: "transparent",
+    backgroundColor: Colors.none,
     flex: 1,
   },
 });

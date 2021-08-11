@@ -1,7 +1,7 @@
 import { imageSources, SvgByPlatformName } from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { Size, useColors } from "@/styles";
+import { Colors, Size } from "@/styles";
 import { msToHMS } from "@/utils";
 import { Maybe, Track } from "@auralous/api";
 import { FC, memo, useMemo } from "react";
@@ -45,8 +45,6 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
     ? SvgByPlatformName[track.platform]
     : null;
 
-  const colors = useColors();
-
   return (
     <View style={styles.root}>
       <View>
@@ -65,7 +63,7 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
             <SvgPlatformName
               width={Size[4]}
               height={Size[4]}
-              fill={colors.text}
+              fill={Colors.text}
             />
           )}
           <Spacer x={1} />

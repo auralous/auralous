@@ -5,14 +5,7 @@ import player, {
   usePlaybackCurrentControl,
   usePlaybackTrackId,
 } from "@auralous/player";
-import {
-  IconPause,
-  IconPlay,
-  makeStyles,
-  Size,
-  Text,
-  useColors,
-} from "@auralous/ui";
+import { Colors, IconPause, IconPlay, Size, Text } from "@auralous/ui";
 import { useNavigationState } from "@react-navigation/native";
 import { FC, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -29,22 +22,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useAnimatedBgColors } from "./useAnimatedBgColors";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
-    elevation: 24,
-    flexDirection: "row",
-    height: Size[16],
-    backgroundColor: theme.colors.backgroundSecondary,
-  },
-}));
 
 const styles = StyleSheet.create({
   bg: { opacity: 0.5 },
@@ -64,6 +41,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: Size[4],
     paddingVertical: Size[2],
+  },
+  root: {
+    backgroundColor: Colors.backgroundSecondary,
+    elevation: 24,
+    flexDirection: "row",
+    height: Size[16],
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
   },
   viewExpandTrigger: {
     flexDirection: "row",
@@ -99,14 +89,10 @@ const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
 
   const track = trackId ? data?.track : null;
 
-  const colors = useColors();
-
   const togglePlay = useCallback(
     () => (isPlaying ? player.pause() : player.play()),
     [isPlaying]
   );
-
-  const dstyles = useStyles();
 
   const animatedBgStyle = useAnimatedBgColors(usePlaybackColor());
 
@@ -135,7 +121,7 @@ const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
   if (hiddenRoutes.includes(navigationRouteName)) return null;
 
   return (
-    <Animated.View style={[dstyles.root, animatedStyle]}>
+    <Animated.View style={[styles.root, animatedStyle]}>
       <Animated.View
         pointerEvents="none"
         style={[styles.bg, StyleSheet.absoluteFill, animatedBgStyle]}
@@ -168,9 +154,9 @@ const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
           disabled={!trackId}
         >
           {isPlaying ? (
-            <IconPause fill={colors.text} />
+            <IconPause fill={Colors.text} />
           ) : (
-            <IconPlay fill={colors.text} />
+            <IconPlay fill={Colors.text} />
           )}
         </TouchableOpacity>
       </View>

@@ -1,5 +1,5 @@
 import { imageSources } from "@/assets";
-import { makeStyles, Size } from "@/styles";
+import { Colors, Size } from "@/styles";
 import { FC, memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -15,22 +15,15 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     width: "100%",
   },
-});
-
-const useStyles = makeStyles((theme, size: AvatarProps["size"]) => ({
   root: {
+    backgroundColor: Colors.backgroundSecondary,
     borderRadius: 128,
     overflow: "hidden",
-    backgroundColor: theme.colors.backgroundSecondary,
-    width: Size[size],
-    height: Size[size],
   },
-}));
-
+});
 const Avatar: FC<AvatarProps> = ({ href, username, size }) => {
-  const dstyles = useStyles(size);
   return (
-    <View style={dstyles.root}>
+    <View style={[styles.root, { width: Size[size], height: Size[size] }]}>
       <Image
         style={styles.image}
         source={href ? { uri: href } : imageSources.defaultUser}

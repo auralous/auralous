@@ -1,4 +1,4 @@
-import { Button, ButtonProps, makeStyles, Size, Text } from "@auralous/ui";
+import { Button, ButtonProps, Colors, Size, Text } from "@auralous/ui";
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { BackHandler, StyleSheet, View } from "react-native";
@@ -8,6 +8,16 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: Size[1],
   },
+  container: {
+    backgroundColor: Colors.backgroundSecondary,
+    borderTopLeftRadius: Size[8],
+    borderTopRightRadius: Size[8],
+    bottom: 0,
+    left: 0,
+    padding: Size[6],
+    position: "absolute",
+    width: "100%",
+  },
   footer: {
     flexDirection: "row",
     paddingTop: Size[6],
@@ -16,19 +26,6 @@ const styles = StyleSheet.create({
     paddingBottom: Size[4],
   },
 });
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    backgroundColor: theme.colors.backgroundSecondary,
-    padding: Size[6],
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    width: "100%",
-    borderTopRightRadius: Size[8],
-    borderTopLeftRadius: Size[8],
-  },
-}));
 
 interface BottomSheetDialogProps {
   visible: boolean;
@@ -42,8 +39,6 @@ export const Dialog: FC<BottomSheetDialogProps> = ({
   children,
   onDismiss,
 }) => {
-  const dstyles = useStyles();
-
   const ref = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
@@ -69,7 +64,7 @@ export const Dialog: FC<BottomSheetDialogProps> = ({
       snapPoints={snapPoints}
       stackBehavior="push"
     >
-      <View style={dstyles.container}>{children}</View>
+      <View style={styles.container}>{children}</View>
     </BottomSheetModal>
   );
 };

@@ -1,5 +1,5 @@
 import { Text } from "@/components/Typography";
-import { makeStyles, Size } from "@/styles";
+import { Colors, Size } from "@/styles";
 import { msToHMS } from "@/utils";
 import { Maybe, Track } from "@auralous/api";
 import type { Player } from "@auralous/player";
@@ -9,13 +9,20 @@ import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   indicator: {
-    backgroundColor: "white",
+    backgroundColor: Colors.white,
     borderRadius: 9999,
     height: Size[1],
     left: 0,
     position: "absolute",
     top: 0,
   },
+  live: {
+    backgroundColor: Colors.primary,
+    borderRadius: 9999,
+    paddingHorizontal: Size[3],
+    paddingVertical: 3,
+  },
+  liveText: { color: Colors.primaryText, textTransform: "uppercase" },
   root: {
     backgroundColor: "rgba(255,255,255,.1)",
     borderRadius: 9999,
@@ -37,16 +44,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
-
-const useStyles = makeStyles((theme) => ({
-  live: {
-    backgroundColor: theme.colors.primary,
-    paddingHorizontal: Size[3],
-    paddingVertical: 3,
-    borderRadius: 9999,
-  },
-  liveText: { color: theme.colors.primaryText, textTransform: "uppercase" },
-}));
 
 const PlayerViewProgressOnDemand: FC<{
   track: Maybe<Track> | undefined;
@@ -87,11 +84,10 @@ const PlayerViewProgressOnDemand: FC<{
 
 const PlayerViewProgressLive: FC = () => {
   const { t } = useTranslation();
-  const dstyle = useStyles();
   return (
     <View style={styles.rootLive}>
-      <View style={dstyle.live}>
-        <Text size="xs" style={dstyle.liveText}>
+      <View style={styles.live}>
+        <Text size="xs" style={styles.liveText}>
           {t("common.status.live")}
         </Text>
       </View>

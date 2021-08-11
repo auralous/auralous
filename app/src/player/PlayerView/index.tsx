@@ -5,10 +5,10 @@ import {
 } from "@auralous/player";
 import {
   Button,
+  Colors,
   Header,
   IconChevronDown,
   IconMoreHorizontal,
-  makeStyles,
   Size,
   Spacer,
   Text,
@@ -51,6 +51,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Size[2],
   },
+  tab: {
+    backgroundColor: Colors.none,
+    borderRadius: 9999,
+    paddingHorizontal: Size[2],
+    paddingVertical: Size[1],
+  },
   tabs: {
     flexDirection: "row",
     justifyContent: "center",
@@ -59,24 +65,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const useStyles = makeStyles((theme, props: { selected: boolean }) => ({
-  tab: {
-    paddingHorizontal: Size[2],
-    paddingVertical: Size[1],
-    borderRadius: 9999,
-    backgroundColor: props.selected ? theme.colors.control : "transparent",
-  },
-}));
-
 const TabButton: FC<{
   title: string;
   onPress(): void;
   selected: boolean;
 }> = ({ title, onPress, selected }) => {
-  const dstyles = useStyles({ selected });
-
   return (
-    <Pressable onPress={onPress} style={dstyles.tab}>
+    <Pressable
+      onPress={onPress}
+      style={[styles.tab, selected && { backgroundColor: Colors.control }]}
+    >
       <Text bold size="sm" color="text">
         {title}
       </Text>

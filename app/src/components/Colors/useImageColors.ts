@@ -1,16 +1,14 @@
-import { useColors } from "@auralous/ui";
+import { Colors } from "@auralous/ui";
 import { useEffect, useState } from "react";
 import ImageColors from "react-native-image-colors";
 
 const colorCache = new Map<string, string>();
 
 export const useImageColor = (url: string | undefined | null) => {
-  const colors = useColors();
-
-  const [color, setColor] = useState<string>(colors.background);
+  const [color, setColor] = useState<string>(Colors.background);
 
   useEffect(() => {
-    if (!url) return setColor(colors.background);
+    if (!url) return setColor(Colors.background);
     const cached = colorCache.get(url);
     if (cached) {
       setColor(cached);
@@ -21,7 +19,7 @@ export const useImageColor = (url: string | undefined | null) => {
           if (!shouldCommit) return;
           let result: string;
           if (colorResult.platform === "android") {
-            result = colorResult.vibrant || colors.background;
+            result = colorResult.vibrant || Colors.background;
           } else {
             result = colorResult.primary;
           }
@@ -29,13 +27,13 @@ export const useImageColor = (url: string | undefined | null) => {
           setColor(result);
         })
         .catch(() => {
-          setColor(colors.background);
+          setColor(Colors.background);
         });
       return () => {
         shouldCommit = false;
       };
     }
-  }, [url, colors]);
+  }, [url]);
 
   return color;
 };

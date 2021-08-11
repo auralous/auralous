@@ -1,10 +1,9 @@
-import { useColors } from "@/styles";
+import { Colors } from "@/styles";
 import { FC } from "react";
 import { ActivityIndicator } from "react-native";
 
 const LoadingBlock: FC = () => {
-  const colors = useColors();
-  return <ActivityIndicator size="large" color={colors.textSecondary} />;
+  return <ActivityIndicator size="large" color={Colors.textSecondary} />;
 };
 
 export default LoadingBlock;

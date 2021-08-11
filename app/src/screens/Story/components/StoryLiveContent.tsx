@@ -9,30 +9,18 @@ import {
 import player, { usePlaybackCurrentContext } from "@auralous/player";
 import {
   Button,
+  Colors,
   IconUser,
-  makeStyles,
   Size,
   Spacer,
   Text,
   TrackItem,
-  useColors,
 } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import StoryMeta from "./StoryMeta";
-
-const useStyles = makeStyles((theme) => ({
-  tag: {
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    borderRadius: 9999,
-    backgroundColor: theme.colors.primary,
-    alignItems: "center",
-    flexDirection: "row",
-  },
-}));
 
 const styles = StyleSheet.create({
   buttons: {
@@ -42,6 +30,14 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: Size[3],
+  },
+  tag: {
+    alignItems: "center",
+    backgroundColor: Colors.primary,
+    borderRadius: 9999,
+    flexDirection: "row",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
   },
   textLive: {
     textTransform: "uppercase",
@@ -53,9 +49,6 @@ const styles = StyleSheet.create({
 });
 
 const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
-  const dstyles = useStyles();
-  const colors = useColors();
-
   const playbackCurrentContext = usePlaybackCurrentContext();
 
   const { t } = useTranslation();
@@ -96,14 +89,14 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
       <StoryMeta
         story={story}
         tagElement={
-          <View style={dstyles.tag}>
+          <View style={styles.tag}>
             <Text bold size="sm" style={styles.textLive}>
               {t("common.status.live")}{" "}
             </Text>
             <Text size="sm">
               {t("story.title")} • {dataStoryUsers?.storyUsers?.length || 0}
             </Text>
-            <IconUser color={colors.primaryText} width={12} height={12} />
+            <IconUser color={Colors.primaryText} width={12} height={12} />
           </View>
         }
       />

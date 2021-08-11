@@ -1,8 +1,8 @@
 import { IconCheck } from "@/assets";
-import { makeStyles, useColors } from "@/styles";
+import { Colors } from "@/styles";
 import { useSharedValuePressed } from "@/utils";
 import { FC, useCallback } from "react";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -15,18 +15,22 @@ interface CheckboxProps {
   accessibilityLabel?: string;
 }
 
-const useStyles = makeStyles((theme, checked: boolean) => ({
+const styles = StyleSheet.create({
   check: {
-    width: 20,
-    height: 20,
+    alignItems: "center",
+    backgroundColor: Colors.none,
+    borderColor: Colors.textTertiary,
     borderRadius: 9999,
     borderWidth: 1,
+    height: 20,
     justifyContent: "center",
-    alignItems: "center",
-    borderColor: checked ? theme.colors.text : theme.colors.textTertiary,
-    backgroundColor: checked ? theme.colors.text : "transparent",
+    width: 20,
   },
-}));
+  checkChecked: {
+    backgroundColor: Colors.text,
+    borderColor: Colors.text,
+  },
+});
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -36,8 +40,6 @@ const Checkbox: FC<CheckboxProps> = ({
   onValueChange,
   accessibilityLabel,
 }) => {
-  const colors = useColors();
-  const dstyles = useStyles(checked);
   const [pressed, pressedProps] = useSharedValuePressed();
 
   const stylesRoot = useAnimatedStyle<ViewStyle>(() => ({
@@ -65,9 +67,9 @@ const Checkbox: FC<CheckboxProps> = ({
       accessibilityLabel={accessibilityLabel}
       {...pressedProps}
     >
-      <View style={dstyles.check}>
+      <View style={[styles.check, checked && styles.checkChecked]}>
         {checked && (
-          <IconCheck color={colors.background} width={16} height={16} />
+          <IconCheck color={Colors.background} width={16} height={16} />
         )}
       </View>
     </AnimatedPressable>

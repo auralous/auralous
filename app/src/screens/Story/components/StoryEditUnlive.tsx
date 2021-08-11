@@ -8,23 +8,20 @@ import {
   useDialog,
 } from "@/components/BottomSheet";
 import { Story, useStoryUnliveMutation } from "@auralous/api";
-import { Button, makeStyles, Size, Text, toast } from "@auralous/ui";
+import { Button, Colors, Size, Text, toast } from "@auralous/ui";
 import { FC, useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-const useStyles = makeStyles((theme) => ({
+const styles = StyleSheet.create({
   liveBanner: {
-    backgroundColor: theme.colors.primary,
-    paddingHorizontal: Size[4],
-    paddingVertical: Size[2],
+    alignItems: "center",
+    backgroundColor: Colors.primary,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    paddingHorizontal: Size[4],
+    paddingVertical: Size[2],
   },
-}));
-
-const styles = StyleSheet.create({
   liveText: {
     flex: 1,
   },
@@ -37,8 +34,6 @@ export const StoryEditUnlive: FC<{ story: Story }> = ({ story }) => {
 
   const [visible, present, dismiss] = useDialog();
 
-  const dstyles = useStyles();
-
   const onUnlive = useCallback(async () => {
     const { data } = await storyUnlive({
       id: story.id,
@@ -48,7 +43,7 @@ export const StoryEditUnlive: FC<{ story: Story }> = ({ story }) => {
 
   return (
     <>
-      <View style={dstyles.liveBanner}>
+      <View style={styles.liveBanner}>
         <Text style={styles.liveText}>
           <Trans
             t={t}

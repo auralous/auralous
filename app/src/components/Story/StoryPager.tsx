@@ -1,5 +1,5 @@
 import { Story, useNowPlayingQuery, useTrackQuery } from "@auralous/api";
-import { Avatar, Button, imageSources, Size, Text } from "@auralous/ui";
+import { Avatar, Button, Colors, imageSources, Size, Text } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ const snapPoints = ["100%"];
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#000000",
+    backgroundColor: Colors.black,
     height: "100%",
     justifyContent: "space-between",
     width: "100%",

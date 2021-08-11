@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: Size[6],
   },
+  srOnly: { height: 0, opacity: 0 },
 });
 
 const snapPoints = ["100%"];
@@ -87,7 +88,7 @@ const AddButtonModalContent = gestureHandlerRootHOC(
           </View>
           <Spacer y={6} />
           {/** For a11y */}
-          <TextButton onPress={onDismiss} style={{ opacity: 0, height: 0 }}>
+          <TextButton onPress={onDismiss} style={styles.srOnly}>
             {t("common.navigation.go_back")}
           </TextButton>
         </View>

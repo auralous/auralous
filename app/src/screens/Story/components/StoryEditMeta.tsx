@@ -2,13 +2,13 @@ import { checkAndRequestPermission } from "@/utils/permission";
 import { LocationInput, Story, useStoryUpdateMutation } from "@auralous/api";
 import {
   Button,
+  Colors,
   Input,
   InputRef,
   Size,
   Spacer,
   Text,
   toast,
-  useColors,
 } from "@auralous/ui";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -72,8 +72,6 @@ export const StoryEditMeta: FC<{ story: Story }> = ({ story }) => {
     }
   }, [story, storyUpdate, onMap, t]);
 
-  const color = useColors();
-
   return (
     <ScrollView
       style={styles.content}
@@ -103,8 +101,8 @@ export const StoryEditMeta: FC<{ story: Story }> = ({ story }) => {
             accessibilityLabel={t("story_edit.add_to_map")}
             value={onMap}
             onValueChange={setOnMap}
-            thumbColor={color.primary}
-            trackColor={{ false: color.controlDark, true: color.control }}
+            thumbColor={Colors.primary}
+            trackColor={{ false: Colors.controlDark, true: Colors.control }}
             disabled={!story.isLive}
           />
         </View>

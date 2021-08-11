@@ -1,6 +1,6 @@
 import { PlatformName, useCrossTracksQuery, useMeQuery } from "@auralous/api";
 import { FC, useEffect, useMemo, useState } from "react";
-import { Client, Provider, useClient } from "urql";
+import { Client, Provider } from "urql";
 import { PlaybackContext } from "./Context";
 import { PlaybackProvidedCallback } from "./PlaybackContextProvider";
 import { player } from "./playerSingleton";
@@ -45,8 +45,6 @@ const PlayerProviderInner: FC<{
   }, []);
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
-
-  const client = useClient();
 
   const playingPlatform = useMemo<PlatformName | null>(() => {
     // if me === undefined, it has not fetched

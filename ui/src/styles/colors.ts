@@ -14,6 +14,9 @@ export const Colors = {
   google: "#FFFFFF",
   googleLabel: "rgba(0, 0, 0, 0.5)",
   border: "rgba(255, 255, 255, 0.1)",
+  white: "#FFFFFF",
+  black: "#000000",
+  none: "transparent",
 };
 
 export const GradientColors = {
@@ -23,3 +26,5 @@ export const GradientColors = {
     locations: [0.1, 0.5, 0.8, 1],
   },
 };
+
+export type ThemeColorKey = keyof typeof Colors;

@@ -1,5 +1,5 @@
-import { Font, makeStyles, Size, ThemeColorKey, useColors } from "@/styles";
-import { FC, useCallback } from "react";
+import { Colors, Font, Size, ThemeColorKey } from "@/styles";
+import { FC, useCallback, useMemo } from "react";
 import {
   Linking,
   Pressable,
@@ -30,9 +30,9 @@ interface TextProps {
   numberOfLines?: number;
 }
 
-export const useStyles = makeStyles(
-  (theme, props: TextProps & { level?: number }) => ({
-    base: {
+export const useStyle = (props: TextProps & { level?: number }) =>
+  useMemo<TextStyle>(
+    () => ({
       fontFamily: props.bold
         ? props.bold === "medium"
           ? Font.Medium
@@ -45,17 +45,24 @@ export const useStyles = makeStyles(
         : props.level
         ? levelSize[props.level - 1]
         : Size[4],
-      color: theme.colors[props.color || "text"] as string,
-    },
-  })
-);
+      color: Colors[props.color || "text"] as string,
+    }),
+    [
+      props.align,
+      props.bold,
+      props.italic,
+      props.size,
+      props.level,
+      props.color,
+    ]
+  );
 
 export const Text: FC<TextProps> = ({ children, numberOfLines, ...props }) => {
-  const styles = useStyles(props);
+  const style = useStyle(props);
   return (
     <RNText
       numberOfLines={numberOfLines}
-      style={StyleSheet.compose(styles.base, props.style)}
+      style={StyleSheet.compose(style, props.style)}
     >
       {children}
     </RNText>
@@ -76,8 +83,7 @@ export const TextLink: FC<TextProps & TextLinkProps> = ({
   ...props
 }) => {
   if (!props.color) props.color = "primary";
-  const colors = useColors();
-  const styles = useStyles(props);
+  const style = useStyle(props);
   const onPress = useCallback(() => Linking.openURL(href), [href]);
   return (
     <Pressable onPress={onPress}>
@@ -85,8 +91,9 @@ export const TextLink: FC<TextProps & TextLinkProps> = ({
         <RNText
           numberOfLines={numberOfLines}
           style={[
-            StyleSheet.compose(styles.base, props.style),
-            pressed && { color: colors[activeColor] as string },
+            style,
+            props.style,
+            pressed && { color: Colors[activeColor] as string },
           ]}
         >
           {children}
@@ -106,11 +113,11 @@ export const Heading: FC<TextProps & HeadingProps> = ({
   ...props
 }) => {
   props.bold = props.bold ?? true;
-  const styles = useStyles(props);
+  const style = useStyle(props);
   return (
     <RNText
       numberOfLines={numberOfLines}
-      style={StyleSheet.compose(styles.base, props.style)}
+      style={StyleSheet.compose(style, props.style)}
     >
       {children}
     </RNText>

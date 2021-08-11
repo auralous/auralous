@@ -1,15 +1,15 @@
 import { QueueItem } from "@auralous/api";
 import {
   Button,
+  Colors,
   Header,
   IconChevronLeft,
-  makeStyles,
   SongSelector,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, View } from "react-native";
+import { BackHandler, StyleSheet, View } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -21,15 +21,15 @@ interface QueueAdderProps {
   onRemoveTracks: (trackIds: string[]) => void;
 }
 
-const useStyles = makeStyles((theme) => ({
-  sav: {
-    flex: 1,
-    backgroundColor: theme.colors.backgroundSecondary,
-  },
+const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-}));
+  sav: {
+    backgroundColor: Colors.backgroundSecondary,
+    flex: 1,
+  },
+});
 
 const QueueAdderContent = gestureHandlerRootHOC<
   Omit<QueueAdderProps, "visible">
@@ -39,8 +39,6 @@ const QueueAdderContent = gestureHandlerRootHOC<
     () => items.map((item) => item.trackId),
     [items]
   );
-
-  const styles = useStyles();
 
   return (
     <SafeAreaView style={styles.sav}>

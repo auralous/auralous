@@ -1,4 +1,4 @@
-import { makeStyles, Size, useColors } from "@/styles";
+import { Colors, Size } from "@/styles";
 import {
   forwardRef,
   useCallback,
@@ -10,6 +10,7 @@ import {
   ColorValue,
   NativeSyntheticEvent,
   ReturnKeyTypeOptions,
+  StyleSheet,
   TextInput,
   TextInputSubmitEditingEventData,
   ViewStyle,
@@ -30,13 +31,13 @@ interface InputProps {
   onSubmit?: (text: string) => void;
 }
 
-const useStyles = makeStyles((theme) => ({
+const styles = StyleSheet.create({
   input: {
+    color: Colors.text,
     flex: 1,
     padding: 0,
-    color: theme.colors.text,
   },
-}));
+});
 
 export interface InputRef {
   isFocused(): boolean;
@@ -60,8 +61,6 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
   ref
 ) {
   const internalRef = useRef<TextInput>(null);
-  const dstyles = useStyles();
-  const colors = useColors();
 
   const [value, setValue] = useState<string>(defaultValue);
 
@@ -79,10 +78,10 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
       paddingHorizontal: Size[4],
       paddingVertical: Size[2],
       borderColor: withTiming(
-        isFocused.value ? colors.control : colors.controlDark
+        isFocused.value ? Colors.control : Colors.controlDark
       ) as unknown as ColorValue,
     }),
-    [colors]
+    [Colors]
   );
 
   const onSubmitEditing = useCallback(
@@ -119,11 +118,11 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
       <TextInput
         ref={internalRef}
         accessibilityLabel={accessibilityLabel}
-        placeholderTextColor={colors.textTertiary}
+        placeholderTextColor={Colors.textTertiary}
         placeholder={placeholder}
         value={value}
         onChangeText={setValue}
-        style={dstyles.input}
+        style={styles.input}
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmitEditing}
         onFocus={onFocused}

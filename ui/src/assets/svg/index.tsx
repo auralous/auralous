@@ -1,4 +1,4 @@
-import { useColors } from "@/styles";
+import { Colors } from "@/styles";
 import { FC, memo } from "react";
 import { SvgProps } from "react-native-svg";
 import IconCheckRaw from "./check.svg";
@@ -31,8 +31,7 @@ import IconYoutubeRaw from "./youtube.svg";
 
 const wrapIcon = (Icon: FC<SvgProps>) => {
   const WrappedIcon: FC<SvgProps> = (props: SvgProps) => {
-    const colors = useColors();
-    return <Icon color={colors.text} {...props} />;
+    return <Icon color={Colors.text} {...props} />;
   };
   WrappedIcon.displayName = Icon.displayName;
   return memo(WrappedIcon);

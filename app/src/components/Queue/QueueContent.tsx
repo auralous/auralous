@@ -3,11 +3,11 @@ import { QueueItem, Track, useTrackQuery } from "@auralous/api";
 import player, { PlaybackState } from "@auralous/player";
 import {
   Button,
+  Colors,
   DraggableRecyclerList,
   DraggableRecyclerRenderItemInfo,
   Font,
   Heading,
-  makeStyles,
   QueueTrackItem,
   Size,
   Spacer,
@@ -45,21 +45,18 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
+  selectOpts: {
+    borderColor: Colors.border,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: Size[2],
+  },
   selectOptsText: {
     fontFamily: Font.Medium,
     textTransform: "uppercase",
   },
 });
-
-const useStyles = makeStyles((theme) => ({
-  selectOpts: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderTopWidth: StyleSheet.hairlineWidth,
-    paddingTop: Size[2],
-    borderColor: theme.colors.border,
-  },
-}));
 
 const DraggableQueueItem = memo<{
   params: DraggableRecyclerRenderItemInfo<QueueItem>;
@@ -118,7 +115,6 @@ const QueueContent: FC<{
   currentTrack: Track | null;
 }> = ({ nextItems, currentTrack }) => {
   const { t } = useTranslation();
-  const dstyles = useStyles();
 
   // Store a temporary nextItems state
   // When the queue is updated, it takes awhile for
@@ -232,7 +228,7 @@ const QueueContent: FC<{
         />
         <Spacer y={1} />
         {hasSelected ? (
-          <View style={dstyles.selectOpts}>
+          <View style={styles.selectOpts}>
             <TextButton
               onPress={removeSelected}
               textProps={{ style: styles.selectOptsText }}

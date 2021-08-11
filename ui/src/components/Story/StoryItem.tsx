@@ -1,7 +1,7 @@
 import { imageSources } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Text } from "@/components/Typography";
-import { makeStyles, Size } from "@/styles";
+import { Colors, Size } from "@/styles";
 import { format as formatMs } from "@/utils";
 import { Story } from "@auralous/api";
 import { FC, memo, useMemo } from "react";
@@ -23,8 +23,23 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   overlay: { backgroundColor: "rgba(0,0,0,.5)", flex: 1, padding: Size[4] },
+  root: {
+    backgroundColor: Colors.backgroundSecondary,
+    borderRadius: Size[2],
+    height: Size[44] * 1.5625,
+    overflow: "hidden",
+    width: Size[44],
+  },
+  tag: {
+    backgroundColor: "rgba(0,0,0,.5)",
+    borderRadius: 9999,
+    flexGrow: 0,
+    marginTop: Size[1],
+    paddingHorizontal: Size[3],
+    paddingVertical: 3,
+  },
   text: {
-    color: "#ffffff",
+    color: Colors.white,
     lineHeight: 18,
   },
   textSecondary: {
@@ -36,28 +51,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const useStyles = makeStyles((theme, isLive: boolean) => ({
-  root: {
-    width: Size[44],
-    height: Size[44] * 1.5625,
-    borderRadius: Size[2],
-    overflow: "hidden",
-    backgroundColor: theme.colors.backgroundSecondary,
-  },
-  tag: {
-    paddingHorizontal: Size[3],
-    paddingVertical: 3,
-    borderRadius: 9999,
-    flexGrow: 0,
-    marginTop: Size[1],
-    backgroundColor: isLive ? theme.colors.primary : "rgba(0,0,0,.5)",
-  },
-}));
-
 const StoryItem: FC<StoryItemProps> = ({ story }) => {
   const { t } = useTranslation();
-
-  const dstyles = useStyles(story.isLive);
 
   const dateStr = useMemo(() => {
     if (!story) return "";
@@ -67,7 +62,7 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
   }, [story, t]);
 
   return (
-    <View style={dstyles.root}>
+    <View style={styles.root}>
       <ImageBackground
         source={
           story.image ? { uri: story.image } : imageSources.defaultPlaylist
@@ -93,7 +88,12 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
                 {story.text}
               </Text>
             )}
-            <View style={dstyles.tag}>
+            <View
+              style={[
+                styles.tag,
+                story.isLive && { backgroundColor: Colors.primary },
+              ]}
+            >
               <Text size="xs">{dateStr}</Text>
             </View>
           </View>

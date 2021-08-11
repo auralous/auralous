@@ -1,5 +1,5 @@
 import { useAnimatedBgColors } from "@/player/useAnimatedBgColors";
-import { useColors } from "@auralous/ui";
+import { Colors } from "@auralous/ui";
 import { FC, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -21,10 +21,9 @@ const PageHeaderGradient: FC<{ image: string | undefined | null }> = ({
   image,
 }) => {
   const animatedStyle = useAnimatedBgColors(useImageColor(image));
-  const backgroundColor = useColors().background;
   const gradientColors = useMemo(
-    () => ["rgba(0,0,0,.5)", backgroundColor],
-    [backgroundColor]
+    () => ["rgba(0,0,0,.5)", Colors.background],
+    []
   );
   return (
     <View style={styles.root} pointerEvents="none">

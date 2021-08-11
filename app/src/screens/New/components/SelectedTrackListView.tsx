@@ -1,6 +1,7 @@
 import { useTrackQuery } from "@auralous/api";
 import {
   Button,
+  Colors,
   DraggableRecyclerList,
   DraggableRecyclerRenderItem,
   DraggableRecyclerRenderItemInfo,
@@ -8,7 +9,6 @@ import {
   IconChevronDown,
   IconChevronUp,
   identityFn,
-  makeStyles,
   QueueTrackItem,
   reorder,
   Size,
@@ -36,6 +36,16 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 const cascadedHeight = 112;
 
 const styles = StyleSheet.create({
+  bottomContainer: {
+    backgroundColor: Colors.backgroundSecondary,
+    bottom: 0,
+    height: Size[16],
+    justifyContent: "center",
+    left: 0,
+    paddingHorizontal: Size[3],
+    position: "absolute",
+    width: "100%",
+  },
   metaBar: {
     alignItems: "center",
     flexDirection: "row",
@@ -46,6 +56,19 @@ const styles = StyleSheet.create({
   placeholder: {
     height: cascadedHeight,
   },
+  root: {
+    backgroundColor: Colors.backgroundSecondary,
+    paddingBottom: Size[16],
+    paddingHorizontal: Size[3],
+    paddingTop: Size[4],
+  },
+  selectOpts: {
+    borderColor: Colors.border,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: Size[2],
+  },
   selectOptsText: {
     fontFamily: Font.Medium,
     textTransform: "uppercase",
@@ -54,32 +77,6 @@ const styles = StyleSheet.create({
     padding: Size[1],
   },
 });
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    paddingHorizontal: Size[3],
-    paddingTop: Size[4],
-    paddingBottom: Size[16],
-    backgroundColor: theme.colors.backgroundSecondary,
-  },
-  selectOpts: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderTopWidth: StyleSheet.hairlineWidth,
-    paddingTop: Size[2],
-    borderColor: theme.colors.border,
-  },
-  bottomContainer: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    paddingHorizontal: Size[3],
-    height: Size[16],
-    justifyContent: "center",
-    width: "100%",
-    backgroundColor: theme.colors.backgroundSecondary,
-  },
-}));
 
 const snapPoints = [cascadedHeight, "75%"];
 
@@ -136,7 +133,6 @@ const SelectedTrackListView: FC<{
   selectedTracks: string[];
   setSelectedTracks: Dispatch<SetStateAction<string[]>>;
 }> = ({ onFinish, selectedTracks, setSelectedTracks }) => {
-  const dstyles = useStyles();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [expanded, setExpanded] = useState(false);
@@ -230,7 +226,7 @@ const SelectedTrackListView: FC<{
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         handleComponent={null}
-        style={dstyles.root}
+        style={styles.root}
         backgroundComponent={null}
         backdropComponent={BottomSheetBackdrop}
       >
@@ -252,9 +248,9 @@ const SelectedTrackListView: FC<{
           keyExtractor={identityFn}
         />
       </BottomSheet>
-      <View style={dstyles.bottomContainer}>
+      <View style={styles.bottomContainer}>
         {hasChecked ? (
-          <View style={dstyles.selectOpts}>
+          <View style={styles.selectOpts}>
             <TextButton
               onPress={removeChecked}
               textProps={{ style: styles.selectOptsText }}

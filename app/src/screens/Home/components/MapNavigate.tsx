@@ -1,20 +1,17 @@
 import { RouteName } from "@/screens/types";
-import { Heading, makeStyles, Size, Text, TextButton } from "@auralous/ui";
+import { Colors, Heading, Size, Text, TextButton } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-const useStyles = makeStyles((theme) => ({
+const styles = StyleSheet.create({
   root: {
+    backgroundColor: Colors.backgroundSecondary,
     borderRadius: 8,
     marginBottom: Size[6],
     padding: Size[2],
-    backgroundColor: theme.colors.backgroundSecondary,
   },
-}));
-
-const styles = StyleSheet.create({
   text: {
     marginBottom: Size[4],
   },
@@ -24,12 +21,13 @@ const MapNavigate: FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const onPress = useCallback(() => navigation.navigate(RouteName.Map), []);
-
-  const dstyles = useStyles();
+  const onPress = useCallback(
+    () => navigation.navigate(RouteName.Map),
+    [navigation]
+  );
 
   return (
-    <View style={dstyles.root}>
+    <View style={styles.root}>
       <Heading level={4} align="center">
         {t("map.title_branded")}
       </Heading>

@@ -7,10 +7,10 @@ import {
 } from "@auralous/player";
 import {
   Button,
+  Colors,
   Heading,
   IconChevronLeft,
   IconUserPlus,
-  makeStyles,
   Size,
   Spacer,
 } from "@auralous/ui";
@@ -41,15 +41,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
-});
-
-const useStyles = makeStyles((theme) => ({
   root: {
-    padding: Size[4],
+    backgroundColor: Colors.backgroundSecondary,
     flex: 1,
-    backgroundColor: theme.colors.backgroundSecondary,
+    padding: Size[4],
   },
-}));
+});
 
 const snapPoints = ["100%"];
 
@@ -59,8 +56,6 @@ const QueueSheet: FC<{
   onClose(): void;
 }> = ({ onClose, nextItems, currentTrack }) => {
   const { t } = useTranslation();
-
-  const dstyles = useStyles();
 
   useEffect(() => {
     const onBackPress = () => {
@@ -88,7 +83,7 @@ const QueueSheet: FC<{
   }, [navigation, contextMeta]);
 
   return (
-    <SafeAreaView style={dstyles.root}>
+    <SafeAreaView style={styles.root}>
       <View style={styles.header}>
         <View style={styles.headerSide}>
           <TouchableOpacity

@@ -14,7 +14,7 @@ import {
   UserFollowingScreen,
   UserScreen,
 } from "@/screens/User";
-import { Font, makeStyles, useTheme } from "@auralous/ui";
+import { Colors, Font } from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
 import {
@@ -23,7 +23,7 @@ import {
 } from "@react-navigation/native-stack";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { PlayerComponent, PlayerProvider } from "./player";
@@ -65,32 +65,25 @@ const commonScreenOptions: NativeStackNavigationOptions = {
   headerTitleStyle: { fontFamily: Font.Bold },
 };
 
-const useStyles = makeStyles((theme) => ({
+const styles = StyleSheet.create({
   sap: {
-    backgroundColor: theme.colors.background,
+    backgroundColor: Colors.background,
   },
-}));
+});
+
+const navigationTheme = {
+  dark: true,
+  colors: {
+    background: Colors.background,
+    card: Colors.background,
+    border: Colors.border,
+    primary: Colors.primary,
+    text: Colors.text,
+    notification: Colors.backgroundSecondary,
+  },
+};
 
 const App = () => {
-  const theme = useTheme();
-
-  const styles = useStyles();
-
-  const navigationTheme = useMemo(
-    () => ({
-      dark: true,
-      colors: {
-        background: theme.colors.background,
-        card: theme.colors.background,
-        border: theme.colors.border,
-        primary: theme.colors.primary,
-        text: theme.colors.text,
-        notification: theme.colors.backgroundSecondary,
-      },
-    }),
-    [theme]
-  );
-
   const { t } = useTranslation();
 
   // Routes that should be shown outside of tab navigator

@@ -1,31 +1,15 @@
-import { makeStyles, Size, Text, ThemeColorKey } from "@auralous/ui";
-import { FC, useCallback } from "react";
+import { Colors, Size, Text, ThemeColorKey } from "@auralous/ui";
+import { FC, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Linking,
   Pressable,
   PressableStateCallbackType,
+  TextStyle,
   View,
+  ViewStyle,
 } from "react-native";
 import Config from "react-native-config";
-
-const useStyles = makeStyles(
-  (theme, platform: ContinueButtonProps["platform"]) => ({
-    text: {
-      marginLeft: Size[1],
-      color: theme.colors[`${platform}Label` as ThemeColorKey],
-    },
-    pressable: {
-      padding: Size[3],
-      borderRadius: 9999,
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: Size[1],
-      backgroundColor: theme.colors[platform],
-    },
-  })
-);
 
 interface ContinueButtonProps {
   name: string;
@@ -40,14 +24,32 @@ const ContinueButton: FC<ContinueButtonProps> = ({
   icon,
   listenOn,
 }) => {
-  const dstyles = useStyles(platform);
+  const styles = useMemo<{ text: TextStyle; pressable: ViewStyle }>(
+    () => ({
+      text: {
+        marginLeft: Size[1],
+        color: Colors[`${platform}Label` as ThemeColorKey],
+      },
+      pressable: {
+        padding: Size[3],
+        borderRadius: 9999,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: Size[1],
+        backgroundColor: Colors[platform],
+      },
+    }),
+    [platform]
+  );
+
   const { t } = useTranslation();
   const style = useCallback(
     ({ pressed }: PressableStateCallbackType) => [
-      dstyles.pressable,
+      styles.pressable,
       { opacity: pressed ? 0.75 : 1 },
     ],
-    [dstyles]
+    [styles]
   );
   const doLogin = useCallback(
     () => Linking.openURL(`${Config.API_URI}/auth/${platform}?is_app_login=1`),
@@ -61,7 +63,7 @@ const ContinueButton: FC<ContinueButtonProps> = ({
       </Text>
       <Pressable style={style} onPress={doLogin}>
         {icon}
-        <Text style={dstyles.text} bold>
+        <Text style={styles.text} bold>
           {t("sign_in.continue_with", { name })}
         </Text>
       </Pressable>

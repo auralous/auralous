@@ -2,7 +2,7 @@ import { IconPlay, SvgByPlatformName } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { makeStyles, Size, useColors } from "@/styles";
+import { Colors, Size } from "@/styles";
 import { Story, Track, useStoryTracksQuery } from "@auralous/api";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,6 +31,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  main: {
+    backgroundColor: Colors.backgroundSecondary,
+    borderRadius: Size[6],
+    flexDirection: "row",
+    overflow: "hidden",
+    padding: Size[2],
+  },
   mainPlay: {
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, .5)",
@@ -50,6 +57,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  trackItemIndex: {
+    borderRadius: 9999,
+    height: Size[6],
+    marginRight: Size[2],
+    textAlign: "center",
+    textAlignVertical: "center",
+    width: Size[6],
+  },
   trackItemTrack: {
     flex: 1,
   },
@@ -59,24 +74,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const useStyles = makeStyles((theme) => ({
-  main: {
-    padding: Size[2],
-    backgroundColor: theme.colors.backgroundSecondary,
-    borderRadius: Size[6],
-    overflow: "hidden",
-    flexDirection: "row",
-  },
-  trackItemIndex: {
-    height: Size[6],
-    width: Size[6],
-    borderRadius: 9999,
-    marginRight: Size[2],
-    textAlign: "center",
-    textAlignVertical: "center",
-  },
-}));
-
 interface StoryCardItemProps {
   story: Story;
   onNavigate(storyId: string): void;
@@ -85,15 +82,11 @@ interface StoryCardItemProps {
 
 const StoryCardItemTrack: FC<{ track: Track; index: number; onPress(): void }> =
   ({ track, index, onPress }) => {
-    const dstyles = useStyles();
-
     const SvgPlatformName = SvgByPlatformName[track.platform];
-
-    const colors = useColors();
 
     return (
       <View style={styles.trackItem}>
-        <Text size="sm" color="textSecondary" style={dstyles.trackItemIndex}>
+        <Text size="sm" color="textSecondary" style={styles.trackItemIndex}>
           {index + 1}
         </Text>
         <View style={styles.trackItemTrack}>
@@ -102,7 +95,7 @@ const StoryCardItemTrack: FC<{ track: Track; index: number; onPress(): void }> =
               <SvgPlatformName
                 width={Size[4]}
                 height={Size[4]}
-                fill={colors.textSecondary}
+                fill={Colors.textSecondary}
               />
             )}
             <Spacer x={1} />
@@ -120,8 +113,6 @@ const StoryCardItem: FC<StoryCardItemProps> = ({
   onNavigate,
   onPlay,
 }) => {
-  const dstyles = useStyles();
-
   const { t } = useTranslation();
 
   const [{ data: dataStoryTracks }] = useStoryTracksQuery({
@@ -154,7 +145,7 @@ const StoryCardItem: FC<StoryCardItemProps> = ({
           <Text bold>{story.text}</Text>
         </View>
       </Pressable>
-      <View style={dstyles.main}>
+      <View style={styles.main}>
         {story.image && (
           <Image
             source={{ uri: story.image }}

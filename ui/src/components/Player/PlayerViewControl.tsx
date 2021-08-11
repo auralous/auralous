@@ -1,6 +1,6 @@
 import { IconPause, IconPlay, IconSkipBack, IconSkipForward } from "@/assets";
 import { Spacer } from "@/components/Spacer";
-import { makeStyles, Size, useColors } from "@/styles";
+import { Colors, Size } from "@/styles";
 import type { Player } from "@auralous/player";
 import { PlaybackState } from "@auralous/player";
 import { FC, useCallback } from "react";
@@ -14,6 +14,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: Size[10],
   },
+  playPause: {
+    alignItems: "center",
+    backgroundColor: Colors.textTertiary,
+    borderRadius: 9999,
+    height: Size[16],
+    justifyContent: "center",
+    width: Size[16],
+  },
   root: {
     alignItems: "center",
     flexDirection: "row",
@@ -23,27 +31,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const useStyles = makeStyles((theme) => ({
-  playPause: {
-    width: Size[16],
-    height: Size[16],
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 9999,
-    backgroundColor: theme.colors.textTertiary,
-  },
-}));
-
 const PlayerViewControl: FC<{
   control: Pick<PlaybackState, "isPlaying">;
   trackId: string | null;
   player: Player;
 }> = ({ trackId, control, player }) => {
   const { t } = useTranslation();
-
-  const colors = useColors();
-
-  const dstyles = useStyles();
 
   const onSkipBackward = useCallback(() => player.skipBackward(), [player]);
   const onSkipForward = useCallback(() => player.skipForward(), [player]);
@@ -59,22 +52,22 @@ const PlayerViewControl: FC<{
         onPress={onSkipBackward}
         accessibilityLabel={t("player.skip_backward")}
       >
-        <IconSkipBack width={Size[8]} height={Size[8]} fill={colors.text} />
+        <IconSkipBack width={Size[8]} height={Size[8]} fill={Colors.text} />
       </TouchableOpacity>
       <Spacer x={8} />
       <View style={trackId ? undefined : { opacity: 0.5 }}>
         <TouchableOpacity
           onPress={togglePlay}
-          style={dstyles.playPause}
+          style={styles.playPause}
           accessibilityLabel={
             control.isPlaying ? t("player.pause") : t("player.play")
           }
           disabled={!trackId}
         >
           {control.isPlaying ? (
-            <IconPause width={Size[10]} height={Size[10]} fill={colors.text} />
+            <IconPause width={Size[10]} height={Size[10]} fill={Colors.text} />
           ) : (
-            <IconPlay width={Size[10]} height={Size[10]} fill={colors.text} />
+            <IconPlay width={Size[10]} height={Size[10]} fill={Colors.text} />
           )}
         </TouchableOpacity>
       </View>
@@ -84,7 +77,7 @@ const PlayerViewControl: FC<{
         onPress={onSkipForward}
         accessibilityLabel={t("player.skip_forward")}
       >
-        <IconSkipForward width={Size[8]} height={Size[8]} fill={colors.text} />
+        <IconSkipForward width={Size[8]} height={Size[8]} fill={Colors.text} />
       </TouchableOpacity>
     </View>
   );

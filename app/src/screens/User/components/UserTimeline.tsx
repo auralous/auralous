@@ -1,7 +1,7 @@
 import { RouteName } from "@/screens/types";
 import { User, useStoriesQuery } from "@auralous/api";
 import player from "@auralous/player";
-import { Size, Spacer, StoryCardItem, useColors } from "@auralous/ui";
+import { Colors, Size, Spacer, StoryCardItem } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useState } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
@@ -53,8 +53,6 @@ export const UserTimeline: FC<{ user: User }> = ({ user }) => {
     []
   );
 
-  const colors = useColors();
-
   return (
     <ScrollView
       style={styles.root}
@@ -75,7 +73,7 @@ export const UserTimeline: FC<{ user: User }> = ({ user }) => {
           )
       )}
       {fetching ||
-        (stale && <ActivityIndicator color={colors.textSecondary} />)}
+        (stale && <ActivityIndicator color={Colors.textSecondary} />)}
     </ScrollView>
   );
 };

@@ -3,6 +3,7 @@ import { useStoryCreateMutation } from "@auralous/api";
 import player from "@auralous/player";
 import {
   Button,
+  Colors,
   GradientColors,
   Heading,
   Size,
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   number: {
-    color: "#ffffff",
+    color: Colors.white,
     fontSize: 144,
   },
   root: {
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     paddingVertical: Size[4],
   },
   textColor: {
-    color: "#ffffff",
+    color: Colors.white,
   },
 });
 

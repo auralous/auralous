@@ -21,12 +21,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[2],
     paddingVertical: Size[2],
   },
+  tabInactive: {
+    opacity: 0.25,
+  },
 });
 
 const Tab: FC<TabProps> = ({ title, active, onSelect }) => {
   return (
     <TouchableOpacity style={styles.tab} onPress={onSelect}>
-      <Heading level={3} style={active ? undefined : { opacity: 0.25 }}>
+      <Heading level={3} style={!active && styles.tabInactive}>
         {title}
       </Heading>
     </TouchableOpacity>

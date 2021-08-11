@@ -2,6 +2,7 @@ import { useAuthActions } from "@/gql/context";
 import { ParamList, RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
 import {
+  Colors,
   IconGoogleColor,
   IconSpotify,
   Logo,
@@ -9,7 +10,6 @@ import {
   Spacer,
   Text,
   TextLink,
-  useColors,
 } from "@auralous/ui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useEffect } from "react";
@@ -70,12 +70,10 @@ const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
     if (me) navigation.goBack();
   }, [me, navigation]);
 
-  const colors = useColors();
-
   return (
     <View style={styles.root}>
       <View style={styles.top}>
-        <Logo style={styles.logo} width={256} height={64} fill={colors.text} />
+        <Logo style={styles.logo} width={256} height={64} fill={Colors.text} />
         <Text size="lg" bold color="textSecondary">
           Music Together
         </Text>
