@@ -7,6 +7,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FeaturedPlaylists from "./components/FeaturedPlaylists";
 import HeaderSection from "./components/Header";
+import MapNavigate from "./components/MapNavigate";
 import RecentStories from "./components/RecentStories";
 import Section from "./components/Section";
 
@@ -34,6 +35,7 @@ const HomeScreen: FC<NativeStackScreenProps<ParamList, RouteName.Home>> =
             <Section title={t("home.featured_playlists.title")}>
               <FeaturedPlaylists />
             </Section>
+            <MapNavigate />
             <Section
               title={t("home.recent_stories.title")}
               description={t("home.recent_stories.description")}

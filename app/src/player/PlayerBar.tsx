@@ -1,10 +1,20 @@
+import { RouteName } from "@/screens/types";
 import { useTrackQuery } from "@auralous/api";
 import player, {
+  usePlaybackColor,
   usePlaybackCurrentControl,
   usePlaybackTrackId,
 } from "@auralous/player";
-import { IconPause, IconPlay, Size, Text, useColors } from "@auralous/ui";
-import { FC, useCallback } from "react";
+import {
+  IconPause,
+  IconPlay,
+  makeStyles,
+  Size,
+  Text,
+  useColors,
+} from "@auralous/ui";
+import { useNavigationState } from "@react-navigation/native";
+import { FC, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Image,
@@ -13,8 +23,31 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { useAnimatedBgColors } from "./useAnimatedBgColors";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
+    flexDirection: "row",
+    height: Size[16],
+    backgroundColor: theme.colors.backgroundSecondary,
+  },
+}));
 
 const styles = StyleSheet.create({
+  bg: { opacity: 0.5 },
   button: {
     alignItems: "center",
     height: Size[16],
@@ -32,19 +65,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[4],
     paddingVertical: Size[2],
   },
-  root: {
-    flexDirection: "row",
-    height: Size[16],
-  },
   viewExpandTrigger: {
     flexDirection: "row",
     flex: 1,
   },
 });
 
-const onPlayerBarPressed = () => player.emit("__player_bar_pressed");
+const hiddenRoutes = [
+  RouteName.NewFinal,
+  RouteName.NewQuickShare,
+  RouteName.NewSelectSongs,
+  RouteName.SignIn,
+] as string[];
 
-const PlayerBar: FC = () => {
+const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
+  visible,
+  onPress,
+}) => {
   const { t } = useTranslation();
 
   const { isPlaying } = usePlaybackCurrentControl();
@@ -56,6 +93,10 @@ const PlayerBar: FC = () => {
     pause: !trackId,
   });
 
+  const navigationRouteName = useNavigationState((state) =>
+    state?.routes ? state.routes[state.routes.length - 1].name : ""
+  );
+
   const track = trackId ? data?.track : null;
 
   const colors = useColors();
@@ -65,10 +106,41 @@ const PlayerBar: FC = () => {
     [isPlaying]
   );
 
+  const dstyles = useStyles();
+
+  const animatedBgStyle = useAnimatedBgColors(usePlaybackColor());
+
+  const translateYValue = useSharedValue(0);
+
+  useEffect(() => {
+    if (visible) translateYValue.value = withTiming(0);
+    else translateYValue.value = withTiming(Size[16]);
+  }, [visible, translateYValue]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: translateYValue.value,
+      },
+    ],
+  }));
+
+  const onPressWithAnimate = useCallback(() => {
+    translateYValue.value = withTiming(Size[16]);
+    onPress();
+  }, [onPress, translateYValue]);
+
   if (!playbackCurrentContext) return null;
+
+  if (hiddenRoutes.includes(navigationRouteName)) return null;
+
   return (
-    <View style={styles.root}>
-      <Pressable style={styles.viewExpandTrigger} onPress={onPlayerBarPressed}>
+    <Animated.View style={[dstyles.root, animatedStyle]}>
+      <Animated.View
+        pointerEvents="none"
+        style={[styles.bg, StyleSheet.absoluteFill, animatedBgStyle]}
+      />
+      <Pressable style={styles.viewExpandTrigger} onPress={onPressWithAnimate}>
         <Image
           style={styles.image}
           source={
@@ -88,7 +160,7 @@ const PlayerBar: FC = () => {
           </Text>
         </View>
       </Pressable>
-      <View style={trackId ? undefined : { opacity: 0.5 }}>
+      <View>
         <TouchableOpacity
           onPress={togglePlay}
           style={styles.button}
@@ -102,7 +174,7 @@ const PlayerBar: FC = () => {
           )}
         </TouchableOpacity>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

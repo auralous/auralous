@@ -1,4 +1,3 @@
-import { TabBar } from "@/components/TabBar";
 import { ApiProvider } from "@/gql/context";
 import HomeScreen from "@/screens/Home";
 import MapScreen from "@/screens/Map";
@@ -17,16 +16,12 @@ import {
 } from "@/screens/User";
 import { Font, makeStyles, useTheme } from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import {
-  BottomTabBarProps,
-  createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
 } from "@react-navigation/native-stack";
-import { FC, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
@@ -39,8 +34,6 @@ import {
   StoryScreen,
 } from "./screens/Story";
 
-const Tab = createBottomTabNavigator();
-
 const Stack = createNativeStackNavigator();
 
 const linking: LinkingOptions<ParamList> = {
@@ -49,21 +42,12 @@ const linking: LinkingOptions<ParamList> = {
   config: {
     screens: {
       [RouteName.SignIn]: "sign-in",
-      root: {
-        // @ts-ignore
-        screens: {
-          [RouteName.Main]: {
-            screens: {
-              [RouteName.User]: "user/:username",
-              [RouteName.Playlist]: "playlist/:id",
-              [RouteName.Story]: "story/:id",
-              [RouteName.StoryCollaborators]: "story/:id/collaborators",
-              [RouteName.StoryInvite]: "story/:id/invite/:token",
-              [RouteName.StoryEdit]: "story/:id/edit",
-            },
-          },
-        },
-      },
+      [RouteName.User]: "user/:username",
+      [RouteName.Playlist]: "playlist/:id",
+      [RouteName.Story]: "story/:id",
+      [RouteName.StoryCollaborators]: "story/:id/collaborators",
+      [RouteName.StoryInvite]: "story/:id/invite/:token",
+      [RouteName.StoryEdit]: "story/:id/edit",
     },
   },
 };
@@ -81,14 +65,49 @@ const commonScreenOptions: NativeStackNavigationOptions = {
   headerTitleStyle: { fontFamily: Font.Bold },
 };
 
-const MainScreen: FC = () => {
+const useStyles = makeStyles((theme) => ({
+  sap: {
+    backgroundColor: theme.colors.background,
+  },
+}));
+
+const App = () => {
+  const theme = useTheme();
+
+  const styles = useStyles();
+
+  const navigationTheme = useMemo(
+    () => ({
+      dark: true,
+      colors: {
+        background: theme.colors.background,
+        card: theme.colors.background,
+        border: theme.colors.border,
+        primary: theme.colors.primary,
+        text: theme.colors.text,
+        notification: theme.colors.backgroundSecondary,
+      },
+    }),
+    [theme]
+  );
+
   const { t } = useTranslation();
-  const mainRoutes = useMemo<RouteItem[]>(
+
+  // Routes that should be shown outside of tab navigator
+  // preventing bottom bars to be visible
+  const rootRoutes = useMemo<RouteItem[]>(
     () => [
       {
         name: RouteName.Home,
         component: gestureHandlerRootHOC(HomeScreen),
         options: { headerShown: false },
+      },
+      {
+        name: RouteName.Map,
+        component: gestureHandlerRootHOC(MapScreen),
+        options: {
+          title: t("map.title"),
+        },
       },
       {
         name: RouteName.User,
@@ -149,74 +168,6 @@ const MainScreen: FC = () => {
           title: t("story_edit.title"),
         },
       },
-    ],
-    [t]
-  );
-  return (
-    <Stack.Navigator screenOptions={commonScreenOptions}>
-      {mainRoutes.map((route) => (
-        <Stack.Screen
-          key={route.name}
-          name={route.name}
-          component={route.component}
-          options={route.options}
-        />
-      ))}
-    </Stack.Navigator>
-  );
-};
-
-const tabBar = (props: BottomTabBarProps) => <TabBar {...props} />;
-
-const RootScreen: FC = () => {
-  return (
-    <Tab.Navigator
-      tabBar={tabBar}
-      screenOptions={{ headerShown: false, unmountOnBlur: true }}
-    >
-      <Tab.Screen name={RouteName.Main} component={MainScreen} />
-      <Tab.Screen name={RouteName.Map} component={MapScreen} />
-    </Tab.Navigator>
-  );
-};
-
-const useStyles = makeStyles((theme) => ({
-  sap: {
-    backgroundColor: theme.colors.background,
-  },
-}));
-
-const App = () => {
-  const theme = useTheme();
-
-  const styles = useStyles();
-
-  const navigationTheme = useMemo(
-    () => ({
-      dark: true,
-      colors: {
-        background: theme.colors.background,
-        card: theme.colors.background,
-        border: theme.colors.border,
-        primary: theme.colors.primary,
-        text: theme.colors.text,
-        notification: theme.colors.backgroundSecondary,
-      },
-    }),
-    [theme]
-  );
-
-  const { t } = useTranslation();
-
-  // Routes that should be shown outside of tab navigator
-  // preventing bottom bars to be visible
-  const rootRoutes = useMemo<RouteItem[]>(
-    () => [
-      {
-        name: "root",
-        component: RootScreen,
-        options: { headerShown: false },
-      },
       {
         name: RouteName.SignIn,
         component: gestureHandlerRootHOC(SignInScreen),
@@ -259,7 +210,6 @@ const App = () => {
           <PlayerProvider>
             <BottomSheetModalProvider>
               <StatusBar translucent backgroundColor="transparent" />
-              <PlayerComponent />
               <Stack.Navigator screenOptions={commonScreenOptions}>
                 {rootRoutes.map((route) => (
                   <Stack.Screen
@@ -270,6 +220,7 @@ const App = () => {
                   />
                 ))}
               </Stack.Navigator>
+              <PlayerComponent />
             </BottomSheetModalProvider>
           </PlayerProvider>
         </NavigationContainer>

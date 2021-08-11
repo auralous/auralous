@@ -1,5 +1,5 @@
 import { RouteName } from "@/screens/types";
-import player, {
+import {
   usePlaybackContextMeta,
   usePlaybackCurrentContext,
 } from "@auralous/player";
@@ -28,6 +28,7 @@ import PagerView, {
   PagerViewOnPageSelectedEvent,
 } from "react-native-pager-view";
 import { SafeAreaView } from "react-native-safe-area-context";
+import PlayerBar from "../PlayerBar";
 import ChatView from "./ChatView";
 import MusicView from "./MusicView";
 import PlayerViewBackground from "./PlayerViewBackground";
@@ -83,31 +84,109 @@ const TabButton: FC<{
   );
 };
 
-const PlayerView: FC = () => {
+const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
   const { t } = useTranslation();
-  const currentContext = usePlaybackCurrentContext();
 
+  const navigation = useNavigation();
+
+  const currentContext = usePlaybackCurrentContext();
   const contextMeta = usePlaybackContextMeta(currentContext);
 
+  const onHeaderTitlePress = useCallback(() => {
+    if (!contextMeta) return;
+    if (contextMeta.type === "story") {
+      navigation.navigate(RouteName.Story, { id: contextMeta.id });
+    } else if (contextMeta.type === "playlist") {
+      navigation.navigate(RouteName.Playlist, { id: contextMeta.id });
+    }
+  }, [contextMeta, navigation]);
+
+  return (
+    <Header
+      title={
+        contextMeta ? (
+          <TouchableOpacity onPress={onHeaderTitlePress}>
+            <Text size="xs" style={styles.playingFromText} align="center">
+              {t("player.playing_from", { entity: contextMeta.type })}
+            </Text>
+            <Text size="sm" bold align="center">
+              {contextMeta.contextDescription}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          ""
+        )
+      }
+      left={
+        <Button
+          onPress={onDismiss}
+          icon={<IconChevronDown />}
+          accessibilityLabel={t("common.navigation.go_back")}
+        />
+      }
+      right={<Button icon={<IconMoreHorizontal />} />}
+    />
+  );
+};
+
+const PlayerViewInner: FC = () => {
+  const { t } = useTranslation();
+
+  const currentContext = usePlaybackCurrentContext();
+  const contextMeta = usePlaybackContextMeta(currentContext);
+
+  const pagerRef = useRef<PagerView>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const onPageSelected = useCallback(
+    (event: PagerViewOnPageSelectedEvent) =>
+      setCurrentPage(event.nativeEvent.position),
+    []
+  );
+
+  return (
+    <View style={styles.content}>
+      <View style={styles.tabs}>
+        <TabButton
+          onPress={() => pagerRef.current?.setPage(0)}
+          selected={currentPage === 0}
+          title={t("music.title")}
+        />
+        <Spacer x={2} />
+        <TabButton
+          onPress={() => pagerRef.current?.setPage(1)}
+          selected={currentPage === 1}
+          title={t("chat.title")}
+        />
+      </View>
+      <PagerView
+        onPageSelected={onPageSelected}
+        ref={pagerRef}
+        style={styles.pagerView}
+        initialPage={0}
+      >
+        <View key={0}>
+          <MusicView key={0} />
+        </View>
+        <View>
+          <ChatView contextMeta={contextMeta} key={1} />
+        </View>
+      </PagerView>
+    </View>
+  );
+};
+
+const PlayerView: FC = () => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const playerBarPressed = () => bottomSheetRef.current?.present();
-    player.on("__player_bar_pressed", playerBarPressed);
-    return () => player.off("__player_bar_pressed", playerBarPressed);
-  }, []);
-
+  const present = useCallback(() => bottomSheetRef.current?.present(), []);
   const dismiss = useCallback(() => bottomSheetRef.current?.dismiss(), []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("state", dismiss);
     return unsubscribe;
   }, [navigation, dismiss]);
-
-  const pagerRef = useRef<PagerView>(null);
-  const [currentPage, setCurrentPage] = useState(0);
 
   const [sheetIndex, setSheetIndex] = useState(-1);
 
@@ -122,84 +201,23 @@ const PlayerView: FC = () => {
       BackHandler.removeEventListener("hardwareBackPress", onBackPress);
   }, [dismiss, sheetIndex]);
 
-  const onPageSelected = useCallback(
-    (event: PagerViewOnPageSelectedEvent) =>
-      setCurrentPage(event.nativeEvent.position),
-    []
-  );
-
-  const onHeaderTitlePress = useCallback(() => {
-    if (!contextMeta) return;
-    if (contextMeta.type === "story") {
-      navigation.navigate(RouteName.Story, { id: contextMeta.id });
-    } else if (contextMeta.type === "playlist") {
-      navigation.navigate(RouteName.Playlist, { id: contextMeta.id });
-    }
-  }, [contextMeta, navigation]);
-
   return (
-    <BottomSheetModal
-      onChange={setSheetIndex}
-      ref={bottomSheetRef}
-      snapPoints={snapPoints}
-      handleComponent={null}
-    >
-      <SafeAreaView style={styles.root}>
-        <PlayerViewBackground />
-        <Header
-          title={
-            contextMeta ? (
-              <TouchableOpacity onPress={onHeaderTitlePress}>
-                <Text size="xs" style={styles.playingFromText} align="center">
-                  {t("player.playing_from", { entity: contextMeta.type })}
-                </Text>
-                <Text size="sm" bold align="center">
-                  {contextMeta.contextDescription}
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              ""
-            )
-          }
-          left={
-            <Button
-              onPress={dismiss}
-              icon={<IconChevronDown />}
-              accessibilityLabel={t("common.navigation.go_back")}
-            />
-          }
-          right={<Button icon={<IconMoreHorizontal />} />}
-        />
-        <View style={styles.content}>
-          <View style={styles.tabs}>
-            <TabButton
-              onPress={() => pagerRef.current?.setPage(0)}
-              selected={currentPage === 0}
-              title={t("music.title")}
-            />
-            <Spacer x={2} />
-            <TabButton
-              onPress={() => pagerRef.current?.setPage(1)}
-              selected={currentPage === 1}
-              title={t("chat.title")}
-            />
-          </View>
-          <PagerView
-            onPageSelected={onPageSelected}
-            ref={pagerRef}
-            style={styles.pagerView}
-            initialPage={0}
-          >
-            <View key={0}>
-              <MusicView key={0} />
-            </View>
-            <View>
-              <ChatView contextMeta={contextMeta} key={1} />
-            </View>
-          </PagerView>
-        </View>
-      </SafeAreaView>
-    </BottomSheetModal>
+    <>
+      <BottomSheetModal
+        onChange={setSheetIndex}
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        handleComponent={null}
+        enableContentPanningGesture
+      >
+        <SafeAreaView style={styles.root}>
+          <PlayerViewBackground />
+          <PlayerViewHeader onDismiss={dismiss} />
+          <PlayerViewInner />
+        </SafeAreaView>
+      </BottomSheetModal>
+      <PlayerBar visible={sheetIndex === -1} onPress={present} />
+    </>
   );
 };
 

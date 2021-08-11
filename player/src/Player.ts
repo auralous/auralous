@@ -34,7 +34,6 @@ interface Player {
   on(state: "seeked", fn: () => void): void;
   on(state: "ended", fn: () => void): void;
   on(state: "time", fn: (ms: number) => void): void;
-  on(state: "__player_bar_pressed", fn: () => void): void;
   off(state: "context", fn: (context: PlaybackCurrentContext) => void): void;
   off(state: "play", fn: () => void): void;
   off(state: "pause", fn: () => void): void;
@@ -43,7 +42,6 @@ interface Player {
   off(state: "seeked", fn: () => void): void;
   off(state: "ended", fn: () => void): void;
   off(state: "time", fn: (ms: number) => void): void;
-  off(state: "__player_bar_pressed", fn: () => void): void;
   emit(
     state: "context",
     fn: (context: null | PlaybackCurrentContext) => void

@@ -2,7 +2,6 @@ import { Playlist, Story } from "@auralous/api";
 import { ParamListBase } from "@react-navigation/native";
 
 export enum RouteName {
-  Main = "Main",
   Home = "home",
   Map = "map",
   SignIn = "sign-in",

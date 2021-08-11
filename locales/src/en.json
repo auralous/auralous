@@ -20,6 +20,8 @@
   "map": {
     "title": "Map",
     "title_branded": "Auralous Map",
+    "description": "Discover music around you",
+    "open_map": "Open Map",
     "no_stories_found": "No stories found"
   },
   "new": {
