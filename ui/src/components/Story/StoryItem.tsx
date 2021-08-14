@@ -1,5 +1,6 @@
 import { imageSources } from "@/assets";
 import { Avatar } from "@/components/Avatar";
+import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors, Size } from "@/styles";
 import { format as formatMs } from "@/utils";
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     flexGrow: 0,
     marginTop: Size[1],
     paddingHorizontal: Size[3],
-    paddingVertical: 3,
+    paddingVertical: Size[1.5],
   },
   text: {
     color: Colors.white,
@@ -83,11 +84,11 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
             <Text style={styles.text} bold size="xl">
               {story.creator.username}
             </Text>
-            {Boolean(story.text) && (
-              <Text style={styles.textSecondary} numberOfLines={3}>
-                {story.text}
-              </Text>
-            )}
+            <Spacer y={2} />
+            <Text style={styles.textSecondary} numberOfLines={3}>
+              {story.text}
+            </Text>
+            <Spacer y={3} />
             <View
               style={[
                 styles.tag,

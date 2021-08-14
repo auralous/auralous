@@ -1,4 +1,4 @@
-import { Colors, Size, Text, ThemeColorKey } from "@auralous/ui";
+import { Colors, Size, Spacer, Text, ThemeColorKey } from "@auralous/ui";
 import { FC, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -61,6 +61,7 @@ const ContinueButton: FC<ContinueButtonProps> = ({
       <Text color="textSecondary" align="center">
         {t("sign_in.listen_on", { name: listenOn })}
       </Text>
+      <Spacer y={2} />
       <Pressable style={style} onPress={doLogin}>
         {icon}
         <Text style={styles.text} bold>

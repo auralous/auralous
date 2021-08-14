@@ -9,7 +9,7 @@ import {
 import { RouteName } from "@/screens/types";
 import { checkAndRequestPermission } from "@/utils/permission";
 import { LocationInput, Story, useStoryUpdateMutation } from "@auralous/api";
-import { Size, toast } from "@auralous/ui";
+import { Size, Spacer, toast } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -79,6 +79,7 @@ export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
           <DialogContentText>
             {t("story_edit.map.description")}
           </DialogContentText>
+          <Spacer y={2} />
           <DialogContentText size="xs" color="textTertiary" style={styles.note}>
             {t("story_edit.map.privacy_note")}
           </DialogContentText>

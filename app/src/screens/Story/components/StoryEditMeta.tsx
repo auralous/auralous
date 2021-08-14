@@ -51,7 +51,7 @@ export const StoryEditMeta: FC<{ story: Story }> = ({ story }) => {
         <Text align="center" bold>
           {t("story.text")}
         </Text>
-        <Spacer y={2} />
+        <Spacer y={4} />
         <Input
           ref={textRef}
           accessibilityLabel={t("story.text")}

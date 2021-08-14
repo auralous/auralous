@@ -1,14 +1,13 @@
-import { imageSources } from "@/assets";
+import { imageSources, SvgByPlatformName } from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { Size } from "@/styles";
-import { Maybe, Playlist } from "@auralous/api";
+import { Colors, Size } from "@/styles";
+import { Playlist } from "@auralous/api";
 import { FC, memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 interface PlaylistListItemProps {
-  playlist: Maybe<Playlist>;
-  fetching?: boolean;
+  playlist: Playlist;
 }
 
 const styles = StyleSheet.create({
@@ -32,6 +31,8 @@ const styles = StyleSheet.create({
 });
 
 const PlaylistListItem: FC<PlaylistListItemProps> = ({ playlist }) => {
+  const SvgPlatformIcon = SvgByPlatformName[playlist.platform];
+
   return (
     <View style={styles.root}>
       <Image
@@ -47,13 +48,19 @@ const PlaylistListItem: FC<PlaylistListItemProps> = ({ playlist }) => {
       <Spacer x={2} />
       <View style={styles.meta}>
         <View style={styles.title}>
+          <SvgPlatformIcon
+            width={Size[4]}
+            height={Size[4]}
+            fill={Colors.text}
+          />
           <Spacer x={1} />
           <Text bold numberOfLines={1}>
-            {playlist?.name}
+            {playlist.name}
           </Text>
         </View>
+        <Spacer y={2} />
         <Text color="textSecondary" size="sm" numberOfLines={1}>
-          {playlist?.creatorName}
+          {playlist.creatorName}
         </Text>
       </View>
     </View>

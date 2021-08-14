@@ -4,6 +4,7 @@ import player from "@auralous/player";
 import {
   Button,
   Colors,
+  Font,
   GradientColors,
   Heading,
   Size,
@@ -14,7 +15,13 @@ import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, BackHandler, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  BackHandler,
+  StyleSheet,
+  Text as RNText,
+  View,
+} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -27,6 +34,7 @@ const styles = StyleSheet.create({
   },
   number: {
     color: Colors.white,
+    fontFamily: Font.Bold,
     fontSize: 144,
   },
   root: {
@@ -99,13 +107,11 @@ const CreateFinalScreen: FC<
     >
       <SafeAreaView style={styles.root}>
         <View style={styles.root}>
-          <Text bold style={styles.number}>
-            {sec}
-          </Text>
+          <RNText style={styles.number}>{sec}</RNText>
           <Heading level={3} style={styles.textColor}>
             {t("new.final.title")}
           </Heading>
-          <Spacer y={2} />
+          <Spacer y={4} />
           <Text align="center" color="textSecondary">
             {t("new.final.subtitle")}
           </Text>

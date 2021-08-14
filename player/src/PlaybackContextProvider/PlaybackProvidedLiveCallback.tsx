@@ -147,9 +147,9 @@ export const PlaybackProvidedLiveCallback: FC<{
       nextItems: queue?.items || [],
       trackId: nowPlaying?.currentTrack?.trackId || null,
       fetching,
-      queueIndex: 0,
+      queuePlayingUid: nowPlaying?.currentTrack?.uid || null,
     });
-  }, [queue, nowPlaying?.currentTrack?.trackId, fetching, setPlaybackProvided]);
+  }, [queue, nowPlaying?.currentTrack, fetching, setPlaybackProvided]);
 
   useEffect(() => {
     return () => setPlaybackProvided(null);

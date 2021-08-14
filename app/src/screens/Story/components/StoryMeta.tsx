@@ -1,11 +1,10 @@
 import { RouteName } from "@/screens/types";
 import { Story } from "@auralous/api";
 import { Avatar, Heading, Size, Spacer, Text } from "@auralous/ui";
-import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import { FC, ReactNode, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   root: {
@@ -35,10 +34,12 @@ const StoryMeta: FC<{ story: Story; tagElement: ReactNode }> = ({
       />
       <Spacer y={2} />
       {tagElement}
+      <Spacer y={2} />
       <Heading level={4} align="center">
         {story.text}
       </Heading>
-      <TouchableOpacity onPress={gotoCreator}>
+      <Spacer y={3} />
+      <Pressable onPress={gotoCreator}>
         <Text color="textSecondary" align="center">
           {story.collaboratorIds.length > 1
             ? t("collab.name_and_x_others", {
@@ -47,7 +48,7 @@ const StoryMeta: FC<{ story: Story; tagElement: ReactNode }> = ({
               })
             : story.creator.username}
         </Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

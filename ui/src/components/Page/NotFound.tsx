@@ -1,5 +1,6 @@
 import { IconChevronLeft } from "@/assets";
 import { Button } from "@/components/Button";
+import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
 import { Size } from "@/styles";
 import { FC } from "react";
@@ -28,6 +29,7 @@ const NotFound: FC<{ onBack(): void }> = ({ onBack }) => {
       <Heading level={2} style={styles.heading}>
         {t("not_found.title")}
       </Heading>
+      <Spacer y={2} />
       <Text align="center" color="textSecondary" size="lg">
         {t("not_found.description")}
       </Text>

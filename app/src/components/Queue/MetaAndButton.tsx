@@ -1,6 +1,6 @@
 import { useTrackQuery } from "@auralous/api";
 import { PlaybackState } from "@auralous/player";
-import { IconChevronUp, Size, Text } from "@auralous/ui";
+import { IconChevronUp, Size, Spacer, Text } from "@auralous/ui";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -43,8 +43,9 @@ const MetaAndButton: FC<{
         <Text color="textSecondary" size="sm" bold>
           {t("queue.up_next")}
         </Text>
+        <Spacer y={2} />
         <Text color="text" size="sm" bold numberOfLines={1}>
-          {!!nextTrack &&
+          {nextTrack &&
             `${nextTrack.artists.map((a) => a.name).join(", ")} - ${
               nextTrack.title
             }`}

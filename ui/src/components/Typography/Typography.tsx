@@ -8,6 +8,7 @@ import {
   Text as RNText,
   TextStyle,
 } from "react-native";
+import capsize from "react-native-capsize";
 
 const levelSize = [40, 36, 30, 24, 20, 18];
 
@@ -28,34 +29,49 @@ interface TextProps {
   align?: TextStyle["textAlign"];
   size?: keyof typeof sizes;
   numberOfLines?: number;
+  lineGapScale?: number;
 }
 
+// https://seek-oss.github.io/capsize/
+const fontMetrics = {
+  capHeight: 2048,
+  ascent: 2728,
+  descent: -680,
+  lineGap: 0,
+  unitsPerEm: 2816,
+};
+
 export const useStyle = (props: TextProps & { level?: number }) =>
-  useMemo<TextStyle>(
-    () => ({
+  useMemo<TextStyle>(() => {
+    const fontSize = props.size
+      ? sizes[props.size]
+      : props.level
+      ? levelSize[props.level - 1]
+      : Size[4];
+    return {
       fontFamily: props.bold
         ? props.bold === "medium"
           ? Font.Medium
           : Font.Bold
         : Font.Normal,
-      fontStyle: props.italic ? "italic" : undefined,
+      fontStyle: props.italic ? "italic" : "normal",
       textAlign: props.align,
-      fontSize: props.size
-        ? sizes[props.size]
-        : props.level
-        ? levelSize[props.level - 1]
-        : Size[4],
       color: Colors[props.color || "text"] as string,
-    }),
-    [
-      props.align,
-      props.bold,
-      props.italic,
-      props.size,
-      props.level,
-      props.color,
-    ]
-  );
+      ...capsize({
+        fontMetrics,
+        fontSize: fontSize,
+        lineGap: (props.lineGapScale ?? 0.5) * fontSize,
+      }),
+    };
+  }, [
+    props.align,
+    props.bold,
+    props.italic,
+    props.size,
+    props.level,
+    props.color,
+    props.lineGapScale,
+  ]);
 
 export const Text: FC<TextProps> = ({ children, numberOfLines, ...props }) => {
   const style = useStyle(props);

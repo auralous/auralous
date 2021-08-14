@@ -74,9 +74,10 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
     navigation.navigate(RouteName.StoryCollaborators, { id: story.id });
   }, [navigation, story.id]);
 
-  const [{ data: dataNowPlaying }] = useNowPlayingQuery({
-    variables: { id: story.id },
-  });
+  const [{ data: dataNowPlaying, fetching: fetchingNowPlaying }] =
+    useNowPlayingQuery({
+      variables: { id: story.id },
+    });
   const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
     variables: { id: dataNowPlaying?.nowPlaying?.currentTrack?.trackId || "" },
     pause: !dataNowPlaying?.nowPlaying,
@@ -117,9 +118,14 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
       </View>
       <View style={styles.content}>
         <Text bold>{t("now_playing.title")}</Text>
+        <Spacer y={2} />
         <View style={styles.track}>
           {dataNowPlaying?.nowPlaying?.currentTrack && (
-            <TrackItem track={track || null} fetching={fetchingTrack} />
+            <TrackItem
+              isPlaying
+              track={track || null}
+              fetching={fetchingTrack || fetchingNowPlaying}
+            />
           )}
         </View>
       </View>

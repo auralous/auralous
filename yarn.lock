@@ -3020,9 +3020,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^17.0.3":
-  version "17.0.15"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.15.tgz#c7533dc38025677e312606502df7656a6ea626d0"
-  integrity sha512-uTKHDK9STXFHLaKv6IMnwp52fm0hwU+N89w/p9grdUqcFA6WuqDyPhaWopbNyE1k/VhgzmHl8pu1L4wITtmlLw==
+  version "17.0.17"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.17.tgz#1772d3d5425128e0635a716f49ef57c2955df055"
+  integrity sha512-nrfi7I13cAmrd0wje8czYpf5SFbryczCtPzFc6ijqvdjKcyA3tCvGxwchOUlxb2ucBPuJ9Y3oUqKrRqZvrz0lw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -10111,6 +10111,11 @@ react-is@16.13.1, react-is@^16.13.0, react-is@^16.13.1, react-is@^16.7.0, react-
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-native-capsize@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-capsize/-/react-native-capsize-0.2.2.tgz#677c14c4ad9829e425818684d234d8a95fc18190"
+  integrity sha512-r7sUweHa712Ti6KNTuMNhJBpccsPpnoWwq87Gh451PXI2rR1NWijWc4gPEWJpwd+maaxMR0zbB1d2Q0TYBQfTA==
 
 react-native-codegen@^0.0.6:
   version "0.0.6"

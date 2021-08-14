@@ -1,7 +1,7 @@
 import { PageHeaderGradient } from "@/components/Colors";
 import { RouteName } from "@/screens/types";
 import { User, useUserStatQuery } from "@auralous/api";
-import { Avatar, Size, Text } from "@auralous/ui";
+import { Avatar, Size, Spacer, Text } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -59,6 +59,7 @@ const UserStat: FC<UserStatProps> = ({ name, value, list, username }) => {
         <Text bold size="xl" color="textSecondary">
           {value}
         </Text>
+        <Spacer y={2} />
         <Text size="sm" color="textTertiary" style={styles.statName}>
           {name}
         </Text>
@@ -89,6 +90,7 @@ const UserMeta: FC<{ user: User }> = ({ user }) => {
             {user.username}
           </Text>
         </View>
+        <Spacer y={2} />
         <View style={styles.stats}>
           <UserStat
             value={userStat?.followerCount || 0}

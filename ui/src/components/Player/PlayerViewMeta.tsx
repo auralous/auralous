@@ -1,9 +1,11 @@
 import { imageSources } from "@/assets";
+import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
 import { Maybe, Track } from "@auralous/api";
 import { FC } from "react";
 import { ImageBackground, StyleSheet, View } from "react-native";
+import { SkeletonBlock } from "../Loading";
 
 const styles = StyleSheet.create({
   header: {
@@ -15,7 +17,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const PlayerViewMeta: FC<{ track: Maybe<Track> }> = ({ track }) => {
+interface PlayerViewMetaProps {
+  track: Maybe<Track>;
+  fetching?: boolean;
+}
+
+const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
   return (
     <>
       <ImageBackground
@@ -28,12 +35,21 @@ const PlayerViewMeta: FC<{ track: Maybe<Track> }> = ({ track }) => {
         accessibilityLabel={track?.title}
       />
       <View style={styles.header}>
-        <Text size="xl" bold numberOfLines={1}>
-          {track?.title}
-        </Text>
-        <Text size="lg" color="textSecondary" numberOfLines={1}>
-          {track?.artists.map((artist) => artist.name).join(", ")}
-        </Text>
+        {fetching ? (
+          <SkeletonBlock width={27} height={3} />
+        ) : (
+          <Text size="xl" bold numberOfLines={1}>
+            {track?.title}
+          </Text>
+        )}
+        <Spacer y={3} />
+        {fetching ? (
+          <SkeletonBlock width={24} height={3} />
+        ) : (
+          <Text size="lg" color="textSecondary" numberOfLines={1}>
+            {track?.artists.map((artist) => artist.name).join(", ")}
+          </Text>
+        )}
       </View>
     </>
   );

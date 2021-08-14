@@ -1,7 +1,8 @@
 import { Playlist, Track, usePlaylistTracksQuery } from "@auralous/api";
 import player, {
+  uidForIndexedTrack,
   usePlaybackCurrentContext,
-  usePlaybackQueueIndex,
+  usePlaybackQueuePlayingId,
 } from "@auralous/player";
 import {
   LoadingScreen,
@@ -58,19 +59,19 @@ const PlaylistTrackItem = memo<{
   );
 
   const playbackCurrentContext = usePlaybackCurrentContext();
-  const queueIndex = usePlaybackQueueIndex();
+  const queuePlayingUid = usePlaybackQueuePlayingId();
 
   const isCurrentTrack = useMemo(
     () =>
       playbackCurrentContext?.type === "playlist" &&
       playbackCurrentContext.id === playlistId &&
-      queueIndex === index,
-    [queueIndex, playbackCurrentContext, index, playlistId]
+      queuePlayingUid === uidForIndexedTrack(index, track.id),
+    [queuePlayingUid, playbackCurrentContext, track.id, index, playlistId]
   );
 
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>
-      <TrackItem active={isCurrentTrack} track={track} key={index} />
+      <TrackItem isPlaying={isCurrentTrack} track={track} key={index} />
     </TouchableOpacity>
   );
 });

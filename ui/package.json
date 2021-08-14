@@ -23,7 +23,8 @@
   "homepage": "https://github.com/auralous/auralous#readme",
   "dependencies": {
     "@auralous/api": "^0.0.0",
-    "@auralous/player": "^0.0.0"
+    "@auralous/player": "^0.0.0",
+    "react-native-capsize": "^0.2.2"
   },
   "devDependencies": {
     "@fluentui/react-context-selector": "*",

@@ -1,5 +1,14 @@
 import { Story, useNowPlayingQuery, useTrackQuery } from "@auralous/api";
-import { Avatar, Button, Colors, imageSources, Size, Text } from "@auralous/ui";
+import {
+  Avatar,
+  Button,
+  Colors,
+  imageSources,
+  Size,
+  SkeletonBlock,
+  Spacer,
+  Text,
+} from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -33,6 +42,7 @@ const styles = StyleSheet.create({
   pageMetaText: {
     flex: 1,
     marginLeft: Size[3],
+    paddingTop: Size[1],
   },
   pageNowPlaying: {
     flex: 1,
@@ -54,34 +64,51 @@ const styles = StyleSheet.create({
 
 const bottomGradientColors = ["rgba(0,0,0,0.75)", "rgba(0,0,0,0)"];
 
-const StoryPagerNowPlaying: FC<{ trackId: string }> = ({ trackId }) => {
-  const [{ data: dataTrack }] = useTrackQuery({
-    variables: { id: trackId },
+const StoryPagerNowPlaying: FC<{ trackId?: string; fetching?: boolean }> = ({
+  trackId,
+  fetching,
+}) => {
+  const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
+    variables: { id: trackId || "" },
+    pause: !trackId,
   });
 
-  if (!dataTrack?.track) return null;
+  if (!trackId) return null;
 
   return (
     <View>
       <View style={styles.pageNowPlayingImage}>
-        <Image
-          source={
-            dataTrack.track.image
-              ? { uri: dataTrack.track.image }
-              : imageSources.defaultTrack
-          }
-          defaultSource={imageSources.defaultTrack}
-          style={StyleSheet.absoluteFill}
-          resizeMode="contain"
-        />
+        {fetching ? (
+          <SkeletonBlock style={StyleSheet.absoluteFill} />
+        ) : (
+          <Image
+            source={
+              dataTrack?.track?.image
+                ? { uri: dataTrack.track.image }
+                : imageSources.defaultTrack
+            }
+            defaultSource={imageSources.defaultTrack}
+            style={StyleSheet.absoluteFill}
+            resizeMode="contain"
+          />
+        )}
       </View>
       <View style={styles.pageNowPlayingImageMeta}>
-        <Text size="xl" bold numberOfLines={1}>
-          {dataTrack.track.title}
-        </Text>
-        <Text numberOfLines={1}>
-          {dataTrack.track.artists.map((artist) => artist.name).join(", ")}
-        </Text>
+        {fetchingTrack || fetching ? (
+          <SkeletonBlock width={27} height={3} />
+        ) : (
+          <Text size="xl" bold numberOfLines={1}>
+            {dataTrack?.track?.title}
+          </Text>
+        )}
+        <Spacer y={3} />
+        {fetchingTrack || fetching ? (
+          <SkeletonBlock width={24} height={3} />
+        ) : (
+          <Text size="lg" color="textSecondary" numberOfLines={1}>
+            {dataTrack?.track?.artists.map((artist) => artist.name).join(", ")}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -92,7 +119,7 @@ const StoryPagerItem: FC<{ story: Story; onNavigate(story: Story): void }> = ({
   onNavigate,
 }) => {
   const { t } = useTranslation();
-  const [{ data }] = useNowPlayingQuery({
+  const [{ data, fetching }] = useNowPlayingQuery({
     variables: {
       id: story.id,
     },
@@ -123,15 +150,15 @@ const StoryPagerItem: FC<{ story: Story; onNavigate(story: Story): void }> = ({
           <Text bold size="2xl">
             {story.creator.username}
           </Text>
-          <Text>{story.text}</Text>
+          <Spacer y={2} />
+          <Text bold="medium">{story.text}</Text>
         </View>
       </View>
       <View style={styles.pageNowPlaying}>
-        {data?.nowPlaying?.currentTrack && (
-          <StoryPagerNowPlaying
-            trackId={data.nowPlaying.currentTrack.trackId}
-          />
-        )}
+        <StoryPagerNowPlaying
+          fetching={fetching}
+          trackId={data?.nowPlaying?.currentTrack?.trackId}
+        />
       </View>
       <View style={styles.pageBottom}>
         <Button onPress={gotoStory}>{t("story.go_to_story")}</Button>

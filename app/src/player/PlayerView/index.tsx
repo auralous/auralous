@@ -54,8 +54,7 @@ const styles = StyleSheet.create({
   tab: {
     backgroundColor: Colors.none,
     borderRadius: 9999,
-    paddingHorizontal: Size[2],
-    paddingVertical: Size[1],
+    padding: Size[2],
   },
   tabs: {
     flexDirection: "row",
@@ -107,6 +106,7 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
             <Text size="xs" style={styles.playingFromText} align="center">
               {t("player.playing_from", { entity: contextMeta.type })}
             </Text>
+            <Spacer y={2} />
             <Text size="sm" bold align="center">
               {contextMeta.contextDescription}
             </Text>

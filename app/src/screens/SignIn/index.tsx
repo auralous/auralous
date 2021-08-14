@@ -40,9 +40,8 @@ const styles = StyleSheet.create({
   smallTextContainer: {
     marginTop: Size[6],
   },
-  smallTextLinkFix: {
+  smallTextLink: {
     textDecorationLine: "underline",
-    transform: [{ translateY: 4 }],
   },
   top: {
     alignItems: "center",
@@ -94,7 +93,12 @@ const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
         />
       </View>
       <View style={styles.smallTextContainer}>
-        <Text size="sm" style={styles.smallText} color="textSecondary">
+        <Text
+          lineGapScale={0.75}
+          size="sm"
+          style={styles.smallText}
+          color="textSecondary"
+        >
           <Trans
             t={t}
             i18nKey="legal.accept_continue_text"
@@ -105,7 +109,7 @@ const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
                 activeColor="text"
                 key="privacy"
                 href={`${Config.WEB_URI}/privacy`}
-                style={styles.smallTextLinkFix}
+                style={styles.smallTextLink}
               />,
               <TextLink
                 size="sm"
@@ -113,7 +117,7 @@ const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
                 activeColor="text"
                 key="youtube"
                 href="https://www.youtube.com/t/terms"
-                style={styles.smallTextLinkFix}
+                style={styles.smallTextLink}
               />,
               <TextLink
                 size="sm"
@@ -121,7 +125,7 @@ const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
                 activeColor="text"
                 key="spotify"
                 href="https://www.spotify.com/us/legal/privacy-policy/"
-                style={styles.smallTextLinkFix}
+                style={styles.smallTextLink}
               />,
             ]}
           />

@@ -1,4 +1,5 @@
 import { Avatar } from "@/components/Avatar";
+import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
 import { Maybe, User } from "@auralous/api";
@@ -39,6 +40,7 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
             <Text style={styles.name} bold size="xl">
               {user.username}
             </Text>
+            <Spacer y={2} />
             {user.bio && <Text color="textTertiary" />}
           </View>
         </>

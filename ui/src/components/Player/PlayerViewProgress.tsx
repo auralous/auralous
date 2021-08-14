@@ -19,10 +19,13 @@ const styles = StyleSheet.create({
   live: {
     backgroundColor: Colors.primary,
     borderRadius: 9999,
-    paddingHorizontal: Size[3],
-    paddingVertical: 3,
+    paddingHorizontal: Size[4],
+    paddingVertical: Size[2],
   },
-  liveText: { color: Colors.primaryText, textTransform: "uppercase" },
+  liveText: {
+    color: Colors.primaryText,
+    textTransform: "uppercase",
+  },
   root: {
     backgroundColor: "rgba(255,255,255,.1)",
     borderRadius: 9999,

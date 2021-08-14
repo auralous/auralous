@@ -69,7 +69,7 @@ const AddButtonModalContent = gestureHandlerRootHOC(
         />
         <View style={styles.newModal}>
           <Heading level={2}>{t("new.title")}</Heading>
-          <Spacer y={6} />
+          <Spacer y={8} />
           <View style={styles.choices}>
             <Button
               variant="primary"

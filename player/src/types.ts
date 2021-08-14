@@ -26,7 +26,7 @@ export interface PlaybackContextProvided {
   nextItems: QueueItem[];
   trackId: string | null;
   fetching: boolean;
-  queueIndex: number;
+  queuePlayingUid: string | null;
 }
 
 export interface PlaybackState extends PlaybackContextProvided {

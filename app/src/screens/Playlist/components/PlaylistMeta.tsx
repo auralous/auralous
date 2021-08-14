@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     width: Size[40],
   },
   meta: {
+    paddingVertical: Size[2],
     width: "100%",
   },
   root: {
@@ -68,9 +69,11 @@ const PlaylistMeta: FC<{ playlist: Playlist }> = ({ playlist }) => {
               {t("playlist.x_song", { count: playlist.total })}
             </Text>
           </View>
+          <Spacer y={2} />
           <Heading level={4} align="center">
             {playlist.name}
           </Heading>
+          <Spacer y={3} />
           <Text color="textSecondary" align="center">
             {playlist.creatorName}
           </Text>

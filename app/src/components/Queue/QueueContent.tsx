@@ -39,6 +39,7 @@ const QueueContext = createContext(
 
 const styles = StyleSheet.create({
   np: {
+    height: Size[14],
     padding: Size[1],
     width: "100%",
   },
@@ -64,7 +65,7 @@ const DraggableQueueItem = memo<{
   function DraggableQueueItem({ params }) {
     const onPress = useCallback((uid: string) => player.queuePlayUid(uid), []);
 
-    const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
+    const [{ data: dataTrack }] = useTrackQuery({
       variables: { id: params.item.trackId },
       requestPolicy: "cache-only", // we rely on data from usePreloadedTrackQueries
     });
@@ -79,7 +80,8 @@ const DraggableQueueItem = memo<{
     return (
       <QueueTrackItem
         track={dataTrack?.track || null}
-        fetching={fetchingTrack}
+        // FIXME: This is misleading if track is not found
+        fetching={!dataTrack?.track}
         drag={params.drag}
         checked={!!selected[params.item.uid]}
         onToggle={onToggle}
@@ -207,15 +209,18 @@ const QueueContent: FC<{
       <View style={styles.root}>
         <Heading level={6}>{t("now_playing.title")}</Heading>
         <Spacer y={2} />
-        {currentTrack ? (
-          <View style={styles.np}>
-            <TrackItem track={currentTrack} />
-          </View>
-        ) : (
-          <Text bold color="textTertiary" style={{ height: Size[12] }}>
-            {t("player.no_playing")}
-          </Text>
-        )}
+        <View style={styles.np}>
+          {currentTrack ? (
+            <TrackItem isPlaying track={currentTrack} />
+          ) : (
+            <>
+              <Spacer y={4} />
+              <Text align="left" bold color="textTertiary">
+                {t("player.no_playing")}
+              </Text>
+            </>
+          )}
+        </View>
         <Spacer y={4} />
         <Heading level={6}>{t("queue.up_next")}</Heading>
         <Spacer y={2} />

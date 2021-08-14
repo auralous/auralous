@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
 const MusicView: FC = () => {
   const trackId = usePlaybackTrackId();
-  const [{ data }] = useTrackQuery({
+  const [{ data, fetching }] = useTrackQuery({
     variables: { id: trackId || "" },
     pause: !trackId,
   });
@@ -38,7 +38,7 @@ const MusicView: FC = () => {
 
   return (
     <View style={styles.root}>
-      <PlayerViewMeta track={track || null} />
+      <PlayerViewMeta track={track || null} fetching={fetching} />
       <PlayerViewProgress
         track={track}
         player={player}

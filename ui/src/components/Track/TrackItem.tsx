@@ -1,4 +1,5 @@
 import { imageSources, SvgByPlatformName } from "@/assets";
+import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors, Size } from "@/styles";
@@ -6,17 +7,24 @@ import { msToHMS } from "@/utils";
 import { Maybe, Track } from "@auralous/api";
 import { FC, memo, useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
+import { AnimatedAudioBar } from "./AnimatedAudioBar";
 
 export interface TrackItemProps {
   track: Maybe<Track>;
   fetching?: boolean;
-  active?: boolean;
+  isPlaying?: boolean;
 }
 
 const styles = StyleSheet.create({
   image: {
     height: Size[12],
     width: Size[12],
+  },
+  isPlaying: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, .5)",
+    justifyContent: "center",
   },
   meta: {
     flex: 1,
@@ -34,7 +42,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const TrackItem: FC<TrackItemProps> = ({ track }) => {
+const TrackItem: FC<TrackItemProps> = ({ track, isPlaying, fetching }) => {
   const durationStr = useMemo(() => {
     if (!track) return "";
     const [sec, min] = msToHMS(track.duration, true);
@@ -48,34 +56,52 @@ const TrackItem: FC<TrackItemProps> = ({ track }) => {
   return (
     <View style={styles.root}>
       <View>
-        <Image
-          style={styles.image}
-          source={
-            track?.image ? { uri: track?.image } : imageSources.defaultTrack
-          }
-          defaultSource={imageSources.defaultTrack}
-          accessibilityLabel={track?.title}
-        />
+        {fetching ? (
+          <SkeletonBlock width={12} height={12} />
+        ) : (
+          <Image
+            style={styles.image}
+            source={
+              track?.image ? { uri: track?.image } : imageSources.defaultTrack
+            }
+            defaultSource={imageSources.defaultTrack}
+            accessibilityLabel={track?.title}
+          />
+        )}
+        {isPlaying && (
+          <View style={styles.isPlaying}>
+            <AnimatedAudioBar />
+          </View>
+        )}
       </View>
       <View style={styles.meta}>
-        <View style={styles.title}>
-          {SvgPlatformName && (
-            <SvgPlatformName
-              width={Size[4]}
-              height={Size[4]}
-              fill={Colors.text}
-            />
-          )}
-          <Spacer x={1} />
-          <Text bold numberOfLines={1}>
-            {track?.title}
+        {fetching ? (
+          <SkeletonBlock width={36} height={4} />
+        ) : (
+          <View style={styles.title}>
+            {SvgPlatformName && (
+              <SvgPlatformName
+                width={Size[4]}
+                height={Size[4]}
+                fill={Colors.text}
+              />
+            )}
+            <Spacer x={1} />
+            <Text bold numberOfLines={1}>
+              {track?.title}
+            </Text>
+          </View>
+        )}
+        <Spacer y={2} />
+        {fetching ? (
+          <SkeletonBlock width={32} height={4} />
+        ) : (
+          <Text color="textSecondary" size="sm" numberOfLines={1}>
+            {durationStr}
+            {" • "}
+            {track?.artists.map(({ name }) => name).join(", ")}
           </Text>
-        </View>
-        <Text color="textSecondary" size="sm" numberOfLines={1}>
-          {durationStr}
-          {" • "}
-          {track?.artists.map(({ name }) => name).join(", ")}
-        </Text>
+        )}
       </View>
     </View>
   );

@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
   },
   headMeta: {
     paddingLeft: Size[2],
+    paddingTop: Size[1],
   },
   headMetaTop: {
     alignItems: "center",
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
   trackItem: {
     alignItems: "center",
     flexDirection: "row",
+    marginBottom: Size[1],
   },
   trackItemIndex: {
     borderRadius: 9999,
@@ -106,7 +108,7 @@ const StoryCardItemTrack: FC<{ track: Track; index: number; onPress(): void }> =
             )}
             <Spacer x={1} />
             <Text size="sm" color="textSecondary" numberOfLines={1}>
-              {track?.title}
+              {track.title}
             </Text>
           </TouchableOpacity>
         </View>
@@ -148,6 +150,7 @@ const StoryCardItem: FC<StoryCardItemProps> = ({
               {story.createdAt.toLocaleDateString()}
             </Text>
           </View>
+          <Spacer y={2} />
           <Text bold>{story.text}</Text>
         </View>
       </Pressable>
@@ -176,6 +179,7 @@ const StoryCardItem: FC<StoryCardItemProps> = ({
               onPress={() => onPlay(story.id, index)}
             />
           ))}
+          <Spacer y={1.5} />
           <TouchableOpacity onPress={gotoStory}>
             <Text size="sm" align="center">
               {t("playlist.view_all_x_songs", { count: story.trackTotal })}

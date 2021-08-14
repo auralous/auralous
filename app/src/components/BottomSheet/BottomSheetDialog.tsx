@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     paddingTop: Size[6],
   },
   titleContainer: {
-    paddingBottom: Size[4],
+    paddingBottom: Size[6],
   },
 });
 

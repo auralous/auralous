@@ -5,7 +5,15 @@ import player, {
   usePlaybackCurrentControl,
   usePlaybackTrackId,
 } from "@auralous/player";
-import { Colors, IconPause, IconPlay, Size, Text } from "@auralous/ui";
+import {
+  Colors,
+  IconPause,
+  IconPlay,
+  Size,
+  SkeletonBlock,
+  Spacer,
+  Text,
+} from "@auralous/ui";
 import { useNavigationState } from "@react-navigation/native";
 import { FC, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -71,7 +79,7 @@ const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
   const trackId = usePlaybackTrackId();
   const playbackCurrentContext = usePlaybackCurrentControl();
 
-  const [{ data }] = useTrackQuery({
+  const [{ data, fetching }] = useTrackQuery({
     variables: { id: trackId || "" },
     pause: !trackId,
   });
@@ -131,12 +139,21 @@ const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
           accessibilityLabel={track?.title}
         />
         <View style={styles.meta}>
-          <Text bold size="sm" numberOfLines={1}>
-            {track?.title}
-          </Text>
-          <Text color="textSecondary" size="sm" numberOfLines={1}>
-            {track?.artists.map((artist) => artist.name).join(", ")}
-          </Text>
+          {fetching ? (
+            <SkeletonBlock width={27} height={2} />
+          ) : (
+            <Text bold size="sm" numberOfLines={1}>
+              {track?.title}
+            </Text>
+          )}
+          <Spacer y={2} />
+          {fetching ? (
+            <SkeletonBlock width={24} height={2} />
+          ) : (
+            <Text color="textSecondary" size="sm" numberOfLines={1}>
+              {track?.artists.map((artist) => artist.name).join(", ")}
+            </Text>
+          )}
         </View>
       </Pressable>
       <View>

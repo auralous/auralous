@@ -1,6 +1,10 @@
 import { RouteName } from "@/screens/types";
 import { Story, Track, useStoryTracksQuery } from "@auralous/api";
-import player from "@auralous/player";
+import player, {
+  uidForIndexedTrack,
+  usePlaybackCurrentContext,
+  usePlaybackQueuePlayingId,
+} from "@auralous/player";
 import {
   Button,
   LoadingScreen,
@@ -12,7 +16,14 @@ import {
   TrackItem,
 } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { createContext, FC, memo, useCallback, useContext } from "react";
+import {
+  createContext,
+  FC,
+  memo,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -63,9 +74,21 @@ const StoryTrackItem = memo<{
       }),
     [storyId, index]
   );
+
+  const playbackCurrentContext = usePlaybackCurrentContext();
+  const queuePlayingUid = usePlaybackQueuePlayingId();
+
+  const isCurrentTrack = useMemo(
+    () =>
+      playbackCurrentContext?.type === "story" &&
+      playbackCurrentContext.id === storyId &&
+      queuePlayingUid === uidForIndexedTrack(index, track.id),
+    [queuePlayingUid, playbackCurrentContext, track.id, index, storyId]
+  );
+
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>
-      <TrackItem track={track} key={index} />
+      <TrackItem isPlaying={isCurrentTrack} track={track} key={index} />
     </TouchableOpacity>
   );
 });

@@ -112,7 +112,7 @@ const PlayerProviderInner: FC<{
         isPlaying,
         playingPlatform,
         accessToken: me?.accessToken || null,
-        queueIndex: playbackProvided?.queueIndex ?? -1,
+        queuePlayingUid: playbackProvided?.queuePlayingUid || null,
       }}
     >
       <PlaybackProvidedCallback

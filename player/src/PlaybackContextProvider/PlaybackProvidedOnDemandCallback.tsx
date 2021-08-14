@@ -12,7 +12,7 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { useClient } from "urql";
 import { player } from "../playerSingleton";
 import { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
-import { reorder, shuffle } from "../utils";
+import { reorder, shuffle, uidForIndexedTrack } from "../utils";
 
 /**
  * This component takes over the state of playbackProvided in PlayerProvider
@@ -50,18 +50,17 @@ export const PlaybackProvidedOnDemandCallback: FC<{
     trackPromises.then((tracks) => {
       if (stale) return;
       if (!tracks) return setQueueItems([]);
-      if (playbackContext.shuffle) {
-        tracks = shuffle([...tracks]);
-      }
       setPlayingIndex(playbackContext.initialIndex ?? 0);
-      setQueueItems(
-        tracks.map((track, index) => ({
-          creatorId: "",
-          trackId: track.id,
-          uid: `${index}${track.id}`,
-          __typename: "QueueItem",
-        }))
-      );
+      const queueItems: QueueItem[] = tracks.map((track, index) => ({
+        creatorId: "",
+        trackId: track.id,
+        uid: uidForIndexedTrack(index, track.id),
+        __typename: "QueueItem",
+      }));
+      if (playbackContext.shuffle) {
+        shuffle(queueItems);
+      }
+      setQueueItems(queueItems);
       player.seek(0);
     });
     return () => {
@@ -173,7 +172,7 @@ export const PlaybackProvidedOnDemandCallback: FC<{
       nextItems,
       trackId: queueItems[playingIndex]?.trackId || null,
       fetching: false,
-      queueIndex: playingIndex,
+      queuePlayingUid: queueItems[playingIndex]?.uid || null,
     });
   }, [nextItems, queueItems, playingIndex, setPlaybackProvided]);
 

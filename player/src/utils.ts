@@ -34,3 +34,6 @@ export function reorder<T>(
   result.splice(endIndex, 0, removed);
   return result;
 }
+
+export const uidForIndexedTrack = (trackIndex: number, trackId: string) =>
+  `${trackIndex}${trackId}`;

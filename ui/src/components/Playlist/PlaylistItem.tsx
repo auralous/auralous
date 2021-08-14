@@ -1,13 +1,13 @@
 import { imageSources } from "@/assets";
+import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
-import { Maybe, Playlist } from "@auralous/api";
+import { Playlist } from "@auralous/api";
 import { FC, memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 interface PlaylistItemProps {
-  playlist: Maybe<Playlist>;
-  fetching?: boolean;
+  playlist: Playlist;
 }
 
 const styles = StyleSheet.create({
@@ -35,20 +35,21 @@ const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
     <View style={styles.root}>
       <Image
         source={
-          playlist?.image
-            ? { uri: playlist?.image }
+          playlist.image
+            ? { uri: playlist.image }
             : imageSources.defaultPlaylist
         }
         defaultSource={imageSources.defaultPlaylist}
         style={styles.image}
-        accessibilityLabel={playlist?.name}
+        accessibilityLabel={playlist.name}
       />
       <View style={styles.meta}>
         <Text style={styles.metaTitle} bold="medium" numberOfLines={1}>
-          {playlist?.name}
+          {playlist.name}
         </Text>
+        <Spacer y={2} />
         <Text size="sm" color="textTertiary">
-          {playlist?.creatorName}
+          {playlist.creatorName}
         </Text>
       </View>
     </View>

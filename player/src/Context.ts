@@ -28,9 +28,9 @@ const trackIdSelector = (value: PlaybackState) => value.trackId;
 export const usePlaybackTrackId = () =>
   useContextSelector(PlaybackContext, trackIdSelector);
 
-const queueIndexSelector = (value: PlaybackState) => value.queueIndex;
-export const usePlaybackQueueIndex = () =>
-  useContextSelector(PlaybackContext, queueIndexSelector);
+const queuePlayingUidSelector = (value: PlaybackState) => value.queuePlayingUid;
+export const usePlaybackQueuePlayingId = () =>
+  useContextSelector(PlaybackContext, queuePlayingUidSelector);
 
 const playbackColorSelector = (value: PlaybackState) => value.color;
 export const usePlaybackColor = () =>

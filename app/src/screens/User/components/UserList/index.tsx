@@ -13,7 +13,7 @@ interface UserListProps {
   fetching: boolean;
 }
 
-const listPadding = Size[2];
+const listPadding = Size[4];
 
 const styles = StyleSheet.create({
   content: {

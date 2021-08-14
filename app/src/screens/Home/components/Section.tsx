@@ -1,4 +1,4 @@
-import { Heading, Size, Text } from "@auralous/ui";
+import { Heading, Size, Spacer, Text } from "@auralous/ui";
 import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -25,10 +25,12 @@ const Section: FC<SectionProps> = ({ title, description, children }) => {
       <View style={styles.header}>
         <View>
           <Heading level={6}>{title}</Heading>
+          <Spacer y={3} />
           {!!description && <Text color="textSecondary">{description}</Text>}
         </View>
         <View></View>
       </View>
+      <Spacer y={2} />
       <View>{children}</View>
     </View>
   );
