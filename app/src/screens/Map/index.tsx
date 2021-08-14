@@ -13,7 +13,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = () => {
+const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = ({
+  navigation,
+}) => {
   const [stories, setStories] = useState<Story[]>([]);
 
   const onClose = useCallback(() => {
@@ -29,6 +31,14 @@ const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = () => {
     });
   }, []);
 
+  const onStoryNavigated = useCallback(
+    (story: Story) => {
+      navigation.goBack();
+      navigation.navigate(RouteName.Story, { id: story.id });
+    },
+    [navigation]
+  );
+
   return (
     <View style={styles.root}>
       <MapMap setStories={setStories} />
@@ -37,6 +47,7 @@ const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = () => {
         onClose={onClose}
         visible={stories.length > 0}
         onStoryPaged={onStoryPaged}
+        onStoryNavigated={onStoryNavigated}
       />
     </View>
   );

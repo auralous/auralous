@@ -44,16 +44,8 @@ const styles = StyleSheet.create({
   },
   root: {
     backgroundColor: Colors.backgroundSecondary,
-    elevation: 24,
     flexDirection: "row",
     height: Size[16],
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
   },
   viewExpandTrigger: {
     flexDirection: "row",
@@ -66,6 +58,7 @@ const hiddenRoutes = [
   RouteName.NewQuickShare,
   RouteName.NewSelectSongs,
   RouteName.SignIn,
+  RouteName.Map,
 ] as string[];
 
 const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({

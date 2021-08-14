@@ -28,11 +28,10 @@
     "title": "Tạo Story",
     "select_songs": {
       "title": "Chọn bài hát",
-      "songs": "Bài hát",
-      "playlists": "Playlist",
       "num_selected": "{{count}} bài hát được chọn",
-      "search_placeholder": "Nhập từ khóa hoặc URL để tìm kiếm",
-      "finish_add": "Hoàn tất thêm nhạc"
+      "finish_add": "Hoàn tất thêm nhạc",
+      "create_story": "Tạo Story",
+      "shuffle": "Xáo trộn"
     },
     "quick_share": {
       "title": "Chia sẻ nhanh"
@@ -40,6 +39,18 @@
     "final": {
       "title": "Chuẩn bị lên sóng",
       "subtitle": "Tụ tập bàn bè và nghe nhạc bên nhau nào."
+    }
+  },
+  "select_songs": {
+    "songs": {
+      "title": "Bài hát"
+    },
+    "playlists": {
+      "title": "Playlist",
+      "add_all_songs": "Thêm tất cả"
+    },
+    "search": {
+      "placeholder": "Nhập từ khóa hoặc URL để tìm kiếm"
     }
   },
   "user": {
@@ -69,7 +80,15 @@
   },
   "story_edit": {
     "title": "Chỉnh sửa Story",
-    "add_to_map": "Thêm vào bản đồ",
+    "map": {
+      "prompt": "Đăng tải lên Bản đồ Auralous?",
+      "description": "Điều này giúp người khác tìm thấy Story của bạn trên bản đồ",
+      "privacy_note": "Vị trí của bạn KHÔNG BAO GIỜ được hiển thị với người khác"
+    },
+    "collab": {
+      "prompt": "Nghe nhạc cùng nhau",
+      "description": "Mời bạn bè thêm nhạc vào hàng chờ của bạn"
+    },
     "updated": "Story đã được cập nhật",
     "live": {
       "description": "Story này đang phát <0>TRỰC TIẾP</0>",
@@ -165,7 +184,10 @@
       "cancel": "Hủy bỏ",
       "confirm": "Xác nhận",
       "save": "Lưu",
-      "retry": "Thử lại"
+      "retry": "Thử lại",
+      "publish": "Đăng tải",
+      "no_thanks": "Không, cảm ơn",
+      "later": "Để sau"
     },
     "prompt": {
       "action_not_revertable": "Hành động này sẽ không thể  hoàn tác được"

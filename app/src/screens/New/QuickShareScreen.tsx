@@ -12,7 +12,7 @@ import {
   usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
 } from "@auralous/api";
-import { LoadingScreen, Size } from "@auralous/ui";
+import { LoadingScreen, shuffle, Size } from "@auralous/ui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -71,7 +71,9 @@ const QuickShareScreen: FC<
         .toPromise();
       if (result.data) {
         onFinish(
-          result.data.playlistTracks.map((playlistTrack) => playlistTrack.id),
+          shuffle(
+            result.data.playlistTracks.map((playlistTrack) => playlistTrack.id)
+          ),
           playlist.name
         );
       }
@@ -86,14 +88,12 @@ const QuickShareScreen: FC<
       const result = await client
         .query<StoryTracksQuery, StoryTracksQueryVariables>(
           StoryTracksDocument,
-          {
-            id: story.id,
-          }
+          { id: story.id }
         )
         .toPromise();
       if (result.data) {
         onFinish(
-          result.data.storyTracks.map((storyTrack) => storyTrack.id),
+          shuffle(result.data.storyTracks.map((storyTrack) => storyTrack.id)),
           story.text
         );
       }

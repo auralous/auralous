@@ -6,7 +6,7 @@ import {
 } from "@auralous/api";
 import { toast } from "@auralous/ui";
 import MapboxGL, { MapViewProps } from "@react-native-mapbox-gl/maps";
-import { FC, useCallback, useMemo, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import Config from "react-native-config";
@@ -83,6 +83,10 @@ export const MapMap: FC<{
     },
     [client, onResult]
   );
+
+  useEffect(() => {
+    return () => unsubscribeRef.current?.();
+  }, []);
 
   return (
     <MapboxGL.MapView

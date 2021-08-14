@@ -1,6 +1,13 @@
 import { Button, ButtonProps, Colors, Size, Text } from "@auralous/ui";
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import {
+  ComponentProps,
+  FC,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { BackHandler, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
@@ -79,8 +86,10 @@ export const DialogTitle: FC<{ children: string }> = ({ children }) => (
 
 export const DialogContent: FC = ({ children }) => <View>{children}</View>;
 
-export const DialogContentText: FC<{ children: string }> = ({ children }) => (
-  <Text align="center" color="textSecondary">
+export const DialogContentText: FC<
+  { children: string } & ComponentProps<typeof Text>
+> = ({ children, ...props }) => (
+  <Text align="center" color="textSecondary" {...props}>
     {children}
   </Text>
 );

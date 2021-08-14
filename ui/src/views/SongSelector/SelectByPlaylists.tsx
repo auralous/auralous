@@ -1,4 +1,5 @@
 import { IconX } from "@/assets";
+import { TextButton } from "@/components";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
 import {
@@ -7,10 +8,11 @@ import {
   usePlaylistsSearchQuery,
   usePlaylistTracksQuery,
 } from "@auralous/api";
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useSelectedTracks, useUpdateTracks } from "./Context";
 import SelectablePlaylistList from "./SelectablePlaylistList";
 import SelectableTrackList from "./SelectableTrackList";
 
@@ -80,19 +82,43 @@ const PlaylistTrackList: FC<{ playlist: Playlist; close(): void }> = ({
   playlist,
   close,
 }) => {
+  const { t } = useTranslation();
   const [
     { data: { playlistTracks } = { playlistTracks: undefined }, fetching },
   ] = usePlaylistTracksQuery({ variables: { id: playlist.id } });
 
+  const selectedTracks = useSelectedTracks();
+
+  const updateTracksActions = useUpdateTracks();
+  const addAllTracks = useMemo(
+    () =>
+      (playlistTracks || [])
+        .filter((playlistTrack) => !selectedTracks.includes(playlistTrack.id))
+        .map((playlistTrack) => playlistTrack.id),
+    [selectedTracks, playlistTracks]
+  );
+  const onAddAll = useCallback(() => {
+    updateTracksActions?.addTracks(addAllTracks);
+  }, [addAllTracks, updateTracksActions]);
+
   return (
     <>
       <View style={styles.metaBar}>
-        <Text bold>{playlist.name}</Text>
+        <View>
+          <Text bold>{playlist.name}</Text>
+        </View>
         <TouchableOpacity style={styles.close} onPress={close}>
           <IconX />
         </TouchableOpacity>
       </View>
       <View style={styles.tracks}>
+        <TextButton
+          textProps={{ size: "sm" }}
+          onPress={onAddAll}
+          disabled={addAllTracks.length === 0}
+        >
+          {t("select_songs.playlists.add_all_songs")}
+        </TextButton>
         <SelectableTrackList data={playlistTracks || []} fetching={fetching} />
       </View>
     </>

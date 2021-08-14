@@ -46,12 +46,12 @@ const Tabs: FC<{
       <Tab
         onSelect={() => setTab("songs")}
         active={tab === "songs"}
-        title={t("new.select_songs.songs")}
+        title={t("select_songs.songs.title")}
       />
       <Tab
         onSelect={() => setTab("playlists")}
         active={tab === "playlists"}
-        title={t("new.select_songs.playlists")}
+        title={t("select_songs.playlists.title")}
       />
     </View>
   );

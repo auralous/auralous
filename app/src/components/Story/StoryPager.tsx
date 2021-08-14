@@ -87,13 +87,18 @@ const StoryPagerNowPlaying: FC<{ trackId: string }> = ({ trackId }) => {
   );
 };
 
-const StoryPagerItem: FC<{ story: Story }> = ({ story }) => {
+const StoryPagerItem: FC<{ story: Story; onNavigate(story: Story): void }> = ({
+  story,
+  onNavigate,
+}) => {
   const { t } = useTranslation();
   const [{ data }] = useNowPlayingQuery({
     variables: {
       id: story.id,
     },
   });
+
+  const gotoStory = useCallback(() => onNavigate(story), [story, onNavigate]);
 
   return (
     <View collapsable={false} style={styles.page}>
@@ -129,7 +134,7 @@ const StoryPagerItem: FC<{ story: Story }> = ({ story }) => {
         )}
       </View>
       <View style={styles.pageBottom}>
-        <Button>{t("story.go_to_story")}</Button>
+        <Button onPress={gotoStory}>{t("story.go_to_story")}</Button>
       </View>
     </View>
   );
@@ -140,7 +145,8 @@ export const StoryPager: FC<{
   visible: boolean;
   onClose(): void;
   onStoryPaged(story: Story): void;
-}> = ({ stories, visible, onClose, onStoryPaged }) => {
+  onStoryNavigated(story: Story): void;
+}> = ({ stories, visible, onClose, onStoryPaged, onStoryNavigated }) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
@@ -172,7 +178,11 @@ export const StoryPager: FC<{
     >
       <PagerView style={styles.root} onPageSelected={onPageSelected}>
         {stories.map((story) => (
-          <StoryPagerItem key={story.id} story={story} />
+          <StoryPagerItem
+            onNavigate={onStoryNavigated}
+            key={story.id}
+            story={story}
+          />
         ))}
       </PagerView>
     </BottomSheetModal>

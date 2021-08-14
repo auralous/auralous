@@ -1,4 +1,13 @@
-import { useTrackQuery } from "@auralous/api";
+import {
+  Dialog,
+  DialogButton,
+  DialogContent,
+  DialogContentText,
+  DialogFooter,
+  useDialog,
+} from "@/components/BottomSheet";
+import { RouteName } from "@/screens/types";
+import { useMeQuery, useTrackQuery } from "@auralous/api";
 import {
   Button,
   Colors,
@@ -9,13 +18,18 @@ import {
   IconChevronDown,
   IconChevronUp,
   identityFn,
+  Input,
+  InputRef,
   QueueTrackItem,
   reorder,
+  shuffle,
   Size,
+  Spacer,
   Text,
   TextButton,
 } from "@auralous/ui";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 import {
   createContext,
   Dispatch,
@@ -73,12 +87,16 @@ const styles = StyleSheet.create({
     fontFamily: Font.Medium,
     textTransform: "uppercase",
   },
+  shuffleButtonContainer: {
+    alignItems: "flex-start",
+    marginBottom: Size[1],
+  },
   toggleExpand: {
     padding: Size[1],
   },
 });
 
-const snapPoints = [cascadedHeight, "75%"];
+const snapPoints = [cascadedHeight, "95%"];
 
 const CheckedContext = createContext(
   {} as {
@@ -129,10 +147,9 @@ const renderItem: DraggableRecyclerRenderItem<string> = (params) => (
 );
 
 const SelectedTrackListView: FC<{
-  onFinish(selectedTracks: string[]): void;
   selectedTracks: string[];
   setSelectedTracks: Dispatch<SetStateAction<string[]>>;
-}> = ({ onFinish, selectedTracks, setSelectedTracks }) => {
+}> = ({ selectedTracks, setSelectedTracks }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [expanded, setExpanded] = useState(false);
@@ -218,6 +235,29 @@ const SelectedTrackListView: FC<{
       BackHandler.removeEventListener("hardwareBackPress", onBackPress);
   }, [expanded]);
 
+  const [visibleFinal, presentFinal, dismissFinal] = useDialog();
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
+
+  const textInputRef = useRef<InputRef>(null);
+
+  const navigation = useNavigation();
+
+  const defaultStoryText = t("story.story_of_name", {
+    name: me?.user.username,
+  });
+
+  const onShuffle = useCallback(() => {
+    setSelectedTracks((selectedTracks) => shuffle([...selectedTracks]));
+  }, [setSelectedTracks]);
+
+  const onSubmit = useCallback(() => {
+    dismissFinal();
+    navigation.navigate(RouteName.NewFinal, {
+      selectedTracks,
+      text: textInputRef.current?.value.trim() || defaultStoryText,
+    });
+  }, [defaultStoryText, navigation, selectedTracks, dismissFinal]);
+
   return (
     <CheckedContext.Provider value={{ toggleChecked, checked }}>
       <View style={styles.placeholder} />
@@ -239,6 +279,9 @@ const SelectedTrackListView: FC<{
           <TouchableOpacity onPress={toggle} style={styles.toggleExpand}>
             {expanded ? <IconChevronDown /> : <IconChevronUp />}
           </TouchableOpacity>
+        </View>
+        <View style={styles.shuffleButtonContainer}>
+          <Button onPress={onShuffle}>{t("new.select_songs.shuffle")}</Button>
         </View>
         <DraggableRecyclerList
           data={selectedTracks}
@@ -266,14 +309,33 @@ const SelectedTrackListView: FC<{
           </View>
         ) : (
           <Button
-            onPress={() => onFinish(selectedTracks)}
             disabled={selectedTracks.length === 0}
             variant="filled"
+            onPress={presentFinal}
           >
             {t("new.select_songs.finish_add")}
           </Button>
         )}
       </View>
+      <Dialog visible={visibleFinal} onDismiss={dismissFinal}>
+        <DialogContent>
+          <DialogContentText>{t("story.text")}</DialogContentText>
+          <Spacer y={2} />
+          <Input
+            ref={textInputRef}
+            accessibilityLabel={t("story.text")}
+            placeholder={defaultStoryText}
+          />
+        </DialogContent>
+        <DialogFooter>
+          <DialogButton onPress={dismissFinal}>
+            {t("common.action.cancel")}
+          </DialogButton>
+          <DialogButton variant="primary" onPress={onSubmit}>
+            {t("new.select_songs.create_story")}
+          </DialogButton>
+        </DialogFooter>
+      </Dialog>
     </CheckedContext.Provider>
   );
 };

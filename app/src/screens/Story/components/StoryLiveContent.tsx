@@ -111,7 +111,9 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
           {t("story.join_live")}
         </GradientButton>
         <Spacer x={2} />
-        <Button onPress={viewCollabs}>{t("collab.title")}</Button>
+        <View>
+          <Button onPress={viewCollabs}>{t("collab.title")}</Button>
+        </View>
       </View>
       <View style={styles.content}>
         <Text bold>{t("now_playing.title")}</Text>

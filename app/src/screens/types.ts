@@ -47,6 +47,7 @@ export interface ParamList extends ParamListBase {
   };
   [RouteName.Story]: {
     id: string;
+    isNew?: boolean;
   };
   [RouteName.StoryCollaborators]: {
     id: string;

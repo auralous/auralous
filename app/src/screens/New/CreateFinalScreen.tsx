@@ -62,6 +62,7 @@ const CreateFinalScreen: FC<
       navigation.popToTop();
       navigation.navigate(RouteName.Story, {
         id: result.data.storyCreate.id,
+        isNew: true,
       });
     }
   }, [route, createStory, navigation]);

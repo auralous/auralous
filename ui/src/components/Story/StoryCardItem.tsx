@@ -33,22 +33,28 @@ const styles = StyleSheet.create({
   },
   main: {
     backgroundColor: Colors.backgroundSecondary,
-    borderRadius: Size[6],
+    borderRadius: Size[2],
     flexDirection: "row",
+    height: Size[24],
     overflow: "hidden",
-    padding: Size[2],
+  },
+  mainContent: {
+    flex: 1,
+    paddingHorizontal: Size[2],
+    paddingVertical: Size[1],
   },
   mainPlay: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: Size[24],
+  },
+  mainPlayButton: {
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, .5)",
     borderRadius: 9999,
     height: Size[14],
     justifyContent: "center",
-    margin: Size[2],
     width: Size[14],
-  },
-  mainRight: {
-    flex: 1,
   },
   root: {
     width: "100%",
@@ -146,22 +152,22 @@ const StoryCardItem: FC<StoryCardItemProps> = ({
         </View>
       </Pressable>
       <View style={styles.main}>
-        {story.image && (
-          <Image
-            source={{ uri: story.image }}
-            style={styles.bg}
-            blurRadius={4}
-          />
-        )}
-        <View>
+        <View style={styles.mainPlay}>
+          {story.image && (
+            <Image
+              source={{ uri: story.image }}
+              style={styles.bg}
+              blurRadius={4}
+            />
+          )}
           <TouchableOpacity
-            style={styles.mainPlay}
+            style={styles.mainPlayButton}
             onPress={() => onPlay(story.id, 0)}
           >
             <IconPlay stroke="#ffffff" fill="#ffffff" />
           </TouchableOpacity>
         </View>
-        <View style={styles.mainRight}>
+        <View style={styles.mainContent}>
           {dataStoryTracks?.storyTracks?.map((item, index) => (
             <StoryCardItemTrack
               key={`${index}${item.id}`}

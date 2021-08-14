@@ -10,6 +10,7 @@ import { StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StoryLiveContent from "./components/StoryLiveContent";
+import { StoryNewPrompts } from "./components/StoryNewPrompts";
 import StoryNonLiveContent from "./components/StoryNonLiveContent";
 
 const styles = StyleSheet.create({
@@ -62,7 +63,10 @@ const StoryScreen: FC<NativeStackScreenProps<ParamList, RouteName.Story>> = ({
         <LoadingScreen />
       ) : data?.story ? (
         data.story.isLive ? (
-          <StoryLiveContent story={data.story} />
+          <>
+            <StoryLiveContent story={data.story} />
+            {route.params.isNew && <StoryNewPrompts story={data.story} />}
+          </>
         ) : (
           <StoryNonLiveContent story={data.story} />
         )

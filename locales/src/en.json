@@ -28,11 +28,10 @@
     "title": "New Story",
     "select_songs": {
       "title": "Select Songs",
-      "songs": "Songs",
-      "playlists": "Playlists",
       "num_selected": "{{count}} songs selected",
-      "search_placeholder": "Enter keywords or a URL to look up",
-      "finish_add": "Finished Adding Songs"
+      "finish_add": "Finished Adding Songs",
+      "create_story": "Create Story",
+      "shuffle": "Shuffle"
     },
     "quick_share": {
       "title": "Quick Share"
@@ -40,6 +39,18 @@
     "final": {
       "title": "Ready. Set. Listen.",
       "subtitle": "Get your friends together. The show is about to start."
+    }
+  },
+  "select_songs": {
+    "songs": {
+      "title": "Songs"
+    },
+    "playlists": {
+      "title": "Playlists",
+      "add_all_songs": "Add all songs"
+    },
+    "search": {
+      "placeholder": "Enter keywords or a URL to look up"
     }
   },
   "user": {
@@ -69,7 +80,15 @@
   },
   "story_edit": {
     "title": "Edit Story",
-    "add_to_map_description": "Broadcast the story to Auralous Map while it is LIVE",
+    "map": {
+      "prompt": "Publish to Auralous Map?",
+      "description": "This allows others to discover your story on the map",
+      "privacy_note": "Your location is NEVER visible to others"
+    },
+    "collab": {
+      "prompt": "Listen Together",
+      "description": "Invite your friends to add music to your queue"
+    },
     "updated": "The story has been updated",
     "live": {
       "description": "This story is <0>LIVE</0>",
@@ -165,7 +184,10 @@
       "cancel": "Cancel",
       "confirm": "Confirm",
       "save": "Save",
-      "retry": "Retry"
+      "retry": "Retry",
+      "publish": "Publish",
+      "no_thanks": "No, thanks",
+      "later": "Later"
     },
     "prompt": {
       "action_not_revertable": "This action cannot be undone."

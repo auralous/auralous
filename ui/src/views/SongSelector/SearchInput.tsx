@@ -44,7 +44,7 @@ const SearchInput: FC<{
         }
         onSubmit={onHandleSubmit}
         returnKeyType="search"
-        placeholder={t("new.select_songs.search_placeholder")}
+        placeholder={t("select_songs.search.placeholder")}
         accessibilityLabel={t("common.label.search")}
       />
     </View>
