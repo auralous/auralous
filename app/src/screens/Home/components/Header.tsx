@@ -1,11 +1,10 @@
 import { RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
-import { Avatar, Button, Heading, Size, Spacer } from "@auralous/ui";
+import { Avatar, Button, Heading, Size } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
-import AddButton from "./AddButton";
 
 const styles = StyleSheet.create({
   right: {
@@ -47,8 +46,6 @@ const Header: FC = () => {
                 username={me.user.username}
               />
             </Pressable>
-            <Spacer x={2} />
-            <AddButton />
           </>
         ) : (
           <>

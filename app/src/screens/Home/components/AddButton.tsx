@@ -1,5 +1,6 @@
 import { GradientButton } from "@/components/Button";
 import { RouteName } from "@/screens/types";
+import { useMeQuery } from "@auralous/api";
 import {
   Button,
   Heading,
@@ -18,8 +19,19 @@ import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   button: {
-    height: Size[12],
-    width: Size[16],
+    bottom: Size[4],
+    elevation: 6,
+    height: Size[14],
+    position: "absolute",
+    right: Size[4],
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    width: Size[14],
   },
   choice: {
     flex: 1,
@@ -65,7 +77,7 @@ const AddButtonModalContent = gestureHandlerRootHOC(
         <BlurView
           style={StyleSheet.absoluteFill}
           blurType="dark"
-          blurAmount={1}
+          blurAmount={6}
         />
         <View style={styles.newModal}>
           <Heading level={2}>{t("new.title")}</Heading>
@@ -109,7 +121,13 @@ const AddButton: FC = () => {
     return true;
   }, []);
 
-  const onOpen = useCallback(() => ref.current?.present(), []);
+  const [{ data: dataMe }] = useMeQuery();
+  const navigation = useNavigation();
+
+  const onOpen = useCallback(() => {
+    if (!dataMe) return navigation.navigate(RouteName.SignIn);
+    ref.current?.present();
+  }, [dataMe, navigation]);
 
   return (
     <>

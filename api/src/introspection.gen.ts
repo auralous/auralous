@@ -248,13 +248,6 @@ export default {
             },
             "args": [
               {
-                "name": "name",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              },
-              {
                 "name": "username",
                 "type": {
                   "kind": "SCALAR",

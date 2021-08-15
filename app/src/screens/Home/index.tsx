@@ -5,6 +5,7 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AddButton from "./components/AddButton";
 import FeaturedPlaylists from "./components/FeaturedPlaylists";
 import HeaderSection from "./components/Header";
 import MapNavigate from "./components/MapNavigate";
@@ -48,6 +49,7 @@ const HomeScreen: FC<NativeStackScreenProps<ParamList, RouteName.Home>> =
             ></Section>
           </View>
         </ScrollView>
+        <AddButton />
       </SafeAreaView>
     );
   };

@@ -42,11 +42,14 @@ const QuickShareScreen: FC<
   const [fetching, setFetching] = useState(false);
 
   const onFinish = useCallback(
-    (selectedTracks: string[], text: string) => {
-      navigation.navigate(RouteName.NewFinal, {
-        selectedTracks,
-        text,
-      });
+    (selectedTracks: string[], text: string, navigationReplace?: boolean) => {
+      navigation[navigationReplace ? "replace" : "navigate"](
+        RouteName.NewFinal,
+        {
+          selectedTracks,
+          text,
+        }
+      );
     },
     [navigation]
   );
@@ -61,7 +64,7 @@ const QuickShareScreen: FC<
   }, [fetching]);
 
   const onSelectPlaylist = useCallback(
-    async (playlist: Playlist) => {
+    async (playlist: Playlist, fromRoute?: boolean) => {
       setFetching(true);
       const result = await client
         .query<PlaylistTracksQuery, PlaylistTracksQueryVariables>(
@@ -74,7 +77,8 @@ const QuickShareScreen: FC<
           shuffle(
             result.data.playlistTracks.map((playlistTrack) => playlistTrack.id)
           ),
-          playlist.name
+          playlist.name,
+          fromRoute
         );
       }
       setFetching(false);
@@ -83,7 +87,7 @@ const QuickShareScreen: FC<
   );
 
   const onSelectStory = useCallback(
-    async (story: Story) => {
+    async (story: Story, fromRoute?: boolean) => {
       setFetching(true);
       const result = await client
         .query<StoryTracksQuery, StoryTracksQueryVariables>(
@@ -94,7 +98,8 @@ const QuickShareScreen: FC<
       if (result.data) {
         onFinish(
           shuffle(result.data.storyTracks.map((storyTrack) => storyTrack.id)),
-          story.text
+          story.text,
+          fromRoute
         );
       }
       setFetching(false);
@@ -104,9 +109,9 @@ const QuickShareScreen: FC<
 
   useEffect(() => {
     if (route.params?.playlist) {
-      onSelectPlaylist(route.params.playlist);
+      onSelectPlaylist(route.params.playlist, true);
     } else if (route.params?.story) {
-      onSelectStory(route.params.story);
+      onSelectStory(route.params.story, true);
     }
   }, [route, onSelectPlaylist, onSelectStory]);
 

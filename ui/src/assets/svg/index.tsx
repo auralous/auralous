@@ -21,6 +21,7 @@ import IconPlayRaw from "./play.svg";
 import IconPlusRaw from "./plus.svg";
 import IconSearchRaw from "./search.svg";
 import IconSendRaw from "./send.svg";
+import IconSettingsRaw from "./settings.svg";
 import IconSkipBackRaw from "./skip-back.svg";
 import IconSkipForwardRaw from "./skip-forward.svg";
 import IconSpotifyRaw from "./spotify.svg";
@@ -30,9 +31,9 @@ import IconXRaw from "./x.svg";
 import IconYoutubeRaw from "./youtube.svg";
 
 const wrapIcon = (Icon: FC<SvgProps>) => {
-  const WrappedIcon: FC<SvgProps> = (props: SvgProps) => {
-    return <Icon color={Colors.text} {...props} />;
-  };
+  const WrappedIcon: FC<SvgProps> = (props: SvgProps) => (
+    <Icon color={Colors.text} {...props} />
+  );
   WrappedIcon.displayName = Icon.displayName;
   return memo(WrappedIcon);
 };
@@ -64,3 +65,4 @@ export const IconYoutube = wrapIcon(IconYoutubeRaw);
 export const IconUser = wrapIcon(IconUserRaw);
 export const IconUserPlus = wrapIcon(IconUserPlusRaw);
 export const IconEdit = wrapIcon(IconEditRaw);
+export const IconSettings = wrapIcon(IconSettingsRaw);

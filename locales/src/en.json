@@ -54,6 +54,8 @@
     }
   },
   "user": {
+    "username": "Username",
+    "profile_picture": "Profile Picture",
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": "Followers",
@@ -200,5 +202,20 @@
   },
   "share": {
     "invite_friends": "Invite friends"
+  },
+  "settings": {
+    "title": "Settings",
+    "sign_out": "Sign Out",
+    "profile_picture_note": "Update your profile picture on {{ name }}",
+    "me": "Me",
+    "me_updated": "Your profile has been updated",
+    "app": "App",
+    "language": {
+      "title": "Language",
+      "title_edit": "Select language",
+      "en": "English",
+      "vi": "Tiếng Việt",
+      "_": "Follow system"
+    }
   }
 }

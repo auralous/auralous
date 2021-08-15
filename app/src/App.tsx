@@ -27,6 +27,7 @@ import { StatusBar, StyleSheet } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { PlayerComponent, PlayerProvider } from "./player";
+import { SettingsScreen } from "./screens/Settings";
 import {
   StoryCollaboratorsScreen,
   StoryEditScreen,
@@ -190,6 +191,13 @@ const App = () => {
         options: {
           animation: "fade" as const,
           headerShown: false,
+        },
+      },
+      {
+        name: RouteName.Settings,
+        component: gestureHandlerRootHOC(SettingsScreen),
+        options: {
+          title: t("settings.title"),
         },
       },
     ],

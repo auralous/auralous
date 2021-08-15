@@ -1,9 +1,11 @@
 import en from "@auralous/locales/src/en.json";
 import vi from "@auralous/locales/src/vi.json";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n, { Resource } from "i18next";
 import { initReactI18next } from "react-i18next";
+import { getLocales } from "react-native-localize";
 
-export const resources: Resource = {
+const resources: Resource = {
   en: {
     translation: en,
   },
@@ -12,9 +14,11 @@ export const resources: Resource = {
   },
 };
 
+export const supportedLanguages = Object.keys(resources);
+
 i18n.use(initReactI18next).init({
   resources,
-  lng: "en",
+  lng: getLocales()[0].languageCode,
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,
@@ -22,6 +26,10 @@ i18n.use(initReactI18next).init({
   react: {
     useSuspense: false,
   },
+});
+
+AsyncStorage.getItem("settings/language").then((value) => {
+  if (value) i18n.changeLanguage(value);
 });
 
 export default i18n;

@@ -46,8 +46,8 @@ mutation userUnfollow($id: ID!) {
   userUnfollow(id: $id)
 }
 
-mutation meUpdate($name: String, $username: String) {
-  me(name: $name, username: $username) {
+mutation meUpdate($username: String) {
+  me(username: $username) {
     ...UserPublicParts
   }
 }

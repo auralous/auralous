@@ -54,6 +54,8 @@
     }
   },
   "user": {
+    "username": "Username",
+    "profile_picture": "Ảnh đại diện",
     "follow": "Theo dõi",
     "unfollow": "Bỏ theo dõi",
     "followers": "Người theo dõi",
@@ -200,5 +202,20 @@
   },
   "share": {
     "invite_friends": "Mời bạn bè"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "sign_out": "Đăng xuất",
+    "profile_picture_note": "Cập nhật ảnh đại diện của bạn trên {{ name }}",
+    "me": "Tôi",
+    "me_updated": "Hồ sơ của bạn đã được cập nhật",
+    "app": "Ứng dụng",
+    "language": {
+      "title": "Ngôn ngữ",
+      "title_edit": "Chọn ngôn ngữ",
+      "en": "English",
+      "vi": "Tiếng Việt",
+      "_": "Theo hệ thống"
+    }
   }
 }
