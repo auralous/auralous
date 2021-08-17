@@ -1,8 +1,8 @@
-import { imageSources, SvgByPlatformName } from "@/assets";
+import { IconByPlatformName, ImageSources } from "@/assets";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { Colors, Size } from "@/styles";
+import { Size } from "@/styles";
 import { msToHMS } from "@/utils";
 import { Maybe, Track } from "@auralous/api";
 import { FC, memo, useMemo } from "react";
@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  titleText: {
+    flex: 1,
+  },
 });
 
 const TrackItem: FC<TrackItemProps> = ({ track, isPlaying, fetching }) => {
@@ -48,10 +51,6 @@ const TrackItem: FC<TrackItemProps> = ({ track, isPlaying, fetching }) => {
     const [sec, min] = msToHMS(track.duration, true);
     return `${min}:${sec}`;
   }, [track]);
-
-  const SvgPlatformName = track?.platform
-    ? SvgByPlatformName[track.platform]
-    : null;
 
   return (
     <View style={styles.root}>
@@ -62,9 +61,9 @@ const TrackItem: FC<TrackItemProps> = ({ track, isPlaying, fetching }) => {
           <Image
             style={styles.image}
             source={
-              track?.image ? { uri: track?.image } : imageSources.defaultTrack
+              track?.image ? { uri: track?.image } : ImageSources.defaultTrack
             }
-            defaultSource={imageSources.defaultTrack}
+            defaultSource={ImageSources.defaultTrack}
             accessibilityLabel={track?.title}
           />
         )}
@@ -79,15 +78,15 @@ const TrackItem: FC<TrackItemProps> = ({ track, isPlaying, fetching }) => {
           <SkeletonBlock width={36} height={4} />
         ) : (
           <View style={styles.title}>
-            {SvgPlatformName && (
-              <SvgPlatformName
+            {track && (
+              <IconByPlatformName
+                platformName={track.platform}
                 width={Size[4]}
                 height={Size[4]}
-                fill={Colors.text}
               />
             )}
             <Spacer x={1} />
-            <Text bold numberOfLines={1}>
+            <Text numberOfLines={1} bold style={styles.titleText}>
               {track?.title}
             </Text>
           </View>

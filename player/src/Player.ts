@@ -88,6 +88,7 @@ class Player {
 
   // Sometimes the player is not ready when #playByExternalId
   // is called. We queue it to do so later
+  playingExternalId: string | null = null;
   private __queuedPlayingExternalId: undefined | null | string = undefined;
 
   registerPlayer(registerHandle: PlayerHandle) {
@@ -111,6 +112,7 @@ class Player {
       this.__queuedPlayingExternalId = externalId;
     }
     this.playerFn?.playByExternalId(externalId);
+    this.playingExternalId = externalId;
   }
 
   unregisterPlayer() {

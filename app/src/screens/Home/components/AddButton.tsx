@@ -125,7 +125,7 @@ const AddButton: FC = () => {
   const navigation = useNavigation();
 
   const onOpen = useCallback(() => {
-    if (!dataMe) return navigation.navigate(RouteName.SignIn);
+    if (!dataMe?.me) return navigation.navigate(RouteName.SignIn);
     ref.current?.present();
   }, [dataMe, navigation]);
 

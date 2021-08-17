@@ -3,11 +3,12 @@ import {
   Avatar,
   Button,
   Colors,
-  imageSources,
+  ImageSources,
   Size,
   SkeletonBlock,
   Spacer,
   Text,
+  TextMarquee,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useRef } from "react";
@@ -85,9 +86,9 @@ const StoryPagerNowPlaying: FC<{ trackId?: string; fetching?: boolean }> = ({
             source={
               dataTrack?.track?.image
                 ? { uri: dataTrack.track.image }
-                : imageSources.defaultTrack
+                : ImageSources.defaultTrack
             }
-            defaultSource={imageSources.defaultTrack}
+            defaultSource={ImageSources.defaultTrack}
             style={StyleSheet.absoluteFill}
             resizeMode="contain"
           />
@@ -97,17 +98,17 @@ const StoryPagerNowPlaying: FC<{ trackId?: string; fetching?: boolean }> = ({
         {fetchingTrack || fetching ? (
           <SkeletonBlock width={27} height={3} />
         ) : (
-          <Text size="xl" bold numberOfLines={1}>
+          <TextMarquee size="xl" bold duration={10000}>
             {dataTrack?.track?.title}
-          </Text>
+          </TextMarquee>
         )}
         <Spacer y={3} />
         {fetchingTrack || fetching ? (
           <SkeletonBlock width={24} height={3} />
         ) : (
-          <Text size="lg" color="textSecondary" numberOfLines={1}>
+          <TextMarquee size="lg" color="textSecondary" duration={10000}>
             {dataTrack?.track?.artists.map((artist) => artist.name).join(", ")}
-          </Text>
+          </TextMarquee>
         )}
       </View>
     </View>

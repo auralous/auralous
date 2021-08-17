@@ -66,3 +66,5 @@ export const IconUser = wrapIcon(IconUserRaw);
 export const IconUserPlus = wrapIcon(IconUserPlusRaw);
 export const IconEdit = wrapIcon(IconEditRaw);
 export const IconSettings = wrapIcon(IconSettingsRaw);
+
+export { IconByPlatformName } from "./PlatformIcon";

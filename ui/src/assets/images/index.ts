@@ -1,13 +1,13 @@
 import { ImageURISource } from "react-native";
 
-interface ImageSources {
+export const ImageSources = {} as {
   defaultPlaylist: ImageURISource;
   defaultTrack: ImageURISource;
   defaultUser: ImageURISource;
-}
+  spotifyLogoRGBWhite: ImageURISource;
+  ytLogoMonoDark: ImageURISource;
+};
 
-export const imageSources = {} as ImageSources;
-
-export const setImageSources = (sources: ImageSources) => {
-  Object.assign(imageSources, sources);
+export const setImageSources = (sources: typeof ImageSources) => {
+  Object.assign(ImageSources, sources);
 };

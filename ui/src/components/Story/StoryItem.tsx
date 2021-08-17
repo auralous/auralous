@@ -1,4 +1,4 @@
-import { imageSources } from "@/assets";
+import { ImageSources } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
@@ -66,9 +66,9 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
     <View style={styles.root}>
       <ImageBackground
         source={
-          story.image ? { uri: story.image } : imageSources.defaultPlaylist
+          story.image ? { uri: story.image } : ImageSources.defaultPlaylist
         }
-        defaultSource={imageSources.defaultPlaylist}
+        defaultSource={ImageSources.defaultPlaylist}
         style={styles.background}
         accessible={false}
       >

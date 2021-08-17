@@ -2,6 +2,7 @@ import { RouteName } from "@/screens/types";
 import { Playlist } from "@auralous/api";
 import player from "@auralous/player";
 import { Button, Heading, Size, Spacer, Text } from "@auralous/ui";
+import { ImageSources } from "@auralous/ui/src/assets/images";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -56,9 +57,9 @@ const PlaylistMeta: FC<{ playlist: Playlist }> = ({ playlist }) => {
           source={
             playlist.image
               ? { uri: playlist.image }
-              : require("@/assets/images/default_playlist.jpg")
+              : ImageSources.defaultPlaylist
           }
-          defaultSource={require("@/assets/images/default_playlist.jpg")}
+          defaultSource={ImageSources.defaultPlaylist}
           style={styles.image}
           accessibilityLabel={playlist.name}
         />

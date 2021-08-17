@@ -21,7 +21,7 @@ const sizes = {
   "2xl": 20,
 };
 
-interface TextProps {
+export interface TextProps {
   bold?: boolean | "medium";
   italic?: boolean;
   style?: StyleProp<TextStyle>;

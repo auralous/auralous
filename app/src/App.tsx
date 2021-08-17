@@ -211,17 +211,18 @@ const App = () => {
           <PlayerProvider>
             <BottomSheetModalProvider>
               <StatusBar translucent backgroundColor="transparent" />
-              <Stack.Navigator screenOptions={commonScreenOptions}>
-                {rootRoutes.map((route) => (
-                  <Stack.Screen
-                    key={route.name}
-                    name={route.name}
-                    component={route.component}
-                    options={route.options}
-                  />
-                ))}
-              </Stack.Navigator>
-              <PlayerComponent />
+              <PlayerComponent>
+                <Stack.Navigator screenOptions={commonScreenOptions}>
+                  {rootRoutes.map((route) => (
+                    <Stack.Screen
+                      key={route.name}
+                      name={route.name}
+                      component={route.component}
+                      options={route.options}
+                    />
+                  ))}
+                </Stack.Navigator>
+              </PlayerComponent>
             </BottomSheetModalProvider>
           </PlayerProvider>
         </NavigationContainer>

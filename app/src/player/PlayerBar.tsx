@@ -7,13 +7,15 @@ import player, {
 } from "@auralous/player";
 import {
   Colors,
+  IconByPlatformName,
   IconPause,
   IconPlay,
   Size,
   SkeletonBlock,
   Spacer,
-  Text,
+  TextMarquee,
 } from "@auralous/ui";
+import { ImageSources } from "@auralous/ui/src/assets/images";
 import { useNavigationState } from "@react-navigation/native";
 import { FC, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -54,6 +56,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundSecondary,
     flexDirection: "row",
     height: Size[16],
+  },
+  title: {
+    alignItems: "center",
+    flexDirection: "row",
+    width: "100%",
+  },
+  titleText: {
+    flex: 1,
   },
   viewExpandTrigger: {
     flexDirection: "row",
@@ -131,29 +141,45 @@ const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
         <Image
           style={styles.image}
           source={
-            track?.image
-              ? { uri: track?.image }
-              : require("@/assets/images/default_track.jpg")
+            track?.image ? { uri: track?.image } : ImageSources.defaultTrack
           }
-          defaultSource={require("@/assets/images/default_track.jpg")}
+          defaultSource={ImageSources.defaultTrack}
           accessibilityLabel={track?.title}
         />
         <View style={styles.meta}>
           {fetching ? (
             <SkeletonBlock width={27} height={2} />
           ) : (
-            <Text bold size="sm" numberOfLines={1}>
-              {track?.title}
-            </Text>
+            <View style={styles.title}>
+              {track?.platform && (
+                <IconByPlatformName
+                  platformName={track.platform}
+                  width={Size[3]}
+                  height={Size[3]}
+                  noColor
+                />
+              )}
+              <Spacer x={1} />
+              <TextMarquee
+                containerStyle={styles.titleText}
+                bold
+                size="sm"
+                duration={15000}
+              >
+                {track?.title}
+              </TextMarquee>
+            </View>
           )}
           <Spacer y={2} />
-          {fetching ? (
-            <SkeletonBlock width={24} height={2} />
-          ) : (
-            <Text color="textSecondary" size="sm" numberOfLines={1}>
-              {track?.artists.map((artist) => artist.name).join(", ")}
-            </Text>
-          )}
+          <View>
+            {fetching ? (
+              <SkeletonBlock width={24} height={2} />
+            ) : (
+              <TextMarquee color="textSecondary" size="sm" duration={15000}>
+                {track?.artists.map((artist) => artist.name).join(", ")}
+              </TextMarquee>
+            )}
+          </View>
         </View>
       </Pressable>
       <View>

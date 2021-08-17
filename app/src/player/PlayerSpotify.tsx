@@ -98,6 +98,7 @@ const PlayerSpotify: FC = () => {
 
   useEffect(() => {
     return () => {
+      SpotifyRemote.pause();
       SpotifyAuth.endSession();
       SpotifyRemote.disconnect();
     };

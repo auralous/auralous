@@ -11,6 +11,8 @@ export const Colors = {
   controlDark: "rgba(255, 255, 255, 0.1)",
   spotify: "#1db954",
   spotifyLabel: "#FFFFFF",
+  youtube: "#FF0000",
+  youtubeLabel: "#FFFFFF",
   google: "#FFFFFF",
   googleLabel: "rgba(0, 0, 0, 0.5)",
   border: "rgba(255, 255, 255, 0.1)",

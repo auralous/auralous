@@ -1,4 +1,4 @@
-import { imageSources } from "@/assets";
+import { ImageSources } from "@/assets";
 import { Colors, Size } from "@/styles";
 import { FC, memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
@@ -26,8 +26,8 @@ const Avatar: FC<AvatarProps> = ({ href, username, size }) => {
     <View style={[styles.root, { width: Size[size], height: Size[size] }]}>
       <Image
         style={styles.image}
-        source={href ? { uri: href } : imageSources.defaultUser}
-        defaultSource={imageSources.defaultUser}
+        source={href ? { uri: href } : ImageSources.defaultUser}
+        defaultSource={ImageSources.defaultUser}
         accessibilityLabel={username}
       />
     </View>

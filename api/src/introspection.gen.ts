@@ -1541,7 +1541,15 @@ export default {
                 }
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "playlistsFriends",

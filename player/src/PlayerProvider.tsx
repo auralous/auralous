@@ -36,9 +36,13 @@ const PlayerProviderInner: FC<{
   useEffect(() => {
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
+    player.on("play", onPlay); // Optimistic update
+    player.on("pause", onPause); // Optimistic update
     player.on("playing", onPlay);
     player.on("paused", onPause);
     return () => {
+      player.off("play", onPlay);
+      player.off("pause", onPause);
       player.off("playing", onPlay);
       player.off("paused", onPause);
     };

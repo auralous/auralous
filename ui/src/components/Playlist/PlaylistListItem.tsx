@@ -1,7 +1,7 @@
-import { imageSources, SvgByPlatformName } from "@/assets";
+import { IconByPlatformName, ImageSources } from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { Colors, Size } from "@/styles";
+import { Size } from "@/styles";
 import { Playlist } from "@auralous/api";
 import { FC, memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
@@ -28,11 +28,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  titleText: { flex: 1 },
 });
 
 const PlaylistListItem: FC<PlaylistListItemProps> = ({ playlist }) => {
-  const SvgPlatformIcon = SvgByPlatformName[playlist.platform];
-
   return (
     <View style={styles.root}>
       <Image
@@ -40,21 +39,21 @@ const PlaylistListItem: FC<PlaylistListItemProps> = ({ playlist }) => {
         source={
           playlist?.image
             ? { uri: playlist?.image }
-            : imageSources.defaultPlaylist
+            : ImageSources.defaultPlaylist
         }
-        defaultSource={imageSources.defaultPlaylist}
+        defaultSource={ImageSources.defaultPlaylist}
         accessibilityLabel={playlist?.name}
       />
       <Spacer x={2} />
       <View style={styles.meta}>
         <View style={styles.title}>
-          <SvgPlatformIcon
+          <IconByPlatformName
+            platformName={playlist.platform}
             width={Size[4]}
             height={Size[4]}
-            fill={Colors.text}
           />
           <Spacer x={1} />
-          <Text bold numberOfLines={1}>
+          <Text style={styles.titleText} bold numberOfLines={1}>
             {playlist.name}
           </Text>
         </View>

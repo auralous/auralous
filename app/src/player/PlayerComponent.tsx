@@ -5,7 +5,7 @@ import PlayerSpotify from "./PlayerSpotify";
 import PlayerView from "./PlayerView";
 import PlayerYoutube from "./PlayerYoutube";
 
-const PlayerComponent: FC = () => {
+const PlayerComponent: FC = ({ children }) => {
   const { playingPlatform } = usePlaybackAuthentication();
 
   const DynamicPlayer = useMemo(() => {
@@ -17,6 +17,7 @@ const PlayerComponent: FC = () => {
   return (
     <>
       {DynamicPlayer && <DynamicPlayer />}
+      {children}
       <PlayerView />
     </>
   );

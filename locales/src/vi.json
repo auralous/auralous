@@ -143,7 +143,7 @@
     "listen_on": "Nghe nhạc trên {{name}}"
   },
   "legal": {
-    "accept_continue_text": "Khi tiếp tục, bạn đồng ý với <0>Chính sách riêng tư của chúng mình</0>, <1>Điều khoản sử dụng của YouTube</1> và/hoặc <2> Chính sách riêng tư của Spotify</2> ở nơi áp dụng."
+    "accept_continue_text": "Khi tiếp tục, bạn đồng ý với <0>Chính sách riêng tư</0>, <1>Điều khoản sử dụng của YouTube</1> và/hoặc <2> Chính sách riêng tư của Spotify</2> ở nơi áp dụng."
   },
   "not_found": {
     "title": "Không tìm thấy",

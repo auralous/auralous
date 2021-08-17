@@ -1,4 +1,4 @@
-import { imageSources } from "@/assets";
+import { ImageSources } from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
@@ -37,9 +37,9 @@ const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
         source={
           playlist.image
             ? { uri: playlist.image }
-            : imageSources.defaultPlaylist
+            : ImageSources.defaultPlaylist
         }
-        defaultSource={imageSources.defaultPlaylist}
+        defaultSource={ImageSources.defaultPlaylist}
         style={styles.image}
         accessibilityLabel={playlist.name}
       />

@@ -1,4 +1,4 @@
-import { IconPlay, SvgByPlatformName } from "@/assets";
+import { IconByPlatformName, IconPlay } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  trackTitleText: { flex: 1 },
 });
 
 interface StoryCardItemProps {
@@ -90,8 +91,6 @@ interface StoryCardItemProps {
 
 const StoryCardItemTrack: FC<{ track: Track; index: number; onPress(): void }> =
   ({ track, index, onPress }) => {
-    const SvgPlatformName = SvgByPlatformName[track.platform];
-
     return (
       <View style={styles.trackItem}>
         <Text size="sm" color="textSecondary" style={styles.trackItemIndex}>
@@ -99,15 +98,18 @@ const StoryCardItemTrack: FC<{ track: Track; index: number; onPress(): void }> =
         </Text>
         <View style={styles.trackItemTrack}>
           <TouchableOpacity onPress={onPress} style={styles.trackTitle}>
-            {SvgPlatformName && (
-              <SvgPlatformName
-                width={Size[4]}
-                height={Size[4]}
-                fill={Colors.textSecondary}
-              />
-            )}
+            <IconByPlatformName
+              platformName={track.platform}
+              width={Size[4]}
+              height={Size[4]}
+            />
             <Spacer x={1} />
-            <Text size="sm" color="textSecondary" numberOfLines={1}>
+            <Text
+              style={styles.trackTitleText}
+              size="sm"
+              color="textSecondary"
+              numberOfLines={1}
+            >
               {track.title}
             </Text>
           </TouchableOpacity>
