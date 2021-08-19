@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { gestureHandlerRootHOC } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
   button: {
@@ -43,70 +43,66 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   newModal: {
-    ...StyleSheet.absoluteFillObject,
     alignItems: "center",
+    flex: 1,
     justifyContent: "center",
     padding: Size[6],
   },
-  srOnly: { height: 0, opacity: 0 },
 });
 
 const snapPoints = ["100%"];
 
-const AddButtonModalContent = gestureHandlerRootHOC(
-  function AddButtonModalContent({ onDismiss }) {
-    const { t } = useTranslation();
+const AddButtonModalContent: FC<{
+  onDismiss(): boolean;
+}> = ({ onDismiss }) => {
+  const { t } = useTranslation();
 
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    const navigateTo = useCallback(
-      (path: RouteName) => {
-        navigation.navigate(path);
-        onDismiss();
-      },
-      [navigation, onDismiss]
-    );
+  const navigateTo = useCallback(
+    (path: RouteName) => {
+      navigation.navigate(path);
+      onDismiss();
+    },
+    [navigation, onDismiss]
+  );
 
-    useBackHandlerDismiss(true, onDismiss);
+  useBackHandlerDismiss(true, onDismiss);
 
-    return (
-      <>
-        <BlurView
-          style={StyleSheet.absoluteFill}
-          blurType="dark"
-          blurAmount={6}
-        />
-        <View style={styles.newModal}>
-          <Heading level={2}>{t("new.title")}</Heading>
-          <Spacer y={8} />
-          <View style={styles.choices}>
-            <Button
-              variant="primary"
-              onPress={() => navigateTo(RouteName.NewSelectSongs)}
-              style={styles.choice}
-            >
-              {t("new.select_songs.title")}
-            </Button>
-            <Spacer x={3} />
-            <GradientButton
-              onPress={() => navigateTo(RouteName.NewQuickShare)}
-              style={styles.choice}
-            >
-              {t("new.quick_share.title")}
-            </GradientButton>
-          </View>
-          <Spacer y={6} />
-          {/** For a11y */}
-          <TextButton onPress={onDismiss} style={styles.srOnly}>
-            {t("common.navigation.go_back")}
-          </TextButton>
+  return (
+    <>
+      <BlurView
+        style={StyleSheet.absoluteFill}
+        blurType="dark"
+        blurAmount={6}
+      />
+      <SafeAreaView style={styles.newModal}>
+        <Heading level={2}>{t("new.title")}</Heading>
+        <Spacer y={8} />
+        <View style={styles.choices}>
+          <Button
+            variant="primary"
+            onPress={() => navigateTo(RouteName.NewSelectSongs)}
+            style={styles.choice}
+          >
+            {t("new.select_songs.title")}
+          </Button>
+          <Spacer x={3} />
+          <GradientButton
+            onPress={() => navigateTo(RouteName.NewQuickShare)}
+            style={styles.choice}
+          >
+            {t("new.quick_share.title")}
+          </GradientButton>
         </View>
-      </>
-    );
-  } as FC<{
-    onDismiss(): boolean;
-  }>
-);
+        <Spacer y={6} />
+        <TextButton onPress={onDismiss}>
+          {t("common.navigation.go_back")}
+        </TextButton>
+      </SafeAreaView>
+    </>
+  );
+};
 
 const AddButton: FC = () => {
   const { t } = useTranslation();
@@ -146,6 +142,8 @@ const AddButton: FC = () => {
         handleComponent={null}
         ref={ref}
         snapPoints={snapPoints}
+        enableHandlePanningGesture={false}
+        enableContentPanningGesture={false}
       >
         <AddButtonModalContent onDismiss={onDismiss} />
       </BottomSheetModal>

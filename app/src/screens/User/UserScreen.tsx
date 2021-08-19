@@ -6,7 +6,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UserMeta from "./components/UserMeta";
 import { UserTimeline } from "./components/UserTimeline";
@@ -33,13 +32,11 @@ const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
       navigation.setOptions({
         headerRight() {
           return (
-            <GestureHandlerRootView>
-              <TextButton
-                icon={<IconSettings width={21} height={21} />}
-                onPress={() => navigation.navigate(RouteName.Settings)}
-                accessibilityLabel={t("settings.title")}
-              />
-            </GestureHandlerRootView>
+            <TextButton
+              icon={<IconSettings width={21} height={21} />}
+              onPress={() => navigation.navigate(RouteName.Settings)}
+              accessibilityLabel={t("settings.title")}
+            />
           );
         },
       });

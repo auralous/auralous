@@ -1,3 +1,4 @@
+import { useBackHandlerDismiss } from "@/components/BottomSheet";
 import { QueueItem } from "@auralous/api";
 import {
   Button,
@@ -10,9 +11,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useBackHandlerDismiss } from "../BottomSheet/useBackHandlerDismiss";
 
 interface QueueAdderProps {
   visible: boolean;
@@ -32,9 +31,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const QueueAdderContent = gestureHandlerRootHOC<
-  Omit<QueueAdderProps, "visible">
->(({ onClose, items, onAddTracks, onRemoveTracks }) => {
+const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
+  onClose,
+  items,
+  onAddTracks,
+  onRemoveTracks,
+}) => {
   const { t } = useTranslation();
   const selectedTracks = useMemo(
     () => items.map((item) => item.trackId),
@@ -62,7 +64,7 @@ const QueueAdderContent = gestureHandlerRootHOC<
       </View>
     </SafeAreaView>
   );
-});
+};
 
 const snapPoints = ["100%"];
 
@@ -90,6 +92,8 @@ export const QueueAdder: FC<QueueAdderProps> = (props) => {
       ref={ref}
       handleComponent={null}
       snapPoints={snapPoints}
+      enableContentPanningGesture={false}
+      enableHandlePanningGesture={false}
     >
       <QueueAdderContent {...props} />
     </BottomSheetModal>

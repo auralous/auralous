@@ -1,3 +1,4 @@
+import { useBackHandlerDismiss } from "@/components/BottomSheet";
 import { RouteName } from "@/screens/types";
 import { Track } from "@auralous/api";
 import {
@@ -19,12 +20,8 @@ import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import {
-  gestureHandlerRootHOC,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useBackHandlerDismiss } from "../BottomSheet/useBackHandlerDismiss";
 import MetaAndButton from "./MetaAndButton";
 import QueueContent from "./QueueContent";
 
@@ -103,8 +100,6 @@ const QueueSheet: FC<{
   );
 };
 
-const QueueSheetWithHoc = gestureHandlerRootHOC(QueueSheet);
-
 export const QueueModal: FC<{
   nextItems: PlaybackState["nextItems"];
   currentTrack: Track | null;
@@ -121,8 +116,10 @@ export const QueueModal: FC<{
         snapPoints={snapPoints}
         handleComponent={null}
         stackBehavior="push"
+        enableContentPanningGesture={false}
+        enableHandlePanningGesture={false}
       >
-        <QueueSheetWithHoc
+        <QueueSheet
           currentTrack={currentTrack}
           nextItems={nextItems}
           onClose={onClose}

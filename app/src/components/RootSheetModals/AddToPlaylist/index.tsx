@@ -12,7 +12,6 @@ import {
   useState,
 } from "react";
 import { StyleSheet } from "react-native";
-import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
@@ -37,8 +36,6 @@ const AddToPlaylistSheetInner: FC<{
     </SafeAreaView>
   );
 };
-
-const InnerWithHOC = gestureHandlerRootHOC(AddToPlaylistSheetInner);
 
 export const AddToPlaylistSheet: FC<{
   value: AddToPlaylistContextValue;
@@ -70,8 +67,11 @@ export const AddToPlaylistSheet: FC<{
       stackBehavior="push"
       style={styles.root}
       enableContentPanningGesture={false}
+      enableHandlePanningGesture={false}
     >
-      {lastTrack && <InnerWithHOC onDismiss={onDismiss} track={lastTrack} />}
+      {lastTrack && (
+        <AddToPlaylistSheetInner onDismiss={onDismiss} track={lastTrack} />
+      )}
     </BottomSheetModal>
   );
 };

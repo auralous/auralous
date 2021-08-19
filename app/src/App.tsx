@@ -24,7 +24,6 @@ import {
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet } from "react-native";
-import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootSheetModals } from "./components/RootSheetModals";
 import { PlayerComponent, PlayerProvider } from "./player";
@@ -94,19 +93,19 @@ const App = () => {
     () => [
       {
         name: RouteName.Home,
-        component: gestureHandlerRootHOC(HomeScreen),
+        component: HomeScreen,
         options: { headerShown: false },
       },
       {
         name: RouteName.Map,
-        component: gestureHandlerRootHOC(MapScreen),
+        component: MapScreen,
         options: {
           title: t("map.title"),
         },
       },
       {
         name: RouteName.User,
-        component: gestureHandlerRootHOC(UserScreen),
+        component: UserScreen,
         options: {
           headerTitle: "",
           headerTranslucent: true,
@@ -114,21 +113,21 @@ const App = () => {
       },
       {
         name: RouteName.UserFollowers,
-        component: gestureHandlerRootHOC(UserFollowersScreen),
+        component: UserFollowersScreen,
         options: {
           title: t("user.followers"),
         },
       },
       {
         name: RouteName.UserFollowing,
-        component: gestureHandlerRootHOC(UserFollowingScreen),
+        component: UserFollowingScreen,
         options: {
           title: t("user.following"),
         },
       },
       {
         name: RouteName.Playlist,
-        component: gestureHandlerRootHOC(PlaylistScreen),
+        component: PlaylistScreen,
         options: {
           headerTitle: "",
           headerTranslucent: true,
@@ -136,7 +135,7 @@ const App = () => {
       },
       {
         name: RouteName.Story,
-        component: gestureHandlerRootHOC(StoryScreen),
+        component: StoryScreen,
         options: {
           headerTitle: "",
           headerTranslucent: true,
@@ -144,28 +143,28 @@ const App = () => {
       },
       {
         name: RouteName.StoryCollaborators,
-        component: gestureHandlerRootHOC(StoryCollaboratorsScreen),
+        component: StoryCollaboratorsScreen,
         options: {
           title: t("collab.title"),
         },
       },
       {
         name: RouteName.StoryInvite,
-        component: gestureHandlerRootHOC(StoryInviteScreen),
+        component: StoryInviteScreen,
         options: {
           headerTitle: "",
         },
       },
       {
         name: RouteName.StoryEdit,
-        component: gestureHandlerRootHOC(StoryEditScreen),
+        component: StoryEditScreen,
         options: {
           title: t("story_edit.title"),
         },
       },
       {
         name: RouteName.SignIn,
-        component: gestureHandlerRootHOC(SignInScreen),
+        component: SignInScreen,
         options: {
           presentation: "modal" as const,
           title: t("sign_in.title"),
@@ -174,21 +173,21 @@ const App = () => {
       },
       {
         name: RouteName.NewSelectSongs,
-        component: gestureHandlerRootHOC(SelectSongsScreen),
+        component: SelectSongsScreen,
         options: {
           title: t("new.select_songs.title"),
         },
       },
       {
         name: RouteName.NewQuickShare,
-        component: gestureHandlerRootHOC(QuickShareScreen),
+        component: QuickShareScreen,
         options: {
           title: t("new.quick_share.title"),
         },
       },
       {
         name: RouteName.NewFinal,
-        component: gestureHandlerRootHOC(CreateFinalScreen),
+        component: CreateFinalScreen,
         options: {
           animation: "fade" as const,
           headerShown: false,
@@ -196,7 +195,7 @@ const App = () => {
       },
       {
         name: RouteName.Settings,
-        component: gestureHandlerRootHOC(SettingsScreen),
+        component: SettingsScreen,
         options: {
           title: t("settings.title"),
         },

@@ -19,8 +19,9 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { getLocales } from "react-native-localize";
 
 const snapPoints = [240];
 
@@ -69,7 +70,7 @@ const LanguageUpdate: FC = () => {
     (newLanguage: string | undefined) => {
       close();
       setLanguage(newLanguage);
-      i18n.changeLanguage(newLanguage);
+      i18n.changeLanguage(newLanguage || getLocales()[0].languageCode);
       if (newLanguage) AsyncStorage.setItem("settings/language", newLanguage);
       else AsyncStorage.removeItem("settings/language");
     },
@@ -107,13 +108,11 @@ const LanguageUpdate: FC = () => {
       >
         <View style={styles.sheetHeading}>
           <Heading level={6}>{t("settings.language.title_edit")}</Heading>
-          <GestureHandlerRootView>
-            <TextButton
-              icon={<IconX />}
-              onPress={close}
-              accessibilityLabel={t("common.navigation.go_back")}
-            />
-          </GestureHandlerRootView>
+          <TextButton
+            icon={<IconX />}
+            onPress={close}
+            accessibilityLabel={t("common.navigation.go_back")}
+          />
         </View>
         <Spacer y={2} />
         <BottomSheetScrollView style={styles.sheetOptions}>

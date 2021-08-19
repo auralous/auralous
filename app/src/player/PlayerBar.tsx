@@ -17,20 +17,11 @@ import {
 } from "@auralous/ui";
 import { ImageSources } from "@auralous/ui/src/assets/images";
 import { useNavigationState } from "@react-navigation/native";
-import { FC, useCallback, useEffect } from "react";
+import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import { Image, Pressable, StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
 import { useAnimatedBgColors } from "./useAnimatedBgColors";
 
 const styles = StyleSheet.create({
@@ -79,10 +70,7 @@ const hiddenRoutes = [
   RouteName.Map,
 ] as string[];
 
-const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
-  visible,
-  onPress,
-}) => {
+const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({ onPress }) => {
   const { t } = useTranslation();
 
   const { isPlaying } = usePlaybackCurrentControl();
@@ -107,37 +95,17 @@ const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
 
   const animatedBgStyle = useAnimatedBgColors(usePlaybackColor());
 
-  const translateYValue = useSharedValue(0);
-
-  useEffect(() => {
-    if (visible) translateYValue.value = withTiming(0);
-    else translateYValue.value = withTiming(Size[16]);
-  }, [visible, translateYValue]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: translateYValue.value,
-      },
-    ],
-  }));
-
-  const onPressWithAnimate = useCallback(() => {
-    translateYValue.value = withTiming(Size[16]);
-    onPress();
-  }, [onPress, translateYValue]);
-
   if (!playbackCurrentContext) return null;
 
   if (hiddenRoutes.includes(navigationRouteName)) return null;
 
   return (
-    <Animated.View style={[styles.root, animatedStyle]}>
+    <View style={styles.root}>
       <Animated.View
         pointerEvents="none"
         style={[styles.bg, StyleSheet.absoluteFill, animatedBgStyle]}
       />
-      <Pressable style={styles.viewExpandTrigger} onPress={onPressWithAnimate}>
+      <Pressable style={styles.viewExpandTrigger} onPress={onPress}>
         <Image
           style={styles.image}
           source={
@@ -196,7 +164,7 @@ const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({
           )}
         </TouchableOpacity>
       </View>
-    </Animated.View>
+    </View>
   );
 };
 

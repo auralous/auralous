@@ -5,7 +5,8 @@ import type { Player } from "@auralous/player";
 import { PlaybackState } from "@auralous/player";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   backPrev: {

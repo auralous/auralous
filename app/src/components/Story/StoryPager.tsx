@@ -1,3 +1,4 @@
+import { useBackHandlerDismiss } from "@/components/BottomSheet";
 import { Story, useNowPlayingQuery, useTrackQuery } from "@auralous/api";
 import {
   Avatar,
@@ -10,7 +11,7 @@ import {
   Text,
   TextMarquee,
 } from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
@@ -18,7 +19,6 @@ import LinearGradient from "react-native-linear-gradient";
 import PagerView, {
   PagerViewOnPageSelectedEvent,
 } from "react-native-pager-view";
-import { useBackHandlerDismiss } from "../BottomSheet/useBackHandlerDismiss";
 
 const snapPoints = ["100%"];
 
@@ -198,9 +198,12 @@ export const StoryPager: FC<{
   return (
     <BottomSheetModal
       backgroundComponent={null}
-      backdropComponent={null}
+      backdropComponent={BottomSheetBackdrop}
       ref={bottomSheetRef}
       snapPoints={snapPoints}
+      onDismiss={onClose}
+      enableContentPanningGesture={false}
+      enableHandlePanningGesture={false}
     >
       <PagerView style={styles.root} onPageSelected={onPageSelected}>
         {stories.map((story) => (

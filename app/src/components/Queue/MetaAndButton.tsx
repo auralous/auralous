@@ -3,7 +3,8 @@ import { PlaybackState } from "@auralous/player";
 import { IconChevronUp, Size, Spacer, Text } from "@auralous/ui";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   button: {

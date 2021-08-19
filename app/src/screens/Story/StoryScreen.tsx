@@ -7,7 +7,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StoryLiveContent from "./components/StoryLiveContent";
 import { StoryNewPrompts } from "./components/StoryNewPrompts";
@@ -37,15 +36,13 @@ const StoryScreen: FC<NativeStackScreenProps<ParamList, RouteName.Story>> = ({
       navigation.setOptions({
         headerRight() {
           return (
-            <GestureHandlerRootView>
-              <TextButton
-                icon={<IconEdit width={21} height={21} />}
-                onPress={() =>
-                  navigation.navigate(RouteName.StoryEdit, { id: story.id })
-                }
-                accessibilityLabel={t("story_edit.title")}
-              />
-            </GestureHandlerRootView>
+            <TextButton
+              icon={<IconEdit width={21} height={21} />}
+              onPress={() =>
+                navigation.navigate(RouteName.StoryEdit, { id: story.id })
+              }
+              accessibilityLabel={t("story_edit.title")}
+            />
           );
         },
       });

@@ -8,8 +8,7 @@ import {
 } from "@/components/BottomSheet";
 import player, { usePlaybackAuthentication } from "@auralous/player";
 import { toast } from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
 import {
@@ -59,14 +58,9 @@ const PlayerSpotify: FC = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
-
   useEffect(() => {
     if (error) {
       toast.error(error.message);
-      bottomSheetRef.current?.present();
-    } else {
-      bottomSheetRef.current?.close();
     }
   }, [error]);
 

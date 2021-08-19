@@ -19,11 +19,12 @@ import {
   Spacer,
   Text,
 } from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import PagerView, {
   PagerViewOnPageSelectedEvent,
 } from "react-native-pager-view";
@@ -229,7 +230,10 @@ const PlayerView: FC = () => {
         onChange={setSheetIndex}
         ref={bottomSheetRef}
         snapPoints={snapPoints}
+        backdropComponent={BottomSheetBackdrop}
         handleComponent={null}
+        enableContentPanningGesture={false}
+        enableHandlePanningGesture={false}
       >
         <SafeAreaView style={styles.root}>
           <PlayerViewBackground />
