@@ -6,6 +6,7 @@ import {
   DialogFooter,
   useDialog,
 } from "@/components/BottomSheet";
+import { useBackHandlerDismiss } from "@/components/BottomSheet/useBackHandlerDismiss";
 import { RouteName } from "@/screens/types";
 import { useMeQuery, useTrackQuery } from "@auralous/api";
 import {
@@ -44,7 +45,7 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const cascadedHeight = 112;
@@ -224,16 +225,8 @@ const SelectedTrackListView: FC<{
     [setSelectedTracks]
   );
 
-  useEffect(() => {
-    if (!expanded) return;
-    const onBackPress = () => {
-      bottomSheetRef.current?.collapse();
-      return true;
-    };
-    BackHandler.addEventListener("hardwareBackPress", onBackPress);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
-  }, [expanded]);
+  const onDismiss = useCallback(() => bottomSheetRef.current?.collapse(), []);
+  useBackHandlerDismiss(expanded, onDismiss);
 
   const [visibleFinal, presentFinal, dismissFinal] = useDialog();
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
@@ -325,6 +318,7 @@ const SelectedTrackListView: FC<{
             ref={textInputRef}
             accessibilityLabel={t("story.text")}
             placeholder={defaultStoryText}
+            variant="underline"
           />
         </DialogContent>
         <DialogFooter>

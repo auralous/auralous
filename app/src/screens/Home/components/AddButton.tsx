@@ -1,3 +1,4 @@
+import { useBackHandlerDismiss } from "@/components/BottomSheet/useBackHandlerDismiss";
 import { GradientButton } from "@/components/Button";
 import { RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
@@ -12,9 +13,9 @@ import {
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback, useEffect, useRef } from "react";
+import { FC, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
@@ -66,11 +67,7 @@ const AddButtonModalContent = gestureHandlerRootHOC(
       [navigation, onDismiss]
     );
 
-    useEffect(() => {
-      BackHandler.addEventListener("hardwareBackPress", onDismiss);
-      return () =>
-        BackHandler.removeEventListener("hardwareBackPress", onDismiss);
-    }, [onDismiss]);
+    useBackHandlerDismiss(true, onDismiss);
 
     return (
       <>

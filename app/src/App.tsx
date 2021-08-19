@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { RootSheetModals } from "./components/RootSheetModals";
 import { PlayerComponent, PlayerProvider } from "./player";
 import { SettingsScreen } from "./screens/Settings";
 import {
@@ -206,27 +207,30 @@ const App = () => {
 
   return (
     <ApiProvider>
-      <SafeAreaProvider style={styles.sap}>
-        <NavigationContainer theme={navigationTheme} linking={linking}>
-          <PlayerProvider>
-            <BottomSheetModalProvider>
-              <StatusBar translucent backgroundColor="transparent" />
-              <PlayerComponent>
-                <Stack.Navigator screenOptions={commonScreenOptions}>
-                  {rootRoutes.map((route) => (
-                    <Stack.Screen
-                      key={route.name}
-                      name={route.name}
-                      component={route.component}
-                      options={route.options}
-                    />
-                  ))}
-                </Stack.Navigator>
-              </PlayerComponent>
-            </BottomSheetModalProvider>
-          </PlayerProvider>
-        </NavigationContainer>
-      </SafeAreaProvider>
+      <PlayerProvider>
+        <SafeAreaProvider style={styles.sap}>
+          <StatusBar translucent backgroundColor="transparent" />
+          <NavigationContainer theme={navigationTheme} linking={linking}>
+            <RootSheetModals.Provider>
+              <BottomSheetModalProvider>
+                <PlayerComponent>
+                  <Stack.Navigator screenOptions={commonScreenOptions}>
+                    {rootRoutes.map((route) => (
+                      <Stack.Screen
+                        key={route.name}
+                        name={route.name}
+                        component={route.component}
+                        options={route.options}
+                      />
+                    ))}
+                  </Stack.Navigator>
+                </PlayerComponent>
+                <RootSheetModals.Components />
+              </BottomSheetModalProvider>
+            </RootSheetModals.Provider>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </PlayerProvider>
     </ApiProvider>
   );
 };

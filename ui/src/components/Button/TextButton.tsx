@@ -18,7 +18,7 @@ export const TextButton: FC<BaseButtonProps> = (props) => {
       onPress={onPress}
       disabled={disabled}
     >
-      <View style={styles.base}>
+      <View style={StyleSheet.compose(styles.base, props.style)}>
         {icon}
         {!!(icon && children) && <Spacer x={1} />}
         <Text

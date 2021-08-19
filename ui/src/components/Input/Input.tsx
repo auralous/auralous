@@ -10,6 +10,7 @@ import {
   ColorValue,
   NativeSyntheticEvent,
   ReturnKeyTypeOptions,
+  StyleProp,
   StyleSheet,
   TextInput,
   TextInputSubmitEditingEventData,
@@ -29,6 +30,8 @@ interface InputProps {
   returnKeyType?: ReturnKeyTypeOptions;
   accessibilityLabel?: string;
   onSubmit?: (text: string) => void;
+  style?: StyleProp<ViewStyle>;
+  variant?: "underline";
 }
 
 const styles = StyleSheet.create({
@@ -36,6 +39,20 @@ const styles = StyleSheet.create({
     color: Colors.text,
     flex: 1,
     padding: 0,
+  },
+  root: {
+    alignContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    height: Size[10],
+    paddingHorizontal: Size[4],
+  },
+  rootDefault: {
+    borderRadius: 9999,
+    borderWidth: 1.5,
+  },
+  rootUnderline: {
+    borderBottomWidth: 1.5,
   },
 });
 
@@ -57,6 +74,8 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
     returnKeyType,
     accessibilityLabel,
     onSubmit,
+    style,
+    variant,
   },
   ref
 ) {
@@ -71,17 +90,11 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
 
   const stylesRoot = useAnimatedStyle<ViewStyle>(
     () => ({
-      borderRadius: 9999,
-      flexDirection: "row",
-      alignItems: "center",
-      borderWidth: 1.5,
-      paddingHorizontal: Size[4],
-      paddingVertical: Size[2],
       borderColor: withTiming(
         isFocused.value ? Colors.control : Colors.controlDark
       ) as unknown as ColorValue,
     }),
-    [Colors]
+    [Colors, variant]
   );
 
   const onSubmitEditing = useCallback(
@@ -113,7 +126,14 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
   );
 
   return (
-    <Animated.View style={stylesRoot}>
+    <Animated.View
+      style={[
+        stylesRoot,
+        styles.root,
+        variant === "underline" ? styles.rootUnderline : styles.rootDefault,
+        style,
+      ]}
+    >
       {startIcon}
       <TextInput
         ref={internalRef}

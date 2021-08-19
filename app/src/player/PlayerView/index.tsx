@@ -1,7 +1,11 @@
+import { useBackHandlerDismiss } from "@/components/BottomSheet/useBackHandlerDismiss";
+import { useRootSheetModalsSetter } from "@/components/RootSheetModals";
 import { RouteName } from "@/screens/types";
+import { useTrackQuery } from "@auralous/api";
 import {
   usePlaybackContextMeta,
   usePlaybackCurrentContext,
+  usePlaybackTrackId,
 } from "@auralous/player";
 import {
   Button,
@@ -9,6 +13,8 @@ import {
   Header,
   IconChevronDown,
   IconMoreHorizontal,
+  IconPlaylistAdd,
+  PlayerChatView,
   Size,
   Spacer,
   Text,
@@ -17,19 +23,12 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  BackHandler,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 import PagerView, {
   PagerViewOnPageSelectedEvent,
 } from "react-native-pager-view";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PlayerBar from "../PlayerBar";
-import ChatView from "./ChatView";
 import MusicView from "./MusicView";
 import PlayerViewBackground from "./PlayerViewBackground";
 
@@ -98,32 +97,66 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
     }
   }, [contextMeta, navigation]);
 
+  const trackId = usePlaybackTrackId();
+  const [{ data }] = useTrackQuery({
+    variables: { id: trackId || "" },
+    pause: !trackId,
+  });
+  const track = trackId ? data?.track : null;
+
+  const rootSheetModalsSetter = useRootSheetModalsSetter();
+
+  const presentMenu = useCallback(() => {
+    if (!track) return;
+    rootSheetModalsSetter.actionSheet({
+      visible: true,
+      title: track.title,
+      subtitle: track.artists.map((artist) => artist.name).join(", "),
+      image: track.image || undefined,
+      items: [
+        {
+          icon: <IconPlaylistAdd color={Colors.textSecondary} />,
+          text: t("playlist.add_to_playlist.title"),
+          onPress: () => rootSheetModalsSetter.addToPlaylist(track),
+        },
+      ],
+    });
+  }, [t, track, rootSheetModalsSetter]);
+
   return (
-    <Header
-      title={
-        contextMeta ? (
-          <TouchableOpacity onPress={onHeaderTitlePress}>
-            <Text size="xs" style={styles.playingFromText} align="center">
-              {t("player.playing_from", { entity: contextMeta.type })}
-            </Text>
-            <Spacer y={2} />
-            <Text size="sm" bold align="center">
-              {contextMeta.contextDescription}
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          ""
-        )
-      }
-      left={
-        <Button
-          onPress={onDismiss}
-          icon={<IconChevronDown />}
-          accessibilityLabel={t("common.navigation.go_back")}
-        />
-      }
-      right={<Button icon={<IconMoreHorizontal />} />}
-    />
+    <>
+      <Header
+        title={
+          contextMeta ? (
+            <TouchableOpacity onPress={onHeaderTitlePress}>
+              <Text size="xs" style={styles.playingFromText} align="center">
+                {t("player.playing_from", { entity: contextMeta.type })}
+              </Text>
+              <Spacer y={2} />
+              <Text size="sm" bold align="center">
+                {contextMeta.contextDescription}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            ""
+          )
+        }
+        left={
+          <Button
+            onPress={onDismiss}
+            icon={<IconChevronDown />}
+            accessibilityLabel={t("common.navigation.go_back")}
+          />
+        }
+        right={
+          <Button
+            icon={<IconMoreHorizontal />}
+            onPress={presentMenu}
+            accessibilityLabel={t("common.navigation.open_menu")}
+          />
+        }
+      />
+    </>
   );
 };
 
@@ -166,7 +199,7 @@ const PlayerViewInner: FC = () => {
           <MusicView key={0} />
         </View>
         <View>
-          <ChatView contextMeta={contextMeta} key={1} />
+          <PlayerChatView contextMeta={contextMeta} key={1} />
         </View>
       </PagerView>
     </View>
@@ -188,16 +221,7 @@ const PlayerView: FC = () => {
 
   const [sheetIndex, setSheetIndex] = useState(-1);
 
-  useEffect(() => {
-    const onBackPress = () => {
-      if (sheetIndex !== 0) return false;
-      dismiss();
-      return true;
-    };
-    BackHandler.addEventListener("hardwareBackPress", onBackPress);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
-  }, [dismiss, sheetIndex]);
+  useBackHandlerDismiss(sheetIndex === 0, dismiss);
 
   return (
     <>
@@ -206,7 +230,6 @@ const PlayerView: FC = () => {
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         handleComponent={null}
-        enableContentPanningGesture
       >
         <SafeAreaView style={styles.root}>
           <PlayerViewBackground />

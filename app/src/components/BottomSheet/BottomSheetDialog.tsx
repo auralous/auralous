@@ -8,7 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { BackHandler, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { useBackHandlerDismiss } from "./useBackHandlerDismiss";
 
 const styles = StyleSheet.create({
   button: {
@@ -53,14 +54,7 @@ export const Dialog: FC<BottomSheetDialogProps> = ({
     else ref.current?.dismiss();
   }, [visible]);
 
-  useEffect(() => {
-    if (!visible) return;
-    const bhs = BackHandler.addEventListener("hardwareBackPress", () => {
-      if (onDismiss) onDismiss();
-      return true;
-    });
-    return bhs.remove;
-  }, [visible, onDismiss]);
+  useBackHandlerDismiss(visible, onDismiss);
 
   return (
     <BottomSheetModal

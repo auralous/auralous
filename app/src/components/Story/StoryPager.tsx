@@ -13,11 +13,12 @@ import {
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import PagerView, {
   PagerViewOnPageSelectedEvent,
 } from "react-native-pager-view";
+import { useBackHandlerDismiss } from "../BottomSheet/useBackHandlerDismiss";
 
 const snapPoints = ["100%"];
 
@@ -181,13 +182,10 @@ export const StoryPager: FC<{
     if (!bottomSheetRef.current) return;
     if (visible) {
       bottomSheetRef.current.present();
-      const bhe = BackHandler.addEventListener("hardwareBackPress", () => {
-        onClose();
-        return true;
-      });
-      return bhe.remove;
     } else bottomSheetRef.current.dismiss();
   }, [visible, onClose]);
+
+  useBackHandlerDismiss(visible, onClose);
 
   const onPageSelected = useCallback(
     (event: PagerViewOnPageSelectedEvent) => {

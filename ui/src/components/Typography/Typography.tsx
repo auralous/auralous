@@ -1,4 +1,4 @@
-import { Colors, Font, Size, ThemeColorKey } from "@/styles";
+import { Colors, Font, ThemeColorKey } from "@/styles";
 import { FC, useCallback, useMemo } from "react";
 import {
   Linking,
@@ -47,7 +47,7 @@ export const useStyle = (props: TextProps & { level?: number }) =>
       ? sizes[props.size]
       : props.level
       ? levelSize[props.level - 1]
-      : Size[4];
+      : sizes.md;
     return {
       fontFamily: props.bold
         ? props.bold === "medium"

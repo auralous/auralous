@@ -153,6 +153,13 @@ export const cacheExchange = () =>
             id: meCache.me.user.id,
           });
         },
+        playlistCreate: (result, args, cache) => {
+          cache.invalidate("Query", "myPlaylists");
+        },
+        playlistAddTracks: (result, args, cache) => {
+          cache.invalidate({ __typename: "Playlist", id: args.id });
+          cache.invalidate("Query", "playlistTracks", { id: args.id });
+        },
       },
       Subscription: {
         storyUsersUpdated: (result, args, cache) => {

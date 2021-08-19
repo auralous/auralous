@@ -66,7 +66,15 @@
     "my_playlists": "Playlist của bạn",
     "x_song": "{{count}} bài hát",
     "x_song_plural": "{{count}} bài hát",
-    "view_all_x_songs": "Xem tất cả {{ count }} bài hát"
+    "view_all_x_songs": "Xem tất cả {{ count }} bài hát",
+    "add_to_playlist": {
+      "title": "Thêm vào playlist",
+      "create_playlist": {
+        "title": "Playlist mới",
+        "name_prompt": "Đặt tên cho playlist của bạn."
+      },
+      "added_to_playlist": "Đã thêm vào {{ playlist }}."
+    }
   },
   "story": {
     "title": "Story",
@@ -134,8 +142,9 @@
   "chat": {
     "title": "Chat",
     "input_label": "Nhập tin nhắn",
-    "play": "{{username}} phát bài hát",
-    "join": "{{username}} đã tham gia"
+    "play": "{{username}} phát <0>{{track}}</0>",
+    "join": "{{username}} đã tham gia",
+    "send_message": "Gửi tin nhắn"
   },
   "sign_in": {
     "title": "Đăng nhập",
@@ -171,7 +180,8 @@
       "just_now": "bây giờ"
     },
     "navigation": {
-      "go_back": "Trở về"
+      "go_back": "Trở về",
+      "open_menu": "Mở menu"
     },
     "label": {
       "search": "Tìm kiếm"
@@ -185,6 +195,7 @@
     "action": {
       "cancel": "Hủy bỏ",
       "confirm": "Xác nhận",
+      "create": "Tạo",
       "save": "Lưu",
       "retry": "Thử lại",
       "publish": "Đăng tải",

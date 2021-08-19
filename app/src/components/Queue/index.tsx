@@ -16,14 +16,15 @@ import {
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback, useEffect, useRef } from "react";
+import { FC, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   gestureHandlerRootHOC,
   TouchableOpacity,
 } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useBackHandlerDismiss } from "../BottomSheet/useBackHandlerDismiss";
 import MetaAndButton from "./MetaAndButton";
 import QueueContent from "./QueueContent";
 
@@ -57,15 +58,7 @@ const QueueSheet: FC<{
 }> = ({ onClose, nextItems, currentTrack }) => {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const onBackPress = () => {
-      onClose();
-      return true;
-    };
-    BackHandler.addEventListener("hardwareBackPress", onBackPress);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", onBackPress);
-  }, [onClose]);
+  useBackHandlerDismiss(true, onClose);
 
   const contextMeta = usePlaybackContextMeta(usePlaybackCurrentContext());
   const navigation = useNavigation();

@@ -1,2 +1,2 @@
 export { default as toast } from "./toast";
-export { toastAPIErrors } from "./utils";
+export { toastCombinedErrors } from "./utils";

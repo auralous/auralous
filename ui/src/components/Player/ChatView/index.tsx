@@ -1,3 +1,10 @@
+import { IconArrowRight, IconLogIn, IconMusic } from "@/assets";
+import { Avatar } from "@/components/Avatar";
+import { Button } from "@/components/Button";
+import { Input, InputRef } from "@/components/Input";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
+import { Size } from "@/styles";
 import {
   Message,
   MessageType,
@@ -7,20 +14,8 @@ import {
   useTrackQuery,
 } from "@auralous/api";
 import { PlaybackContextMeta } from "@auralous/player";
-import {
-  Avatar,
-  IconLogIn,
-  IconMusic,
-  Input,
-  InputRef,
-  Size,
-  Spacer,
-  Text,
-} from "@auralous/ui";
-import { format as formatMs } from "@lukeed/ms";
-import { TFunction } from "i18next";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import {
   FlatList,
   ListRenderItem,
@@ -31,22 +26,29 @@ import {
 } from "react-native";
 
 const styles = StyleSheet.create({
-  chatHead: {
-    alignItems: "center",
-    flexDirection: "row",
-    marginBottom: Size[2],
+  content: {
+    paddingTop: Size[1.5],
   },
-  chatTrack: {
-    backgroundColor: "rgba(255,255,255,0.01)",
-    borderRadius: 8,
-    padding: Size[2],
+  icon: {
+    backgroundColor: "rgba(255, 255, 255, .1)",
+    borderRadius: 9999,
+    padding: Size[1],
+  },
+  input: {
+    flex: 1,
+    marginRight: Size[1],
+  },
+  inputContainer: {
+    flexDirection: "row",
   },
   list: {
     flex: 1,
     paddingHorizontal: Size[1],
   },
   listItem: {
-    paddingVertical: Size[2],
+    alignItems: "flex-start",
+    flexDirection: "row",
+    marginBottom: Size[4],
   },
   root: {
     flex: 1,
@@ -55,11 +57,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const getDateDiffTxt = (t: TFunction, createdAt: Date) => {
-  const dateDiff = Date.now() - createdAt.getTime();
-  return dateDiff < 1000 ? t("common.time.just_now") : formatMs(dateDiff);
-};
-
 const ChatItemJoin: FC<{
   message: Message;
 }> = ({ message }) => {
@@ -67,13 +64,13 @@ const ChatItemJoin: FC<{
 
   return (
     <View style={styles.listItem}>
-      <View style={styles.chatHead}>
+      <View style={styles.icon}>
         <IconLogIn width={18} height={18} />
-        <Spacer x={2} />
+      </View>
+      <Spacer x={2} />
+      <View style={styles.content}>
         <Text color="textSecondary">
-          {t("chat.play", { username: message.creator.username })}
-          {" • "}
-          {getDateDiffTxt(t, message.createdAt)}
+          {t("chat.join", { username: message.creator.username })}
         </Text>
       </View>
     </View>
@@ -93,17 +90,24 @@ const ChatItemPlay: FC<{
 
   return (
     <View style={styles.listItem}>
-      <View style={styles.chatHead}>
+      <View style={styles.icon}>
         <IconMusic width={18} height={18} />
-        <Spacer x={2} />
-        <Text color="textSecondary">
-          {t("chat.play", { username: message.creator.username })}
-          {" • "}
-          {getDateDiffTxt(t, message.createdAt)}
-        </Text>
       </View>
-      <View style={styles.chatTrack}>
-        <Text>{track?.artists.map((artist) => artist.name).join(", ")} </Text>
+      <Spacer x={2} />
+      <View style={styles.content}>
+        <Text color="textSecondary">
+          <Trans
+            t={t}
+            i18nKey="chat.play"
+            components={[<Text key={0} />]}
+            values={{
+              username: message.creator.username,
+              track: `${track?.title} - ${track?.artists
+                .map((artist) => artist.name)
+                .join(", ")}`,
+            }}
+          ></Trans>
+        </Text>
       </View>
     </View>
   );
@@ -112,26 +116,21 @@ const ChatItemPlay: FC<{
 const ChatItemText: FC<{
   message: Message;
 }> = ({ message }) => {
-  const { t } = useTranslation();
-
   return (
     <View style={styles.listItem}>
-      <View style={styles.chatHead}>
-        <Avatar
-          size={6}
-          username={message.creator.username}
-          href={message.creator.profilePicture}
-        />
-        <Spacer x={2} />
-        <Text bold>{message.creator.username}</Text>
-        <Text color="textSecondary">
-          {" • "}
-          {getDateDiffTxt(t, message.createdAt)}
+      <Avatar
+        size={6}
+        username={message.creator.username}
+        href={message.creator.profilePicture}
+      />
+      <Spacer x={2} />
+      <View style={styles.content}>
+        <Text>
+          <Text bold>{message.creator.username}</Text>
+          <Spacer x={2} />
+          <Text color="text">{message.text}</Text>
         </Text>
       </View>
-      <Text color="text" style={{ lineHeight: 20 }}>
-        {message.text}
-      </Text>
     </View>
   );
 };
@@ -214,23 +213,28 @@ const ChatInput: FC<{ id: string }> = ({ id }) => {
 
   const [{ fetching }, addMessage] = useMessageAddMutation();
 
-  const onSend = useCallback(
-    async (text: string) => {
-      const trimMsg = text.trim();
-      if (fetching || trimMsg.length === 0) return;
-      addMessage({ id, text: trimMsg }).then(() => inputRef.current?.clear());
-    },
-    [fetching, id, addMessage]
-  );
+  const onSend = useCallback(async () => {
+    if (!inputRef.current) return;
+    const trimMsg = inputRef.current.value.trim();
+    if (fetching || trimMsg.length === 0) return;
+    addMessage({ id, text: trimMsg }).then(() => inputRef.current?.clear());
+  }, [fetching, id, addMessage]);
 
   return (
-    <View>
+    <View style={styles.inputContainer}>
       <Input
         ref={inputRef}
         onSubmit={onSend}
         accessibilityLabel={t("chat.input_label")}
         placeholder={t("chat.input_label")}
+        style={styles.input}
       />
+      <Button
+        accessibilityLabel={t("chat.send_message")}
+        icon={<IconArrowRight />}
+        onPress={onSend}
+        disabled={fetching}
+      ></Button>
     </View>
   );
 };

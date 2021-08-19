@@ -1,3 +1,4 @@
+import { useBackHandlerDismiss } from "@/components/BottomSheet/useBackHandlerDismiss";
 import { supportedLanguages } from "@/i18n";
 import {
   Button,
@@ -18,7 +19,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const snapPoints = [240];
@@ -61,14 +62,8 @@ const LanguageUpdate: FC = () => {
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
   const open = useCallback(() => bottomSheetRef.current?.present(), []);
   const close = useCallback(() => bottomSheetRef.current?.dismiss(), []);
-  useEffect(() => {
-    if (bottomSheetIndex === -1) return;
-    const bhl = BackHandler.addEventListener("hardwareBackPress", () => {
-      close();
-      return true;
-    });
-    return bhl.remove;
-  }, [bottomSheetIndex, close]);
+
+  useBackHandlerDismiss(bottomSheetIndex === 0, close);
 
   const updateLanguage = useCallback(
     (newLanguage: string | undefined) => {

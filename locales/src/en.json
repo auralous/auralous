@@ -66,7 +66,15 @@
     "my_playlists": "My Playlists",
     "x_song": "{{count}} song",
     "x_song_plural": "{{count}} songs",
-    "view_all_x_songs": "See all {{ count }} songs"
+    "view_all_x_songs": "See all {{ count }} songs",
+    "add_to_playlist": {
+      "title": "Add to playlist",
+      "create_playlist": {
+        "title": "New Playlist",
+        "name_prompt": "Give your playlist a name."
+      },
+      "added_to_playlist": "Added to {{ playlist }}."
+    }
   },
   "story": {
     "title": "Story",
@@ -134,8 +142,9 @@
   "chat": {
     "title": "Chat",
     "input_label": "Enter chat message",
-    "play": "{{username}} played a song",
-    "join": "{{username}} has joined"
+    "play": "{{username}} played <0>{{track}}</0>",
+    "join": "{{username}} has joined",
+    "send_message": "Send message"
   },
   "sign_in": {
     "title": "Sign in",
@@ -171,7 +180,8 @@
       "just_now": "just now"
     },
     "navigation": {
-      "go_back": "Go back"
+      "go_back": "Go back",
+      "open_menu": "Open menu"
     },
     "label": {
       "search": "Search"
@@ -185,6 +195,7 @@
     "action": {
       "cancel": "Cancel",
       "confirm": "Confirm",
+      "create": "Create",
       "save": "Save",
       "retry": "Retry",
       "publish": "Publish",

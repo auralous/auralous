@@ -1,8 +1,9 @@
 import { TFunction } from "react-i18next";
+import { CombinedError } from "urql";
 import toast from "./toast";
 
-export const toastAPIErrors = (errors: Error[], t: TFunction) => {
-  for (const error of errors) {
-    toast.error(t(error.message));
+export const toastCombinedErrors = (t: TFunction, error: CombinedError) => {
+  for (const err of error.graphQLErrors) {
+    toast.error(t(err.message));
   }
 };

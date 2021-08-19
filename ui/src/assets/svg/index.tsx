@@ -1,6 +1,7 @@
 import { Colors } from "@/styles";
 import { FC, memo } from "react";
 import { SvgProps } from "react-native-svg";
+import IconArrowRightRaw from "./arrow-right.svg";
 import IconCheckRaw from "./check.svg";
 import IconChevronDownRaw from "./chevron-down.svg";
 import IconChevronLeftRaw from "./chevron-left.svg";
@@ -66,5 +67,6 @@ export const IconUser = wrapIcon(IconUserRaw);
 export const IconUserPlus = wrapIcon(IconUserPlusRaw);
 export const IconEdit = wrapIcon(IconEditRaw);
 export const IconSettings = wrapIcon(IconSettingsRaw);
+export const IconArrowRight = wrapIcon(IconArrowRightRaw);
 
 export { IconByPlatformName } from "./PlatformIcon";
