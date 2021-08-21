@@ -38,7 +38,8 @@
     },
     "final": {
       "title": "Chuẩn bị lên sóng",
-      "subtitle": "Tụ tập bàn bè và nghe nhạc bên nhau nào."
+      "subtitle": "Tụ tập bàn bè và nghe nhạc bên nhau nào.",
+      "not_auth_prompt": "Story của bạn chỉ còn cách một bước thôi"
     }
   },
   "select_songs": {
@@ -104,7 +105,8 @@
       "description": "Story này đang phát <0>TRỰC TIẾP</0>",
       "unlive": "Dừng phát",
       "unlive_prompt": "Bạn không thể thêm bài hát mới nhưng có thể phát lại những bài đã thêm bất cứ lúc nào.",
-      "unlive_ok": "Story đã ngừng phát trực tiếp"
+      "unlive_ok": "Story đã ngừng phát trực tiếp",
+      "play_other_prompt": "Phát mục khác sẽ dừng story hiện tại"
     },
     "delete": {
       "title": "Xóa Story",
@@ -212,11 +214,13 @@
     }
   },
   "share": {
+    "share": "Chia sẻ",
     "invite_friends": "Mời bạn bè"
   },
   "settings": {
     "title": "Cài đặt",
     "sign_out": "Đăng xuất",
+    "edit_profile": "Chỉnh sửa hồ sơ",
     "profile_picture_note": "Cập nhật ảnh đại diện của bạn trên {{ name }}",
     "me": "Tôi",
     "me_updated": "Hồ sơ của bạn đã được cập nhật",

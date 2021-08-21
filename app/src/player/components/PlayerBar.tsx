@@ -1,3 +1,4 @@
+import { useAnimatedBgColors } from "@/components/Colors";
 import { RouteName } from "@/screens/types";
 import { useTrackQuery } from "@auralous/api";
 import player, {
@@ -10,19 +11,18 @@ import {
   IconByPlatformName,
   IconPause,
   IconPlay,
+  ImageSources,
   Size,
   SkeletonBlock,
   Spacer,
   TextMarquee,
 } from "@auralous/ui";
-import { ImageSources } from "@auralous/ui/src/assets/images";
 import { useNavigationState } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
-import { useAnimatedBgColors } from "./useAnimatedBgColors";
 
 const styles = StyleSheet.create({
   bg: { opacity: 0.5 },
@@ -70,7 +70,7 @@ const hiddenRoutes = [
   RouteName.Map,
 ] as string[];
 
-const PlayerBar: FC<{ visible: boolean; onPress(): void }> = ({ onPress }) => {
+const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
   const { t } = useTranslation();
 
   const { isPlaying } = usePlaybackCurrentControl();

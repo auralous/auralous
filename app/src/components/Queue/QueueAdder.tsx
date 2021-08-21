@@ -94,6 +94,7 @@ export const QueueAdder: FC<QueueAdderProps> = (props) => {
       snapPoints={snapPoints}
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
+      dismissOnPanDown={false}
     >
       <QueueAdderContent {...props} />
     </BottomSheetModal>

@@ -66,6 +66,7 @@ export const Dialog: FC<BottomSheetDialogProps> = ({
       stackBehavior="push"
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
+      dismissOnPanDown={false}
     >
       <View style={styles.container}>{children}</View>
     </BottomSheetModal>

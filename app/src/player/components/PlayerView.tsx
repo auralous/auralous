@@ -29,8 +29,8 @@ import PagerView, {
   PagerViewOnPageSelectedEvent,
 } from "react-native-pager-view";
 import { SafeAreaView } from "react-native-safe-area-context";
-import PlayerBar from "../PlayerBar";
 import MusicView from "./MusicView";
+import PlayerBar from "./PlayerBar";
 import PlayerViewBackground from "./PlayerViewBackground";
 
 const snapPoints = ["100%"];
@@ -40,13 +40,16 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 0,
   },
+  headerTitle: {
+    paddingVertical: Size[1],
+  },
   pagerView: {
     flex: 1,
   },
+
   playingFromText: {
     textTransform: "uppercase",
   },
-
   root: {
     flex: 1,
     paddingTop: Size[2],
@@ -129,7 +132,10 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
       <Header
         title={
           contextMeta ? (
-            <TouchableOpacity onPress={onHeaderTitlePress}>
+            <TouchableOpacity
+              style={styles.headerTitle}
+              onPress={onHeaderTitlePress}
+            >
               <Text size="xs" style={styles.playingFromText} align="center">
                 {t("player.playing_from", { entity: contextMeta.type })}
               </Text>
@@ -234,6 +240,7 @@ const PlayerView: FC = () => {
         handleComponent={null}
         enableContentPanningGesture={false}
         enableHandlePanningGesture={false}
+        dismissOnPanDown={false}
       >
         <SafeAreaView style={styles.root}>
           <PlayerViewBackground />
@@ -241,7 +248,7 @@ const PlayerView: FC = () => {
           <PlayerViewInner />
         </SafeAreaView>
       </BottomSheetModal>
-      <PlayerBar visible={sheetIndex === -1} onPress={present} />
+      <PlayerBar onPress={present} />
     </>
   );
 };

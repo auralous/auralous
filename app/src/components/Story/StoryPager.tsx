@@ -204,6 +204,7 @@ export const StoryPager: FC<{
       onDismiss={onClose}
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
+      dismissOnPanDown={false}
     >
       <PagerView style={styles.root} onPageSelected={onPageSelected}>
         {stories.map((story) => (

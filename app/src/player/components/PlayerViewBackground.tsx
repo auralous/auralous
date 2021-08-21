@@ -1,9 +1,9 @@
+import { useAnimatedBgColors } from "@/components/Colors";
 import { usePlaybackColor } from "@auralous/player";
 import { FC, memo } from "react";
 import { StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Animated from "react-native-reanimated";
-import { useAnimatedBgColors } from "../useAnimatedBgColors";
 
 const gradientColors = ["rgba(0,0,0,.5)", "rgba(0,0,0,.1)"];
 const start = { x: 0, y: 2 / 3 };

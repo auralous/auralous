@@ -35,10 +35,10 @@ query storiesOnMap($lng: Float!, $lat: Float!, $radius: Float!) {
   }
 }
 
-query storyLive($creatorId: String) {
-  storyLive(creatorId: $creatorId) {
-    id
-    ...StoryDetailParts
+query storyCurrentLive($creatorId: ID!) {
+  storyCurrentLive(creatorId: $creatorId) {
+    creatorId
+    storyId
   }
 }
 

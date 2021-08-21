@@ -1774,6 +1774,26 @@ export default {
             ]
           },
           {
+            "name": "storyCurrentLive",
+            "type": {
+              "kind": "OBJECT",
+              "name": "StoryCurrentLive",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "creatorId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "storyInviteLink",
             "type": {
               "kind": "NON_NULL",
@@ -1791,23 +1811,6 @@ export default {
                     "kind": "SCALAR",
                     "name": "Any"
                   }
-                }
-              }
-            ]
-          },
-          {
-            "name": "storyLive",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Story",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "creatorId",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
                 }
               }
             ]
@@ -2217,6 +2220,35 @@ export default {
           },
           {
             "name": "trackTotal",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "StoryCurrentLive",
+        "fields": [
+          {
+            "name": "creatorId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "storyId",
             "type": {
               "kind": "NON_NULL",
               "ofType": {

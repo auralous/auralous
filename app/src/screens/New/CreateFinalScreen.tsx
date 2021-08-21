@@ -1,5 +1,5 @@
 import { ParamList, RouteName } from "@/screens/types";
-import { useStoryCreateMutation } from "@auralous/api";
+import { useMeQuery, useStoryCreateMutation } from "@auralous/api";
 import player from "@auralous/player";
 import {
   Button,
@@ -10,6 +10,7 @@ import {
   Size,
   Spacer,
   Text,
+  TextButton,
 } from "@auralous/ui";
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -56,6 +57,8 @@ const CreateFinalScreen: FC<
 
   const [{ fetching }, createStory] = useStoryCreateMutation();
 
+  const [{ data: dataMe }] = useMeQuery();
+
   const onCreate = useCallback(async () => {
     const result = await createStory({
       text: route.params.text,
@@ -89,13 +92,32 @@ const CreateFinalScreen: FC<
 
   const [sec, setSec] = useState(4);
   useEffect(() => {
+    if (!dataMe?.me) return;
     if (sec <= 0) {
       onCreate();
       return;
     }
     const intv = setTimeout(() => setSec(sec - 1), 1000);
     return () => clearTimeout(intv);
-  }, [sec, onCreate]);
+  }, [sec, onCreate, dataMe?.me]);
+
+  if (!dataMe?.me)
+    return (
+      <SafeAreaView style={styles.root}>
+        <Heading level={6}>{t("new.final.not_auth_prompt")}</Heading>
+        <Spacer y={8} />
+        <Button
+          variant="primary"
+          onPress={() => navigation.navigate(RouteName.SignIn)}
+        >
+          {t("sign_in.title")}
+        </Button>
+        <Spacer y={2} />
+        <TextButton onPress={navigation.goBack}>
+          {t("common.action.cancel")}
+        </TextButton>
+      </SafeAreaView>
+    );
 
   return (
     <LinearGradient

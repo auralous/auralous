@@ -38,7 +38,8 @@
     },
     "final": {
       "title": "Ready. Set. Listen.",
-      "subtitle": "Gather your friends and listen together."
+      "subtitle": "Gather your friends and listen together.",
+      "not_auth_prompt": "Your story is just one step away"
     }
   },
   "select_songs": {
@@ -104,7 +105,8 @@
       "description": "This story is <0>LIVE</0>",
       "unlive": "Stop streaming",
       "unlive_prompt": "You will not be able to add any new songs to this story but will be able to stream played songs at any time later.",
-      "unlive_ok": "Story has been taken offline"
+      "unlive_ok": "Story has been taken offline",
+      "play_other_prompt": "Playing something else will the stop the current story"
     },
     "delete": {
       "title": "Delete Story",
@@ -212,11 +214,13 @@
     }
   },
   "share": {
+    "share": "Share",
     "invite_friends": "Invite friends"
   },
   "settings": {
     "title": "Settings",
     "sign_out": "Sign Out",
+    "edit_profile": "Edit profile",
     "profile_picture_note": "Update your profile picture on {{ name }}",
     "me": "Me",
     "me_updated": "Your profile has been updated",

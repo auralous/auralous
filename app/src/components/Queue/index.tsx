@@ -118,6 +118,7 @@ export const QueueModal: FC<{
         stackBehavior="push"
         enableContentPanningGesture={false}
         enableHandlePanningGesture={false}
+        dismissOnPanDown={false}
       >
         <QueueSheet
           currentTrack={currentTrack}

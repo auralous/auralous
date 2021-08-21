@@ -26,6 +26,7 @@ export const cacheExchange = () =>
       Me: () => null,
       NowPlayingReactionItem: () => null,
       NowPlayingQueueItem: () => null,
+      StoryCurrentLive: (data) => data.creatorId || null,
     },
     resolvers: {
       Query: {
@@ -68,13 +69,13 @@ export const cacheExchange = () =>
       Mutation: {
         storyCreate: (result, args, cache) => {
           if (!result.storyCreate) return;
-          cache.invalidate("Query", "storyLive", {
+          cache.invalidate("Query", "storyCurrentLive", {
             creatorId: (result.storyCreate as Story).creatorId,
           });
         },
         storyUnlive: (result, args, cache) => {
           if (!result.storyUnlive) return;
-          cache.invalidate("Query", "storyLive", {
+          cache.invalidate("Query", "storyCurrentLive", {
             creatorId: (result.storyUnlive as Story).creatorId,
           });
         },

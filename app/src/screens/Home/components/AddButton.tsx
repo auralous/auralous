@@ -1,7 +1,7 @@
 import { useBackHandlerDismiss } from "@/components/BottomSheet/useBackHandlerDismiss";
 import { GradientButton } from "@/components/Button";
 import { RouteName } from "@/screens/types";
-import { useMeQuery } from "@auralous/api";
+import { useMeQuery, useStoryCurrentLiveQuery } from "@auralous/api";
 import {
   Button,
   Heading,
@@ -114,13 +114,18 @@ const AddButton: FC = () => {
     return true;
   }, []);
 
-  const [{ data: dataMe }] = useMeQuery();
-  const navigation = useNavigation();
-
   const onOpen = useCallback(() => {
-    if (!dataMe?.me) return navigation.navigate(RouteName.SignIn);
     ref.current?.present();
-  }, [dataMe, navigation]);
+  }, []);
+
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
+  const [{ data: dataStoryCurrentLive }] = useStoryCurrentLiveQuery({
+    variables: { creatorId: me?.user.id || "" },
+    pause: !me,
+  });
+  const hasCurrentLiveStory = !!me && !!dataStoryCurrentLive?.storyCurrentLive;
+
+  if (hasCurrentLiveStory) return null;
 
   return (
     <>
@@ -144,6 +149,7 @@ const AddButton: FC = () => {
         snapPoints={snapPoints}
         enableHandlePanningGesture={false}
         enableContentPanningGesture={false}
+        dismissOnPanDown={false}
       >
         <AddButtonModalContent onDismiss={onDismiss} />
       </BottomSheetModal>

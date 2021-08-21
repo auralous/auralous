@@ -295,8 +295,8 @@ export type Query = {
   stories: Array<Story>;
   storiesOnMap: Array<Story>;
   story?: Maybe<Story>;
+  storyCurrentLive?: Maybe<StoryCurrentLive>;
   storyInviteLink: Scalars['String'];
-  storyLive?: Maybe<Story>;
   storyTracks: Array<Track>;
   storyUsers?: Maybe<Array<Scalars['String']>>;
   track?: Maybe<Track>;
@@ -387,13 +387,13 @@ export type QueryStoryArgs = {
 };
 
 
-export type QueryStoryInviteLinkArgs = {
-  id: Scalars['ID'];
+export type QueryStoryCurrentLiveArgs = {
+  creatorId: Scalars['ID'];
 };
 
 
-export type QueryStoryLiveArgs = {
-  creatorId?: Maybe<Scalars['String']>;
+export type QueryStoryInviteLinkArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -464,6 +464,12 @@ export type Story = {
   collaboratorIds: Array<Scalars['String']>;
   onMap?: Maybe<Scalars['Boolean']>;
   trackTotal: Scalars['Int'];
+};
+
+export type StoryCurrentLive = {
+  __typename: 'StoryCurrentLive';
+  creatorId: Scalars['ID'];
+  storyId: Scalars['ID'];
 };
 
 export type Subscription = {
@@ -757,12 +763,12 @@ export type StoriesOnMapQueryVariables = Exact<{
 
 export type StoriesOnMapQuery = { storiesOnMap: Array<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
 
-export type StoryLiveQueryVariables = Exact<{
-  creatorId?: Maybe<Scalars['String']>;
+export type StoryCurrentLiveQueryVariables = Exact<{
+  creatorId: Scalars['ID'];
 }>;
 
 
-export type StoryLiveQuery = { storyLive?: Maybe<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type StoryCurrentLiveQuery = { storyCurrentLive?: Maybe<{ __typename: 'StoryCurrentLive', creatorId: string, storyId: string }> };
 
 export type StoryTracksQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1095,10 +1101,10 @@ export const StoriesOnMapDocument = {"kind":"Document","definitions":[{"kind":"O
 export function useStoriesOnMapQuery(options: Omit<Urql.UseQueryArgs<StoriesOnMapQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<StoriesOnMapQuery>({ query: StoriesOnMapDocument, ...options });
 };
-export const StoryLiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyLive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyLive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const StoryCurrentLiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyCurrentLive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyCurrentLive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"storyId"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useStoryLiveQuery(options: Omit<Urql.UseQueryArgs<StoryLiveQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoryLiveQuery>({ query: StoryLiveDocument, ...options });
+export function useStoryCurrentLiveQuery(options: Omit<Urql.UseQueryArgs<StoryCurrentLiveQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<StoryCurrentLiveQuery>({ query: StoryCurrentLiveDocument, ...options });
 };
 export const StoryTracksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyTracks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"from"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"to"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyTracks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"from"},"value":{"kind":"Variable","name":{"kind":"Name","value":"from"}}},{"kind":"Argument","name":{"kind":"Name","value":"to"},"value":{"kind":"Variable","name":{"kind":"Name","value":"to"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"artists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"}}]}}]}}]} as unknown as DocumentNode;
 
@@ -1237,6 +1243,7 @@ export type GraphCacheKeysConfig = {
   Queue?: (data: WithTypename<Queue>) => null | string,
   QueueItem?: (data: WithTypename<QueueItem>) => null | string,
   Story?: (data: WithTypename<Story>) => null | string,
+  StoryCurrentLive?: (data: WithTypename<StoryCurrentLive>) => null | string,
   Track?: (data: WithTypename<Track>) => null | string,
   User?: (data: WithTypename<User>) => null | string,
   UserStat?: (data: WithTypename<UserStat>) => null | string
@@ -1261,8 +1268,8 @@ export type GraphCacheResolvers = {
     stories?: GraphCacheResolver<WithTypename<Query>, QueryStoriesArgs, Array<WithTypename<Story> | string>>,
     storiesOnMap?: GraphCacheResolver<WithTypename<Query>, QueryStoriesOnMapArgs, Array<WithTypename<Story> | string>>,
     story?: GraphCacheResolver<WithTypename<Query>, QueryStoryArgs, WithTypename<Story> | string>,
+    storyCurrentLive?: GraphCacheResolver<WithTypename<Query>, QueryStoryCurrentLiveArgs, WithTypename<StoryCurrentLive> | string>,
     storyInviteLink?: GraphCacheResolver<WithTypename<Query>, QueryStoryInviteLinkArgs, Scalars['String'] | string>,
-    storyLive?: GraphCacheResolver<WithTypename<Query>, QueryStoryLiveArgs, WithTypename<Story> | string>,
     storyTracks?: GraphCacheResolver<WithTypename<Query>, QueryStoryTracksArgs, Array<WithTypename<Track> | string>>,
     storyUsers?: GraphCacheResolver<WithTypename<Query>, QueryStoryUsersArgs, Array<Scalars['String'] | string>>,
     track?: GraphCacheResolver<WithTypename<Query>, QueryTrackArgs, WithTypename<Track> | string>,
@@ -1365,6 +1372,10 @@ export type GraphCacheResolvers = {
     collaboratorIds?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Array<Scalars['String'] | string>>,
     onMap?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['Boolean'] | string>,
     trackTotal?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['Int'] | string>
+  },
+  StoryCurrentLive?: {
+    creatorId?: GraphCacheResolver<WithTypename<StoryCurrentLive>, Record<string, never>, Scalars['ID'] | string>,
+    storyId?: GraphCacheResolver<WithTypename<StoryCurrentLive>, Record<string, never>, Scalars['ID'] | string>
   },
   Track?: {
     id?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, Scalars['ID'] | string>,

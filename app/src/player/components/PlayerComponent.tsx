@@ -1,9 +1,10 @@
 import { PlatformName } from "@auralous/api";
 import { usePlaybackAuthentication } from "@auralous/player";
 import { FC, useMemo } from "react";
-import PlayerSpotify from "./PlayerSpotify";
+import PlayerSpotify from "../PlayerSpotify";
+import PlayerYoutube from "../PlayerYoutube";
 import PlayerView from "./PlayerView";
-import PlayerYoutube from "./PlayerYoutube";
+import { StopLiveIntention } from "./StopLiveIntention";
 
 const PlayerComponent: FC = ({ children }) => {
   const { playingPlatform } = usePlaybackAuthentication();
@@ -19,6 +20,7 @@ const PlayerComponent: FC = ({ children }) => {
       {DynamicPlayer && <DynamicPlayer />}
       {children}
       <PlayerView />
+      <StopLiveIntention />
     </>
   );
 };

@@ -68,6 +68,7 @@ export const AddToPlaylistSheet: FC<{
       style={styles.root}
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
+      dismissOnPanDown={false}
     >
       {lastTrack && (
         <AddToPlaylistSheetInner onDismiss={onDismiss} track={lastTrack} />

@@ -9,18 +9,13 @@ import { PlaybackContextProvided, PlaybackCurrentContext } from "./types";
 const PlayerProviderInner: FC<{
   useTrackColor: (trackId: string | null | undefined) => string;
 }> = ({ children, useTrackColor }) => {
-  const [playbackCurrentContext, setContextSelector] =
+  const [playbackCurrentContext, setPlaybackCurrentContext] =
     useState<PlaybackCurrentContext | null>(null);
 
   useEffect(() => {
     // Every time an intent is sent, set __wasPlaying = true
     player.__wasPlaying = true;
   }, [playbackCurrentContext]);
-
-  useEffect(() => {
-    player.on("context", setContextSelector);
-    return () => player.off("context", setContextSelector);
-  }, []);
 
   /**
    * This state determines:
@@ -30,6 +25,10 @@ const PlayerProviderInner: FC<{
    */
   const [playbackProvided, setPlaybackProvided] =
     useState<PlaybackContextProvided | null>(null);
+
+  useEffect(() => {
+    player.setPlaybackCurrentContext = setPlaybackCurrentContext;
+  }, []);
 
   const [isPlaying, setIsPlaying] = useState(false);
 

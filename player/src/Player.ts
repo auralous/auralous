@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { PlaybackCurrentContext } from "./types";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -61,6 +62,10 @@ class Player {
   private playbackFn: PlaybackHandle | null;
 
   __wasPlaying = false;
+
+  setPlaybackCurrentContext!: Dispatch<
+    SetStateAction<PlaybackCurrentContext | null>
+  >;
 
   constructor() {
     // developit/mitt

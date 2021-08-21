@@ -103,7 +103,10 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
               <TouchableOpacity
                 style={styles.item}
                 key={item.text}
-                onPress={item.onPress}
+                onPress={() => {
+                  item.onPress?.();
+                  onDismiss();
+                }}
               >
                 {item.icon}
                 <Spacer x={3} />
