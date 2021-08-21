@@ -42,20 +42,14 @@ const PlayerYoutube: FC = () => {
   }, [videoId]);
 
   useEffect(() => {
-    const playByExternalId = (externalId: string | null) => {
-      setVideoId(null);
-      // temporary workaround for https://github.com/LonelyCpp/react-native-youtube-iframe/issues/176
-      setTimeout(() => {
-        setVideoId(externalId);
-        if (externalId) player.play(); // this is just to confirm play status
-      });
-    };
-
     player.registerPlayer({
       play: () => setIsPlaying(true),
       seek: (ms) => youtubeRef.current?.seekTo(ms / 1000, true),
       pause: () => setIsPlaying(false),
-      playByExternalId,
+      playByExternalId: (externalId: string | null) => {
+        setVideoId(externalId);
+        player.emit("played_external", externalId);
+      },
       setVolume: (p) => setVolume(p * 100),
       isPlaying: () => isPlayingRef.current,
     });
@@ -67,6 +61,7 @@ const PlayerYoutube: FC = () => {
 
   useEffect(() => {
     if (!isReady) return;
+    // getCurrentTime only work after player is ready
     // Retrieve current position every 1 sec
     const durationInterval = setInterval(async () => {
       player.emit(

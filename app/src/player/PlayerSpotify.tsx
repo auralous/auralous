@@ -6,6 +6,7 @@ import Config from "react-native-config";
 import {
   ApiConfig,
   auth as SpotifyAuth,
+  PlayerContext as SpotifyPlayerContext,
   PlayerState as SpotifyPlayerState,
   remote as SpotifyRemote,
 } from "react-native-spotify-remote";
@@ -93,11 +94,6 @@ const PlayerSpotify: FC = () => {
   useEffect(() => {
     if (!isConnected || !accessToken) return;
 
-    const playByExternalId = async (externalId: string | null) => {
-      if (!externalId) return SpotifyRemote.pause();
-      await SpotifyRemote.playUri(`spotify:track:${externalId}`);
-      player.play(); // this is just to confirm play status
-    };
     let state: SpotifyPlayerState | undefined;
 
     const onStateChange = (v: SpotifyPlayerState) => {
@@ -123,29 +119,13 @@ const PlayerSpotify: FC = () => {
       state = v;
     };
 
-    player.registerPlayer({
-      play: () => SpotifyRemote.resume(),
-      seek: (ms) =>
-        SpotifyRemote.seek(ms).then(
-          () => player.emit("seeked"),
-          () => undefined
-        ),
-      pause: () => SpotifyRemote.pause(),
-      playByExternalId,
-      setVolume: (p) => {
-        // Remote SDK does not support setting volume so we rely on Web API
-        return fetch(
-          `https://api.spotify.com/v1/me/player/volume` +
-            `?volume_percent=${p * 100}`,
-          {
-            method: "PUT",
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-      },
-      // It is impossible to determine spotify without a promise so we rely on previous state
-      isPlaying: () => !!state?.isPaused,
-    });
+    SpotifyRemote.on("playerStateChanged", onStateChange);
+
+    const onContextChange = (v: SpotifyPlayerContext) => {
+      player.emit("played_external", v.uri.split(":")[2]);
+    };
+
+    SpotifyRemote.on("playerContextChanged", onContextChange);
 
     // Spotify SDK does not support subscribing to position
     // so we need polling to retrieve it, we poll every 1 sec
@@ -161,12 +141,39 @@ const PlayerSpotify: FC = () => {
       player.emit("time", playerState?.progress_ms || 0);
     }, 1000);
 
-    SpotifyRemote.on("playerStateChanged", onStateChange);
+    player.registerPlayer({
+      play: () => SpotifyRemote.resume(),
+      seek: (ms) =>
+        SpotifyRemote.seek(ms).then(
+          () => player.emit("seeked"),
+          () => undefined
+        ),
+      pause: () => SpotifyRemote.pause(),
+      playByExternalId: async (externalId: string | null) => {
+        if (!externalId) return SpotifyRemote.pause();
+        await SpotifyRemote.playUri(`spotify:track:${externalId}`);
+        player.emit("played_external", externalId);
+      },
+      setVolume: (p) => {
+        // Remote SDK does not support setting volume so we rely on Web API
+        return fetch(
+          `https://api.spotify.com/v1/me/player/volume` +
+            `?volume_percent=${p * 100}`,
+          {
+            method: "PUT",
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+      },
+      // It is impossible to determine spotify without a promise so we rely on previous state
+      isPlaying: () => !!state?.isPaused,
+    });
 
     return () => {
+      SpotifyRemote.off("playerStateChanged", onStateChange);
+      SpotifyRemote.off("playerContextChanged", onContextChange);
       clearInterval(durationInterval);
       player.unregisterPlayer();
-      SpotifyRemote.off("playerStateChanged", onStateChange);
     };
   }, [isConnected, accessToken]);
 

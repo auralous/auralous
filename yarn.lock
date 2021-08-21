@@ -3019,10 +3019,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.3":
-  version "17.0.18"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.18.tgz#4109cbbd901be9582e5e39e3d77acd7b66bb7fbe"
-  integrity sha512-YTLgu7oS5zvSqq49X5Iue5oAbVGhgPc5Au29SJC4VeE17V6gASoOxVkUDy9pXFMRFxCWCD9fLeweNFizo3UzOg==
+"@types/react@*", "@types/react@^17", "@types/react@^17.0.3":
+  version "17.0.19"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.19.tgz#8f2a85e8180a43b57966b237d26a29481dacc991"
+  integrity sha512-sX1HisdB1/ZESixMTGnMxH9TDe8Sk709734fEQZzCV/4lSu9kJCPbo2PbTRoZM+53Pp0P10hYVyReUueGwUi4A==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -10258,10 +10258,10 @@ react-native-webview@^11.6.5:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native-youtube-iframe@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-youtube-iframe/-/react-native-youtube-iframe-2.1.1.tgz#d88ee972963c72a3834955048dfd1c2a0731498b"
-  integrity sha512-vnLzA5zcnMwa1gMqGfvkjaE82NW1Nd2Up4Q1OUz6IKm69xSG/9/m4APZ5fCN8UMhy6lH95iagd497J7jwEwz3w==
+react-native-youtube-iframe@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-youtube-iframe/-/react-native-youtube-iframe-2.1.2.tgz#cd98208193c6beef426f749df7af39a929d544c2"
+  integrity sha512-JlR/rFMEGbbKevW6wdYjwlG7o2NL2jFfvjt9NIbc+wtThaqr2RlaS9O94tzzbU6+Js7UlpN8zJx38xsAtcA2DA==
   dependencies:
     events "^3.2.0"
 

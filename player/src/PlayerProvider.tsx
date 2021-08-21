@@ -4,14 +4,16 @@ import { Client, Provider } from "urql";
 import { PlaybackContext } from "./Context";
 import { PlaybackProvidedCallback } from "./PlaybackContextProvider";
 import { player } from "./playerSingleton";
-import { PlaybackContextProvided, PlaybackCurrentContext } from "./types";
+import {
+  PlaybackContextProvided,
+  PlaybackCurrentContext,
+  PlaybackState,
+} from "./types";
 
 const PlayerProviderInner: FC<{
+  playbackCurrentContext: PlaybackCurrentContext | null;
   useTrackColor: (trackId: string | null | undefined) => string;
-}> = ({ children, useTrackColor }) => {
-  const [playbackCurrentContext, setPlaybackCurrentContext] =
-    useState<PlaybackCurrentContext | null>(null);
-
+}> = ({ children, playbackCurrentContext, useTrackColor }) => {
   useEffect(() => {
     // Every time an intent is sent, set __wasPlaying = true
     player.__wasPlaying = true;
@@ -25,10 +27,6 @@ const PlayerProviderInner: FC<{
    */
   const [playbackProvided, setPlaybackProvided] =
     useState<PlaybackContextProvided | null>(null);
-
-  useEffect(() => {
-    player.setPlaybackCurrentContext = setPlaybackCurrentContext;
-  }, []);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -81,26 +79,26 @@ const PlayerProviderInner: FC<{
   }, [crossTracks, playingPlatform, playbackProvided?.trackId]);
 
   // Control the player using playerPlaying
-
   useEffect(() => {
-    const handlePlayerChange = () => {
-      player.off("play", handlePlayerChange);
-      player.playByExternalId(playingTrackId?.split(":")[1] || null);
-    };
-    // If the user paused the track before playerPlaying change,
-    // delay the switch until they press play again to avoid
-    // unexpected play
-
-    if (player.__wasPlaying) {
-      handlePlayerChange();
-    } else {
-      player.on("play", handlePlayerChange);
-      return () => player.off("play", handlePlayerChange);
-    }
+    player.playByExternalId(playingTrackId?.split(":")[1] || null);
   }, [playingTrackId]);
+
+  // Listen when player actually play requested external id
+  useEffect(() => {
+    player.on("played_external", () => {
+      if (player.__wasPlaying) player.play();
+      else player.pause();
+    });
+  }, []);
 
   // Combine fetching states
   const fetching = Boolean(playbackProvided?.fetching || fetchingCrossTracks);
+
+  const error = useMemo<PlaybackState["error"]>(() => {
+    if (!fetching && !!playbackProvided?.trackId && !playingTrackId)
+      return "no_cross_track";
+    return null;
+  }, [fetching, playingTrackId, playbackProvided?.trackId]);
 
   const color = useTrackColor(playingTrackId);
 
@@ -109,6 +107,7 @@ const PlayerProviderInner: FC<{
       value={{
         playbackCurrentContext,
         trackId: playingTrackId,
+        providedTrackId: playbackProvided?.trackId || null,
         nextItems: playbackProvided?.nextItems || [],
         color,
         fetching,
@@ -116,6 +115,7 @@ const PlayerProviderInner: FC<{
         playingPlatform,
         accessToken: me?.accessToken || null,
         queuePlayingUid: playbackProvided?.queuePlayingUid || null,
+        error,
       }}
     >
       <PlaybackProvidedCallback
@@ -128,12 +128,16 @@ const PlayerProviderInner: FC<{
 };
 
 export const PlayerProvider: FC<{
-  useTrackColor: (trackId: string | null | undefined) => string;
+  playbackCurrentContext: PlaybackCurrentContext | null;
   client: Client;
-}> = ({ children, useTrackColor, client }) => {
+  useTrackColor: (trackId: string | null | undefined) => string;
+}> = ({ children, playbackCurrentContext, client, useTrackColor }) => {
   return (
     <Provider value={client}>
-      <PlayerProviderInner useTrackColor={useTrackColor}>
+      <PlayerProviderInner
+        playbackCurrentContext={playbackCurrentContext}
+        useTrackColor={useTrackColor}
+      >
         {children}
       </PlayerProviderInner>
     </Provider>

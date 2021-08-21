@@ -18,6 +18,9 @@ import { useTrackColor } from "./components/useTrackColor";
 export const PlayerProvider: FC = ({ children }) => {
   const client = useClient();
 
+  const [playbackCurrentContext, setPlaybackCurrentContext] =
+    useState<PlaybackCurrentContext | null>(null);
+
   const [stopLiveIntention, setStopLiveIntention] = useState<null | {
     currentStoryId: string;
     intendedCurrentContext: PlaybackCurrentContext;
@@ -49,33 +52,39 @@ export const PlayerProvider: FC = ({ children }) => {
   }, [client]);
 
   useEffect(() => {
-    const onPlayerContext = async (currentContext: PlaybackCurrentContext) => {
-      const meResult = client.readQuery<MeQuery, MeQueryVariables>(MeDocument);
-      if (!meResult?.data?.me) return;
-      const result = await client
-        .query<StoryCurrentLiveQuery, StoryCurrentLiveQueryVariables>(
-          StoryCurrentLiveDocument,
-          { creatorId: meResult.data.me.user.id }
-        )
-        .toPromise();
+    const onPlayerContext = async (
+      currentContext: PlaybackCurrentContext | null
+    ) => {
+      if (currentContext) {
+        const me = client.readQuery<MeQuery, MeQueryVariables>(MeDocument)?.data
+          ?.me;
+        if (me) {
+          const result = await client
+            .query<StoryCurrentLiveQuery, StoryCurrentLiveQueryVariables>(
+              StoryCurrentLiveDocument,
+              { creatorId: me.user.id }
+            )
+            .toPromise();
 
-      if (result.data?.storyCurrentLive) {
-        if (
-          currentContext.type !== "story" ||
-          currentContext.id !== result.data.storyCurrentLive.storyId
-        ) {
-          // user has an ongoing story but attempting to play something else
-          // See src/player/components/StopLiveIntention
-          setStopLiveIntention({
-            currentStoryId: result.data.storyCurrentLive.storyId,
-            intendedCurrentContext: currentContext,
-            dismiss: () => setStopLiveIntention(null),
-          });
-          return;
+          if (result.data?.storyCurrentLive) {
+            if (
+              currentContext.type !== "story" ||
+              currentContext.id !== result.data.storyCurrentLive.storyId
+            ) {
+              // user has an ongoing story but attempting to play something else
+              // See src/player/components/StopLiveIntention
+              setStopLiveIntention({
+                currentStoryId: result.data.storyCurrentLive.storyId,
+                intendedCurrentContext: currentContext,
+                dismiss: () => setStopLiveIntention(null),
+              });
+              return;
+            }
+          }
         }
       }
 
-      player.setPlaybackCurrentContext(currentContext);
+      setPlaybackCurrentContext(currentContext);
     };
     player.on("context", onPlayerContext);
     return () => {
@@ -84,7 +93,11 @@ export const PlayerProvider: FC = ({ children }) => {
   }, [client]);
 
   return (
-    <OriginalPlayerProvider client={client} useTrackColor={useTrackColor}>
+    <OriginalPlayerProvider
+      playbackCurrentContext={playbackCurrentContext}
+      client={client}
+      useTrackColor={useTrackColor}
+    >
       <PlayerComponentInternalContext.Provider value={{ stopLiveIntention }}>
         {children}
       </PlayerComponentInternalContext.Provider>

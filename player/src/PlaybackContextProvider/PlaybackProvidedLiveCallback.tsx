@@ -10,6 +10,7 @@ import {
   useQueueToTopMutation,
   useQueueUpdatedSubscription,
   useStoryPingMutation,
+  useStoryUpdatedSubscription,
 } from "@auralous/api";
 import { FC, useEffect } from "react";
 import { player } from "../playerSingleton";
@@ -130,6 +131,11 @@ export const PlaybackProvidedLiveCallback: FC<{
     doQueueAdd,
     fetchingSkip,
   ]);
+
+  useStoryUpdatedSubscription({
+    variables: { id: playbackContext.id },
+    pause: playbackContext.type !== "story",
+  });
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
   const [, storyPing] = useStoryPingMutation();
