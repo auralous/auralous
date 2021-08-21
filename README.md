@@ -19,17 +19,19 @@ Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com
 
 | Codebase         |                  Description                  |
 | :--------------- | :-------------------------------------------: |
-| [web](web)       |               Next.js frontend                |
+| [web](web)       |      Next.js + React Native Web frontend      |
 | [app](app)       |               React Native App                |
-| [ui](ui)         |           Shared components, styles           |
+| [ui](ui)         |      Shared components, styles, UI utils      |
 | [api](api)       | GraphQL API / URQL code, hooks, and exchanges |
 | [player](player) |      The Player class and React Context       |
 
 ### Workflows
 
-The repository is **NOT** a workspace despite its look. We use a custom setup that copied file from shared module into each "app". For example, code from `ui/src` will be copied to `app/src/@auralous/ui` on changes.
-
 `package.json` contains the several scripts in the workspace root.
+
+#### `yarn dev`
+
+Start the file watcher to build common components for the project for uses in both `web` and `app`.
 
 #### `yarn lint`
 
@@ -43,6 +45,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 This project is not possible without:
 
-- [All the libraries and their amazing maintainers](package.json)
-- [Odesli API](https://odesli.co/)
+- All the OSS libraries and their maintainers
+- [Odesli API](https://odesli.co/) for cross-playing functionality
 - last but not least... **you**
