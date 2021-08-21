@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { BackHandler, ScrollView, StyleSheet, View } from "react-native";
 import { useClient } from "urql";
 import PlaylistsSection from "./components/PlaylistsSection";
+import { useRedirectOnUnauthenticated } from "./components/useRedirectOnUnauthenticated";
 
 const styles = StyleSheet.create({
   content: {
@@ -38,6 +39,8 @@ const styles = StyleSheet.create({
 const QuickShareScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.NewQuickShare>
 > = ({ navigation, route }) => {
+  useRedirectOnUnauthenticated(navigation);
+
   const { t } = useTranslation();
   const [fetching, setFetching] = useState(false);
 

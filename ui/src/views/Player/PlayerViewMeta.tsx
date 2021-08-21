@@ -1,13 +1,23 @@
 import { ImageSources } from "@/assets";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
-import { TextMarquee } from "@/components/Typography";
+import { Text, TextMarquee } from "@/components/Typography";
 import { Size } from "@/styles";
-import { Maybe, PlatformName, Track } from "@auralous/api";
+import { Maybe, PlatformName, Track, useTrackQuery } from "@auralous/api";
+import {
+  usePlaybackAuthentication,
+  usePlaybackError,
+  usePlaybackProvidedTrackId,
+} from "@auralous/player";
 import { FC, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
+  error: {
+    flex: 1,
+    justifyContent: "center",
+  },
   header: {
     padding: Size[2],
   },
@@ -19,7 +29,7 @@ const styles = StyleSheet.create({
     marginVertical: Size[2],
   },
   platformLogo: {
-    height: Size[8],
+    height: Size[6],
     marginBottom: Size[0.5],
     width: "auto",
   },
@@ -30,6 +40,34 @@ interface PlayerViewMetaProps {
   fetching?: boolean;
 }
 
+const ErrorNoCrossTrack = () => {
+  const { t } = useTranslation();
+  const playbackAuthentication = usePlaybackAuthentication();
+
+  const playbackProvidedTrackId = usePlaybackProvidedTrackId();
+
+  const [{ data }] = useTrackQuery({
+    variables: { id: playbackProvidedTrackId as string },
+  });
+
+  return (
+    <View>
+      <Text align="center" color="textSecondary">
+        {t("player.error.no_cross_track", {
+          platform: t(
+            `music_platform.${playbackAuthentication.playingPlatform}.name`
+          ),
+        })}
+      </Text>
+      <Spacer y={4} />
+      <Text align="center">
+        {data?.track?.title} -{" "}
+        {data?.track?.artists.map((artist) => artist.name).join(", ")}
+      </Text>
+    </View>
+  );
+};
+
 const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
   const providerLogoImageSource = useMemo(
     () => ({
@@ -38,6 +76,19 @@ const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
     }),
     []
   );
+
+  const playbackError = usePlaybackError();
+
+  if (playbackError) {
+    if (playbackError === "no_cross_track") {
+      return (
+        <View style={styles.error}>
+          <ErrorNoCrossTrack />
+        </View>
+      );
+    }
+  }
+
   return (
     <>
       <View style={styles.imageAndLogo}>

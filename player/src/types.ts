@@ -35,4 +35,6 @@ export interface PlaybackState extends PlaybackContextProvided {
   color: string;
   playingPlatform: PlatformName | null;
   accessToken: string | null;
+  error?: "no_cross_track" | null;
+  providedTrackId: string | null;
 }

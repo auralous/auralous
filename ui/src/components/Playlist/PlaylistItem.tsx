@@ -22,9 +22,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[1],
     paddingVertical: Size[1],
   },
-  metaTitle: {
-    lineHeight: 16,
-  },
   root: {
     width: Size[32],
   },
@@ -44,7 +41,7 @@ const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
         accessibilityLabel={playlist.name}
       />
       <View style={styles.meta}>
-        <Text style={styles.metaTitle} bold="medium" numberOfLines={1}>
+        <Text bold="medium" numberOfLines={1}>
           {playlist.name}
         </Text>
         <Spacer y={2} />

@@ -1,13 +1,20 @@
 import { RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
-import { Avatar, Button, Heading, Size } from "@auralous/ui";
+import {
+  Avatar,
+  IconSettings,
+  Size,
+  Spacer,
+  Text,
+  TextButton,
+} from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
-  right: {
+  col: {
     alignItems: "center",
     flexDirection: "row",
   },
@@ -19,6 +26,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[6],
     paddingVertical: Size[1],
   },
+  signIn: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
 });
 
 const Header: FC = () => {
@@ -27,33 +38,50 @@ const Header: FC = () => {
 
   const navigation = useNavigation();
 
+  const gotoSettings = useCallback(
+    () => navigation.navigate(RouteName.Settings),
+    [navigation]
+  );
+
+  const gotoUser = useCallback(
+    () =>
+      me &&
+      navigation.navigate(RouteName.User, {
+        username: me.user.username,
+      }),
+    [navigation, me]
+  );
+
   return (
     <View style={styles.root}>
-      <Heading level={2}>{t("home.title")}</Heading>
-      <View style={styles.right}>
+      <View style={styles.col}>
         {me ? (
-          <>
-            <Pressable
-              onPress={() =>
-                navigation.navigate(RouteName.User, {
-                  username: me.user.username,
-                })
-              }
-            >
-              <Avatar
-                size={12}
-                href={me.user.profilePicture}
-                username={me.user.username}
-              />
-            </Pressable>
-          </>
+          <Pressable onPress={gotoUser}>
+            <Avatar
+              size={8}
+              href={me.user.profilePicture}
+              username={me.user.username}
+            />
+          </Pressable>
         ) : (
-          <>
-            <Button onPress={() => navigation.navigate(RouteName.SignIn)}>
+          <Pressable
+            onPress={() => navigation.navigate(RouteName.SignIn)}
+            style={styles.signIn}
+          >
+            <Avatar size={8} username="" />
+            <Spacer x={2} />
+            <Text color="textSecondary" size="sm" bold>
               {t("sign_in.title")}
-            </Button>
-          </>
+            </Text>
+          </Pressable>
         )}
+      </View>
+      <View style={styles.col}>
+        <TextButton
+          icon={<IconSettings strokeWidth={1} />}
+          accessibilityLabel={t("settings.title")}
+          onPress={gotoSettings}
+        />
       </View>
     </View>
   );

@@ -1,6 +1,6 @@
 import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
-import { useUserFollowingsQuery, useUserQuery } from "@auralous/api";
+import { useUserFollowersQuery, useUserQuery } from "@auralous/api";
 import { LoadingScreen } from "@auralous/ui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
@@ -21,7 +21,7 @@ const UserFollowersScreen: FC<
   });
   const user = dataUser?.user;
 
-  const [{ data, fetching: fetchingList }] = useUserFollowingsQuery({
+  const [{ data, fetching: fetchingList }] = useUserFollowersQuery({
     variables: { id: user?.id || "" },
     pause: !user,
   });
@@ -31,7 +31,7 @@ const UserFollowersScreen: FC<
       {fetching ? (
         <LoadingScreen />
       ) : user ? (
-        <UserList data={data?.userFollowings || []} fetching={fetchingList} />
+        <UserList data={data?.userFollowers || []} fetching={fetchingList} />
       ) : (
         <NotFoundScreen />
       )}

@@ -1,13 +1,10 @@
 import { IconArrowRight, IconLogIn, IconMusic } from "@/assets";
-import { Avatar } from "@/components/Avatar";
-import { Button } from "@/components/Button";
-import { Input, InputRef } from "@/components/Input";
-import { Spacer } from "@/components/Spacer";
-import { Text } from "@/components/Typography";
+import { Avatar, Button, Input, InputRef, Spacer, Text } from "@/components";
 import { Size } from "@/styles";
 import {
   Message,
   MessageType,
+  useMeQuery,
   useMessageAddedSubscription,
   useMessageAddMutation,
   useMessagesQuery,
@@ -26,6 +23,11 @@ import {
 } from "react-native";
 
 const styles = StyleSheet.create({
+  auth: {
+    flex: 1,
+    justifyContent: "center",
+    padding: Size[6],
+  },
   content: {
     paddingTop: Size[1.5],
   },
@@ -239,15 +241,31 @@ const ChatInput: FC<{ id: string }> = ({ id }) => {
   );
 };
 
-const ChatView: FC<{ contextMeta: PlaybackContextMeta | null }> = ({
-  contextMeta,
-}) => {
-  const id = contextMeta?.id;
-  if (!id) return null;
+const ChatView: FC<{
+  contextMeta: PlaybackContextMeta | null;
+  onUnauthenticated(): void;
+}> = ({ contextMeta, onUnauthenticated }) => {
+  const { t } = useTranslation();
+
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
+
+  if (!contextMeta?.id) return null;
+
+  if (!me)
+    return (
+      <View style={styles.auth}>
+        <Text align="center">{t("chat.auth_prompt")}</Text>
+        <Spacer y={4} />
+        <Button variant="primary" onPress={onUnauthenticated}>
+          {t("sign_in.title")}
+        </Button>
+      </View>
+    );
+
   return (
     <View style={styles.root}>
-      <ChatList id={id} />
-      <ChatInput id={id} />
+      <ChatList id={contextMeta.id} />
+      <ChatInput id={contextMeta.id} />
     </View>
   );
 };

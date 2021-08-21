@@ -38,6 +38,8 @@ export const Button: FC<ButtonProps> = (props) => {
         backgroundColor: withTiming(
           !disabled && pressed.value ? Colors.primaryDark : Colors.primary
         ) as unknown as ColorValue,
+        borderWidth: 0,
+        borderColor: Colors.none,
       };
     }
     if (variant === "filled") {
@@ -45,17 +47,19 @@ export const Button: FC<ButtonProps> = (props) => {
         backgroundColor: withTiming(
           !disabled && pressed.value ? Colors.textSecondary : Colors.text
         ) as unknown as ColorValue,
+        borderWidth: 0,
+        borderColor: Colors.none,
       };
     }
 
     return {
       backgroundColor: Colors.none,
+      borderWidth: 1.5,
       borderColor: withTiming(
         !disabled && pressed.value ? Colors.controlDark : Colors.control
       ) as unknown as ColorValue,
-      borderWidth: 1.5,
     };
-  });
+  }, [variant]);
 
   const textColor = useMemo(() => {
     if (variant === "primary") return Colors.primaryText;

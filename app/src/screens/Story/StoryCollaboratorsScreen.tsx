@@ -6,12 +6,13 @@ import {
   useStoryQuery,
   useUserQuery,
 } from "@auralous/api";
-import { Avatar, Button, LoadingScreen, Size, Text } from "@auralous/ui";
+import { Button, LoadingScreen, Size, UserListItem } from "@auralous/ui";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Share from "react-native-share";
 
 const styles = StyleSheet.create({
@@ -19,8 +20,6 @@ const styles = StyleSheet.create({
     padding: Size[2],
   },
   item: {
-    alignItems: "center",
-    flexDirection: "row",
     marginBottom: Size[4],
     width: "100%",
   },
@@ -30,30 +29,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[4],
     paddingVertical: Size[4],
   },
-  text: {
-    flex: 1,
-    marginHorizontal: Size[3],
-  },
 });
 
 const StoryCollaborator: FC<{
   id: string;
   userId: string;
 }> = ({ userId }) => {
-  const [{ data: dataUser }] = useUserQuery({ variables: { id: userId } });
+  const [{ data, fetching }] = useUserQuery({
+    variables: { id: userId },
+  });
 
-  if (!dataUser?.user) return null;
+  const navigation = useNavigation();
+
+  const onPress = useCallback(
+    () =>
+      data?.user &&
+      navigation.navigate(RouteName.User, { username: data.user.username }),
+    [navigation, data]
+  );
+
   return (
-    <View style={styles.item}>
-      <Avatar
-        size={12}
-        username={dataUser.user.username}
-        href={dataUser.user.profilePicture}
-      />
-      <Text bold style={styles.text}>
-        {dataUser.user.username}
-      </Text>
-    </View>
+    <TouchableOpacity style={styles.item} onPress={onPress}>
+      <UserListItem user={data?.user || null} fetching={fetching} />
+    </TouchableOpacity>
   );
 };
 
@@ -105,7 +103,9 @@ const StoryCollaboratorsScreen: FC<
       )}
       {shouldShowInviteButton && dataStoryInviteLink && (
         <View style={styles.invite}>
-          <Button onPress={onInvitePress}>{t("share.invite_friends")}</Button>
+          <Button variant="primary" onPress={onInvitePress}>
+            {t("share.invite_friends")}
+          </Button>
         </View>
       )}
     </View>

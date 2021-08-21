@@ -1,22 +1,14 @@
-import { RouteName } from "@/screens/types";
 import { Track } from "@auralous/api";
+import { PlaybackState } from "@auralous/player";
 import {
-  PlaybackState,
-  usePlaybackContextMeta,
-  usePlaybackCurrentContext,
-} from "@auralous/player";
-import {
-  Button,
   Colors,
   Heading,
   IconChevronLeft,
-  IconUserPlus,
   Size,
   Spacer,
   useBackHandlerDismiss,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -57,21 +49,6 @@ const QueueSheet: FC<{
 
   useBackHandlerDismiss(true, onClose);
 
-  const contextMeta = usePlaybackContextMeta(usePlaybackCurrentContext());
-  const navigation = useNavigation();
-
-  const openCollab = useCallback(() => {
-    if (contextMeta?.isLive) {
-      if (contextMeta.type === "story") {
-        navigation.navigate(RouteName.StoryCollaborators, {
-          id: contextMeta.id,
-        });
-      }
-    } else {
-      // show banner suggesting starting a story
-    }
-  }, [navigation, contextMeta]);
-
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.header}>
@@ -85,13 +62,7 @@ const QueueSheet: FC<{
           <Spacer x={1} />
           <Heading level={3}>{t("queue.title")}</Heading>
         </View>
-        <View style={styles.headerSide}>
-          <Button
-            accessibilityLabel={t("collab.add_users")}
-            icon={<IconUserPlus width={16} height={16} />}
-            onPress={openCollab}
-          />
-        </View>
+        <View style={styles.headerSide}></View>
       </View>
       <View style={styles.content}>
         <QueueContent currentTrack={currentTrack} nextItems={nextItems} />

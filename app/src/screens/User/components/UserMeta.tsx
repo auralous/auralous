@@ -1,7 +1,7 @@
 import { PageHeaderGradient } from "@/components/Colors";
 import { RouteName } from "@/screens/types";
 import { User, useUserStatQuery } from "@auralous/api";
-import { Avatar, Size, Spacer, Text } from "@auralous/ui";
+import { Avatar, Size, Spacer, Text, UserFollowButton } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,10 @@ import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
+  actions: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
   meta: {
     alignItems: "center",
     marginBottom: Size[2],
@@ -53,6 +57,7 @@ const UserStat: FC<UserStatProps> = ({ name, value, list, username }) => {
       ),
     [navigation, username, list]
   );
+
   return (
     <View style={styles.stat}>
       <TouchableOpacity style={styles.statTouchable} onPress={goToList}>
@@ -69,12 +74,19 @@ const UserStat: FC<UserStatProps> = ({ name, value, list, username }) => {
 };
 
 const UserMeta: FC<{ user: User }> = ({ user }) => {
+  const { t } = useTranslation();
+
+  const navigation = useNavigation();
+
   const [{ data: { userStat } = { userStat: undefined } }] = useUserStatQuery({
     variables: { id: user.id },
     requestPolicy: "cache-and-network",
   });
 
-  const { t } = useTranslation();
+  const onUnauthenticated = useCallback(
+    () => navigation.navigate(RouteName.SignIn),
+    [navigation]
+  );
 
   return (
     <>
@@ -89,6 +101,13 @@ const UserMeta: FC<{ user: User }> = ({ user }) => {
           <Text bold style={styles.username} size="2xl">
             {user.username}
           </Text>
+        </View>
+        <Spacer y={1} />
+        <View style={styles.actions}>
+          <UserFollowButton
+            id={user.id}
+            onUnauthenticated={onUnauthenticated}
+          />
         </View>
         <Spacer y={2} />
         <View style={styles.stats}>

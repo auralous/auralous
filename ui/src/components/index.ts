@@ -6,7 +6,6 @@ export * from "./Header";
 export * from "./Input";
 export * from "./Loading";
 export * from "./Page";
-export * from "./Player";
 export * from "./Playlist";
 export * from "./RecyclerList";
 export * from "./Spacer";

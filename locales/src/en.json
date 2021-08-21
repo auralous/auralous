@@ -1,6 +1,5 @@
 {
   "home": {
-    "title": "Home",
     "featured_playlists": {
       "title": "Featured Playlists"
     },
@@ -38,8 +37,7 @@
     },
     "final": {
       "title": "Ready. Set. Listen.",
-      "subtitle": "Gather your friends and listen together.",
-      "not_auth_prompt": "Your story is just one step away"
+      "subtitle": "Gather your friends and listen together."
     }
   },
   "select_songs": {
@@ -125,6 +123,9 @@
     "spotify": {
       "error_initialize_player": "Could not load Spotify Player",
       "error_initialize_player_help": "Make sure the Spotify app is installed and you did not cancel (press outside) while the loading dialog is visible."
+    },
+    "error": {
+      "no_cross_track": "This song is not available on {{platform}}"
     }
   },
   "queue": {
@@ -146,7 +147,8 @@
     "input_label": "Enter chat message",
     "play": "{{username}} played <0>{{track}}</0>",
     "join": "{{username}} has joined",
-    "send_message": "Send message"
+    "send_message": "Send message",
+    "auth_prompt": "Chat with your friends while listening together"
   },
   "sign_in": {
     "title": "Sign in",

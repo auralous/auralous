@@ -28,6 +28,10 @@ const trackIdSelector = (value: PlaybackState) => value.trackId;
 export const usePlaybackTrackId = () =>
   useContextSelector(PlaybackContext, trackIdSelector);
 
+const providedTrackIdSelector = (value: PlaybackState) => value.providedTrackId;
+export const usePlaybackProvidedTrackId = () =>
+  useContextSelector(PlaybackContext, providedTrackIdSelector);
+
 const queuePlayingUidSelector = (value: PlaybackState) => value.queuePlayingUid;
 export const usePlaybackQueuePlayingId = () =>
   useContextSelector(PlaybackContext, queuePlayingUidSelector);
@@ -43,3 +47,7 @@ export const playbackAuthenticationSelector = (value: PlaybackState) => ({
 
 export const usePlaybackAuthentication = () =>
   useContextSelector(PlaybackContext, playbackAuthenticationSelector);
+
+const playbackErrorSelector = (value: PlaybackState) => value.error;
+export const usePlaybackError = () =>
+  useContextSelector(PlaybackContext, playbackErrorSelector);

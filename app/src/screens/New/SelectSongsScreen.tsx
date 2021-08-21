@@ -4,6 +4,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import SelectedTrackListView from "./components/SelectedTrackListView";
+import { useRedirectOnUnauthenticated } from "./components/useRedirectOnUnauthenticated";
 
 const styles = StyleSheet.create({
   root: {
@@ -13,7 +14,9 @@ const styles = StyleSheet.create({
 
 const SelectSongsScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.NewSelectSongs>
-> = () => {
+> = ({ navigation }) => {
+  useRedirectOnUnauthenticated(navigation);
+
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
 
   const addTracks = useCallback((trackIds: string[]) => {

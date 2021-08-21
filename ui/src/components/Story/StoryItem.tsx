@@ -41,11 +41,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: Colors.white,
-    lineHeight: 18,
   },
   textSecondary: {
     color: "rgba(255, 255, 255, 0.75)",
-    lineHeight: 18,
   },
   top: {
     flex: 1,

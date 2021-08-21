@@ -1,6 +1,5 @@
 {
   "home": {
-    "title": "Nhạc",
     "featured_playlists": {
       "title": "Playlist nổi bật"
     },
@@ -38,8 +37,7 @@
     },
     "final": {
       "title": "Chuẩn bị lên sóng",
-      "subtitle": "Tụ tập bàn bè và nghe nhạc bên nhau nào.",
-      "not_auth_prompt": "Story của bạn chỉ còn cách một bước thôi"
+      "subtitle": "Tụ tập bàn bè và nghe nhạc bên nhau nào."
     }
   },
   "select_songs": {
@@ -125,6 +123,9 @@
     "spotify": {
       "error_initialize_player": "Không thể tải trình phát Spotify",
       "error_initialize_player_help": "Hãy kiểm tra rằng ứng dụng Spotify đã được cài đặt và bạn không hủy bỏ (nhấn ra ngoài) khi hộp thoại đang tải được hiển thị."
+    },
+    "error": {
+      "no_cross_track": "Bài hát này không có sẵn trên {{platform}}"
     }
   },
   "queue": {

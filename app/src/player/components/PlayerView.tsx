@@ -181,6 +181,12 @@ const PlayerViewInner: FC = () => {
     []
   );
 
+  const navigation = useNavigation();
+  const onUnauthenticated = useCallback(
+    () => navigation.navigate(RouteName.SignIn),
+    [navigation]
+  );
+
   return (
     <View style={styles.content}>
       <View style={styles.tabs}>
@@ -206,7 +212,11 @@ const PlayerViewInner: FC = () => {
           <MusicView key={0} />
         </View>
         <View>
-          <PlayerChatView contextMeta={contextMeta} key={1} />
+          <PlayerChatView
+            contextMeta={contextMeta}
+            key={1}
+            onUnauthenticated={onUnauthenticated}
+          />
         </View>
       </PagerView>
     </View>
