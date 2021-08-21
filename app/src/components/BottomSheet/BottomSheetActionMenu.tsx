@@ -1,4 +1,10 @@
-import { Size, Spacer, Text, TextButton } from "@auralous/ui";
+import {
+  Size,
+  Spacer,
+  Text,
+  TextButton,
+  useBackHandlerDismiss,
+} from "@auralous/ui";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
 import { FC, ReactNode, useEffect, useRef } from "react";
@@ -6,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useBackHandlerDismiss } from "./useBackHandlerDismiss";
 
 export interface BottomSheetActionMenuProps {
   visible: boolean;
@@ -74,8 +79,7 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
       backgroundComponent={null}
       snapPoints={snapPoints}
       stackBehavior="push"
-      enableContentPanningGesture={false}
-      enableHandlePanningGesture={false}
+      onDismiss={onDismiss}
     >
       <BlurView blurType="dark" style={StyleSheet.absoluteFill} />
       <SafeAreaView style={styles.content}>

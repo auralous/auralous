@@ -1,17 +1,9 @@
-import {
-  Dialog,
-  DialogButton,
-  DialogContent,
-  DialogContentText,
-  DialogFooter,
-  useDialog,
-} from "@/components/BottomSheet";
-import { useBackHandlerDismiss } from "@/components/BottomSheet/useBackHandlerDismiss";
 import { RouteName } from "@/screens/types";
 import { useMeQuery, useTrackQuery } from "@auralous/api";
 import {
   Button,
   Colors,
+  Dialog,
   DraggableRecyclerList,
   DraggableRecyclerRenderItem,
   DraggableRecyclerRenderItemInfo,
@@ -28,6 +20,8 @@ import {
   Spacer,
   Text,
   TextButton,
+  useBackHandlerDismiss,
+  useDialog,
 } from "@auralous/ui";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
@@ -310,9 +304,9 @@ const SelectedTrackListView: FC<{
           </Button>
         )}
       </View>
-      <Dialog visible={visibleFinal} onDismiss={dismissFinal}>
-        <DialogContent>
-          <DialogContentText>{t("story.text")}</DialogContentText>
+      <Dialog.Dialog visible={visibleFinal} onDismiss={dismissFinal}>
+        <Dialog.Content>
+          <Dialog.ContentText>{t("story.text")}</Dialog.ContentText>
           <Spacer y={2} />
           <Input
             ref={textInputRef}
@@ -320,16 +314,16 @@ const SelectedTrackListView: FC<{
             placeholder={defaultStoryText}
             variant="underline"
           />
-        </DialogContent>
-        <DialogFooter>
-          <DialogButton onPress={dismissFinal}>
+        </Dialog.Content>
+        <Dialog.Footer>
+          <Dialog.Button onPress={dismissFinal}>
             {t("common.action.cancel")}
-          </DialogButton>
-          <DialogButton variant="primary" onPress={onSubmit}>
+          </Dialog.Button>
+          <Dialog.Button variant="primary" onPress={onSubmit}>
             {t("new.select_songs.create_story")}
-          </DialogButton>
-        </DialogFooter>
-      </Dialog>
+          </Dialog.Button>
+        </Dialog.Footer>
+      </Dialog.Dialog>
     </CheckedContext.Provider>
   );
 };

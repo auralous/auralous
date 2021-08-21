@@ -1,15 +1,7 @@
-import {
-  Dialog,
-  DialogButton,
-  DialogContent,
-  DialogContentText,
-  DialogFooter,
-  DialogTitle,
-} from "@/components/BottomSheet";
 import { RouteName } from "@/screens/types";
 import { checkAndRequestPermission } from "@/utils/permission";
 import { LocationInput, Story, useStoryUpdateMutation } from "@auralous/api";
-import { Size, Spacer, toast } from "@auralous/ui";
+import { Dialog, Size, Spacer, toast } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -73,46 +65,50 @@ export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
 
   return (
     <>
-      <Dialog visible={map}>
-        <DialogTitle>{t("story_edit.map.prompt")}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+      <Dialog.Dialog visible={map}>
+        <Dialog.Title>{t("story_edit.map.prompt")}</Dialog.Title>
+        <Dialog.Content>
+          <Dialog.ContentText>
             {t("story_edit.map.description")}
-          </DialogContentText>
+          </Dialog.ContentText>
           <Spacer y={2} />
-          <DialogContentText size="xs" color="textTertiary" style={styles.note}>
+          <Dialog.ContentText
+            size="xs"
+            color="textTertiary"
+            style={styles.note}
+          >
             {t("story_edit.map.privacy_note")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogFooter>
-          <DialogButton onPress={dismissMap} disabled={fetchingUpdate}>
+          </Dialog.ContentText>
+        </Dialog.Content>
+        <Dialog.Footer>
+          <Dialog.Button onPress={dismissMap} disabled={fetchingUpdate}>
             {t("common.action.no_thanks")}
-          </DialogButton>
-          <DialogButton
+          </Dialog.Button>
+          <Dialog.Button
             variant="primary"
             onPress={addToMap}
             disabled={fetchingUpdate}
           >
             {t("common.action.publish")}
-          </DialogButton>
-        </DialogFooter>
-      </Dialog>
-      <Dialog visible={collab} onDismiss={dismissCollab}>
-        <DialogTitle>{t("story_edit.collab.prompt")}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+          </Dialog.Button>
+        </Dialog.Footer>
+      </Dialog.Dialog>
+      <Dialog.Dialog visible={collab} onDismiss={dismissCollab}>
+        <Dialog.Title>{t("story_edit.collab.prompt")}</Dialog.Title>
+        <Dialog.Content>
+          <Dialog.ContentText>
             {t("story_edit.collab.description")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogFooter>
-          <DialogButton onPress={dismissCollab}>
+          </Dialog.ContentText>
+        </Dialog.Content>
+        <Dialog.Footer>
+          <Dialog.Button onPress={dismissCollab}>
             {t("common.action.later")}
-          </DialogButton>
-          <DialogButton variant="primary" onPress={gotoCollab}>
+          </Dialog.Button>
+          <Dialog.Button variant="primary" onPress={gotoCollab}>
             {t("collab.title")}
-          </DialogButton>
-        </DialogFooter>
-      </Dialog>
+          </Dialog.Button>
+        </Dialog.Footer>
+      </Dialog.Dialog>
     </>
   );
 };

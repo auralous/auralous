@@ -1,13 +1,5 @@
-import {
-  Dialog,
-  DialogButton,
-  DialogContent,
-  DialogContentText,
-  DialogFooter,
-  DialogTitle,
-} from "@/components/BottomSheet";
 import player, { usePlaybackAuthentication } from "@auralous/player";
-import { toast } from "@auralous/ui";
+import { Dialog, toast } from "@auralous/ui";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
@@ -180,15 +172,17 @@ const PlayerSpotify: FC = () => {
 
   if (error)
     return (
-      <Dialog visible>
-        <DialogTitle>{t("player.spotify.error_initialize_player")}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+      <Dialog.Dialog visible>
+        <Dialog.Title>
+          {t("player.spotify.error_initialize_player")}
+        </Dialog.Title>
+        <Dialog.Content>
+          <Dialog.ContentText>
             {t("player.spotify.error_initialize_player_help")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogFooter>
-          <DialogButton
+          </Dialog.ContentText>
+        </Dialog.Content>
+        <Dialog.Footer>
+          <Dialog.Button
             onPress={() => {
               setIsInitialized(false);
               setIsConnected(false);
@@ -198,9 +192,9 @@ const PlayerSpotify: FC = () => {
             variant="primary"
           >
             {t("common.action.retry")}
-          </DialogButton>
-        </DialogFooter>
-      </Dialog>
+          </Dialog.Button>
+        </Dialog.Footer>
+      </Dialog.Dialog>
     );
 
   return null;

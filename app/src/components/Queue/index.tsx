@@ -1,4 +1,3 @@
-import { useBackHandlerDismiss } from "@/components/BottomSheet";
 import { RouteName } from "@/screens/types";
 import { Track } from "@auralous/api";
 import {
@@ -14,6 +13,7 @@ import {
   IconUserPlus,
   Size,
   Spacer,
+  useBackHandlerDismiss,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";

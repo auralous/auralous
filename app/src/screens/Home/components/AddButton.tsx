@@ -1,4 +1,3 @@
-import { useBackHandlerDismiss } from "@/components/BottomSheet/useBackHandlerDismiss";
 import { GradientButton } from "@/components/Button";
 import { RouteName } from "@/screens/types";
 import { useMeQuery, useStoryCurrentLiveQuery } from "@auralous/api";
@@ -9,6 +8,7 @@ import {
   Size,
   Spacer,
   TextButton,
+  useBackHandlerDismiss,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
@@ -71,11 +71,7 @@ const AddButtonModalContent: FC<{
 
   return (
     <>
-      <BlurView
-        style={StyleSheet.absoluteFill}
-        blurType="dark"
-        blurAmount={6}
-      />
+      <BlurView style={StyleSheet.absoluteFill} blurType="dark" />
       <SafeAreaView style={styles.newModal}>
         <Heading level={2}>{t("new.title")}</Heading>
         <Spacer y={8} />

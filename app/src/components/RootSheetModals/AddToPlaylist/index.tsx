@@ -1,6 +1,5 @@
-import { useBackHandlerDismiss } from "@/components/BottomSheet/useBackHandlerDismiss";
 import { Track } from "@auralous/api";
-import { AddToPlaylist, Colors } from "@auralous/ui";
+import { AddToPlaylist, Colors, useBackHandlerDismiss } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import {
   Dispatch,

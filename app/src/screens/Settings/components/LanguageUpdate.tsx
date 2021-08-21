@@ -1,4 +1,3 @@
-import { useBackHandlerDismiss } from "@/components/BottomSheet/useBackHandlerDismiss";
 import { supportedLanguages } from "@/i18n";
 import {
   Button,
@@ -10,6 +9,7 @@ import {
   Spacer,
   Text,
   TextButton,
+  useBackHandlerDismiss,
 } from "@auralous/ui";
 import {
   BottomSheetBackdrop,

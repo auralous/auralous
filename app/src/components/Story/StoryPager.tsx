@@ -1,4 +1,3 @@
-import { useBackHandlerDismiss } from "@/components/BottomSheet";
 import { Story, useNowPlayingQuery, useTrackQuery } from "@auralous/api";
 import {
   Avatar,
@@ -10,6 +9,7 @@ import {
   Spacer,
   Text,
   TextMarquee,
+  useBackHandlerDismiss,
 } from "@auralous/ui";
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useRef } from "react";

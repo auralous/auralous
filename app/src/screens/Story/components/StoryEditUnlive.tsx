@@ -1,14 +1,13 @@
-import {
-  Dialog,
-  DialogButton,
-  DialogContent,
-  DialogContentText,
-  DialogFooter,
-  DialogTitle,
-  useDialog,
-} from "@/components/BottomSheet";
 import { Story, useStoryUnliveMutation } from "@auralous/api";
-import { Button, Colors, Size, Text, toast } from "@auralous/ui";
+import {
+  Button,
+  Colors,
+  Dialog,
+  Size,
+  Text,
+  toast,
+  useDialog,
+} from "@auralous/ui";
 import { FC, useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -53,26 +52,26 @@ export const StoryEditUnlive: FC<{ story: Story }> = ({ story }) => {
         </Text>
         <Button onPress={present}>{t("story_edit.live.unlive")}</Button>
       </View>
-      <Dialog visible={visible} onDismiss={dismiss}>
-        <DialogTitle>{`${t("story_edit.live.unlive")}?`}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+      <Dialog.Dialog visible={visible} onDismiss={dismiss}>
+        <Dialog.Title>{`${t("story_edit.live.unlive")}?`}</Dialog.Title>
+        <Dialog.Content>
+          <Dialog.ContentText>
             {t("story_edit.live.unlive_prompt")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogFooter>
-          <DialogButton onPress={dismiss} disabled={fetching}>
+          </Dialog.ContentText>
+        </Dialog.Content>
+        <Dialog.Footer>
+          <Dialog.Button onPress={dismiss} disabled={fetching}>
             {t("common.action.cancel")}
-          </DialogButton>
-          <DialogButton
+          </Dialog.Button>
+          <Dialog.Button
             onPress={onUnlive}
             variant="primary"
             disabled={fetching}
           >
             {t("common.action.confirm")}
-          </DialogButton>
-        </DialogFooter>
-      </Dialog>
+          </Dialog.Button>
+        </Dialog.Footer>
+      </Dialog.Dialog>
     </>
   );
 };

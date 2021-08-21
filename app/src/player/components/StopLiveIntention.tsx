@@ -1,13 +1,6 @@
-import {
-  Dialog,
-  DialogButton,
-  DialogContent,
-  DialogContentText,
-  DialogFooter,
-  DialogTitle,
-} from "@/components/BottomSheet";
 import { useStoryUnliveMutation } from "@auralous/api";
 import player from "@auralous/player";
+import { Dialog } from "@auralous/ui";
 import { FC, useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { PlayerComponentInternalContext } from "./PlayerComponentInternalContext";
@@ -33,24 +26,24 @@ export const StopLiveIntention: FC = () => {
   }, [stopLiveIntention, unliveStory]);
 
   return (
-    <Dialog
+    <Dialog.Dialog
       visible={!!stopLiveIntention}
       onDismiss={stopLiveIntention?.dismiss}
     >
-      <DialogContent>
-        <DialogTitle>{t("story_edit.live.play_other_prompt")}</DialogTitle>
-        <DialogContentText>
+      <Dialog.Content>
+        <Dialog.Title>{t("story_edit.live.play_other_prompt")}</Dialog.Title>
+        <Dialog.ContentText>
           {t("story_edit.live.unlive_prompt")}
-        </DialogContentText>
-      </DialogContent>
-      <DialogFooter>
-        <DialogButton onPress={stopLiveIntention?.dismiss}>
+        </Dialog.ContentText>
+      </Dialog.Content>
+      <Dialog.Footer>
+        <Dialog.Button onPress={stopLiveIntention?.dismiss}>
           {t("common.action.cancel")}
-        </DialogButton>
-        <DialogButton variant="primary" onPress={unliveAndContinue}>
+        </Dialog.Button>
+        <Dialog.Button variant="primary" onPress={unliveAndContinue}>
           {t("story_edit.live.unlive")}
-        </DialogButton>
-      </DialogFooter>
-    </Dialog>
+        </Dialog.Button>
+      </Dialog.Footer>
+    </Dialog.Dialog>
   );
 };

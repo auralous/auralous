@@ -1,16 +1,7 @@
-import {
-  Dialog,
-  DialogButton,
-  DialogContent,
-  DialogContentText,
-  DialogFooter,
-  DialogTitle,
-  useDialog,
-} from "@/components/BottomSheet";
 import { RouteName } from "@/screens/types";
 import { Story, useStoryDeleteMutation } from "@auralous/api";
 import player, { usePlaybackCurrentContext } from "@auralous/player";
-import { Size, TextButton, toast } from "@auralous/ui";
+import { Dialog, Size, TextButton, toast, useDialog } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -54,26 +45,26 @@ export const StoryEditDelete: FC<{ story: Story }> = ({ story }) => {
   return (
     <View style={styles.root}>
       <TextButton onPress={present}>{t("story_edit.delete.title")}</TextButton>
-      <Dialog visible={visible} onDismiss={dismiss}>
-        <DialogTitle>{`${t("story_edit.delete.title")}?`}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+      <Dialog.Dialog visible={visible} onDismiss={dismiss}>
+        <Dialog.Title>{`${t("story_edit.delete.title")}?`}</Dialog.Title>
+        <Dialog.Content>
+          <Dialog.ContentText>
             {t("common.prompt.action_not_revertable")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogFooter>
-          <DialogButton onPress={dismiss} disabled={fetching}>
+          </Dialog.ContentText>
+        </Dialog.Content>
+        <Dialog.Footer>
+          <Dialog.Button onPress={dismiss} disabled={fetching}>
             {t("common.action.cancel")}
-          </DialogButton>
-          <DialogButton
+          </Dialog.Button>
+          <Dialog.Button
             onPress={onUnlive}
             variant="primary"
             disabled={fetching}
           >
             {t("common.action.confirm")}
-          </DialogButton>
-        </DialogFooter>
-      </Dialog>
+          </Dialog.Button>
+        </Dialog.Footer>
+      </Dialog.Dialog>
     </View>
   );
 };

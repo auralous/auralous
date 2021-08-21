@@ -1,4 +1,3 @@
-import { useBackHandlerDismiss } from "@/components/BottomSheet";
 import { QueueItem } from "@auralous/api";
 import {
   Button,
@@ -6,6 +5,7 @@ import {
   Header,
   IconChevronLeft,
   SongSelector,
+  useBackHandlerDismiss,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { FC, useCallback, useEffect, useMemo, useRef } from "react";
