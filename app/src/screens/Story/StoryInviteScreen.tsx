@@ -66,7 +66,7 @@ const StoryInviteScreen: FC<
     if (data?.storyCollabAddFromToken === true) {
       playAndNavigate();
     } else if (data?.storyCollabAddFromToken === false) {
-      toast(t("story_invite.invite_invalid"));
+      toast.error(t("story_invite.invite_invalid"));
     }
   }, [data?.storyCollabAddFromToken, t, playAndNavigate]);
 

@@ -34,10 +34,12 @@ export const StoryEditUnlive: FC<{ story: Story }> = ({ story }) => {
   const [visible, present, dismiss] = useDialog();
 
   const onUnlive = useCallback(async () => {
-    const { data } = await storyUnlive({
+    const result = await storyUnlive({
       id: story.id,
     });
-    if (data?.storyUnlive) toast(t("story_edit.live.unlive_ok"));
+    if (!result.error) {
+      toast.success(t("story_edit.live.unlive_ok"));
+    }
   }, [t, storyUnlive, story.id]);
 
   return (

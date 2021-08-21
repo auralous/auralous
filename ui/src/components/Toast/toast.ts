@@ -1,33 +1,29 @@
-import { Platform, ToastAndroid } from "react-native";
+import { emitter } from "./pubsub";
 
 interface ToastFunction {
-  (message: string): string;
-  error(message: string): string;
-  success(message: string): string;
+  (message: string): void;
+  error(message: string): void;
+  success(message: string): void;
 }
 
 const toast: ToastFunction = (message) => {
-  console.log("TOAST", message);
-  if (Platform.OS === "android") {
-    ToastAndroid.show(message, ToastAndroid.LONG);
-  }
-  return "";
+  emitter.emit("toast", {
+    message,
+  });
 };
 
 toast.error = (message) => {
-  console.log("TOAST/Error", message);
-  if (Platform.OS === "android") {
-    ToastAndroid.show(message, ToastAndroid.LONG);
-  }
-  return "";
+  emitter.emit("toast", {
+    type: "error",
+    message,
+  });
 };
 
 toast.success = (message) => {
-  console.log("TOAST/Success", message);
-  if (Platform.OS === "android") {
-    ToastAndroid.show(message, ToastAndroid.LONG);
-  }
-  return "";
+  emitter.emit("toast", {
+    type: "success",
+    message,
+  });
 };
 
 export default toast;

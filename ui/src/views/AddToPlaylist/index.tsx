@@ -10,7 +10,7 @@ import {
   Spacer,
   TextButton,
 } from "@/components";
-import { toast, toastCombinedErrors } from "@/components/Toast";
+import { toast } from "@/components/Toast";
 import { Size } from "@/styles";
 import {
   Playlist,
@@ -67,15 +67,14 @@ const CreatePlaylist: FC<AddToPlaylistProps & { hideIsCreate(): void }> = ({
       name,
       trackIds: [track.id],
     });
-    if (result.error) {
-      return toastCombinedErrors(t, result.error);
+    if (!result.error) {
+      toast.success(
+        t("playlist.add_to_playlist.added_to_playlist", {
+          playlist: name,
+        })
+      );
+      onDismiss();
     }
-    toast.success(
-      t("playlist.add_to_playlist.added_to_playlist", {
-        playlist: name,
-      })
-    );
-    onDismiss();
   }, [onDismiss, playlistCreate, t, track.id, track.title]);
 
   return (
@@ -126,15 +125,14 @@ const AddToExisted: FC<AddToPlaylistProps & { showIsCreate(): void }> = ({
         id: playlist.id,
         trackIds: [track.id],
       });
-      if (result.error) {
-        return toastCombinedErrors(t, result.error);
+      if (!result.error) {
+        toast.success(
+          t("playlist.add_to_playlist.added_to_playlist", {
+            playlist: playlist.name,
+          })
+        );
+        onDismiss();
       }
-      toast.success(
-        t("playlist.add_to_playlist.added_to_playlist", {
-          playlist: playlist.name,
-        })
-      );
-      onDismiss();
     },
     [playlistAddTracks, track, t, onDismiss]
   );

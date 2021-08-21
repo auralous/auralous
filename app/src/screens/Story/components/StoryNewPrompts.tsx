@@ -42,11 +42,13 @@ export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
           });
         }, reject);
       });
-      await storyUpdate({
+      const result = await storyUpdate({
         id: story.id,
         location,
       });
-      dismissMap();
+      if (!result.error) {
+        dismissMap();
+      }
     } catch (err) {
       return toast.error(err.message);
     }

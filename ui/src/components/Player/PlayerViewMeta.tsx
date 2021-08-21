@@ -4,7 +4,7 @@ import { Spacer } from "@/components/Spacer";
 import { TextMarquee } from "@/components/Typography";
 import { Size } from "@/styles";
 import { Maybe, PlatformName, Track } from "@auralous/api";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
@@ -30,18 +30,20 @@ interface PlayerViewMetaProps {
   fetching?: boolean;
 }
 
-const ProviderLogoImageSource = {
-  [PlatformName.Spotify]: ImageSources.spotifyLogoRGBWhite,
-  [PlatformName.Youtube]: ImageSources.ytLogoMonoDark,
-};
-
 const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
+  const providerLogoImageSource = useMemo(
+    () => ({
+      [PlatformName.Spotify]: ImageSources.spotifyLogoRGBWhite,
+      [PlatformName.Youtube]: ImageSources.ytLogoMonoDark,
+    }),
+    []
+  );
   return (
     <>
       <View style={styles.imageAndLogo}>
         {track?.platform && (
           <Image
-            source={ProviderLogoImageSource[track.platform]}
+            source={providerLogoImageSource[track.platform]}
             style={styles.platformLogo}
             resizeMode="contain"
           />

@@ -19,6 +19,8 @@ export const Colors = {
   white: "#FFFFFF",
   black: "#000000",
   none: "transparent",
+  danger: "#ff0047",
+  success: "#01dc69",
 };
 
 export const GradientColors = {

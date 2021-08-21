@@ -13,22 +13,23 @@ export const StopLiveIntention: FC = () => {
 
   const { stopLiveIntention } = useContext(PlayerComponentInternalContext);
 
-  const [, unliveStory] = useStoryUnliveMutation();
+  const [{ fetching }, unliveStory] = useStoryUnliveMutation();
 
   const unliveAndContinue = useCallback(async () => {
     if (!stopLiveIntention) return;
-    stopLiveIntention.dismiss();
     player.playContext(stopLiveIntention.intendedCurrentContext);
-    await unliveStory({
+    const result = await unliveStory({
       id: stopLiveIntention.currentStoryId,
     });
-    stopLiveIntention.dismiss();
+    if (!result.error) {
+      stopLiveIntention.dismiss();
+    }
   }, [stopLiveIntention, unliveStory]);
 
   return (
     <Dialog.Dialog
       visible={!!stopLiveIntention}
-      onDismiss={stopLiveIntention?.dismiss}
+      onDismiss={!fetching ? stopLiveIntention?.dismiss : undefined}
     >
       <Dialog.Content>
         <Dialog.Title>{t("story_edit.live.play_other_prompt")}</Dialog.Title>
@@ -37,10 +38,14 @@ export const StopLiveIntention: FC = () => {
         </Dialog.ContentText>
       </Dialog.Content>
       <Dialog.Footer>
-        <Dialog.Button onPress={stopLiveIntention?.dismiss}>
+        <Dialog.Button onPress={stopLiveIntention?.dismiss} disabled={fetching}>
           {t("common.action.cancel")}
         </Dialog.Button>
-        <Dialog.Button variant="primary" onPress={unliveAndContinue}>
+        <Dialog.Button
+          variant="primary"
+          onPress={unliveAndContinue}
+          disabled={fetching}
+        >
           {t("story_edit.live.unlive")}
         </Dialog.Button>
       </Dialog.Footer>

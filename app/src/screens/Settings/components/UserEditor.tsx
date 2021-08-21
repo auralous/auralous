@@ -34,12 +34,10 @@ const UserEditor: FC<{ user: User; platform: PlatformName }> = ({
   }, [user]);
 
   const onSubmit = useCallback(async () => {
-    const { error } = await meUpdate({
+    const result = await meUpdate({
       username: usernameRef.current?.value || "",
     });
-    if (error?.graphQLErrors) {
-      toast.error(error.graphQLErrors[0].message);
-    } else {
+    if (!result.error) {
       toast.success(t("settings.me_updated"));
     }
   }, [meUpdate, t]);

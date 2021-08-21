@@ -14,7 +14,7 @@ import {
   UserFollowingScreen,
   UserScreen,
 } from "@/screens/User";
-import { Colors, Font } from "@auralous/ui";
+import { Colors, Font, Toaster } from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
 import {
@@ -228,6 +228,7 @@ const App = () => {
               </BottomSheetModalProvider>
             </RootSheetModals.Provider>
           </NavigationContainer>
+          <Toaster />
         </SafeAreaProvider>
       </PlayerProvider>
     </ApiProvider>

@@ -27,11 +27,11 @@ export const StoryEditDelete: FC<{ story: Story }> = ({ story }) => {
 
   const onUnlive = useCallback(async () => {
     const storyId = story.id;
-    const { data } = await storyDelete({
+    const result = await storyDelete({
       id: storyId,
     });
-    if (data?.storyDelete) {
-      toast(t("story_edit.delete.delete_ok"));
+    if (!result.error) {
+      toast.success(t("story_edit.delete.delete_ok"));
       if (
         playbackCurrentContext?.type === "story" &&
         playbackCurrentContext.id === storyId

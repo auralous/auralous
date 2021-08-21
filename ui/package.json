@@ -24,6 +24,7 @@
   "dependencies": {
     "@auralous/api": "^0.0.0",
     "@auralous/player": "^0.0.0",
+    "mitt": "^3.0.0",
     "react-native-capsize": "^0.2.2"
   },
   "devDependencies": {

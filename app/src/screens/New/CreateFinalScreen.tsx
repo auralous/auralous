@@ -64,7 +64,9 @@ const CreateFinalScreen: FC<
       text: route.params.text,
       tracks: route.params.selectedTracks,
     });
-    if (result.data?.storyCreate) {
+    if (result.error) {
+      navigation.goBack();
+    } else if (result.data?.storyCreate) {
       player.playContext({
         type: "story",
         id: result.data.storyCreate.id,

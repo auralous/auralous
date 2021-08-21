@@ -32,12 +32,12 @@ export const StoryEditMeta: FC<{ story: Story }> = ({ story }) => {
 
   const onSubmit = useCallback(async () => {
     const location: LocationInput | null = null;
-    const { data } = await storyUpdate({
+    const result = await storyUpdate({
       id: story.id,
       text: textRef.current?.value || story.text,
       location,
     });
-    if (data?.storyUpdate) {
+    if (!result.error) {
       toast.success(t("story_edit.updated"));
     }
   }, [story, storyUpdate, t]);
