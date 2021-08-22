@@ -3,9 +3,9 @@ import {
   PlaylistTracksQuery,
   PlaylistTracksQueryVariables,
   QueueItem,
-  StoryTracksDocument,
-  StoryTracksQuery,
-  StoryTracksQueryVariables,
+  SessionTracksDocument,
+  SessionTracksQuery,
+  SessionTracksQueryVariables,
   Track,
 } from "@auralous/api";
 import { FC, useEffect, useMemo, useState } from "react";
@@ -30,14 +30,14 @@ export const PlaybackProvidedOnDemandCallback: FC<{
   useEffect(() => {
     let stale = false;
     let trackPromises: Promise<Track[] | null | undefined>;
-    if (playbackContext.type === "story") {
+    if (playbackContext.type === "session") {
       trackPromises = client
-        .query<StoryTracksQuery, StoryTracksQueryVariables>(
-          StoryTracksDocument,
+        .query<SessionTracksQuery, SessionTracksQueryVariables>(
+          SessionTracksDocument,
           { id: playbackContext.id }
         )
         .toPromise()
-        .then((result) => result.data?.storyTracks);
+        .then((result) => result.data?.sessionTracks);
     } else {
       trackPromises = client
         .query<PlaylistTracksQuery, PlaylistTracksQueryVariables>(

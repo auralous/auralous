@@ -2,8 +2,8 @@ import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
 import {
   useMeQuery,
-  useStoryCollabAddFromTokenMutation,
-  useStoryQuery,
+  useSessionCollabAddFromTokenMutation,
+  useSessionQuery,
 } from "@auralous/api";
 import player from "@auralous/player";
 import {
@@ -26,34 +26,35 @@ const styles = StyleSheet.create({
   top: { alignItems: "center", flex: 1 },
 });
 
-const StoryInviteScreen: FC<
-  NativeStackScreenProps<ParamList, RouteName.StoryInvite>
+const SessionInviteScreen: FC<
+  NativeStackScreenProps<ParamList, RouteName.SessionInvite>
 > = ({ navigation, route }) => {
   const { t } = useTranslation();
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
-  const [{ data: dataStory, fetching: fetchingStory }] = useStoryQuery({
+  const [{ data: dataSession, fetching: fetchingSession }] = useSessionQuery({
     variables: { id: route.params.id },
   });
 
-  const [{ data, fetching }, addCollab] = useStoryCollabAddFromTokenMutation();
+  const [{ data, fetching }, addCollab] =
+    useSessionCollabAddFromTokenMutation();
 
   const playAndNavigate = useCallback(() => {
     player.playContext({
       id: route.params.id,
-      type: "story",
+      type: "session",
       shuffle: false,
     });
-    navigation.replace(RouteName.Story, { id: route.params.id });
+    navigation.replace(RouteName.Session, { id: route.params.id });
   }, [navigation, route.params.id]);
 
   useEffect(() => {
     // If user is already a collaborator, redirect right away
-    if (me && dataStory?.story?.collaboratorIds.includes(me.user.id)) {
+    if (me && dataSession?.session?.collaboratorIds.includes(me.user.id)) {
       playAndNavigate();
     }
-  }, [dataStory, playAndNavigate, me]);
+  }, [dataSession, playAndNavigate, me]);
 
   const onPress = useCallback(() => {
     if (!me) {
@@ -63,32 +64,32 @@ const StoryInviteScreen: FC<
   }, [me, navigation, route.params, addCollab]);
 
   useEffect(() => {
-    if (data?.storyCollabAddFromToken === true) {
+    if (data?.sessionCollabAddFromToken === true) {
       playAndNavigate();
-    } else if (data?.storyCollabAddFromToken === false) {
-      toast.error(t("story_invite.invite_invalid"));
+    } else if (data?.sessionCollabAddFromToken === false) {
+      toast.error(t("session_invite.invite_invalid"));
     }
-  }, [data?.storyCollabAddFromToken, t, playAndNavigate]);
+  }, [data?.sessionCollabAddFromToken, t, playAndNavigate]);
 
   return (
     <View style={styles.root}>
-      {fetchingStory || me === undefined ? (
+      {fetchingSession || me === undefined ? (
         <LoadingScreen />
-      ) : dataStory?.story ? (
+      ) : dataSession?.session ? (
         <View style={styles.content}>
           <View style={styles.top}>
             <Avatar
               size={32}
-              href={dataStory.story.creator.profilePicture}
-              username={dataStory.story.creator.username}
+              href={dataSession.session.creator.profilePicture}
+              username={dataSession.session.creator.username}
             />
             <Spacer y={4} />
             <Heading level={4} align="center">
-              {t("story_invite.title", { name: dataStory.story.text })}
+              {t("session_invite.title", { name: dataSession.session.text })}
             </Heading>
           </View>
           <Button variant="filled" disabled={fetching} onPress={onPress}>
-            {t("story_invite.accept_invitation")}
+            {t("session_invite.accept_invitation")}
           </Button>
         </View>
       ) : (
@@ -98,4 +99,4 @@ const StoryInviteScreen: FC<
   );
 };
 
-export default StoryInviteScreen;
+export default SessionInviteScreen;

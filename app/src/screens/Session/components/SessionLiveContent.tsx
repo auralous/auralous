@@ -1,10 +1,10 @@
 import { GradientButton } from "@/components/Button";
 import { RouteName } from "@/screens/types";
 import {
-  Story,
+  Session,
   useNowPlayingQuery,
-  useStoryListenersQuery,
-  useStoryListenersUpdatedSubscription,
+  useSessionListenersQuery,
+  useSessionListenersUpdatedSubscription,
   useTrackQuery,
 } from "@auralous/api";
 import player, { usePlaybackCurrentContext } from "@auralous/player";
@@ -21,7 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
-import StoryMeta from "./StoryMeta";
+import SessionMeta from "./SessionMeta";
 
 const styles = StyleSheet.create({
   buttons: {
@@ -49,45 +49,45 @@ const styles = StyleSheet.create({
   },
 });
 
-const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
+const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
   const playbackCurrentContext = usePlaybackCurrentContext();
 
   const { t } = useTranslation();
 
-  // FIXME: create more lightweight queries like useStoryListenersCount()
-  const [{ data: dataStoryListeners }] = useStoryListenersQuery({
+  // FIXME: create more lightweight queries like useSessionListenersCount()
+  const [{ data: dataSessionListeners }] = useSessionListenersQuery({
     variables: {
-      id: story.id,
+      id: session.id,
     },
     requestPolicy: "cache-and-network",
   });
-  useStoryListenersUpdatedSubscription({
+  useSessionListenersUpdatedSubscription({
     variables: {
-      id: story.id,
+      id: session.id,
     },
   });
 
   const joinLive = useCallback(() => {
     player.playContext({
-      id: story.id,
-      type: "story",
+      id: session.id,
+      type: "session",
       shuffle: false,
     });
-  }, [story]);
+  }, [session]);
 
   const navigation = useNavigation();
 
   const viewCollabs = useCallback(() => {
-    navigation.navigate(RouteName.StoryCollaborators, { id: story.id });
-  }, [navigation, story.id]);
+    navigation.navigate(RouteName.SessionCollaborators, { id: session.id });
+  }, [navigation, session.id]);
 
   const viewListeners = useCallback(() => {
-    navigation.navigate(RouteName.StoryListeners, { id: story.id });
-  }, [navigation, story.id]);
+    navigation.navigate(RouteName.SessionListeners, { id: session.id });
+  }, [navigation, session.id]);
 
   const [{ data: dataNowPlaying, fetching: fetchingNowPlaying }] =
     useNowPlayingQuery({
-      variables: { id: story.id },
+      variables: { id: session.id },
     });
   const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
     variables: { id: dataNowPlaying?.nowPlaying?.currentTrack?.trackId || "" },
@@ -98,16 +98,16 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
 
   return (
     <>
-      <StoryMeta
-        story={story}
+      <SessionMeta
+        session={session}
         tagElement={
           <Pressable style={styles.tag} onPress={viewListeners}>
             <Text bold size="sm" style={styles.textLive}>
               {t("common.status.live")}{" "}
             </Text>
             <Text size="sm">
-              {t("story.title")} •{" "}
-              {dataStoryListeners?.storyListeners?.length || 0}
+              {t("session.title")} •{" "}
+              {dataSessionListeners?.sessionListeners?.length || 0}
             </Text>
             <IconUser color={Colors.primaryText} width={12} height={12} />
           </Pressable>
@@ -116,12 +116,12 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
       <View style={styles.buttons}>
         <GradientButton
           disabled={
-            playbackCurrentContext?.type === "story" &&
-            playbackCurrentContext.id === story.id
+            playbackCurrentContext?.type === "session" &&
+            playbackCurrentContext.id === session.id
           }
           onPress={joinLive}
         >
-          {t("story.join_live")}
+          {t("session.join_live")}
         </GradientButton>
         <Spacer x={2} />
         <View>
@@ -145,4 +145,4 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
   );
 };
 
-export default StoryLiveContent;
+export default SessionLiveContent;

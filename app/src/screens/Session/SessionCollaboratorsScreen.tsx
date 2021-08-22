@@ -2,8 +2,8 @@ import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
 import {
   useMeQuery,
-  useStoryInviteLinkQuery,
-  useStoryQuery,
+  useSessionInviteLinkQuery,
+  useSessionQuery,
   useUserQuery,
 } from "@auralous/api";
 import { Button, LoadingScreen, Size, UserListItem } from "@auralous/ui";
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const StoryCollaborator: FC<{
+const SessionCollaborator: FC<{
   id: string;
   userId: string;
 }> = ({ userId }) => {
@@ -55,43 +55,43 @@ const StoryCollaborator: FC<{
   );
 };
 
-const StoryCollaboratorsScreen: FC<
-  NativeStackScreenProps<ParamList, RouteName.Story>
+const SessionCollaboratorsScreen: FC<
+  NativeStackScreenProps<ParamList, RouteName.Session>
 > = ({ route }) => {
   const { t } = useTranslation();
 
-  const [{ data: dataStory, fetching }] = useStoryQuery({
+  const [{ data: dataSession, fetching }] = useSessionQuery({
     variables: { id: route.params.id },
   });
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
   const shouldShowInviteButton = Boolean(
-    dataStory?.story &&
+    dataSession?.session &&
       me &&
-      dataStory.story.collaboratorIds.includes(me.user.id)
+      dataSession.session.collaboratorIds.includes(me.user.id)
   );
 
-  const [{ data: dataStoryInviteLink }] = useStoryInviteLinkQuery({
+  const [{ data: dataSessionInviteLink }] = useSessionInviteLinkQuery({
     variables: { id: route.params.id },
     pause: !shouldShowInviteButton,
   });
 
   const onInvitePress = useCallback(() => {
     Share.open({
-      title: t("story_invite.title", { name: dataStory?.story?.text }),
-      url: dataStoryInviteLink?.storyInviteLink,
+      title: t("session_invite.title", { name: dataSession?.session?.text }),
+      url: dataSessionInviteLink?.sessionInviteLink,
     }).catch(() => undefined);
-  }, [t, dataStory?.story?.text, dataStoryInviteLink?.storyInviteLink]);
+  }, [t, dataSession?.session?.text, dataSessionInviteLink?.sessionInviteLink]);
 
   return (
     <View style={styles.root}>
       {fetching ? (
         <LoadingScreen />
-      ) : dataStory?.story ? (
+      ) : dataSession?.session ? (
         <ScrollView style={styles.scroll}>
-          {dataStory.story.collaboratorIds.map((collaboratorId) => (
-            <StoryCollaborator
+          {dataSession.session.collaboratorIds.map((collaboratorId) => (
+            <SessionCollaborator
               key={collaboratorId}
               id={route.params.id}
               userId={collaboratorId}
@@ -101,7 +101,7 @@ const StoryCollaboratorsScreen: FC<
       ) : (
         <NotFoundScreen />
       )}
-      {shouldShowInviteButton && dataStoryInviteLink && (
+      {shouldShowInviteButton && dataSessionInviteLink && (
         <View style={styles.invite}>
           <Button variant="primary" onPress={onInvitePress}>
             {t("share.invite_friends")}
@@ -112,4 +112,4 @@ const StoryCollaboratorsScreen: FC<
   );
 };
 
-export default StoryCollaboratorsScreen;
+export default SessionCollaboratorsScreen;

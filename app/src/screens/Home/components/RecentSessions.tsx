@@ -1,6 +1,6 @@
 import { RouteName } from "@/screens/types";
-import { useStoriesQuery } from "@auralous/api";
-import { LoadingScreen, Size, StoryItem } from "@auralous/ui";
+import { useSessionsQuery } from "@auralous/api";
+import { LoadingScreen, SessionItem, Size } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC } from "react";
 import { ScrollView, StyleSheet } from "react-native";
@@ -11,13 +11,13 @@ const styles = StyleSheet.create({
   root: {
     height: 296,
   },
-  storyItemWrapper: {
+  sessionItemWrapper: {
     marginRight: Size[4],
   },
 });
 
-const RecentStories: FC = () => {
-  const [{ data, fetching }] = useStoriesQuery({
+const RecentSessions: FC = () => {
+  const [{ data, fetching }] = useSessionsQuery({
     variables: { limit: 10 },
   });
 
@@ -33,15 +33,15 @@ const RecentStories: FC = () => {
       {fetching ? (
         <LoadingScreen />
       ) : (
-        data?.stories?.map((story) => (
+        data?.sessions?.map((session) => (
           <TouchableOpacity
-            key={story.id}
-            style={styles.storyItemWrapper}
+            key={session.id}
+            style={styles.sessionItemWrapper}
             onPress={() =>
-              navigation.navigate(RouteName.Story, { id: story.id })
+              navigation.navigate(RouteName.Session, { id: session.id })
             }
           >
-            <StoryItem story={story} />
+            <SessionItem session={session} />
           </TouchableOpacity>
         ))
       )}
@@ -49,4 +49,4 @@ const RecentStories: FC = () => {
   );
 };
 
-export default RecentStories;
+export default RecentSessions;

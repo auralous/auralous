@@ -1,7 +1,7 @@
 import { RouteName } from "@/screens/types";
-import { User, useStoriesQuery } from "@auralous/api";
+import { User, useSessionsQuery } from "@auralous/api";
 import player from "@auralous/player";
-import { Colors, Size, Spacer, StoryCardItem } from "@auralous/ui";
+import { Colors, SessionCardItem, Size, Spacer } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useState } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
@@ -20,7 +20,7 @@ export const UserTimeline: FC<{ user: User }> = ({ user }) => {
   // Pagination
   const [next, setNext] = useState<undefined | string>("");
 
-  const [{ data, fetching, stale }] = useStoriesQuery({
+  const [{ data, fetching, stale }] = useSessionsQuery({
     variables: {
       creatorId: user.id,
       next,
@@ -30,24 +30,25 @@ export const UserTimeline: FC<{ user: User }> = ({ user }) => {
   });
 
   const loadMore = useCallback(() => {
-    const stories = data?.stories;
-    if (!stories?.length) return;
-    setNext(stories[stories.length - 1].id);
-  }, [data?.stories]);
+    const sessions = data?.sessions;
+    if (!sessions?.length) return;
+    setNext(sessions[sessions.length - 1].id);
+  }, [data?.sessions]);
 
   const navigation = useNavigation();
 
-  const onStoryCardItemNavigate = useCallback(
-    (storyId: string) => navigation.navigate(RouteName.Story, { id: storyId }),
+  const onSessionCardItemNavigate = useCallback(
+    (sessionId: string) =>
+      navigation.navigate(RouteName.Session, { id: sessionId }),
     [navigation]
   );
 
-  const onStoryCardPlay = useCallback(
-    (storyId: string, index: number) =>
+  const onSessionCardPlay = useCallback(
+    (sessionId: string, index: number) =>
       player.playContext({
-        id: storyId,
+        id: sessionId,
         initialIndex: index,
-        type: "story",
+        type: "session",
         shuffle: false,
       }),
     []
@@ -59,14 +60,14 @@ export const UserTimeline: FC<{ user: User }> = ({ user }) => {
       contentContainerStyle={styles.content}
       onEnded={loadMore}
     >
-      {data?.stories.map(
-        (story) =>
-          !story.isLive && (
-            <View key={story.id}>
-              <StoryCardItem
-                story={story}
-                onNavigate={onStoryCardItemNavigate}
-                onPlay={onStoryCardPlay}
+      {data?.sessions.map(
+        (session) =>
+          !session.isLive && (
+            <View key={session.id}>
+              <SessionCardItem
+                session={session}
+                onNavigate={onSessionCardItemNavigate}
+                onPlay={onSessionCardPlay}
               />
               <Spacer y={4} />
             </View>

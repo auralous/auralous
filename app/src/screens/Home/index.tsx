@@ -9,7 +9,7 @@ import AddButton from "./components/AddButton";
 import FeaturedPlaylists from "./components/FeaturedPlaylists";
 import HeaderSection from "./components/Header";
 import MapNavigate from "./components/MapNavigate";
-import RecentStories from "./components/RecentStories";
+import RecentSessions from "./components/RecentSessions";
 import Section from "./components/Section";
 
 const styles = StyleSheet.create({
@@ -38,10 +38,10 @@ const HomeScreen: FC<NativeStackScreenProps<ParamList, RouteName.Home>> =
             </Section>
             <MapNavigate />
             <Section
-              title={t("home.recent_stories.title")}
-              description={t("home.recent_stories.description")}
+              title={t("home.recent_sessions.title")}
+              description={t("home.recent_sessions.description")}
             >
-              <RecentStories />
+              <RecentSessions />
             </Section>
             <Section
               title={t("home.radio_stations.title")}

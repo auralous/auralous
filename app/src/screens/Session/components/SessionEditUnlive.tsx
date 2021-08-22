@@ -1,4 +1,4 @@
-import { Story, useStoryUnliveMutation } from "@auralous/api";
+import { Session, useSessionUnliveMutation } from "@auralous/api";
 import {
   Button,
   Colors,
@@ -26,21 +26,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export const StoryEditUnlive: FC<{ story: Story }> = ({ story }) => {
+export const SessionEditUnlive: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
 
-  const [{ fetching }, storyUnlive] = useStoryUnliveMutation();
+  const [{ fetching }, sessionUnlive] = useSessionUnliveMutation();
 
   const [visible, present, dismiss] = useDialog();
 
   const onUnlive = useCallback(async () => {
-    const result = await storyUnlive({
-      id: story.id,
+    const result = await sessionUnlive({
+      id: session.id,
     });
     if (!result.error) {
-      toast.success(t("story_edit.live.unlive_ok"));
+      toast.success(t("session_edit.live.unlive_ok"));
     }
-  }, [t, storyUnlive, story.id]);
+  }, [t, sessionUnlive, session.id]);
 
   return (
     <>
@@ -48,17 +48,17 @@ export const StoryEditUnlive: FC<{ story: Story }> = ({ story }) => {
         <Text style={styles.liveText}>
           <Trans
             t={t}
-            i18nKey="story_edit.live.description"
+            i18nKey="session_edit.live.description"
             components={[<Text key="LIVE" bold />]}
           />
         </Text>
-        <Button onPress={present}>{t("story_edit.live.unlive")}</Button>
+        <Button onPress={present}>{t("session_edit.live.unlive")}</Button>
       </View>
       <Dialog.Dialog visible={visible} onDismiss={dismiss}>
-        <Dialog.Title>{`${t("story_edit.live.unlive")}?`}</Dialog.Title>
+        <Dialog.Title>{`${t("session_edit.live.unlive")}?`}</Dialog.Title>
         <Dialog.Content>
           <Dialog.ContentText>
-            {t("story_edit.live.unlive_prompt")}
+            {t("session_edit.live.unlive_prompt")}
           </Dialog.ContentText>
         </Dialog.Content>
         <Dialog.Footer>

@@ -1,8 +1,8 @@
 import {
-  StoriesOnMapDocument,
-  StoriesOnMapQuery,
-  StoriesOnMapQueryVariables,
-  Story,
+  Session,
+  SessionsOnMapDocument,
+  SessionsOnMapQuery,
+  SessionsOnMapQueryVariables,
 } from "@auralous/api";
 import { toast } from "@auralous/ui";
 import MapboxGL, { MapViewProps } from "@react-native-mapbox-gl/maps";
@@ -34,8 +34,8 @@ function metersPerPixel(latitude: number, zoomLevel: number) {
 }
 
 export const MapMap: FC<{
-  setStories(stories: Story[]): void;
-}> = ({ setStories }) => {
+  setSessions(sessions: Session[]): void;
+}> = ({ setSessions }) => {
   const { t } = useTranslation();
 
   const ref = useRef<MapboxGL.MapView>(null);
@@ -45,17 +45,17 @@ export const MapMap: FC<{
 
   const onResult = useMemo(() => {
     let cosmeticDelay: ReturnType<typeof setTimeout>;
-    return (result: OperationResult<StoriesOnMapQuery>) => {
+    return (result: OperationResult<SessionsOnMapQuery>) => {
       clearTimeout(cosmeticDelay);
       cosmeticDelay = setTimeout(() => {
-        if (!result.data?.storiesOnMap.length) {
-          toast(t("map.no_stories_found"));
+        if (!result.data?.sessionsOnMap.length) {
+          toast(t("map.no_sessions_found"));
         }
-        setStories(result.data?.storiesOnMap || []);
+        setSessions(result.data?.sessionsOnMap || []);
         setLngLat(null);
       }, 2000);
     };
-  }, [setStories, t]);
+  }, [setSessions, t]);
 
   const unsubscribeRef = useRef<(() => void) | undefined>(undefined);
 
@@ -69,8 +69,8 @@ export const MapMap: FC<{
       setLngLat([lng, lat]);
 
       unsubscribeRef.current = pipe(
-        client.query<StoriesOnMapQuery, StoriesOnMapQueryVariables>(
-          StoriesOnMapDocument,
+        client.query<SessionsOnMapQuery, SessionsOnMapQueryVariables>(
+          SessionsOnMapDocument,
           {
             lng: lng,
             lat: lat,

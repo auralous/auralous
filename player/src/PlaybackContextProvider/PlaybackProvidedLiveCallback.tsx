@@ -9,8 +9,8 @@ import {
   useQueueReorderMutation,
   useQueueToTopMutation,
   useQueueUpdatedSubscription,
-  useStoryPingMutation,
-  useStoryUpdatedSubscription,
+  useSessionPingMutation,
+  useSessionUpdatedSubscription,
 } from "@auralous/api";
 import { FC, useEffect } from "react";
 import { player } from "../playerSingleton";
@@ -132,21 +132,21 @@ export const PlaybackProvidedLiveCallback: FC<{
     fetchingSkip,
   ]);
 
-  useStoryUpdatedSubscription({
+  useSessionUpdatedSubscription({
     variables: { id: playbackContext.id },
-    pause: playbackContext.type !== "story",
+    pause: playbackContext.type !== "session",
   });
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
-  const [, storyPing] = useStoryPingMutation();
+  const [, sessionPing] = useSessionPingMutation();
   useEffect(() => {
     if (!me) return;
-    if (playbackContext.type !== "story") return;
+    if (playbackContext.type !== "session") return;
     const pingInterval = setInterval(() => {
-      storyPing({ id: playbackContext.id });
+      sessionPing({ id: playbackContext.id });
     }, 30 * 1000);
     return () => clearInterval(pingInterval);
-  }, [playbackContext, me, storyPing]);
+  }, [playbackContext, me, sessionPing]);
 
   useEffect(() => {
     setPlaybackProvided({

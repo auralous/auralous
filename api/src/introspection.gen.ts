@@ -616,7 +616,7 @@ export default {
             ]
           },
           {
-            "name": "storyCollabAddFromToken",
+            "name": "sessionCollabAddFromToken",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -648,12 +648,12 @@ export default {
             ]
           },
           {
-            "name": "storyCreate",
+            "name": "sessionCreate",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Story",
+                "name": "Session",
                 "ofType": null
               }
             },
@@ -694,7 +694,7 @@ export default {
             ]
           },
           {
-            "name": "storyDelete",
+            "name": "sessionDelete",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -716,7 +716,7 @@ export default {
             ]
           },
           {
-            "name": "storyPing",
+            "name": "sessionPing",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -738,12 +738,12 @@ export default {
             ]
           },
           {
-            "name": "storyUnlive",
+            "name": "sessionUnlive",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Story",
+                "name": "Session",
                 "ofType": null
               }
             },
@@ -761,12 +761,12 @@ export default {
             ]
           },
           {
-            "name": "storyUpdate",
+            "name": "sessionUpdate",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Story",
+                "name": "Session",
                 "ofType": null
               }
             },
@@ -890,7 +890,7 @@ export default {
           },
           {
             "kind": "OBJECT",
-            "name": "NotificationNewStory"
+            "name": "NotificationNewSession"
           }
         ]
       },
@@ -950,7 +950,7 @@ export default {
       },
       {
         "kind": "OBJECT",
-        "name": "NotificationNewStory",
+        "name": "NotificationNewSession",
         "fields": [
           {
             "name": "id",
@@ -986,10 +986,10 @@ export default {
             "args": []
           },
           {
-            "name": "story",
+            "name": "session",
             "type": {
               "kind": "OBJECT",
-              "name": "Story",
+              "name": "Session",
               "ofType": null
             },
             "args": []
@@ -1576,102 +1576,10 @@ export default {
             ]
           },
           {
-            "name": "stories",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Story",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": [
-              {
-                "name": "creatorId",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              },
-              {
-                "name": "next",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              },
-              {
-                "name": "limit",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "name": "storiesOnMap",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Story",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": [
-              {
-                "name": "lng",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              },
-              {
-                "name": "lat",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              },
-              {
-                "name": "radius",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "name": "story",
+            "name": "session",
             "type": {
               "kind": "OBJECT",
-              "name": "Story",
+              "name": "Session",
               "ofType": null
             },
             "args": [
@@ -1688,10 +1596,10 @@ export default {
             ]
           },
           {
-            "name": "storyCurrentLive",
+            "name": "sessionCurrentLive",
             "type": {
               "kind": "OBJECT",
-              "name": "StoryCurrentLive",
+              "name": "SessionCurrentLive",
               "ofType": null
             },
             "args": [
@@ -1708,7 +1616,7 @@ export default {
             ]
           },
           {
-            "name": "storyInviteLink",
+            "name": "sessionInviteLink",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -1730,7 +1638,7 @@ export default {
             ]
           },
           {
-            "name": "storyListeners",
+            "name": "sessionListeners",
             "type": {
               "kind": "LIST",
               "ofType": {
@@ -1755,7 +1663,7 @@ export default {
             ]
           },
           {
-            "name": "storyTracks",
+            "name": "sessionTracks",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -1793,6 +1701,98 @@ export default {
                 "type": {
                   "kind": "SCALAR",
                   "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "sessions",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Session",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "creatorId",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "next",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "sessionsOnMap",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Session",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "lng",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "lat",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "radius",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
                 }
               }
             ]
@@ -2030,7 +2030,7 @@ export default {
       },
       {
         "kind": "OBJECT",
-        "name": "Story",
+        "name": "Session",
         "fields": [
           {
             "name": "id",
@@ -2148,7 +2148,7 @@ export default {
       },
       {
         "kind": "OBJECT",
-        "name": "StoryCurrentLive",
+        "name": "SessionCurrentLive",
         "fields": [
           {
             "name": "creatorId",
@@ -2162,7 +2162,7 @@ export default {
             "args": []
           },
           {
-            "name": "storyId",
+            "name": "sessionId",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -2284,7 +2284,7 @@ export default {
             ]
           },
           {
-            "name": "storyListenersUpdated",
+            "name": "sessionListenersUpdated",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -2312,12 +2312,12 @@ export default {
             ]
           },
           {
-            "name": "storyUpdated",
+            "name": "sessionUpdated",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Story",
+                "name": "Session",
                 "ofType": null
               }
             },

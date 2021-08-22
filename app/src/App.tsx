@@ -28,14 +28,14 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootSheetModals } from "./components/RootSheetModals";
 import { PlayerComponent, PlayerProvider } from "./player";
 import { NotificationsScreen } from "./screens/Notifications";
-import { SettingsScreen } from "./screens/Settings";
 import {
-  StoryCollaboratorsScreen,
-  StoryEditScreen,
-  StoryInviteScreen,
-  StoryListenersScreen,
-  StoryScreen,
-} from "./screens/Story";
+  SessionCollaboratorsScreen,
+  SessionEditScreen,
+  SessionInviteScreen,
+  SessionListenersScreen,
+  SessionScreen,
+} from "./screens/Session";
+import { SettingsScreen } from "./screens/Settings";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,10 +47,10 @@ const linking: LinkingOptions<ParamList> = {
       [RouteName.SignIn]: "sign-in",
       [RouteName.User]: "user/:username",
       [RouteName.Playlist]: "playlist/:id",
-      [RouteName.Story]: "story/:id",
-      [RouteName.StoryCollaborators]: "story/:id/collaborators",
-      [RouteName.StoryInvite]: "story/:id/invite/:token",
-      [RouteName.StoryEdit]: "story/:id/edit",
+      [RouteName.Session]: "session/:id",
+      [RouteName.SessionCollaborators]: "session/:id/collaborators",
+      [RouteName.SessionInvite]: "session/:id/invite/:token",
+      [RouteName.SessionEdit]: "session/:id/edit",
     },
   },
 };
@@ -136,39 +136,39 @@ const App = () => {
         },
       },
       {
-        name: RouteName.Story,
-        component: StoryScreen,
+        name: RouteName.Session,
+        component: SessionScreen,
         options: {
           headerTitle: "",
           headerTranslucent: true,
         },
       },
       {
-        name: RouteName.StoryCollaborators,
-        component: StoryCollaboratorsScreen,
+        name: RouteName.SessionCollaborators,
+        component: SessionCollaboratorsScreen,
         options: {
           title: t("collab.title"),
         },
       },
       {
-        name: RouteName.StoryInvite,
-        component: StoryInviteScreen,
+        name: RouteName.SessionInvite,
+        component: SessionInviteScreen,
         options: {
           headerTitle: "",
         },
       },
       {
-        name: RouteName.StoryEdit,
-        component: StoryEditScreen,
+        name: RouteName.SessionEdit,
+        component: SessionEditScreen,
         options: {
-          title: t("story_edit.title"),
+          title: t("session_edit.title"),
         },
       },
       {
-        name: RouteName.StoryListeners,
-        component: StoryListenersScreen,
+        name: RouteName.SessionListeners,
+        component: SessionListenersScreen,
         options: {
-          title: t("story_listeners.title"),
+          title: t("session_listeners.title"),
         },
       },
       {

@@ -1,15 +1,15 @@
-import { usePlaylistQuery, useStoryQuery } from "@auralous/api";
+import { usePlaylistQuery, useSessionQuery } from "@auralous/api";
 import { PlaybackContextMeta, PlaybackCurrentContext } from "../types";
 
 export const usePlaybackContextMeta = (
   playbackCurrentContext: PlaybackCurrentContext | null
 ): PlaybackContextMeta | null => {
-  const isStory = playbackCurrentContext?.type === "story";
+  const isSession = playbackCurrentContext?.type === "session";
   const isPlaylist = playbackCurrentContext?.type === "playlist";
 
-  const [{ data: dataStory }] = useStoryQuery({
+  const [{ data: dataSession }] = useSessionQuery({
     variables: { id: playbackCurrentContext?.id || "" },
-    pause: !isStory,
+    pause: !isSession,
   });
   const [{ data: dataPlaylist }] = usePlaylistQuery({
     variables: { id: playbackCurrentContext?.id || "" },
@@ -18,15 +18,15 @@ export const usePlaybackContextMeta = (
 
   if (!playbackCurrentContext) return null;
 
-  if (isStory)
+  if (isSession)
     return {
       id: playbackCurrentContext.id,
-      contextDescription: dataStory?.story?.text || "",
-      contextCollaborators: dataStory?.story?.collaboratorIds,
-      contextOwner: dataStory?.story?.creatorId,
-      imageUrl: dataStory?.story?.image,
-      isLive: dataStory?.story?.isLive || false,
-      type: "story",
+      contextDescription: dataSession?.session?.text || "",
+      contextCollaborators: dataSession?.session?.collaboratorIds,
+      contextOwner: dataSession?.session?.creatorId,
+      imageUrl: dataSession?.session?.image,
+      isLive: dataSession?.session?.isLive || false,
+      type: "session",
     };
 
   if (isPlaylist)

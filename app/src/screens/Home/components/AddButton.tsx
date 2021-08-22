@@ -1,6 +1,6 @@
 import { GradientButton } from "@/components/Button";
 import { RouteName } from "@/screens/types";
-import { useMeQuery, useStoryCurrentLiveQuery } from "@auralous/api";
+import { useMeQuery, useSessionCurrentLiveQuery } from "@auralous/api";
 import {
   Button,
   Heading,
@@ -115,13 +115,14 @@ const AddButton: FC = () => {
   }, []);
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
-  const [{ data: dataStoryCurrentLive }] = useStoryCurrentLiveQuery({
+  const [{ data: dataSessionCurrentLive }] = useSessionCurrentLiveQuery({
     variables: { creatorId: me?.user.id || "" },
     pause: !me,
   });
-  const hasCurrentLiveStory = !!me && !!dataStoryCurrentLive?.storyCurrentLive;
+  const hasCurrentLiveSession =
+    !!me && !!dataSessionCurrentLive?.sessionCurrentLive;
 
-  if (hasCurrentLiveStory) return null;
+  if (hasCurrentLiveSession) return null;
 
   return (
     <>

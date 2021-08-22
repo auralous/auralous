@@ -7,13 +7,13 @@ export interface PlaybackContextMeta {
   imageUrl?: string | null;
   contextCollaborators?: string[];
   isLive: boolean;
-  type: "story" | "playlist";
+  type: "session" | "playlist";
 }
 
 /**
  * ContextUri has the form of {<type>,<id>}, defining
  * what the player will be playing.
- * ex. `{type:"story", id: "foo"}`, `{type:"playlist", id: "bar"}`
+ * ex. `{type:"session", id: "foo"}`, `{type:"playlist", id: "bar"}`
  */
 export interface PlaybackCurrentContext {
   id: string;

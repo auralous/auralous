@@ -4,7 +4,7 @@ import { createContext } from "react";
 export const PlayerComponentInternalContext = createContext(
   {} as {
     stopLiveIntention: null | {
-      currentStoryId: string;
+      currentSessionId: string;
       intendedCurrentContext: PlaybackCurrentContext;
       dismiss(): void;
     };

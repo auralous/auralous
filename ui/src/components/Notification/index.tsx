@@ -5,7 +5,7 @@ import { formatTime } from "@/utils";
 import {
   Notification,
   NotificationFollow,
-  NotificationNewStory,
+  NotificationNewSession,
 } from "@auralous/api";
 import { FC, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -87,8 +87,8 @@ export const NotificationFollowItem: FC<{ notification: NotificationFollow }> =
     );
   };
 
-export const NotificationNewStoryItem: FC<{
-  notification: NotificationNewStory;
+export const NotificationNewSessionItem: FC<{
+  notification: NotificationNewSession;
 }> = ({ notification }) => {
   const { t } = useTranslation();
   return (
@@ -96,8 +96,8 @@ export const NotificationNewStoryItem: FC<{
       <Image
         style={styles.image}
         source={
-          notification.story?.creator.profilePicture
-            ? { uri: notification.story?.creator.profilePicture }
+          notification.session?.creator.profilePicture
+            ? { uri: notification.session?.creator.profilePicture }
             : ImageSources.defaultUser
         }
         defaultSource={ImageSources.defaultUser}
@@ -107,11 +107,11 @@ export const NotificationNewStoryItem: FC<{
         <Text>
           <Trans
             t={t}
-            i18nKey="notifications.new_story"
+            i18nKey="notifications.new_session"
             components={[<Text key="name" bold />]}
             values={{
-              username: notification.story?.creator.username,
-              story: notification.story?.text,
+              username: notification.session?.creator.username,
+              session: notification.session?.text,
             }}
           />
         </Text>

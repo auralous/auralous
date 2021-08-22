@@ -9,10 +9,10 @@ import { usePlaybackContextMeta } from "./usePlaybackContextMeta";
  * We have two types of playback.
  *
  * A live playback, which includes:
- *   - Live Story
+ *   - Live Session
  *   - Radio
  * A onDemand playback, which includes:
- *   - Offline Story
+ *   - Offline Session
  *   - Playlist
  *
  * Depending on playbackCurrentContext, we can choose between them

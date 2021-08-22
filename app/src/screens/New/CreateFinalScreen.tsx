@@ -1,5 +1,5 @@
 import { ParamList, RouteName } from "@/screens/types";
-import { useStoryCreateMutation } from "@auralous/api";
+import { useSessionCreateMutation } from "@auralous/api";
 import player from "@auralous/player";
 import {
   Button,
@@ -54,33 +54,33 @@ const CreateFinalScreen: FC<
 > = ({ route, navigation }) => {
   const { t } = useTranslation();
 
-  const [{ fetching }, createStory] = useStoryCreateMutation();
+  const [{ fetching }, createSession] = useSessionCreateMutation();
 
   const onCreate = useCallback(async () => {
-    const result = await createStory({
+    const result = await createSession({
       text: route.params.text,
       tracks: route.params.selectedTracks,
     });
     if (result.error) {
       navigation.goBack();
-    } else if (result.data?.storyCreate) {
+    } else if (result.data?.sessionCreate) {
       player.playContext({
-        type: "story",
-        id: result.data.storyCreate.id,
+        type: "session",
+        id: result.data.sessionCreate.id,
         shuffle: false,
       });
       navigation.popToTop();
-      navigation.navigate(RouteName.Story, {
-        id: result.data.storyCreate.id,
+      navigation.navigate(RouteName.Session, {
+        id: result.data.sessionCreate.id,
         isNew: true,
       });
     }
-  }, [route, createStory, navigation]);
+  }, [route, createSession, navigation]);
 
   useFocusEffect(
     useCallback(() => {
       const onBackPress = () => {
-        // Prevent going back while creating story
+        // Prevent going back while creating session
         return fetching;
       };
       BackHandler.addEventListener("hardwareBackPress", onBackPress);

@@ -1,7 +1,7 @@
 import { ParamList, RouteName } from "@/screens/types";
 import {
   NotificationFollow,
-  NotificationNewStory,
+  NotificationNewSession,
   useNotificationAddedSubscription,
   useNotificationsMarkReadMutation,
   useNotificationsQuery,
@@ -10,7 +10,7 @@ import {
   Colors,
   LoadingScreen,
   NotificationFollowItem,
-  NotificationNewStoryItem,
+  NotificationNewSessionItem,
   RecyclerList,
   RecyclerRenderItem,
   Size,
@@ -22,7 +22,7 @@ import { StyleSheet } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 const NotificationItem: FC<{
-  notification: NotificationFollow | NotificationNewStory;
+  notification: NotificationFollow | NotificationNewSession;
 }> = ({ notification }) => {
   const navigation = useNavigation();
 
@@ -36,9 +36,9 @@ const NotificationItem: FC<{
           username: notification.follower.username,
         });
     } else {
-      if (notification.story)
-        navigation.navigate(RouteName.Story, {
-          id: notification.story.id,
+      if (notification.session)
+        navigation.navigate(RouteName.Session, {
+          id: notification.session.id,
         });
     }
   }, [notification, navigation, notificationsMarkRead]);
@@ -51,14 +51,14 @@ const NotificationItem: FC<{
       {notification.__typename === "NotificationFollow" ? (
         <NotificationFollowItem notification={notification} />
       ) : (
-        <NotificationNewStoryItem notification={notification} />
+        <NotificationNewSessionItem notification={notification} />
       )}
     </TouchableHighlight>
   );
 };
 
 const renderItem: RecyclerRenderItem<
-  NotificationFollow | NotificationNewStory
+  NotificationFollow | NotificationNewSession
 > = (info) => {
   return <NotificationItem key={info.item.id} notification={info.item} />;
 };

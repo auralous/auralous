@@ -4,13 +4,13 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors, Size } from "@/styles";
 import { formatTime } from "@/utils";
-import { Story } from "@auralous/api";
+import { Session } from "@auralous/api";
 import { FC, memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, StyleSheet, View } from "react-native";
 
-interface StoryItemProps {
-  story: Story;
+interface SessionItemProps {
+  session: Session;
 }
 
 const styles = StyleSheet.create({
@@ -50,24 +50,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const StoryItem: FC<StoryItemProps> = ({ story }) => {
+const SessionItem: FC<SessionItemProps> = ({ session }) => {
   const { t } = useTranslation();
 
   const dateStr = useMemo(() => {
-    if (!story) return "";
-    if (story.isLive) return t("common.status.live").toUpperCase();
-    const diff = Date.now() - story.createdAt.getTime();
+    if (!session) return "";
+    if (session.isLive) return t("common.status.live").toUpperCase();
+    const diff = Date.now() - session.createdAt.getTime();
     if (diff < 60 * 1000) {
       return t("common.time.just_now");
     }
     return t("common.time.ago", { time: formatTime(t, diff) });
-  }, [story, t]);
+  }, [session, t]);
 
   return (
     <View style={styles.root}>
       <ImageBackground
         source={
-          story.image ? { uri: story.image } : ImageSources.defaultPlaylist
+          session.image ? { uri: session.image } : ImageSources.defaultPlaylist
         }
         defaultSource={ImageSources.defaultPlaylist}
         style={styles.background}
@@ -76,24 +76,24 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
         <View style={styles.overlay}>
           <View style={styles.top}>
             <Avatar
-              href={story.creator.profilePicture}
-              username={story.creator.username}
+              href={session.creator.profilePicture}
+              username={session.creator.username}
               size={12}
             />
           </View>
           <View style={styles.bottom}>
             <Text style={styles.text} bold size="xl">
-              {story.creator.username}
+              {session.creator.username}
             </Text>
             <Spacer y={2} />
             <Text style={styles.textSecondary} numberOfLines={3}>
-              {story.text}
+              {session.text}
             </Text>
             <Spacer y={3} />
             <View
               style={[
                 styles.tag,
-                story.isLive && { backgroundColor: Colors.primary },
+                session.isLive && { backgroundColor: Colors.primary },
               ]}
             >
               <Text size="xs">{dateStr}</Text>
@@ -105,4 +105,4 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
   );
 };
 
-export default memo(StoryItem);
+export default memo(SessionItem);

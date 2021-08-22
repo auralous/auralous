@@ -94,8 +94,8 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
 
   const onHeaderTitlePress = useCallback(() => {
     if (!contextMeta) return;
-    if (contextMeta.type === "story") {
-      navigation.navigate(RouteName.Story, { id: contextMeta.id });
+    if (contextMeta.type === "session") {
+      navigation.navigate(RouteName.Session, { id: contextMeta.id });
     } else if (contextMeta.type === "playlist") {
       navigation.navigate(RouteName.Playlist, { id: contextMeta.id });
     }

@@ -78,12 +78,12 @@ export type Mutation = {
   queueRemove: Scalars['Boolean'];
   queueReorder: Scalars['Boolean'];
   queueToTop: Scalars['Boolean'];
-  storyCollabAddFromToken: Scalars['Boolean'];
-  storyCreate: Story;
-  storyDelete: Scalars['ID'];
-  storyPing: Scalars['Boolean'];
-  storyUnlive: Story;
-  storyUpdate: Story;
+  sessionCollabAddFromToken: Scalars['Boolean'];
+  sessionCreate: Session;
+  sessionDelete: Scalars['ID'];
+  sessionPing: Scalars['Boolean'];
+  sessionUnlive: Session;
+  sessionUpdate: Session;
   userFollow: Scalars['Boolean'];
   userUnfollow: Scalars['Boolean'];
 };
@@ -154,35 +154,35 @@ export type MutationQueueToTopArgs = {
 };
 
 
-export type MutationStoryCollabAddFromTokenArgs = {
+export type MutationSessionCollabAddFromTokenArgs = {
   id: Scalars['ID'];
   token: Scalars['String'];
 };
 
 
-export type MutationStoryCreateArgs = {
+export type MutationSessionCreateArgs = {
   text: Scalars['String'];
   location?: Maybe<LocationInput>;
   tracks: Array<Scalars['ID']>;
 };
 
 
-export type MutationStoryDeleteArgs = {
+export type MutationSessionDeleteArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationStoryPingArgs = {
+export type MutationSessionPingArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationStoryUnliveArgs = {
+export type MutationSessionUnliveArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationStoryUpdateArgs = {
+export type MutationSessionUpdateArgs = {
   id: Scalars['ID'];
   text?: Maybe<Scalars['String']>;
   location?: Maybe<LocationInput>;
@@ -212,12 +212,12 @@ export type NotificationFollow = Notification & {
   follower?: Maybe<User>;
 };
 
-export type NotificationNewStory = Notification & {
-  __typename: 'NotificationNewStory';
+export type NotificationNewSession = Notification & {
+  __typename: 'NotificationNewSession';
   id: Scalars['ID'];
   hasRead: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
-  story?: Maybe<Story>;
+  session?: Maybe<Session>;
 };
 
 export type NowPlaying = {
@@ -282,13 +282,13 @@ export type Query = {
   playlistsSearch: Array<Playlist>;
   queue?: Maybe<Queue>;
   searchTrack: Array<Track>;
-  stories: Array<Story>;
-  storiesOnMap: Array<Story>;
-  story?: Maybe<Story>;
-  storyCurrentLive?: Maybe<StoryCurrentLive>;
-  storyInviteLink: Scalars['String'];
-  storyListeners?: Maybe<Array<Scalars['String']>>;
-  storyTracks: Array<Track>;
+  session?: Maybe<Session>;
+  sessionCurrentLive?: Maybe<SessionCurrentLive>;
+  sessionInviteLink: Scalars['String'];
+  sessionListeners?: Maybe<Array<Scalars['String']>>;
+  sessionTracks: Array<Track>;
+  sessions: Array<Session>;
+  sessionsOnMap: Array<Session>;
   track?: Maybe<Track>;
   tracks: Array<Maybe<Track>>;
   user?: Maybe<User>;
@@ -358,44 +358,44 @@ export type QuerySearchTrackArgs = {
 };
 
 
-export type QueryStoriesArgs = {
+export type QuerySessionArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QuerySessionCurrentLiveArgs = {
+  creatorId: Scalars['ID'];
+};
+
+
+export type QuerySessionInviteLinkArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QuerySessionListenersArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QuerySessionTracksArgs = {
+  id: Scalars['ID'];
+  from?: Maybe<Scalars['Int']>;
+  to?: Maybe<Scalars['Int']>;
+};
+
+
+export type QuerySessionsArgs = {
   creatorId?: Maybe<Scalars['String']>;
   next?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
 };
 
 
-export type QueryStoriesOnMapArgs = {
+export type QuerySessionsOnMapArgs = {
   lng: Scalars['Float'];
   lat: Scalars['Float'];
   radius: Scalars['Float'];
-};
-
-
-export type QueryStoryArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryStoryCurrentLiveArgs = {
-  creatorId: Scalars['ID'];
-};
-
-
-export type QueryStoryInviteLinkArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryStoryListenersArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryStoryTracksArgs = {
-  id: Scalars['ID'];
-  from?: Maybe<Scalars['Int']>;
-  to?: Maybe<Scalars['Int']>;
 };
 
 
@@ -442,8 +442,8 @@ export type QueueItem = {
   creatorId: Scalars['String'];
 };
 
-export type Story = {
-  __typename: 'Story';
+export type Session = {
+  __typename: 'Session';
   id: Scalars['ID'];
   text: Scalars['String'];
   image?: Maybe<Scalars['String']>;
@@ -456,10 +456,10 @@ export type Story = {
   trackTotal: Scalars['Int'];
 };
 
-export type StoryCurrentLive = {
-  __typename: 'StoryCurrentLive';
+export type SessionCurrentLive = {
+  __typename: 'SessionCurrentLive';
   creatorId: Scalars['ID'];
-  storyId: Scalars['ID'];
+  sessionId: Scalars['ID'];
 };
 
 export type Subscription = {
@@ -469,8 +469,8 @@ export type Subscription = {
   nowPlayingReactionsUpdated?: Maybe<Array<NowPlayingReactionItem>>;
   nowPlayingUpdated?: Maybe<NowPlaying>;
   queueUpdated: Queue;
-  storyListenersUpdated: Array<Scalars['String']>;
-  storyUpdated: Story;
+  sessionListenersUpdated: Array<Scalars['String']>;
+  sessionUpdated: Session;
 };
 
 
@@ -494,12 +494,12 @@ export type SubscriptionQueueUpdatedArgs = {
 };
 
 
-export type SubscriptionStoryListenersUpdatedArgs = {
+export type SubscriptionSessionListenersUpdatedArgs = {
   id: Scalars['ID'];
 };
 
 
-export type SubscriptionStoryUpdatedArgs = {
+export type SubscriptionSessionUpdatedArgs = {
   id: Scalars['ID'];
 };
 
@@ -562,7 +562,7 @@ export type NotificationsQueryVariables = Exact<{
 }>;
 
 
-export type NotificationsQuery = { notifications: Array<{ __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewStory', id: string, createdAt: any, hasRead: boolean, story?: Maybe<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> }> };
+export type NotificationsQuery = { notifications: Array<{ __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> }> };
 
 export type NotificationsMarkReadMutationVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
@@ -574,7 +574,7 @@ export type NotificationsMarkReadMutation = { notificationsMarkRead: number };
 export type NotificationAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewStory', id: string, createdAt: any, hasRead: boolean, story?: Maybe<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> } };
+export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> } };
 
 export type NowPlayingQueuePartsFragment = { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string };
 
@@ -726,123 +726,123 @@ export type QueueUpdatedSubscriptionVariables = Exact<{
 
 export type QueueUpdatedSubscription = { queueUpdated: { __typename: 'Queue', id: string, items: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> } };
 
-export type StoryDetailPartsFragment = { __typename: 'Story', text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } };
+export type SessionDetailPartsFragment = { __typename: 'Session', text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } };
 
-export type StoryQueryVariables = Exact<{
+export type SessionQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryQuery = { story?: Maybe<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type SessionQuery = { session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
 
-export type StoriesQueryVariables = Exact<{
+export type SessionsQueryVariables = Exact<{
   creatorId?: Maybe<Scalars['String']>;
   next?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
 }>;
 
 
-export type StoriesQuery = { stories: Array<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type SessionsQuery = { sessions: Array<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
 
-export type StoriesOnMapQueryVariables = Exact<{
+export type SessionsOnMapQueryVariables = Exact<{
   lng: Scalars['Float'];
   lat: Scalars['Float'];
   radius: Scalars['Float'];
 }>;
 
 
-export type StoriesOnMapQuery = { storiesOnMap: Array<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type SessionsOnMapQuery = { sessionsOnMap: Array<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
 
-export type StoryCurrentLiveQueryVariables = Exact<{
+export type SessionCurrentLiveQueryVariables = Exact<{
   creatorId: Scalars['ID'];
 }>;
 
 
-export type StoryCurrentLiveQuery = { storyCurrentLive?: Maybe<{ __typename: 'StoryCurrentLive', creatorId: string, storyId: string }> };
+export type SessionCurrentLiveQuery = { sessionCurrentLive?: Maybe<{ __typename: 'SessionCurrentLive', creatorId: string, sessionId: string }> };
 
-export type StoryTracksQueryVariables = Exact<{
+export type SessionTracksQueryVariables = Exact<{
   id: Scalars['ID'];
   from?: Maybe<Scalars['Int']>;
   to?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type StoryTracksQuery = { storyTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
+export type SessionTracksQuery = { sessionTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
 
-export type StoryCreateMutationVariables = Exact<{
+export type SessionCreateMutationVariables = Exact<{
   text: Scalars['String'];
   location?: Maybe<LocationInput>;
   tracks: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
-export type StoryCreateMutation = { storyCreate: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionCreateMutation = { sessionCreate: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
-export type StoryUpdateMutationVariables = Exact<{
+export type SessionUpdateMutationVariables = Exact<{
   id: Scalars['ID'];
   text?: Maybe<Scalars['String']>;
   location?: Maybe<LocationInput>;
 }>;
 
 
-export type StoryUpdateMutation = { storyUpdate: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionUpdateMutation = { sessionUpdate: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
-export type StoryDeleteMutationVariables = Exact<{
+export type SessionDeleteMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryDeleteMutation = { storyDelete: string };
+export type SessionDeleteMutation = { sessionDelete: string };
 
-export type StoryUnliveMutationVariables = Exact<{
+export type SessionUnliveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryUnliveMutation = { storyUnlive: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionUnliveMutation = { sessionUnlive: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
-export type StoryListenersQueryVariables = Exact<{
+export type SessionListenersQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryListenersQuery = { storyListeners?: Maybe<Array<string>> };
+export type SessionListenersQuery = { sessionListeners?: Maybe<Array<string>> };
 
-export type StoryPingMutationVariables = Exact<{
+export type SessionPingMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryPingMutation = { storyPing: boolean };
+export type SessionPingMutation = { sessionPing: boolean };
 
-export type StoryUpdatedSubscriptionVariables = Exact<{
+export type SessionUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryUpdatedSubscription = { storyUpdated: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionUpdatedSubscription = { sessionUpdated: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
-export type StoryListenersUpdatedSubscriptionVariables = Exact<{
+export type SessionListenersUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryListenersUpdatedSubscription = { storyListenersUpdated: Array<string> };
+export type SessionListenersUpdatedSubscription = { sessionListenersUpdated: Array<string> };
 
-export type StoryInviteLinkQueryVariables = Exact<{
+export type SessionInviteLinkQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryInviteLinkQuery = { storyInviteLink: string };
+export type SessionInviteLinkQuery = { sessionInviteLink: string };
 
-export type StoryCollabAddFromTokenMutationVariables = Exact<{
+export type SessionCollabAddFromTokenMutationVariables = Exact<{
   id: Scalars['ID'];
   token: Scalars['String'];
 }>;
 
 
-export type StoryCollabAddFromTokenMutation = { storyCollabAddFromToken: boolean };
+export type SessionCollabAddFromTokenMutation = { sessionCollabAddFromToken: boolean };
 
 export type ArtistPartsFragment = { __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string };
 
@@ -942,7 +942,7 @@ export const MessagePartsFragmentDoc = {"kind":"Document","definitions":[{"kind"
 export const NowPlayingQueuePartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"endedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
 export const PlaylistPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"creatorName"}},{"kind":"Field","name":{"kind":"Name","value":"creatorImage"}}]}}]} as unknown as DocumentNode;
 export const QueueItemPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
-export const StoryDetailPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionDetailPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 export const ArtistPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]} as unknown as DocumentNode;
 export const TrackPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"artists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]} as unknown as DocumentNode;
 export const UserPublicPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
@@ -961,7 +961,7 @@ export const MessageAddedDocument = {"kind":"Document","definitions":[{"kind":"O
 export function useMessageAddedSubscription<TData = MessageAddedSubscription>(options: Omit<Urql.UseSubscriptionArgs<MessageAddedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<MessageAddedSubscription, TData>) {
   return Urql.useSubscription<MessageAddedSubscription, TData, MessageAddedSubscriptionVariables>({ query: MessageAddedDocument, ...options }, handler);
 };
-export const NotificationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notifications"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notifications"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewStory"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"story"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
+export const NotificationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notifications"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notifications"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewSession"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
 
 export function useNotificationsQuery(options: Omit<Urql.UseQueryArgs<NotificationsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<NotificationsQuery>({ query: NotificationsDocument, ...options });
@@ -971,7 +971,7 @@ export const NotificationsMarkReadDocument = {"kind":"Document","definitions":[{
 export function useNotificationsMarkReadMutation() {
   return Urql.useMutation<NotificationsMarkReadMutation, NotificationsMarkReadMutationVariables>(NotificationsMarkReadDocument);
 };
-export const NotificationAddedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewStory"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"story"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
+export const NotificationAddedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewSession"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
 
 export function useNotificationAddedSubscription<TData = NotificationAddedSubscription>(options: Omit<Urql.UseSubscriptionArgs<NotificationAddedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<NotificationAddedSubscription, TData>) {
   return Urql.useSubscription<NotificationAddedSubscription, TData, NotificationAddedSubscriptionVariables>({ query: NotificationAddedDocument, ...options }, handler);
@@ -1076,80 +1076,80 @@ export const QueueUpdatedDocument = {"kind":"Document","definitions":[{"kind":"O
 export function useQueueUpdatedSubscription<TData = QueueUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<QueueUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<QueueUpdatedSubscription, TData>) {
   return Urql.useSubscription<QueueUpdatedSubscription, TData, QueueUpdatedSubscriptionVariables>({ query: QueueUpdatedDocument, ...options }, handler);
 };
-export const StoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"story"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"story"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"session"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
-export function useStoryQuery(options: Omit<Urql.UseQueryArgs<StoryQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoryQuery>({ query: StoryDocument, ...options });
+export function useSessionQuery(options: Omit<Urql.UseQueryArgs<SessionQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SessionQuery>({ query: SessionDocument, ...options });
 };
-export const StoriesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"stories"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stories"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}},{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}},{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
-export function useStoriesQuery(options: Omit<Urql.UseQueryArgs<StoriesQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoriesQuery>({ query: StoriesDocument, ...options });
+export function useSessionsQuery(options: Omit<Urql.UseQueryArgs<SessionsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SessionsQuery>({ query: SessionsDocument, ...options });
 };
-export const StoriesOnMapDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storiesOnMap"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lng"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"radius"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storiesOnMap"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lng"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lng"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"radius"},"value":{"kind":"Variable","name":{"kind":"Name","value":"radius"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionsOnMapDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionsOnMap"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lng"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"radius"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionsOnMap"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lng"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lng"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"radius"},"value":{"kind":"Variable","name":{"kind":"Name","value":"radius"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
-export function useStoriesOnMapQuery(options: Omit<Urql.UseQueryArgs<StoriesOnMapQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoriesOnMapQuery>({ query: StoriesOnMapDocument, ...options });
+export function useSessionsOnMapQuery(options: Omit<Urql.UseQueryArgs<SessionsOnMapQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SessionsOnMapQuery>({ query: SessionsOnMapDocument, ...options });
 };
-export const StoryCurrentLiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyCurrentLive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyCurrentLive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"storyId"}}]}}]}}]} as unknown as DocumentNode;
+export const SessionCurrentLiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionCurrentLive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionCurrentLive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"sessionId"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useStoryCurrentLiveQuery(options: Omit<Urql.UseQueryArgs<StoryCurrentLiveQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoryCurrentLiveQuery>({ query: StoryCurrentLiveDocument, ...options });
+export function useSessionCurrentLiveQuery(options: Omit<Urql.UseQueryArgs<SessionCurrentLiveQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SessionCurrentLiveQuery>({ query: SessionCurrentLiveDocument, ...options });
 };
-export const StoryTracksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyTracks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"from"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"to"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyTracks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"from"},"value":{"kind":"Variable","name":{"kind":"Name","value":"from"}}},{"kind":"Argument","name":{"kind":"Name","value":"to"},"value":{"kind":"Variable","name":{"kind":"Name","value":"to"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"artists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"}}]}}]}}]} as unknown as DocumentNode;
+export const SessionTracksDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionTracks"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"from"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"to"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionTracks"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"from"},"value":{"kind":"Variable","name":{"kind":"Name","value":"from"}}},{"kind":"Argument","name":{"kind":"Name","value":"to"},"value":{"kind":"Variable","name":{"kind":"Name","value":"to"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"artists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"}}]}}]}}]} as unknown as DocumentNode;
 
-export function useStoryTracksQuery(options: Omit<Urql.UseQueryArgs<StoryTracksQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoryTracksQuery>({ query: StoryTracksDocument, ...options });
+export function useSessionTracksQuery(options: Omit<Urql.UseQueryArgs<SessionTracksQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SessionTracksQuery>({ query: SessionTracksDocument, ...options });
 };
-export const StoryCreateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"storyCreate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}},{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}},{"kind":"Argument","name":{"kind":"Name","value":"tracks"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionCreateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionCreate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}},{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}},{"kind":"Argument","name":{"kind":"Name","value":"tracks"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
-export function useStoryCreateMutation() {
-  return Urql.useMutation<StoryCreateMutation, StoryCreateMutationVariables>(StoryCreateDocument);
+export function useSessionCreateMutation() {
+  return Urql.useMutation<SessionCreateMutation, SessionCreateMutationVariables>(SessionCreateDocument);
 };
-export const StoryUpdateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"storyUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}},{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionUpdateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}},{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
-export function useStoryUpdateMutation() {
-  return Urql.useMutation<StoryUpdateMutation, StoryUpdateMutationVariables>(StoryUpdateDocument);
+export function useSessionUpdateMutation() {
+  return Urql.useMutation<SessionUpdateMutation, SessionUpdateMutationVariables>(SessionUpdateDocument);
 };
-export const StoryDeleteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"storyDelete"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyDelete"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const SessionDeleteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionDelete"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionDelete"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
-export function useStoryDeleteMutation() {
-  return Urql.useMutation<StoryDeleteMutation, StoryDeleteMutationVariables>(StoryDeleteDocument);
+export function useSessionDeleteMutation() {
+  return Urql.useMutation<SessionDeleteMutation, SessionDeleteMutationVariables>(SessionDeleteDocument);
 };
-export const StoryUnliveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"storyUnlive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyUnlive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionUnliveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionUnlive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionUnlive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
-export function useStoryUnliveMutation() {
-  return Urql.useMutation<StoryUnliveMutation, StoryUnliveMutationVariables>(StoryUnliveDocument);
+export function useSessionUnliveMutation() {
+  return Urql.useMutation<SessionUnliveMutation, SessionUnliveMutationVariables>(SessionUnliveDocument);
 };
-export const StoryListenersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyListeners"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyListeners"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const SessionListenersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionListeners"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionListeners"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
-export function useStoryListenersQuery(options: Omit<Urql.UseQueryArgs<StoryListenersQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoryListenersQuery>({ query: StoryListenersDocument, ...options });
+export function useSessionListenersQuery(options: Omit<Urql.UseQueryArgs<SessionListenersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SessionListenersQuery>({ query: SessionListenersDocument, ...options });
 };
-export const StoryPingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"storyPing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyPing"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const SessionPingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionPing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionPing"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
-export function useStoryPingMutation() {
-  return Urql.useMutation<StoryPingMutation, StoryPingMutationVariables>(StoryPingDocument);
+export function useSessionPingMutation() {
+  return Urql.useMutation<SessionPingMutation, SessionPingMutationVariables>(SessionPingDocument);
 };
-export const StoryUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"storyUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"sessionUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
-export function useStoryUpdatedSubscription<TData = StoryUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<StoryUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<StoryUpdatedSubscription, TData>) {
-  return Urql.useSubscription<StoryUpdatedSubscription, TData, StoryUpdatedSubscriptionVariables>({ query: StoryUpdatedDocument, ...options }, handler);
+export function useSessionUpdatedSubscription<TData = SessionUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<SessionUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SessionUpdatedSubscription, TData>) {
+  return Urql.useSubscription<SessionUpdatedSubscription, TData, SessionUpdatedSubscriptionVariables>({ query: SessionUpdatedDocument, ...options }, handler);
 };
-export const StoryListenersUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"storyListenersUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyListenersUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const SessionListenersUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"sessionListenersUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionListenersUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
-export function useStoryListenersUpdatedSubscription<TData = StoryListenersUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<StoryListenersUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<StoryListenersUpdatedSubscription, TData>) {
-  return Urql.useSubscription<StoryListenersUpdatedSubscription, TData, StoryListenersUpdatedSubscriptionVariables>({ query: StoryListenersUpdatedDocument, ...options }, handler);
+export function useSessionListenersUpdatedSubscription<TData = SessionListenersUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<SessionListenersUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SessionListenersUpdatedSubscription, TData>) {
+  return Urql.useSubscription<SessionListenersUpdatedSubscription, TData, SessionListenersUpdatedSubscriptionVariables>({ query: SessionListenersUpdatedDocument, ...options }, handler);
 };
-export const StoryInviteLinkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyInviteLink"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyInviteLink"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const SessionInviteLinkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionInviteLink"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionInviteLink"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
-export function useStoryInviteLinkQuery(options: Omit<Urql.UseQueryArgs<StoryInviteLinkQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoryInviteLinkQuery>({ query: StoryInviteLinkDocument, ...options });
+export function useSessionInviteLinkQuery(options: Omit<Urql.UseQueryArgs<SessionInviteLinkQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SessionInviteLinkQuery>({ query: SessionInviteLinkDocument, ...options });
 };
-export const StoryCollabAddFromTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"storyCollabAddFromToken"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyCollabAddFromToken"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}}]}]}}]} as unknown as DocumentNode;
+export const SessionCollabAddFromTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionCollabAddFromToken"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionCollabAddFromToken"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}}]}]}}]} as unknown as DocumentNode;
 
-export function useStoryCollabAddFromTokenMutation() {
-  return Urql.useMutation<StoryCollabAddFromTokenMutation, StoryCollabAddFromTokenMutationVariables>(StoryCollabAddFromTokenDocument);
+export function useSessionCollabAddFromTokenMutation() {
+  return Urql.useMutation<SessionCollabAddFromTokenMutation, SessionCollabAddFromTokenMutationVariables>(SessionCollabAddFromTokenDocument);
 };
 export const TrackDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"track"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"track"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"TrackParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"artists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"}}]}}]}}]} as unknown as DocumentNode;
 
@@ -1224,15 +1224,15 @@ export type GraphCacheKeysConfig = {
   Me?: (data: WithTypename<Me>) => null | string,
   Message?: (data: WithTypename<Message>) => null | string,
   NotificationFollow?: (data: WithTypename<NotificationFollow>) => null | string,
-  NotificationNewStory?: (data: WithTypename<NotificationNewStory>) => null | string,
+  NotificationNewSession?: (data: WithTypename<NotificationNewSession>) => null | string,
   NowPlaying?: (data: WithTypename<NowPlaying>) => null | string,
   NowPlayingQueueItem?: (data: WithTypename<NowPlayingQueueItem>) => null | string,
   NowPlayingReactionItem?: (data: WithTypename<NowPlayingReactionItem>) => null | string,
   Playlist?: (data: WithTypename<Playlist>) => null | string,
   Queue?: (data: WithTypename<Queue>) => null | string,
   QueueItem?: (data: WithTypename<QueueItem>) => null | string,
-  Story?: (data: WithTypename<Story>) => null | string,
-  StoryCurrentLive?: (data: WithTypename<StoryCurrentLive>) => null | string,
+  Session?: (data: WithTypename<Session>) => null | string,
+  SessionCurrentLive?: (data: WithTypename<SessionCurrentLive>) => null | string,
   Track?: (data: WithTypename<Track>) => null | string,
   User?: (data: WithTypename<User>) => null | string,
   UserStat?: (data: WithTypename<UserStat>) => null | string
@@ -1244,7 +1244,7 @@ export type GraphCacheResolvers = {
     me?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, WithTypename<Me> | string>,
     messages?: GraphCacheResolver<WithTypename<Query>, QueryMessagesArgs, Array<WithTypename<Message> | string>>,
     myPlaylists?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
-    notifications?: GraphCacheResolver<WithTypename<Query>, QueryNotificationsArgs, Array<WithTypename<NotificationFollow> | WithTypename<NotificationNewStory> | string>>,
+    notifications?: GraphCacheResolver<WithTypename<Query>, QueryNotificationsArgs, Array<WithTypename<NotificationFollow> | WithTypename<NotificationNewSession> | string>>,
     nowPlaying?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingArgs, WithTypename<NowPlaying> | string>,
     nowPlayingReactions?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingReactionsArgs, Array<WithTypename<NowPlayingReactionItem> | string>>,
     playlist?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistArgs, WithTypename<Playlist> | string>,
@@ -1254,13 +1254,13 @@ export type GraphCacheResolvers = {
     playlistsSearch?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistsSearchArgs, Array<WithTypename<Playlist> | string>>,
     queue?: GraphCacheResolver<WithTypename<Query>, QueryQueueArgs, WithTypename<Queue> | string>,
     searchTrack?: GraphCacheResolver<WithTypename<Query>, QuerySearchTrackArgs, Array<WithTypename<Track> | string>>,
-    stories?: GraphCacheResolver<WithTypename<Query>, QueryStoriesArgs, Array<WithTypename<Story> | string>>,
-    storiesOnMap?: GraphCacheResolver<WithTypename<Query>, QueryStoriesOnMapArgs, Array<WithTypename<Story> | string>>,
-    story?: GraphCacheResolver<WithTypename<Query>, QueryStoryArgs, WithTypename<Story> | string>,
-    storyCurrentLive?: GraphCacheResolver<WithTypename<Query>, QueryStoryCurrentLiveArgs, WithTypename<StoryCurrentLive> | string>,
-    storyInviteLink?: GraphCacheResolver<WithTypename<Query>, QueryStoryInviteLinkArgs, Scalars['String'] | string>,
-    storyListeners?: GraphCacheResolver<WithTypename<Query>, QueryStoryListenersArgs, Array<Scalars['String'] | string>>,
-    storyTracks?: GraphCacheResolver<WithTypename<Query>, QueryStoryTracksArgs, Array<WithTypename<Track> | string>>,
+    session?: GraphCacheResolver<WithTypename<Query>, QuerySessionArgs, WithTypename<Session> | string>,
+    sessionCurrentLive?: GraphCacheResolver<WithTypename<Query>, QuerySessionCurrentLiveArgs, WithTypename<SessionCurrentLive> | string>,
+    sessionInviteLink?: GraphCacheResolver<WithTypename<Query>, QuerySessionInviteLinkArgs, Scalars['String'] | string>,
+    sessionListeners?: GraphCacheResolver<WithTypename<Query>, QuerySessionListenersArgs, Array<Scalars['String'] | string>>,
+    sessionTracks?: GraphCacheResolver<WithTypename<Query>, QuerySessionTracksArgs, Array<WithTypename<Track> | string>>,
+    sessions?: GraphCacheResolver<WithTypename<Query>, QuerySessionsArgs, Array<WithTypename<Session> | string>>,
+    sessionsOnMap?: GraphCacheResolver<WithTypename<Query>, QuerySessionsOnMapArgs, Array<WithTypename<Session> | string>>,
     track?: GraphCacheResolver<WithTypename<Query>, QueryTrackArgs, WithTypename<Track> | string>,
     tracks?: GraphCacheResolver<WithTypename<Query>, QueryTracksArgs, Array<WithTypename<Track> | string>>,
     user?: GraphCacheResolver<WithTypename<Query>, QueryUserArgs, WithTypename<User> | string>,
@@ -1301,11 +1301,11 @@ export type GraphCacheResolvers = {
     createdAt?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, Scalars['DateTime'] | string>,
     follower?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, WithTypename<User> | string>
   },
-  NotificationNewStory?: {
-    id?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['ID'] | string>,
-    hasRead?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['Boolean'] | string>,
-    createdAt?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['DateTime'] | string>,
-    story?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, WithTypename<Story> | string>
+  NotificationNewSession?: {
+    id?: GraphCacheResolver<WithTypename<NotificationNewSession>, Record<string, never>, Scalars['ID'] | string>,
+    hasRead?: GraphCacheResolver<WithTypename<NotificationNewSession>, Record<string, never>, Scalars['Boolean'] | string>,
+    createdAt?: GraphCacheResolver<WithTypename<NotificationNewSession>, Record<string, never>, Scalars['DateTime'] | string>,
+    session?: GraphCacheResolver<WithTypename<NotificationNewSession>, Record<string, never>, WithTypename<Session> | string>
   },
   NowPlaying?: {
     id?: GraphCacheResolver<WithTypename<NowPlaying>, Record<string, never>, Scalars['ID'] | string>,
@@ -1342,21 +1342,21 @@ export type GraphCacheResolvers = {
     trackId?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['String'] | string>,
     creatorId?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['String'] | string>
   },
-  Story?: {
-    id?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['ID'] | string>,
-    text?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['String'] | string>,
-    image?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['String'] | string>,
-    creatorId?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['ID'] | string>,
-    creator?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, WithTypename<User> | string>,
-    createdAt?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['DateTime'] | string>,
-    isLive?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['Boolean'] | string>,
-    collaboratorIds?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Array<Scalars['String'] | string>>,
-    onMap?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['Boolean'] | string>,
-    trackTotal?: GraphCacheResolver<WithTypename<Story>, Record<string, never>, Scalars['Int'] | string>
+  Session?: {
+    id?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['ID'] | string>,
+    text?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['String'] | string>,
+    image?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['String'] | string>,
+    creatorId?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['ID'] | string>,
+    creator?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, WithTypename<User> | string>,
+    createdAt?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['DateTime'] | string>,
+    isLive?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['Boolean'] | string>,
+    collaboratorIds?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Array<Scalars['String'] | string>>,
+    onMap?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['Boolean'] | string>,
+    trackTotal?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['Int'] | string>
   },
-  StoryCurrentLive?: {
-    creatorId?: GraphCacheResolver<WithTypename<StoryCurrentLive>, Record<string, never>, Scalars['ID'] | string>,
-    storyId?: GraphCacheResolver<WithTypename<StoryCurrentLive>, Record<string, never>, Scalars['ID'] | string>
+  SessionCurrentLive?: {
+    creatorId?: GraphCacheResolver<WithTypename<SessionCurrentLive>, Record<string, never>, Scalars['ID'] | string>,
+    sessionId?: GraphCacheResolver<WithTypename<SessionCurrentLive>, Record<string, never>, Scalars['ID'] | string>
   },
   Track?: {
     id?: GraphCacheResolver<WithTypename<Track>, Record<string, never>, Scalars['ID'] | string>,
@@ -1394,12 +1394,12 @@ export type GraphCacheOptimisticUpdaters = {
   queueRemove?: GraphCacheOptimisticMutationResolver<MutationQueueRemoveArgs, Scalars['Boolean']>,
   queueReorder?: GraphCacheOptimisticMutationResolver<MutationQueueReorderArgs, Scalars['Boolean']>,
   queueToTop?: GraphCacheOptimisticMutationResolver<MutationQueueToTopArgs, Scalars['Boolean']>,
-  storyCollabAddFromToken?: GraphCacheOptimisticMutationResolver<MutationStoryCollabAddFromTokenArgs, Scalars['Boolean']>,
-  storyCreate?: GraphCacheOptimisticMutationResolver<MutationStoryCreateArgs, WithTypename<Story>>,
-  storyDelete?: GraphCacheOptimisticMutationResolver<MutationStoryDeleteArgs, Scalars['ID']>,
-  storyPing?: GraphCacheOptimisticMutationResolver<MutationStoryPingArgs, Scalars['Boolean']>,
-  storyUnlive?: GraphCacheOptimisticMutationResolver<MutationStoryUnliveArgs, WithTypename<Story>>,
-  storyUpdate?: GraphCacheOptimisticMutationResolver<MutationStoryUpdateArgs, WithTypename<Story>>,
+  sessionCollabAddFromToken?: GraphCacheOptimisticMutationResolver<MutationSessionCollabAddFromTokenArgs, Scalars['Boolean']>,
+  sessionCreate?: GraphCacheOptimisticMutationResolver<MutationSessionCreateArgs, WithTypename<Session>>,
+  sessionDelete?: GraphCacheOptimisticMutationResolver<MutationSessionDeleteArgs, Scalars['ID']>,
+  sessionPing?: GraphCacheOptimisticMutationResolver<MutationSessionPingArgs, Scalars['Boolean']>,
+  sessionUnlive?: GraphCacheOptimisticMutationResolver<MutationSessionUnliveArgs, WithTypename<Session>>,
+  sessionUpdate?: GraphCacheOptimisticMutationResolver<MutationSessionUpdateArgs, WithTypename<Session>>,
   userFollow?: GraphCacheOptimisticMutationResolver<MutationUserFollowArgs, Scalars['Boolean']>,
   userUnfollow?: GraphCacheOptimisticMutationResolver<MutationUserUnfollowArgs, Scalars['Boolean']>
 };
@@ -1418,23 +1418,23 @@ export type GraphCacheUpdaters = {
     queueRemove?: GraphCacheUpdateResolver<{ queueRemove: Scalars['Boolean'] }, MutationQueueRemoveArgs>,
     queueReorder?: GraphCacheUpdateResolver<{ queueReorder: Scalars['Boolean'] }, MutationQueueReorderArgs>,
     queueToTop?: GraphCacheUpdateResolver<{ queueToTop: Scalars['Boolean'] }, MutationQueueToTopArgs>,
-    storyCollabAddFromToken?: GraphCacheUpdateResolver<{ storyCollabAddFromToken: Scalars['Boolean'] }, MutationStoryCollabAddFromTokenArgs>,
-    storyCreate?: GraphCacheUpdateResolver<{ storyCreate: WithTypename<Story> }, MutationStoryCreateArgs>,
-    storyDelete?: GraphCacheUpdateResolver<{ storyDelete: Scalars['ID'] }, MutationStoryDeleteArgs>,
-    storyPing?: GraphCacheUpdateResolver<{ storyPing: Scalars['Boolean'] }, MutationStoryPingArgs>,
-    storyUnlive?: GraphCacheUpdateResolver<{ storyUnlive: WithTypename<Story> }, MutationStoryUnliveArgs>,
-    storyUpdate?: GraphCacheUpdateResolver<{ storyUpdate: WithTypename<Story> }, MutationStoryUpdateArgs>,
+    sessionCollabAddFromToken?: GraphCacheUpdateResolver<{ sessionCollabAddFromToken: Scalars['Boolean'] }, MutationSessionCollabAddFromTokenArgs>,
+    sessionCreate?: GraphCacheUpdateResolver<{ sessionCreate: WithTypename<Session> }, MutationSessionCreateArgs>,
+    sessionDelete?: GraphCacheUpdateResolver<{ sessionDelete: Scalars['ID'] }, MutationSessionDeleteArgs>,
+    sessionPing?: GraphCacheUpdateResolver<{ sessionPing: Scalars['Boolean'] }, MutationSessionPingArgs>,
+    sessionUnlive?: GraphCacheUpdateResolver<{ sessionUnlive: WithTypename<Session> }, MutationSessionUnliveArgs>,
+    sessionUpdate?: GraphCacheUpdateResolver<{ sessionUpdate: WithTypename<Session> }, MutationSessionUpdateArgs>,
     userFollow?: GraphCacheUpdateResolver<{ userFollow: Scalars['Boolean'] }, MutationUserFollowArgs>,
     userUnfollow?: GraphCacheUpdateResolver<{ userUnfollow: Scalars['Boolean'] }, MutationUserUnfollowArgs>
   },
   Subscription?: {
     messageAdded?: GraphCacheUpdateResolver<{ messageAdded: WithTypename<Message> }, SubscriptionMessageAddedArgs>,
-    notificationAdded?: GraphCacheUpdateResolver<{ notificationAdded: WithTypename<NotificationFollow> | WithTypename<NotificationNewStory> }, Record<string, never>>,
+    notificationAdded?: GraphCacheUpdateResolver<{ notificationAdded: WithTypename<NotificationFollow> | WithTypename<NotificationNewSession> }, Record<string, never>>,
     nowPlayingReactionsUpdated?: GraphCacheUpdateResolver<{ nowPlayingReactionsUpdated: Maybe<Array<WithTypename<NowPlayingReactionItem>>> }, SubscriptionNowPlayingReactionsUpdatedArgs>,
     nowPlayingUpdated?: GraphCacheUpdateResolver<{ nowPlayingUpdated: Maybe<WithTypename<NowPlaying>> }, SubscriptionNowPlayingUpdatedArgs>,
     queueUpdated?: GraphCacheUpdateResolver<{ queueUpdated: WithTypename<Queue> }, SubscriptionQueueUpdatedArgs>,
-    storyListenersUpdated?: GraphCacheUpdateResolver<{ storyListenersUpdated: Array<Scalars['String']> }, SubscriptionStoryListenersUpdatedArgs>,
-    storyUpdated?: GraphCacheUpdateResolver<{ storyUpdated: WithTypename<Story> }, SubscriptionStoryUpdatedArgs>
+    sessionListenersUpdated?: GraphCacheUpdateResolver<{ sessionListenersUpdated: Array<Scalars['String']> }, SubscriptionSessionListenersUpdatedArgs>,
+    sessionUpdated?: GraphCacheUpdateResolver<{ sessionUpdated: WithTypename<Session> }, SubscriptionSessionUpdatedArgs>
   },
 };
 

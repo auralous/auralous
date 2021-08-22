@@ -1,5 +1,5 @@
 import { RouteName } from "@/screens/types";
-import { Story, useStoryDeleteMutation } from "@auralous/api";
+import { Session, useSessionDeleteMutation } from "@auralous/api";
 import player, { usePlaybackCurrentContext } from "@auralous/player";
 import { Dialog, Size, TextButton, toast, useDialog } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
@@ -14,10 +14,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export const StoryEditDelete: FC<{ story: Story }> = ({ story }) => {
+export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
 
-  const [{ fetching }, storyDelete] = useStoryDeleteMutation();
+  const [{ fetching }, sessionDelete] = useSessionDeleteMutation();
 
   const [visible, present, dismiss] = useDialog();
 
@@ -26,27 +26,29 @@ export const StoryEditDelete: FC<{ story: Story }> = ({ story }) => {
   const playbackCurrentContext = usePlaybackCurrentContext();
 
   const onUnlive = useCallback(async () => {
-    const storyId = story.id;
-    const result = await storyDelete({
-      id: storyId,
+    const sessionId = session.id;
+    const result = await sessionDelete({
+      id: sessionId,
     });
     if (!result.error) {
-      toast.success(t("story_edit.delete.delete_ok"));
+      toast.success(t("session_edit.delete.delete_ok"));
       if (
-        playbackCurrentContext?.type === "story" &&
-        playbackCurrentContext.id === storyId
+        playbackCurrentContext?.type === "session" &&
+        playbackCurrentContext.id === sessionId
       ) {
         player.playContext(null);
       }
       navigation.navigate(RouteName.Home);
     }
-  }, [t, storyDelete, story.id, navigation, playbackCurrentContext]);
+  }, [t, sessionDelete, session.id, navigation, playbackCurrentContext]);
 
   return (
     <View style={styles.root}>
-      <TextButton onPress={present}>{t("story_edit.delete.title")}</TextButton>
+      <TextButton onPress={present}>
+        {t("session_edit.delete.title")}
+      </TextButton>
       <Dialog.Dialog visible={visible} onDismiss={dismiss}>
-        <Dialog.Title>{`${t("story_edit.delete.title")}?`}</Dialog.Title>
+        <Dialog.Title>{`${t("session_edit.delete.title")}?`}</Dialog.Title>
         <Dialog.Content>
           <Dialog.ContentText>
             {t("common.prompt.action_not_revertable")}

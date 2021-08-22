@@ -4,10 +4,10 @@ import {
   PlaylistTracksDocument,
   PlaylistTracksQuery,
   PlaylistTracksQueryVariables,
-  Story,
-  StoryTracksDocument,
-  StoryTracksQuery,
-  StoryTracksQueryVariables,
+  Session,
+  SessionTracksDocument,
+  SessionTracksQuery,
+  SessionTracksQueryVariables,
   useMyPlaylistsQuery,
   usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
@@ -89,19 +89,21 @@ const QuickShareScreen: FC<
     [client, onFinish]
   );
 
-  const onSelectStory = useCallback(
-    async (story: Story, fromRoute?: boolean) => {
+  const onSelectSession = useCallback(
+    async (session: Session, fromRoute?: boolean) => {
       setFetching(true);
       const result = await client
-        .query<StoryTracksQuery, StoryTracksQueryVariables>(
-          StoryTracksDocument,
-          { id: story.id }
+        .query<SessionTracksQuery, SessionTracksQueryVariables>(
+          SessionTracksDocument,
+          { id: session.id }
         )
         .toPromise();
       if (result.data) {
         onFinish(
-          shuffle(result.data.storyTracks.map((storyTrack) => storyTrack.id)),
-          story.text,
+          shuffle(
+            result.data.sessionTracks.map((sessionTrack) => sessionTrack.id)
+          ),
+          session.text,
           fromRoute
         );
       }
@@ -113,10 +115,10 @@ const QuickShareScreen: FC<
   useEffect(() => {
     if (route.params?.playlist) {
       onSelectPlaylist(route.params.playlist, true);
-    } else if (route.params?.story) {
-      onSelectStory(route.params.story, true);
+    } else if (route.params?.session) {
+      onSelectSession(route.params.session, true);
     }
-  }, [route, onSelectPlaylist, onSelectStory]);
+  }, [route, onSelectPlaylist, onSelectSession]);
 
   const [{ data: dataFeatured }] = usePlaylistsFeaturedQuery();
   const [{ data: dataFriends }] = usePlaylistsFriendsQuery();

@@ -1,5 +1,5 @@
 import { RouteName } from "@/screens/types";
-import { Story, Track, useStoryTracksQuery } from "@auralous/api";
+import { Session, Track, useSessionTracksQuery } from "@auralous/api";
 import player, {
   uidForIndexedTrack,
   usePlaybackCurrentContext,
@@ -27,7 +27,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import StoryMeta from "./StoryMeta";
+import SessionMeta from "./SessionMeta";
 
 const listPadding = Size[3];
 const itemPadding = Size[1];
@@ -57,22 +57,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const StoryIdContext = createContext("");
+const SessionIdContext = createContext("");
 
-const StoryTrackItem = memo<{
+const SessionTrackItem = memo<{
   track: Track;
   index: number;
-}>(function StoryTrackItem({ track, index }) {
-  const storyId = useContext(StoryIdContext);
+}>(function SessionTrackItem({ track, index }) {
+  const sessionId = useContext(SessionIdContext);
   const onPress = useCallback(
     () =>
       player.playContext({
-        id: storyId,
+        id: sessionId,
         initialIndex: index,
-        type: "story",
+        type: "session",
         shuffle: false,
       }),
-    [storyId, index]
+    [sessionId, index]
   );
 
   const playbackCurrentContext = usePlaybackCurrentContext();
@@ -80,10 +80,10 @@ const StoryTrackItem = memo<{
 
   const isCurrentTrack = useMemo(
     () =>
-      playbackCurrentContext?.type === "story" &&
-      playbackCurrentContext.id === storyId &&
+      playbackCurrentContext?.type === "session" &&
+      playbackCurrentContext.id === sessionId &&
       queuePlayingUid === uidForIndexedTrack(index, track.id),
-    [queuePlayingUid, playbackCurrentContext, track.id, index, storyId]
+    [queuePlayingUid, playbackCurrentContext, track.id, index, sessionId]
   );
 
   return (
@@ -94,47 +94,47 @@ const StoryTrackItem = memo<{
 });
 
 const renderItem: RecyclerRenderItem<Track> = ({ item, index }) => (
-  <StoryTrackItem key={index} track={item} index={index} />
+  <SessionTrackItem key={index} track={item} index={index} />
 );
 
-const StoryNonLiveContent: FC<{ story: Story }> = ({ story }) => {
+const SessionNonLiveContent: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
 
-  const [{ data, fetching }] = useStoryTracksQuery({
-    variables: { id: story.id },
+  const [{ data, fetching }] = useSessionTracksQuery({
+    variables: { id: session.id },
   });
 
   const shufflePlay = useCallback(
     () =>
       player.playContext({
-        id: story.id,
-        type: "story",
+        id: session.id,
+        type: "session",
         shuffle: true,
       }),
-    [story]
+    [session]
   );
 
   const navigation = useNavigation();
 
   const quickPlay = useCallback(() => {
     navigation.navigate(RouteName.NewQuickShare, {
-      story: {
-        ...story,
+      session: {
+        ...session,
         // erase createdAt since Date object breaks navigation
         createdAt: null,
       },
     });
-  }, [story, navigation]);
+  }, [session, navigation]);
 
   return (
     <>
-      <StoryMeta
-        story={story}
+      <SessionMeta
+        session={session}
         tagElement={
           <View style={styles.tag}>
             <Text size="sm" style={styles.tagText}>
-              {t("story.title")} •{" "}
-              {t("playlist.x_song", { count: story.trackTotal })}
+              {t("session.title")} •{" "}
+              {t("playlist.x_song", { count: session.trackTotal })}
             </Text>
           </View>
         }
@@ -146,18 +146,18 @@ const StoryNonLiveContent: FC<{ story: Story }> = ({ story }) => {
           {t("new.quick_share.title")}
         </Button>
       </View>
-      <StoryIdContext.Provider value={story.id}>
+      <SessionIdContext.Provider value={session.id}>
         <RecyclerList
           contentContainerStyle={styles.listContent}
           ListEmptyComponent={fetching ? <LoadingScreen /> : null}
-          data={data?.storyTracks || []}
+          data={data?.sessionTracks || []}
           height={Size[12] + 2 * itemPadding + Size[3]} // height + 2 * padding + seperator
           renderItem={renderItem}
           contentHorizontalPadding={listPadding}
         />
-      </StoryIdContext.Provider>
+      </SessionIdContext.Provider>
     </>
   );
 };
 
-export default StoryNonLiveContent;
+export default SessionNonLiveContent;

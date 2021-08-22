@@ -3,7 +3,7 @@ import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors, Size } from "@/styles";
-import { Story, Track, useStoryTracksQuery } from "@auralous/api";
+import { Session, Track, useSessionTracksQuery } from "@auralous/api";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View } from "react-native";
@@ -78,108 +78,111 @@ const styles = StyleSheet.create({
   trackTitleText: { flex: 1 },
 });
 
-interface StoryCardItemProps {
-  story: Story;
-  onNavigate(storyId: string): void;
-  onPlay(storyId: string, index: number): void;
+interface SessionCardItemProps {
+  session: Session;
+  onNavigate(sessionId: string): void;
+  onPlay(sessionId: string, index: number): void;
 }
 
-const StoryCardItemTrack: FC<{ track: Track; index: number; onPress(): void }> =
-  ({ track, index, onPress }) => {
-    return (
-      <View style={styles.trackItem}>
-        <Text size="sm" color="textSecondary" style={styles.trackItemIndex}>
-          {index + 1}
-        </Text>
-        <View style={styles.trackItemTrack}>
-          <TouchableOpacity onPress={onPress} style={styles.trackTitle}>
-            <IconByPlatformName
-              platformName={track.platform}
-              width={Size[4]}
-              height={Size[4]}
-            />
-            <Spacer x={1} />
-            <Text
-              style={styles.trackTitleText}
-              size="sm"
-              color="textSecondary"
-              numberOfLines={1}
-            >
-              {track.title}
-            </Text>
-          </TouchableOpacity>
-        </View>
+const SessionCardItemTrack: FC<{
+  track: Track;
+  index: number;
+  onPress(): void;
+}> = ({ track, index, onPress }) => {
+  return (
+    <View style={styles.trackItem}>
+      <Text size="sm" color="textSecondary" style={styles.trackItemIndex}>
+        {index + 1}
+      </Text>
+      <View style={styles.trackItemTrack}>
+        <TouchableOpacity onPress={onPress} style={styles.trackTitle}>
+          <IconByPlatformName
+            platformName={track.platform}
+            width={Size[4]}
+            height={Size[4]}
+          />
+          <Spacer x={1} />
+          <Text
+            style={styles.trackTitleText}
+            size="sm"
+            color="textSecondary"
+            numberOfLines={1}
+          >
+            {track.title}
+          </Text>
+        </TouchableOpacity>
       </View>
-    );
-  };
+    </View>
+  );
+};
 
-const StoryCardItem: FC<StoryCardItemProps> = ({
-  story,
+const SessionCardItem: FC<SessionCardItemProps> = ({
+  session,
   onNavigate,
   onPlay,
 }) => {
   const { t } = useTranslation();
 
-  const [{ data: dataStoryTracks }] = useStoryTracksQuery({
+  const [{ data: dataSessionTracks }] = useSessionTracksQuery({
     variables: {
-      id: story.id,
+      id: session.id,
       from: 0,
       to: 2,
     },
   });
 
-  const gotoStory = useCallback(
-    () => onNavigate(story.id),
-    [onNavigate, story.id]
+  const gotoSession = useCallback(
+    () => onNavigate(session.id),
+    [onNavigate, session.id]
   );
 
   return (
     <View style={styles.root}>
-      <Pressable onPress={gotoStory} style={styles.head}>
-        <Avatar username={story.creator.username} size={12} />
+      <Pressable onPress={gotoSession} style={styles.head}>
+        <Avatar username={session.creator.username} size={12} />
         <View style={styles.headMeta}>
           <View style={styles.headMetaTop}>
             <Text bold="medium" color="textSecondary">
-              {story.creator.username}
+              {session.creator.username}
             </Text>
             <Spacer x={1} />
             <Text size="sm" color="textTertiary">
-              {story.createdAt.toLocaleDateString()}
+              {session.createdAt.toLocaleDateString()}
             </Text>
           </View>
           <Spacer y={2} />
-          <Text bold>{story.text}</Text>
+          <Text bold>{session.text}</Text>
         </View>
       </Pressable>
       <View style={styles.main}>
         <View style={styles.mainPlay}>
-          {story.image && (
+          {session.image && (
             <Image
-              source={{ uri: story.image }}
+              source={{ uri: session.image }}
               style={styles.bg}
               blurRadius={4}
             />
           )}
           <TouchableOpacity
             style={styles.mainPlayButton}
-            onPress={() => onPlay(story.id, 0)}
+            onPress={() => onPlay(session.id, 0)}
           >
             <IconPlay stroke="#ffffff" fill="#ffffff" />
           </TouchableOpacity>
         </View>
         <View style={styles.mainContent}>
-          {dataStoryTracks?.storyTracks?.map((item, index) => (
-            <StoryCardItemTrack
+          {dataSessionTracks?.sessionTracks?.map((item, index) => (
+            <SessionCardItemTrack
               key={`${index}${item.id}`}
               track={item}
               index={index}
-              onPress={() => onPlay(story.id, index)}
+              onPress={() => onPlay(session.id, index)}
             />
           ))}
           <Spacer y={1.5} />
-          <TouchableOpacity onPress={gotoStory}>
+          <TouchableOpacity onPress={gotoSession}>
             <Text size="sm" align="center">
-              {t("playlist.view_all_x_songs", { count: story.trackTotal })}
+              {t("playlist.view_all_x_songs", { count: session.trackTotal })}
             </Text>
           </TouchableOpacity>
         </View>
@@ -188,4 +191,4 @@ const StoryCardItem: FC<StoryCardItemProps> = ({
   );
 };
 
-export default StoryCardItem;
+export default SessionCardItem;

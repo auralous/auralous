@@ -2,9 +2,9 @@ import {
   MeDocument,
   MeQuery,
   MeQueryVariables,
-  StoryCurrentLiveDocument,
-  StoryCurrentLiveQuery,
-  StoryCurrentLiveQueryVariables,
+  SessionCurrentLiveDocument,
+  SessionCurrentLiveQuery,
+  SessionCurrentLiveQueryVariables,
 } from "@auralous/api";
 import player, {
   PlaybackCurrentContext,
@@ -22,29 +22,29 @@ export const PlayerProvider: FC = ({ children }) => {
     useState<PlaybackCurrentContext | null>(null);
 
   const [stopLiveIntention, setStopLiveIntention] = useState<null | {
-    currentStoryId: string;
+    currentSessionId: string;
     intendedCurrentContext: PlaybackCurrentContext;
     dismiss(): void;
   }>(null);
 
   useEffect(() => {
     (async () => {
-      // upon starting the app, check if user has current story
+      // upon starting the app, check if user has current session
       // and play that
       const meResult = await client
         .query<MeQuery, MeQueryVariables>(MeDocument)
         .toPromise();
       if (!meResult?.data?.me) return;
       const result = await client
-        .query<StoryCurrentLiveQuery, StoryCurrentLiveQueryVariables>(
-          StoryCurrentLiveDocument,
+        .query<SessionCurrentLiveQuery, SessionCurrentLiveQueryVariables>(
+          SessionCurrentLiveDocument,
           { creatorId: meResult.data.me.user.id }
         )
         .toPromise();
-      if (result.data?.storyCurrentLive) {
+      if (result.data?.sessionCurrentLive) {
         player.playContext({
-          id: result.data.storyCurrentLive.storyId,
-          type: "story",
+          id: result.data.sessionCurrentLive.sessionId,
+          type: "session",
           shuffle: false,
         });
       }
@@ -60,21 +60,21 @@ export const PlayerProvider: FC = ({ children }) => {
           ?.me;
         if (me) {
           const result = await client
-            .query<StoryCurrentLiveQuery, StoryCurrentLiveQueryVariables>(
-              StoryCurrentLiveDocument,
+            .query<SessionCurrentLiveQuery, SessionCurrentLiveQueryVariables>(
+              SessionCurrentLiveDocument,
               { creatorId: me.user.id }
             )
             .toPromise();
 
-          if (result.data?.storyCurrentLive) {
+          if (result.data?.sessionCurrentLive) {
             if (
-              currentContext.type !== "story" ||
-              currentContext.id !== result.data.storyCurrentLive.storyId
+              currentContext.type !== "session" ||
+              currentContext.id !== result.data.sessionCurrentLive.sessionId
             ) {
-              // user has an ongoing story but attempting to play something else
+              // user has an ongoing session but attempting to play something else
               // See src/player/components/StopLiveIntention
               setStopLiveIntention({
-                currentStoryId: result.data.storyCurrentLive.storyId,
+                currentSessionId: result.data.sessionCurrentLive.sessionId,
                 intendedCurrentContext: currentContext,
                 dismiss: () => setStopLiveIntention(null),
               });

@@ -9,7 +9,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "build": "echo \"OK\""
+    "build": "yarn build:dts",
+    "build:dts": "tsc --noEmit"
   },
   "dependencies": {
     "@auralous/api": "^0.0.0",

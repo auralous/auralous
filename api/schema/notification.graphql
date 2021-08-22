@@ -8,10 +8,10 @@ query notifications($next: String, $limit: Int!) {
         ...UserPublicParts
       }
     }
-    ... on NotificationNewStory {
-      story {
+    ... on NotificationNewSession {
+      session {
         id
-        ...StoryDetailParts
+        ...SessionDetailParts
       }
     }
     __typename
@@ -32,10 +32,10 @@ subscription notificationAdded {
         ...UserPublicParts
       }
     }
-    ... on NotificationNewStory {
-      story {
+    ... on NotificationNewSession {
+      session {
         id
-        ...StoryDetailParts
+        ...SessionDetailParts
       }
     }
     __typename

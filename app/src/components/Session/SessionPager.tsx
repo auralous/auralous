@@ -1,4 +1,4 @@
-import { Story, useNowPlayingQuery, useTrackQuery } from "@auralous/api";
+import { Session, useNowPlayingQuery, useTrackQuery } from "@auralous/api";
 import {
   Avatar,
   Button,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 
 const bottomGradientColors = ["rgba(0,0,0,0.75)", "rgba(0,0,0,0)"];
 
-const StoryPagerNowPlaying: FC<{ trackId?: string; fetching?: boolean }> = ({
+const SessionPagerNowPlaying: FC<{ trackId?: string; fetching?: boolean }> = ({
   trackId,
   fetching,
 }) => {
@@ -116,25 +116,28 @@ const StoryPagerNowPlaying: FC<{ trackId?: string; fetching?: boolean }> = ({
   );
 };
 
-const StoryPagerItem: FC<{ story: Story; onNavigate(story: Story): void }> = ({
-  story,
-  onNavigate,
-}) => {
+const SessionPagerItem: FC<{
+  session: Session;
+  onNavigate(session: Session): void;
+}> = ({ session, onNavigate }) => {
   const { t } = useTranslation();
   const [{ data, fetching }] = useNowPlayingQuery({
     variables: {
-      id: story.id,
+      id: session.id,
     },
   });
 
-  const gotoStory = useCallback(() => onNavigate(story), [story, onNavigate]);
+  const gotoSession = useCallback(
+    () => onNavigate(session),
+    [session, onNavigate]
+  );
 
   return (
     <View collapsable={false} style={styles.page}>
-      {story.image && (
+      {session.image && (
         <Image
           blurRadius={1}
-          source={{ uri: story.image }}
+          source={{ uri: session.image }}
           style={styles.pageImage}
         />
       )}
@@ -144,38 +147,38 @@ const StoryPagerItem: FC<{ story: Story; onNavigate(story: Story): void }> = ({
           colors={bottomGradientColors}
         />
         <Avatar
-          username={story.creator.username}
-          href={story.creator.profilePicture}
+          username={session.creator.username}
+          href={session.creator.profilePicture}
           size={12}
         />
         <View style={styles.pageMetaText}>
           <Text bold size="2xl">
-            {story.creator.username}
+            {session.creator.username}
           </Text>
           <Spacer y={2} />
-          <Text bold="medium">{story.text}</Text>
+          <Text bold="medium">{session.text}</Text>
         </View>
       </View>
       <View style={styles.pageNowPlaying}>
-        <StoryPagerNowPlaying
+        <SessionPagerNowPlaying
           fetching={fetching}
           trackId={data?.nowPlaying?.currentTrack?.trackId}
         />
       </View>
       <View style={styles.pageBottom}>
-        <Button onPress={gotoStory}>{t("story.go_to_story")}</Button>
+        <Button onPress={gotoSession}>{t("session.go_to_session")}</Button>
       </View>
     </View>
   );
 };
 
-export const StoryPager: FC<{
-  stories: Story[];
+export const SessionPager: FC<{
+  sessions: Session[];
   visible: boolean;
   onClose(): void;
-  onStoryPaged(story: Story): void;
-  onStoryNavigated(story: Story): void;
-}> = ({ stories, visible, onClose, onStoryPaged, onStoryNavigated }) => {
+  onSessionPaged(session: Session): void;
+  onSessionNavigated(session: Session): void;
+}> = ({ sessions, visible, onClose, onSessionPaged, onSessionNavigated }) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
@@ -189,10 +192,10 @@ export const StoryPager: FC<{
 
   const onPageSelected = useCallback(
     (event: PagerViewOnPageSelectedEvent) => {
-      const story = stories[event.nativeEvent.position];
-      if (story) onStoryPaged(story);
+      const session = sessions[event.nativeEvent.position];
+      if (session) onSessionPaged(session);
     },
-    [stories, onStoryPaged]
+    [sessions, onSessionPaged]
   );
 
   return (
@@ -207,11 +210,11 @@ export const StoryPager: FC<{
       dismissOnPanDown={false}
     >
       <PagerView style={styles.root} onPageSelected={onPageSelected}>
-        {stories.map((story) => (
-          <StoryPagerItem
-            onNavigate={onStoryNavigated}
-            key={story.id}
-            story={story}
+        {sessions.map((session) => (
+          <SessionPagerItem
+            onNavigate={onSessionNavigated}
+            key={session.id}
+            session={session}
           />
         ))}
       </PagerView>

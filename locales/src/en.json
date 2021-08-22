@@ -7,8 +7,8 @@
       "title": "In Your Circle",
       "description": "Discover what your friends are jamming to"
     },
-    "recent_stories": {
-      "title": "Recent Stories",
+    "recent_sessions": {
+      "title": "Recent Sessions",
       "description": "Listen together from all around the world"
     },
     "radio_stations": {
@@ -21,15 +21,15 @@
     "title_branded": "Auralous Map",
     "description": "Discover music around you",
     "open_map": "Open Map",
-    "no_stories_found": "No stories found"
+    "no_sessions_found": "No sessions found"
   },
   "new": {
-    "title": "New Story",
+    "title": "New Session",
     "select_songs": {
       "title": "Select Songs",
       "num_selected": "{{count}} songs selected",
       "finish_add": "Finished Adding Songs",
-      "create_story": "Create Story",
+      "create_session": "Create Session",
       "shuffle": "Shuffle"
     },
     "quick_share": {
@@ -75,45 +75,45 @@
       "added_to_playlist": "Added to {{ playlist }}."
     }
   },
-  "story": {
-    "title": "Story",
+  "session": {
+    "title": "Session",
     "join_live": "Join LIVE",
-    "go_to_story": "Go to story",
+    "go_to_session": "Go to session",
     "text": "What's on your mind",
-    "story_of_name": "{{ name }}'s story",
-    "creator": "Story creator"
+    "session_of_name": "{{ name }}'s session",
+    "creator": "Session creator"
   },
-  "story_invite": {
+  "session_invite": {
     "title": "You are invited to collaborate in \"{{ name }}\"",
     "invite_invalid": "This invite link is invalid or has been expired.",
     "accept_invitation": "Accept and Join"
   },
-  "story_edit": {
-    "title": "Edit Story",
+  "session_edit": {
+    "title": "Edit Session",
     "map": {
       "prompt": "Publish to Auralous Map?",
-      "description": "This allows others to discover your story on the map",
+      "description": "This allows others to discover your session on the map",
       "privacy_note": "Your location is NEVER visible to others"
     },
     "collab": {
       "prompt": "Listen Together",
       "description": "Invite your friends to add music to your queue"
     },
-    "updated": "The story has been updated",
+    "updated": "The session has been updated",
     "live": {
-      "description": "This story is <0>LIVE</0>",
+      "description": "This session is <0>LIVE</0>",
       "unlive": "Stop streaming",
-      "unlive_prompt": "You will not be able to add any new songs to this story but will be able to stream played songs at any time later.",
-      "unlive_ok": "Story has been taken offline",
-      "play_other_prompt": "Playing something else will the stop the current story"
+      "unlive_prompt": "You will not be able to add any new songs to this session but will be able to stream played songs at any time later.",
+      "unlive_ok": "Session has been taken offline",
+      "play_other_prompt": "Playing something else will the stop the current session"
     },
     "delete": {
-      "title": "Delete Story",
-      "delete_ok": "Story has been deleted"
+      "title": "Delete Session",
+      "delete_ok": "Session has been deleted"
     }
   },
-  "story_listeners": {
-    "title": "Story listeners"
+  "session_listeners": {
+    "title": "Listeners"
   },
   "player": {
     "title": "Player",
@@ -250,6 +250,6 @@
   "notifications": {
     "title": "Notifications",
     "follow": "<0>{{ username }}</0> has started following you",
-    "new_story": "<0>{{ username }}</0> started a story <1>{{ story }}</1>"
+    "new_session": "<0>{{ username }}</0> started a session <1>{{ session }}</1>"
   }
 }

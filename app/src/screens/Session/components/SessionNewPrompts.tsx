@@ -1,6 +1,10 @@
 import { RouteName } from "@/screens/types";
 import { checkAndRequestPermission } from "@/utils/permission";
-import { LocationInput, Story, useStoryUpdateMutation } from "@auralous/api";
+import {
+  LocationInput,
+  Session,
+  useSessionUpdateMutation,
+} from "@auralous/api";
 import { Dialog, Size, Spacer, toast } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback, useState } from "react";
@@ -14,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
+export const SessionNewPrompts: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
 
   const [map, setMap] = useState(true);
@@ -25,7 +29,8 @@ export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
     setCollab(true);
   }, []);
 
-  const [{ fetching: fetchingUpdate }, storyUpdate] = useStoryUpdateMutation();
+  const [{ fetching: fetchingUpdate }, sessionUpdate] =
+    useSessionUpdateMutation();
 
   const addToMap = useCallback(async () => {
     // perform permission check
@@ -42,8 +47,8 @@ export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
           });
         }, reject);
       });
-      const result = await storyUpdate({
-        id: story.id,
+      const result = await sessionUpdate({
+        id: session.id,
         location,
       });
       if (!result.error) {
@@ -52,7 +57,7 @@ export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
     } catch (err) {
       return toast.error(err.message);
     }
-  }, [story.id, dismissMap, storyUpdate, t]);
+  }, [session.id, dismissMap, sessionUpdate, t]);
 
   const dismissCollab = useCallback(() => {
     setCollab(false);
@@ -62,16 +67,16 @@ export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
 
   const gotoCollab = useCallback(() => {
     dismissCollab();
-    navigation.navigate(RouteName.StoryCollaborators, { id: story.id });
-  }, [story.id, navigation, dismissCollab]);
+    navigation.navigate(RouteName.SessionCollaborators, { id: session.id });
+  }, [session.id, navigation, dismissCollab]);
 
   return (
     <>
       <Dialog.Dialog visible={map}>
-        <Dialog.Title>{t("story_edit.map.prompt")}</Dialog.Title>
+        <Dialog.Title>{t("session_edit.map.prompt")}</Dialog.Title>
         <Dialog.Content>
           <Dialog.ContentText>
-            {t("story_edit.map.description")}
+            {t("session_edit.map.description")}
           </Dialog.ContentText>
           <Spacer y={2} />
           <Dialog.ContentText
@@ -79,7 +84,7 @@ export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
             color="textTertiary"
             style={styles.note}
           >
-            {t("story_edit.map.privacy_note")}
+            {t("session_edit.map.privacy_note")}
           </Dialog.ContentText>
         </Dialog.Content>
         <Dialog.Footer>
@@ -96,10 +101,10 @@ export const StoryNewPrompts: FC<{ story: Story }> = ({ story }) => {
         </Dialog.Footer>
       </Dialog.Dialog>
       <Dialog.Dialog visible={collab} onDismiss={dismissCollab}>
-        <Dialog.Title>{t("story_edit.collab.prompt")}</Dialog.Title>
+        <Dialog.Title>{t("session_edit.collab.prompt")}</Dialog.Title>
         <Dialog.Content>
           <Dialog.ContentText>
-            {t("story_edit.collab.description")}
+            {t("session_edit.collab.description")}
           </Dialog.ContentText>
         </Dialog.Content>
         <Dialog.Footer>

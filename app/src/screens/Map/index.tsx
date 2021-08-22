@@ -1,6 +1,6 @@
-import { StoryPager } from "@/components/Story/StoryPager";
+import { SessionPager } from "@/components/Session/SessionPager";
 import { ParamList, RouteName } from "@/screens/types";
-import { Story } from "@auralous/api";
+import { Session } from "@auralous/api";
 import player from "@auralous/player";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useCallback, useState } from "react";
@@ -16,38 +16,38 @@ const styles = StyleSheet.create({
 const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = ({
   navigation,
 }) => {
-  const [stories, setStories] = useState<Story[]>([]);
+  const [sessions, setSessions] = useState<Session[]>([]);
 
   const onClose = useCallback(() => {
     player.playContext(null);
-    setStories([]);
+    setSessions([]);
   }, []);
 
-  const onStoryPaged = useCallback((story: Story) => {
+  const onSessionPaged = useCallback((session: Session) => {
     player.playContext({
-      id: story.id,
+      id: session.id,
       shuffle: false,
-      type: "story",
+      type: "session",
     });
   }, []);
 
-  const onStoryNavigated = useCallback(
-    (story: Story) => {
+  const onSessionNavigated = useCallback(
+    (session: Session) => {
       navigation.goBack();
-      navigation.navigate(RouteName.Story, { id: story.id });
+      navigation.navigate(RouteName.Session, { id: session.id });
     },
     [navigation]
   );
 
   return (
     <View style={styles.root}>
-      <MapMap setStories={setStories} />
-      <StoryPager
-        stories={stories}
+      <MapMap setSessions={setSessions} />
+      <SessionPager
+        sessions={sessions}
         onClose={onClose}
-        visible={stories.length > 0}
-        onStoryPaged={onStoryPaged}
-        onStoryNavigated={onStoryNavigated}
+        visible={sessions.length > 0}
+        onSessionPaged={onSessionPaged}
+        onSessionNavigated={onSessionNavigated}
       />
     </View>
   );

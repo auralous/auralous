@@ -7,9 +7,9 @@ import {
   NowPlayingReactionsDocument,
   NowPlayingReactionsQuery,
   NowPlayingReactionsUpdatedSubscription,
-  Story,
-  StoryListenersDocument,
-  StoryListenersQuery,
+  Session,
+  SessionListenersDocument,
+  SessionListenersQuery,
   UserFollowingsDocument,
   UserFollowingsQuery,
   UserFollowingsQueryVariables,
@@ -26,7 +26,7 @@ export const cacheExchange = () =>
       Me: () => null,
       NowPlayingReactionItem: () => null,
       NowPlayingQueueItem: () => null,
-      StoryCurrentLive: (data) => data.creatorId || null,
+      SessionCurrentLive: (data) => data.creatorId || null,
     },
     resolvers: {
       Query: {
@@ -34,9 +34,9 @@ export const cacheExchange = () =>
           offsetArgument: "offset",
           mergeMode: "before",
         }),
-        stories: nextCursorPagination(),
+        sessions: nextCursorPagination(),
         notifications: nextCursorPagination(),
-        story: (parent, args) => ({ __typename: "Story", id: args.id }),
+        session: (parent, args) => ({ __typename: "Session", id: args.id }),
         track: (parent, args) => ({ __typename: "Track", id: args.id }),
       },
       Message: {
@@ -52,34 +52,34 @@ export const cacheExchange = () =>
             ? new Date(parent.endedAt)
             : undefined,
       },
-      Story: {
+      Session: {
         createdAt: (parent) => new Date(parent.createdAt),
       },
       NotificationFollow: {
         createdAt: (parent) => new Date(parent.createdAt),
       },
-      NotificationNewStory: {
+      NotificationNewSession: {
         createdAt: (parent) => new Date(parent.createdAt),
       },
     },
     updates: {
       Mutation: {
-        storyCreate: (result, args, cache) => {
-          if (!result.storyCreate) return;
-          cache.invalidate("Query", "storyCurrentLive", {
-            creatorId: (result.storyCreate as Story).creatorId,
+        sessionCreate: (result, args, cache) => {
+          if (!result.sessionCreate) return;
+          cache.invalidate("Query", "sessionCurrentLive", {
+            creatorId: (result.sessionCreate as Session).creatorId,
           });
         },
-        storyUnlive: (result, args, cache) => {
-          if (!result.storyUnlive) return;
-          cache.invalidate("Query", "storyCurrentLive", {
-            creatorId: (result.storyUnlive as Story).creatorId,
+        sessionUnlive: (result, args, cache) => {
+          if (!result.sessionUnlive) return;
+          cache.invalidate("Query", "sessionCurrentLive", {
+            creatorId: (result.sessionUnlive as Session).creatorId,
           });
         },
-        storyDelete: (result, args, cache) => {
+        sessionDelete: (result, args, cache) => {
           cache.invalidate({
-            __typename: "Story",
-            id: result.storyDelete as string,
+            __typename: "Session",
+            id: result.sessionDelete as string,
           });
         },
         userFollow: (result, args, cache) => {
@@ -160,15 +160,15 @@ export const cacheExchange = () =>
         },
       },
       Subscription: {
-        storyListenersUpdated: (result, args, cache) => {
-          if (result.storyListenersUpdated) {
-            cache.updateQuery<StoryListenersQuery>(
+        sessionListenersUpdated: (result, args, cache) => {
+          if (result.sessionListenersUpdated) {
+            cache.updateQuery<SessionListenersQuery>(
               {
-                query: StoryListenersDocument,
+                query: SessionListenersDocument,
                 variables: { id: args.id },
               },
               () => ({
-                storyListeners: result.storyListenersUpdated as string[],
+                sessionListeners: result.sessionListenersUpdated as string[],
               })
             );
           }

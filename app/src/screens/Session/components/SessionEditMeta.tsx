@@ -1,4 +1,8 @@
-import { LocationInput, Story, useStoryUpdateMutation } from "@auralous/api";
+import {
+  LocationInput,
+  Session,
+  useSessionUpdateMutation,
+} from "@auralous/api";
 import {
   Button,
   Input,
@@ -20,27 +24,27 @@ const styles = StyleSheet.create({
   item: { marginBottom: Size[8], width: "100%" },
 });
 
-export const StoryEditMeta: FC<{ story: Story }> = ({ story }) => {
+export const SessionEditMeta: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
-  const [{ fetching }, storyUpdate] = useStoryUpdateMutation();
+  const [{ fetching }, sessionUpdate] = useSessionUpdateMutation();
 
   const textRef = useRef<InputRef>(null);
 
   useEffect(() => {
-    textRef.current?.setValue(story.text);
-  }, [story]);
+    textRef.current?.setValue(session.text);
+  }, [session]);
 
   const onSubmit = useCallback(async () => {
     const location: LocationInput | null = null;
-    const result = await storyUpdate({
-      id: story.id,
-      text: textRef.current?.value || story.text,
+    const result = await sessionUpdate({
+      id: session.id,
+      text: textRef.current?.value || session.text,
       location,
     });
     if (!result.error) {
-      toast.success(t("story_edit.updated"));
+      toast.success(t("session_edit.updated"));
     }
-  }, [story, storyUpdate, t]);
+  }, [session, sessionUpdate, t]);
 
   return (
     <ScrollView
@@ -49,13 +53,13 @@ export const StoryEditMeta: FC<{ story: Story }> = ({ story }) => {
     >
       <View style={styles.item}>
         <Text align="center" bold>
-          {t("story.text")}
+          {t("session.text")}
         </Text>
         <Spacer y={4} />
         <Input
           ref={textRef}
-          accessibilityLabel={t("story.text")}
-          defaultValue={story.text}
+          accessibilityLabel={t("session.text")}
+          defaultValue={session.text}
         />
       </View>
       <Spacer y={4} />

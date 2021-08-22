@@ -7,8 +7,8 @@
       "title": "Trong vòng kết nối",
       "description": "Khám phá âm nhạc từ bạn bè của bạn"
     },
-    "recent_stories": {
-      "title": "Story gần đây",
+    "recent_sessions": {
+      "title": "Phiên gần đây",
       "description": "Nghe nhạc cùng nhau khắp mọi nơi"
     },
     "radio_stations": {
@@ -21,15 +21,15 @@
     "title_branded": "Bản đồ Auralous",
     "description": "Khám phá âm nhạc quanh bạn",
     "open_map": "Mở bản đồ",
-    "no_stories_found": "Không tìm thấy story"
+    "no_sessions_found": "Không tìm thấy phiên"
   },
   "new": {
-    "title": "Tạo Story",
+    "title": "Tạo phiên nghe",
     "select_songs": {
       "title": "Chọn bài hát",
       "num_selected": "{{count}} bài hát được chọn",
       "finish_add": "Hoàn tất thêm nhạc",
-      "create_story": "Tạo Story",
+      "create_session": "Tạo phiên",
       "shuffle": "Xáo trộn"
     },
     "quick_share": {
@@ -75,45 +75,45 @@
       "added_to_playlist": "Đã thêm vào {{ playlist }}."
     }
   },
-  "story": {
-    "title": "Story",
+  "session": {
+    "title": "Phiên",
     "join_live": "Tham gia LIVE",
-    "go_to_story": "Đi đến story",
+    "go_to_session": "Đi đến Phiên nghe",
     "text": "Bạn đang nghĩ gì thế",
-    "story_of_name": "Story của {{ name }}",
-    "creator": "Người tạo story"
+    "session_of_name": "Phiên của {{ name }}",
+    "creator": "Người tạo phiên"
   },
-  "story_invite": {
+  "session_invite": {
     "title": "Bạn được mời cộng tác tại \"{{ name }}\"",
     "invite_invalid": "Link mời này không hợp lệ hoặc đã hết hạn",
     "accept_invitation": "Chấp nhận và tham gia"
   },
-  "story_edit": {
-    "title": "Chỉnh sửa Story",
+  "session_edit": {
+    "title": "Chỉnh sửa phiên",
     "map": {
       "prompt": "Đăng tải lên Bản đồ Auralous?",
-      "description": "Điều này giúp người khác tìm thấy Story của bạn trên bản đồ",
+      "description": "Điều này giúp người khác tìm thấy phiên nhạc của bạn trên bản đồ",
       "privacy_note": "Vị trí của bạn KHÔNG BAO GIỜ được hiển thị với người khác"
     },
     "collab": {
       "prompt": "Nghe nhạc cùng nhau",
       "description": "Mời bạn bè thêm nhạc vào hàng chờ của bạn"
     },
-    "updated": "Story đã được cập nhật",
+    "updated": "Phiên đã được cập nhật",
     "live": {
-      "description": "Story này đang phát <0>TRỰC TIẾP</0>",
+      "description": "Phiên này đang phát <0>TRỰC TIẾP</0>",
       "unlive": "Dừng phát",
       "unlive_prompt": "Bạn không thể thêm bài hát mới nhưng có thể phát lại những bài đã thêm bất cứ lúc nào.",
-      "unlive_ok": "Story đã ngừng phát trực tiếp",
-      "play_other_prompt": "Phát mục khác sẽ dừng story hiện tại"
+      "unlive_ok": "Phiên đã ngừng phát trực tiếp",
+      "play_other_prompt": "Phát mục khác sẽ dừng phiên hiện tại"
     },
     "delete": {
-      "title": "Xóa Story",
-      "delete_ok": "Story đã được xóa"
+      "title": "Xóa Phiên",
+      "delete_ok": "Phiên đã được xóa"
     }
   },
-  "story_listeners": {
-    "title": "Người nghe story"
+  "session_listeners": {
+    "title": "Người nghe"
   },
   "player": {
     "title": "Trình phát",
@@ -250,6 +250,6 @@
   "notifications": {
     "title": "Thông báo",
     "follow": "<0>{{ username }}</0> bắt đầu theo dõi bạn",
-    "new_story": "<0>{{ username }}</0> bắt đầu một story <1>{{ story }}</1>"
+    "new_session": "<0>{{ username }}</0> bắt đầu một phiên mới <1>{{ session }}</1>"
   }
 }

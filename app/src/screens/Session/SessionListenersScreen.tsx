@@ -2,8 +2,8 @@ import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
 import {
   User,
-  useStoryListenersQuery,
-  useStoryListenersUpdatedSubscription,
+  useSessionListenersQuery,
+  useSessionListenersUpdatedSubscription,
 } from "@auralous/api";
 import { LoadingScreen, SocialUserList } from "@auralous/ui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -14,17 +14,17 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
 });
 
-const StoryListenersScreen: FC<
-  NativeStackScreenProps<ParamList, RouteName.StoryListeners>
+const SessionListenersScreen: FC<
+  NativeStackScreenProps<ParamList, RouteName.SessionListeners>
 > = ({ navigation, route }) => {
-  const [{ data, fetching }] = useStoryListenersQuery({
+  const [{ data, fetching }] = useSessionListenersQuery({
     variables: {
       id: route.params.id,
     },
     requestPolicy: "cache-and-network",
   });
 
-  useStoryListenersUpdatedSubscription({
+  useSessionListenersUpdatedSubscription({
     variables: {
       id: route.params.id,
     },
@@ -46,9 +46,9 @@ const StoryListenersScreen: FC<
     <View style={styles.root}>
       {fetching ? (
         <LoadingScreen />
-      ) : data?.storyListeners ? (
+      ) : data?.sessionListeners ? (
         <SocialUserList
-          userIds={data?.storyListeners || null}
+          userIds={data?.sessionListeners || null}
           onUnauthenticated={onUnauthenticated}
           onPressItem={onPressItem}
         />
@@ -59,4 +59,4 @@ const StoryListenersScreen: FC<
   );
 };
 
-export default StoryListenersScreen;
+export default SessionListenersScreen;

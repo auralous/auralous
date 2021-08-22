@@ -1,4 +1,4 @@
-import { Playlist, Story } from "@auralous/api";
+import { Playlist, Session } from "@auralous/api";
 import { ParamListBase } from "@react-navigation/native";
 
 export enum RouteName {
@@ -12,11 +12,11 @@ export enum RouteName {
   NewSelectSongs = "new/select-songs",
   NewQuickShare = "new/quick-share",
   Playlist = "playlist",
-  Story = "story",
-  StoryCollaborators = "story/collaborators",
-  StoryInvite = "story/invite",
-  StoryEdit = "story/edit",
-  StoryListeners = "story/listeners",
+  Session = "session",
+  SessionCollaborators = "session/collaborators",
+  SessionInvite = "session/invite",
+  SessionEdit = "session/edit",
+  SessionListeners = "session/listeners",
   Settings = "settings",
   Notifications = "notifications",
 }
@@ -43,26 +43,26 @@ export interface ParamList extends ParamListBase {
   [RouteName.NewSelectSongs]: undefined;
   [RouteName.NewQuickShare]?: {
     playlist?: Playlist;
-    story?: Story;
+    session?: Session;
   };
   [RouteName.Playlist]: {
     id: string;
   };
-  [RouteName.Story]: {
+  [RouteName.Session]: {
     id: string;
     isNew?: boolean;
   };
-  [RouteName.StoryCollaborators]: {
+  [RouteName.SessionCollaborators]: {
     id: string;
   };
-  [RouteName.StoryInvite]: {
+  [RouteName.SessionInvite]: {
     id: string;
     token: string;
   };
-  [RouteName.StoryEdit]: {
+  [RouteName.SessionEdit]: {
     id: string;
   };
-  [RouteName.StoryListeners]: {
+  [RouteName.SessionListeners]: {
     id: string;
   };
   [RouteName.Settings]: undefined;

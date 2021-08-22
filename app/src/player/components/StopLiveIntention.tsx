@@ -1,4 +1,4 @@
-import { useStoryUnliveMutation } from "@auralous/api";
+import { useSessionUnliveMutation } from "@auralous/api";
 import player from "@auralous/player";
 import { Dialog } from "@auralous/ui";
 import { FC, useCallback, useContext } from "react";
@@ -6,25 +6,25 @@ import { useTranslation } from "react-i18next";
 import { PlayerComponentInternalContext } from "./PlayerComponentInternalContext";
 
 // A dialog to be shown if user try to play something else
-// while having a live story
+// while having a live session
 
 export const StopLiveIntention: FC = () => {
   const { t } = useTranslation();
 
   const { stopLiveIntention } = useContext(PlayerComponentInternalContext);
 
-  const [{ fetching }, unliveStory] = useStoryUnliveMutation();
+  const [{ fetching }, unliveSession] = useSessionUnliveMutation();
 
   const unliveAndContinue = useCallback(async () => {
     if (!stopLiveIntention) return;
     player.playContext(stopLiveIntention.intendedCurrentContext);
-    const result = await unliveStory({
-      id: stopLiveIntention.currentStoryId,
+    const result = await unliveSession({
+      id: stopLiveIntention.currentSessionId,
     });
     if (!result.error) {
       stopLiveIntention.dismiss();
     }
-  }, [stopLiveIntention, unliveStory]);
+  }, [stopLiveIntention, unliveSession]);
 
   return (
     <Dialog.Dialog
@@ -32,9 +32,9 @@ export const StopLiveIntention: FC = () => {
       onDismiss={!fetching ? stopLiveIntention?.dismiss : undefined}
     >
       <Dialog.Content>
-        <Dialog.Title>{t("story_edit.live.play_other_prompt")}</Dialog.Title>
+        <Dialog.Title>{t("session_edit.live.play_other_prompt")}</Dialog.Title>
         <Dialog.ContentText>
-          {t("story_edit.live.unlive_prompt")}
+          {t("session_edit.live.unlive_prompt")}
         </Dialog.ContentText>
       </Dialog.Content>
       <Dialog.Footer>
@@ -46,7 +46,7 @@ export const StopLiveIntention: FC = () => {
           onPress={unliveAndContinue}
           disabled={fetching}
         >
-          {t("story_edit.live.unlive")}
+          {t("session_edit.live.unlive")}
         </Dialog.Button>
       </Dialog.Footer>
     </Dialog.Dialog>

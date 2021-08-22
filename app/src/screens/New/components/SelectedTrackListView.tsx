@@ -229,7 +229,7 @@ const SelectedTrackListView: FC<{
 
   const navigation = useNavigation();
 
-  const defaultStoryText = t("story.story_of_name", {
+  const defaultSessionText = t("session.session_of_name", {
     name: me?.user.username,
   });
 
@@ -241,9 +241,9 @@ const SelectedTrackListView: FC<{
     dismissFinal();
     navigation.navigate(RouteName.NewFinal, {
       selectedTracks,
-      text: textInputRef.current?.value.trim() || defaultStoryText,
+      text: textInputRef.current?.value.trim() || defaultSessionText,
     });
-  }, [defaultStoryText, navigation, selectedTracks, dismissFinal]);
+  }, [defaultSessionText, navigation, selectedTracks, dismissFinal]);
 
   return (
     <CheckedContext.Provider value={{ toggleChecked, checked }}>
@@ -306,12 +306,12 @@ const SelectedTrackListView: FC<{
       </View>
       <Dialog.Dialog visible={visibleFinal} onDismiss={dismissFinal}>
         <Dialog.Content>
-          <Dialog.ContentText>{t("story.text")}</Dialog.ContentText>
+          <Dialog.ContentText>{t("session.text")}</Dialog.ContentText>
           <Spacer y={2} />
           <Input
             ref={textInputRef}
-            accessibilityLabel={t("story.text")}
-            placeholder={defaultStoryText}
+            accessibilityLabel={t("session.text")}
+            placeholder={defaultSessionText}
             variant="underline"
           />
         </Dialog.Content>
@@ -320,7 +320,7 @@ const SelectedTrackListView: FC<{
             {t("common.action.cancel")}
           </Dialog.Button>
           <Dialog.Button variant="primary" onPress={onSubmit}>
-            {t("new.select_songs.create_story")}
+            {t("new.select_songs.create_session")}
           </Dialog.Button>
         </Dialog.Footer>
       </Dialog.Dialog>
