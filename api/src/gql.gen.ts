@@ -209,16 +209,7 @@ export type NotificationFollow = Notification & {
   id: Scalars['ID'];
   hasRead: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
-  followerId: Scalars['String'];
-};
-
-export type NotificationInvite = Notification & {
-  __typename: 'NotificationInvite';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  inviterId: Scalars['String'];
-  storyId: Scalars['String'];
+  follower?: Maybe<User>;
 };
 
 export type NotificationNewStory = Notification & {
@@ -226,8 +217,7 @@ export type NotificationNewStory = Notification & {
   id: Scalars['ID'];
   hasRead: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
-  storyId: Scalars['String'];
-  creatorId: Scalars['String'];
+  story?: Maybe<Story>;
 };
 
 export type NowPlaying = {
@@ -297,8 +287,8 @@ export type Query = {
   story?: Maybe<Story>;
   storyCurrentLive?: Maybe<StoryCurrentLive>;
   storyInviteLink: Scalars['String'];
+  storyListeners?: Maybe<Array<Scalars['String']>>;
   storyTracks: Array<Track>;
-  storyUsers?: Maybe<Array<Scalars['String']>>;
   track?: Maybe<Track>;
   tracks: Array<Maybe<Track>>;
   user?: Maybe<User>;
@@ -397,15 +387,15 @@ export type QueryStoryInviteLinkArgs = {
 };
 
 
+export type QueryStoryListenersArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryStoryTracksArgs = {
   id: Scalars['ID'];
   from?: Maybe<Scalars['Int']>;
   to?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryStoryUsersArgs = {
-  id: Scalars['ID'];
 };
 
 
@@ -479,8 +469,8 @@ export type Subscription = {
   nowPlayingReactionsUpdated?: Maybe<Array<NowPlayingReactionItem>>;
   nowPlayingUpdated?: Maybe<NowPlaying>;
   queueUpdated: Queue;
+  storyListenersUpdated: Array<Scalars['String']>;
   storyUpdated: Story;
-  storyUsersUpdated: Array<Scalars['String']>;
 };
 
 
@@ -504,12 +494,12 @@ export type SubscriptionQueueUpdatedArgs = {
 };
 
 
-export type SubscriptionStoryUpdatedArgs = {
+export type SubscriptionStoryListenersUpdatedArgs = {
   id: Scalars['ID'];
 };
 
 
-export type SubscriptionStoryUsersUpdatedArgs = {
+export type SubscriptionStoryUpdatedArgs = {
   id: Scalars['ID'];
 };
 
@@ -572,7 +562,7 @@ export type NotificationsQueryVariables = Exact<{
 }>;
 
 
-export type NotificationsQuery = { notifications: Array<{ __typename: 'NotificationFollow', followerId: string, id: string, createdAt: any, hasRead: boolean } | { __typename: 'NotificationInvite', storyId: string, inviterId: string, id: string, createdAt: any, hasRead: boolean } | { __typename: 'NotificationNewStory', storyId: string, creatorId: string, id: string, createdAt: any, hasRead: boolean }> };
+export type NotificationsQuery = { notifications: Array<{ __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewStory', id: string, createdAt: any, hasRead: boolean, story?: Maybe<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> }> };
 
 export type NotificationsMarkReadMutationVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
@@ -584,7 +574,7 @@ export type NotificationsMarkReadMutation = { notificationsMarkRead: number };
 export type NotificationAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', followerId: string, id: string, createdAt: any, hasRead: boolean } | { __typename: 'NotificationInvite', storyId: string, inviterId: string, id: string, createdAt: any, hasRead: boolean } | { __typename: 'NotificationNewStory', storyId: string, creatorId: string, id: string, createdAt: any, hasRead: boolean } };
+export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewStory', id: string, createdAt: any, hasRead: boolean, story?: Maybe<{ __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> } };
 
 export type NowPlayingQueuePartsFragment = { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string };
 
@@ -811,12 +801,12 @@ export type StoryUnliveMutationVariables = Exact<{
 
 export type StoryUnliveMutation = { storyUnlive: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
-export type StoryUsersQueryVariables = Exact<{
+export type StoryListenersQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryUsersQuery = { storyUsers?: Maybe<Array<string>> };
+export type StoryListenersQuery = { storyListeners?: Maybe<Array<string>> };
 
 export type StoryPingMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -832,12 +822,12 @@ export type StoryUpdatedSubscriptionVariables = Exact<{
 
 export type StoryUpdatedSubscription = { storyUpdated: { __typename: 'Story', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
-export type StoryUsersUpdatedSubscriptionVariables = Exact<{
+export type StoryListenersUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type StoryUsersUpdatedSubscription = { storyUsersUpdated: Array<string> };
+export type StoryListenersUpdatedSubscription = { storyListenersUpdated: Array<string> };
 
 export type StoryInviteLinkQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -971,7 +961,7 @@ export const MessageAddedDocument = {"kind":"Document","definitions":[{"kind":"O
 export function useMessageAddedSubscription<TData = MessageAddedSubscription>(options: Omit<Urql.UseSubscriptionArgs<MessageAddedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<MessageAddedSubscription, TData>) {
   return Urql.useSubscription<MessageAddedSubscription, TData, MessageAddedSubscriptionVariables>({ query: MessageAddedDocument, ...options }, handler);
 };
-export const NotificationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notifications"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notifications"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"followerId"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInvite"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyId"}},{"kind":"Field","name":{"kind":"Name","value":"inviterId"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewStory"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}}]} as unknown as DocumentNode;
+export const NotificationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notifications"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notifications"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewStory"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"story"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
 
 export function useNotificationsQuery(options: Omit<Urql.UseQueryArgs<NotificationsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<NotificationsQuery>({ query: NotificationsDocument, ...options });
@@ -981,7 +971,7 @@ export const NotificationsMarkReadDocument = {"kind":"Document","definitions":[{
 export function useNotificationsMarkReadMutation() {
   return Urql.useMutation<NotificationsMarkReadMutation, NotificationsMarkReadMutationVariables>(NotificationsMarkReadDocument);
 };
-export const NotificationAddedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"followerId"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationInvite"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyId"}},{"kind":"Field","name":{"kind":"Name","value":"inviterId"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewStory"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}}]} as unknown as DocumentNode;
+export const NotificationAddedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewStory"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"story"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"StoryDetailParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StoryDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Story"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
 
 export function useNotificationAddedSubscription<TData = NotificationAddedSubscription>(options: Omit<Urql.UseSubscriptionArgs<NotificationAddedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<NotificationAddedSubscription, TData>) {
   return Urql.useSubscription<NotificationAddedSubscription, TData, NotificationAddedSubscriptionVariables>({ query: NotificationAddedDocument, ...options }, handler);
@@ -1131,10 +1121,10 @@ export const StoryUnliveDocument = {"kind":"Document","definitions":[{"kind":"Op
 export function useStoryUnliveMutation() {
   return Urql.useMutation<StoryUnliveMutation, StoryUnliveMutationVariables>(StoryUnliveDocument);
 };
-export const StoryUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyUsers"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyUsers"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const StoryListenersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyListeners"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyListeners"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
-export function useStoryUsersQuery(options: Omit<Urql.UseQueryArgs<StoryUsersQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<StoryUsersQuery>({ query: StoryUsersDocument, ...options });
+export function useStoryListenersQuery(options: Omit<Urql.UseQueryArgs<StoryListenersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<StoryListenersQuery>({ query: StoryListenersDocument, ...options });
 };
 export const StoryPingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"storyPing"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyPing"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
@@ -1146,10 +1136,10 @@ export const StoryUpdatedDocument = {"kind":"Document","definitions":[{"kind":"O
 export function useStoryUpdatedSubscription<TData = StoryUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<StoryUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<StoryUpdatedSubscription, TData>) {
   return Urql.useSubscription<StoryUpdatedSubscription, TData, StoryUpdatedSubscriptionVariables>({ query: StoryUpdatedDocument, ...options }, handler);
 };
-export const StoryUsersUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"storyUsersUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyUsersUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const StoryListenersUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"storyListenersUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyListenersUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
-export function useStoryUsersUpdatedSubscription<TData = StoryUsersUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<StoryUsersUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<StoryUsersUpdatedSubscription, TData>) {
-  return Urql.useSubscription<StoryUsersUpdatedSubscription, TData, StoryUsersUpdatedSubscriptionVariables>({ query: StoryUsersUpdatedDocument, ...options }, handler);
+export function useStoryListenersUpdatedSubscription<TData = StoryListenersUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<StoryListenersUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<StoryListenersUpdatedSubscription, TData>) {
+  return Urql.useSubscription<StoryListenersUpdatedSubscription, TData, StoryListenersUpdatedSubscriptionVariables>({ query: StoryListenersUpdatedDocument, ...options }, handler);
 };
 export const StoryInviteLinkDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"storyInviteLink"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storyInviteLink"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
@@ -1234,7 +1224,6 @@ export type GraphCacheKeysConfig = {
   Me?: (data: WithTypename<Me>) => null | string,
   Message?: (data: WithTypename<Message>) => null | string,
   NotificationFollow?: (data: WithTypename<NotificationFollow>) => null | string,
-  NotificationInvite?: (data: WithTypename<NotificationInvite>) => null | string,
   NotificationNewStory?: (data: WithTypename<NotificationNewStory>) => null | string,
   NowPlaying?: (data: WithTypename<NowPlaying>) => null | string,
   NowPlayingQueueItem?: (data: WithTypename<NowPlayingQueueItem>) => null | string,
@@ -1255,7 +1244,7 @@ export type GraphCacheResolvers = {
     me?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, WithTypename<Me> | string>,
     messages?: GraphCacheResolver<WithTypename<Query>, QueryMessagesArgs, Array<WithTypename<Message> | string>>,
     myPlaylists?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
-    notifications?: GraphCacheResolver<WithTypename<Query>, QueryNotificationsArgs, Array<WithTypename<NotificationFollow> | WithTypename<NotificationInvite> | WithTypename<NotificationNewStory> | string>>,
+    notifications?: GraphCacheResolver<WithTypename<Query>, QueryNotificationsArgs, Array<WithTypename<NotificationFollow> | WithTypename<NotificationNewStory> | string>>,
     nowPlaying?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingArgs, WithTypename<NowPlaying> | string>,
     nowPlayingReactions?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingReactionsArgs, Array<WithTypename<NowPlayingReactionItem> | string>>,
     playlist?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistArgs, WithTypename<Playlist> | string>,
@@ -1270,8 +1259,8 @@ export type GraphCacheResolvers = {
     story?: GraphCacheResolver<WithTypename<Query>, QueryStoryArgs, WithTypename<Story> | string>,
     storyCurrentLive?: GraphCacheResolver<WithTypename<Query>, QueryStoryCurrentLiveArgs, WithTypename<StoryCurrentLive> | string>,
     storyInviteLink?: GraphCacheResolver<WithTypename<Query>, QueryStoryInviteLinkArgs, Scalars['String'] | string>,
+    storyListeners?: GraphCacheResolver<WithTypename<Query>, QueryStoryListenersArgs, Array<Scalars['String'] | string>>,
     storyTracks?: GraphCacheResolver<WithTypename<Query>, QueryStoryTracksArgs, Array<WithTypename<Track> | string>>,
-    storyUsers?: GraphCacheResolver<WithTypename<Query>, QueryStoryUsersArgs, Array<Scalars['String'] | string>>,
     track?: GraphCacheResolver<WithTypename<Query>, QueryTrackArgs, WithTypename<Track> | string>,
     tracks?: GraphCacheResolver<WithTypename<Query>, QueryTracksArgs, Array<WithTypename<Track> | string>>,
     user?: GraphCacheResolver<WithTypename<Query>, QueryUserArgs, WithTypename<User> | string>,
@@ -1310,21 +1299,13 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, Scalars['ID'] | string>,
     hasRead?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, Scalars['Boolean'] | string>,
     createdAt?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, Scalars['DateTime'] | string>,
-    followerId?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, Scalars['String'] | string>
-  },
-  NotificationInvite?: {
-    id?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['ID'] | string>,
-    hasRead?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['Boolean'] | string>,
-    createdAt?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['DateTime'] | string>,
-    inviterId?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['String'] | string>,
-    storyId?: GraphCacheResolver<WithTypename<NotificationInvite>, Record<string, never>, Scalars['String'] | string>
+    follower?: GraphCacheResolver<WithTypename<NotificationFollow>, Record<string, never>, WithTypename<User> | string>
   },
   NotificationNewStory?: {
     id?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['ID'] | string>,
     hasRead?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['Boolean'] | string>,
     createdAt?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['DateTime'] | string>,
-    storyId?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['String'] | string>,
-    creatorId?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, Scalars['String'] | string>
+    story?: GraphCacheResolver<WithTypename<NotificationNewStory>, Record<string, never>, WithTypename<Story> | string>
   },
   NowPlaying?: {
     id?: GraphCacheResolver<WithTypename<NowPlaying>, Record<string, never>, Scalars['ID'] | string>,
@@ -1448,12 +1429,12 @@ export type GraphCacheUpdaters = {
   },
   Subscription?: {
     messageAdded?: GraphCacheUpdateResolver<{ messageAdded: WithTypename<Message> }, SubscriptionMessageAddedArgs>,
-    notificationAdded?: GraphCacheUpdateResolver<{ notificationAdded: WithTypename<NotificationFollow> | WithTypename<NotificationInvite> | WithTypename<NotificationNewStory> }, Record<string, never>>,
+    notificationAdded?: GraphCacheUpdateResolver<{ notificationAdded: WithTypename<NotificationFollow> | WithTypename<NotificationNewStory> }, Record<string, never>>,
     nowPlayingReactionsUpdated?: GraphCacheUpdateResolver<{ nowPlayingReactionsUpdated: Maybe<Array<WithTypename<NowPlayingReactionItem>>> }, SubscriptionNowPlayingReactionsUpdatedArgs>,
     nowPlayingUpdated?: GraphCacheUpdateResolver<{ nowPlayingUpdated: Maybe<WithTypename<NowPlaying>> }, SubscriptionNowPlayingUpdatedArgs>,
     queueUpdated?: GraphCacheUpdateResolver<{ queueUpdated: WithTypename<Queue> }, SubscriptionQueueUpdatedArgs>,
-    storyUpdated?: GraphCacheUpdateResolver<{ storyUpdated: WithTypename<Story> }, SubscriptionStoryUpdatedArgs>,
-    storyUsersUpdated?: GraphCacheUpdateResolver<{ storyUsersUpdated: Array<Scalars['String']> }, SubscriptionStoryUsersUpdatedArgs>
+    storyListenersUpdated?: GraphCacheUpdateResolver<{ storyListenersUpdated: Array<Scalars['String']> }, SubscriptionStoryListenersUpdatedArgs>,
+    storyUpdated?: GraphCacheUpdateResolver<{ storyUpdated: WithTypename<Story> }, SubscriptionStoryUpdatedArgs>
   },
 };
 

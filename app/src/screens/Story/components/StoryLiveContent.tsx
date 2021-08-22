@@ -3,7 +3,8 @@ import { RouteName } from "@/screens/types";
 import {
   Story,
   useNowPlayingQuery,
-  useStoryUsersQuery,
+  useStoryListenersQuery,
+  useStoryListenersUpdatedSubscription,
   useTrackQuery,
 } from "@auralous/api";
 import player, { usePlaybackCurrentContext } from "@auralous/player";
@@ -19,7 +20,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import StoryMeta from "./StoryMeta";
 
 const styles = StyleSheet.create({
@@ -53,8 +54,14 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
 
   const { t } = useTranslation();
 
-  // FIXME: create more lightweight queries like useStoryUsersCount()
-  const [{ data: dataStoryUsers }] = useStoryUsersQuery({
+  // FIXME: create more lightweight queries like useStoryListenersCount()
+  const [{ data: dataStoryListeners }] = useStoryListenersQuery({
+    variables: {
+      id: story.id,
+    },
+    requestPolicy: "cache-and-network",
+  });
+  useStoryListenersUpdatedSubscription({
     variables: {
       id: story.id,
     },
@@ -74,6 +81,10 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
     navigation.navigate(RouteName.StoryCollaborators, { id: story.id });
   }, [navigation, story.id]);
 
+  const viewListeners = useCallback(() => {
+    navigation.navigate(RouteName.StoryListeners, { id: story.id });
+  }, [navigation, story.id]);
+
   const [{ data: dataNowPlaying, fetching: fetchingNowPlaying }] =
     useNowPlayingQuery({
       variables: { id: story.id },
@@ -90,15 +101,16 @@ const StoryLiveContent: FC<{ story: Story }> = ({ story }) => {
       <StoryMeta
         story={story}
         tagElement={
-          <View style={styles.tag}>
+          <Pressable style={styles.tag} onPress={viewListeners}>
             <Text bold size="sm" style={styles.textLive}>
               {t("common.status.live")}{" "}
             </Text>
             <Text size="sm">
-              {t("story.title")} • {dataStoryUsers?.storyUsers?.length || 0}
+              {t("story.title")} •{" "}
+              {dataStoryListeners?.storyListeners?.length || 0}
             </Text>
             <IconUser color={Colors.primaryText} width={12} height={12} />
-          </View>
+          </Pressable>
         }
       />
       <View style={styles.buttons}>

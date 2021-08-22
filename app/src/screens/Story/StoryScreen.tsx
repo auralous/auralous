@@ -6,8 +6,10 @@ import { useMeQuery, useStoryQuery } from "@auralous/api";
 import {
   Colors,
   IconEdit,
+  IconHeadphones,
   IconMoreVertical,
   IconShare2,
+  IconUser,
   LoadingScreen,
   TextButton,
 } from "@auralous/ui";
@@ -72,6 +74,30 @@ const StoryScreen: FC<NativeStackScreenProps<ParamList, RouteName.Story>> = ({
                         },
                       ]
                     : []),
+                  ...(story.isLive
+                    ? [
+                        {
+                          icon: (
+                            <IconHeadphones stroke={Colors.textSecondary} />
+                          ),
+                          text: t("story_listeners.title"),
+                          onPress() {
+                            navigation.navigate(RouteName.StoryListeners, {
+                              id: story.id,
+                            });
+                          },
+                        },
+                      ]
+                    : []),
+                  {
+                    icon: <IconUser stroke={Colors.textSecondary} />,
+                    text: t("story.creator"),
+                    onPress() {
+                      navigation.navigate(RouteName.User, {
+                        username: story.creator.username,
+                      });
+                    },
+                  },
                   {
                     icon: <IconShare2 stroke={Colors.textSecondary} />,
                     text: t("share.share"),

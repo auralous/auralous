@@ -3,7 +3,7 @@ import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors, Size } from "@/styles";
-import { format as formatMs } from "@/utils";
+import { formatTime } from "@/utils";
 import { Story } from "@auralous/api";
 import { FC, memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -56,8 +56,11 @@ const StoryItem: FC<StoryItemProps> = ({ story }) => {
   const dateStr = useMemo(() => {
     if (!story) return "";
     if (story.isLive) return t("common.status.live").toUpperCase();
-    const d = Date.now() - story.createdAt.getTime();
-    return t("common.time.ago", { time: formatMs(t, d) });
+    const diff = Date.now() - story.createdAt.getTime();
+    if (diff < 60 * 1000) {
+      return t("common.time.just_now");
+    }
+    return t("common.time.ago", { time: formatTime(t, diff) });
   }, [story, t]);
 
   return (

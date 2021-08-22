@@ -1,11 +1,10 @@
 import { NotFoundScreen } from "@/components/NotFound";
 import { ParamList, RouteName } from "@/screens/types";
-import { useUserFollowingsQuery, useUserQuery } from "@auralous/api";
-import { LoadingScreen } from "@auralous/ui";
+import { User, useUserFollowingsQuery, useUserQuery } from "@auralous/api";
+import { LoadingScreen, SocialUserList } from "@auralous/ui";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
-import UserList from "./components/UserList";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
@@ -13,7 +12,7 @@ const styles = StyleSheet.create({
 
 const UserFollowingScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.UserFollowers>
-> = ({ route }) => {
+> = ({ route, navigation }) => {
   const username = route.params.username;
   const [{ data: dataUser, fetching }] = useUserQuery({
     variables: { username },
@@ -26,12 +25,29 @@ const UserFollowingScreen: FC<
     pause: !user,
   });
 
+  const onUnauthenticated = useCallback(
+    () => navigation.navigate(RouteName.SignIn),
+    [navigation]
+  );
+
+  const onPressItem = useCallback(
+    (user: User) => {
+      navigation.navigate(RouteName.User, { username: user.username });
+    },
+    [navigation]
+  );
+
   return (
     <View style={styles.root}>
       {fetching ? (
         <LoadingScreen />
       ) : user ? (
-        <UserList data={data?.userFollowings || []} fetching={fetchingList} />
+        <SocialUserList
+          userIds={data?.userFollowings || null}
+          fetching={fetchingList}
+          onUnauthenticated={onUnauthenticated}
+          onPressItem={onPressItem}
+        />
       ) : (
         <NotFoundScreen />
       )}

@@ -4,15 +4,15 @@ query notifications($next: String, $limit: Int!) {
     createdAt
     hasRead
     ... on NotificationFollow {
-      followerId
-    }
-    ... on NotificationInvite {
-      storyId
-      inviterId
+      follower {
+        ...UserPublicParts
+      }
     }
     ... on NotificationNewStory {
-      storyId
-      creatorId
+      story {
+        id
+        ...StoryDetailParts
+      }
     }
     __typename
   }
@@ -28,15 +28,15 @@ subscription notificationAdded {
     createdAt
     hasRead
     ... on NotificationFollow {
-      followerId
-    }
-    ... on NotificationInvite {
-      storyId
-      inviterId
+      follower {
+        ...UserPublicParts
+      }
     }
     ... on NotificationNewStory {
-      storyId
-      creatorId
+      story {
+        id
+        ...StoryDetailParts
+      }
     }
     __typename
   }

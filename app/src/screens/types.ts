@@ -16,7 +16,9 @@ export enum RouteName {
   StoryCollaborators = "story/collaborators",
   StoryInvite = "story/invite",
   StoryEdit = "story/edit",
+  StoryListeners = "story/listeners",
   Settings = "settings",
+  Notifications = "notifications",
 }
 
 export interface ParamList extends ParamListBase {
@@ -60,5 +62,9 @@ export interface ParamList extends ParamListBase {
   [RouteName.StoryEdit]: {
     id: string;
   };
+  [RouteName.StoryListeners]: {
+    id: string;
+  };
   [RouteName.Settings]: undefined;
+  [RouteName.Notifications]: undefined;
 }

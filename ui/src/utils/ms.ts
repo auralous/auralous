@@ -6,18 +6,17 @@ const SEC = 1e3,
   DAY = HOUR * 24,
   YEAR = DAY * 365.25;
 
-function fmt(val: number, str: string, long?: boolean) {
-  const num = (val | 0) === val ? val : ~~(val + 0.5);
-  return num + (long ? " " + str + (num != 1 ? "s" : "") : str[0]);
-}
+export function formatTime(t: TFunction, num: number) {
+  if (num < SEC) return num + " ms";
+  if (num < MIN)
+    return t("common.time.x_second", { count: Math.round(num / SEC) });
 
-export function format(t: TFunction, num: number, long?: boolean) {
-  if (num < SEC) return num + (long ? " ms" : "ms");
-  if (num < MIN) return fmt(num / SEC, "second", long);
-  if (num < HOUR) return fmt(num / MIN, "minute", long);
-  if (num < DAY) return fmt(num / HOUR, "hour", long);
-  if (num < YEAR) return fmt(num / DAY, "day", long);
-  return fmt(num / YEAR, "year", long);
+  if (num < HOUR)
+    return t("common.time.x_minute", { count: Math.round(num / MIN) });
+  if (num < DAY)
+    return t("common.time.x_hour", { count: Math.round(num / HOUR) });
+  if (num < YEAR)
+    return t("common.time.x_day", { count: Math.round(num / DAY) });
 }
 
 export function msToHMS(

@@ -2,6 +2,7 @@ import { RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
 import {
   Avatar,
+  IconBell,
   IconSettings,
   Size,
   Spacer,
@@ -43,6 +44,11 @@ const Header: FC = () => {
     [navigation]
   );
 
+  const gotoNotifications = useCallback(
+    () => navigation.navigate(RouteName.Notifications),
+    [navigation]
+  );
+
   const gotoUser = useCallback(
     () =>
       me &&
@@ -77,6 +83,12 @@ const Header: FC = () => {
         )}
       </View>
       <View style={styles.col}>
+        <TextButton
+          icon={<IconBell strokeWidth={1} />}
+          accessibilityLabel={t("notifications.title")}
+          onPress={gotoNotifications}
+        />
+        <Spacer x={2} />
         <TextButton
           icon={<IconSettings strokeWidth={1} />}
           accessibilityLabel={t("settings.title")}

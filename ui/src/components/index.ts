@@ -5,6 +5,7 @@ export * from "./Dialog";
 export * from "./Header";
 export * from "./Input";
 export * from "./Loading";
+export * from "./Notification";
 export * from "./Page";
 export * from "./Playlist";
 export * from "./RecyclerList";

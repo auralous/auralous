@@ -8,8 +8,8 @@ import {
   NowPlayingReactionsQuery,
   NowPlayingReactionsUpdatedSubscription,
   Story,
-  StoryUsersDocument,
-  StoryUsersQuery,
+  StoryListenersDocument,
+  StoryListenersQuery,
   UserFollowingsDocument,
   UserFollowingsQuery,
   UserFollowingsQueryVariables,
@@ -53,9 +53,6 @@ export const cacheExchange = () =>
             : undefined,
       },
       Story: {
-        createdAt: (parent) => new Date(parent.createdAt),
-      },
-      NotificationInvite: {
         createdAt: (parent) => new Date(parent.createdAt),
       },
       NotificationFollow: {
@@ -163,14 +160,16 @@ export const cacheExchange = () =>
         },
       },
       Subscription: {
-        storyUsersUpdated: (result, args, cache) => {
-          if (result.storyUsersUpdated) {
-            cache.updateQuery<StoryUsersQuery>(
+        storyListenersUpdated: (result, args, cache) => {
+          if (result.storyListenersUpdated) {
+            cache.updateQuery<StoryListenersQuery>(
               {
-                query: StoryUsersDocument,
+                query: StoryListenersDocument,
                 variables: { id: args.id },
               },
-              () => ({ storyUsers: result.storyUsersUpdated as string[] })
+              () => ({
+                storyListeners: result.storyListenersUpdated as string[],
+              })
             );
           }
         },

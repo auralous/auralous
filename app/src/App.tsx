@@ -27,11 +27,13 @@ import { StatusBar, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootSheetModals } from "./components/RootSheetModals";
 import { PlayerComponent, PlayerProvider } from "./player";
+import { NotificationsScreen } from "./screens/Notifications";
 import { SettingsScreen } from "./screens/Settings";
 import {
   StoryCollaboratorsScreen,
   StoryEditScreen,
   StoryInviteScreen,
+  StoryListenersScreen,
   StoryScreen,
 } from "./screens/Story";
 
@@ -163,6 +165,13 @@ const App = () => {
         },
       },
       {
+        name: RouteName.StoryListeners,
+        component: StoryListenersScreen,
+        options: {
+          title: t("story_listeners.title"),
+        },
+      },
+      {
         name: RouteName.SignIn,
         component: SignInScreen,
         options: {
@@ -198,6 +207,13 @@ const App = () => {
         component: SettingsScreen,
         options: {
           title: t("settings.title"),
+        },
+      },
+      {
+        name: RouteName.Notifications,
+        component: NotificationsScreen,
+        options: {
+          title: t("notifications.title"),
         },
       },
     ],

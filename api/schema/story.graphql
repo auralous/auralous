@@ -77,8 +77,8 @@ mutation storyUnlive($id: ID!) {
   }
 }
 
-query storyUsers($id: ID!) {
-  storyUsers(id: $id)
+query storyListeners($id: ID!) {
+  storyListeners(id: $id)
 }
 
 mutation storyPing($id: ID!) {
@@ -92,8 +92,8 @@ subscription storyUpdated($id: ID!) {
   }
 }
 
-subscription storyUsersUpdated($id: ID!) {
-  storyUsersUpdated(id: $id)
+subscription storyListenersUpdated($id: ID!) {
+  storyListenersUpdated(id: $id)
 }
 
 query storyInviteLink($id: ID!) {

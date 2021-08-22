@@ -890,10 +890,6 @@ export default {
           },
           {
             "kind": "OBJECT",
-            "name": "NotificationInvite"
-          },
-          {
-            "kind": "OBJECT",
             "name": "NotificationNewStory"
           }
         ]
@@ -936,80 +932,11 @@ export default {
             "args": []
           },
           {
-            "name": "followerId",
+            "name": "follower",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          }
-        ],
-        "interfaces": [
-          {
-            "kind": "INTERFACE",
-            "name": "Notification"
-          }
-        ]
-      },
-      {
-        "kind": "OBJECT",
-        "name": "NotificationInvite",
-        "fields": [
-          {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "hasRead",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "createdAt",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "inviterId",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "storyId",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
             },
             "args": []
           }
@@ -1059,24 +986,11 @@ export default {
             "args": []
           },
           {
-            "name": "storyId",
+            "name": "story",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "creatorId",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "OBJECT",
+              "name": "Story",
+              "ofType": null
             },
             "args": []
           }
@@ -1816,6 +1730,31 @@ export default {
             ]
           },
           {
+            "name": "storyListeners",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "storyTracks",
             "type": {
               "kind": "NON_NULL",
@@ -1854,31 +1793,6 @@ export default {
                 "type": {
                   "kind": "SCALAR",
                   "name": "Any"
-                }
-              }
-            ]
-          },
-          {
-            "name": "storyUsers",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "NON_NULL",
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              }
-            },
-            "args": [
-              {
-                "name": "id",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
                 }
               }
             ]
@@ -2370,13 +2284,18 @@ export default {
             ]
           },
           {
-            "name": "storyUpdated",
+            "name": "storyListenersUpdated",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Story",
-                "ofType": null
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
               }
             },
             "args": [
@@ -2393,18 +2312,13 @@ export default {
             ]
           },
           {
-            "name": "storyUsersUpdated",
+            "name": "storyUpdated",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Story",
+                "ofType": null
               }
             },
             "args": [
