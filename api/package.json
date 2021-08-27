@@ -1,0 +1,41 @@
+{
+  "name": "@auralous/api",
+  "version": "0.0.0",
+  "description": "APIs for Auralous",
+  "scripts": {
+    "codegen": "graphql-codegen",
+    "build:babel": "babel src -d dist --extensions \".ts\"",
+    "build:dts": "tsc",
+    "build": "yarn codegen && yarn build:dts && yarn build:babel",
+    "build:watch": "concurrently \"yarn codegen --watch\" \"yarn build:dts --watch\" \"yarn build:babel -w\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/auralous/auralous.git",
+    "directory": "api"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/auralous/auralous/issues"
+  },
+  "homepage": "https://github.com/auralous/auralous#readme",
+  "peerDependencies": {
+    "@urql/exchange-graphcache": "*",
+    "graphql": "*",
+    "urql": "*"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^2.0.1",
+    "@graphql-codegen/typescript": "^2.0.0",
+    "@graphql-codegen/typescript-operations": "^2.0.1",
+    "@graphql-codegen/typescript-urql": "^3.0.0",
+    "@graphql-codegen/typescript-urql-graphcache": "^2.0.0",
+    "@graphql-codegen/urql-introspection": "^2.0.0",
+    "@urql/exchange-graphcache": "*",
+    "graphql": "*",
+    "urql": "*"
+  }
+}

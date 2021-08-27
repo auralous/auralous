@@ -1,5 +1,10 @@
 {
-  "env": { "browser": true, "es6": true, "node": true },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true,
+    "react-native/react-native": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -17,7 +22,13 @@
   },
   "settings": { "react": { "version": "detect" } },
   "ignorePatterns": ["**/*.gen.ts"],
-  "plugins": ["react", "jsx-a11y", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "react",
+    "react-native",
+    "jsx-a11y",
+    "@typescript-eslint",
+    "prettier"
+  ],
   "rules": {
     "prettier/prettier": "error",
     "react/prop-types": "off",
@@ -38,6 +49,10 @@
     "@typescript-eslint/no-unused-vars": "error",
     "jsx-a11y/no-onchange": "warn",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react-native/no-unused-styles": "error",
+    "react-native/sort-styles": "error",
+    "react-native/no-single-element-style-arrays": "error",
+    "react-native/no-inline-styles": "warn"
   }
 }

@@ -6,7 +6,7 @@
 
 > Music is always better when we listen together
 
-Auralous is a free project that lets you play & listen to music in sync with friends in public or private stories.
+Auralous is a free project that lets you play & listen to music in sync with friends in group sessions.
 
 Auralous currently supports streaming music on [YouTube](https://www.youtube.com/) and [Spotify](https://www.spotify.com/). We hope to add support for [Apple Music](https://www.apple.com/apple-music/) soon.
 
@@ -17,26 +17,25 @@ Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com
 
 ## Structure
 
-| Codebase           |                  Description                  |
-| :----------------- | :-------------------------------------------: |
-| [web](web)         |               Next.js frontend                |
-| [graphql](graphql) | GraphQL Queries, Mutations, and Subscriptions |
+| Codebase         |                  Description                  |
+| :--------------- | :-------------------------------------------: |
+| [web](web)       |      Next.js + React Native Web frontend      |
+| [app](app)       |               React Native App                |
+| [ui](ui)         |      Shared components, styles, UI utils      |
+| [api](api)       | GraphQL API / URQL code, hooks, and exchanges |
+| [player](player) |      The Player class and React Context       |
 
 ### Workflows
 
-The repository is a [npm workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces). Upon cloning this repository, run `npm i` to install the required dependencies.
-
 `package.json` contains the several scripts in the workspace root.
 
-#### `npm run codegen`
+#### `yarn dev`
 
-Run `npm run codegen` to run the [graphql-codegen-generator](https://github.com/dotansimha/graphql-code-generator). This generates TypeScript definitions and [`urql`](https://github.com/FormidableLabs/urql) React hooks inside [`web/src/graphql/gql.gen.ts`](web/src/graphql/gql.gen.ts) .
+Start the file watcher to build common components for the project for uses in both `web` and `app`.
 
-This is only run whenever the GraphQL operations are modified inside the `graphql` folder or when the Server GraphQL Schema changes.
+#### `yarn lint`
 
-#### `npm run lint`
-
-Run `npm run lint` to check for errors in source code using [`eslint`](https://github.com/eslint/eslint) and apply formatting with [prettier](https://github.com/prettier/prettier). You can also run `npm run lint -- --fix` to let `eslint` fixed the errors automatically.
+Run `yarn lint` to check for errors in source code using [`eslint`](https://github.com/eslint/eslint) and apply formatting with [prettier](https://github.com/prettier/prettier). You can also run `yarn lint --fix` to let `eslint` fixed the errors automatically.
 
 ## Contribution
 
@@ -46,6 +45,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 This project is not possible without:
 
-- [All the libraries and their amazing maintainers](package.json)
-- [Odesli API](https://odesli.co/)
+- All the OSS libraries and their maintainers
+- [Odesli API](https://odesli.co/) for cross-playing functionality
 - last but not least... **you**

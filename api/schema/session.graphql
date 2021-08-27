@@ -1,0 +1,105 @@
+fragment SessionDetailParts on Session {
+  text
+  image
+  createdAt
+  isLive
+  creatorId
+  collaboratorIds
+  creator {
+    id
+    username
+    profilePicture
+  }
+  onMap
+  trackTotal
+}
+
+query session($id: ID!) {
+  session(id: $id) {
+    id
+    ...SessionDetailParts
+  }
+}
+
+query sessions($creatorId: String, $next: String, $limit: Int!) {
+  sessions(creatorId: $creatorId, next: $next, limit: $limit) {
+    id
+    ...SessionDetailParts
+  }
+}
+
+query sessionsOnMap($lng: Float!, $lat: Float!, $radius: Float!) {
+  sessionsOnMap(lng: $lng, lat: $lat, radius: $radius) {
+    id
+    ...SessionDetailParts
+  }
+}
+
+query sessionCurrentLive($creatorId: ID!) {
+  sessionCurrentLive(creatorId: $creatorId) {
+    creatorId
+    sessionId
+  }
+}
+
+query sessionTracks($id: ID!, $from: Int, $to: Int) {
+  sessionTracks(id: $id, from: $from, to: $to) {
+    ...TrackParts
+  }
+}
+
+mutation sessionCreate(
+  $text: String!
+  $location: LocationInput
+  $tracks: [ID!]!
+) {
+  sessionCreate(text: $text, location: $location, tracks: $tracks) {
+    id
+    ...SessionDetailParts
+  }
+}
+
+mutation sessionUpdate($id: ID!, $text: String, $location: LocationInput) {
+  sessionUpdate(id: $id, text: $text, location: $location) {
+    id
+    ...SessionDetailParts
+  }
+}
+
+mutation sessionDelete($id: ID!) {
+  sessionDelete(id: $id)
+}
+
+mutation sessionEnd($id: ID!) {
+  sessionEnd(id: $id) {
+    id
+    ...SessionDetailParts
+  }
+}
+
+query sessionListeners($id: ID!) {
+  sessionListeners(id: $id)
+}
+
+mutation sessionPing($id: ID!) {
+  sessionPing(id: $id)
+}
+
+subscription sessionUpdated($id: ID!) {
+  sessionUpdated(id: $id) {
+    id
+    ...SessionDetailParts
+  }
+}
+
+subscription sessionListenersUpdated($id: ID!) {
+  sessionListenersUpdated(id: $id)
+}
+
+query sessionInviteLink($id: ID!) {
+  sessionInviteLink(id: $id)
+}
+
+mutation sessionCollabAddFromToken($id: ID!, $token: String!) {
+  sessionCollabAddFromToken(id: $id, token: $token)
+}

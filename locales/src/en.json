@@ -1,0 +1,255 @@
+{
+  "home": {
+    "featured_playlists": {
+      "title": "Featured Playlists"
+    },
+    "friends_playlists": {
+      "title": "In Your Circle",
+      "description": "Discover what your friends are jamming to"
+    },
+    "recent_sessions": {
+      "title": "Recent Sessions",
+      "description": "Listen together from all around the world"
+    },
+    "radio_stations": {
+      "title": "Radio Stations",
+      "description": "Music curated by listeners like you"
+    }
+  },
+  "map": {
+    "title": "Map",
+    "title_branded": "Auralous Map",
+    "description": "Discover music around you",
+    "open_map": "Open Map",
+    "no_sessions_found": "No sessions found"
+  },
+  "new": {
+    "title": "New Session",
+    "select_songs": {
+      "title": "Select Songs",
+      "num_selected": "{{count}} songs selected",
+      "finish_add": "Finished Adding Songs",
+      "create_session": "Create Session",
+      "shuffle": "Shuffle"
+    },
+    "quick_share": {
+      "title": "Quick Share"
+    },
+    "final": {
+      "title": "Ready. Set. Listen.",
+      "subtitle": "Gather your friends and listen together."
+    }
+  },
+  "select_songs": {
+    "songs": {
+      "title": "Songs"
+    },
+    "playlists": {
+      "title": "Playlists",
+      "add_all_songs": "Add all songs"
+    },
+    "search": {
+      "placeholder": "Enter keywords or a URL to look up"
+    }
+  },
+  "user": {
+    "username": "Username",
+    "profile_picture": "Profile Picture",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": "Followers",
+    "following": "Following"
+  },
+  "playlist": {
+    "title": "Playlist",
+    "my_playlists": "My Playlists",
+    "x_song": "{{count}} song",
+    "x_song_plural": "{{count}} songs",
+    "view_all_x_songs": "See all {{ count }} songs",
+    "add_to_playlist": {
+      "title": "Add to playlist",
+      "create_playlist": {
+        "title": "New Playlist",
+        "name_prompt": "Give your playlist a name."
+      },
+      "added_to_playlist": "Added to {{ playlist }}."
+    }
+  },
+  "session": {
+    "title": "Session",
+    "join_live": "Join LIVE",
+    "go_to_session": "Go to session",
+    "text": "What's on your mind",
+    "session_of_name": "{{ name }}'s session",
+    "creator": "Session creator"
+  },
+  "session_invite": {
+    "title": "You are invited to collaborate in \"{{ name }}\"",
+    "invite_invalid": "This invite link is invalid or has been expired.",
+    "accept_invitation": "Accept and Join"
+  },
+  "session_edit": {
+    "title": "Edit Session",
+    "map": {
+      "prompt": "Publish to Auralous Map?",
+      "description": "This allows others to discover your session on the map",
+      "privacy_note": "Your location is NEVER visible to others"
+    },
+    "collab": {
+      "prompt": "Listen Together",
+      "description": "Invite your friends to add music to your queue"
+    },
+    "updated": "The session has been updated",
+    "live": {
+      "description": "This session is <0>LIVE</0>",
+      "end": "Stop streaming",
+      "end_prompt": "You will not be able to add any new songs to this session but will be able to stream played songs at any time later.",
+      "end_ok": "Session has been taken offline",
+      "play_other_prompt": "Playing something else will the stop the current session"
+    },
+    "delete": {
+      "title": "Delete Session",
+      "delete_ok": "Session has been deleted"
+    }
+  },
+  "session_listeners": {
+    "title": "Listeners"
+  },
+  "player": {
+    "title": "Player",
+    "pause": "Pause",
+    "play": "Play",
+    "skip_forward": "Skip forward",
+    "skip_backward": "Skip backward",
+    "no_playing": "Nothing is playing",
+    "shuffle_play": "Shuffle Play",
+    "playing_from": "Playing from $t({{entity}}.title)",
+    "spotify": {
+      "error_initialize_player": "Could not load Spotify Player",
+      "error_initialize_player_help": "Make sure the Spotify app is installed and you did not cancel (press outside) while the loading dialog is visible."
+    },
+    "error": {
+      "no_cross_track": "This song is not available on {{platform}}"
+    }
+  },
+  "queue": {
+    "title": "Queue",
+    "up_next": "Up next",
+    "add_songs": "Add songs",
+    "remove": "Remove",
+    "play_next": "Play Next",
+    "move_to_top": "Move to top"
+  },
+  "now_playing": {
+    "title": "Now Playing"
+  },
+  "music": {
+    "title": "Music"
+  },
+  "chat": {
+    "title": "Chat",
+    "input_label": "Enter chat message",
+    "join": "{{username}} has joined",
+    "send_message": "Send message",
+    "auth_prompt": "Chat with your friends while listening together",
+    "not_live": "Start a live session to chat with your friends"
+  },
+  "sign_in": {
+    "title": "Sign in",
+    "continue_with": "Continue with {{name}}",
+    "listen_on": "Listen on {{name}}"
+  },
+  "legal": {
+    "accept_continue_text": "By continuing, you agree to our <0>friendly Privacy Policy</0>, <1>YouTube Terms of Service</1> and/or <2>Spotify Privacy Policy</2> where applicable."
+  },
+  "not_found": {
+    "title": "Not Found",
+    "description": "You hear music in the distance, but nothing can be seen here."
+  },
+  "music_platform": {
+    "youtube": {
+      "name": "YouTube"
+    },
+    "spotify": {
+      "name": "Spotify"
+    }
+  },
+  "collab": {
+    "title": "Collaborators",
+    "add_users": "Add collaborators",
+    "name_and_x_others": "{{ name }} + {{ count }} others"
+  },
+  "common": {
+    "status": {
+      "live": "live"
+    },
+    "time": {
+      "ago": "{{time}} ago",
+      "just_now": "just now",
+      "x_second": "{{ count }} second",
+      "x_second_plural": "{{ count }} seconds",
+      "x_minute": "{{ count }} minute",
+      "x_minute_plural": "{{ count }} minutes",
+      "x_hour": "{{ count }} hour",
+      "x_hour_plural": "{{ count }} hours",
+      "x_day": "{{ count }} day",
+      "x_days": "{{ count }} days"
+    },
+    "navigation": {
+      "go_back": "Go back",
+      "open_menu": "Open menu"
+    },
+    "label": {
+      "search": "Search"
+    },
+    "result": {
+      "search_empty": "Cannot not find anything here. Let's try something different!"
+    },
+    "input": {
+      "max_x_characters": "Max {{max}} characters"
+    },
+    "action": {
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "create": "Create",
+      "save": "Save",
+      "retry": "Retry",
+      "publish": "Publish",
+      "no_thanks": "No, thanks",
+      "later": "Later"
+    },
+    "prompt": {
+      "action_not_revertable": "This action cannot be undone."
+    }
+  },
+  "permission": {
+    "location": {
+      "not_allowed": "Location permission is not allowed"
+    }
+  },
+  "share": {
+    "share": "Share",
+    "invite_friends": "Invite friends"
+  },
+  "settings": {
+    "title": "Settings",
+    "sign_out": "Sign Out",
+    "edit_profile": "Edit profile",
+    "profile_picture_note": "Update your profile picture on {{ name }}",
+    "me": "Me",
+    "me_updated": "Your profile has been updated",
+    "app": "App",
+    "language": {
+      "title": "Language",
+      "title_edit": "Select language",
+      "en": "English",
+      "vi": "Tiếng Việt",
+      "_": "Follow system"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "follow": "<0>{{ username }}</0> has started following you",
+    "new_session": "<0>{{ username }}</0> started a session <1>{{ session }}</1>"
+  }
+}
