@@ -1,4 +1,4 @@
-package com.auralous;
+package com.hoangvvo.auralous;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
