@@ -4,26 +4,37 @@ fragment NowPlayingQueueParts on NowPlayingQueueItem {
   playedAt
   endedAt
   creatorId
+  index
 }
 
 query nowPlaying($id: ID!) {
   nowPlaying(id: $id) {
     id
-    currentTrack {
+    current {
       ...NowPlayingQueueParts
+    }
+    next {
+      ...QueueItemParts
     }
   }
 }
 
-mutation nowPlayingSkip($id: ID!) {
-  nowPlayingSkip(id: $id)
+mutation nowPlayingSkip($id: ID!, $isBackward: Boolean!) {
+  nowPlayingSkip(id: $id, isBackward: $isBackward)
+}
+
+mutation nowPlayingPlayUid($id: ID!, $uid: String!) {
+  nowPlayingPlayUid(id: $id, uid: $uid)
 }
 
 subscription onNowPlayingUpdated($id: ID!) {
   nowPlayingUpdated(id: $id) {
     id
-    currentTrack {
+    current {
       ...NowPlayingQueueParts
+    }
+    next {
+      ...QueueItemParts
     }
   }
 }

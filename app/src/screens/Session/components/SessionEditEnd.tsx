@@ -1,4 +1,4 @@
-import { Session, useSessionUnliveMutation } from "@auralous/api";
+import { Session, useSessionEndMutation } from "@auralous/api";
 import {
   Button,
   Colors,
@@ -26,21 +26,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export const SessionEditUnlive: FC<{ session: Session }> = ({ session }) => {
+export const SessionEditEnd: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
 
-  const [{ fetching }, sessionUnlive] = useSessionUnliveMutation();
+  const [{ fetching }, sessionEnd] = useSessionEndMutation();
 
   const [visible, present, dismiss] = useDialog();
 
-  const onUnlive = useCallback(async () => {
-    const result = await sessionUnlive({
+  const onEnd = useCallback(async () => {
+    const result = await sessionEnd({
       id: session.id,
     });
     if (!result.error) {
-      toast.success(t("session_edit.live.unlive_ok"));
+      toast.success(t("session_edit.live.end_ok"));
     }
-  }, [t, sessionUnlive, session.id]);
+  }, [t, sessionEnd, session.id]);
 
   return (
     <>
@@ -52,24 +52,20 @@ export const SessionEditUnlive: FC<{ session: Session }> = ({ session }) => {
             components={[<Text key="LIVE" bold />]}
           />
         </Text>
-        <Button onPress={present}>{t("session_edit.live.unlive")}</Button>
+        <Button onPress={present}>{t("session_edit.live.end")}</Button>
       </View>
       <Dialog.Dialog visible={visible} onDismiss={dismiss}>
-        <Dialog.Title>{`${t("session_edit.live.unlive")}?`}</Dialog.Title>
+        <Dialog.Title>{`${t("session_edit.live.end")}?`}</Dialog.Title>
         <Dialog.Content>
           <Dialog.ContentText>
-            {t("session_edit.live.unlive_prompt")}
+            {t("session_edit.live.end_prompt")}
           </Dialog.ContentText>
         </Dialog.Content>
         <Dialog.Footer>
           <Dialog.Button onPress={dismiss} disabled={fetching}>
             {t("common.action.cancel")}
           </Dialog.Button>
-          <Dialog.Button
-            onPress={onUnlive}
-            variant="primary"
-            disabled={fetching}
-          >
+          <Dialog.Button onPress={onEnd} variant="primary" disabled={fetching}>
             {t("common.action.confirm")}
           </Dialog.Button>
         </Dialog.Footer>

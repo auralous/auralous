@@ -1,14 +1,13 @@
 import {
   useMeQuery,
+  useNowPlayingPlayUidMutation,
   useNowPlayingQuery,
   useNowPlayingSkipMutation,
   useOnNowPlayingUpdatedSubscription,
   useQueueAddMutation,
-  useQueueQuery,
   useQueueRemoveMutation,
   useQueueReorderMutation,
   useQueueToTopMutation,
-  useQueueUpdatedSubscription,
   useSessionPingMutation,
   useSessionUpdatedSubscription,
 } from "@auralous/api";
@@ -34,19 +33,6 @@ export const PlaybackProvidedLiveCallback: FC<{
     variables: { id: playbackContext.id },
   });
 
-  const [{ data }] = useQueueQuery({
-    variables: {
-      id: playbackContext.id,
-    },
-  });
-
-  const queue = data?.queue;
-
-  useQueueUpdatedSubscription({
-    variables: { id: queue?.id || "" },
-    pause: !queue,
-  });
-
   const [, doQueueRemove] = useQueueRemoveMutation();
   const [, doQueueReorder] = useQueueReorderMutation();
   const [, doQueueToTop] = useQueueToTopMutation();
@@ -55,15 +41,13 @@ export const PlaybackProvidedLiveCallback: FC<{
   useEffect(() => {
     // We hook into `play` event to trigger
     // seeking to live position on resume
-    if (!nowPlaying) return undefined;
+    if (!nowPlaying?.id) return undefined;
     let waitPlayTimeout: ReturnType<typeof setTimeout>;
     const onPlay = () => {
-      const currentTrack = nowPlaying.currentTrack;
-      if (!currentTrack) return;
       // Resume to current live position
       // Delay a bit for player to load
       waitPlayTimeout = setTimeout(() => {
-        player.seek(Date.now() - currentTrack.playedAt.getTime());
+        player.seek(Date.now() - nowPlaying.current.playedAt.getTime());
       }, 1000);
     };
 
@@ -77,37 +61,43 @@ export const PlaybackProvidedLiveCallback: FC<{
   const [{ fetching: fetchingSkip }, skipNowPlaying] =
     useNowPlayingSkipMutation();
 
+  const [{ fetching: fetchingPlayUid }, playUid] =
+    useNowPlayingPlayUidMutation();
+
   useEffect(() => {
-    if (!queue) return;
-    const id = queue.id;
     const queueReorder = (from: number, to: number) => {
       doQueueReorder({
-        id,
+        id: playbackContext.id,
         position: from,
         insertPosition: to,
       });
     };
     const queueRemove = (uids: string[]) => {
       doQueueRemove({
-        id,
+        id: playbackContext.id,
         uids,
       });
     };
-    const playNext = (uids: string[]) => {
+    const queueToTop = (uids: string[]) => {
       doQueueToTop({
-        id,
+        id: playbackContext.id,
         uids,
       });
     };
     const queueAdd = (trackIds: string[]) => {
       doQueueAdd({
-        id,
+        id: playbackContext.id,
         tracks: trackIds,
       });
     };
-    const skipForward = () => !fetchingSkip && skipNowPlaying({ id: queue.id });
-    const skipBackward = () => undefined;
-    const queuePlayUid = () => undefined;
+    const skipForward = () =>
+      !fetchingSkip &&
+      skipNowPlaying({ id: playbackContext.id, isBackward: false });
+    const skipBackward = () =>
+      !fetchingSkip &&
+      skipNowPlaying({ id: playbackContext.id, isBackward: true });
+    const queuePlayUid = (uid: string) =>
+      !fetchingPlayUid && playUid({ id: playbackContext.id, uid });
 
     player.registerPlaybackHandle({
       skipForward,
@@ -116,20 +106,22 @@ export const PlaybackProvidedLiveCallback: FC<{
       queueRemove,
       queueReorder,
       queueAdd,
-      playNext,
+      queueToTop,
     });
 
     return () => {
       player.unregisterPlaybackHandle();
     };
   }, [
-    queue,
+    playbackContext.id,
+    playUid,
     skipNowPlaying,
     doQueueReorder,
     doQueueRemove,
     doQueueToTop,
     doQueueAdd,
     fetchingSkip,
+    fetchingPlayUid,
   ]);
 
   useSessionUpdatedSubscription({
@@ -150,12 +142,12 @@ export const PlaybackProvidedLiveCallback: FC<{
 
   useEffect(() => {
     setPlaybackProvided({
-      nextItems: queue?.items || [],
-      trackId: nowPlaying?.currentTrack?.trackId || null,
+      nextItems: nowPlaying?.next || [],
+      trackId: nowPlaying?.current.trackId || null,
       fetching,
-      queuePlayingUid: nowPlaying?.currentTrack?.uid || null,
+      queuePlayingUid: nowPlaying?.current.uid || null,
     });
-  }, [queue, nowPlaying?.currentTrack, fetching, setPlaybackProvided]);
+  }, [nowPlaying, fetching, setPlaybackProvided]);
 
   useEffect(() => {
     return () => setPlaybackProvided(null);

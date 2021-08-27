@@ -181,7 +181,7 @@ const QueueContent: FC<{
       delete selectedClone[toTopUid];
     }
     setSelected(selectedClone);
-    player.playNext(toTopUids);
+    player.queueToTop(toTopUids);
     // No need to update temp items because this does not
     // cause render flicker
   }, [selected]);

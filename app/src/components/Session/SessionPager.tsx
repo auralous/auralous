@@ -162,7 +162,7 @@ const SessionPagerItem: FC<{
       <View style={styles.pageNowPlaying}>
         <SessionPagerNowPlaying
           fetching={fetching}
-          trackId={data?.nowPlaying?.currentTrack?.trackId}
+          trackId={data?.nowPlaying?.current.trackId}
         />
       </View>
       <View style={styles.pageBottom}>

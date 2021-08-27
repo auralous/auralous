@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { ASYNC_STORAGE_AUTH } from "@/utils/auth";
 import { cacheExchange } from "@auralous/api";
 import { toast } from "@auralous/ui";
@@ -76,5 +77,12 @@ export const createUrqlClient = () => {
         },
       }),
     ].filter(Boolean) as Exchange[],
+    fetchOptions() {
+      return {
+        headers: {
+          "accept-language": i18n.language,
+        },
+      };
+    },
   });
 };

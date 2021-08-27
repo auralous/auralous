@@ -19,21 +19,3 @@ mutation queueReorder($id: ID!, $position: Int!, $insertPosition: Int!) {
 mutation queueToTop($id: ID!, $uids: [ID!]!) {
   queueToTop(id: $id, uids: $uids)
 }
-
-query queue($id: ID!, $from: Int, $to: Int) {
-  queue(id: $id, from: $from, to: $to) {
-    id
-    items {
-      ...QueueItemParts
-    }
-  }
-}
-
-subscription queueUpdated($id: ID!) {
-  queueUpdated(id: $id) {
-    id
-    items {
-      ...QueueItemParts
-    }
-  }
-}

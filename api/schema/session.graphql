@@ -70,8 +70,8 @@ mutation sessionDelete($id: ID!) {
   sessionDelete(id: $id)
 }
 
-mutation sessionUnlive($id: ID!) {
-  sessionUnlive(id: $id) {
+mutation sessionEnd($id: ID!) {
+  sessionEnd(id: $id) {
     id
     ...SessionDetailParts
   }

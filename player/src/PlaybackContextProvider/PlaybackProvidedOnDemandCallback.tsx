@@ -118,7 +118,7 @@ export const PlaybackProvidedOnDemandCallback: FC<{
       );
     };
 
-    const playNext = (uids: string[]) => {
+    const queueToTop = (uids: string[]) => {
       setQueueItems((prevQueueItems) => {
         const toTopItems: QueueItem[] = [];
         const afterQueueItems = prevQueueItems
@@ -157,7 +157,7 @@ export const PlaybackProvidedOnDemandCallback: FC<{
       queueRemove,
       queueReorder,
       queueAdd,
-      playNext,
+      queueToTop,
     });
 
     player.on("ended", skipForward);

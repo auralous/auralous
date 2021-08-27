@@ -7,7 +7,6 @@ import {
   usePlaybackTrackId,
 } from "@auralous/player";
 import {
-  Button,
   Colors,
   Header,
   IconChevronDown,
@@ -17,6 +16,7 @@ import {
   Size,
   Spacer,
   Text,
+  TextButton,
   useBackHandlerDismiss,
 } from "@auralous/ui";
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -43,10 +43,15 @@ const styles = StyleSheet.create({
   headerTitle: {
     paddingVertical: Size[1],
   },
+  noChat: {
+    flex: 1,
+    justifyContent: "center",
+    padding: Size[4],
+  },
+
   pagerView: {
     flex: 1,
   },
-
   playingFromText: {
     textTransform: "uppercase",
   },
@@ -58,6 +63,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.none,
     borderRadius: 9999,
     padding: Size[2],
+  },
+  tabSelected: {
+    backgroundColor: Colors.control,
   },
   tabs: {
     flexDirection: "row",
@@ -75,7 +83,7 @@ const TabButton: FC<{
   return (
     <Pressable
       onPress={onPress}
-      style={[styles.tab, selected && { backgroundColor: Colors.control }]}
+      style={[styles.tab, selected && styles.tabSelected]}
     >
       <Text bold size="sm" color="text">
         {title}
@@ -149,14 +157,14 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
           )
         }
         left={
-          <Button
+          <TextButton
             onPress={onDismiss}
             icon={<IconChevronDown />}
             accessibilityLabel={t("common.navigation.go_back")}
           />
         }
         right={
-          <Button
+          <TextButton
             icon={<IconMoreHorizontal />}
             onPress={presentMenu}
             accessibilityLabel={t("common.navigation.open_menu")}
@@ -211,12 +219,19 @@ const PlayerViewInner: FC = () => {
         <View key={0}>
           <MusicView key={0} />
         </View>
-        <View>
-          <PlayerChatView
-            contextMeta={contextMeta}
-            key={1}
-            onUnauthenticated={onUnauthenticated}
-          />
+        <View key={1}>
+          {contextMeta?.isLive ? (
+            <PlayerChatView
+              contextMeta={contextMeta}
+              onUnauthenticated={onUnauthenticated}
+            />
+          ) : (
+            <View style={styles.noChat}>
+              <Text align="center" bold color="textSecondary">
+                {t("chat.not_live")}
+              </Text>
+            </View>
+          )}
         </View>
       </PagerView>
     </View>

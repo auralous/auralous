@@ -25,7 +25,7 @@ export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
 
   const playbackCurrentContext = usePlaybackCurrentContext();
 
-  const onUnlive = useCallback(async () => {
+  const onEnd = useCallback(async () => {
     const sessionId = session.id;
     const result = await sessionDelete({
       id: sessionId,
@@ -58,11 +58,7 @@ export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
           <Dialog.Button onPress={dismiss} disabled={fetching}>
             {t("common.action.cancel")}
           </Dialog.Button>
-          <Dialog.Button
-            onPress={onUnlive}
-            variant="primary"
-            disabled={fetching}
-          >
+          <Dialog.Button onPress={onEnd} variant="primary" disabled={fetching}>
             {t("common.action.confirm")}
           </Dialog.Button>
         </Dialog.Footer>

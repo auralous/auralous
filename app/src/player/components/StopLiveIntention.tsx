@@ -1,4 +1,4 @@
-import { useSessionUnliveMutation } from "@auralous/api";
+import { useSessionEndMutation } from "@auralous/api";
 import player from "@auralous/player";
 import { Dialog } from "@auralous/ui";
 import { FC, useCallback, useContext } from "react";
@@ -13,18 +13,18 @@ export const StopLiveIntention: FC = () => {
 
   const { stopLiveIntention } = useContext(PlayerComponentInternalContext);
 
-  const [{ fetching }, unliveSession] = useSessionUnliveMutation();
+  const [{ fetching }, endSession] = useSessionEndMutation();
 
-  const unliveAndContinue = useCallback(async () => {
+  const endAndContinue = useCallback(async () => {
     if (!stopLiveIntention) return;
     player.playContext(stopLiveIntention.intendedCurrentContext);
-    const result = await unliveSession({
+    const result = await endSession({
       id: stopLiveIntention.currentSessionId,
     });
     if (!result.error) {
       stopLiveIntention.dismiss();
     }
-  }, [stopLiveIntention, unliveSession]);
+  }, [stopLiveIntention, endSession]);
 
   return (
     <Dialog.Dialog
@@ -34,7 +34,7 @@ export const StopLiveIntention: FC = () => {
       <Dialog.Content>
         <Dialog.Title>{t("session_edit.live.play_other_prompt")}</Dialog.Title>
         <Dialog.ContentText>
-          {t("session_edit.live.unlive_prompt")}
+          {t("session_edit.live.end_prompt")}
         </Dialog.ContentText>
       </Dialog.Content>
       <Dialog.Footer>
@@ -43,10 +43,10 @@ export const StopLiveIntention: FC = () => {
         </Dialog.Button>
         <Dialog.Button
           variant="primary"
-          onPress={unliveAndContinue}
+          onPress={endAndContinue}
           disabled={fetching}
         >
-          {t("session_edit.live.unlive")}
+          {t("session_edit.live.end")}
         </Dialog.Button>
       </Dialog.Footer>
     </Dialog.Dialog>

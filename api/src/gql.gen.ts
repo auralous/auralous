@@ -60,8 +60,7 @@ export type Message = {
 
 export enum MessageType {
   Message = 'message',
-  Join = 'join',
-  Play = 'play'
+  Join = 'join'
 }
 
 export type Mutation = {
@@ -70,6 +69,7 @@ export type Mutation = {
   meDelete: Scalars['Boolean'];
   messageAdd: Scalars['Boolean'];
   notificationsMarkRead: Scalars['Int'];
+  nowPlayingPlayUid?: Maybe<Scalars['Boolean']>;
   nowPlayingReact?: Maybe<Scalars['Boolean']>;
   nowPlayingSkip?: Maybe<Scalars['Boolean']>;
   playlistAddTracks: Scalars['Boolean'];
@@ -81,8 +81,8 @@ export type Mutation = {
   sessionCollabAddFromToken: Scalars['Boolean'];
   sessionCreate: Session;
   sessionDelete: Scalars['ID'];
+  sessionEnd: Session;
   sessionPing: Scalars['Boolean'];
-  sessionUnlive: Session;
   sessionUpdate: Session;
   userFollow: Scalars['Boolean'];
   userUnfollow: Scalars['Boolean'];
@@ -106,6 +106,12 @@ export type MutationNotificationsMarkReadArgs = {
 };
 
 
+export type MutationNowPlayingPlayUidArgs = {
+  id: Scalars['ID'];
+  uid: Scalars['String'];
+};
+
+
 export type MutationNowPlayingReactArgs = {
   id: Scalars['ID'];
   reaction: NowPlayingReactionType;
@@ -114,6 +120,7 @@ export type MutationNowPlayingReactArgs = {
 
 export type MutationNowPlayingSkipArgs = {
   id: Scalars['ID'];
+  isBackward: Scalars['Boolean'];
 };
 
 
@@ -172,12 +179,12 @@ export type MutationSessionDeleteArgs = {
 };
 
 
-export type MutationSessionPingArgs = {
+export type MutationSessionEndArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationSessionUnliveArgs = {
+export type MutationSessionPingArgs = {
   id: Scalars['ID'];
 };
 
@@ -223,16 +230,18 @@ export type NotificationNewSession = Notification & {
 export type NowPlaying = {
   __typename: 'NowPlaying';
   id: Scalars['ID'];
-  currentTrack?: Maybe<NowPlayingQueueItem>;
+  current: NowPlayingQueueItem;
+  next: Array<QueueItem>;
 };
 
 export type NowPlayingQueueItem = {
   __typename: 'NowPlayingQueueItem';
   uid: Scalars['ID'];
   trackId: Scalars['String'];
+  creatorId: Scalars['String'];
+  index: Scalars['Int'];
   playedAt: Scalars['DateTime'];
   endedAt: Scalars['DateTime'];
-  creatorId: Scalars['String'];
 };
 
 export type NowPlayingReactionItem = {
@@ -274,13 +283,12 @@ export type Query = {
   myPlaylists?: Maybe<Array<Playlist>>;
   notifications: Array<Notification>;
   nowPlaying?: Maybe<NowPlaying>;
-  nowPlayingReactions?: Maybe<Array<NowPlayingReactionItem>>;
+  nowPlayingReactions: Array<NowPlayingReactionItem>;
   playlist?: Maybe<Playlist>;
   playlistTracks: Array<Track>;
   playlistsFeatured: Array<Playlist>;
   playlistsFriends: Array<Playlist>;
   playlistsSearch: Array<Playlist>;
-  queue?: Maybe<Queue>;
   searchTrack: Array<Track>;
   session?: Maybe<Session>;
   sessionCurrentLive?: Maybe<SessionCurrentLive>;
@@ -343,13 +351,6 @@ export type QueryPlaylistsFeaturedArgs = {
 
 export type QueryPlaylistsSearchArgs = {
   query: Scalars['String'];
-};
-
-
-export type QueryQueueArgs = {
-  id: Scalars['ID'];
-  from?: Maybe<Scalars['Int']>;
-  to?: Maybe<Scalars['Int']>;
 };
 
 
@@ -429,12 +430,6 @@ export type QueryUserStatArgs = {
   id: Scalars['ID'];
 };
 
-export type Queue = {
-  __typename: 'Queue';
-  id: Scalars['ID'];
-  items: Array<QueueItem>;
-};
-
 export type QueueItem = {
   __typename: 'QueueItem';
   uid: Scalars['ID'];
@@ -466,9 +461,8 @@ export type Subscription = {
   __typename: 'Subscription';
   messageAdded: Message;
   notificationAdded: Notification;
-  nowPlayingReactionsUpdated?: Maybe<Array<NowPlayingReactionItem>>;
+  nowPlayingReactionsUpdated: Array<NowPlayingReactionItem>;
   nowPlayingUpdated?: Maybe<NowPlaying>;
-  queueUpdated: Queue;
   sessionListenersUpdated: Array<Scalars['String']>;
   sessionUpdated: Session;
 };
@@ -485,11 +479,6 @@ export type SubscriptionNowPlayingReactionsUpdatedArgs = {
 
 
 export type SubscriptionNowPlayingUpdatedArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type SubscriptionQueueUpdatedArgs = {
   id: Scalars['ID'];
 };
 
@@ -576,42 +565,51 @@ export type NotificationAddedSubscriptionVariables = Exact<{ [key: string]: neve
 
 export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> } };
 
-export type NowPlayingQueuePartsFragment = { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string };
+export type NowPlayingQueuePartsFragment = { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number };
 
 export type NowPlayingQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type NowPlayingQuery = { nowPlaying?: Maybe<{ __typename: 'NowPlaying', id: string, currentTrack?: Maybe<{ __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string }> }> };
+export type NowPlayingQuery = { nowPlaying?: Maybe<{ __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> }> };
 
 export type NowPlayingSkipMutationVariables = Exact<{
   id: Scalars['ID'];
+  isBackward: Scalars['Boolean'];
 }>;
 
 
 export type NowPlayingSkipMutation = { nowPlayingSkip?: Maybe<boolean> };
+
+export type NowPlayingPlayUidMutationVariables = Exact<{
+  id: Scalars['ID'];
+  uid: Scalars['String'];
+}>;
+
+
+export type NowPlayingPlayUidMutation = { nowPlayingPlayUid?: Maybe<boolean> };
 
 export type OnNowPlayingUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnNowPlayingUpdatedSubscription = { nowPlayingUpdated?: Maybe<{ __typename: 'NowPlaying', id: string, currentTrack?: Maybe<{ __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string }> }> };
+export type OnNowPlayingUpdatedSubscription = { nowPlayingUpdated?: Maybe<{ __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> }> };
 
 export type NowPlayingReactionsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type NowPlayingReactionsQuery = { nowPlayingReactions?: Maybe<Array<{ __typename: 'NowPlayingReactionItem', reaction: NowPlayingReactionType, userId: string }>> };
+export type NowPlayingReactionsQuery = { nowPlayingReactions: Array<{ __typename: 'NowPlayingReactionItem', reaction: NowPlayingReactionType, userId: string }> };
 
 export type NowPlayingReactionsUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type NowPlayingReactionsUpdatedSubscription = { nowPlayingReactionsUpdated?: Maybe<Array<{ __typename: 'NowPlayingReactionItem', reaction: NowPlayingReactionType, userId: string }>> };
+export type NowPlayingReactionsUpdatedSubscription = { nowPlayingReactionsUpdated: Array<{ __typename: 'NowPlayingReactionItem', reaction: NowPlayingReactionType, userId: string }> };
 
 export type NowPlayingReactMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -710,22 +708,6 @@ export type QueueToTopMutationVariables = Exact<{
 
 export type QueueToTopMutation = { queueToTop: boolean };
 
-export type QueueQueryVariables = Exact<{
-  id: Scalars['ID'];
-  from?: Maybe<Scalars['Int']>;
-  to?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type QueueQuery = { queue?: Maybe<{ __typename: 'Queue', id: string, items: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> }> };
-
-export type QueueUpdatedSubscriptionVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type QueueUpdatedSubscription = { queueUpdated: { __typename: 'Queue', id: string, items: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> } };
-
 export type SessionDetailPartsFragment = { __typename: 'Session', text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } };
 
 export type SessionQueryVariables = Exact<{
@@ -794,12 +776,12 @@ export type SessionDeleteMutationVariables = Exact<{
 
 export type SessionDeleteMutation = { sessionDelete: string };
 
-export type SessionUnliveMutationVariables = Exact<{
+export type SessionEndMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type SessionUnliveMutation = { sessionUnlive: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionEndMutation = { sessionEnd: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
 
 export type SessionListenersQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -939,7 +921,7 @@ export type MeDeleteMutationVariables = Exact<{ [key: string]: never; }>;
 export type MeDeleteMutation = { meDelete: boolean };
 
 export const MessagePartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"MessageParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Message"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]} as unknown as DocumentNode;
-export const NowPlayingQueuePartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"endedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
+export const NowPlayingQueuePartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"endedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"index"}}]}}]} as unknown as DocumentNode;
 export const PlaylistPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"creatorName"}},{"kind":"Field","name":{"kind":"Name","value":"creatorImage"}}]}}]} as unknown as DocumentNode;
 export const QueueItemPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
 export const SessionDetailPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
@@ -976,17 +958,22 @@ export const NotificationAddedDocument = {"kind":"Document","definitions":[{"kin
 export function useNotificationAddedSubscription<TData = NotificationAddedSubscription>(options: Omit<Urql.UseSubscriptionArgs<NotificationAddedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<NotificationAddedSubscription, TData>) {
   return Urql.useSubscription<NotificationAddedSubscription, TData, NotificationAddedSubscriptionVariables>({ query: NotificationAddedDocument, ...options }, handler);
 };
-export const NowPlayingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"nowPlaying"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlaying"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currentTrack"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NowPlayingQueueParts"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"endedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
+export const NowPlayingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"nowPlaying"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlaying"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"current"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NowPlayingQueueParts"}}]}},{"kind":"Field","name":{"kind":"Name","value":"next"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QueueItemParts"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"endedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"index"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
 
 export function useNowPlayingQuery(options: Omit<Urql.UseQueryArgs<NowPlayingQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<NowPlayingQuery>({ query: NowPlayingDocument, ...options });
 };
-export const NowPlayingSkipDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"nowPlayingSkip"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlayingSkip"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const NowPlayingSkipDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"nowPlayingSkip"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"isBackward"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlayingSkip"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"isBackward"},"value":{"kind":"Variable","name":{"kind":"Name","value":"isBackward"}}}]}]}}]} as unknown as DocumentNode;
 
 export function useNowPlayingSkipMutation() {
   return Urql.useMutation<NowPlayingSkipMutation, NowPlayingSkipMutationVariables>(NowPlayingSkipDocument);
 };
-export const OnNowPlayingUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"onNowPlayingUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlayingUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"currentTrack"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NowPlayingQueueParts"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"endedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
+export const NowPlayingPlayUidDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"nowPlayingPlayUid"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"uid"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlayingPlayUid"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"uid"},"value":{"kind":"Variable","name":{"kind":"Name","value":"uid"}}}]}]}}]} as unknown as DocumentNode;
+
+export function useNowPlayingPlayUidMutation() {
+  return Urql.useMutation<NowPlayingPlayUidMutation, NowPlayingPlayUidMutationVariables>(NowPlayingPlayUidDocument);
+};
+export const OnNowPlayingUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"onNowPlayingUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nowPlayingUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"current"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NowPlayingQueueParts"}}]}},{"kind":"Field","name":{"kind":"Name","value":"next"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QueueItemParts"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"endedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"index"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
 
 export function useOnNowPlayingUpdatedSubscription<TData = OnNowPlayingUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<OnNowPlayingUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<OnNowPlayingUpdatedSubscription, TData>) {
   return Urql.useSubscription<OnNowPlayingUpdatedSubscription, TData, OnNowPlayingUpdatedSubscriptionVariables>({ query: OnNowPlayingUpdatedDocument, ...options }, handler);
@@ -1066,16 +1053,6 @@ export const QueueToTopDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export function useQueueToTopMutation() {
   return Urql.useMutation<QueueToTopMutation, QueueToTopMutationVariables>(QueueToTopDocument);
 };
-export const QueueDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"queue"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"from"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"to"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queue"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"from"},"value":{"kind":"Variable","name":{"kind":"Name","value":"from"}}},{"kind":"Argument","name":{"kind":"Name","value":"to"},"value":{"kind":"Variable","name":{"kind":"Name","value":"to"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QueueItemParts"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
-
-export function useQueueQuery(options: Omit<Urql.UseQueryArgs<QueueQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<QueueQuery>({ query: QueueDocument, ...options });
-};
-export const QueueUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"queueUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"queueUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"QueueItemParts"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
-
-export function useQueueUpdatedSubscription<TData = QueueUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<QueueUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<QueueUpdatedSubscription, TData>) {
-  return Urql.useSubscription<QueueUpdatedSubscription, TData, QueueUpdatedSubscriptionVariables>({ query: QueueUpdatedDocument, ...options }, handler);
-};
 export const SessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"session"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionQuery(options: Omit<Urql.UseQueryArgs<SessionQueryVariables>, 'query'> = {}) {
@@ -1116,10 +1093,10 @@ export const SessionDeleteDocument = {"kind":"Document","definitions":[{"kind":"
 export function useSessionDeleteMutation() {
   return Urql.useMutation<SessionDeleteMutation, SessionDeleteMutationVariables>(SessionDeleteDocument);
 };
-export const SessionUnliveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionUnlive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionUnlive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionEndDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionEnd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionEnd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
-export function useSessionUnliveMutation() {
-  return Urql.useMutation<SessionUnliveMutation, SessionUnliveMutationVariables>(SessionUnliveDocument);
+export function useSessionEndMutation() {
+  return Urql.useMutation<SessionEndMutation, SessionEndMutationVariables>(SessionEndDocument);
 };
 export const SessionListenersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionListeners"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionListeners"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
 
@@ -1229,7 +1206,6 @@ export type GraphCacheKeysConfig = {
   NowPlayingQueueItem?: (data: WithTypename<NowPlayingQueueItem>) => null | string,
   NowPlayingReactionItem?: (data: WithTypename<NowPlayingReactionItem>) => null | string,
   Playlist?: (data: WithTypename<Playlist>) => null | string,
-  Queue?: (data: WithTypename<Queue>) => null | string,
   QueueItem?: (data: WithTypename<QueueItem>) => null | string,
   Session?: (data: WithTypename<Session>) => null | string,
   SessionCurrentLive?: (data: WithTypename<SessionCurrentLive>) => null | string,
@@ -1252,7 +1228,6 @@ export type GraphCacheResolvers = {
     playlistsFeatured?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistsFeaturedArgs, Array<WithTypename<Playlist> | string>>,
     playlistsFriends?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
     playlistsSearch?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistsSearchArgs, Array<WithTypename<Playlist> | string>>,
-    queue?: GraphCacheResolver<WithTypename<Query>, QueryQueueArgs, WithTypename<Queue> | string>,
     searchTrack?: GraphCacheResolver<WithTypename<Query>, QuerySearchTrackArgs, Array<WithTypename<Track> | string>>,
     session?: GraphCacheResolver<WithTypename<Query>, QuerySessionArgs, WithTypename<Session> | string>,
     sessionCurrentLive?: GraphCacheResolver<WithTypename<Query>, QuerySessionCurrentLiveArgs, WithTypename<SessionCurrentLive> | string>,
@@ -1309,14 +1284,16 @@ export type GraphCacheResolvers = {
   },
   NowPlaying?: {
     id?: GraphCacheResolver<WithTypename<NowPlaying>, Record<string, never>, Scalars['ID'] | string>,
-    currentTrack?: GraphCacheResolver<WithTypename<NowPlaying>, Record<string, never>, WithTypename<NowPlayingQueueItem> | string>
+    current?: GraphCacheResolver<WithTypename<NowPlaying>, Record<string, never>, WithTypename<NowPlayingQueueItem> | string>,
+    next?: GraphCacheResolver<WithTypename<NowPlaying>, Record<string, never>, Array<WithTypename<QueueItem> | string>>
   },
   NowPlayingQueueItem?: {
     uid?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['ID'] | string>,
     trackId?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['String'] | string>,
+    creatorId?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['String'] | string>,
+    index?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['Int'] | string>,
     playedAt?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['DateTime'] | string>,
-    endedAt?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['DateTime'] | string>,
-    creatorId?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['String'] | string>
+    endedAt?: GraphCacheResolver<WithTypename<NowPlayingQueueItem>, Record<string, never>, Scalars['DateTime'] | string>
   },
   NowPlayingReactionItem?: {
     userId?: GraphCacheResolver<WithTypename<NowPlayingReactionItem>, Record<string, never>, Scalars['String'] | string>,
@@ -1332,10 +1309,6 @@ export type GraphCacheResolvers = {
     total?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, Scalars['Int'] | string>,
     creatorName?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, Scalars['String'] | string>,
     creatorImage?: GraphCacheResolver<WithTypename<Playlist>, Record<string, never>, Scalars['String'] | string>
-  },
-  Queue?: {
-    id?: GraphCacheResolver<WithTypename<Queue>, Record<string, never>, Scalars['ID'] | string>,
-    items?: GraphCacheResolver<WithTypename<Queue>, Record<string, never>, Array<WithTypename<QueueItem> | string>>
   },
   QueueItem?: {
     uid?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['ID'] | string>,
@@ -1386,6 +1359,7 @@ export type GraphCacheOptimisticUpdaters = {
   meDelete?: GraphCacheOptimisticMutationResolver<Record<string, never>, Scalars['Boolean']>,
   messageAdd?: GraphCacheOptimisticMutationResolver<MutationMessageAddArgs, Scalars['Boolean']>,
   notificationsMarkRead?: GraphCacheOptimisticMutationResolver<MutationNotificationsMarkReadArgs, Scalars['Int']>,
+  nowPlayingPlayUid?: GraphCacheOptimisticMutationResolver<MutationNowPlayingPlayUidArgs, Maybe<Scalars['Boolean']>>,
   nowPlayingReact?: GraphCacheOptimisticMutationResolver<MutationNowPlayingReactArgs, Maybe<Scalars['Boolean']>>,
   nowPlayingSkip?: GraphCacheOptimisticMutationResolver<MutationNowPlayingSkipArgs, Maybe<Scalars['Boolean']>>,
   playlistAddTracks?: GraphCacheOptimisticMutationResolver<MutationPlaylistAddTracksArgs, Scalars['Boolean']>,
@@ -1397,8 +1371,8 @@ export type GraphCacheOptimisticUpdaters = {
   sessionCollabAddFromToken?: GraphCacheOptimisticMutationResolver<MutationSessionCollabAddFromTokenArgs, Scalars['Boolean']>,
   sessionCreate?: GraphCacheOptimisticMutationResolver<MutationSessionCreateArgs, WithTypename<Session>>,
   sessionDelete?: GraphCacheOptimisticMutationResolver<MutationSessionDeleteArgs, Scalars['ID']>,
+  sessionEnd?: GraphCacheOptimisticMutationResolver<MutationSessionEndArgs, WithTypename<Session>>,
   sessionPing?: GraphCacheOptimisticMutationResolver<MutationSessionPingArgs, Scalars['Boolean']>,
-  sessionUnlive?: GraphCacheOptimisticMutationResolver<MutationSessionUnliveArgs, WithTypename<Session>>,
   sessionUpdate?: GraphCacheOptimisticMutationResolver<MutationSessionUpdateArgs, WithTypename<Session>>,
   userFollow?: GraphCacheOptimisticMutationResolver<MutationUserFollowArgs, Scalars['Boolean']>,
   userUnfollow?: GraphCacheOptimisticMutationResolver<MutationUserUnfollowArgs, Scalars['Boolean']>
@@ -1410,6 +1384,7 @@ export type GraphCacheUpdaters = {
     meDelete?: GraphCacheUpdateResolver<{ meDelete: Scalars['Boolean'] }, Record<string, never>>,
     messageAdd?: GraphCacheUpdateResolver<{ messageAdd: Scalars['Boolean'] }, MutationMessageAddArgs>,
     notificationsMarkRead?: GraphCacheUpdateResolver<{ notificationsMarkRead: Scalars['Int'] }, MutationNotificationsMarkReadArgs>,
+    nowPlayingPlayUid?: GraphCacheUpdateResolver<{ nowPlayingPlayUid: Maybe<Scalars['Boolean']> }, MutationNowPlayingPlayUidArgs>,
     nowPlayingReact?: GraphCacheUpdateResolver<{ nowPlayingReact: Maybe<Scalars['Boolean']> }, MutationNowPlayingReactArgs>,
     nowPlayingSkip?: GraphCacheUpdateResolver<{ nowPlayingSkip: Maybe<Scalars['Boolean']> }, MutationNowPlayingSkipArgs>,
     playlistAddTracks?: GraphCacheUpdateResolver<{ playlistAddTracks: Scalars['Boolean'] }, MutationPlaylistAddTracksArgs>,
@@ -1421,8 +1396,8 @@ export type GraphCacheUpdaters = {
     sessionCollabAddFromToken?: GraphCacheUpdateResolver<{ sessionCollabAddFromToken: Scalars['Boolean'] }, MutationSessionCollabAddFromTokenArgs>,
     sessionCreate?: GraphCacheUpdateResolver<{ sessionCreate: WithTypename<Session> }, MutationSessionCreateArgs>,
     sessionDelete?: GraphCacheUpdateResolver<{ sessionDelete: Scalars['ID'] }, MutationSessionDeleteArgs>,
+    sessionEnd?: GraphCacheUpdateResolver<{ sessionEnd: WithTypename<Session> }, MutationSessionEndArgs>,
     sessionPing?: GraphCacheUpdateResolver<{ sessionPing: Scalars['Boolean'] }, MutationSessionPingArgs>,
-    sessionUnlive?: GraphCacheUpdateResolver<{ sessionUnlive: WithTypename<Session> }, MutationSessionUnliveArgs>,
     sessionUpdate?: GraphCacheUpdateResolver<{ sessionUpdate: WithTypename<Session> }, MutationSessionUpdateArgs>,
     userFollow?: GraphCacheUpdateResolver<{ userFollow: Scalars['Boolean'] }, MutationUserFollowArgs>,
     userUnfollow?: GraphCacheUpdateResolver<{ userUnfollow: Scalars['Boolean'] }, MutationUserUnfollowArgs>
@@ -1430,9 +1405,8 @@ export type GraphCacheUpdaters = {
   Subscription?: {
     messageAdded?: GraphCacheUpdateResolver<{ messageAdded: WithTypename<Message> }, SubscriptionMessageAddedArgs>,
     notificationAdded?: GraphCacheUpdateResolver<{ notificationAdded: WithTypename<NotificationFollow> | WithTypename<NotificationNewSession> }, Record<string, never>>,
-    nowPlayingReactionsUpdated?: GraphCacheUpdateResolver<{ nowPlayingReactionsUpdated: Maybe<Array<WithTypename<NowPlayingReactionItem>>> }, SubscriptionNowPlayingReactionsUpdatedArgs>,
+    nowPlayingReactionsUpdated?: GraphCacheUpdateResolver<{ nowPlayingReactionsUpdated: Array<WithTypename<NowPlayingReactionItem>> }, SubscriptionNowPlayingReactionsUpdatedArgs>,
     nowPlayingUpdated?: GraphCacheUpdateResolver<{ nowPlayingUpdated: Maybe<WithTypename<NowPlaying>> }, SubscriptionNowPlayingUpdatedArgs>,
-    queueUpdated?: GraphCacheUpdateResolver<{ queueUpdated: WithTypename<Queue> }, SubscriptionQueueUpdatedArgs>,
     sessionListenersUpdated?: GraphCacheUpdateResolver<{ sessionListenersUpdated: Array<Scalars['String']> }, SubscriptionSessionListenersUpdatedArgs>,
     sessionUpdated?: GraphCacheUpdateResolver<{ sessionUpdated: WithTypename<Session> }, SubscriptionSessionUpdatedArgs>
   },

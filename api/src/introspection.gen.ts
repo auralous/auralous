@@ -335,6 +335,35 @@ export default {
             ]
           },
           {
+            "name": "nowPlayingPlayUid",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "uid",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "nowPlayingReact",
             "type": {
               "kind": "SCALAR",
@@ -372,6 +401,16 @@ export default {
             "args": [
               {
                 "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "isBackward",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {
@@ -716,12 +755,13 @@ export default {
             ]
           },
           {
-            "name": "sessionPing",
+            "name": "sessionEnd",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+                "kind": "OBJECT",
+                "name": "Session",
+                "ofType": null
               }
             },
             "args": [
@@ -738,13 +778,12 @@ export default {
             ]
           },
           {
-            "name": "sessionUnlive",
+            "name": "sessionPing",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Session",
-                "ofType": null
+                "kind": "SCALAR",
+                "name": "Any"
               }
             },
             "args": [
@@ -1018,11 +1057,32 @@ export default {
             "args": []
           },
           {
-            "name": "currentTrack",
+            "name": "current",
             "type": {
-              "kind": "OBJECT",
-              "name": "NowPlayingQueueItem",
-              "ofType": null
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "NowPlayingQueueItem",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "next",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "QueueItem",
+                    "ofType": null
+                  }
+                }
+              }
             },
             "args": []
           }
@@ -1056,6 +1116,28 @@ export default {
             "args": []
           },
           {
+            "name": "creatorId",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "index",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "playedAt",
             "type": {
               "kind": "NON_NULL",
@@ -1068,17 +1150,6 @@ export default {
           },
           {
             "name": "endedAt",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "creatorId",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -1367,13 +1438,16 @@ export default {
           {
             "name": "nowPlayingReactions",
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "NowPlayingReactionItem",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "NowPlayingReactionItem",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -1508,40 +1582,6 @@ export default {
                     "kind": "SCALAR",
                     "name": "Any"
                   }
-                }
-              }
-            ]
-          },
-          {
-            "name": "queue",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Queue",
-              "ofType": null
-            },
-            "args": [
-              {
-                "name": "id",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              },
-              {
-                "name": "from",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              },
-              {
-                "name": "to",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
                 }
               }
             ]
@@ -1954,42 +1994,6 @@ export default {
       },
       {
         "kind": "OBJECT",
-        "name": "Queue",
-        "fields": [
-          {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "items",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "QueueItem",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": []
-          }
-        ],
-        "interfaces": []
-      },
-      {
-        "kind": "OBJECT",
         "name": "QueueItem",
         "fields": [
           {
@@ -2217,13 +2221,16 @@ export default {
           {
             "name": "nowPlayingReactionsUpdated",
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "NowPlayingReactionItem",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "NowPlayingReactionItem",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -2246,29 +2253,6 @@ export default {
               "kind": "OBJECT",
               "name": "NowPlaying",
               "ofType": null
-            },
-            "args": [
-              {
-                "name": "id",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "name": "queueUpdated",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Queue",
-                "ofType": null
-              }
             },
             "args": [
               {

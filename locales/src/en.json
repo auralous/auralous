@@ -102,9 +102,9 @@
     "updated": "The session has been updated",
     "live": {
       "description": "This session is <0>LIVE</0>",
-      "unlive": "Stop streaming",
-      "unlive_prompt": "You will not be able to add any new songs to this session but will be able to stream played songs at any time later.",
-      "unlive_ok": "Session has been taken offline",
+      "end": "Stop streaming",
+      "end_prompt": "You will not be able to add any new songs to this session but will be able to stream played songs at any time later.",
+      "end_ok": "Session has been taken offline",
       "play_other_prompt": "Playing something else will the stop the current session"
     },
     "delete": {
@@ -149,10 +149,10 @@
   "chat": {
     "title": "Chat",
     "input_label": "Enter chat message",
-    "play": "{{username}} played <0>{{track}}</0>",
     "join": "{{username}} has joined",
     "send_message": "Send message",
-    "auth_prompt": "Chat with your friends while listening together"
+    "auth_prompt": "Chat with your friends while listening together",
+    "not_live": "Start a live session to chat with your friends"
   },
   "sign_in": {
     "title": "Sign in",

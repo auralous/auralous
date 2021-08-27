@@ -90,7 +90,7 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
       variables: { id: session.id },
     });
   const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
-    variables: { id: dataNowPlaying?.nowPlaying?.currentTrack?.trackId || "" },
+    variables: { id: dataNowPlaying?.nowPlaying?.current.trackId || "" },
     pause: !dataNowPlaying?.nowPlaying,
   });
 
@@ -132,7 +132,7 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
         <Text bold>{t("now_playing.title")}</Text>
         <Spacer y={2} />
         <View style={styles.track}>
-          {dataNowPlaying?.nowPlaying?.currentTrack && (
+          {track && (
             <TrackItem
               isPlaying
               track={track || null}

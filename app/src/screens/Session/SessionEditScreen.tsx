@@ -7,7 +7,7 @@ import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import { SessionEditDelete } from "./components/SessionEditDelete";
 import { SessionEditMeta } from "./components/SessionEditMeta";
-import { SessionEditUnlive } from "./components/SessionEditUnlive";
+import { SessionEditEnd } from "./components/SessionEditEnd";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 const SessionEditInner: FC<{ session: Session }> = ({ session }) => {
   return (
     <>
-      {session.isLive && <SessionEditUnlive session={session} />}
+      {session.isLive && <SessionEditEnd session={session} />}
       <SessionEditMeta session={session} />
       <SessionEditDelete session={session} />
     </>

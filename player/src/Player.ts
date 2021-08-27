@@ -13,7 +13,7 @@ interface PlayerHandle {
 interface PlaybackHandle {
   skipForward(): void;
   skipBackward(): void;
-  playNext(uids: string[]): void;
+  queueToTop(uids: string[]): void;
   queuePlayUid(uid: string): void;
   queueReorder(from: number, to: number): void;
   queueRemove(uids: string[]): void;
@@ -104,8 +104,8 @@ class Player {
     this.playbackFn?.skipBackward();
   }
 
-  playNext(uids: string[]) {
-    this.playbackFn?.playNext(uids);
+  queueToTop(uids: string[]) {
+    this.playbackFn?.queueToTop(uids);
   }
   queuePlayUid(uid: string) {
     this.playbackFn?.queuePlayUid(uid);

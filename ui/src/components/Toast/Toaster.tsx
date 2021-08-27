@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   success: { backgroundColor: Colors.success },
+  text: { flex: 1 },
 });
 
 export const Toaster: FC = () => {
@@ -122,7 +123,7 @@ export const Toaster: FC = () => {
           </>
         )}
         <Spacer x={3} />
-        <Text bold="medium" color="textSecondary">
+        <Text style={styles.text} bold="medium" color="textSecondary">
           {toast.message}
         </Text>
         <Spacer x={3} />

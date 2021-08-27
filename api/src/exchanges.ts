@@ -70,10 +70,10 @@ export const cacheExchange = () =>
             creatorId: (result.sessionCreate as Session).creatorId,
           });
         },
-        sessionUnlive: (result, args, cache) => {
-          if (!result.sessionUnlive) return;
+        sessionEnd: (result, args, cache) => {
+          if (!result.sessionEnd) return;
           cache.invalidate("Query", "sessionCurrentLive", {
-            creatorId: (result.sessionUnlive as Session).creatorId,
+            creatorId: (result.sessionEnd as Session).creatorId,
           });
         },
         sessionDelete: (result, args, cache) => {
@@ -168,7 +168,7 @@ export const cacheExchange = () =>
                 variables: { id: args.id },
               },
               () => ({
-                sessionListeners: result.sessionListenersUpdated as string[],
+                sessionListeners: result.sessionListenersUpdated,
               })
             );
           }

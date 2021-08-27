@@ -1,4 +1,4 @@
-import { IconArrowRight, IconLogIn, IconMusic } from "@/assets";
+import { IconArrowRight, IconLogIn } from "@/assets";
 import { Avatar, Button, Input, InputRef, Spacer, Text } from "@/components";
 import { Size } from "@/styles";
 import {
@@ -8,11 +8,10 @@ import {
   useMessageAddedSubscription,
   useMessageAddMutation,
   useMessagesQuery,
-  useTrackQuery,
 } from "@auralous/api";
 import { PlaybackContextMeta } from "@auralous/player";
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   ListRenderItem,
@@ -79,42 +78,6 @@ const ChatItemJoin: FC<{
   );
 };
 
-const ChatItemPlay: FC<{
-  message: Message;
-}> = ({ message }) => {
-  const { t } = useTranslation();
-
-  const [{ data }] = useTrackQuery({
-    variables: { id: message.text || "" },
-    pause: !message.text,
-  });
-  const track = data?.track;
-
-  return (
-    <View style={styles.listItem}>
-      <View style={styles.icon}>
-        <IconMusic width={18} height={18} />
-      </View>
-      <Spacer x={2} />
-      <View style={styles.content}>
-        <Text color="textSecondary">
-          <Trans
-            t={t}
-            i18nKey="chat.play"
-            components={[<Text key={0} />]}
-            values={{
-              username: message.creator.username,
-              track: `${track?.title} - ${track?.artists
-                .map((artist) => artist.name)
-                .join(", ")}`,
-            }}
-          ></Trans>
-        </Text>
-      </View>
-    </View>
-  );
-};
-
 const ChatItemText: FC<{
   message: Message;
 }> = ({ message }) => {
@@ -138,9 +101,6 @@ const ChatItemText: FC<{
 };
 
 const renderItem: ListRenderItem<Message> = ({ item: message }) => {
-  if (message.type === MessageType.Play)
-    return <ChatItemPlay key={message.id} message={message} />;
-
   if (message.type === MessageType.Join)
     return <ChatItemJoin key={message.id} message={message} />;
 

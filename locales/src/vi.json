@@ -102,9 +102,9 @@
     "updated": "Phiên đã được cập nhật",
     "live": {
       "description": "Phiên này đang phát <0>TRỰC TIẾP</0>",
-      "unlive": "Dừng phát",
-      "unlive_prompt": "Bạn không thể thêm bài hát mới nhưng có thể phát lại những bài đã thêm bất cứ lúc nào.",
-      "unlive_ok": "Phiên đã ngừng phát trực tiếp",
+      "end": "Dừng phát",
+      "end_prompt": "Bạn không thể thêm bài hát mới nhưng có thể phát lại những bài đã thêm bất cứ lúc nào.",
+      "end_ok": "Phiên đã ngừng phát trực tiếp",
       "play_other_prompt": "Phát mục khác sẽ dừng phiên hiện tại"
     },
     "delete": {
@@ -149,10 +149,10 @@
   "chat": {
     "title": "Chat",
     "input_label": "Nhập tin nhắn",
-    "play": "{{username}} phát <0>{{track}}</0>",
     "join": "{{username}} đã tham gia",
     "send_message": "Gửi tin nhắn",
-    "auth_prompt": "Trò chuyện với bạn bè khi nghe nhạc cùng nhau"
+    "auth_prompt": "Trò chuyện với bạn bè khi nghe nhạc cùng nhau",
+    "not_live": "Bắt đầu phiên trực tiếp để trò chuyện với bạn bè"
   },
   "sign_in": {
     "title": "Đăng nhập",
