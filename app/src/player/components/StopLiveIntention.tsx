@@ -1,7 +1,8 @@
 import { useSessionEndMutation } from "@auralous/api";
 import player from "@auralous/player";
 import { Dialog } from "@auralous/ui";
-import { FC, useCallback, useContext } from "react";
+import type { FC } from "react";
+import { useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { PlayerComponentInternalContext } from "./PlayerComponentInternalContext";
 

@@ -1,5 +1,5 @@
 import { RouteName } from "@/screens/types";
-import { Playlist } from "@auralous/api";
+import type { Playlist } from "@auralous/api";
 import player from "@auralous/player";
 import {
   Button,
@@ -10,7 +10,8 @@ import {
   Text,
 } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback } from "react";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 

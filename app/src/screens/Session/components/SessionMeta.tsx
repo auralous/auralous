@@ -1,8 +1,9 @@
 import { RouteName } from "@/screens/types";
-import { Session } from "@auralous/api";
+import type { Session } from "@auralous/api";
 import { Avatar, Heading, Size, Spacer, Text } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC, ReactNode, useCallback } from "react";
+import type { FC, ReactNode } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 

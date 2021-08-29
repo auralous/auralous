@@ -1,7 +1,8 @@
 import { RouteName } from "@/screens/types";
 import { Colors, Heading, Size, Spacer, Text, TextButton } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback } from "react";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 

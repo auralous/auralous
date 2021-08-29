@@ -1,4 +1,4 @@
-export { Colors, GradientColors } from "./colors";
+export { Colors, GradientColors, useImageColor } from "./colors";
 export type { ThemeColorKey } from "./colors";
-export { Font } from "./fonts";
+export { Font, fontWithWeight } from "./fonts";
 export { Size } from "./spacing";

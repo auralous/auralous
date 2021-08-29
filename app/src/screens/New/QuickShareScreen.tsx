@@ -1,20 +1,24 @@
-import { ParamList, RouteName } from "@/screens/types";
-import {
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
+import type {
   Playlist,
-  PlaylistTracksDocument,
   PlaylistTracksQuery,
   PlaylistTracksQueryVariables,
   Session,
-  SessionTracksDocument,
   SessionTracksQuery,
   SessionTracksQueryVariables,
+} from "@auralous/api";
+import {
+  PlaylistTracksDocument,
+  SessionTracksDocument,
   useMyPlaylistsQuery,
   usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
 } from "@auralous/api";
 import { LoadingScreen, shuffle, Size } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useCallback, useEffect, useState } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, ScrollView, StyleSheet, View } from "react-native";
 import { useClient } from "urql";

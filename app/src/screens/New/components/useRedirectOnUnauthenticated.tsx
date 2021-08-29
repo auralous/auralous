@@ -1,6 +1,7 @@
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useEffect } from "react";
 
 export const useRedirectOnUnauthenticated = (

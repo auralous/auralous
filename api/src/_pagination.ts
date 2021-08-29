@@ -1,4 +1,4 @@
-import { NullArray, Resolver, Variables } from "@urql/exchange-graphcache";
+import type { NullArray, Resolver, Variables } from "@urql/exchange-graphcache";
 import { stringifyVariables } from "urql";
 
 const dateFromObjectId = function (objectId: string) {

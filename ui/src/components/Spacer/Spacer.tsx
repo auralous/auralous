@@ -1,6 +1,8 @@
 import { Size } from "@/styles";
-import { FC, memo } from "react";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import type { FC } from "react";
+import { memo } from "react";
+import type { StyleProp, ViewStyle } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 interface SpacerProps {
   x?: keyof typeof Size;

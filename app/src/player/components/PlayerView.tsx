@@ -19,15 +19,15 @@ import {
   TextButton,
   useBackHandlerDismiss,
 } from "@auralous/ui";
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import type { FC } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import PagerView, {
-  PagerViewOnPageSelectedEvent,
-} from "react-native-pager-view";
+import type { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
+import PagerView from "react-native-pager-view";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MusicView from "./MusicView";
 import PlayerBar from "./PlayerBar";
@@ -243,8 +243,12 @@ const PlayerView: FC = () => {
 
   const navigation = useNavigation();
 
-  const present = useCallback(() => bottomSheetRef.current?.present(), []);
-  const dismiss = useCallback(() => bottomSheetRef.current?.dismiss(), []);
+  const present = useCallback(() => {
+    bottomSheetRef.current?.present();
+  }, []);
+  const dismiss = useCallback(() => {
+    bottomSheetRef.current?.dismiss();
+  }, []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("state", dismiss);
@@ -261,11 +265,10 @@ const PlayerView: FC = () => {
         onChange={setSheetIndex}
         ref={bottomSheetRef}
         snapPoints={snapPoints}
-        backdropComponent={BottomSheetBackdrop}
         handleComponent={null}
         enableContentPanningGesture={false}
         enableHandlePanningGesture={false}
-        dismissOnPanDown={false}
+        enablePanDownToClose={false}
       >
         <SafeAreaView style={styles.root}>
           <PlayerViewBackground />

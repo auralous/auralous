@@ -1,24 +1,14 @@
-import { Playlist, Track, usePlaylistTracksQuery } from "@auralous/api";
+import type { Playlist, Track } from "@auralous/api";
+import { usePlaylistTracksQuery } from "@auralous/api";
 import player, {
   uidForIndexedTrack,
   usePlaybackCurrentContext,
   usePlaybackQueuePlayingId,
 } from "@auralous/player";
-import {
-  LoadingScreen,
-  RecyclerList,
-  RecyclerRenderItem,
-  Size,
-  TrackItem,
-} from "@auralous/ui";
-import {
-  createContext,
-  FC,
-  memo,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import type { RecyclerRenderItem } from "@auralous/ui";
+import { LoadingScreen, RecyclerList, Size, TrackItem } from "@auralous/ui";
+import type { FC } from "react";
+import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import PlaylistMeta from "./PlaylistMeta";

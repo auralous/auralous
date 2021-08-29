@@ -1,18 +1,9 @@
-import {
-  LocationInput,
-  Session,
-  useSessionUpdateMutation,
-} from "@auralous/api";
-import {
-  Button,
-  Input,
-  InputRef,
-  Size,
-  Spacer,
-  Text,
-  toast,
-} from "@auralous/ui";
-import { FC, useCallback, useEffect, useRef } from "react";
+import type { LocationInput, Session } from "@auralous/api";
+import { useSessionUpdateMutation } from "@auralous/api";
+import type { InputRef } from "@auralous/ui";
+import { Button, Input, Size, Spacer, Text, toast } from "@auralous/ui";
+import type { FC } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 

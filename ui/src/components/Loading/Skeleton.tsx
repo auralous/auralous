@@ -1,7 +1,8 @@
 import { useAnimatedStylePulse } from "@/animations";
 import { Colors, Size } from "@/styles";
-import { FC } from "react";
-import { StyleProp, StyleSheet, ViewStyle } from "react-native";
+import type { FC } from "react";
+import type { StyleProp, ViewStyle } from "react-native";
+import { StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 
 interface SkeletonBlockProps {

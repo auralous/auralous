@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import ImageColors from "react-native-image-colors";
+
 export const Colors = {
   background: "#010101",
   backgroundSecondary: "#111111",
@@ -32,3 +35,55 @@ export const GradientColors = {
 };
 
 export type ThemeColorKey = keyof typeof Colors;
+
+const colorCache = new Map<string, string>();
+
+export const useImageColor = (url: string | undefined | null) => {
+  const [color, setColor] = useState<string>(Colors.background);
+
+  useEffect(() => {
+    if (!url) return setColor(Colors.background);
+    const cached = colorCache.get(url);
+    if (cached) {
+      setColor(cached);
+    } else {
+      let shouldCommit = true;
+      ImageColors.getColors(url)
+        .then((colorResult) => {
+          if (!shouldCommit) return;
+          let result: string;
+          switch (colorResult.platform) {
+            case "android": {
+              result =
+                colorResult.vibrant || colorResult.muted || Colors.background;
+              break;
+            }
+            case "ios": {
+              result = colorResult.primary;
+              break;
+            }
+            case "web": {
+              result =
+                colorResult.darkVibrant ||
+                colorResult.vibrant ||
+                Colors.background;
+              break;
+            }
+            default: {
+              result = Colors.background;
+            }
+          }
+          colorCache.set(url, result);
+          setColor(result);
+        })
+        .catch(() => {
+          setColor(Colors.background);
+        });
+      return () => {
+        shouldCommit = false;
+      };
+    }
+  }, [url]);
+
+  return color;
+};

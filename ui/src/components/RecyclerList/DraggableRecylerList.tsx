@@ -9,12 +9,10 @@ import {
   useMemo,
   useState,
 } from "react";
-import { LayoutChangeEvent, ScrollViewProps, StyleSheet } from "react-native";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-  ScrollView,
-} from "react-native-gesture-handler";
+import type { LayoutChangeEvent, ScrollViewProps } from "react-native";
+import { StyleSheet } from "react-native";
+import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { PanGestureHandler, ScrollView } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
   scrollTo,
@@ -27,12 +25,14 @@ import Animated, {
   useWorkletCallback,
   withTiming,
 } from "react-native-reanimated";
-import { BaseScrollView, RecyclerListView } from "recyclerlistview";
-import RecyclerList, {
+import type { RecyclerListView } from "recyclerlistview";
+import { BaseScrollView } from "recyclerlistview";
+import type {
   RecyclerListProps,
   RecyclerRenderItem,
   RecyclerRenderItemInfo,
 } from "./RecyclerList";
+import RecyclerList from "./RecyclerList";
 
 class ExternalScrollView extends BaseScrollView {
   scrollViewRef = createRef<ScrollView>();

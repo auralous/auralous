@@ -1,13 +1,9 @@
-import { Colors, Font, ThemeColorKey } from "@/styles";
-import { FC, useCallback, useMemo } from "react";
-import {
-  Linking,
-  Pressable,
-  StyleProp,
-  StyleSheet,
-  Text as RNText,
-  TextStyle,
-} from "react-native";
+import type { ThemeColorKey } from "@/styles";
+import { Colors, Font, fontWithWeight } from "@/styles";
+import type { FC } from "react";
+import { useCallback, useMemo } from "react";
+import type { StyleProp, TextStyle } from "react-native";
+import { Linking, Pressable, StyleSheet, Text as RNText } from "react-native";
 import capsize from "react-native-capsize";
 
 const levelSize = [40, 36, 30, 24, 20, 18];
@@ -49,11 +45,10 @@ export const useStyle = (props: TextProps & { level?: number }) =>
       ? levelSize[props.level - 1]
       : sizes.md;
     return {
-      fontFamily: props.bold
-        ? props.bold === "medium"
-          ? Font.Medium
-          : Font.Bold
-        : Font.Normal,
+      ...fontWithWeight(
+        Font.Inter,
+        props.bold ? (props.bold === "medium" ? "medium" : "bold") : "normal"
+      ),
       fontStyle: props.italic ? "italic" : "normal",
       textAlign: props.align,
       color: Colors[props.color || "text"] as string,

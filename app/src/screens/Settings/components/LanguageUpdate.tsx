@@ -17,7 +17,8 @@ import {
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import type { FC } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -77,6 +78,17 @@ const LanguageUpdate: FC = () => {
     [i18n, close]
   );
 
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+      />
+    ),
+    []
+  );
+
   return (
     <>
       <View>
@@ -98,7 +110,7 @@ const LanguageUpdate: FC = () => {
         </TouchableOpacity>
       </View>
       <BottomSheetModal
-        backdropComponent={BottomSheetBackdrop}
+        backdropComponent={renderBackdrop}
         backgroundComponent={null}
         handleComponent={null}
         ref={bottomSheetRef}

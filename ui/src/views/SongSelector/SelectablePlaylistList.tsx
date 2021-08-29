@@ -1,9 +1,11 @@
 import { LoadingScreen } from "@/components/Loading";
 import { PlaylistListItem } from "@/components/Playlist";
-import { RecyclerList, RecyclerRenderItem } from "@/components/RecyclerList";
+import type { RecyclerRenderItem } from "@/components/RecyclerList";
+import { RecyclerList } from "@/components/RecyclerList";
 import { Size } from "@/styles";
-import { Playlist } from "@auralous/api";
-import { FC, useCallback } from "react";
+import type { Playlist } from "@auralous/api";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import SearchEmpty from "./SearchEmpty";

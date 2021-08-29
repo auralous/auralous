@@ -1,4 +1,4 @@
-import { ArrayElement } from "./types";
+import type { ArrayElement } from "./types";
 
 const sizeUnitValues = [
   0, 0.5, 1, 1.5, 2, 3, 4, 6, 8, 10, 12, 14, 16, 20, 24, 27, 32, 36, 40, 44, 48,

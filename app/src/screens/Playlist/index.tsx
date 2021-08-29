@@ -1,10 +1,10 @@
 import { PageHeaderGradient } from "@/components/Colors";
 import { NotFoundScreen } from "@/components/NotFound";
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList, RouteName } from "@/screens/types";
 import { usePlaylistQuery } from "@auralous/api";
 import { LoadingScreen } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PlaylistContent from "./components/PlaylistContent";

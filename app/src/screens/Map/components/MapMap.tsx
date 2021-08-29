@@ -1,16 +1,19 @@
-import {
+import type {
   Session,
-  SessionsOnMapDocument,
   SessionsOnMapQuery,
   SessionsOnMapQueryVariables,
 } from "@auralous/api";
+import { SessionsOnMapDocument } from "@auralous/api";
 import { toast } from "@auralous/ui";
-import MapboxGL, { MapViewProps } from "@react-native-mapbox-gl/maps";
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { MapViewProps } from "@react-native-mapbox-gl/maps";
+import MapboxGL from "@react-native-mapbox-gl/maps";
+import type { FC } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import Config from "react-native-config";
-import { OperationResult, useClient } from "urql";
+import type { OperationResult } from "urql";
+import { useClient } from "urql";
 import { pipe, subscribe } from "wonka";
 import { MapMapMarker, radiusPx } from "./MapMapMarker";
 

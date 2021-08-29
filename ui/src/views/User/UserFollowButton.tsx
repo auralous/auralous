@@ -5,7 +5,8 @@ import {
   useUserFollowMutation,
   useUserUnfollowMutation,
 } from "@auralous/api";
-import { FC, useCallback, useMemo } from "react";
+import type { FC } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 export const UserFollowButton: FC<{ id: string; onUnauthenticated(): void }> =

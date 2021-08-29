@@ -1,6 +1,8 @@
 import { Colors } from "@/styles";
-import { FC, memo } from "react";
-import { SvgProps } from "react-native-svg";
+import type { FC } from "react";
+import { memo } from "react";
+import { Platform } from "react-native";
+import type { SvgProps } from "react-native-svg";
 import IconArrowRightRaw from "./arrow-right.svg";
 import IconBellRaw from "./bell.svg";
 import IconCheckRaw from "./check.svg";
@@ -37,6 +39,7 @@ import IconXRaw from "./x.svg";
 import IconYoutubeRaw from "./youtube.svg";
 
 const wrapIcon = (Icon: FC<SvgProps>) => {
+  if (Platform.OS === "web") return memo(Icon); // Web does not special color assignment
   const WrappedIcon: FC<SvgProps> = (props: SvgProps) => (
     <Icon color={Colors.text} {...props} />
   );

@@ -1,4 +1,5 @@
-import { Session, useSessionEndMutation } from "@auralous/api";
+import type { Session } from "@auralous/api";
+import { useSessionEndMutation } from "@auralous/api";
 import {
   Button,
   Colors,
@@ -8,7 +9,8 @@ import {
   toast,
   useDialog,
 } from "@auralous/ui";
-import { FC, useCallback } from "react";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 

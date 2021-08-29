@@ -2,7 +2,7 @@ import {
   createContext,
   useContextSelector,
 } from "@fluentui/react-context-selector";
-import { PlaybackState } from "./types";
+import type { PlaybackState } from "./types";
 
 export const PlaybackContext = createContext({} as PlaybackState);
 

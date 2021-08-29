@@ -7,7 +7,8 @@ import {
 } from "@auralous/ui";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
-import { FC, ReactNode, useEffect, useRef } from "react";
+import type { FC, ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

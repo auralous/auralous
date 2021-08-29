@@ -1,18 +1,21 @@
 import { RouteName } from "@/screens/types";
 import { useMeQuery, useTrackQuery } from "@auralous/api";
+import type {
+  DraggableRecyclerRenderItem,
+  DraggableRecyclerRenderItemInfo,
+  InputRef,
+} from "@auralous/ui";
 import {
   Button,
   Colors,
   Dialog,
   DraggableRecyclerList,
-  DraggableRecyclerRenderItem,
-  DraggableRecyclerRenderItemInfo,
   Font,
+  fontWithWeight,
   IconChevronDown,
   IconChevronUp,
   identityFn,
   Input,
-  InputRef,
   QueueTrackItem,
   reorder,
   shuffle,
@@ -25,12 +28,10 @@ import {
 } from "@auralous/ui";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
+import type { Dispatch, FC, SetStateAction } from "react";
 import {
   createContext,
-  Dispatch,
-  FC,
   memo,
-  SetStateAction,
   useCallback,
   useContext,
   useEffect,
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     paddingTop: Size[2],
   },
   selectOptsText: {
-    fontFamily: Font.Medium,
+    ...fontWithWeight(Font.Inter, "medium"),
     textTransform: "uppercase",
   },
   shuffleButtonContainer: {
@@ -156,7 +157,7 @@ const SelectedTrackListView: FC<{
   const { t } = useTranslation();
 
   const toggle = useCallback(
-    () => bottomSheetRef.current?.snapTo(expanded ? 0 : 1),
+    () => bottomSheetRef.current?.snapToPosition(expanded ? 0 : 1),
     [expanded]
   );
 

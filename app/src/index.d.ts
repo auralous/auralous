@@ -1,4 +1,4 @@
-import { ParamList } from "./screens/types";
+import type { ParamList } from "./screens/types";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

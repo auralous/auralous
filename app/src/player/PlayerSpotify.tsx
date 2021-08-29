@@ -1,13 +1,16 @@
 import player, { usePlaybackAuthentication } from "@auralous/player";
 import { Dialog, toast } from "@auralous/ui";
-import { FC, useCallback, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
-import {
+import type {
   ApiConfig,
-  auth as SpotifyAuth,
   PlayerContext as SpotifyPlayerContext,
   PlayerState as SpotifyPlayerState,
+} from "react-native-spotify-remote";
+import {
+  auth as SpotifyAuth,
   remote as SpotifyRemote,
 } from "react-native-spotify-remote";
 
@@ -28,7 +31,7 @@ const initialize = async (
     await SpotifyAuth.authorize(spotifyConfig);
     onSuccess();
   } catch (e) {
-    onError(e);
+    onError(e as Error);
   }
 };
 
@@ -40,7 +43,7 @@ const connectWithAccessToken = async (
     await SpotifyRemote.disconnect();
     if (accessToken) await SpotifyRemote.connect(accessToken);
   } catch (e) {
-    onError(e);
+    onError(e as Error);
   }
 };
 

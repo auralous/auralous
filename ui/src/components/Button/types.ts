@@ -1,6 +1,6 @@
-import { Text } from "@/components/Typography";
-import { ComponentProps } from "react";
-import { StyleProp, ViewStyle } from "react-native";
+import type { Text } from "@/components/Typography";
+import type { ComponentProps } from "react";
+import type { StyleProp, ViewStyle } from "react-native";
 
 export interface BaseButtonProps {
   onPress?(): void;

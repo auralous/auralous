@@ -1,7 +1,8 @@
 import { PageHeaderGradient } from "@/components/Colors";
 import { NotFoundScreen } from "@/components/NotFound";
 import { useRootSheetModalsSetter } from "@/components/RootSheetModals";
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
 import { useMeQuery, useSessionQuery } from "@auralous/api";
 import {
   Colors,
@@ -13,8 +14,9 @@ import {
   LoadingScreen,
   TextButton,
 } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useEffect } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import Config from "react-native-config";

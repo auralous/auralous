@@ -1,14 +1,14 @@
 import { Size } from "@/styles";
-import { FC, useCallback, useEffect, useState } from "react";
-import {
+import type { FC } from "react";
+import { useCallback, useEffect, useState } from "react";
+import type {
   LayoutChangeEvent,
   NativeSyntheticEvent,
   StyleProp,
-  StyleSheet,
-  Text as RNText,
   TextLayoutEventData,
   ViewStyle,
 } from "react-native";
+import { StyleSheet, Text as RNText } from "react-native";
 import Animated, {
   scrollTo,
   useAnimatedRef,
@@ -19,7 +19,8 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
-import { TextProps, useStyle } from "./Typography";
+import type { TextProps } from "./Typography";
+import { useStyle } from "./Typography";
 
 const spacerWidth = Size[10];
 

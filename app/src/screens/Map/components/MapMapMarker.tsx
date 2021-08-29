@@ -1,5 +1,6 @@
 import { Colors } from "@auralous/ui";
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { PixelRatio, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,

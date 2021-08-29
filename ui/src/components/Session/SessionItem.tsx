@@ -4,8 +4,9 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors, Size } from "@/styles";
 import { formatTime } from "@/utils";
-import { Session } from "@auralous/api";
-import { FC, memo, useMemo } from "react";
+import type { Session } from "@auralous/api";
+import type { FC } from "react";
+import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, StyleSheet, View } from "react-native";
 

@@ -1,7 +1,9 @@
-import { Button, ButtonProps } from "@/components/Button";
+import type { ButtonProps } from "@/components/Button";
+import { Button } from "@/components/Button";
 import { Text } from "@/components/Typography";
 import { Colors, Size } from "@/styles";
-import { ComponentProps, FC, useCallback, useEffect, useState } from "react";
+import type { ComponentProps, FC } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import Animated, {
   runOnJS,

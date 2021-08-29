@@ -1,5 +1,5 @@
-import { Playlist, Session } from "@auralous/api";
-import { ParamListBase } from "@react-navigation/native";
+import type { Playlist, Session } from "@auralous/api";
+import type { ParamListBase } from "@react-navigation/native";
 
 export enum RouteName {
   Home = "home",

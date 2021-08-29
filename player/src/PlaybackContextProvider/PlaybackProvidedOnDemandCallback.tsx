@@ -1,17 +1,17 @@
-import {
-  PlaylistTracksDocument,
+import type {
   PlaylistTracksQuery,
   PlaylistTracksQueryVariables,
   QueueItem,
-  SessionTracksDocument,
   SessionTracksQuery,
   SessionTracksQueryVariables,
   Track,
 } from "@auralous/api";
-import { FC, useEffect, useMemo, useState } from "react";
+import { PlaylistTracksDocument, SessionTracksDocument } from "@auralous/api";
+import type { FC } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useClient } from "urql";
 import { player } from "../playerSingleton";
-import { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
+import type { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
 import { reorder, shuffle, uidForIndexedTrack } from "../utils";
 
 /**

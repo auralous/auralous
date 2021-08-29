@@ -1,15 +1,8 @@
-import { Track } from "@auralous/api";
+import type { Track } from "@auralous/api";
 import { AddToPlaylist, Colors, useBackHandlerDismiss } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -67,7 +60,7 @@ export const AddToPlaylistSheet: FC<{
       style={styles.root}
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
-      dismissOnPanDown={false}
+      enablePanDownToClose={false}
     >
       {lastTrack && (
         <AddToPlaylistSheetInner onDismiss={onDismiss} track={lastTrack} />

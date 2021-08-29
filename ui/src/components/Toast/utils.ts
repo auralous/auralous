@@ -1,4 +1,4 @@
-import { CombinedError } from "urql";
+import type { CombinedError } from "urql";
 import toast from "./toast";
 
 export const toastCombinedErrors = (error: CombinedError) => {

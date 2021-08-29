@@ -3,7 +3,7 @@ import { Button } from "@/components/Button";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
 import { Size } from "@/styles";
-import { FC } from "react";
+import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 

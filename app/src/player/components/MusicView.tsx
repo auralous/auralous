@@ -13,7 +13,7 @@ import {
   PlayerViewProgress,
   Size,
 } from "@auralous/ui";
-import { FC } from "react";
+import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({

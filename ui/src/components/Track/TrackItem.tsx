@@ -4,8 +4,9 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
 import { msToHMS } from "@/utils";
-import { Maybe, Track } from "@auralous/api";
-import { FC, memo, useMemo } from "react";
+import type { Maybe, Track } from "@auralous/api";
+import type { FC } from "react";
+import { memo, useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { AnimatedAudioBar } from "./AnimatedAudioBar";
 

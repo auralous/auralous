@@ -1,6 +1,7 @@
 import { PlatformName } from "@auralous/api";
 import { usePlaybackAuthentication } from "@auralous/player";
-import { FC, useMemo } from "react";
+import type { FC } from "react";
+import { useMemo } from "react";
 import PlayerSpotify from "../PlayerSpotify";
 import PlayerYoutube from "../PlayerYoutube";
 import PlayerView from "./PlayerView";

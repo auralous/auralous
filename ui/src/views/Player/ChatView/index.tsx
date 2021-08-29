@@ -1,25 +1,25 @@
 import { IconArrowRight, IconLogIn } from "@/assets";
-import { Avatar, Button, Input, InputRef, Spacer, Text } from "@/components";
+import type { InputRef } from "@/components";
+import { Avatar, Button, Input, Spacer, Text } from "@/components";
 import { Size } from "@/styles";
+import type { Message } from "@auralous/api";
 import {
-  Message,
   MessageType,
   useMeQuery,
   useMessageAddedSubscription,
   useMessageAddMutation,
   useMessagesQuery,
 } from "@auralous/api";
-import { PlaybackContextMeta } from "@auralous/player";
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { PlaybackContextMeta } from "@auralous/player";
+import type { FC } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  FlatList,
+import type {
   ListRenderItem,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  StyleSheet,
-  View,
 } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   auth: {

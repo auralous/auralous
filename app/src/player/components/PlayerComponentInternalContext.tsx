@@ -1,4 +1,4 @@
-import { PlaybackCurrentContext } from "@auralous/player";
+import type { PlaybackCurrentContext } from "@auralous/player";
 import { createContext } from "react";
 
 export const PlayerComponentInternalContext = createContext(

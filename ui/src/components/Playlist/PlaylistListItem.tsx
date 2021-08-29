@@ -2,8 +2,9 @@ import { IconByPlatformName, ImageSources } from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
-import { Playlist } from "@auralous/api";
-import { FC, memo } from "react";
+import type { Playlist } from "@auralous/api";
+import type { FC } from "react";
+import { memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 interface PlaylistListItemProps {

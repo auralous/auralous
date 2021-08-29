@@ -1,5 +1,5 @@
-import { useImageColor } from "@/components/Colors";
 import { useTrackQuery } from "@auralous/api";
+import { useImageColor } from "@auralous/ui";
 
 export const useTrackColor = (trackId?: string | null) => {
   const [{ data, stale }] = useTrackQuery({

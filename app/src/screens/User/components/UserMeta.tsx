@@ -1,9 +1,11 @@
 import { PageHeaderGradient } from "@/components/Colors";
 import { RouteName } from "@/screens/types";
-import { User, useUserStatQuery } from "@auralous/api";
+import type { User } from "@auralous/api";
+import { useUserStatQuery } from "@auralous/api";
 import { Avatar, Size, Spacer, Text, UserFollowButton } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback } from "react";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

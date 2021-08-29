@@ -1,7 +1,7 @@
 import { Colors } from "@/styles";
 import { PlatformName } from "@auralous/api";
-import { FC } from "react";
-import { SvgProps } from "react-native-svg";
+import type { FC } from "react";
+import type { SvgProps } from "react-native-svg";
 import IconSpotify from "./spotify.svg";
 import IconYoutube from "./youtube.svg";
 

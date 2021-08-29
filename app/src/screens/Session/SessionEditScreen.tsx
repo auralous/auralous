@@ -1,9 +1,10 @@
 import { NotFoundScreen } from "@/components/NotFound";
-import { ParamList, RouteName } from "@/screens/types";
-import { Session, useSessionQuery } from "@auralous/api";
+import type { ParamList, RouteName } from "@/screens/types";
+import type { Session } from "@auralous/api";
+import { useSessionQuery } from "@auralous/api";
 import { LoadingScreen } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import { SessionEditDelete } from "./components/SessionEditDelete";
 import { SessionEditMeta } from "./components/SessionEditMeta";

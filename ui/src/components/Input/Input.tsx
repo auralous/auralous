@@ -6,16 +6,15 @@ import {
   useRef,
   useState,
 } from "react";
-import {
+import type {
   ColorValue,
   NativeSyntheticEvent,
   ReturnKeyTypeOptions,
   StyleProp,
-  StyleSheet,
-  TextInput,
   TextInputSubmitEditingEventData,
   ViewStyle,
 } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

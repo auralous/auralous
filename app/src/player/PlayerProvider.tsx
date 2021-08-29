@@ -1,16 +1,16 @@
-import {
-  MeDocument,
+import type {
   MeQuery,
   MeQueryVariables,
-  SessionCurrentLiveDocument,
   SessionCurrentLiveQuery,
   SessionCurrentLiveQueryVariables,
 } from "@auralous/api";
+import { MeDocument, SessionCurrentLiveDocument } from "@auralous/api";
+import type { PlaybackCurrentContext } from "@auralous/player";
 import player, {
-  PlaybackCurrentContext,
   PlayerProvider as OriginalPlayerProvider,
 } from "@auralous/player";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { useClient } from "urql";
 import { PlayerComponentInternalContext } from "./components/PlayerComponentInternalContext";
 import { useTrackColor } from "./components/useTrackColor";

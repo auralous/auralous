@@ -8,19 +8,20 @@ import {
 } from "@/screens/New";
 import PlaylistScreen from "@/screens/Playlist";
 import SignInScreen from "@/screens/SignIn";
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
 import {
   UserFollowersScreen,
   UserFollowingScreen,
   UserScreen,
 } from "@/screens/User";
-import { Colors, Font, Toaster } from "@auralous/ui";
+import { Colors, Font, fontWithWeight, Toaster } from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { LinkingOptions, NavigationContainer } from "@react-navigation/native";
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationOptions,
-} from "@react-navigation/native-stack";
+import type { LinkingOptions } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
+import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import type { FC } from "react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet } from "react-native";
@@ -65,7 +66,7 @@ type RouteItem = {
 
 const commonScreenOptions: NativeStackNavigationOptions = {
   headerShadowVisible: false,
-  headerTitleStyle: { fontFamily: Font.Bold },
+  headerTitleStyle: { ...fontWithWeight(Font.Inter, "bold") },
 };
 
 const styles = StyleSheet.create({
@@ -86,7 +87,7 @@ const navigationTheme = {
   },
 };
 
-const App = () => {
+const App: FC = () => {
   const { t } = useTranslation();
 
   // Routes that should be shown outside of tab navigator

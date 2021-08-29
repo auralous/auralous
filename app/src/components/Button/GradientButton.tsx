@@ -1,13 +1,14 @@
+import type { BaseButtonProps } from "@auralous/ui";
 import {
-  BaseButtonProps,
   GradientColors,
   Spacer,
   Text,
   useSharedValuePressed,
   useStylesButton,
 } from "@auralous/ui";
-import { FC } from "react";
-import { Pressable, StyleSheet, ViewStyle } from "react-native";
+import type { FC } from "react";
+import type { ViewStyle } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, {
   useAnimatedStyle,

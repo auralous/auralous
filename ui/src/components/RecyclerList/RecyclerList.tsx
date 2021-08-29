@@ -1,24 +1,12 @@
-import {
-  ReactNode,
-  RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import {
-  Dimensions,
-  ScrollViewProps,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from "react-native";
+import type { ReactNode, RefObject } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { ScrollViewProps, StyleProp, ViewStyle } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
+import type { RecyclerListViewProps } from "recyclerlistview";
 import {
   DataProvider,
   LayoutProvider,
   RecyclerListView,
-  RecyclerListViewProps,
 } from "recyclerlistview";
 
 export interface RecyclerRenderItemInfo<ItemT> {

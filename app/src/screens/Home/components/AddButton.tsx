@@ -13,7 +13,8 @@ import {
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback, useRef } from "react";
+import type { FC } from "react";
+import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -146,7 +147,7 @@ const AddButton: FC = () => {
         snapPoints={snapPoints}
         enableHandlePanningGesture={false}
         enableContentPanningGesture={false}
-        dismissOnPanDown={false}
+        enablePanDownToClose={false}
       >
         <AddButtonModalContent onDismiss={onDismiss} />
       </BottomSheetModal>

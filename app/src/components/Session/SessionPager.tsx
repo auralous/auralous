@@ -1,4 +1,5 @@
-import { Session, useNowPlayingQuery, useTrackQuery } from "@auralous/api";
+import type { Session } from "@auralous/api";
+import { useNowPlayingQuery, useTrackQuery } from "@auralous/api";
 import {
   Avatar,
   Button,
@@ -11,14 +12,14 @@ import {
   TextMarquee,
   useBackHandlerDismiss,
 } from "@auralous/ui";
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
-import { FC, useCallback, useEffect, useRef } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import type { FC } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import PagerView, {
-  PagerViewOnPageSelectedEvent,
-} from "react-native-pager-view";
+import type { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
+import PagerView from "react-native-pager-view";
 
 const snapPoints = ["100%"];
 
@@ -201,13 +202,12 @@ export const SessionPager: FC<{
   return (
     <BottomSheetModal
       backgroundComponent={null}
-      backdropComponent={BottomSheetBackdrop}
       ref={bottomSheetRef}
       snapPoints={snapPoints}
       onDismiss={onClose}
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
-      dismissOnPanDown={false}
+      enablePanDownToClose={false}
     >
       <PagerView style={styles.root} onPageSelected={onPageSelected}>
         {sessions.map((session) => (

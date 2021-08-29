@@ -1,15 +1,14 @@
 import { RouteName } from "@/screens/types";
 import { checkAndRequestPermission } from "@/utils/permission";
-import {
-  LocationInput,
-  Session,
-  useSessionUpdateMutation,
-} from "@auralous/api";
+import type { LocationInput, Session } from "@auralous/api";
+import { useSessionUpdateMutation } from "@auralous/api";
 import { Dialog, Size, Spacer, toast } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback, useState } from "react";
+import type { FC } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
+import type { GeoError } from "react-native-geolocation-service";
 import Geolocation from "react-native-geolocation-service";
 
 const styles = StyleSheet.create({
@@ -38,8 +37,9 @@ export const SessionNewPrompts: FC<{ session: Session }> = ({ session }) => {
     if (!hasPermission) {
       return toast.error(t("permission.location.not_allowed"));
     }
+    let location: LocationInput;
     try {
-      const location = await new Promise<LocationInput>((resolve, reject) => {
+      location = await new Promise<LocationInput>((resolve, reject) => {
         Geolocation.getCurrentPosition((position) => {
           resolve({
             lat: position.coords.latitude,
@@ -47,15 +47,15 @@ export const SessionNewPrompts: FC<{ session: Session }> = ({ session }) => {
           });
         }, reject);
       });
-      const result = await sessionUpdate({
-        id: session.id,
-        location,
-      });
-      if (!result.error) {
-        dismissMap();
-      }
     } catch (err) {
-      return toast.error(err.message);
+      return toast.error((err as GeoError).message);
+    }
+    const result = await sessionUpdate({
+      id: session.id,
+      location,
+    });
+    if (!result.error) {
+      dismissMap();
     }
   }, [session.id, dismissMap, sessionUpdate, t]);
 

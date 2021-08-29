@@ -1,23 +1,24 @@
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
+import type { NotificationFollow, NotificationNewSession } from "@auralous/api";
 import {
-  NotificationFollow,
-  NotificationNewSession,
   useNotificationAddedSubscription,
   useNotificationsMarkReadMutation,
   useNotificationsQuery,
 } from "@auralous/api";
+import type { RecyclerRenderItem } from "@auralous/ui";
 import {
   Colors,
   LoadingScreen,
   NotificationFollowItem,
   NotificationNewSessionItem,
   RecyclerList,
-  RecyclerRenderItem,
   Size,
 } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useCallback, useEffect, useState } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 

@@ -1,8 +1,10 @@
 import { IconCheck } from "@/assets";
 import { Colors } from "@/styles";
 import { useSharedValuePressed } from "@/utils";
-import { FC, useCallback } from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import type { FC } from "react";
+import { useCallback } from "react";
+import type { ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,

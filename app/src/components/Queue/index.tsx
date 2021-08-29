@@ -1,5 +1,5 @@
-import { Track } from "@auralous/api";
-import { PlaybackState } from "@auralous/player";
+import type { Track } from "@auralous/api";
+import type { PlaybackState } from "@auralous/player";
 import {
   Colors,
   Heading,
@@ -9,7 +9,8 @@ import {
   useBackHandlerDismiss,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { FC, useCallback, useRef } from "react";
+import type { FC } from "react";
+import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -89,7 +90,7 @@ export const QueueModal: FC<{
         stackBehavior="push"
         enableContentPanningGesture={false}
         enableHandlePanningGesture={false}
-        dismissOnPanDown={false}
+        enablePanDownToClose={false}
       >
         <QueueSheet
           currentTrack={currentTrack}

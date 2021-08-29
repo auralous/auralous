@@ -2,7 +2,7 @@ import { RouteName } from "@/screens/types";
 import { useSessionsQuery } from "@auralous/api";
 import { LoadingScreen, SessionItem, Size } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC } from "react";
+import type { FC } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import scrollStyles from "./ScrollView.styles";

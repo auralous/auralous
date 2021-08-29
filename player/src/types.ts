@@ -1,4 +1,4 @@
-import { PlatformName, QueueItem } from "@auralous/api";
+import type { PlatformName, QueueItem } from "@auralous/api";
 
 export interface PlaybackContextMeta {
   id: string;

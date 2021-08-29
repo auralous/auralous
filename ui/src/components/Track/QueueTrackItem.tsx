@@ -1,13 +1,15 @@
 import { IconMenu } from "@/assets";
 import { Checkbox } from "@/components/Checkbox";
 import { Size } from "@/styles";
-import { FC, useMemo } from "react";
+import type { FC } from "react";
+import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import TrackItem, { TrackItemProps } from "./TrackItem";
+import type { TrackItemProps } from "./TrackItem";
+import TrackItem from "./TrackItem";
 
 const styles = StyleSheet.create({
   check: {

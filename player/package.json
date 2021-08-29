@@ -27,7 +27,6 @@
   "devDependencies": {
     "@fluentui/react-context-selector": "*",
     "@types/react": "*",
-    "react": "*",
     "urql": "*"
   },
   "peerDependencies": {

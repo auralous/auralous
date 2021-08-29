@@ -1,7 +1,8 @@
 import { Size } from "@/styles";
-import { ReactNode, useMemo } from "react";
-import { TextStyle, ViewStyle } from "react-native";
-import { BaseButtonProps } from "./types";
+import type { ReactNode } from "react";
+import { useMemo } from "react";
+import type { TextStyle, ViewStyle } from "react-native";
+import type { BaseButtonProps } from "./types";
 
 export const useStyles = ({
   children,

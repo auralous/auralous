@@ -1,10 +1,12 @@
 import { PlatformName, useCrossTracksQuery, useMeQuery } from "@auralous/api";
-import { FC, useEffect, useMemo, useState } from "react";
-import { Client, Provider } from "urql";
+import type { FC } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { Client } from "urql";
+import { Provider } from "urql";
 import { PlaybackContext } from "./Context";
 import { PlaybackProvidedCallback } from "./PlaybackContextProvider";
 import { player } from "./playerSingleton";
-import {
+import type {
   PlaybackContextProvided,
   PlaybackCurrentContext,
   PlaybackState,

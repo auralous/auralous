@@ -1,11 +1,11 @@
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { ThemeColorKey } from "@/styles";
-import { FC } from "react";
+import type { ThemeColorKey } from "@/styles";
+import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useStyles } from "./styles";
-import { BaseButtonProps } from "./types";
+import type { BaseButtonProps } from "./types";
 
 export const TextButton: FC<BaseButtonProps & { color?: ThemeColorKey }> = ({
   color,

@@ -2,14 +2,16 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles";
 import { useSharedValuePressed } from "@/utils";
-import { FC, useMemo } from "react";
-import { ColorValue, Pressable, StyleSheet, ViewStyle } from "react-native";
+import type { FC } from "react";
+import { useMemo } from "react";
+import type { ColorValue, ViewStyle } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
 import { useStyles } from "./styles";
-import { BaseButtonProps } from "./types";
+import type { BaseButtonProps } from "./types";
 
 export interface ButtonProps extends BaseButtonProps {
   variant?: "primary" | "filled";

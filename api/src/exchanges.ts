@@ -1,18 +1,20 @@
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
-import {
+import type {
   GraphCacheConfig,
-  MeDocument,
   MeQuery,
-  NowPlayingReactionsDocument,
   NowPlayingReactionsQuery,
   NowPlayingReactionsUpdatedSubscription,
   Session,
-  SessionListenersDocument,
   SessionListenersQuery,
-  UserFollowingsDocument,
   UserFollowingsQuery,
   UserFollowingsQueryVariables,
+} from "./gql.gen";
+import {
+  MeDocument,
+  NowPlayingReactionsDocument,
+  SessionListenersDocument,
+  UserFollowingsDocument,
 } from "./gql.gen";
 import schema from "./introspection.gen";
 import { nextCursorPagination } from "./_pagination";

@@ -1,7 +1,8 @@
 import { IconCheck, IconX } from "@/assets";
 import { Text } from "@/components/Typography";
 import { Colors, Size } from "@/styles";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { AccessibilityInfo, Platform, StyleSheet, View } from "react-native";
 import Animated, {
   runOnJS,
@@ -11,7 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Spacer } from "../Spacer";
 import { emitter } from "./pubsub";
-import { ToastValue } from "./types";
+import type { ToastValue } from "./types";
 
 const styles = StyleSheet.create({
   content: {

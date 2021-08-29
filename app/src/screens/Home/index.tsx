@@ -1,7 +1,7 @@
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

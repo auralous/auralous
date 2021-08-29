@@ -1,9 +1,11 @@
 import { SessionPager } from "@/components/Session/SessionPager";
-import { ParamList, RouteName } from "@/screens/types";
-import { Session } from "@auralous/api";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
+import type { Session } from "@auralous/api";
 import player from "@auralous/player";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useCallback, useState } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { MapMap } from "./components/MapMap";
 

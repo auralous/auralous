@@ -1,9 +1,12 @@
 import { NotFoundScreen } from "@/components/NotFound";
-import { ParamList, RouteName } from "@/screens/types";
-import { User, useUserFollowingsQuery, useUserQuery } from "@auralous/api";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
+import type { User } from "@auralous/api";
+import { useUserFollowingsQuery, useUserQuery } from "@auralous/api";
 import { LoadingScreen, SocialUserList } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useCallback } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({

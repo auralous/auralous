@@ -1,6 +1,7 @@
 import { useAnimatedBgColors } from "@/components/Colors";
 import { usePlaybackColor } from "@auralous/player";
-import { FC, memo } from "react";
+import type { FC } from "react";
+import { memo } from "react";
 import { StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Animated from "react-native-reanimated";

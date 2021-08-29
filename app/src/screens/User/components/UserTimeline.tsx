@@ -1,9 +1,11 @@
 import { RouteName } from "@/screens/types";
-import { User, useSessionsQuery } from "@auralous/api";
+import type { User } from "@auralous/api";
+import { useSessionsQuery } from "@auralous/api";
 import player from "@auralous/player";
 import { Colors, SessionCardItem, Size, Spacer } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback, useState } from "react";
+import type { FC } from "react";
+import { useCallback, useState } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 

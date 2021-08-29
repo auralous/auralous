@@ -1,9 +1,5 @@
-import {
-  TrackDocument,
-  TrackQuery,
-  TrackQueryVariables,
-  useTracksQuery,
-} from "@auralous/api";
+import type { TrackQuery, TrackQueryVariables } from "@auralous/api";
+import { TrackDocument, useTracksQuery } from "@auralous/api";
 import { useMemo } from "react";
 import { useClient } from "urql";
 

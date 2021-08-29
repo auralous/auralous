@@ -1,5 +1,5 @@
 import { Colors } from "@/styles";
-import { FC } from "react";
+import type { FC } from "react";
 import { ActivityIndicator } from "react-native";
 
 const LoadingBlock: FC = () => {

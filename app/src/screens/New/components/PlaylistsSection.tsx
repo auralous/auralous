@@ -1,6 +1,6 @@
-import { Playlist } from "@auralous/api";
+import type { Playlist } from "@auralous/api";
 import { Heading, PlaylistItem, Size } from "@auralous/ui";
-import { FC } from "react";
+import type { FC } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 

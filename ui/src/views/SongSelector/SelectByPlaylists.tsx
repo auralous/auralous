@@ -2,13 +2,14 @@ import { IconX } from "@/assets";
 import { TextButton } from "@/components";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
+import type { Playlist } from "@auralous/api";
 import {
-  Playlist,
   useMyPlaylistsQuery,
   usePlaylistsSearchQuery,
   usePlaylistTracksQuery,
 } from "@auralous/api";
-import { FC, useCallback, useMemo, useState } from "react";
+import type { FC } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

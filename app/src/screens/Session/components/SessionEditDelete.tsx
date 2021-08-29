@@ -1,9 +1,11 @@
 import { RouteName } from "@/screens/types";
-import { Session, useSessionDeleteMutation } from "@auralous/api";
+import type { Session } from "@auralous/api";
+import { useSessionDeleteMutation } from "@auralous/api";
 import player, { usePlaybackCurrentContext } from "@auralous/player";
 import { Dialog, Size, TextButton, toast, useDialog } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback } from "react";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 

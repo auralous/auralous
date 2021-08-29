@@ -1,10 +1,10 @@
 import { IconChevronLeft } from "@/assets";
+import type { InputRef } from "@/components";
 import {
   Button,
   Header,
   Heading,
   Input,
-  InputRef,
   LoadingScreen,
   PlaylistListItem,
   Spacer,
@@ -12,14 +12,14 @@ import {
 } from "@/components";
 import { toast } from "@/components/Toast";
 import { Size } from "@/styles";
+import type { Playlist, Track } from "@auralous/api";
 import {
-  Playlist,
-  Track,
   useMyPlaylistsQuery,
   usePlaylistAddTracksMutation,
   usePlaylistCreateMutation,
 } from "@auralous/api";
-import { FC, useCallback, useRef, useState } from "react";
+import type { FC } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

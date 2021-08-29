@@ -1,6 +1,6 @@
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 
 interface HeaderProps {

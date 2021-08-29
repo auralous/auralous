@@ -1,6 +1,7 @@
 import { ImageSources } from "@/assets";
 import { Colors, Size } from "@/styles";
-import { FC, memo } from "react";
+import type { FC } from "react";
+import { memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 interface AvatarProps {

@@ -1,10 +1,10 @@
-import { Colors } from "@auralous/ui";
-import { FC, useMemo } from "react";
+import { Colors, useImageColor } from "@auralous/ui";
+import type { FC } from "react";
+import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Animated from "react-native-reanimated";
 import { useAnimatedBgColors } from "./useAnimatedBgColors";
-import { useImageColor } from "./useImageColors";
 
 const styles = StyleSheet.create({
   root: {

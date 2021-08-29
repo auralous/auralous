@@ -1,12 +1,14 @@
 import player from "@auralous/player";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import type { FC } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
+import type { YoutubeIframeRef } from "react-native-youtube-iframe";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 const styles = StyleSheet.create({ root: {} });
 

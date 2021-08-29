@@ -1,12 +1,15 @@
 import { usePreloadedTrackQueries } from "@/gql/track";
-import { QueueItem, Track, useTrackQuery } from "@auralous/api";
-import player, { PlaybackState } from "@auralous/player";
+import type { QueueItem, Track } from "@auralous/api";
+import { useTrackQuery } from "@auralous/api";
+import type { PlaybackState } from "@auralous/player";
+import player from "@auralous/player";
+import type { DraggableRecyclerRenderItemInfo } from "@auralous/ui";
 import {
   Button,
   Colors,
   DraggableRecyclerList,
-  DraggableRecyclerRenderItemInfo,
   Font,
+  fontWithWeight,
   Heading,
   QueueTrackItem,
   Size,
@@ -15,9 +18,9 @@ import {
   TextButton,
   TrackItem,
 } from "@auralous/ui";
+import type { FC } from "react";
 import {
   createContext,
-  FC,
   memo,
   useCallback,
   useContext,
@@ -54,7 +57,7 @@ const styles = StyleSheet.create({
     paddingTop: Size[2],
   },
   selectOptsText: {
-    fontFamily: Font.Medium,
+    ...fontWithWeight(Font.Inter, "medium"),
     textTransform: "uppercase",
   },
 });

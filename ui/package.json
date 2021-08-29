@@ -25,7 +25,8 @@
     "@auralous/api": "^0.0.0",
     "@auralous/player": "^0.0.0",
     "mitt": "^3.0.0",
-    "react-native-capsize": "^0.2.2"
+    "react-native-capsize": "^0.2.2",
+    "react-native-image-colors": "^1.4.0"
   },
   "devDependencies": {
     "@fluentui/react-context-selector": "*",
@@ -33,7 +34,6 @@
     "@types/react-native": "*",
     "react": "*",
     "react-i18next": "*",
-    "react-native": "*",
     "react-native-gesture-handler": "*",
     "react-native-reanimated": "*",
     "react-native-svg": "*",
@@ -46,7 +46,6 @@
     "react-native": "*",
     "react-native-gesture-handler": "*",
     "react-native-reanimated": "*",
-    "react-native-svg": "*",
     "recyclerlistview": "*"
   }
 }

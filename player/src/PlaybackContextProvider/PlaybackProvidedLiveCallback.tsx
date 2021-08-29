@@ -11,9 +11,10 @@ import {
   useSessionPingMutation,
   useSessionUpdatedSubscription,
 } from "@auralous/api";
-import { FC, useEffect } from "react";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { player } from "../playerSingleton";
-import { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
+import type { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
 
 /**
  * This component takes over the state of playbackProvided in PlayerProvider

@@ -1,5 +1,5 @@
 import { useAuthActions } from "@/gql/context";
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList, RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
 import {
   Colors,
@@ -11,8 +11,9 @@ import {
   Text,
   TextLink,
 } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useEffect } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Config from "react-native-config";

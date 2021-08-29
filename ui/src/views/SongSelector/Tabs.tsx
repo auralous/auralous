@@ -1,6 +1,6 @@
 import { Heading } from "@/components/Typography";
 import { Size } from "@/styles";
-import { FC } from "react";
+import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

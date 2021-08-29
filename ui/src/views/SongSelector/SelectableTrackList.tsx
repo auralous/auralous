@@ -1,10 +1,12 @@
 import { IconCheck, IconPlus } from "@/assets";
 import { LoadingScreen } from "@/components/Loading";
-import { RecyclerList, RecyclerRenderItem } from "@/components/RecyclerList";
+import type { RecyclerRenderItem } from "@/components/RecyclerList";
+import { RecyclerList } from "@/components/RecyclerList";
 import { TrackItem } from "@/components/Track";
 import { Size } from "@/styles";
-import { Track } from "@auralous/api";
-import { FC, memo, useCallback, useMemo } from "react";
+import type { Track } from "@auralous/api";
+import type { FC } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelectedTracks, useUpdateTracks } from "./Context";

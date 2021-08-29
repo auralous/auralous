@@ -1,5 +1,5 @@
 import { useSearchTrackQuery } from "@auralous/api";
-import { FC } from "react";
+import type { FC } from "react";
 import SelectableTrackList from "./SelectableTrackList";
 
 interface SelectBySongsProps {

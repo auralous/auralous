@@ -1,4 +1,4 @@
-import { QueueItem } from "@auralous/api";
+import type { QueueItem } from "@auralous/api";
 import {
   Button,
   Colors,
@@ -8,7 +8,8 @@ import {
   useBackHandlerDismiss,
 } from "@auralous/ui";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { FC, useCallback, useEffect, useMemo, useRef } from "react";
+import type { FC } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -94,7 +95,7 @@ export const QueueAdder: FC<QueueAdderProps> = (props) => {
       snapPoints={snapPoints}
       enableContentPanningGesture={false}
       enableHandlePanningGesture={false}
-      dismissOnPanDown={false}
+      enablePanDownToClose={false}
     >
       <QueueAdderContent {...props} />
     </BottomSheetModal>

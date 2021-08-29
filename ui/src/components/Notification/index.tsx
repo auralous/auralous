@@ -2,12 +2,13 @@ import { ImageSources } from "@/assets";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles";
 import { formatTime } from "@/utils";
-import {
+import type {
   Notification,
   NotificationFollow,
   NotificationNewSession,
 } from "@auralous/api";
-import { FC, useMemo } from "react";
+import type { FC } from "react";
+import { useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { Spacer } from "../Spacer";

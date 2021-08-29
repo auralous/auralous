@@ -3,13 +3,15 @@ import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
 import { Size } from "@/styles";
-import { Maybe, PlatformName, Track, useTrackQuery } from "@auralous/api";
+import type { Maybe, Track } from "@auralous/api";
+import { PlatformName, useTrackQuery } from "@auralous/api";
 import {
   usePlaybackAuthentication,
   usePlaybackError,
   usePlaybackProvidedTrackId,
 } from "@auralous/player";
-import { FC, useMemo } from "react";
+import type { FC } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 

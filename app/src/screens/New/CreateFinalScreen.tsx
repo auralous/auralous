@@ -1,10 +1,12 @@
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
 import { useSessionCreateMutation } from "@auralous/api";
 import player from "@auralous/player";
 import {
   Button,
   Colors,
   Font,
+  fontWithWeight,
   GradientColors,
   Heading,
   Size,
@@ -12,8 +14,9 @@ import {
   Text,
 } from "@auralous/ui";
 import { useFocusEffect } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useCallback, useEffect, useState } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
   },
   number: {
     color: Colors.white,
-    fontFamily: Font.Bold,
+    ...fontWithWeight(Font.Inter, "bold"),
     fontSize: 144,
   },
   root: {

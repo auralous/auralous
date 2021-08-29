@@ -1,5 +1,5 @@
 import mitt from "mitt";
-import { PlaybackCurrentContext } from "./types";
+import type { PlaybackCurrentContext } from "./types";
 
 interface PlayerHandle {
   play: () => void;

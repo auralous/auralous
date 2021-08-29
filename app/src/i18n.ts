@@ -1,7 +1,8 @@
 import en from "@auralous/locales/src/en.json";
 import vi from "@auralous/locales/src/vi.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import i18n, { Resource } from "i18next";
+import type { Resource } from "i18next";
+import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { getLocales } from "react-native-localize";
 

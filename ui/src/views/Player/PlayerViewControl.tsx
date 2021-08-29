@@ -2,8 +2,9 @@ import { IconPause, IconPlay, IconSkipBack, IconSkipForward } from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { Colors, Size } from "@/styles";
 import type { Player } from "@auralous/player";
-import { PlaybackState } from "@auralous/player";
-import { FC, useCallback } from "react";
+import type { PlaybackState } from "@auralous/player";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[1],
     paddingVertical: Size[2],
   },
+  rootDisabled: { opacity: 0.5 },
 });
 
 const PlayerViewControl: FC<{
@@ -47,16 +49,17 @@ const PlayerViewControl: FC<{
   );
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, !trackId && styles.rootDisabled]}>
       <TouchableOpacity
         style={styles.backPrev}
         onPress={onSkipBackward}
         accessibilityLabel={t("player.skip_backward")}
+        disabled={!trackId}
       >
         <IconSkipBack width={Size[8]} height={Size[8]} fill={Colors.text} />
       </TouchableOpacity>
       <Spacer x={8} />
-      <View style={trackId ? undefined : { opacity: 0.5 }}>
+      <View>
         <TouchableOpacity
           onPress={togglePlay}
           style={styles.playPause}
@@ -77,6 +80,7 @@ const PlayerViewControl: FC<{
         style={styles.backPrev}
         onPress={onSkipForward}
         accessibilityLabel={t("player.skip_forward")}
+        disabled={!trackId}
       >
         <IconSkipForward width={Size[8]} height={Size[8]} fill={Colors.text} />
       </TouchableOpacity>

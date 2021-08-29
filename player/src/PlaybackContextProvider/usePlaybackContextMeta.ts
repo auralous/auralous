@@ -1,5 +1,5 @@
 import { usePlaylistQuery, useSessionQuery } from "@auralous/api";
-import { PlaybackContextMeta, PlaybackCurrentContext } from "../types";
+import type { PlaybackContextMeta, PlaybackCurrentContext } from "../types";
 
 export const usePlaybackContextMeta = (
   playbackCurrentContext: PlaybackCurrentContext | null

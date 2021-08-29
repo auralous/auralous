@@ -1,5 +1,6 @@
 import { NotFoundScreen } from "@/components/NotFound";
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
 import {
   useMeQuery,
   useSessionInviteLinkQuery,
@@ -8,8 +9,9 @@ import {
 } from "@auralous/api";
 import { Button, LoadingScreen, Size, UserListItem } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useCallback } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

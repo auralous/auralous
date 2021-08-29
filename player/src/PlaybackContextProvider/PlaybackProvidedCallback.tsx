@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
+import type { FC } from "react";
+import type { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
 import { PlaybackProvidedLiveCallback } from "./PlaybackProvidedLiveCallback";
 import { PlaybackProvidedOnDemandCallback } from "./PlaybackProvidedOnDemandCallback";
 import { usePlaybackContextMeta } from "./usePlaybackContextMeta";

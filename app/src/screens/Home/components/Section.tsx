@@ -1,5 +1,5 @@
 import { Heading, Size, Spacer, Text } from "@auralous/ui";
-import { FC } from "react";
+import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
 
 interface SectionProps {

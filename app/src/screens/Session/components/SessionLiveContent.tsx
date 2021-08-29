@@ -1,7 +1,7 @@
 import { GradientButton } from "@/components/Button";
 import { RouteName } from "@/screens/types";
+import type { Session } from "@auralous/api";
 import {
-  Session,
   useNowPlayingQuery,
   useSessionListenersQuery,
   useSessionListenersUpdatedSubscription,
@@ -18,7 +18,8 @@ import {
   TrackItem,
 } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback } from "react";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 import SessionMeta from "./SessionMeta";

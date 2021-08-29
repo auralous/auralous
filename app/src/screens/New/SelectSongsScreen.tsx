@@ -1,7 +1,8 @@
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList, RouteName } from "@/screens/types";
 import { SongSelector, SongSelectorContext } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useCallback, useState } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import SelectedTrackListView from "./components/SelectedTrackListView";
 import { useRedirectOnUnauthenticated } from "./components/useRedirectOnUnauthenticated";

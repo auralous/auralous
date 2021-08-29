@@ -1,14 +1,14 @@
-import { Colors, Size, Spacer, Text, ThemeColorKey } from "@auralous/ui";
-import { FC, useCallback, useMemo } from "react";
+import type { ThemeColorKey } from "@auralous/ui";
+import { Colors, Size, Spacer, Text } from "@auralous/ui";
+import type { FC } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Linking,
-  Pressable,
+import type {
   PressableStateCallbackType,
   TextStyle,
-  View,
   ViewStyle,
 } from "react-native";
+import { Linking, Pressable, View } from "react-native";
 import Config from "react-native-config";
 
 interface ContinueButtonProps {

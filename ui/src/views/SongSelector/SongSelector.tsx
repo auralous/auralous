@@ -1,7 +1,9 @@
 import { Size } from "@/styles";
-import { FC, useEffect, useState } from "react";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { SongSelectorContext, SongSelectorState } from "./Context";
+import type { SongSelectorState } from "./Context";
+import { SongSelectorContext } from "./Context";
 import SearchInput from "./SearchInput";
 import SelectByPlaylists from "./SelectByPlaylists";
 import SelectBySongs from "./SelectBySongs";

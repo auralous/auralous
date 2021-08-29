@@ -6,11 +6,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authExchange } from "@urql/exchange-auth";
 import { createClient as createWSClient } from "graphql-ws";
 import Config from "react-native-config";
+import type { Exchange } from "urql";
 import {
   createClient,
   dedupExchange,
   errorExchange,
-  Exchange,
   fetchExchange,
   makeOperation,
   subscriptionExchange,
@@ -68,6 +68,7 @@ export const createUrqlClient = () => {
         forwardSubscription(operation) {
           return {
             subscribe: (sink) => {
+              // @ts-ignore
               const dispose = wsClient.subscribe(operation, sink);
               return {
                 unsubscribe: dispose,

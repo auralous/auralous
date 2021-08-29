@@ -1,9 +1,11 @@
 import { useAuthActions } from "@/gql/context";
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
 import { useMeQuery } from "@auralous/api";
 import { Button, Colors, Heading, Size, Spacer } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useCallback } from "react";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";

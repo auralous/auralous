@@ -1,12 +1,10 @@
-import {
-  LoadingScreen,
-  RecyclerList,
-  RecyclerRenderItem,
-  UserListItem,
-} from "@/components";
+import type { RecyclerRenderItem } from "@/components";
+import { LoadingScreen, RecyclerList, UserListItem } from "@/components";
 import { Size } from "@/styles";
-import { Maybe, User, useUserQuery } from "@auralous/api";
-import { createContext, FC, useCallback, useContext, useMemo } from "react";
+import type { Maybe, User } from "@auralous/api";
+import { useUserQuery } from "@auralous/api";
+import type { FC } from "react";
+import { createContext, useCallback, useContext, useMemo } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { UserFollowButton } from "./UserFollowButton";
 
