@@ -1,7 +1,6 @@
 import type { TrackQuery, TrackQueryVariables } from "@auralous/api";
-import { TrackDocument, useTracksQuery } from "@auralous/api";
+import { TrackDocument, useClient, useTracksQuery } from "@auralous/api";
 import { useMemo } from "react";
-import { useClient } from "urql";
 
 export const usePreloadedTrackQueries = (ids: string[]) => {
   const client = useClient();

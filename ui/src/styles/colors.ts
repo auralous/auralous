@@ -76,7 +76,8 @@ export const useImageColor = (url: string | undefined | null) => {
           colorCache.set(url, result);
           setColor(result);
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log({ err });
           setColor(Colors.background);
         });
       return () => {

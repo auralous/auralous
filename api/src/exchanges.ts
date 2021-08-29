@@ -1,5 +1,15 @@
+import { authExchange } from "@urql/exchange-auth";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
+import { createClient as createWSClient } from "graphql-ws";
+import type { CombinedError, Operation } from "urql";
+import {
+  dedupExchange,
+  errorExchange,
+  fetchExchange,
+  makeOperation,
+  subscriptionExchange,
+} from "urql";
 import type {
   GraphCacheConfig,
   MeQuery,
@@ -19,7 +29,7 @@ import {
 import schema from "./introspection.gen";
 import { nextCursorPagination } from "./_pagination";
 
-export const cacheExchange = () =>
+const cacheExchangeFn = () =>
   createCacheExchange<GraphCacheConfig>({
     // @ts-ignore
     schema,
@@ -193,3 +203,71 @@ export const cacheExchange = () =>
       },
     },
   });
+
+interface SetupExchangesOptions {
+  websocketUri: string;
+  onError(error: CombinedError, operation: Operation): void;
+  getToken(): Promise<string | null>;
+}
+
+let wsClient: ReturnType<typeof createWSClient>;
+
+export const setupExchanges = ({
+  websocketUri,
+  onError,
+  getToken,
+}: SetupExchangesOptions) => {
+  if (!wsClient) {
+    wsClient = createWSClient({
+      url: `${websocketUri}/graphql`,
+    });
+  }
+  return [
+    dedupExchange,
+    cacheExchangeFn(),
+    authExchange<{ accessToken?: string | null }>({
+      async getAuth({ authState }) {
+        if (!authState) {
+          return {
+            accessToken: await getToken(),
+          };
+        }
+        return null;
+      },
+      addAuthToOperation({ authState, operation }) {
+        if (!authState?.accessToken) {
+          return operation;
+        }
+        const fetchOptions =
+          typeof operation.context.fetchOptions === "function"
+            ? operation.context.fetchOptions()
+            : operation.context.fetchOptions || {};
+        return makeOperation(operation.kind, operation, {
+          ...operation.context,
+          fetchOptions: {
+            ...fetchOptions,
+            headers: {
+              ...fetchOptions.headers,
+              Authorization: authState.accessToken,
+            },
+          },
+        });
+      },
+    }),
+    errorExchange({ onError }),
+    fetchExchange,
+    subscriptionExchange({
+      forwardSubscription(operation) {
+        return {
+          subscribe: (sink) => {
+            // @ts-ignore
+            const dispose = wsClient.subscribe(operation, sink);
+            return {
+              unsubscribe: dispose,
+            };
+          },
+        };
+      },
+    }),
+  ];
+};

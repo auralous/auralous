@@ -6,10 +6,13 @@ import type {
   SessionTracksQueryVariables,
   Track,
 } from "@auralous/api";
-import { PlaylistTracksDocument, SessionTracksDocument } from "@auralous/api";
+import {
+  PlaylistTracksDocument,
+  SessionTracksDocument,
+  useClient,
+} from "@auralous/api";
 import type { FC } from "react";
 import { useEffect, useMemo, useState } from "react";
-import { useClient } from "urql";
 import { player } from "../playerSingleton";
 import type { PlaybackContextProvided, PlaybackCurrentContext } from "../types";
 import { reorder, shuffle, uidForIndexedTrack } from "../utils";

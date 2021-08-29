@@ -5,7 +5,8 @@
       "app",
       "locales",
       "player",
-      "ui"
+      "ui",
+      "web"
     ],
     "nohoist": [
       "**/react",
@@ -38,9 +39,10 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.1",
-    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react": "^7.25.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-react-native": "^3.11.0",
+    "pkg-dir": "^5.0.0",
     "prettier": "^2.3.2",
     "typescript": "^4.4.2"
   },

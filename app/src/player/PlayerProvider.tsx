@@ -4,14 +4,17 @@ import type {
   SessionCurrentLiveQuery,
   SessionCurrentLiveQueryVariables,
 } from "@auralous/api";
-import { MeDocument, SessionCurrentLiveDocument } from "@auralous/api";
+import {
+  MeDocument,
+  SessionCurrentLiveDocument,
+  useClient,
+} from "@auralous/api";
 import type { PlaybackCurrentContext } from "@auralous/player";
 import player, {
   PlayerProvider as OriginalPlayerProvider,
 } from "@auralous/player";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { useClient } from "urql";
 import { PlayerComponentInternalContext } from "./components/PlayerComponentInternalContext";
 import { useTrackColor } from "./components/useTrackColor";
 
@@ -95,7 +98,6 @@ export const PlayerProvider: FC = ({ children }) => {
   return (
     <OriginalPlayerProvider
       playbackCurrentContext={playbackCurrentContext}
-      client={client}
       useTrackColor={useTrackColor}
     >
       <PlayerComponentInternalContext.Provider value={{ stopLiveIntention }}>

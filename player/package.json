@@ -26,12 +26,10 @@
   },
   "devDependencies": {
     "@fluentui/react-context-selector": "*",
-    "@types/react": "*",
-    "urql": "*"
+    "@types/react": "*"
   },
   "peerDependencies": {
     "@fluentui/react-context-selector": "*",
-    "react": "*",
-    "urql": "*"
+    "react": "*"
   }
 }

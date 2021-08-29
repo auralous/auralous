@@ -3,7 +3,7 @@ import type {
   SessionsOnMapQuery,
   SessionsOnMapQueryVariables,
 } from "@auralous/api";
-import { SessionsOnMapDocument } from "@auralous/api";
+import { SessionsOnMapDocument, useClient } from "@auralous/api";
 import { toast } from "@auralous/ui";
 import type { MapViewProps } from "@react-native-mapbox-gl/maps";
 import MapboxGL from "@react-native-mapbox-gl/maps";
@@ -13,7 +13,6 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import Config from "react-native-config";
 import type { OperationResult } from "urql";
-import { useClient } from "urql";
 import { pipe, subscribe } from "wonka";
 import { MapMapMarker, radiusPx } from "./MapMapMarker";
 

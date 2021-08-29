@@ -1,4 +1,5 @@
 import { ASYNC_STORAGE_AUTH } from "@/utils/auth";
+import { Provider } from "@auralous/api";
 import {
   createContext,
   useContextSelector,
@@ -6,7 +7,6 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
-import { Provider } from "urql";
 import { createUrqlClient } from "./urql";
 
 interface ApiState {
