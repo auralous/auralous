@@ -16,7 +16,8 @@ import {
   usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
 } from "@auralous/api";
-import { LoadingScreen, shuffle, Size } from "@auralous/ui";
+import { shuffle } from "@auralous/player";
+import { LoadingScreen, Size } from "@auralous/ui";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";

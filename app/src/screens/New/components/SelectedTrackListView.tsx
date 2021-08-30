@@ -1,5 +1,6 @@
 import { RouteName } from "@/screens/types";
 import { useMeQuery, useTrackQuery } from "@auralous/api";
+import { reorder, shuffle } from "@auralous/player";
 import type {
   DraggableRecyclerRenderItem,
   DraggableRecyclerRenderItemInfo,
@@ -17,8 +18,6 @@ import {
   identityFn,
   Input,
   QueueTrackItem,
-  reorder,
-  shuffle,
   Size,
   Spacer,
   Text,

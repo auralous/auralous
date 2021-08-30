@@ -10,7 +10,8 @@
     "test": "jest",
     "lint": "eslint .",
     "build": "yarn build:dts",
-    "build:dts": "tsc --noEmit"
+    "build:dts": "tsc --noEmit",
+    "clean": "echo nil"
   },
   "dependencies": {
     "@auralous/api": "^0.0.0",

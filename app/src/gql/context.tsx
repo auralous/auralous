@@ -1,5 +1,4 @@
-import { ASYNC_STORAGE_AUTH } from "@/utils/auth";
-import { Provider } from "@auralous/api";
+import { Provider, STORAGE_KEY_AUTH } from "@auralous/api";
 import {
   createContext,
   useContextSelector,
@@ -19,11 +18,11 @@ const ApiContext = createContext({} as ApiState);
 export const ApiProvider: FC = ({ children }) => {
   const [client, setClient] = useState(createUrqlClient);
   const signIn: ApiState["signIn"] = useCallback(async (token) => {
-    await AsyncStorage.setItem(ASYNC_STORAGE_AUTH, token);
+    await AsyncStorage.setItem(STORAGE_KEY_AUTH, token);
     setClient(createUrqlClient());
   }, []);
   const signOut: ApiState["signOut"] = useCallback(async () => {
-    await AsyncStorage.removeItem(ASYNC_STORAGE_AUTH);
+    await AsyncStorage.removeItem(STORAGE_KEY_AUTH);
     setClient(createUrqlClient());
   }, []);
   return (

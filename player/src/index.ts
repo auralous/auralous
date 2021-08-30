@@ -5,5 +5,10 @@ export { usePlaybackContextMeta } from "./PlaybackContextProvider/usePlaybackCon
 export { PlayerProvider } from "./PlayerProvider";
 export { player as default } from "./playerSingleton";
 export * from "./types";
-export { uidForIndexedTrack } from "./utils";
+export {
+  reorder,
+  shuffle,
+  uidForIndexedTrack,
+  usePreloadedTrackQueries,
+} from "./utils";
 export type { Player };

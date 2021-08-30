@@ -111,7 +111,7 @@ const App: FC = () => {
         component: UserScreen,
         options: {
           headerTitle: "",
-          headerTranslucent: true,
+          headerTransparent: true,
         },
       },
       {
@@ -133,7 +133,7 @@ const App: FC = () => {
         component: PlaylistScreen,
         options: {
           headerTitle: "",
-          headerTranslucent: true,
+          headerTransparent: true,
         },
       },
       {
@@ -141,7 +141,7 @@ const App: FC = () => {
         component: SessionScreen,
         options: {
           headerTitle: "",
-          headerTranslucent: true,
+          headerTransparent: true,
         },
       },
       {
@@ -178,7 +178,7 @@ const App: FC = () => {
         options: {
           presentation: "modal" as const,
           title: t("sign_in.title"),
-          headerTranslucent: true,
+          headerTransparent: true,
         },
       },
       {

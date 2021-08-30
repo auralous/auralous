@@ -1,8 +1,7 @@
-import { usePreloadedTrackQueries } from "@/gql/track";
 import type { QueueItem, Track } from "@auralous/api";
 import { useTrackQuery } from "@auralous/api";
 import type { PlaybackState } from "@auralous/player";
-import player from "@auralous/player";
+import player, { usePreloadedTrackQueries } from "@auralous/player";
 import type { DraggableRecyclerRenderItemInfo } from "@auralous/ui";
 import {
   Button,
