@@ -1,4 +1,4 @@
-# @auralous/app
+# @auralous/mobile
 
 ## Setup
 

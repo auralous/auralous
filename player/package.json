@@ -30,7 +30,6 @@
     "@types/react": "*"
   },
   "peerDependencies": {
-    "@fluentui/react-context-selector": "*",
     "react": "*"
   }
 }

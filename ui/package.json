@@ -42,13 +42,12 @@
     "react-native-svg": "*"
   },
   "peerDependencies": {
-    "@fluentui/react-context-selector": "*",
-    "@react-navigation/native": "*",
     "react": "*",
     "react-i18next": "*",
     "react-native": "*",
     "react-native-gesture-handler": "*",
     "react-native-linear-gradient": "*",
-    "react-native-reanimated": "*"
+    "react-native-reanimated": "*",
+    "@react-navigation/native": "*"
   }
 }

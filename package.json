@@ -6,7 +6,8 @@
       "locales",
       "player",
       "ui",
-      "web"
+      "web",
+      "mobile"
     ],
     "nohoist": [
       "**/react",

@@ -3,15 +3,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@auralous/locales/*": ["../locales/src/*"]
+      "@/*": ["./src/*"]
     },
     "target": "esnext",
     "module": "commonjs",
     "lib": ["es2017"],
     "allowJs": true,
     "jsx": "react-native",
-    "noEmit": true
+    "noEmit": true,
+    "composite": true
   },
   "references": [
     {

@@ -29,7 +29,6 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import "react-native-gesture-handler";
 import { QueueAdder } from "./QueueAdder";
 
 const QueueContext = createContext(
