@@ -1,54 +1,25 @@
 {
   "name": "@auralous/web",
   "version": "0.0.0",
-  "description": "Web app for Auralous",
   "private": true,
+  "description": "Web app for Auralous",
+  "homepage": "https://github.com/auralous/auralous#readme",
+  "bugs": {
+    "url": "https://github.com/auralous/auralous/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/auralous/auralous.git",
     "directory": "web"
   },
   "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/auralous/auralous/issues"
-  },
-  "homepage": "https://github.com/auralous/auralous#readme",
-  "dependencies": {
-    "@auralous/api": "^0.0.0",
-    "@auralous/player": "^0.0.0",
-    "@auralous/ui": "^0.0.0",
-    "@fluentui/react-context-selector": "^0.53.4",
-    "@loadable/component": "^5.15.0",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.7.5",
-    "@types/react": "^17.0.19",
-    "@types/react-dom": "^17.0.9",
-    "history": "^5.0.1",
-    "i18next-browser-languagedetector": "^6.1.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-i18next": "^11.11.4",
-    "react-native-gesture-handler": "^1.10.3",
-    "react-native-reanimated": "^2.3.0-beta.1",
-    "react-native-svg": "^12.1.1",
-    "react-native-svg-transformer": "^0.14.3",
-    "react-native-web": "^0.17.1",
-    "react-native-web-linear-gradient": "^1.1.2",
-    "react-router-dom": "^5.2.1",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.4.2",
-    "web-vitals": "^2.1.0"
-  },
   "scripts": {
-    "start": "craco start",
     "build": "craco build",
-    "test": "craco test",
+    "clean": "rm -rf build",
     "eject": "craco eject",
     "lint": "eslint .",
-    "clean": "rm -rf build"
+    "start": "craco start",
+    "test": "craco test"
   },
   "browserslist": {
     "production": [
@@ -62,13 +33,29 @@
       "last 1 safari version"
     ]
   },
+  "dependencies": {
+    "@auralous/app": "^0.0.0",
+    "@auralous/ui": "^0.0.0",
+    "@fluentui/react-context-selector": "^0.53.4",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.5",
+    "@types/react": "^17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-reanimated": "^2.3.0-beta.1",
+    "react-native-web": "^0.17.1",
+    "react-native-web-linear-gradient": "^1.1.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^2.1.0"
+  },
   "devDependencies": {
     "@craco/craco": "^6.2.0",
     "@svgr/webpack": "^5.5.0",
-    "@types/react": "^17.0.19",
-    "@types/react-native": "^0.64.13",
-    "@types/react-router-dom": "^5.1.8",
-    "@types/spotify-web-playback-sdk": "^0.1.11",
     "babel-plugin-react-native-web": "^0.17.1",
     "metro-react-native-babel-preset": "^0.66.2"
   }

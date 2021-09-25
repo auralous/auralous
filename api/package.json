@@ -2,27 +2,27 @@
   "name": "@auralous/api",
   "version": "0.0.0",
   "description": "APIs for Auralous",
-  "scripts": {
-    "codegen": "graphql-codegen",
-    "build:babel": "babel src -d dist --extensions \".ts\"",
-    "build:dts": "tsc",
-    "build": "yarn codegen && yarn build:dts && yarn build:babel",
-    "build:watch": "concurrently \"yarn codegen --watch\" \"yarn build:dts --watch\" \"yarn build:babel -w\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rm -rf dist && rm tsconfig.tsbuildinfo"
+  "homepage": "https://github.com/auralous/auralous#readme",
+  "bugs": {
+    "url": "https://github.com/auralous/auralous/issues"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/auralous/auralous.git",
     "directory": "api"
   },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/auralous/auralous/issues"
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "yarn codegen && yarn build:dts && yarn build:babel",
+    "build:babel": "babel src -d dist --extensions \".ts\"",
+    "build:dts": "tsc",
+    "build:watch": "concurrently \"yarn codegen --watch\" \"yarn build:dts --watch\" \"yarn build:babel -w\"",
+    "clean": "rm -rf dist && rm tsconfig.tsbuildinfo",
+    "codegen": "graphql-codegen",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/auralous/auralous#readme",
   "dependencies": {
     "@urql/exchange-auth": "^0.1.6",
     "@urql/exchange-graphcache": "^4.3.2",

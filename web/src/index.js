@@ -1,6 +1,6 @@
+import { App } from "@auralous/app";
 import { AppRegistry } from "react-native";
 import "react-native-gesture-handler";
-import App from "./App";
 import "./assets/images/index";
 import "./i18n";
 import reportWebVitals from "./reportWebVitals";

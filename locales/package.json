@@ -2,10 +2,9 @@
   "name": "@auralous/locales",
   "version": "0.0.0",
   "description": "I18N for Auralous",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
-  "scripts": {
-    "build": "npx prettier src -w"
+  "homepage": "https://github.com/auralous/auralous#readme",
+  "bugs": {
+    "url": "https://github.com/auralous/auralous/issues"
   },
   "repository": {
     "type": "git",
@@ -13,8 +12,9 @@
     "directory": "locales"
   },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/auralous/auralous/issues"
-  },
-  "homepage": "https://github.com/auralous/auralous#readme"
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "build": "npx prettier src -w"
+  }
 }
