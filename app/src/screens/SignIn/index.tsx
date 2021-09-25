@@ -4,8 +4,8 @@ import { useMeQuery } from "@auralous/api";
 import {
   Colors,
   IconGoogleColor,
+  IconLogo,
   IconSpotify,
-  Logo,
   Size,
   Spacer,
   Text,
@@ -73,7 +73,12 @@ const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
   return (
     <View style={styles.root}>
       <View style={styles.top}>
-        <Logo style={styles.logo} width={256} height={64} fill={Colors.text} />
+        <IconLogo
+          style={styles.logo}
+          width={256}
+          height={64}
+          fill={Colors.text}
+        />
         <Text size="lg" bold color="textSecondary">
           Music Together
         </Text>
@@ -90,7 +95,7 @@ const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
           platform="spotify"
           name="Spotify"
           icon={<IconSpotify width={21} height={21} fill="#ffffff" />}
-          listenOn="YouTube"
+          listenOn="Spotify"
         />
       </View>
       <View style={styles.smallTextContainer}>
@@ -109,7 +114,7 @@ const SignInScreen: FC<NativeStackScreenProps<ParamList, RouteName.SignIn>> = ({
                 color="textSecondary"
                 activeColor="text"
                 key="privacy"
-                href={`${Config.WEB_URI}/privacy`}
+                href={`${Config.APP_URI}/privacy`}
                 style={styles.smallTextLink}
               />,
               <TextLink

@@ -8,7 +8,7 @@ import type {
   TextLayoutEventData,
   ViewStyle,
 } from "react-native";
-import { StyleSheet, Text as RNText } from "react-native";
+import { Platform, StyleSheet, Text as RNText } from "react-native";
 import Animated, {
   scrollTo,
   useAnimatedRef,
@@ -67,7 +67,14 @@ export const TextMarquee: FC<
   const scrollValue = useSharedValue(0);
 
   useDerivedValue(() => {
-    scrollTo(aref, scrollValue.value, 0, false);
+    if (Platform.OS === "web") {
+      // @ts-ignore: Web usage
+      // https://docs.swmansion.com/react-native-reanimated/docs/api/nativeMethods/scrollTo
+      // https://reactnative.dev/docs/scrollview#scrollto
+      aref.current?.scrollTo({ x: 0, y: scrollValue.value, animated: false });
+    } else {
+      scrollTo(aref, scrollValue.value, 0, false);
+    }
   }, []);
 
   useEffect(() => {

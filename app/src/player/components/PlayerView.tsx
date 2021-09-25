@@ -1,4 +1,3 @@
-import { useRootSheetModalsSetter } from "@/components/RootSheetModals";
 import { RouteName } from "@/screens/types";
 import { useTrackQuery } from "@auralous/api";
 import {
@@ -11,16 +10,19 @@ import {
   Header,
   IconChevronDown,
   IconMoreHorizontal,
-  IconPlaylistAdd,
+  IconPlayListAdd,
+  PlayerBar,
   PlayerChatView,
+  PlayerViewBackground,
   Size,
+  SlideModal,
   Spacer,
   Text,
   TextButton,
-  useBackHandlerDismiss,
+  useDialog,
+  useUiDispatch,
 } from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useNavigationState } from "@react-navigation/native";
 import type { FC } from "react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -30,10 +32,6 @@ import type { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
 import PagerView from "react-native-pager-view";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MusicView from "./MusicView";
-import PlayerBar from "./PlayerBar";
-import PlayerViewBackground from "./PlayerViewBackground";
-
-const snapPoints = ["100%"];
 
 const styles = StyleSheet.create({
   content: {
@@ -116,24 +114,36 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
   });
   const track = trackId ? data?.track : null;
 
-  const rootSheetModalsSetter = useRootSheetModalsSetter();
+  const uiDispatch = useUiDispatch();
 
   const presentMenu = useCallback(() => {
     if (!track) return;
-    rootSheetModalsSetter.actionSheet({
-      visible: true,
-      title: track.title,
-      subtitle: track.artists.map((artist) => artist.name).join(", "),
-      image: track.image || undefined,
-      items: [
-        {
-          icon: <IconPlaylistAdd color={Colors.textSecondary} />,
-          text: t("playlist.add_to_playlist.title"),
-          onPress: () => rootSheetModalsSetter.addToPlaylist(track),
+    uiDispatch({
+      type: "contextMenu",
+      value: {
+        visible: true,
+        meta: {
+          title: track.title,
+          subtitle: track.artists.map((artist) => artist.name).join(", "),
+          image: track.image || undefined,
+          items: [
+            {
+              icon: <IconPlayListAdd color={Colors.textSecondary} />,
+              text: t("playlist.add_to_playlist.title"),
+              onPress: () =>
+                uiDispatch({
+                  type: "addToPlaylist",
+                  value: {
+                    visible: true,
+                    trackId: track.id,
+                  },
+                }),
+            },
+          ],
         },
-      ],
+      },
     });
-  }, [t, track, rootSheetModalsSetter]);
+  }, [t, track, uiDispatch]);
 
   return (
     <>
@@ -189,12 +199,6 @@ const PlayerViewInner: FC = () => {
     []
   );
 
-  const navigation = useNavigation();
-  const onUnauthenticated = useCallback(
-    () => navigation.navigate(RouteName.SignIn),
-    [navigation]
-  );
-
   return (
     <View style={styles.content}>
       <View style={styles.tabs}>
@@ -221,10 +225,7 @@ const PlayerViewInner: FC = () => {
         </View>
         <View key={1}>
           {contextMeta?.isLive ? (
-            <PlayerChatView
-              contextMeta={contextMeta}
-              onUnauthenticated={onUnauthenticated}
-            />
+            <PlayerChatView contextMeta={contextMeta} />
           ) : (
             <View style={styles.noChat}>
               <Text align="center" bold color="textSecondary">
@@ -238,45 +239,45 @@ const PlayerViewInner: FC = () => {
   );
 };
 
-const PlayerView: FC = () => {
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
+const hiddenRoutes = [
+  RouteName.NewFinal,
+  RouteName.NewQuickShare,
+  RouteName.NewSelectSongs,
+  RouteName.SignIn,
+  RouteName.Map,
+] as string[];
 
+const PlayerBarWrapper: FC<{ onPress(): void }> = ({ onPress }) => {
+  // PlayerBar but on certain routes, we want to hide it
+  const navigationRouteName = useNavigationState((state) =>
+    state?.routes ? state.routes[state.routes.length - 1].name : ""
+  );
+
+  if (hiddenRoutes.includes(navigationRouteName)) return null;
+
+  return <PlayerBar onPress={onPress} />;
+};
+
+const PlayerView: FC = () => {
   const navigation = useNavigation();
 
-  const present = useCallback(() => {
-    bottomSheetRef.current?.present();
-  }, []);
-  const dismiss = useCallback(() => {
-    bottomSheetRef.current?.dismiss();
-  }, []);
+  const [visible, present, dismiss] = useDialog();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("state", dismiss);
     return unsubscribe;
   }, [navigation, dismiss]);
 
-  const [sheetIndex, setSheetIndex] = useState(-1);
-
-  useBackHandlerDismiss(sheetIndex === 0, dismiss);
-
   return (
     <>
-      <BottomSheetModal
-        onChange={setSheetIndex}
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        handleComponent={null}
-        enableContentPanningGesture={false}
-        enableHandlePanningGesture={false}
-        enablePanDownToClose={false}
-      >
+      <SlideModal visible={visible} onDismiss={dismiss}>
         <SafeAreaView style={styles.root}>
           <PlayerViewBackground />
           <PlayerViewHeader onDismiss={dismiss} />
           <PlayerViewInner />
         </SafeAreaView>
-      </BottomSheetModal>
-      <PlayerBar onPress={present} />
+      </SlideModal>
+      <PlayerBarWrapper onPress={present} />
     </>
   );
 };

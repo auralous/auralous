@@ -1,5 +1,6 @@
 {
   "home": {
+    "title": "Trang chủ",
     "featured_playlists": {
       "title": "Playlist nổi bật"
     },
@@ -22,6 +23,9 @@
     "description": "Khám phá âm nhạc quanh bạn",
     "open_map": "Mở bản đồ",
     "no_sessions_found": "Không tìm thấy phiên"
+  },
+  "search": {
+    "title": "Tìm kiếm"
   },
   "new": {
     "title": "Tạo phiên nghe",
@@ -197,7 +201,9 @@
     },
     "navigation": {
       "go_back": "Trở về",
-      "open_menu": "Mở menu"
+      "go_forward": "Về sau",
+      "open_menu": "Mở menu",
+      "close": "Đóng"
     },
     "label": {
       "search": "Tìm kiếm"

@@ -98,13 +98,12 @@ export const TextLink: FC<TextProps & TextLinkProps> = ({
   const onPress = useCallback(() => Linking.openURL(href), [href]);
   return (
     <Pressable onPress={onPress}>
-      {({ pressed }) => (
+      {({ pressed, hovered }) => (
         <RNText
           numberOfLines={numberOfLines}
           style={[
-            style,
-            props.style,
-            pressed && { color: Colors[activeColor] as string },
+            StyleSheet.compose(style, props.style),
+            (pressed || hovered) && { color: Colors[activeColor] as string },
           ]}
         >
           {children}

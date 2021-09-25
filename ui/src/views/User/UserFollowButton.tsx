@@ -1,4 +1,5 @@
 import { Button } from "@/components";
+import { useUiDispatch } from "@/context";
 import {
   useMeQuery,
   useUserFollowingsQuery,
@@ -9,44 +10,49 @@ import type { FC } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-export const UserFollowButton: FC<{ id: string; onUnauthenticated(): void }> =
-  ({ id, onUnauthenticated }) => {
-    const { t } = useTranslation();
+export const UserFollowButton: FC<{ id: string }> = ({ id }) => {
+  const { t } = useTranslation();
 
-    const [{ data: { me } = { me: undefined } }] = useMeQuery();
+  const uiDispatch = useUiDispatch();
+  const onUnauthenticated = useCallback(
+    () => uiDispatch({ type: "signIn", value: { visible: true } }),
+    [uiDispatch]
+  );
 
-    const [{ data: { userFollowings } = { userFollowings: undefined } }] =
-      useUserFollowingsQuery({
-        variables: { id: me?.user.id || "" },
-        pause: !me,
-      });
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
-    const followed = useMemo(
-      () => Boolean(userFollowings?.includes(id)),
-      [userFollowings, id]
-    );
+  const [{ data: { userFollowings } = { userFollowings: undefined } }] =
+    useUserFollowingsQuery({
+      variables: { id: me?.user.id || "" },
+      pause: !me,
+    });
 
-    const [{ fetching: fetchingFollow }, followUser] = useUserFollowMutation();
-    const [{ fetching: fetchingUnfollow }, unfollowUser] =
-      useUserUnfollowMutation();
+  const followed = useMemo(
+    () => Boolean(userFollowings?.includes(id)),
+    [userFollowings, id]
+  );
 
-    const onUnfollow = useCallback(
-      () => unfollowUser({ id }),
-      [unfollowUser, id]
-    );
+  const [{ fetching: fetchingFollow }, followUser] = useUserFollowMutation();
+  const [{ fetching: fetchingUnfollow }, unfollowUser] =
+    useUserUnfollowMutation();
 
-    const onFollow = useCallback(
-      () => (me ? followUser({ id }) : onUnauthenticated()),
-      [me, followUser, onUnauthenticated, id]
-    );
+  const onUnfollow = useCallback(
+    () => unfollowUser({ id }),
+    [unfollowUser, id]
+  );
 
-    return (
-      <Button
-        variant={followed ? undefined : "primary"}
-        onPress={followed ? onUnfollow : onFollow}
-        disabled={fetchingFollow || fetchingUnfollow || me?.user.id === id}
-      >
-        {followed ? t("user.unfollow") : t("user.follow")}
-      </Button>
-    );
-  };
+  const onFollow = useCallback(
+    () => (me ? followUser({ id }) : onUnauthenticated()),
+    [me, followUser, onUnauthenticated, id]
+  );
+
+  return (
+    <Button
+      variant={followed ? undefined : "primary"}
+      onPress={followed ? onUnfollow : onFollow}
+      disabled={fetchingFollow || fetchingUnfollow || me?.user.id === id}
+    >
+      {followed ? t("user.unfollow") : t("user.follow")}
+    </Button>
+  );
+};

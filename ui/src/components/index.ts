@@ -1,6 +1,7 @@
 export * from "./Avatar";
 export * from "./Button";
 export * from "./Checkbox";
+export * from "./Color";
 export * from "./Dialog";
 export * from "./Header";
 export * from "./Input";
@@ -15,3 +16,4 @@ export * from "./Toast";
 export * from "./Track";
 export * from "./Typography";
 export * from "./User";
+export * from "./Layout";

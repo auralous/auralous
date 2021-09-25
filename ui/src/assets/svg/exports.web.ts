@@ -3,6 +3,7 @@ export { ReactComponent as Bell } from "./bell.svg";
 export { ReactComponent as Check } from "./check.svg";
 export { ReactComponent as ChevronDown } from "./chevron-down.svg";
 export { ReactComponent as ChevronLeft } from "./chevron-left.svg";
+export { ReactComponent as ChevronRight } from "./chevron-right.svg";
 export { ReactComponent as ChevronUp } from "./chevron-up.svg";
 export { ReactComponent as Edit } from "./edit.svg";
 export { ReactComponent as GoogleColor } from "./google-color.svg";

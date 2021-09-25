@@ -7,14 +7,13 @@ import {
   ImageSources,
   Size,
   SkeletonBlock,
+  SlideModal,
   Spacer,
   Text,
   TextMarquee,
-  useBackHandlerDismiss,
 } from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import type { FC } from "react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -180,17 +179,6 @@ export const SessionPager: FC<{
   onSessionPaged(session: Session): void;
   onSessionNavigated(session: Session): void;
 }> = ({ sessions, visible, onClose, onSessionPaged, onSessionNavigated }) => {
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
-
-  useEffect(() => {
-    if (!bottomSheetRef.current) return;
-    if (visible) {
-      bottomSheetRef.current.present();
-    } else bottomSheetRef.current.dismiss();
-  }, [visible, onClose]);
-
-  useBackHandlerDismiss(visible, onClose);
-
   const onPageSelected = useCallback(
     (event: PagerViewOnPageSelectedEvent) => {
       const session = sessions[event.nativeEvent.position];
@@ -200,15 +188,7 @@ export const SessionPager: FC<{
   );
 
   return (
-    <BottomSheetModal
-      backgroundComponent={null}
-      ref={bottomSheetRef}
-      snapPoints={snapPoints}
-      onDismiss={onClose}
-      enableContentPanningGesture={false}
-      enableHandlePanningGesture={false}
-      enablePanDownToClose={false}
-    >
+    <SlideModal visible={visible} onDismiss={onClose}>
       <PagerView style={styles.root} onPageSelected={onPageSelected}>
         {sessions.map((session) => (
           <SessionPagerItem
@@ -218,6 +198,6 @@ export const SessionPager: FC<{
           />
         ))}
       </PagerView>
-    </BottomSheetModal>
+    </SlideModal>
   );
 };

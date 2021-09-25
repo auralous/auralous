@@ -4,12 +4,11 @@ import {
   Colors,
   Header,
   IconChevronLeft,
+  SlideModal,
   SongSelector,
-  useBackHandlerDismiss,
 } from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import type { FC } from "react";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,7 +25,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-  sav: {
+  root: {
     backgroundColor: Colors.backgroundSecondary,
     flex: 1,
   },
@@ -45,7 +44,7 @@ const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
   );
 
   return (
-    <SafeAreaView style={styles.sav}>
+    <SafeAreaView style={styles.root}>
       <Header
         left={
           <Button
@@ -67,37 +66,10 @@ const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
   );
 };
 
-const snapPoints = ["100%"];
-
 export const QueueAdder: FC<QueueAdderProps> = (props) => {
-  const ref = useRef<BottomSheetModal>(null);
-  useEffect(() => {
-    if (props.visible) {
-      ref.current?.present();
-    } else {
-      ref.current?.dismiss();
-    }
-  });
-
-  useBackHandlerDismiss(props.visible, props.onClose);
-
-  const onChange = useCallback(
-    (index: number) => index === -1 && props.onClose(),
-    [props]
-  );
-
   return (
-    <BottomSheetModal
-      stackBehavior="push"
-      onChange={onChange}
-      ref={ref}
-      handleComponent={null}
-      snapPoints={snapPoints}
-      enableContentPanningGesture={false}
-      enableHandlePanningGesture={false}
-      enablePanDownToClose={false}
-    >
+    <SlideModal visible={props.visible} onDismiss={props.onClose}>
       <QueueAdderContent {...props} />
-    </BottomSheetModal>
+    </SlideModal>
   );
 };

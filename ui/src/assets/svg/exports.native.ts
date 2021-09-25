@@ -3,6 +3,7 @@ export { default as Bell } from "./bell.svg";
 export { default as Check } from "./check.svg";
 export { default as ChevronDown } from "./chevron-down.svg";
 export { default as ChevronLeft } from "./chevron-left.svg";
+export { default as ChevronRight } from "./chevron-right.svg";
 export { default as ChevronUp } from "./chevron-up.svg";
 export { default as Edit } from "./edit.svg";
 export { default as GoogleColor } from "./google-color.svg";

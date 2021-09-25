@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   platformLogo: {
     height: Size[6],
-    marginBottom: Size[0.5],
+    marginBottom: Size[2],
     width: "auto",
   },
 });

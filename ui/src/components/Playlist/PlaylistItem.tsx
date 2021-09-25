@@ -14,33 +14,37 @@ interface PlaylistItemProps {
 const styles = StyleSheet.create({
   image: {
     borderRadius: Size[2],
-    height: Size[32],
     marginBottom: Size[1],
+    overflow: "hidden",
+    paddingBottom: "100%",
+    position: "relative",
     resizeMode: "cover",
-    width: Size[32],
+    width: "100%",
   },
   meta: {
     paddingHorizontal: Size[1],
     paddingVertical: Size[1],
   },
   root: {
-    width: Size[32],
+    width: "100%",
   },
 });
 
 const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
   return (
     <View style={styles.root}>
-      <Image
-        source={
-          playlist.image
-            ? { uri: playlist.image }
-            : ImageSources.defaultPlaylist
-        }
-        defaultSource={ImageSources.defaultPlaylist}
-        style={styles.image}
-        accessibilityLabel={playlist.name}
-      />
+      <View style={styles.image}>
+        <Image
+          source={
+            playlist.image
+              ? { uri: playlist.image }
+              : ImageSources.defaultPlaylist
+          }
+          defaultSource={ImageSources.defaultPlaylist}
+          style={StyleSheet.absoluteFill}
+          accessibilityLabel={playlist.name}
+        />
+      </View>
       <View style={styles.meta}>
         <Text bold="medium" numberOfLines={1}>
           {playlist.name}

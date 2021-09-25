@@ -1,6 +1,6 @@
 import { Size } from "@/styles";
 import type { FC } from "react";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, View } from "react-native";
 
@@ -11,15 +11,20 @@ interface SpacerProps {
 }
 
 const Spacer: FC<SpacerProps> = ({ x, y, style }) => {
+  const spacer = useMemo(
+    () => ({
+      width: x ? Size[x] : 1,
+      height: y ? Size[y] : 1,
+    }),
+    [x, y]
+  );
+
   return (
     <View
-      style={StyleSheet.compose(
-        {
-          width: x ? Size[x] : 1,
-          height: y ? Size[y] : 1,
-        },
-        style
-      )}
+      style={StyleSheet.compose(spacer as ViewStyle, style)}
+      accessibilityElementsHidden={true}
+      importantForAccessibility="no-hide-descendants"
+      pointerEvents="none"
     />
   );
 };

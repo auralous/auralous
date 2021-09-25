@@ -28,6 +28,7 @@ i18n
     react: {
       useSuspense: false,
     },
+    load: "languageOnly",
   });
 
 export default i18n;

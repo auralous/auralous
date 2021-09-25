@@ -58,7 +58,7 @@ const ContinueButton: FC<ContinueButtonProps> = ({
 
   return (
     <View>
-      <Text color="textSecondary" align="center">
+      <Text color="textSecondary" align="center" size="sm">
         {t("sign_in.listen_on", { name: listenOn })}
       </Text>
       <Spacer y={2} />

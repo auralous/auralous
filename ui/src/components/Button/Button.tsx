@@ -75,7 +75,7 @@ export const Button: FC<ButtonProps> = (props) => {
       onPress={onPress}
       disabled={disabled}
       {...pressedProps}
-      style={[StyleSheet.compose(styles.base, props.style), animatedStyles]}
+      style={[styles.base, animatedStyles, props.style]}
     >
       {icon}
       {!!(icon && children) && <Spacer x={1} />}

@@ -127,10 +127,9 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
   return (
     <Animated.View
       style={[
-        stylesRoot,
-        styles.root,
+        StyleSheet.compose(styles.root as ViewStyle, style),
         variant === "underline" ? styles.rootUnderline : styles.rootDefault,
-        style,
+        stylesRoot,
       ]}
     >
       {startIcon}

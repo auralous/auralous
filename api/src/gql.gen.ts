@@ -365,7 +365,8 @@ export type QuerySessionArgs = {
 
 
 export type QuerySessionCurrentLiveArgs = {
-  creatorId: Scalars['ID'];
+  creatorId?: Maybe<Scalars['ID']>;
+  mine?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -736,7 +737,8 @@ export type SessionsOnMapQueryVariables = Exact<{
 export type SessionsOnMapQuery = { sessionsOnMap: Array<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
 
 export type SessionCurrentLiveQueryVariables = Exact<{
-  creatorId: Scalars['ID'];
+  creatorId?: Maybe<Scalars['ID']>;
+  mine?: Maybe<Scalars['Boolean']>;
 }>;
 
 
@@ -1068,7 +1070,7 @@ export const SessionsOnMapDocument = {"kind":"Document","definitions":[{"kind":"
 export function useSessionsOnMapQuery(options: Omit<Urql.UseQueryArgs<SessionsOnMapQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SessionsOnMapQuery>({ query: SessionsOnMapDocument, ...options });
 };
-export const SessionCurrentLiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionCurrentLive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionCurrentLive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"sessionId"}}]}}]}}]} as unknown as DocumentNode;
+export const SessionCurrentLiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionCurrentLive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mine"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionCurrentLive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}},{"kind":"Argument","name":{"kind":"Name","value":"mine"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mine"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"sessionId"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useSessionCurrentLiveQuery(options: Omit<Urql.UseQueryArgs<SessionCurrentLiveQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SessionCurrentLiveQuery>({ query: SessionCurrentLiveDocument, ...options });

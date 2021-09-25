@@ -2,8 +2,7 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import type { ThemeColorKey } from "@/styles";
 import type { FC } from "react";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useStyles } from "./styles";
 import type { BaseButtonProps } from "./types";
 

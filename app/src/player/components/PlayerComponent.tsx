@@ -5,7 +5,6 @@ import { useMemo } from "react";
 import PlayerSpotify from "../PlayerSpotify";
 import PlayerYoutube from "../PlayerYoutube";
 import PlayerView from "./PlayerView";
-import { StopLiveIntention } from "./StopLiveIntention";
 
 const PlayerComponent: FC = ({ children }) => {
   const { playingPlatform } = usePlaybackAuthentication();
@@ -21,7 +20,6 @@ const PlayerComponent: FC = ({ children }) => {
       {DynamicPlayer && <DynamicPlayer />}
       {children}
       <PlayerView />
-      <StopLiveIntention />
     </>
   );
 };

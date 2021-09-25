@@ -16,7 +16,7 @@ interface SessionItemProps {
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
     resizeMode: "cover",
   },
   bottom: {
@@ -28,9 +28,11 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: Colors.backgroundSecondary,
     borderRadius: Size[2],
-    height: Size[44] * 1.5625,
+    height: 0,
     overflow: "hidden",
-    width: Size[44],
+    paddingBottom: "156.25%",
+    position: "relative",
+    width: "100%",
   },
   tag: {
     backgroundColor: "rgba(0,0,0,.5)",

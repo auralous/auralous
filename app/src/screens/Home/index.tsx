@@ -1,22 +1,13 @@
 import type { ParamList, RouteName } from "@/screens/types";
-import { Size } from "@auralous/ui";
+import { HomeScreenContent, Size } from "@auralous/ui";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddButton from "./components/AddButton";
-import FeaturedPlaylists from "./components/FeaturedPlaylists";
-import HeaderSection from "./components/Header";
-import MapNavigate from "./components/MapNavigate";
-import RecentSessions from "./components/RecentSessions";
-import Section from "./components/Section";
+import HomeHeader from "./components/HomeHeader";
 
 const styles = StyleSheet.create({
-  content: {
-    paddingHorizontal: Size[6],
-    paddingVertical: Size[3],
-  },
   root: {
     flex: 1,
   },
@@ -27,27 +18,11 @@ const styles = StyleSheet.create({
 
 const HomeScreen: FC<NativeStackScreenProps<ParamList, RouteName.Home>> =
   () => {
-    const { t } = useTranslation();
     return (
       <SafeAreaView style={styles.root}>
         <ScrollView style={styles.scroll}>
-          <HeaderSection />
-          <View style={styles.content}>
-            <Section title={t("home.featured_playlists.title")}>
-              <FeaturedPlaylists />
-            </Section>
-            <MapNavigate />
-            <Section
-              title={t("home.recent_sessions.title")}
-              description={t("home.recent_sessions.description")}
-            >
-              <RecentSessions />
-            </Section>
-            <Section
-              title={t("home.radio_stations.title")}
-              description={t("home.radio_stations.description")}
-            ></Section>
-          </View>
+          <HomeHeader />
+          <HomeScreenContent />
         </ScrollView>
         <AddButton />
       </SafeAreaView>

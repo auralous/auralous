@@ -31,7 +31,6 @@ import { nextCursorPagination } from "./_pagination";
 
 const cacheExchangeFn = () =>
   createCacheExchange<GraphCacheConfig>({
-    // @ts-ignore
     schema,
     keys: {
       QueueItem: () => null,
@@ -49,6 +48,7 @@ const cacheExchangeFn = () =>
         sessions: nextCursorPagination(),
         notifications: nextCursorPagination(),
         session: (parent, args) => ({ __typename: "Session", id: args.id }),
+        playlist: (parent, args) => ({ __typename: "Playlist", id: args.id }),
         track: (parent, args) => ({ __typename: "Track", id: args.id }),
       },
       Message: {

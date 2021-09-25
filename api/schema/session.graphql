@@ -35,8 +35,8 @@ query sessionsOnMap($lng: Float!, $lat: Float!, $radius: Float!) {
   }
 }
 
-query sessionCurrentLive($creatorId: ID!) {
-  sessionCurrentLive(creatorId: $creatorId) {
+query sessionCurrentLive($creatorId: ID, $mine: Boolean) {
+  sessionCurrentLive(creatorId: $creatorId, mine: $mine) {
     creatorId
     sessionId
   }

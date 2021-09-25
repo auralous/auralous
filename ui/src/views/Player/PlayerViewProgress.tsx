@@ -31,12 +31,12 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,.1)",
     borderRadius: 9999,
     height: Size[1],
-    marginBottom: Size[4],
+    marginBottom: Size[6],
     marginTop: 20,
   },
   rootLive: {
     alignItems: "center",
-    marginBottom: Size[4],
+    marginBottom: Size[6],
     marginTop: 20,
   },
   texts: {
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     left: 0,
     position: "absolute",
-    top: Size[2],
+    top: Size[3],
     width: "100%",
   },
 });

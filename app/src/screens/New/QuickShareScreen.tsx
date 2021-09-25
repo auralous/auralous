@@ -29,7 +29,6 @@ import { useRedirectOnUnauthenticated } from "./components/useRedirectOnUnauthen
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    paddingHorizontal: Size[6],
     paddingVertical: Size[3],
   },
   overlay: {

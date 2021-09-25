@@ -24,11 +24,12 @@ export const PlaybackProvidedLiveCallback: FC<{
   playbackContext: PlaybackCurrentContext;
   setPlaybackProvided(value: PlaybackContextProvided | null): void;
 }> = ({ playbackContext, setPlaybackProvided }) => {
-  const [{ data: { nowPlaying } = { nowPlaying: undefined }, fetching }] =
-    useNowPlayingQuery({
-      variables: { id: playbackContext.id },
-      requestPolicy: "cache-and-network",
-    });
+  const [{ data, fetching }] = useNowPlayingQuery({
+    variables: { id: playbackContext.id },
+    requestPolicy: "cache-and-network",
+  });
+
+  const nowPlaying = data?.nowPlaying;
 
   useOnNowPlayingUpdatedSubscription({
     variables: { id: playbackContext.id },

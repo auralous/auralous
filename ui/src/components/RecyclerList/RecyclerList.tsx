@@ -25,7 +25,6 @@ export interface RecyclerListProps<ItemT> {
   renderItem: RecyclerRenderItem<ItemT>;
   style?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
-  contentHorizontalPadding?: number;
   ListEmptyComponent?: ReactNode | null;
   _ref?: RefObject<RecyclerListView<any, any>> | null;
   scrollViewProps?: ScrollViewProps;
@@ -33,6 +32,7 @@ export interface RecyclerListProps<ItemT> {
   externalScrollView?: RecyclerListViewProps["externalScrollView"];
   extendedState?: RecyclerListViewProps["extendedState"];
   renderAheadOffset?: RecyclerListViewProps["renderAheadOffset"];
+  applyWindowCorrection?: RecyclerListViewProps["applyWindowCorrection"];
 }
 
 const layoutType = "@@Layout";
@@ -57,7 +57,6 @@ export default function RecyclerList<ItemT>({
   data,
   style,
   contentContainerStyle,
-  contentHorizontalPadding = 0,
   ListEmptyComponent,
   _ref,
   scrollViewProps: extraScrollViewProps,
@@ -65,6 +64,7 @@ export default function RecyclerList<ItemT>({
   externalScrollView,
   extendedState,
   renderAheadOffset,
+  applyWindowCorrection,
 }: RecyclerListProps<ItemT>) {
   const [width, setWidth] = useState(initialWidth);
 
@@ -74,12 +74,11 @@ export default function RecyclerList<ItemT>({
   }, [data]);
 
   const layoutProvider = useMemo(() => {
-    const itemWidth = width - contentHorizontalPadding * 2;
     return new LayoutProvider(getLayoutTypeForIndex, (type, dim) => {
       dim.height = height;
-      dim.width = itemWidth;
+      dim.width = width;
     });
-  }, [width, height, contentHorizontalPadding]);
+  }, [width, height]);
   const rowRenderer = useCallback(
     (type: string | number, item: ItemT, index: number) => {
       return renderItem({ item, index });
@@ -115,6 +114,7 @@ export default function RecyclerList<ItemT>({
       externalScrollView={externalScrollView}
       extendedState={extendedState}
       renderAheadOffset={renderAheadOffset}
+      applyWindowCorrection={applyWindowCorrection}
     />
   );
 }

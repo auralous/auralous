@@ -2,9 +2,17 @@ import type { ButtonProps } from "@/components/Button";
 import { Button } from "@/components/Button";
 import { Text } from "@/components/Typography";
 import { Colors, Size } from "@/styles";
+import { LayoutSize } from "@/styles/spacing";
 import type { ComponentProps, FC } from "react";
 import { useCallback, useEffect, useState } from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -23,12 +31,18 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: Colors.backgroundSecondary,
+    padding: Size[6],
+  },
+  containerLand: {
+    borderRadius: Size[3],
+    margin: "auto",
+    maxWidth: "100%",
+    width: LayoutSize.md,
+  },
+  containerPor: {
     borderTopLeftRadius: Size[8],
     borderTopRightRadius: Size[8],
-    bottom: 0,
-    left: 0,
-    padding: Size[6],
-    position: "absolute",
+    marginTop: "auto",
     width: "100%",
   },
   footer: {
@@ -50,6 +64,8 @@ const DialogRoot: FC<BottomSheetDialogProps> = ({
   children,
   onDismiss,
 }) => {
+  const { width: windowWidth } = useWindowDimensions();
+
   const [mount, setMount] = useState(false);
   const sharedValue = useSharedValue(0);
 
@@ -71,9 +87,14 @@ const DialogRoot: FC<BottomSheetDialogProps> = ({
     []
   );
 
-  const contentStyle = useAnimatedStyle(() => ({
-    bottom: (sharedValue.value - 1) * 100 + "%",
-  }));
+  const contentStyle = useAnimatedStyle(
+    () => ({
+      bottom: (sharedValue.value - 1) * 100 + "%",
+    }),
+    []
+  );
+
+  const { t } = useTranslation();
 
   return (
     <Modal
@@ -82,15 +103,31 @@ const DialogRoot: FC<BottomSheetDialogProps> = ({
       transparent
       statusBarTranslucent
     >
-      <Animated.View style={[styles.backdrop, backdropStyle]} />
-      <Animated.View style={[styles.container, contentStyle]}>
+      <Animated.View style={[styles.backdrop, backdropStyle]} focusable={false}>
+        {onDismiss && (
+          <Pressable
+            accessibilityLabel={t("common.navigation.close")}
+            onPress={onDismiss}
+            style={StyleSheet.absoluteFillObject}
+          />
+        )}
+      </Animated.View>
+      <Animated.View
+        style={[
+          styles.container,
+          windowWidth >= LayoutSize.md
+            ? styles.containerLand
+            : styles.containerPor,
+          contentStyle,
+        ]}
+      >
         {children}
       </Animated.View>
     </Modal>
   );
 };
 
-const DialogTitle: FC<{ children: string }> = ({ children }) => (
+const DialogTitle: FC = ({ children }) => (
   <View style={styles.titleContainer}>
     <Text size="xl" align="center">
       {children}
@@ -100,9 +137,10 @@ const DialogTitle: FC<{ children: string }> = ({ children }) => (
 
 const DialogContent: FC = ({ children }) => <View>{children}</View>;
 
-const DialogContentText: FC<
-  { children: string } & ComponentProps<typeof Text>
-> = ({ children, ...props }) => (
+const DialogContentText: FC<ComponentProps<typeof Text>> = ({
+  children,
+  ...props
+}) => (
   <Text align="center" color="textSecondary" {...props}>
     {children}
   </Text>
@@ -131,5 +169,9 @@ export const useDialog = () => {
   const [visible, setVisible] = useState(false);
   const dismiss = useCallback(() => setVisible(false), []);
   const present = useCallback(() => setVisible(true), []);
-  return [visible, present, dismiss] as const;
+  return [visible, present, dismiss] as [
+    visible: boolean,
+    present: () => void,
+    dismiss: () => void
+  ];
 };

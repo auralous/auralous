@@ -1,5 +1,6 @@
 {
   "home": {
+    "title": "Home",
     "featured_playlists": {
       "title": "Featured Playlists"
     },
@@ -22,6 +23,9 @@
     "description": "Discover music around you",
     "open_map": "Open Map",
     "no_sessions_found": "No sessions found"
+  },
+  "search": {
+    "title": "Search"
   },
   "new": {
     "title": "New Session",
@@ -160,7 +164,7 @@
     "listen_on": "Listen on {{name}}"
   },
   "legal": {
-    "accept_continue_text": "By continuing, you agree to our <0>friendly Privacy Policy</0>, <1>YouTube Terms of Service</1> and/or <2>Spotify Privacy Policy</2> where applicable."
+    "accept_continue_text": "By continuing, you agree to our <0>Privacy Policy</0>, <1>YouTube Terms of Service</1> and/or <2>Spotify Privacy Policy</2> where applicable."
   },
   "not_found": {
     "title": "Not Found",
@@ -197,7 +201,9 @@
     },
     "navigation": {
       "go_back": "Go back",
-      "open_menu": "Open menu"
+      "go_forward": "Go forward",
+      "open_menu": "Open menu",
+      "close": "Close"
     },
     "label": {
       "search": "Search"

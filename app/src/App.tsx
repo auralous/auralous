@@ -15,18 +15,27 @@ import {
   UserFollowingScreen,
   UserScreen,
 } from "@/screens/User";
-import { Colors, Font, fontWithWeight, Toaster } from "@auralous/ui";
+import {
+  Colors,
+  Font,
+  fontWithWeight,
+  Toaster,
+  UIContextProvider,
+} from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import type { LinkingOptions } from "@react-navigation/native";
+import type {
+  LinkingOptions,
+  NavigationContainerRef,
+} from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { RootSheetModals } from "./components/RootSheetModals";
+import { RootModalsComponents } from "./components/RootModals";
 import { PlayerComponent, PlayerProvider } from "./player";
 import { NotificationsScreen } from "./screens/Notifications";
 import {
@@ -37,6 +46,7 @@ import {
   SessionScreen,
 } from "./screens/Session";
 import { SettingsScreen } from "./screens/Settings";
+import { useUiNavigateFn } from "./screens/uiNavigate";
 
 const Stack = createNativeStackNavigator();
 
@@ -221,13 +231,20 @@ const App: FC = () => {
     [t]
   );
 
+  const navigationRef = useRef<NavigationContainerRef<ParamList>>(null);
+  const uiNavigate = useUiNavigateFn(navigationRef);
+
   return (
     <ApiProvider>
       <PlayerProvider>
         <SafeAreaProvider style={styles.sap}>
           <StatusBar translucent backgroundColor="transparent" />
-          <NavigationContainer theme={navigationTheme} linking={linking}>
-            <RootSheetModals.Provider>
+          <NavigationContainer
+            theme={navigationTheme}
+            linking={linking}
+            ref={navigationRef}
+          >
+            <UIContextProvider uiNavigate={uiNavigate}>
               <BottomSheetModalProvider>
                 <PlayerComponent>
                   <Stack.Navigator screenOptions={commonScreenOptions}>
@@ -241,9 +258,9 @@ const App: FC = () => {
                     ))}
                   </Stack.Navigator>
                 </PlayerComponent>
-                <RootSheetModals.Components />
+                <RootModalsComponents />
               </BottomSheetModalProvider>
-            </RootSheetModals.Provider>
+            </UIContextProvider>
           </NavigationContainer>
           <Toaster />
         </SafeAreaProvider>

@@ -1,20 +1,20 @@
-import { GradientButton } from "@/components/Button";
 import { RouteName } from "@/screens/types";
 import { useMeQuery, useSessionCurrentLiveQuery } from "@auralous/api";
 import {
   Button,
+  GradientButton,
   Heading,
   IconPlus,
   Size,
+  SlideModal,
   Spacer,
   TextButton,
-  useBackHandlerDismiss,
+  useDialog,
 } from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -51,10 +51,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const snapPoints = ["100%"];
-
 const AddButtonModalContent: FC<{
-  onDismiss(): boolean;
+  onDismiss(): void;
 }> = ({ onDismiss }) => {
   const { t } = useTranslation();
 
@@ -67,8 +65,6 @@ const AddButtonModalContent: FC<{
     },
     [navigation, onDismiss]
   );
-
-  useBackHandlerDismiss(true, onDismiss);
 
   return (
     <>
@@ -104,22 +100,18 @@ const AddButtonModalContent: FC<{
 const AddButton: FC = () => {
   const { t } = useTranslation();
 
-  const ref = useRef<BottomSheetModal>(null);
+  const [visible, present, dismiss] = useDialog();
 
-  const onDismiss = useCallback(() => {
-    ref.current?.dismiss();
-    return true;
-  }, []);
-
-  const onOpen = useCallback(() => {
-    ref.current?.present();
-  }, []);
-
+  const [{ data: dataSessionCurrentLive }, refetchSessionCurrentLive] =
+    useSessionCurrentLiveQuery({
+      variables: { mine: true },
+    });
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
-  const [{ data: dataSessionCurrentLive }] = useSessionCurrentLiveQuery({
-    variables: { creatorId: me?.user.id || "" },
-    pause: !me,
-  });
+  useEffect(refetchSessionCurrentLive, [
+    me?.user.id,
+    refetchSessionCurrentLive,
+  ]);
+
   const hasCurrentLiveSession =
     !!me && !!dataSessionCurrentLive?.sessionCurrentLive;
 
@@ -129,7 +121,7 @@ const AddButton: FC = () => {
     <>
       <GradientButton
         style={styles.button}
-        onPress={onOpen}
+        onPress={present}
         accessibilityLabel={t("new.title")}
         icon={
           <IconPlus
@@ -140,17 +132,9 @@ const AddButton: FC = () => {
           />
         }
       />
-      <BottomSheetModal
-        backgroundComponent={null}
-        handleComponent={null}
-        ref={ref}
-        snapPoints={snapPoints}
-        enableHandlePanningGesture={false}
-        enableContentPanningGesture={false}
-        enablePanDownToClose={false}
-      >
-        <AddButtonModalContent onDismiss={onDismiss} />
-      </BottomSheetModal>
+      <SlideModal visible={visible} onDismiss={dismiss}>
+        <AddButtonModalContent onDismiss={dismiss} />
+      </SlideModal>
     </>
   );
 };

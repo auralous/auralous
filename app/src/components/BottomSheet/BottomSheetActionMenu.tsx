@@ -1,10 +1,12 @@
 import {
+  Colors,
   Size,
   Spacer,
   Text,
   TextButton,
   useBackHandlerDismiss,
 } from "@auralous/ui";
+import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";
 import type { FC, ReactNode } from "react";
@@ -12,7 +14,11 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
+import Animated from "react-native-reanimated";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 export interface BottomSheetActionMenuProps {
   visible: boolean;
@@ -34,6 +40,9 @@ const styles = StyleSheet.create({
     height: Size[16],
   },
   content: { flex: 1, paddingHorizontal: Size[4], paddingTop: Size[16] },
+  handleIndicator: {
+    backgroundColor: Colors.textSecondary,
+  },
   header: {
     flexDirection: "row",
   },
@@ -54,6 +63,12 @@ const styles = StyleSheet.create({
 
 const snapPoints = ["100%"];
 
+const backgroundComponent: FC<BottomSheetBackgroundProps> = ({ style }) => (
+  <Animated.View style={style}>
+    <BlurView blurType="dark" style={StyleSheet.absoluteFill} />
+  </Animated.View>
+);
+
 const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
   visible,
   onDismiss,
@@ -73,16 +88,18 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
 
   useBackHandlerDismiss(visible, onDismiss);
 
+  const { top } = useSafeAreaInsets();
+
   return (
     <BottomSheetModal
       ref={ref}
-      handleComponent={null}
-      backgroundComponent={null}
+      handleStyle={{ marginTop: top }}
+      handleIndicatorStyle={styles.handleIndicator}
+      backgroundComponent={backgroundComponent}
       snapPoints={snapPoints}
       stackBehavior="push"
       onDismiss={onDismiss}
     >
-      <BlurView blurType="dark" style={StyleSheet.absoluteFill} />
       <SafeAreaView style={styles.content}>
         <BottomSheetScrollView>
           <View style={styles.header}>

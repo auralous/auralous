@@ -21,6 +21,6 @@
       "path": "../player"
     }
   ],
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "./react-native-web.d.ts"],
   "exclude": ["node_modules"]
 }

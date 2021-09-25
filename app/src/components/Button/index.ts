@@ -1,1 +1,0 @@
-export { GradientButton } from "./GradientButton";

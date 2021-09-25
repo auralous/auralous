@@ -36,8 +36,9 @@
     "react": "*",
     "react-i18next": "*",
     "react-native-gesture-handler": "*",
+    "react-native-linear-gradient": "*",
     "react-native-reanimated": "*",
-    "react-native-svg": "^12.1.1"
+    "react-native-svg": "*"
   },
   "peerDependencies": {
     "@fluentui/react-context-selector": "*",
@@ -45,6 +46,7 @@
     "react-i18next": "*",
     "react-native": "*",
     "react-native-gesture-handler": "*",
+    "react-native-linear-gradient": "*",
     "react-native-reanimated": "*"
   }
 }

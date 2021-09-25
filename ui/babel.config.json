@@ -1,8 +1,5 @@
 {
-  "presets": [
-    "@babel/preset-typescript",
-    ["@babel/preset-react", { "runtime": "automatic" }]
-  ],
+  "presets": ["@babel/preset-typescript"],
   "plugins": [
     [
       "module-resolver",

@@ -10,7 +10,7 @@ import {
   useState,
 } from "react";
 import type { LayoutChangeEvent, ScrollViewProps } from "react-native";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import { PanGestureHandler, ScrollView } from "react-native-gesture-handler";
 import Animated, {
@@ -257,7 +257,6 @@ export default function DraggableRecyclerList<ItemT>({
   data,
   style,
   contentContainerStyle,
-  contentHorizontalPadding = 0,
   ListEmptyComponent,
   onDragEnd,
   keyExtractor,
@@ -372,13 +371,24 @@ export default function DraggableRecyclerList<ItemT>({
       } else {
         return;
       }
-      scrollTo(
-        // @ts-ignore
-        scrollRef,
-        0,
-        scrollOffsetValue + scrollDelta,
-        false
-      );
+      if (Platform.OS === "web") {
+        // @ts-ignore: Web usage
+        // https://docs.swmansion.com/react-native-reanimated/docs/api/nativeMethods/scrollTo
+        // https://reactnative.dev/docs/scrollview#scrollto
+        scrollRef.current?.scrollTo({
+          x: 0,
+          y: scrollOffsetValue + scrollDelta,
+          animated: false,
+        });
+      } else {
+        scrollTo(
+          // @ts-ignore
+          scrollRef,
+          0,
+          scrollOffsetValue + scrollDelta,
+          false
+        );
+      }
     },
     [autoscrollSpeed, autoscrollThreshold]
   );
@@ -405,7 +415,7 @@ export default function DraggableRecyclerList<ItemT>({
 
   const eventHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>(
     {
-      onActive(event) {
+      onActive: (event) => {
         if (!isHovering.value) return;
         if (hasMoved.value === false) {
           // We cannot use onStart because it is fired before activeIndex is set
@@ -417,7 +427,7 @@ export default function DraggableRecyclerList<ItemT>({
         touchAbsolute.value = event.y;
       },
       // BEGAN ------> ACTIVE ------> END
-      onEnd() {
+      onEnd: () => {
         if (!hasMoved.value) return;
         const from = activeIndexAnim.value;
         const to = spacerIndexAnim.value;
@@ -476,7 +486,6 @@ export default function DraggableRecyclerList<ItemT>({
             height={height}
             style={styles.list}
             contentContainerStyle={contentContainerStyle}
-            contentHorizontalPadding={contentHorizontalPadding}
             ListEmptyComponent={ListEmptyComponent}
             onEndReached={onEndReached}
             data={data}

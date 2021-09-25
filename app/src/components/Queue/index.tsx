@@ -5,12 +5,12 @@ import {
   Heading,
   IconChevronLeft,
   Size,
+  SlideModal,
   Spacer,
   useBackHandlerDismiss,
+  useDialog,
 } from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import type { FC } from "react";
-import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -38,8 +38,6 @@ const styles = StyleSheet.create({
     padding: Size[4],
   },
 });
-
-const snapPoints = ["100%"];
 
 const QueueSheet: FC<{
   nextItems: PlaybackState["nextItems"];
@@ -76,28 +74,18 @@ export const QueueModal: FC<{
   nextItems: PlaybackState["nextItems"];
   currentTrack: Track | null;
 }> = ({ nextItems, currentTrack }) => {
-  const ref = useRef<BottomSheetModal>(null);
-  const onOpen = useCallback(() => ref.current?.present(), []);
-  const onClose = useCallback(() => ref.current?.dismiss(), []);
+  const [visible, present, dismiss] = useDialog();
 
   return (
     <>
-      <MetaAndButton nextItems={nextItems} onPress={onOpen} />
-      <BottomSheetModal
-        ref={ref}
-        snapPoints={snapPoints}
-        handleComponent={null}
-        stackBehavior="push"
-        enableContentPanningGesture={false}
-        enableHandlePanningGesture={false}
-        enablePanDownToClose={false}
-      >
+      <MetaAndButton nextItems={nextItems} onPress={present} />
+      <SlideModal visible={visible} onDismiss={dismiss}>
         <QueueSheet
           currentTrack={currentTrack}
           nextItems={nextItems}
-          onClose={onClose}
+          onClose={dismiss}
         />
-      </BottomSheetModal>
+      </SlideModal>
     </>
   );
 };

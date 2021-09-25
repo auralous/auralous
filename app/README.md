@@ -9,7 +9,7 @@ Create a `.env` in `app` (current directory):
 ```env
 WEBSOCKET_URI=wss://api.auralous.com
 API_URI=https://api.auralous.com
-WEB_URI=https://auralous.com
+APP_URI=https://app.auralous.com
 SPOTIFY_CLIENT_ID=spotify_client_id
 MAPBOX_ACCESS_TOKEN=PASTE_YOUR_MAPBOX_ACCESS_TOKEN
 MAPBOX_STYLE_URL=
