@@ -7,8 +7,7 @@ import { Size } from "@/styles";
 import type { Track } from "@auralous/api";
 import type { FC } from "react";
 import { memo, useCallback, useMemo } from "react";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSelectedTracks, useUpdateTracks } from "./Context";
 import SearchEmpty from "./SearchEmpty";
 

@@ -1,6 +1,10 @@
 import type { RecyclerRenderItem } from "@/components";
-import { Container } from "@/components";
-import { LoadingScreen, RecyclerList, TrackItem } from "@/components";
+import {
+  Container,
+  LoadingScreen,
+  RecyclerList,
+  TrackItem,
+} from "@/components";
 import { Size } from "@/styles";
 import type { Playlist, Track } from "@auralous/api";
 import { usePlaylistTracksQuery } from "@auralous/api";
@@ -11,8 +15,7 @@ import player, {
 } from "@auralous/player";
 import type { FC } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
-import { StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import PlaylistMeta from "./PlaylistMeta";
 
 const itemPadding = Size[1];

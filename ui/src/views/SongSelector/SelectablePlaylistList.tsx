@@ -6,8 +6,7 @@ import { Size } from "@/styles";
 import type { Playlist } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";
-import { StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import SearchEmpty from "./SearchEmpty";
 
 interface SelectablePlaylistListProps {

@@ -6,8 +6,7 @@ import {
   useItemHorizontalWidthStyle,
 } from "@auralous/ui";
 import type { FC } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
   item: {

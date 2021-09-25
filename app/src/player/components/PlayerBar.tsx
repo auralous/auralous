@@ -19,8 +19,13 @@ import {
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Animated from "react-native-reanimated";
 
 const styles = StyleSheet.create({

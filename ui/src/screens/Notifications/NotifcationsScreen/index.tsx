@@ -1,6 +1,6 @@
 import type { RecyclerRenderItem } from "@/components";
-import { Container } from "@/components";
 import {
+  Container,
   LoadingScreen,
   NotificationFollowItem,
   NotificationNewSessionItem,
@@ -16,8 +16,7 @@ import {
 } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
-import { StyleSheet } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
+import { StyleSheet, TouchableHighlight } from "react-native";
 
 const NotificationItem: FC<{
   notification: NotificationFollow | NotificationNewSession;

@@ -18,8 +18,7 @@ import player, {
 import type { FC } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import SessionMeta from "./SessionMeta";
 
 const styles = StyleSheet.create({

@@ -3,11 +3,12 @@ import { Checkbox } from "@/components/Checkbox";
 import { Size } from "@/styles";
 import type { FC } from "react";
 import { useMemo } from "react";
-import { StyleSheet, View } from "react-native";
 import {
+  StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+  View,
+} from "react-native";
 import type { TrackItemProps } from "./TrackItem";
 import TrackItem from "./TrackItem";
 
@@ -28,9 +29,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: Size[1],
     width: "100%",
-  },
-  tContainer: {
-    flex: 1,
   },
   track: {
     flex: 1,
@@ -68,7 +66,6 @@ const QueueTrackItem: FC<QueueTrackItemProps> = ({
       </View>
       <TouchableOpacity
         style={styles.track}
-        containerStyle={styles.tContainer}
         onPress={onTrackItemPressed}
         activeOpacity={onPress ? 0.2 : 1}
       >

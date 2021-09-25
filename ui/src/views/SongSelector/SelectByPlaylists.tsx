@@ -11,8 +11,7 @@ import {
 import type { FC } from "react";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSelectedTracks, useUpdateTracks } from "./Context";
 import SelectablePlaylistList from "./SelectablePlaylistList";
 import SelectableTrackList from "./SelectableTrackList";

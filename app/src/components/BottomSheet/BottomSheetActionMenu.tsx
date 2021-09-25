@@ -12,8 +12,7 @@ import { BlurView } from "@react-native-community/blur";
 import type { FC, ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Animated from "react-native-reanimated";
 import {
   SafeAreaView,

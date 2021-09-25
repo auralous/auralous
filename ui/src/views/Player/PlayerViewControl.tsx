@@ -1,13 +1,11 @@
 import { IconPause, IconPlay, IconSkipBack, IconSkipForward } from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { Colors, Size } from "@/styles";
-import type { Player } from "@auralous/player";
-import type { PlaybackState } from "@auralous/player";
+import type { PlaybackState, Player } from "@auralous/player";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
   backPrev: {

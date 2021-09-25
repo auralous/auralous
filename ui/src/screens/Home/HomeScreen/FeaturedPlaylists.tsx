@@ -7,8 +7,7 @@ import { useUiNavigate } from "@/context";
 import { Size } from "@/styles";
 import { usePlaylistsFeaturedQuery } from "@auralous/api";
 import type { FC } from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import scrollStyles from "./ScrollView.styles";
 
 const styles = StyleSheet.create({

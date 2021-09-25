@@ -2,8 +2,7 @@ import type { User } from "@auralous/api";
 import { useSessionsQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
-import { StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, StyleSheet } from "react-native";
 import UserMeta from "./UserMeta";
 import { UserTimeline } from "./UserTimeline";
 

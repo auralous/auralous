@@ -13,8 +13,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import Share from "react-native-share";
 
 const styles = StyleSheet.create({
