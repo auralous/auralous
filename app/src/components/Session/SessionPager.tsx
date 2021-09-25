@@ -20,8 +20,6 @@ import LinearGradient from "react-native-linear-gradient";
 import type { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
 import PagerView from "react-native-pager-view";
 
-const snapPoints = ["100%"];
-
 const styles = StyleSheet.create({
   page: {
     backgroundColor: Colors.black,

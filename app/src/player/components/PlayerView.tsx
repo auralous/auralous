@@ -15,13 +15,13 @@ import {
   PlayerChatView,
   PlayerViewBackground,
   Size,
-  SlideModal,
   Spacer,
   Text,
   TextButton,
-  useDialog,
+  useBackHandlerDismiss,
   useUiDispatch,
 } from "@auralous/ui";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 import type { FC } from "react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -246,6 +246,8 @@ const hiddenRoutes = [
   RouteName.Map,
 ] as string[];
 
+const snapPoints = ["100%"];
+
 const PlayerBarWrapper: FC<{ onPress(): void }> = ({ onPress }) => {
   // PlayerBar but on certain routes, we want to hide it
   const navigationRouteName = useNavigationState((state) =>
@@ -260,22 +262,38 @@ const PlayerBarWrapper: FC<{ onPress(): void }> = ({ onPress }) => {
 const PlayerView: FC = () => {
   const navigation = useNavigation();
 
-  const [visible, present, dismiss] = useDialog();
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+
+  const dismiss = useCallback(() => bottomSheetRef.current?.dismiss(), []);
+  const present = useCallback(() => bottomSheetRef.current?.present(), []);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("state", dismiss);
     return unsubscribe;
   }, [navigation, dismiss]);
 
+  const [sheetIndex, setSheetIndex] = useState(-1);
+
+  useBackHandlerDismiss(sheetIndex === 0, dismiss);
+
   return (
     <>
-      <SlideModal visible={visible} onDismiss={dismiss}>
+      <BottomSheetModal
+        ref={bottomSheetRef}
+        onChange={setSheetIndex}
+        snapPoints={snapPoints}
+        onDismiss={dismiss}
+        handleComponent={null}
+        enablePanDownToClose={false}
+        enableDismissOnClose={false}
+        enableContentPanningGesture={false}
+      >
         <SafeAreaView style={styles.root}>
           <PlayerViewBackground />
           <PlayerViewHeader onDismiss={dismiss} />
           <PlayerViewInner />
         </SafeAreaView>
-      </SlideModal>
+      </BottomSheetModal>
       <PlayerBarWrapper onPress={present} />
     </>
   );
