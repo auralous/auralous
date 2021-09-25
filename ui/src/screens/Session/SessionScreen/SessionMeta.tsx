@@ -1,7 +1,8 @@
 import { Avatar, Heading, Spacer, Text } from "@/components";
-import { useUiNavigate } from "@/context";
+import { RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import type { Session } from "@auralous/api";
+import { useNavigation } from "@react-navigation/native";
 import type { FC, ReactNode } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,10 +22,11 @@ const SessionMeta: FC<{ session: Session; tagElement: ReactNode }> = ({
 }) => {
   const { t } = useTranslation();
 
-  const uiNavigate = useUiNavigate();
+  const navigation = useNavigation();
+
   const gotoCreator = useCallback(() => {
-    uiNavigate("user", { username: session.creator.username });
-  }, [uiNavigate, session.creator.username]);
+    navigation.navigate(RouteName.User, { username: session.creator.username });
+  }, [navigation, session.creator.username]);
 
   return (
     <View style={styles.root}>

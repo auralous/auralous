@@ -3,9 +3,10 @@ import {
   PlaylistItem,
   useItemHorizontalWidthStyle,
 } from "@/components";
-import { useUiNavigate } from "@/context";
+import { RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { usePlaylistsFeaturedQuery } from "@auralous/api";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import scrollStyles from "./ScrollView.styles";
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
 const FeaturedPlaylists: FC = () => {
   const [{ data, fetching }] = usePlaylistsFeaturedQuery();
 
-  const navigate = useUiNavigate();
+  const navigation = useNavigation();
 
   const widthStyle = useItemHorizontalWidthStyle();
 
@@ -37,7 +38,9 @@ const FeaturedPlaylists: FC = () => {
           <TouchableOpacity
             key={playlist.id}
             style={[styles.item, widthStyle]}
-            onPress={() => navigate("playlist", { id: playlist.id })}
+            onPress={() =>
+              navigation.navigate(RouteName.Playlist, { id: playlist.id })
+            }
           >
             <PlaylistItem playlist={playlist} />
           </TouchableOpacity>

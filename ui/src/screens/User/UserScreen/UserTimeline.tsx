@@ -1,8 +1,8 @@
 import { SessionCardItem, Spacer } from "@/components";
-import { useUiNavigate } from "@/context";
 import { Colors, Size } from "@/styles";
 import type { Session } from "@auralous/api";
 import player from "@auralous/player";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
@@ -28,7 +28,7 @@ export const UserTimeline: FC<{
     []
   );
 
-  const navigate = useUiNavigate();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.content}>
@@ -39,7 +39,7 @@ export const UserTimeline: FC<{
               <SessionCardItem
                 session={session}
                 onNavigate={(sessionId) =>
-                  navigate("session", { id: sessionId })
+                  navigation.navigate("session", { id: sessionId })
                 }
                 onPlay={onSessionCardPlay}
               />

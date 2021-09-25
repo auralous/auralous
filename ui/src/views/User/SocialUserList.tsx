@@ -1,9 +1,10 @@
 import type { RecyclerRenderItem } from "@/components";
 import { LoadingScreen, RecyclerList, UserListItem } from "@/components";
-import { useUiNavigate } from "@/context";
+import { RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import type { Maybe } from "@auralous/api";
 import { useUserQuery } from "@auralous/api";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
@@ -27,11 +28,13 @@ const styles = StyleSheet.create({
 const UserItem: FC<{ id: string }> = ({ id }) => {
   const [{ data, fetching }] = useUserQuery({ variables: { id } });
 
-  const uiNavigate = useUiNavigate();
+  const navigation = useNavigation();
 
   const onPress = useCallback(
-    () => data?.user && uiNavigate("user", { username: data.user.username }),
-    [uiNavigate, data?.user]
+    () =>
+      data?.user &&
+      navigation.navigate(RouteName.User, { username: data.user.username }),
+    [navigation, data?.user]
   );
 
   return (

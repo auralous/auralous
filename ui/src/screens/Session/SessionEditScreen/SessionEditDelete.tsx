@@ -1,9 +1,10 @@
 import { Dialog, TextButton, toast, useDialog } from "@/components";
-import { useUiNavigate } from "@/context";
+import { RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import type { Session } from "@auralous/api";
 import { useSessionDeleteMutation } from "@auralous/api";
 import player, { usePlaybackCurrentContext } from "@auralous/player";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +24,7 @@ export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
 
   const [visible, present, dismiss] = useDialog();
 
-  const navigate = useUiNavigate();
+  const navigation = useNavigation();
 
   const playbackCurrentContext = usePlaybackCurrentContext();
 
@@ -40,9 +41,9 @@ export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
       ) {
         player.playContext(null);
       }
-      navigate("home", undefined);
+      navigation.navigate(RouteName.Home, undefined);
     }
-  }, [t, sessionDelete, session.id, navigate, playbackCurrentContext]);
+  }, [t, sessionDelete, session.id, navigation, playbackCurrentContext]);
 
   return (
     <View style={styles.root}>

@@ -1,7 +1,2 @@
-export {
-  UIContextProvider,
-  useUi,
-  useUiDispatch,
-  useUiNavigate,
-} from "./UIContext";
+export { UIContextProvider, useUi, useUiDispatch } from "./UIContext";
 export type { UIContextValue } from "./UIContext";

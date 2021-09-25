@@ -45,10 +45,6 @@ interface UIState {
 }
 
 export interface UIContextValue {
-  uiNavigate<K extends keyof NavigablePages>(
-    page: K,
-    params: NavigablePages[K]
-  ): void;
   ui: UIState;
   uiDispatch: Dispatch<Action<keyof UIState>>;
 }
@@ -75,21 +71,15 @@ const uiInitialValues: UIState = {
 
 const UIContext = createContext({ ui: uiInitialValues } as UIContextValue);
 
-export const UIContextProvider: FC<{
-  uiNavigate: UIContextValue["uiNavigate"];
-}> = ({ children, uiNavigate }) => {
+export const UIContextProvider: FC = ({ children }) => {
   const [ui, uiDispatch] = useReducer(reducer, uiInitialValues);
 
   return (
-    <UIContext.Provider value={{ uiNavigate, ui, uiDispatch }}>
+    <UIContext.Provider value={{ ui, uiDispatch }}>
       {children}
     </UIContext.Provider>
   );
 };
-
-const uiNavigateSelector = (state: UIContextValue) => state.uiNavigate;
-export const useUiNavigate = () =>
-  useContextSelector(UIContext, uiNavigateSelector);
 
 const uiDispatchSelector = (state: UIContextValue) => state.uiDispatch;
 export const useUiDispatch = () =>

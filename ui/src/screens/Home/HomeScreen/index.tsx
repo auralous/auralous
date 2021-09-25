@@ -2,7 +2,7 @@ import { Container } from "@/components";
 import { Size } from "@/styles";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import FeaturedPlaylists from "./FeaturedPlaylists";
 import HomeSection from "./HomeSection";
 import RecentSessions from "./RecentSessions";

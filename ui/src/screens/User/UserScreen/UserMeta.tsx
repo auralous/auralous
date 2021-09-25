@@ -1,9 +1,10 @@
 import { Avatar, Spacer, Text } from "@/components";
-import { useUiNavigate } from "@/context";
+import { RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { UserFollowButton } from "@/views";
 import type { User } from "@auralous/api";
 import { useUserStatQuery } from "@auralous/api";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -71,15 +72,17 @@ const UserMeta: FC<{
     requestPolicy: "cache-and-network",
   });
 
-  const navigate = useUiNavigate();
+  const navigation = useNavigation();
 
   const gotoFollowers = useCallback(
-    () => navigate("userFollowers", { username: user.username }),
-    [user.username, navigate]
+    () =>
+      navigation.navigate(RouteName.UserFollowers, { username: user.username }),
+    [user.username, navigation]
   );
   const gotoFollowing = useCallback(
-    () => navigate("userFollowing", { username: user.username }),
-    [user.username, navigate]
+    () =>
+      navigation.navigate(RouteName.UserFollowing, { username: user.username }),
+    [user.username, navigation]
   );
 
   return (

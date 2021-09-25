@@ -6,7 +6,7 @@ import {
   NotificationNewSessionItem,
   RecyclerList,
 } from "@/components";
-import { useUiNavigate } from "@/context";
+import { RouteName } from "@/screens/types";
 import { Colors, Size } from "@/styles";
 import type { NotificationFollow, NotificationNewSession } from "@auralous/api";
 import {
@@ -14,6 +14,7 @@ import {
   useNotificationsMarkReadMutation,
   useNotificationsQuery,
 } from "@auralous/api";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
@@ -21,7 +22,7 @@ import { StyleSheet, TouchableHighlight } from "react-native";
 const NotificationItem: FC<{
   notification: NotificationFollow | NotificationNewSession;
 }> = ({ notification }) => {
-  const navigate = useUiNavigate();
+  const navigation = useNavigation();
 
   const [, notificationsMarkRead] = useNotificationsMarkReadMutation();
 
@@ -29,16 +30,16 @@ const NotificationItem: FC<{
     notificationsMarkRead({ ids: [notification.id] }).catch(() => undefined);
     if (notification.__typename === "NotificationFollow") {
       if (notification.follower)
-        navigate("user", {
+        navigation.navigate(RouteName.User, {
           username: notification.follower.username,
         });
     } else {
       if (notification.session)
-        navigate("session", {
+        navigation.navigate(RouteName.Session, {
           id: notification.session.id,
         });
     }
-  }, [notification, navigate, notificationsMarkRead]);
+  }, [notification, navigation, notificationsMarkRead]);
 
   return (
     <TouchableHighlight

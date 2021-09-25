@@ -3,9 +3,10 @@ import {
   SessionItem,
   useLargeItemHortizontalWidthStyle,
 } from "@/components";
-import { useUiNavigate } from "@/context";
+import { RouteName } from "@/screens/types";
 import { Size } from "@/styles";
 import { useSessionsQuery } from "@auralous/api";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import scrollStyles from "./ScrollView.styles";
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 const RecentSessions: FC = () => {
-  const navigate = useUiNavigate();
+  const navigation = useNavigation();
 
   const [{ data, fetching }] = useSessionsQuery({
     variables: { limit: 10 },
@@ -39,7 +40,9 @@ const RecentSessions: FC = () => {
           <TouchableOpacity
             key={session.id}
             style={[styles.item, widthStyle]}
-            onPress={() => navigate("session", { id: session.id })}
+            onPress={() =>
+              navigation.navigate(RouteName.Session, { id: session.id })
+            }
           >
             <SessionItem session={session} />
           </TouchableOpacity>

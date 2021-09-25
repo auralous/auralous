@@ -1,6 +1,6 @@
 import { IconUser } from "@/assets";
 import { Button, GradientButton, Spacer, Text, TrackItem } from "@/components";
-import { useUiNavigate } from "@/context";
+import { RouteName } from "@/screens/types";
 import { Colors, Size } from "@/styles";
 import type { Session } from "@auralous/api";
 import {
@@ -10,6 +10,7 @@ import {
   useTrackQuery,
 } from "@auralous/api";
 import player, { usePlaybackCurrentContext } from "@auralous/player";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -68,15 +69,15 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
     });
   }, [session]);
 
-  const uiNavigate = useUiNavigate();
+  const navigation = useNavigation();
 
   const viewCollabs = useCallback(() => {
-    uiNavigate("sessionCollaborators", { id: session.id });
-  }, [uiNavigate, session.id]);
+    navigation.navigate(RouteName.SessionCollaborators, { id: session.id });
+  }, [navigation, session.id]);
 
   const viewListeners = useCallback(() => {
-    uiNavigate("sessionListeners", { id: session.id });
-  }, [uiNavigate, session.id]);
+    navigation.navigate(RouteName.SessionListeners, { id: session.id });
+  }, [navigation, session.id]);
 
   const [{ data: dataNowPlaying, fetching: fetchingNowPlaying }] =
     useNowPlayingQuery({
