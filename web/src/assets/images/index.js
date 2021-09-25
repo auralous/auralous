@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { setImageSources } from "@auralous/ui";
+import { setImageSources } from "@auralous/app";
 import defaultPlaylist from "./default_playlist.jpg";
 import defaultTrack from "./default_track.jpg";
 import defaultUser from "./default_user.jpg";

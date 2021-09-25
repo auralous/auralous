@@ -1,1 +1,0 @@
-export { NotificationsScreenContent } from "./NotifcationsScreen";

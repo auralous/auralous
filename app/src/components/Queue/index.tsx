@@ -1,15 +1,15 @@
-import type { Track } from "@auralous/api";
-import type { PlaybackState } from "@auralous/player";
+import { IconChevronLeft } from "@/assets";
 import {
-  Colors,
-  Heading,
-  IconChevronLeft,
-  Size,
   SlideModal,
-  Spacer,
   useBackHandlerDismiss,
   useDialog,
-} from "@auralous/ui";
+} from "@/components/Dialog";
+import { Spacer } from "@/components/Spacer";
+import { Heading } from "@/components/Typography";
+import type { PlaybackState } from "@/player";
+import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
+import type { Track } from "@auralous/api";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";

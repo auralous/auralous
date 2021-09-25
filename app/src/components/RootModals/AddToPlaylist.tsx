@@ -1,12 +1,9 @@
+import { SlideModal } from "@/components/Dialog";
+import { LoadingScreen } from "@/components/Loading";
+import { useUi, useUiDispatch } from "@/context";
+import { Colors } from "@/styles/colors";
+import { AddToPlaylist } from "@/views/AddToPlaylist";
 import { useTrackQuery } from "@auralous/api";
-import {
-  AddToPlaylist,
-  Colors,
-  LoadingScreen,
-  SlideModal,
-  useUi,
-  useUiDispatch,
-} from "@auralous/ui";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { StyleSheet } from "react-native";

@@ -1,21 +1,19 @@
+import { Avatar } from "@/components/Avatar";
+import { Button } from "@/components/Button";
+import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
+import { Spacer } from "@/components/Spacer";
+import { toast } from "@/components/Toast";
+import { Heading } from "@/components/Typography";
+import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
+import { Size } from "@/styles/spacing";
 import {
   useMeQuery,
   useSessionCollabAddFromTokenMutation,
   useSessionQuery,
 } from "@auralous/api";
-import player from "@auralous/player";
-import {
-  Avatar,
-  Button,
-  Heading,
-  LoadingScreen,
-  Size,
-  Spacer,
-  toast,
-} from "@auralous/ui";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect } from "react";

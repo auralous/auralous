@@ -1,5 +1,9 @@
-import type { ThemeColorKey } from "@auralous/ui";
-import { Colors, Size, Spacer, Text } from "@auralous/ui";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
+import type { ThemeColorKey } from "@/styles/colors";
+import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
+import { Config } from "@/utils/constants";
 import type { FC } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,7 +13,6 @@ import type {
   ViewStyle,
 } from "react-native";
 import { Linking, Pressable, View } from "react-native";
-import Config from "react-native-config";
 
 interface ContinueButtonProps {
   name: string;

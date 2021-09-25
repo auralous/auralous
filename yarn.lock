@@ -1403,7 +1403,7 @@
     base64-js "^1.2.3"
     xmlbuilder "^14.0.0"
 
-"@fluentui/react-context-selector@*", "@fluentui/react-context-selector@^0.53.4":
+"@fluentui/react-context-selector@^0.53.4":
   version "0.53.4"
   resolved "https://registry.yarnpkg.com/@fluentui/react-context-selector/-/react-context-selector-0.53.4.tgz#4e7da952cdeac56f8c964c5ac4f2537d1cc2162c"
   integrity sha512-gTZsDlwd256Vbk39HIfay1p1D6buAFecdE/tH5DXEJX3oobiGcCQ0f2/9UedX8kPLLsQQUWglM242MFRZPn8tw==
@@ -2454,7 +2454,7 @@
     "@react-navigation/elements" "^1.1.0"
     warn-once "^0.1.0"
 
-"@react-navigation/native@*", "@react-navigation/native@^6.0.2":
+"@react-navigation/native@^6.0.2":
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-6.0.2.tgz#6bdb3cfafb6a9cfb603c1555dd61faafca35b7c2"
   integrity sha512-HDqEwgvQ4Cu16vz8jQ55lfyNK9CGbECI1wM9cPOcUa+gkOQEDZ/95VFfFjGGflXZs3ybPvGXlMC4ZAyh1CcO6w==
@@ -3093,7 +3093,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-native@*", "@types/react-native@^0.64.13":
+"@types/react-native@^0.64.13":
   version "0.64.13"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.64.13.tgz#9e57b85631380b75979a09f5a97e1884299e8d5a"
   integrity sha512-QSOBN6m3TKBPFAcDhuFItDQtw1Fo1/FKDTHGeyeTwBXd3bu0V9s+oHEhntHN7PUK5dAOYFWsnO0wynWwS/KRxQ==
@@ -12519,7 +12519,7 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
-react-i18next@*, react-i18next@^11.11.4:
+react-i18next@^11.11.4:
   version "11.11.4"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.11.4.tgz#f6f9a1c827e7a5271377de2bf14db04cb1c9e5ce"
   integrity sha512-ayWFlu8Sc7GAxW1PzMaPtzq+yiozWMxs0P1WeITNVzXAVRhC0Httkzw/IiODBta6seJRBCLrtUeFUSXhAIxlRg==
@@ -12568,7 +12568,7 @@ react-native-geolocation-service@^5.3.0-beta.2:
   resolved "https://registry.yarnpkg.com/react-native-geolocation-service/-/react-native-geolocation-service-5.3.0-beta.3.tgz#6afd291e886ecb5fdf8c096ea0a694ccb0975330"
   integrity sha512-TRIrkD1CV6yAOUNAqFsHiYuTyzBXJ8bttk84r4dCSKLJbYzKkvGyKoqtIIydAVlHRyZhU6u6U4Uz1bkdXPlT3g==
 
-react-native-gesture-handler@*, react-native-gesture-handler@^1.10.3:
+react-native-gesture-handler@^1.10.3:
   version "1.10.3"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz#942bbf2963bbf49fa79593600ee9d7b5dab3cfc0"
   integrity sha512-cBGMi1IEsIVMgoox4RvMx7V2r6bNKw0uR1Mu1o7NbuHS6BRSVLq0dP34l2ecnPlC+jpWd3le6Yg1nrdCjby2Mw==
@@ -12586,7 +12586,7 @@ react-native-image-colors@^1.4.0:
   dependencies:
     node-vibrant "3.1.6"
 
-react-native-linear-gradient@*, react-native-linear-gradient@^2.5.6:
+react-native-linear-gradient@^2.5.6:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
   integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
@@ -12606,7 +12606,7 @@ react-native-permissions@^3.0.5:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.0.5.tgz#94542a343abdac801fa0a4593ea2c751cb45c41f"
   integrity sha512-hcvLtHhTyOTXC+CCv79d4Qtdnj6PGuY5Ms0fhW8V6Et1T/mPvzO6++Du4jwEv/oHZ62qMWKUDq0/Tsh63QHuyQ==
 
-react-native-reanimated@*, react-native-reanimated@2.2.0:
+react-native-reanimated@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.2.0.tgz#a6412c56b4e591d1f00fac949f62d0c72c357c78"
   integrity sha512-lOJDd+5w1gY6DHGXG2jD1dsjzQmXQ2699HUc3IztvI2WP4zUT+UAA+zSG+5JiBS5DUnTL8YhhkmUQmr1KNGO5w==
@@ -12681,7 +12681,7 @@ react-native-svg-transformer@^0.14.3:
     path-dirname "^1.0.2"
     semver "^5.6.0"
 
-react-native-svg@*, react-native-svg@^12.1.1:
+react-native-svg@^12.1.1:
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"
   integrity sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q==
@@ -12836,7 +12836,7 @@ react-scripts@4.0.3:
   optionalDependencies:
     fsevents "^2.1.3"
 
-react@*, react@17.0.2, react@^17.0.2:
+react@17.0.2, react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==

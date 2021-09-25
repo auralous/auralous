@@ -1,10 +1,11 @@
+import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import type { ParamList, RouteName } from "@/screens/types";
 import { useSessionQuery } from "@auralous/api";
-import { LoadingScreen, SessionEditScreenContent } from "@auralous/ui";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
+import { SessionEditScreenContent } from "./SessionEdit/SessionEditScreenContent";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },

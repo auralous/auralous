@@ -1,11 +1,9 @@
-import {
-  Colors,
-  Size,
-  Spacer,
-  Text,
-  TextButton,
-  useBackHandlerDismiss,
-} from "@auralous/ui";
+import { TextButton } from "@/components/Button";
+import { useBackHandlerDismiss } from "@/components/Dialog";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
+import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
 import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { BlurView } from "@react-native-community/blur";

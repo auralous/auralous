@@ -1,5 +1,8 @@
+import { LoadingScreen } from "@/components/Loading";
+import { shuffle } from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
+import { Size } from "@/styles/spacing";
 import type {
   Playlist,
   PlaylistTracksQuery,
@@ -16,8 +19,6 @@ import {
   usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
 } from "@auralous/api";
-import { shuffle } from "@auralous/player";
-import { LoadingScreen, Size } from "@auralous/ui";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";

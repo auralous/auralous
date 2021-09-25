@@ -1,16 +1,14 @@
 import { useAuthActions } from "@/gql/context";
 import { getPreferredLanguage } from "@/i18n";
 import type { ParamList, RouteName } from "@/screens/types";
-import {
-  SettingsScreenContent,
-  STORAGE_KEY_SETTINGS_LANGUAGE,
-} from "@auralous/ui";
+import { STORAGE_KEY_SETTINGS_LANGUAGE } from "@/utils/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getLocales } from "react-native-localize";
+import { SettingsScreenContent } from "./Settings";
 
 export const SettingsScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.Settings>

@@ -3,9 +3,6 @@
     "packages": [
       "api",
       "app",
-      "locales",
-      "player",
-      "ui",
       "web",
       "mobile"
     ],
@@ -25,7 +22,7 @@
     "lint": "eslint .",
     "format": "prettier . -w --ignore-path ./.eslintignore",
     "build": "yarn workspaces run build",
-    "build:watch": "concurrently \"yarn workspace @auralous/api run build:watch\" \"yarn workspace @auralous/player run build:watch\" \"yarn workspace @auralous/ui run build:watch\"",
+    "build:watch": "concurrently \"yarn workspace @auralous/api run build:watch\"",
     "dev": "yarn build:watch",
     "clean": "yarn workspaces run clean"
   },

@@ -1,17 +1,17 @@
+import { toast } from "@/components/Toast";
+import { Config } from "@/utils/constants";
 import type {
   Session,
   SessionsOnMapQuery,
   SessionsOnMapQueryVariables,
 } from "@auralous/api";
 import { SessionsOnMapDocument, useClient } from "@auralous/api";
-import { toast } from "@auralous/ui";
 import type { MapViewProps } from "@react-native-mapbox-gl/maps";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import type { FC } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
-import Config from "react-native-config";
 import type { OperationResult } from "urql";
 import { pipe, subscribe } from "wonka";
 import { MapMapMarker, radiusPx } from "./MapMapMarker";

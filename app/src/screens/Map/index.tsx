@@ -1,8 +1,8 @@
 import { SessionPager } from "@/components/Session/SessionPager";
+import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import type { Session } from "@auralous/api";
-import player from "@auralous/player";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useState } from "react";

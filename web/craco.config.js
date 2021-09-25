@@ -60,8 +60,7 @@ module.exports = {
     configure(webpackConfig) {
       webpackConfig.module.rules[1].oneOf[2].include = [
         webpackConfig.module.rules[1].oneOf[2].include,
-        getDependencyDir("@auralous/ui"),
-        getDependencyDir("@auralous/player"),
+        getDependencyDir("@auralous/app"),
       ];
       webpackConfig.module.rules.push({
         test: /\.js$/,

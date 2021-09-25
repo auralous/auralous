@@ -1,4 +1,4 @@
-import { Font, fontWithWeight } from "@auralous/ui";
+import { Font, fontWithWeight } from "@/styles/fonts";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { FC } from "react";

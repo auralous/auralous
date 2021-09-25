@@ -1,14 +1,11 @@
+import { IconBell, IconSettings } from "@/assets";
+import { Avatar } from "@/components/Avatar";
+import { TextButton } from "@/components/Button";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
+import { Size } from "@/styles/spacing";
 import { useMeQuery } from "@auralous/api";
-import {
-  Avatar,
-  IconBell,
-  IconSettings,
-  Size,
-  Spacer,
-  Text,
-  TextButton,
-} from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";

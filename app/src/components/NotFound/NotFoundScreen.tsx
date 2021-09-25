@@ -1,4 +1,4 @@
-import { NotFound } from "@auralous/ui";
+import { NotFound } from "@/components/Page";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { StyleSheet, View } from "react-native";

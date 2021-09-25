@@ -1,18 +1,16 @@
+import { PageHeaderGradient } from "@/components/Color";
+import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import type { Playlist } from "@auralous/api";
 import { usePlaylistQuery } from "@auralous/api";
-import {
-  LoadingScreen,
-  PageHeaderGradient,
-  PlaylistScreenContent,
-} from "@auralous/ui";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { PlaylistScreenContent } from "./PlaylistScreenContent";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },

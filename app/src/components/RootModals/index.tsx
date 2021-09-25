@@ -1,5 +1,6 @@
+import { useUi, useUiDispatch } from "@/context";
 import { RouteName } from "@/screens/types";
-import { StopLiveIntention, useUi, useUiDispatch } from "@auralous/ui";
+import { StopLiveIntention } from "@/views/Player";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useEffect } from "react";

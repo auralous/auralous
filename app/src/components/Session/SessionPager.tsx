@@ -1,17 +1,14 @@
+import { ImageSources } from "@/assets";
+import { Avatar } from "@/components/Avatar";
+import { Button } from "@/components/Button";
+import { SlideModal } from "@/components/Dialog";
+import { SkeletonBlock } from "@/components/Loading";
+import { Spacer } from "@/components/Spacer";
+import { Text, TextMarquee } from "@/components/Typography";
+import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
 import type { Session } from "@auralous/api";
 import { useNowPlayingQuery, useTrackQuery } from "@auralous/api";
-import {
-  Avatar,
-  Button,
-  Colors,
-  ImageSources,
-  Size,
-  SkeletonBlock,
-  SlideModal,
-  Spacer,
-  Text,
-  TextMarquee,
-} from "@auralous/ui";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";

@@ -7,11 +7,7 @@ const exclusionList = require("metro-config/src/defaults/exclusionList");
 const pkgDir = require("pkg-dir");
 
 const appDir = path.resolve(__dirname, "..", "app");
-const otherDirs = [
-  path.resolve(__dirname, "..", "ui"),
-  path.resolve(__dirname, "..", "player"),
-  path.resolve(__dirname, "..", "api"),
-];
+const otherDirs = [path.resolve(__dirname, "..", "api")];
 
 const buildExtraNodeModules = () => {
   const extraNodeModules = {};
@@ -61,7 +57,6 @@ module.exports = (async () => {
   } = await getDefaultConfig();
   const extraNodeModules = buildExtraNodeModules();
   const blockList = buildBlocklist();
-  console.log({ extraNodeModules, blockList });
   return {
     watchFolders: [
       path.resolve(__dirname, "..", "node_modules"),

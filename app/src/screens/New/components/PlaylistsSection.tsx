@@ -1,10 +1,10 @@
-import type { Playlist } from "@auralous/api";
 import {
-  Heading,
   PlaylistItem,
-  Size,
   useItemHorizontalWidthStyle,
-} from "@auralous/ui";
+} from "@/components/Playlist";
+import { Heading } from "@/components/Typography";
+import { Size } from "@/styles/spacing";
+import type { Playlist } from "@auralous/api";
 import type { FC } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 

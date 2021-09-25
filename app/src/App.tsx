@@ -1,7 +1,6 @@
 import { ApiProvider } from "@/gql/context";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
-import { Colors, Toaster, UIContextProvider } from "@auralous/ui";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import type { LinkingOptions } from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -9,8 +8,11 @@ import type { FC } from "react";
 import { StatusBar, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootModalsComponents } from "./components/RootModals";
-import { PlayerComponent, PlayerProvider } from "./player";
+import { Toaster } from "./components/Toast";
+import { UIContextProvider } from "./context";
+import { PlayerComponent, PlayerProvider } from "./player-component";
 import Navigator from "./screens/Navigator";
+import { Colors } from "./styles/colors";
 
 const linking: LinkingOptions<ParamList> = {
   enabled: true,

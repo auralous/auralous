@@ -1,31 +1,31 @@
-import { NotFoundScreen } from "@/components/NotFound";
-import type { ParamList } from "@/screens/types";
-import { RouteName } from "@/screens/types";
-import type { Session } from "@auralous/api";
-import { useMeQuery, useSessionQuery } from "@auralous/api";
 import {
-  Colors,
   IconEdit,
   IconHeadphones,
   IconMoreVertical,
   IconShare2,
   IconUser,
-  LoadingScreen,
-  PageHeaderGradient,
-  SessionScreenContent,
-  TextButton,
-  useUiDispatch,
-} from "@auralous/ui";
+} from "@/assets";
+import { TextButton } from "@/components/Button";
+import { PageHeaderGradient } from "@/components/Color";
+import { LoadingScreen } from "@/components/Loading";
+import { NotFoundScreen } from "@/components/NotFound";
+import { useUiDispatch } from "@/context";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
+import { Colors } from "@/styles/colors";
+import { Config } from "@/utils/constants";
+import type { Session } from "@auralous/api";
+import { useMeQuery, useSessionQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
-import Config from "react-native-config";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Share from "react-native-share";
 import { SessionNewPrompts } from "./components/SessionNewPrompts";
+import { SessionScreenContent } from "./Session";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },

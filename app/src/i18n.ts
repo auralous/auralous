@@ -1,11 +1,11 @@
-import en from "@auralous/locales/src/en.json";
-import vi from "@auralous/locales/src/vi.json";
-import { STORAGE_KEY_SETTINGS_LANGUAGE } from "@auralous/ui";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Resource } from "i18next";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { getLocales } from "react-native-localize";
+import en from "../locales/en.json";
+import vi from "../locales/vi.json";
+import { STORAGE_KEY_SETTINGS_LANGUAGE } from "./utils/constants";
 
 const resources: Resource = {
   en: {

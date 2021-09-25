@@ -1,22 +1,17 @@
+import { IconGoogleColor, IconLogo, IconSpotify } from "@/assets";
+import { Spacer } from "@/components/Spacer";
+import { Text, TextLink } from "@/components/Typography";
 import { useAuthActions } from "@/gql/context";
 import type { ParamList, RouteName } from "@/screens/types";
+import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
+import { Config } from "@/utils/constants";
 import { useMeQuery } from "@auralous/api";
-import {
-  Colors,
-  IconGoogleColor,
-  IconLogo,
-  IconSpotify,
-  Size,
-  Spacer,
-  Text,
-  TextLink,
-} from "@auralous/ui";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import Config from "react-native-config";
 import ContinueButton from "./components/ContinueButton";
 
 const styles = StyleSheet.create({

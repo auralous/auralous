@@ -1,6 +1,9 @@
+import { IconChevronUp } from "@/assets";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
+import type { PlaybackState } from "@/player";
+import { Size } from "@/styles/spacing";
 import { useTrackQuery } from "@auralous/api";
-import type { PlaybackState } from "@auralous/player";
-import { IconChevronUp, Size, Spacer, Text } from "@auralous/ui";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";

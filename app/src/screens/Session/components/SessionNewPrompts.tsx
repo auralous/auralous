@@ -1,8 +1,11 @@
+import { Dialog } from "@/components/Dialog";
+import { Spacer } from "@/components/Spacer";
+import { toast } from "@/components/Toast";
 import { RouteName } from "@/screens/types";
+import { Size } from "@/styles/spacing";
 import { checkAndRequestPermission } from "@/utils/permission";
 import type { LocationInput, Session } from "@auralous/api";
 import { useSessionUpdateMutation } from "@auralous/api";
-import { Dialog, Size, Spacer, toast } from "@auralous/ui";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback, useState } from "react";

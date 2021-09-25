@@ -1,18 +1,13 @@
+import { Button } from "@/components/Button";
+import { Spacer } from "@/components/Spacer";
+import { Heading, Text } from "@/components/Typography";
+import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
+import { Colors, GradientColors } from "@/styles/colors";
+import { Font, fontWithWeight } from "@/styles/fonts";
+import { Size } from "@/styles/spacing";
 import { useSessionCreateMutation } from "@auralous/api";
-import player from "@auralous/player";
-import {
-  Button,
-  Colors,
-  Font,
-  fontWithWeight,
-  GradientColors,
-  Heading,
-  Size,
-  Spacer,
-  Text,
-} from "@auralous/ui";
 import { useFocusEffect } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";

@@ -1,4 +1,4 @@
-import { Colors } from "@auralous/ui";
+import { Colors } from "@/styles/colors";
 import type { FC } from "react";
 import { useEffect } from "react";
 import { PixelRatio, StyleSheet, View } from "react-native";

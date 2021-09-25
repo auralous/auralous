@@ -1,19 +1,15 @@
+import { Button, TextButton } from "@/components/Button";
+import { useDialog } from "@/components/Dialog";
+import type { InputRef } from "@/components/Input";
+import { Input } from "@/components/Input";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
+import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
+import { SongSelector } from "@/views/SongSelector";
 import { useMeQuery } from "@auralous/api";
-import type { InputRef } from "@auralous/ui";
-import {
-  Button,
-  Colors,
-  Input,
-  NewSelectSongsContent,
-  Size,
-  SongSelector,
-  Spacer,
-  Text,
-  TextButton,
-  useDialog,
-} from "@auralous/ui";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetFooter,
@@ -23,6 +19,11 @@ import type { FC } from "react";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Modal, StyleSheet, View } from "react-native";
+import {
+  SelectedTracksListFooter,
+  SelectedTracksListProvider,
+  SelectedTracksListView,
+} from "./components/SelectedTracksListView";
 import { useRedirectOnUnauthenticated } from "./components/useRedirectOnUnauthenticated";
 
 const styles = StyleSheet.create({
@@ -73,7 +74,7 @@ const SelectSongsScreen: FC<
   const renderFooter = useCallback(
     (props) => (
       <BottomSheetFooter {...props}>
-        <NewSelectSongsContent.SelectedTracksListFooter
+        <SelectedTracksListFooter
           selectedTracks={selectedTracks}
           setSelectedTracks={setSelectedTracks}
           onFinish={presentFinal}
@@ -105,7 +106,7 @@ const SelectSongsScreen: FC<
         addTracks={addTracks}
         removeTracks={removeTracks}
       />
-      <NewSelectSongsContent.SelectedTracksListProvider expanded={expanded}>
+      <SelectedTracksListProvider expanded={expanded}>
         <BottomSheet
           ref={bottomSheetRef}
           snapPoints={snapPoints}
@@ -116,12 +117,12 @@ const SelectSongsScreen: FC<
           backdropComponent={BottomSheetBackdrop}
           footerComponent={renderFooter}
         >
-          <NewSelectSongsContent.SelectedTracksListView
+          <SelectedTracksListView
             selectedTracks={selectedTracks}
             setSelectedTracks={setSelectedTracks}
           />
         </BottomSheet>
-      </NewSelectSongsContent.SelectedTracksListProvider>
+      </SelectedTracksListProvider>
       <Modal
         visible={visibleFinal}
         animationType="slide"

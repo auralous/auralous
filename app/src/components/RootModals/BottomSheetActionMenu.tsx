@@ -1,5 +1,5 @@
 import { BottomSheetActionMenu } from "@/components/BottomSheet";
-import { useUi, useUiDispatch } from "@auralous/ui";
+import { useUi, useUiDispatch } from "@/context";
 import type { FC } from "react";
 import { useCallback } from "react";
 

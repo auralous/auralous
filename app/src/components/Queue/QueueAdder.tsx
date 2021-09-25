@@ -1,12 +1,10 @@
+import { IconChevronLeft } from "@/assets";
+import { Button } from "@/components/Button";
+import { SlideModal } from "@/components/Dialog";
+import { Header } from "@/components/Header";
+import { Colors } from "@/styles/colors";
+import { SongSelector } from "@/views/SongSelector";
 import type { QueueItem } from "@auralous/api";
-import {
-  Button,
-  Colors,
-  Header,
-  IconChevronLeft,
-  SlideModal,
-  SongSelector,
-} from "@auralous/ui";
 import type { FC } from "react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

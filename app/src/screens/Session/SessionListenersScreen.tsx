@@ -1,10 +1,11 @@
+import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import type { ParamList, RouteName } from "@/screens/types";
+import { SocialUserList } from "@/views/User";
 import {
   useSessionListenersQuery,
   useSessionListenersUpdatedSubscription,
 } from "@auralous/api";
-import { LoadingScreen, SocialUserList } from "@auralous/ui";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { StyleSheet, View } from "react-native";

@@ -1,22 +1,16 @@
+import { Button, TextButton } from "@/components/Button";
+import type { DraggableRecyclerRenderItemInfo } from "@/components/RecyclerList";
+import { DraggableRecyclerList } from "@/components/RecyclerList";
+import { Spacer } from "@/components/Spacer";
+import { QueueTrackItem, TrackItem } from "@/components/Track";
+import { Heading, Text } from "@/components/Typography";
+import type { PlaybackState } from "@/player";
+import player, { usePreloadedTrackQueries } from "@/player";
+import { Colors } from "@/styles/colors";
+import { Font, fontWithWeight } from "@/styles/fonts";
+import { Size } from "@/styles/spacing";
 import type { QueueItem, Track } from "@auralous/api";
 import { useTrackQuery } from "@auralous/api";
-import type { PlaybackState } from "@auralous/player";
-import player, { usePreloadedTrackQueries } from "@auralous/player";
-import type { DraggableRecyclerRenderItemInfo } from "@auralous/ui";
-import {
-  Button,
-  Colors,
-  DraggableRecyclerList,
-  Font,
-  fontWithWeight,
-  Heading,
-  QueueTrackItem,
-  Size,
-  Spacer,
-  Text,
-  TextButton,
-  TrackItem,
-} from "@auralous/ui";
 import type { FC } from "react";
 import {
   createContext,

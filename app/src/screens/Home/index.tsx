@@ -1,11 +1,12 @@
 import type { ParamList, RouteName } from "@/screens/types";
-import { HomeScreenContent, Size } from "@auralous/ui";
+import { Size } from "@/styles/spacing";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddButton from "./components/AddButton";
 import HomeHeader from "./components/HomeHeader";
+import { HomeScreenContent } from "./components/HomeScreenContent";
 
 const styles = StyleSheet.create({
   root: {
