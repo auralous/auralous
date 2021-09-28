@@ -235,7 +235,8 @@
   },
   "share": {
     "share": "Chia sẻ",
-    "invite_friends": "Mời bạn bè"
+    "invite_friends": "Mời bạn bè",
+    "share_via_name": "Chia sẻ qua {{ name }}"
   },
   "settings": {
     "title": "Cài đặt",

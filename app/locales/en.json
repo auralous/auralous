@@ -235,7 +235,8 @@
   },
   "share": {
     "share": "Share",
-    "invite_friends": "Invite friends"
+    "invite_friends": "Invite friends",
+    "share_via_name": "Share via {{ name }}"
   },
   "settings": {
     "title": "Settings",

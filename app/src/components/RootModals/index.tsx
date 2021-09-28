@@ -1,11 +1,12 @@
 import { useUi, useUiDispatch } from "@/context";
+import { StopLiveIntention } from "@/player-component/components/StopLiveIntention";
 import { RouteName } from "@/screens/types";
-import { StopLiveIntention } from "@/views/Player";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useEffect } from "react";
 import { AddToPlaylistModal } from "./AddToPlaylist";
 import { BottomSheetActionMenuModal } from "./BottomSheetActionMenu";
+import { ShareModal } from "./ShareModal";
 
 export const RootModalsComponents: FC = () => {
   const { signIn } = useUi();
@@ -26,6 +27,7 @@ export const RootModalsComponents: FC = () => {
       <AddToPlaylistModal />
       <BottomSheetActionMenuModal />
       <StopLiveIntention />
+      <ShareModal />
     </>
   );
 };

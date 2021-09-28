@@ -1,4 +1,5 @@
 import { IconPlus } from "@/assets";
+import { BlurView } from "@/components/BlurView";
 import { Button, GradientButton, TextButton } from "@/components/Button";
 import { SlideModal, useDialog } from "@/components/Dialog";
 import { Spacer } from "@/components/Spacer";
@@ -6,7 +7,6 @@ import { Heading } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import { useMeQuery, useSessionCurrentLiveQuery } from "@auralous/api";
-import { BlurView } from "@react-native-community/blur";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback, useEffect } from "react";

@@ -1,22 +1,32 @@
 import player from "@/player";
+import { LayoutSize, Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { StyleSheet } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
 import type { YoutubeIframeRef } from "react-native-youtube-iframe";
 import YoutubePlayer from "react-native-youtube-iframe";
 
-const styles = StyleSheet.create({ root: {} });
+const height = 200;
+const width = 355;
 
-const height = 212;
+const styles = StyleSheet.create({
+  root: {
+    height,
+  },
+  rootLand: {
+    height,
+    position: "absolute",
+    right: Size[2],
+    top: Size[2],
+    width,
+    zIndex: 20,
+  },
+  webViewStyle: {
+    flex: 1,
+  },
+});
 
 const PlayerYoutube: FC = () => {
-  const heightValue = useSharedValue(0);
-
   const youtubeRef = useRef<YoutubeIframeRef>(null);
   const isPlayingRef = useRef<boolean>(false);
   const [videoId, setVideoId] = useState<string | null>(
@@ -76,15 +86,12 @@ const PlayerYoutube: FC = () => {
     };
   }, [isReady]);
 
-  useEffect(() => {
-    if (videoId) heightValue.value = withTiming(height);
-    else heightValue.value = withTiming(0);
-  });
+  const { width: windowWidth } = useWindowDimensions();
 
-  const style = useAnimatedStyle(() => ({ height: heightValue.value }), []);
+  if (!videoId) return null;
 
   return (
-    <Animated.View style={[styles.root, style]}>
+    <View style={windowWidth >= LayoutSize.md ? styles.rootLand : styles.root}>
       {videoId && (
         <YoutubePlayer
           play={isPlaying}
@@ -98,10 +105,13 @@ const PlayerYoutube: FC = () => {
             userAgent:
               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246",
             mediaPlaybackRequiresUserAction: false,
+            width: windowWidth >= LayoutSize.md ? undefined : width,
+            height,
           }}
+          webViewStyle={styles.webViewStyle}
         />
       )}
-    </Animated.View>
+    </View>
   );
 };
 

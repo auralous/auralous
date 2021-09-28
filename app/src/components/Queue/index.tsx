@@ -13,6 +13,7 @@ import type { Track } from "@auralous/api";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MetaAndButton from "./MetaAndButton";
 import QueueContent from "./QueueContent";
@@ -69,6 +70,8 @@ const QueueSheet: FC<{
   );
 };
 
+const GHQueueSheet = gestureHandlerRootHOC(QueueSheet);
+
 export const QueueModal: FC<{
   nextItems: PlaybackState["nextItems"];
   currentTrack: Track | null;
@@ -79,7 +82,7 @@ export const QueueModal: FC<{
     <>
       <MetaAndButton nextItems={nextItems} onPress={present} />
       <SlideModal visible={visible} onDismiss={dismiss}>
-        <QueueSheet
+        <GHQueueSheet
           currentTrack={currentTrack}
           nextItems={nextItems}
           onClose={dismiss}

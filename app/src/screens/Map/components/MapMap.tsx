@@ -1,5 +1,6 @@
 import { toast } from "@/components/Toast";
-import { Config } from "@/utils/constants";
+import { Config } from "@/config";
+import { MAPBOX_STYLE_URL } from "@/utils/constants";
 import type {
   Session,
   SessionsOnMapQuery,
@@ -95,7 +96,7 @@ export const MapMap: FC<{
       ref={ref}
       onPress={onPress}
       style={styles.root}
-      styleURL={Config.MAPBOX_STYLE_URL}
+      styleURL={MAPBOX_STYLE_URL}
     >
       <MapboxGL.Camera />
       {lngLat && (

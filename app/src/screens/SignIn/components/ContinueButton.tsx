@@ -1,9 +1,9 @@
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
+import { Config } from "@/config";
 import type { ThemeColorKey } from "@/styles/colors";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import { Config } from "@/utils/constants";
 import type { FC } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";

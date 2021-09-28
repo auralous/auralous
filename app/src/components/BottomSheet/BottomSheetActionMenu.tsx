@@ -1,3 +1,4 @@
+import { BlurView } from "@/components/BlurView";
 import { TextButton } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Spacer } from "@/components/Spacer";
@@ -6,7 +7,6 @@ import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { BlurView } from "@react-native-community/blur";
 import type { FC, ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";

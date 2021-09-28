@@ -7,7 +7,6 @@ import type { Dispatch, FC, ReactNode } from "react";
 import { useReducer } from "react";
 
 interface UIState {
-  playerView: { visible: boolean };
   addToPlaylist: { visible: boolean; trackId: null | string };
   signIn: { visible: boolean };
   contextMenu: {
@@ -30,6 +29,11 @@ interface UIState {
       nextPlaybackContext: PlaybackCurrentContext;
     } | null;
   };
+  share: {
+    visible: boolean;
+    title?: string;
+    url?: string;
+  };
 }
 
 export interface UIContextValue {
@@ -50,11 +54,11 @@ function reducer<T extends keyof UIState>(state: UIState, action: Action<T>) {
 }
 
 const uiInitialValues: UIState = {
-  playerView: { visible: false },
   addToPlaylist: { visible: false, trackId: null },
   contextMenu: { visible: false, meta: null },
   signIn: { visible: false },
   stopLiveOnPlay: { visible: false, intention: null },
+  share: { visible: false },
 };
 
 const UIContext = createContext({ ui: uiInitialValues } as UIContextValue);

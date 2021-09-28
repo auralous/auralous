@@ -3,11 +3,11 @@ import { TextButton } from "@/components/Button";
 import { PageHeaderGradient } from "@/components/Color";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
+import { Config } from "@/config";
 import { useUiDispatch } from "@/context";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
-import { Config } from "@/utils/constants";
 import type { User } from "@auralous/api";
 import { useMeQuery, useUserQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
@@ -17,7 +17,6 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Share from "react-native-share";
 import { UserScreenContent } from "./User";
 
 const styles = StyleSheet.create({
@@ -60,10 +59,14 @@ const HeaderRight: FC<{ user: User }> = ({ user }) => {
                   icon: <IconShare2 stroke={Colors.textSecondary} />,
                   text: t("share.share"),
                   onPress() {
-                    Share.open({
-                      title: user.username,
-                      url: `${Config.APP_URI}/u/${user.username}`,
-                    }).catch(() => undefined);
+                    uiDispatch({
+                      type: "share",
+                      value: {
+                        visible: true,
+                        title: user.username,
+                        url: `${Config.APP_URI}/u/${user.username}`,
+                      },
+                    });
                   },
                 },
               ],

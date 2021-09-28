@@ -1,6 +1,5 @@
 import { IconMenu } from "@/assets";
 import { Checkbox } from "@/components/Checkbox";
-import { TrackItem } from "@/components/Track";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useMemo } from "react";
@@ -11,6 +10,7 @@ import {
   View,
 } from "react-native";
 import type { TrackItemProps } from "./TrackItem";
+import TrackItem from "./TrackItem";
 
 const styles = StyleSheet.create({
   check: {

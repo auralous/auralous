@@ -17,6 +17,13 @@ type GradientButtonProps = BaseButtonProps;
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
+const rnstyles = StyleSheet.create({
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: -1,
+  },
+});
+
 export const GradientButton: FC<GradientButtonProps> = (props) => {
   const styles = useStyles(props);
   const { icon, children, onPress, accessibilityLabel, disabled, textProps } =
@@ -41,7 +48,7 @@ export const GradientButton: FC<GradientButtonProps> = (props) => {
         locations={GradientColors.rainbow.locations}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
-        style={StyleSheet.absoluteFill}
+        style={rnstyles.gradient}
       />
       {icon}
       {!!(icon && children) && <Spacer x={1} />}

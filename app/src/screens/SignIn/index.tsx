@@ -1,11 +1,11 @@
 import { IconGoogleColor, IconLogo, IconSpotify } from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextLink } from "@/components/Typography";
+import { Config } from "@/config";
 import { useAuthActions } from "@/gql/context";
 import type { ParamList, RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import { Config } from "@/utils/constants";
 import { useMeQuery } from "@auralous/api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";

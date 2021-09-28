@@ -26,8 +26,6 @@ const PlayerSpotify: FC = () => {
       volume: 1,
     });
 
-    spotifyPlayer.addListener("ready", () => console.log("ready"));
-
     let spotifyState: Spotify.PlaybackState | null = null;
 
     const onReady: Spotify.PlaybackInstanceListener = ({ device_id }) => {

@@ -1,34 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require("path");
 const pkgDir = require("pkg-dir");
-const getWorkspaces = require("get-yarn-workspaces");
+const webpack = require("webpack");
 
-const appDir = __dirname;
-
-const workspaces = getWorkspaces(appDir);
-const otherPackagesDir = workspaces.filter(
-  (workspaceDir) => workspaceDir !== appDir
-);
-
-const getDependencyDir = (name) => pkgDir.sync(require.resolve(name));
-
-const createWebpackAlias = () => {
-  const list = {};
-  // for every other package, loop through each of their peerDependencies and
-  // force it to use a single instance
-  for (const packageDir of otherPackagesDir) {
-    const otherPackageJson = require(path.join(packageDir, "package.json"));
-    for (const dependencyName in otherPackageJson.peerDependencies) {
-      let rDependencyName = dependencyName;
-      if (dependencyName === "react-native")
-        rDependencyName = "react-native-web";
-      if (dependencyName === "react-native-linear-gradient")
-        rDependencyName = "react-native-web-linear-gradient";
-      list[dependencyName] = getDependencyDir(rDependencyName);
-    }
-  }
-  return list;
-};
+const getDependencyDir = (name, options) =>
+  pkgDir.sync(require.resolve(name, options));
 
 module.exports = {
   babel: {
@@ -56,7 +31,24 @@ module.exports = {
     ],
   },
   webpack: {
-    alias: createWebpackAlias(),
+    alias: {
+      react: getDependencyDir("react"),
+      "react-native": "react-native-web",
+      "react-native-linear-gradient": "react-native-web-linear-gradient",
+      "react-native-webview": "react-native-web-webview",
+      "react-native-reanimated": getDependencyDir("react-native-reanimated"),
+      "@react-native-async-storage/async-storage": getDependencyDir(
+        "@react-native-async-storage/async-storage"
+      ),
+    },
+
+    plugins: {
+      add: [
+        new webpack.DefinePlugin({
+          __DEV__: process.env.NODE_ENV === "production",
+        }),
+      ],
+    },
     configure(webpackConfig) {
       webpackConfig.module.rules[1].oneOf[2].include = [
         webpackConfig.module.rules[1].oneOf[2].include,
@@ -64,7 +56,12 @@ module.exports = {
       ];
       webpackConfig.module.rules.push({
         test: /\.js$/,
-        include: [getDependencyDir("react-native-reanimated")],
+        include: [
+          getDependencyDir("react-native-reanimated"),
+          getDependencyDir("@gorhom/bottom-sheet", {
+            paths: [getDependencyDir("@auralous/app")],
+          }),
+        ],
         use: {
           loader: "babel-loader",
           options: {
@@ -85,6 +82,15 @@ module.exports = {
                 },
               ],
             ],
+          },
+        },
+      });
+      webpackConfig.module.rules.push({
+        test: /postMock.html$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[ext]",
           },
         },
       });

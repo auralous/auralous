@@ -9,11 +9,11 @@ import { TextButton } from "@/components/Button";
 import { PageHeaderGradient } from "@/components/Color";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
+import { Config } from "@/config";
 import { useUiDispatch } from "@/context";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
-import { Config } from "@/utils/constants";
 import type { Session } from "@auralous/api";
 import { useMeQuery, useSessionQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
@@ -23,7 +23,6 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Share from "react-native-share";
 import { SessionNewPrompts } from "./components/SessionNewPrompts";
 import { SessionScreenContent } from "./Session";
 
@@ -92,10 +91,14 @@ const HeaderRight: FC<{ session: Session }> = ({ session }) => {
                   icon: <IconShare2 stroke={Colors.textSecondary} />,
                   text: t("share.share"),
                   onPress() {
-                    Share.open({
-                      title: session.text,
-                      url: `${Config.APP_URI}/session/${session.id}`,
-                    }).catch(() => undefined);
+                    uiDispatch({
+                      type: "share",
+                      value: {
+                        visible: true,
+                        title: session.text,
+                        url: `${Config.APP_URI}/session/${session.id}`,
+                      },
+                    });
                   },
                 },
               ],

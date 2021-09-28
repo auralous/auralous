@@ -3,6 +3,7 @@ import { Avatar } from "@/components/Avatar";
 import { Button } from "@/components/Button";
 import { SlideModal } from "@/components/Dialog";
 import { SkeletonBlock } from "@/components/Loading";
+import { PagerView } from "@/components/PagerView";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
@@ -14,8 +15,6 @@ import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import type { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
-import PagerView from "react-native-pager-view";
 
 const styles = StyleSheet.create({
   page: {
@@ -175,8 +174,8 @@ export const SessionPager: FC<{
   onSessionNavigated(session: Session): void;
 }> = ({ sessions, visible, onClose, onSessionPaged, onSessionNavigated }) => {
   const onPageSelected = useCallback(
-    (event: PagerViewOnPageSelectedEvent) => {
-      const session = sessions[event.nativeEvent.position];
+    (page: number) => {
+      const session = sessions[page];
       if (session) onSessionPaged(session);
     },
     [sessions, onSessionPaged]
@@ -184,7 +183,7 @@ export const SessionPager: FC<{
 
   return (
     <SlideModal visible={visible} onDismiss={onClose}>
-      <PagerView style={styles.root} onPageSelected={onPageSelected}>
+      <PagerView style={styles.root} onSelected={onPageSelected}>
         {sessions.map((session) => (
           <SessionPagerItem
             onNavigate={onSessionNavigated}

@@ -2,6 +2,7 @@ import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import { UserListItem } from "@/components/User";
+import { useUiDispatch } from "@/context";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
@@ -17,7 +18,6 @@ import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import Share from "react-native-share";
 
 const styles = StyleSheet.create({
   invite: {
@@ -81,12 +81,23 @@ const SessionCollaboratorsScreen: FC<
     pause: !shouldShowInviteButton,
   });
 
+  const uiDispatch = useUiDispatch();
+
   const onInvitePress = useCallback(() => {
-    Share.open({
-      title: t("session_invite.title", { name: dataSession?.session?.text }),
-      url: dataSessionInviteLink?.sessionInviteLink,
-    }).catch(() => undefined);
-  }, [t, dataSession?.session?.text, dataSessionInviteLink?.sessionInviteLink]);
+    uiDispatch({
+      type: "share",
+      value: {
+        visible: true,
+        title: t("session_invite.title", { name: dataSession?.session?.text }),
+        url: dataSessionInviteLink?.sessionInviteLink,
+      },
+    });
+  }, [
+    t,
+    uiDispatch,
+    dataSession?.session?.text,
+    dataSessionInviteLink?.sessionInviteLink,
+  ]);
 
   return (
     <View style={styles.root}>

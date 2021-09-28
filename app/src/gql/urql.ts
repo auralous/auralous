@@ -1,6 +1,6 @@
 import { toast } from "@/components/Toast";
+import { Config } from "@/config";
 import i18n from "@/i18n";
-import { Config } from "@/utils/constants";
 import { createClient, setupExchanges, STORAGE_KEY_AUTH } from "@auralous/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

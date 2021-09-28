@@ -7,14 +7,12 @@ import player, {
   usePlaybackTrackId,
 } from "@/player";
 import { Size } from "@/styles/spacing";
-import {
-  PlayerViewControl,
-  PlayerViewMeta,
-  PlayerViewProgress,
-} from "@/views/Player";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
+import PlayerViewControl from "./PlayerViewControl";
+import PlayerViewMeta from "./PlayerViewMeta";
+import PlayerViewProgress from "./PlayerViewProgress";
 
 const styles = StyleSheet.create({
   root: {

@@ -1,4 +1,3 @@
-import { SessionPager } from "@/components/Session/SessionPager";
 import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
@@ -8,6 +7,7 @@ import type { FC } from "react";
 import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { MapMap } from "./components/MapMap";
+import { SessionPager } from "./components/SessionPager";
 
 const styles = StyleSheet.create({
   root: {

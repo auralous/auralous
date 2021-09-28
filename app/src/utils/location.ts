@@ -1,4 +1,6 @@
+import type { LocationInput } from "@auralous/api";
 import { Platform } from "react-native";
+import Geolocation from "react-native-geolocation-service";
 import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions";
 
 const locationPermission =
@@ -6,7 +8,7 @@ const locationPermission =
     ? PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION
     : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
 
-export async function checkAndRequestPermission() {
+export async function requestLocationPermission() {
   try {
     const checkResult = await check(locationPermission);
     switch (checkResult) {
@@ -28,4 +30,15 @@ export async function checkAndRequestPermission() {
   } catch (err) {
     return false;
   }
+}
+
+export async function getCurrentPosition() {
+  return new Promise<LocationInput>((resolve, reject) => {
+    Geolocation.getCurrentPosition((position) => {
+      resolve({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    }, reject);
+  });
 }

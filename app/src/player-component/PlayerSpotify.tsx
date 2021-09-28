@@ -1,7 +1,7 @@
 import { Dialog } from "@/components/Dialog";
 import { toast } from "@/components/Toast";
+import { Config } from "@/config";
 import player, { usePlaybackAuthentication } from "@/player";
-import { Config } from "@/utils/constants";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

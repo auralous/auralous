@@ -12,10 +12,12 @@ import player, {
   usePlaybackCurrentControl,
   usePlaybackTrackId,
 } from "@/player";
+import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { useAnimatedBgColors } from "@/styles/utils";
 import { useTrackQuery } from "@auralous/api";
+import { useNavigationState } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -66,6 +68,14 @@ const styles = StyleSheet.create({
   },
 });
 
+const hiddenRoutes = [
+  RouteName.NewFinal,
+  RouteName.NewQuickShare,
+  RouteName.NewSelectSongs,
+  RouteName.SignIn,
+  RouteName.Map,
+] as string[];
+
 const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
   const { t } = useTranslation();
 
@@ -86,6 +96,12 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
   );
 
   const animatedBgStyle = useAnimatedBgColors(usePlaybackColor());
+
+  const navigationRouteName = useNavigationState((state) =>
+    state?.routes ? state.routes[state.routes.length - 1].name : ""
+  );
+
+  if (hiddenRoutes.includes(navigationRouteName)) return null;
 
   if (!playbackCurrentContext) return null;
 

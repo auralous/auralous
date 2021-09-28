@@ -2,6 +2,8 @@ import { IconChevronDown, IconMoreHorizontal, IconPlayListAdd } from "@/assets";
 import { TextButton } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Header } from "@/components/Header";
+import type { PagerViewMethods } from "@/components/PagerView";
+import { PagerView } from "@/components/PagerView";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { useUiDispatch } from "@/context";
@@ -13,22 +15,19 @@ import {
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import {
-  PlayerBar,
-  PlayerChatView,
-  PlayerViewBackground,
-} from "@/views/Player";
 import { useTrackQuery } from "@auralous/api";
+import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useNavigation, useNavigationState } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
-import type { PagerViewOnPageSelectedEvent } from "react-native-pager-view";
-import PagerView from "react-native-pager-view";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ChatView from "./ChatView";
 import MusicView from "./MusicView";
+import PlayerBar from "./PlayerBar";
+import PlayerViewBackground from "./PlayerViewBackground";
 
 const styles = StyleSheet.create({
   content: {
@@ -43,7 +42,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: Size[4],
   },
-
+  page: {
+    height: "100%",
+    width: "100%",
+  },
   pagerView: {
     flex: 1,
   },
@@ -51,8 +53,9 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   root: {
-    flex: 1,
+    height: "100%",
     paddingTop: Size[2],
+    width: "100%",
   },
   tab: {
     backgroundColor: Colors.none,
@@ -188,13 +191,8 @@ const PlayerViewInner: FC = () => {
   const currentContext = usePlaybackCurrentContext();
   const contextMeta = usePlaybackContextMeta(currentContext);
 
-  const pagerRef = useRef<PagerView>(null);
+  const pagerRef = useRef<PagerViewMethods>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const onPageSelected = useCallback(
-    (event: PagerViewOnPageSelectedEvent) =>
-      setCurrentPage(event.nativeEvent.position),
-    []
-  );
 
   return (
     <View style={styles.content}>
@@ -212,17 +210,17 @@ const PlayerViewInner: FC = () => {
         />
       </View>
       <PagerView
-        onPageSelected={onPageSelected}
+        onSelected={setCurrentPage}
         ref={pagerRef}
         style={styles.pagerView}
-        initialPage={0}
+        orientation="horizontal"
       >
-        <View key={0}>
+        <View style={styles.page} key={0}>
           <MusicView key={0} />
         </View>
-        <View key={1}>
+        <View style={styles.page} key={1}>
           {contextMeta?.isLive ? (
-            <PlayerChatView contextMeta={contextMeta} />
+            <ChatView contextMeta={contextMeta} />
           ) : (
             <View style={styles.noChat}>
               <Text align="center" bold color="textSecondary">
@@ -236,63 +234,55 @@ const PlayerViewInner: FC = () => {
   );
 };
 
-const hiddenRoutes = [
-  RouteName.NewFinal,
-  RouteName.NewQuickShare,
-  RouteName.NewSelectSongs,
-  RouteName.SignIn,
-  RouteName.Map,
-] as string[];
-
 const snapPoints = ["100%"];
-
-const PlayerBarWrapper: FC<{ onPress(): void }> = ({ onPress }) => {
-  // PlayerBar but on certain routes, we want to hide it
-  const navigationRouteName = useNavigationState((state) =>
-    state?.routes ? state.routes[state.routes.length - 1].name : ""
-  );
-
-  if (hiddenRoutes.includes(navigationRouteName)) return null;
-
-  return <PlayerBar onPress={onPress} />;
-};
+const BackgroundComponent: FC<BottomSheetBackgroundProps> = ({
+  style,
+  pointerEvents,
+}) => <PlayerViewBackground style={style} pointerEvents={pointerEvents} />;
+const handleComponent = () => null;
 
 const PlayerView: FC = () => {
   const navigation = useNavigation();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
-  const dismiss = useCallback(() => bottomSheetRef.current?.dismiss(), []);
-  const present = useCallback(() => bottomSheetRef.current?.present(), []);
+  const [index, setIndex] = useState(-1);
+
+  const dismiss = useCallback(() => {
+    bottomSheetRef.current?.dismiss();
+  }, []);
+  const present = useCallback(() => {
+    bottomSheetRef.current?.present();
+    setIndex(0);
+  }, []);
+
+  const onDismiss = useCallback(() => setIndex(-1), []);
 
   useEffect(() => {
+    if (index === -1) return;
     const unsubscribe = navigation.addListener("state", dismiss);
     return unsubscribe;
-  }, [navigation, dismiss]);
+  }, [navigation, dismiss, index]);
 
-  const [sheetIndex, setSheetIndex] = useState(-1);
-
-  useBackHandlerDismiss(sheetIndex === 0, dismiss);
+  useBackHandlerDismiss(index === 0, dismiss);
 
   return (
     <>
       <BottomSheetModal
         ref={bottomSheetRef}
-        onChange={setSheetIndex}
+        handleComponent={handleComponent}
+        backgroundComponent={BackgroundComponent}
         snapPoints={snapPoints}
-        onDismiss={dismiss}
-        handleComponent={null}
-        enablePanDownToClose={false}
-        enableDismissOnClose={false}
+        stackBehavior="push"
         enableContentPanningGesture={false}
+        onDismiss={onDismiss}
       >
         <SafeAreaView style={styles.root}>
-          <PlayerViewBackground />
           <PlayerViewHeader onDismiss={dismiss} />
           <PlayerViewInner />
         </SafeAreaView>
       </BottomSheetModal>
-      <PlayerBarWrapper onPress={present} />
+      <PlayerBar onPress={present} />
     </>
   );
 };
