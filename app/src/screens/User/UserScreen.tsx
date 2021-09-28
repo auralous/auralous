@@ -92,6 +92,7 @@ const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
     if (!user) return;
 
     navigation.setOptions({
+      title: user.username,
       headerRight() {
         return <HeaderRight user={user} />;
       },

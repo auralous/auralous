@@ -111,23 +111,25 @@ const SessionNonLiveContent: FC<{
 
   return (
     <>
-      <SessionMeta
-        session={session}
-        tagElement={
-          <View style={styles.tag}>
-            <Text size="sm" style={styles.tagText}>
-              {t("session.title")} •{" "}
-              {t("playlist.x_song", { count: session.trackTotal })}
-            </Text>
-          </View>
-        }
-      />
-      <View style={styles.buttons}>
-        <Button onPress={shufflePlay}>{t("player.shuffle_play")}</Button>
-        <Spacer x={2} />
-        <Button onPress={quickShare} variant="primary">
-          {t("new.quick_share.title")}
-        </Button>
+      <View>
+        <SessionMeta
+          session={session}
+          tagElement={
+            <View style={styles.tag}>
+              <Text size="sm" style={styles.tagText}>
+                {t("session.title")} •{" "}
+                {t("playlist.x_song", { count: session.trackTotal })}
+              </Text>
+            </View>
+          }
+        />
+        <View style={styles.buttons}>
+          <Button onPress={shufflePlay}>{t("player.shuffle_play")}</Button>
+          <Spacer x={2} />
+          <Button onPress={quickShare} variant="primary">
+            {t("new.quick_share.title")}
+          </Button>
+        </View>
       </View>
       <SessionIdContext.Provider value={session.id}>
         <RecyclerList

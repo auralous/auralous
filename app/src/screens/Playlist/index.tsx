@@ -7,7 +7,7 @@ import type { Playlist } from "@auralous/api";
 import { usePlaylistQuery } from "@auralous/api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PlaylistScreenContent } from "./PlaylistScreenContent";
@@ -30,6 +30,12 @@ const PlaylistScreen: FC<
       navigation.navigate(RouteName.NewQuickShare, { playlist }),
     [navigation]
   );
+
+  useEffect(() => {
+    const playlist = data?.playlist;
+    if (!playlist) return;
+    navigation.setOptions({ title: playlist.name });
+  }, [navigation, data]);
 
   return (
     <SafeAreaView style={styles.root}>

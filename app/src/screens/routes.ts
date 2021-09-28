@@ -20,7 +20,7 @@ export const routesFn = (t: TFunction) => [
   {
     name: RouteName.Home,
     component: HomeScreen,
-    options: { headerShown: false },
+    options: { headerShown: false, title: t("home.title") },
   },
   {
     name: RouteName.Map,
@@ -35,6 +35,7 @@ export const routesFn = (t: TFunction) => [
     options: {
       headerTitle: "",
       headerTransparent: true,
+      title: t("user.title"),
     },
   },
   {
@@ -57,6 +58,7 @@ export const routesFn = (t: TFunction) => [
     options: {
       headerTitle: "",
       headerTransparent: true,
+      title: t("playlist.title"),
     },
   },
   {
@@ -65,6 +67,7 @@ export const routesFn = (t: TFunction) => [
     options: {
       headerTitle: "",
       headerTransparent: true,
+      title: t("session.title"),
     },
   },
   {

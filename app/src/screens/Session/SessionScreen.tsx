@@ -129,6 +129,7 @@ const SessionScreen: FC<NativeStackScreenProps<ParamList, RouteName.Session>> =
       const session = data?.session;
       if (!session) return;
       navigation.setOptions({
+        title: session.text,
         headerRight() {
           return <HeaderRight session={session} />;
         },

@@ -13,7 +13,7 @@ import type { Playlist, Track } from "@auralous/api";
 import { usePlaylistTracksQuery } from "@auralous/api";
 import type { FC } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import PlaylistMeta from "./PlaylistMeta";
 
 const itemPadding = Size[1];
@@ -87,7 +87,9 @@ export const PlaylistScreenContent: FC<{
   return (
     <Container style={styles.root}>
       <PlaylistIdContext.Provider value={playlist.id}>
-        <PlaylistMeta playlist={playlist} onQuickShare={onQuickShare} />
+        <View>
+          <PlaylistMeta playlist={playlist} onQuickShare={onQuickShare} />
+        </View>
         <RecyclerList
           ListEmptyComponent={fetchingTracks ? <LoadingScreen /> : null}
           contentContainerStyle={styles.listContent}
