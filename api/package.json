@@ -26,17 +26,17 @@
   "dependencies": {
     "@urql/devtools": "^2.0.3",
     "@urql/exchange-auth": "^0.1.6",
-    "@urql/exchange-graphcache": "^4.3.2",
+    "@urql/exchange-graphcache": "^4.3.5",
     "@urql/exchange-persisted-fetch": "^1.3.2",
-    "graphql": "^15.5.1",
-    "graphql-ws": "^5.4.1",
-    "urql": "^2.0.4"
+    "graphql": "^15.6.0",
+    "graphql-ws": "^5.5.0",
+    "urql": "^2.0.5"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.1.1",
-    "@graphql-codegen/typescript": "^2.1.2",
-    "@graphql-codegen/typescript-operations": "^2.1.2",
-    "@graphql-codegen/typescript-urql": "^3.1.2",
-    "@graphql-codegen/typescript-urql-graphcache": "^2.1.2"
+    "@graphql-codegen/cli": "^2.2.0",
+    "@graphql-codegen/typescript": "^2.2.2",
+    "@graphql-codegen/typescript-operations": "^2.1.5",
+    "@graphql-codegen/typescript-urql": "^3.2.0",
+    "@graphql-codegen/typescript-urql-graphcache": "^2.1.4"
   }
 }
