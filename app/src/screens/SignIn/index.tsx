@@ -20,9 +20,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[4],
     paddingVertical: Size[2],
   },
-  logo: {
-    width: Size[8],
-  },
+  logo: {},
   root: {
     flex: 1,
     justifyContent: "flex-end",

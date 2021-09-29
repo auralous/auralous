@@ -1,0 +1,36 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "esmodules": true
+        },
+        "loose": true
+      }
+    ],
+    ["@babel/preset-react", { "runtime": "automatic" }],
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "extensions": [
+          ".ios.js",
+          ".android.js",
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx",
+          ".json"
+        ],
+        "alias": {
+          "@": "./src"
+        }
+      }
+    ],
+    "react-native-web",
+    "react-native-reanimated/plugin"
+  ]
+}

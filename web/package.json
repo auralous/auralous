@@ -14,12 +14,10 @@
   },
   "license": "AGPL-3.0",
   "scripts": {
-    "build": "craco build",
+    "build": "webpack --mode=production",
+    "dev": "webpack serve",
     "clean": "rm -rf build",
-    "eject": "craco eject",
-    "lint": "eslint .",
-    "start": "craco start",
-    "test": "craco test"
+    "lint": "eslint ."
   },
   "browserslist": {
     "production": [
@@ -36,27 +34,34 @@
   "dependencies": {
     "@auralous/app": "^0.0.0",
     "@react-native-async-storage/async-storage": "^1.15.8",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.7.5",
-    "@types/react": "^17.0.19",
-    "@types/react-dom": "^17.0.9",
+    "@svgr/webpack": "^5.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-reanimated": "^2.3.0-beta.1",
+    "react-native-svg": "^12.1.1",
     "react-native-web": "^0.17.1",
     "react-native-web-linear-gradient": "^1.1.2",
     "react-native-web-webview": "^1.0.2",
-    "react-scripts": "4.0.3",
     "web-vitals": "^2.1.0"
   },
   "devDependencies": {
-    "@craco/craco": "^6.2.0",
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
     "@svgr/webpack": "^5.5.0",
+    "babel-loader": "^8.2.2",
     "babel-plugin-react-native-web": "^0.17.1",
-    "metro-react-native-babel-preset": "^0.66.2"
+    "css-loader": "^6.3.0",
+    "dotenv": "^10.0.0",
+    "file-loader": "^6.2.0",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.55.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-config-react": "^0.0.3",
+    "webpack-dev-server": "^4.3.0",
+    "webpack-merge": "^5.8.0"
   }
 }
