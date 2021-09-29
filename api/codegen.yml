@@ -14,8 +14,3 @@ generates:
       documentMode: "documentNode"
       nonOptionalTypename: true
       skipTypeNameForRoot: true
-  ./src/introspection.gen.ts:
-    plugins:
-      - urql-introspection
-    config:
-      useTypeImports: true

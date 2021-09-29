@@ -1,3 +1,4 @@
+import { devtoolsExchange } from "@urql/devtools";
 import { authExchange } from "@urql/exchange-auth";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
@@ -26,12 +27,10 @@ import {
   SessionListenersDocument,
   UserFollowingsDocument,
 } from "./gql.gen";
-import schema from "./introspection.gen";
 import { nextCursorPagination } from "./_pagination";
 
 const cacheExchangeFn = () =>
   createCacheExchange<GraphCacheConfig>({
-    schema,
     keys: {
       QueueItem: () => null,
       Me: () => null,
@@ -86,6 +85,9 @@ const cacheExchangeFn = () =>
           if (!result.sessionEnd) return;
           cache.invalidate("Query", "sessionCurrentLive", {
             creatorId: (result.sessionEnd as Session).creatorId,
+          });
+          cache.invalidate("Query", "sessionCurrentLive", {
+            mine: true,
           });
         },
         sessionDelete: (result, args, cache) => {
@@ -223,6 +225,7 @@ export const setupExchanges = ({
     });
   }
   return [
+    ...(process.env.NODE_ENV !== "production" ? [devtoolsExchange] : []),
     dedupExchange,
     cacheExchangeFn(),
     authExchange<{ accessToken?: string | null }>({
