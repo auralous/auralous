@@ -66,3 +66,13 @@ The generated AAB can be found under `android/app/build/outputs/bundle/release/a
 ```bash
 npx react-native run-android --variant=release
 ```
+
+## Debug
+
+### Android
+
+To debug using `adb logcat`:
+
+```bash
+adb logcat | grep -F "`adb shell ps | grep ngvvo.auralou  | tr -s [:space:] ' ' | cut -d' ' -f2`"
+```

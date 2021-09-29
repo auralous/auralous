@@ -1,6 +1,8 @@
 import { Platform } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
-
+import {
+  scrollTo as rnrScrollTo,
+  useSharedValue,
+} from "react-native-reanimated";
 export function useSharedValuePressed() {
   const pressed = useSharedValue(false);
   return [
@@ -16,3 +18,21 @@ export function useSharedValuePressed() {
         },
   ] as const;
 }
+
+export const scrollTo: typeof rnrScrollTo = (aref, x, y) => {
+  "worklet";
+  if (Platform.OS === "web") {
+    try {
+      // @ts-ignore: Web usage
+      // https://docs.swmansion.com/react-native-reanimated/docs/api/nativeMethods/scrollTo
+      // https://reactnative.dev/docs/scrollview#scrollto
+      aref.current?.scrollTo({ x, y, animated: false });
+    } catch (e) {
+      // TODO: Review
+      // Uncaught TypeError: Cannot read properties of null (reading 'scroll')
+      // It is possible that this function is called after unmounting so we may ignore this error
+    }
+  } else {
+    rnrScrollTo(aref, x, y, false);
+  }
+};

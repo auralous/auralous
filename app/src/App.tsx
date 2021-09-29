@@ -50,24 +50,24 @@ const navigationTheme = {
 
 const App: FC = () => {
   return (
-    <ApiProvider>
-      <PlayerProvider>
-        <SafeAreaProvider style={styles.sap}>
-          <StatusBar translucent backgroundColor="transparent" />
-          <NavigationContainer theme={navigationTheme} linking={linking}>
-            <UIContextProvider>
+    <UIContextProvider>
+      <ApiProvider>
+        <PlayerProvider>
+          <SafeAreaProvider style={styles.sap}>
+            <StatusBar translucent backgroundColor="transparent" />
+            <NavigationContainer theme={navigationTheme} linking={linking}>
               <BottomSheetModalProvider>
                 <PlayerComponent>
                   <Navigator />
                 </PlayerComponent>
                 <RootModalsComponents />
               </BottomSheetModalProvider>
-            </UIContextProvider>
-          </NavigationContainer>
-          <Toaster />
-        </SafeAreaProvider>
-      </PlayerProvider>
-    </ApiProvider>
+            </NavigationContainer>
+            <Toaster />
+          </SafeAreaProvider>
+        </PlayerProvider>
+      </ApiProvider>
+    </UIContextProvider>
   );
 };
 

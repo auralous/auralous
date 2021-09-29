@@ -3,12 +3,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useMemo } from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 import type { TrackItemProps } from "./TrackItem";
 import TrackItem from "./TrackItem";
 
@@ -71,9 +66,9 @@ const QueueTrackItem: FC<QueueTrackItemProps> = ({
       >
         <TrackItem isPlaying={isPlaying} track={track} fetching={fetching} />
       </TouchableOpacity>
-      <TouchableWithoutFeedback onPressIn={drag} style={styles.drag}>
+      <Pressable onPressIn={drag} style={styles.drag}>
         <IconMenu />
-      </TouchableWithoutFeedback>
+      </Pressable>
     </View>
   );
 };

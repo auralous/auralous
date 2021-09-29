@@ -1,6 +1,11 @@
 import type { ReactNode, RefObject } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { ScrollViewProps, StyleProp, ViewStyle } from "react-native";
+import type {
+  ScrollView,
+  ScrollViewProps,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 import { Dimensions, StyleSheet, View } from "react-native";
 import type { RecyclerListViewProps } from "recyclerlistview";
 import {
@@ -26,7 +31,7 @@ export interface RecyclerListProps<ItemT> {
   style?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
   ListEmptyComponent?: ReactNode | null;
-  _ref?: RefObject<RecyclerListView<any, any>> | null;
+  scrollRef?: RefObject<ScrollView> | null;
   scrollViewProps?: ScrollViewProps;
   onScroll?: RecyclerListViewProps["onScroll"];
   externalScrollView?: RecyclerListViewProps["externalScrollView"];
@@ -58,7 +63,7 @@ export default function RecyclerList<ItemT>({
   style,
   contentContainerStyle,
   ListEmptyComponent,
-  _ref,
+  scrollRef,
   scrollViewProps: extraScrollViewProps,
   onScroll,
   externalScrollView,
@@ -88,13 +93,14 @@ export default function RecyclerList<ItemT>({
 
   const scrollViewProps = useMemo<ScrollViewProps>(
     () => ({
+      ref: scrollRef,
       onContentSizeChange: (width, height) => {
         setWidth(width);
         extraScrollViewProps?.onContentSizeChange?.(width, height);
       },
       ...extraScrollViewProps,
     }),
-    [extraScrollViewProps]
+    [extraScrollViewProps, scrollRef]
   );
 
   if (data.length === 0)
@@ -102,7 +108,6 @@ export default function RecyclerList<ItemT>({
 
   return (
     <RecyclerListView
-      ref={_ref}
       style={style || styles.default}
       contentContainerStyle={contentContainerStyle}
       onEndReached={onEndReached}

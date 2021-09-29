@@ -1,21 +1,28 @@
 // Inspired by https://github.com/computerjazz/react-native-draggable-flatlist
+import { scrollTo } from "@/utils/animation";
 import {
   createContext,
-  createRef,
   memo,
   useCallback,
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
-import type { LayoutChangeEvent, ScrollViewProps } from "react-native";
-import { Platform, StyleSheet } from "react-native";
+import type {
+  LayoutChangeEvent,
+  ScrollView,
+  ScrollViewProps,
+} from "react-native";
+import { StyleSheet } from "react-native";
 import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler, ScrollView } from "react-native-gesture-handler";
+import {
+  PanGestureHandler,
+  ScrollView as RNGHScrollView,
+} from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
-  scrollTo,
   useAnimatedGestureHandler,
   useAnimatedReaction,
   useAnimatedRef,
@@ -25,31 +32,12 @@ import Animated, {
   useWorkletCallback,
   withTiming,
 } from "react-native-reanimated";
-import type { RecyclerListView } from "recyclerlistview";
-import { BaseScrollView } from "recyclerlistview";
 import type {
   RecyclerListProps,
   RecyclerRenderItem,
   RecyclerRenderItemInfo,
 } from "./RecyclerList";
 import RecyclerList from "./RecyclerList";
-
-class ExternalScrollView extends BaseScrollView {
-  scrollViewRef = createRef<ScrollView>();
-
-  scrollTo(scrollInput: { x: number; y: number; animated: boolean }) {
-    this.scrollViewRef.current?.scrollTo(scrollInput);
-  }
-
-  render() {
-    return (
-      // @ts-ignore
-      <ScrollView {...this.props} ref={this.scrollViewRef}>
-        {this.props.children}
-      </ScrollView>
-    );
-  }
-}
 
 const styles = StyleSheet.create({ list: { flex: 1, overflow: "hidden" } });
 
@@ -294,8 +282,9 @@ export default function DraggableRecyclerList<ItemT>({
     return activeIndexAnim.value * activeCellSize.value;
   }, []);
 
-  // @ts-ignore
-  const scrollRef = useAnimatedRef<RecyclerListView<any, any>>();
+  const panRef = useRef<PanGestureHandler>(null);
+
+  const scrollRef = useAnimatedRef<ScrollView>();
   const scrollOffset = useSharedValue(0);
   const scrollViewSize = useSharedValue(0);
 
@@ -371,24 +360,7 @@ export default function DraggableRecyclerList<ItemT>({
       } else {
         return;
       }
-      if (Platform.OS === "web") {
-        // @ts-ignore: Web usage
-        // https://docs.swmansion.com/react-native-reanimated/docs/api/nativeMethods/scrollTo
-        // https://reactnative.dev/docs/scrollview#scrollto
-        scrollRef.current?.scrollTo({
-          x: 0,
-          y: scrollOffsetValue + scrollDelta,
-          animated: false,
-        });
-      } else {
-        scrollTo(
-          // @ts-ignore
-          scrollRef,
-          0,
-          scrollOffsetValue + scrollDelta,
-          false
-        );
-      }
+      scrollTo(scrollRef, 0, scrollOffsetValue + scrollDelta, false);
     },
     [autoscrollSpeed, autoscrollThreshold]
   );
@@ -472,7 +444,11 @@ export default function DraggableRecyclerList<ItemT>({
         hasMoved,
       }}
     >
-      <PanGestureHandler onGestureEvent={eventHandler} maxPointers={1}>
+      <PanGestureHandler
+        ref={panRef}
+        onGestureEvent={eventHandler}
+        maxPointers={1}
+      >
         <Animated.View style={style || styles.list} onLayout={onLayout}>
           {activeIndex !== -1 && (
             <ClonedDraggableItem
@@ -491,10 +467,11 @@ export default function DraggableRecyclerList<ItemT>({
             data={data}
             renderItem={draggableRenderItem}
             scrollViewProps={scrollViewProps}
-            externalScrollView={ExternalScrollView}
             onScroll={onScroll}
-            _ref={scrollRef}
+            scrollRef={scrollRef}
             extendedState={extendedState}
+            // @ts-ignore
+            externalScrollView={RNGHScrollView}
           />
         </Animated.View>
       </PanGestureHandler>
