@@ -9,9 +9,8 @@ const getDependencyDir = (name, options) =>
   pkgDir.sync(require.resolve(name, options));
 
 module.exports = async (env, argv) => {
-  const webpackConfig = await createConfig(
-    argv.mode === "production" || env.production
-  );
+  const isProductionEnv = Boolean(argv.mode === "production" || env.production);
+  const webpackConfig = await createConfig(isProductionEnv);
   webpackConfig.module.rules[0].include.push(getDependencyDir("@auralous/app"));
 
   const dotEnvEnv = dotenvResult.parsed;
@@ -28,15 +27,18 @@ module.exports = async (env, argv) => {
         {
           test: /\.js$/,
           include: [
-            getDependencyDir("react-native-reanimated"),
             getDependencyDir("@gorhom/bottom-sheet", {
               paths: [getDependencyDir("@auralous/app")],
             }),
           ],
+          use: { loader: "babel-loader" },
+        },
+        {
+          test: /\.js$/,
+          include: [getDependencyDir("react-native-reanimated")],
           use: {
             loader: "babel-loader",
             options: {
-              cacheDirectory: true,
               presets: [
                 [
                   "module:metro-react-native-babel-preset",

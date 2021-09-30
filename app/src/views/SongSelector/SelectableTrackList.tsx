@@ -1,13 +1,13 @@
 import { IconCheck, IconPlus } from "@/assets";
 import { LoadingScreen } from "@/components/Loading";
-import type { RecyclerRenderItem } from "@/components/RecyclerList";
-import { RecyclerList } from "@/components/RecyclerList";
 import { TrackItem } from "@/components/Track";
 import { Size } from "@/styles/spacing";
 import type { Track } from "@auralous/api";
 import type { FC } from "react";
 import { memo, useCallback, useMemo } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import type { BigListRenderItem } from "react-native-big-list";
+import BigList from "react-native-big-list";
 import { useSelectedTracks, useUpdateTracks } from "./Context";
 import SearchEmpty from "./SearchEmpty";
 
@@ -64,7 +64,7 @@ const SelectableTrackListItem: FC<{ track: Track }> = ({ track }) => {
 
 const MemoSelectableTrackListItem = memo(SelectableTrackListItem);
 
-const renderItem: RecyclerRenderItem<Track> = ({ item, index }) => {
+const renderItem: BigListRenderItem<Track> = ({ item, index }) => {
   return (
     <MemoSelectableTrackListItem key={`${index}${item.id}`} track={item} />
   );
@@ -75,10 +75,10 @@ const SelectableTrackList: FC<{
   data: Track[];
 }> = ({ fetching, data }) => {
   return (
-    <RecyclerList
+    <BigList
       ListEmptyComponent={fetching ? <LoadingScreen /> : <SearchEmpty />}
       data={data}
-      height={Size[12] + itemPadding * 2 + Size[3]} // height + 2 * padding + seperator
+      itemHeight={Size[12] + itemPadding * 2 + Size[2]} // height + 2 * padding + seperator
       renderItem={renderItem}
     />
   );

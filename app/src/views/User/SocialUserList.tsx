@@ -1,6 +1,4 @@
 import { LoadingScreen } from "@/components/Loading";
-import type { RecyclerRenderItem } from "@/components/RecyclerList";
-import { RecyclerList } from "@/components/RecyclerList";
 import { UserListItem } from "@/components/User";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
@@ -10,6 +8,8 @@ import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
+import type { BigListRenderItem } from "react-native-big-list";
+import BigList from "react-native-big-list";
 import { UserFollowButton } from "./UserFollowButton";
 
 interface SocialUserListProps {
@@ -49,7 +49,7 @@ const UserItem: FC<{ id: string }> = ({ id }) => {
   );
 };
 
-const renderItem: RecyclerRenderItem<string> = ({ item }) => (
+const renderItem: BigListRenderItem<string> = ({ item }) => (
   <UserItem key={item} id={item} />
 );
 
@@ -58,10 +58,10 @@ export const SocialUserList: FC<SocialUserListProps> = ({
   fetching,
 }) => {
   return (
-    <RecyclerList
+    <BigList
       ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+      itemHeight={Size[10] + Size[3]} // height + 2 * padding + seperator
       data={userIds || []}
-      height={Size[10] + Size[3]} // height + seperator
       renderItem={renderItem}
     />
   );

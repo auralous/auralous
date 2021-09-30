@@ -4,8 +4,6 @@ import {
   NotificationFollowItem,
   NotificationNewSessionItem,
 } from "@/components/Notification";
-import type { RecyclerRenderItem } from "@/components/RecyclerList";
-import { RecyclerList } from "@/components/RecyclerList";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
@@ -19,6 +17,8 @@ import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import { StyleSheet, TouchableHighlight } from "react-native";
+import type { BigListRenderItem } from "react-native-big-list";
+import BigList from "react-native-big-list";
 
 const NotificationItem: FC<{
   notification: NotificationFollow | NotificationNewSession;
@@ -56,7 +56,7 @@ const NotificationItem: FC<{
   );
 };
 
-const renderItem: RecyclerRenderItem<
+const renderItem: BigListRenderItem<
   NotificationFollow | NotificationNewSession
 > = (info) => {
   return <NotificationItem key={info.item.id} notification={info.item} />;
@@ -91,13 +91,13 @@ export const NotificationsScreenContent = () => {
 
   return (
     <Container style={styles.container}>
-      <RecyclerList
-        data={data?.notifications || []}
+      <BigList
         ListEmptyComponent={fetching ? <LoadingScreen /> : null}
-        style={styles.root}
+        itemHeight={Size[16]}
+        data={data?.notifications || []}
         renderItem={renderItem}
-        height={Size[16]}
         onEndReached={onEndReached}
+        style={styles.root}
       />
     </Container>
   );

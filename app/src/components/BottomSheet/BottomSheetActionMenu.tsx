@@ -11,7 +11,6 @@ import type { FC, ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import Animated from "react-native-reanimated";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -61,9 +60,9 @@ const styles = StyleSheet.create({
 const snapPoints = ["100%"];
 
 const backgroundComponent: FC<BottomSheetBackgroundProps> = ({ style }) => (
-  <Animated.View style={style}>
+  <View style={style}>
     <BlurView blurType="dark" style={StyleSheet.absoluteFill} />
-  </Animated.View>
+  </View>
 );
 
 const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({

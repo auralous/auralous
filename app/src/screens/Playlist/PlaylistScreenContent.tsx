@@ -1,7 +1,5 @@
 import { Container } from "@/components/Layout";
 import { LoadingScreen } from "@/components/Loading";
-import type { RecyclerRenderItem } from "@/components/RecyclerList";
-import { RecyclerList } from "@/components/RecyclerList";
 import { TrackItem } from "@/components/Track";
 import player, {
   uidForIndexedTrack,
@@ -14,15 +12,15 @@ import { usePlaylistTracksQuery } from "@auralous/api";
 import type { FC } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import type { BigListRenderItem } from "react-native-big-list";
+import BigList from "react-native-big-list";
 import PlaylistMeta from "./PlaylistMeta";
-
-const itemPadding = Size[1];
 
 const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     flexDirection: "row",
-    padding: itemPadding,
+    padding: Size[1],
     paddingHorizontal: Size[3],
     width: "100%",
   },
@@ -69,7 +67,7 @@ const PlaylistTrackItem = memo<{
   );
 });
 
-const renderItem: RecyclerRenderItem<Track> = ({ item, index }) => {
+const renderItem: BigListRenderItem<Track> = ({ item, index }) => {
   return <PlaylistTrackItem key={index} track={item} index={index} />;
 };
 
@@ -77,12 +75,11 @@ export const PlaylistScreenContent: FC<{
   playlist: Playlist;
   onQuickShare(playlist: Playlist): void;
 }> = ({ playlist, onQuickShare }) => {
-  const [{ data: dataPlaylist, fetching: fetchingTracks }] =
-    usePlaylistTracksQuery({
-      variables: {
-        id: playlist.id,
-      },
-    });
+  const [{ data: dataPlaylist, fetching }] = usePlaylistTracksQuery({
+    variables: {
+      id: playlist.id,
+    },
+  });
 
   return (
     <Container style={styles.root}>
@@ -90,11 +87,11 @@ export const PlaylistScreenContent: FC<{
         <View>
           <PlaylistMeta playlist={playlist} onQuickShare={onQuickShare} />
         </View>
-        <RecyclerList
-          ListEmptyComponent={fetchingTracks ? <LoadingScreen /> : null}
+        <BigList
+          ListEmptyComponent={fetching ? <LoadingScreen /> : null}
           contentContainerStyle={styles.listContent}
+          itemHeight={Size[12] + 2 * Size[1] + Size[2]} // height + 2 * padding + seperator
           data={dataPlaylist?.playlistTracks || []}
-          height={Size[12] + 2 * itemPadding + Size[3]} // height + 2 * padding + seperator
           renderItem={renderItem}
         />
       </PlaylistIdContext.Provider>

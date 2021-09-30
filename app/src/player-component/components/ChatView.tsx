@@ -117,11 +117,12 @@ const ChatList: FC<{ id: string }> = ({ id }) => {
   const scrollShouldFollow = useRef(true);
 
   const [offset, setOffset] = useState(0);
-  const [{ data: { messages: prevMessages } = { messages: undefined } }] =
-    useMessagesQuery({
-      variables: { id, limit: 20, offset },
-      requestPolicy: "cache-and-network",
-    });
+  const [{ data }] = useMessagesQuery({
+    variables: { id, limit: 20, offset },
+    requestPolicy: "cache-and-network",
+  });
+
+  const prevMessages = data?.messages;
 
   const [{ data: newMessages }] = useMessageAddedSubscription<Message[]>(
     { variables: { id }, pause: !prevMessages },

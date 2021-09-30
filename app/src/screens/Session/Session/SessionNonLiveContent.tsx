@@ -1,7 +1,5 @@
 import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
-import type { RecyclerRenderItem } from "@/components/RecyclerList";
-import { RecyclerList } from "@/components/RecyclerList";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
@@ -17,6 +15,8 @@ import type { FC } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import type { BigListRenderItem } from "react-native-big-list";
+import BigList from "react-native-big-list";
 import SessionMeta from "./SessionMeta";
 
 const styles = StyleSheet.create({
@@ -80,7 +80,7 @@ const SessionTrackItem = memo<{
   );
 });
 
-const renderItem: RecyclerRenderItem<Track> = ({ item, index }) => (
+const renderItem: BigListRenderItem<Track> = ({ item, index }) => (
   <SessionTrackItem key={index} track={item} index={index} />
 );
 
@@ -132,11 +132,11 @@ const SessionNonLiveContent: FC<{
         </View>
       </View>
       <SessionIdContext.Provider value={session.id}>
-        <RecyclerList
+        <BigList
           contentContainerStyle={styles.listContent}
           ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+          itemHeight={Size[12] + 2 * Size[1] + Size[2]} // height + 2 * padding + seperator
           data={data?.sessionTracks || []}
-          height={Size[12] + 2 * Size[1] + Size[3]} // height + 2 * padding + seperator
           renderItem={renderItem}
         />
       </SessionIdContext.Provider>
