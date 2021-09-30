@@ -1,9 +1,9 @@
 import { Button, TextButton } from "@/components/Button";
 import type {
-  DraggableRecyclerRenderItem,
-  DraggableRecyclerRenderItemInfo,
-} from "@/components/RecyclerList";
-import { DraggableRecyclerList } from "@/components/RecyclerList";
+  DraggableBigListRenderItem,
+  DraggableBigListRenderItemInfo,
+} from "@/components/DraggableBigList";
+import { DraggableBigList } from "@/components/DraggableBigList";
 import { QueueTrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
 import { reorder, shuffle } from "@/player";
@@ -96,7 +96,7 @@ export const SelectedTracksListProvider: FC<{ expanded: boolean }> = ({
 };
 
 const SelectedQueueTrackItem = memo<{
-  params: DraggableRecyclerRenderItemInfo<string>;
+  params: DraggableBigListRenderItemInfo<string>;
 }>(
   function SelectedQueueTrackItem({ params }) {
     const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
@@ -136,7 +136,7 @@ const SelectedQueueTrackItem = memo<{
   }
 );
 
-const renderItem: DraggableRecyclerRenderItem<string> = (params) => (
+const renderItem: DraggableBigListRenderItem<string> = (params) => (
   <SelectedQueueTrackItem
     params={params}
     key={`${params.index}${params.item}`}
@@ -172,11 +172,11 @@ export const SelectedTracksListView: FC<{
       <View style={styles.shuffleButtonContainer}>
         <Button onPress={onShuffle}>{t("new.select_songs.shuffle")}</Button>
       </View>
-      <DraggableRecyclerList
+      <DraggableBigList
         data={selectedTracks}
         renderItem={renderItem}
         onDragEnd={onDragEnd}
-        height={Size[12] + Size[2] + Size[3]} // height + 2 * padding + seperator
+        itemHeight={Size[12] + Size[2] + Size[3]} // height + 2 * padding + seperator
         keyExtractor={identityFn}
       />
     </View>

@@ -1,28 +1,30 @@
-// Inspired by https://github.com/computerjazz/react-native-draggable-flatlist
-import { scrollTo } from "@/utils/animation";
 import {
   createContext,
   memo,
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
 import type {
   LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   ScrollView,
-  ScrollViewProps,
 } from "react-native";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+import type {
+  BigListProps,
+  BigListRenderItem,
+  BigListRenderItemInfo,
+} from "react-native-big-list";
+import BigList from "react-native-big-list";
 import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import {
-  PanGestureHandler,
-  ScrollView as RNGHScrollView,
-} from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
+  scrollTo,
   useAnimatedGestureHandler,
   useAnimatedReaction,
   useAnimatedRef,
@@ -32,14 +34,6 @@ import Animated, {
   useWorkletCallback,
   withTiming,
 } from "react-native-reanimated";
-import type {
-  RecyclerListProps,
-  RecyclerRenderItem,
-  RecyclerRenderItemInfo,
-} from "./RecyclerList";
-import RecyclerList from "./RecyclerList";
-
-const styles = StyleSheet.create({ list: { flex: 1, overflow: "hidden" } });
 
 const Context = createContext(
   {} as {
@@ -53,34 +47,35 @@ const Context = createContext(
   }
 );
 
-export interface DraggableRecyclerRenderItemInfo<ItemT>
-  extends RecyclerRenderItemInfo<ItemT> {
+const styles = StyleSheet.create({ list: { flex: 1, overflow: "hidden" } });
+
+export interface DraggableBigListRenderItemInfo<ItemT>
+  extends BigListRenderItemInfo<ItemT> {
   drag(): void;
 }
 
-export type DraggableRecyclerRenderItem<ItemT> = (
-  info: DraggableRecyclerRenderItemInfo<ItemT>
+export type DraggableBigListRenderItem<ItemT> = (
+  info: DraggableBigListRenderItemInfo<ItemT>
 ) => JSX.Element | JSX.Element[] | null;
 
-type DraggableRecyclerListProps<ItemT> = Omit<
-  RecyclerListProps<ItemT>,
-  "renderItem"
+type DraggableBigListProps<ItemT> = Omit<
+  BigListProps<ItemT>,
+  "renderItem" | "keyExtractor" | "itemHeight"
 > & {
   onDragEnd(from: number, to: number): void;
-  renderItem: DraggableRecyclerRenderItem<ItemT>;
-  keyExtractor(item: ItemT): string;
+  renderItem: DraggableBigListRenderItem<ItemT>;
+  keyExtractor: NonNullable<BigListProps<ItemT>["keyExtractor"]>;
+  itemHeight: number;
 };
 
 interface DraggableItemProps<ItemT> {
-  index: number;
-  item: ItemT;
-  renderItem: DraggableRecyclerRenderItem<ItemT>;
-  height: number;
+  info: BigListRenderItemInfo<ItemT>;
+  renderItem: DraggableBigListRenderItem<ItemT>;
+  itemHeight: number;
 }
 
 function ClonedDraggableItem<ItemT>({
-  index,
-  item,
+  info,
   renderItem,
 }: DraggableItemProps<ItemT>) {
   const { hoverOffset, hasMoved } = useContext(Context);
@@ -103,17 +98,14 @@ function ClonedDraggableItem<ItemT>({
   }, []);
 
   return (
-    <Animated.View style={style}>
-      {renderItem({ item, index, drag })}
-    </Animated.View>
+    <Animated.View style={style}>{renderItem({ ...info, drag })}</Animated.View>
   );
 }
 
 function DraggableItem<ItemT>({
-  index,
-  item,
+  info,
   renderItem,
-  height,
+  itemHeight,
 }: DraggableItemProps<ItemT>) {
   const {
     activeIndexAnim,
@@ -126,9 +118,12 @@ function DraggableItem<ItemT>({
   } = useContext(Context);
 
   // Distance between active cell and edge of scroll view
-  const cellOffset = useDerivedValue(() => index * height, [index, height]);
-  const cellSize = useDerivedValue(() => height, [height]);
-  const cellIndex = useDerivedValue(() => index, [index]);
+  const cellOffset = useDerivedValue(
+    () => info.index * itemHeight,
+    [info.index, itemHeight]
+  );
+  const cellSize = useDerivedValue(() => itemHeight, [itemHeight]);
+  const cellIndex = useDerivedValue(() => info.index, [info.index]);
 
   const isActiveCell = useDerivedValue(() => {
     return cellIndex.value === activeIndexAnim.value;
@@ -214,8 +209,8 @@ function DraggableItem<ItemT>({
   );
 
   const drag = useCallback(() => {
-    setDragging(index);
-  }, [index, setDragging]);
+    setDragging(info.index);
+  }, [info.index, setDragging]);
 
   const style = useAnimatedStyle(() => {
     return {
@@ -227,31 +222,27 @@ function DraggableItem<ItemT>({
   }, []);
 
   return (
-    <Animated.View style={style}>
-      {renderItem({ item, index, drag })}
-    </Animated.View>
+    <Animated.View style={style}>{renderItem({ ...info, drag })}</Animated.View>
   );
 }
 
 const MemoizedDraggableItem = memo(DraggableItem);
 
-const autoscrollSpeed = 5;
-const autoscrollThreshold = 5;
+const autoscrollSpeed = 100;
+const autoscrollThreshold = 30;
+const SCROLL_POSITION_TOLERANCE = 2;
 
-export default function DraggableRecyclerList<ItemT>({
-  height,
-  onEndReached,
-  renderItem,
-  data,
-  style,
-  contentContainerStyle,
-  ListEmptyComponent,
+export default function DraggableBigList<ItemT>({
+  renderItem: renderItemProp,
   onDragEnd,
+  onScroll: onScrollProp,
   keyExtractor,
-  extendedState,
-}: DraggableRecyclerListProps<ItemT>) {
+  onLayout: onLayoutProp,
+  style,
+  ...props
+}: DraggableBigListProps<ItemT>) {
   const containerSize = useSharedValue(0);
-  const onLayout = useCallback(
+  const onContainerLayout = useCallback(
     (event: LayoutChangeEvent) => {
       containerSize.value = event.nativeEvent.layout.height;
     },
@@ -274,7 +265,10 @@ export default function DraggableRecyclerList<ItemT>({
   }, []);
 
   // Height or width of active cell
-  const activeCellSize = useDerivedValue(() => height, [height]);
+  const activeCellSize = useDerivedValue(
+    () => props.itemHeight, // FIXME: force casted
+    [props.itemHeight]
+  );
 
   // Distance between active cell and edge of scroll view
   const activeCellOffset = useDerivedValue(() => {
@@ -285,14 +279,16 @@ export default function DraggableRecyclerList<ItemT>({
   const panRef = useRef<PanGestureHandler>(null);
 
   const scrollRef = useAnimatedRef<ScrollView>();
+
   const scrollOffset = useSharedValue(0);
   const scrollViewSize = useSharedValue(0);
 
-  const onScroll = useWorkletCallback(
-    (rawEvent: unknown, offsetX: number, offsetY: number) => {
-      scrollOffset.value = offsetY;
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      onScrollProp?.(event);
+      scrollOffset.value = event.nativeEvent.contentOffset.y;
     },
-    []
+    [onScrollProp, scrollOffset]
   );
 
   // Prevent user scrolling while dragging
@@ -305,14 +301,12 @@ export default function DraggableRecyclerList<ItemT>({
     []
   );
 
-  const scrollViewProps = useMemo<ScrollViewProps>(
-    () => ({
-      scrollEnabled: !scrollDisabled,
-      onLayout: (event) => {
-        scrollViewSize.value = event.nativeEvent.layout.height;
-      },
-    }),
-    [scrollDisabled, scrollViewSize]
+  const onLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      onLayoutProp?.(event);
+      scrollViewSize.value = event.nativeEvent.layout.height;
+    },
+    [onLayoutProp, scrollViewSize]
   );
 
   // Distance between hovering cell and container
@@ -328,7 +322,6 @@ export default function DraggableRecyclerList<ItemT>({
         scrollOffsetValue: scrollOffset.value,
         activeCellSizeValue: activeCellSize.value,
         containerSizeValue: containerSize.value,
-        scrollRef: scrollRef,
       };
     },
     ({
@@ -336,7 +329,6 @@ export default function DraggableRecyclerList<ItemT>({
       scrollOffsetValue,
       activeCellSizeValue,
       containerSizeValue,
-      scrollRef,
     }) => {
       if (!hasMoved.value) return;
       let scrollDelta = 0;
@@ -360,7 +352,11 @@ export default function DraggableRecyclerList<ItemT>({
       } else {
         return;
       }
-      scrollTo(scrollRef, 0, scrollOffsetValue + scrollDelta, false);
+
+      if (Platform.OS === "android") scrollDelta /= 10;
+
+      if (Math.abs(scrollDelta) < SCROLL_POSITION_TOLERANCE) return;
+      scrollTo(scrollRef, 0, scrollOffsetValue + scrollDelta, true);
     },
     [autoscrollSpeed, autoscrollThreshold]
   );
@@ -383,7 +379,7 @@ export default function DraggableRecyclerList<ItemT>({
     touchInset.value = 0;
   }, []);
 
-  useEffect(clearAnimState, [data, clearAnimState]);
+  useEffect(clearAnimState, [props.data, clearAnimState]);
 
   const eventHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>(
     {
@@ -417,19 +413,18 @@ export default function DraggableRecyclerList<ItemT>({
     [onDragEnd, clearAnimState]
   );
 
-  const draggableRenderItem: RecyclerRenderItem<ItemT> = useCallback(
-    ({ index, item }) => {
+  const renderItem: BigListRenderItem<ItemT> = useCallback(
+    (info) => {
       return (
         <MemoizedDraggableItem
-          key={keyExtractor(item)}
-          index={index}
-          item={item}
-          renderItem={renderItem as DraggableRecyclerRenderItem<unknown>}
-          height={height}
+          key={keyExtractor(info.item, info.index)}
+          info={info}
+          renderItem={renderItemProp as any}
+          itemHeight={props.itemHeight}
         />
       );
     },
-    [renderItem, keyExtractor, height]
+    [renderItemProp, keyExtractor, props.itemHeight]
   );
 
   return (
@@ -449,29 +444,31 @@ export default function DraggableRecyclerList<ItemT>({
         onGestureEvent={eventHandler}
         maxPointers={1}
       >
-        <Animated.View style={style || styles.list} onLayout={onLayout}>
-          {activeIndex !== -1 && (
+        <Animated.View style={style} onLayout={onContainerLayout}>
+          {activeIndex !== -1 && props.data?.[activeIndex] && (
             <ClonedDraggableItem
-              index={activeIndex}
-              item={data[activeIndex]}
-              renderItem={renderItem}
-              height={height}
+              info={{
+                index: activeIndex,
+                // FIXME: Support separators
+                separators: undefined as unknown as any,
+                item: props.data[activeIndex],
+              }}
+              renderItem={renderItemProp}
+              itemHeight={props.itemHeight}
             />
           )}
-          <RecyclerList
-            height={height}
-            style={styles.list}
-            contentContainerStyle={contentContainerStyle}
-            ListEmptyComponent={ListEmptyComponent}
-            onEndReached={onEndReached}
-            data={data}
-            renderItem={draggableRenderItem}
-            scrollViewProps={scrollViewProps}
+          <BigList
+            {...props}
+            ref={(ref) => {
+              // @ts-ignore
+              if (ref) scrollRef(ref.getNativeScrollRef());
+            }}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
             onScroll={onScroll}
-            scrollRef={scrollRef}
-            extendedState={extendedState}
-            // @ts-ignore
-            externalScrollView={RNGHScrollView}
+            style={styles.list}
+            scrollEnabled={!scrollDisabled}
+            onLayout={onLayout}
           />
         </Animated.View>
       </PanGestureHandler>

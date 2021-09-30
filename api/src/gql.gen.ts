@@ -19,48 +19,47 @@ export type Scalars = {
 
 export type Artist = {
   __typename: 'Artist';
-  id: Scalars['ID'];
-  platform: PlatformName;
   externalId: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  platform: PlatformName;
   url: Scalars['String'];
 };
 
 export type CrossTracks = {
   __typename: 'CrossTracks';
   id: Scalars['ID'];
-  youtube?: Maybe<Scalars['ID']>;
   spotify?: Maybe<Scalars['ID']>;
+  youtube?: Maybe<Scalars['ID']>;
 };
 
-
 export type LocationInput = {
-  lng: Scalars['Float'];
   lat: Scalars['Float'];
+  lng: Scalars['Float'];
 };
 
 export type Me = {
   __typename: 'Me';
-  user: User;
+  accessToken?: Maybe<Scalars['String']>;
   oauthId: Scalars['String'];
   platform: PlatformName;
-  accessToken?: Maybe<Scalars['String']>;
+  user: User;
 };
 
 export type Message = {
   __typename: 'Message';
-  id: Scalars['ID'];
-  creatorId: Scalars['String'];
-  creator: User;
   createdAt: Scalars['DateTime'];
+  creator: User;
+  creatorId: Scalars['String'];
+  id: Scalars['ID'];
   text?: Maybe<Scalars['String']>;
   type: MessageType;
 };
 
 export enum MessageType {
-  Message = 'message',
-  Join = 'join'
+  Join = 'join',
+  Message = 'message'
 }
 
 export type Mutation = {
@@ -90,8 +89,8 @@ export type Mutation = {
 
 
 export type MutationMeArgs = {
-  username?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 
@@ -150,8 +149,8 @@ export type MutationQueueRemoveArgs = {
 
 export type MutationQueueReorderArgs = {
   id: Scalars['ID'];
-  position: Scalars['Int'];
   insertPosition: Scalars['Int'];
+  position: Scalars['Int'];
 };
 
 
@@ -168,8 +167,8 @@ export type MutationSessionCollabAddFromTokenArgs = {
 
 
 export type MutationSessionCreateArgs = {
-  text: Scalars['String'];
   location?: Maybe<LocationInput>;
+  text: Scalars['String'];
   tracks: Array<Scalars['ID']>;
 };
 
@@ -191,8 +190,8 @@ export type MutationSessionPingArgs = {
 
 export type MutationSessionUpdateArgs = {
   id: Scalars['ID'];
-  text?: Maybe<Scalars['String']>;
   location?: Maybe<LocationInput>;
+  text?: Maybe<Scalars['String']>;
 };
 
 
@@ -206,73 +205,73 @@ export type MutationUserUnfollowArgs = {
 };
 
 export type Notification = {
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
+  hasRead: Scalars['Boolean'];
+  id: Scalars['ID'];
 };
 
 export type NotificationFollow = Notification & {
   __typename: 'NotificationFollow';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   follower?: Maybe<User>;
+  hasRead: Scalars['Boolean'];
+  id: Scalars['ID'];
 };
 
 export type NotificationNewSession = Notification & {
   __typename: 'NotificationNewSession';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
+  hasRead: Scalars['Boolean'];
+  id: Scalars['ID'];
   session?: Maybe<Session>;
 };
 
 export type NowPlaying = {
   __typename: 'NowPlaying';
-  id: Scalars['ID'];
   current: NowPlayingQueueItem;
+  id: Scalars['ID'];
   next: Array<QueueItem>;
 };
 
 export type NowPlayingQueueItem = {
   __typename: 'NowPlayingQueueItem';
-  uid: Scalars['ID'];
-  trackId: Scalars['String'];
   creatorId: Scalars['String'];
+  endedAt: Scalars['DateTime'];
   index: Scalars['Int'];
   playedAt: Scalars['DateTime'];
-  endedAt: Scalars['DateTime'];
+  trackId: Scalars['String'];
+  uid: Scalars['ID'];
 };
 
 export type NowPlayingReactionItem = {
   __typename: 'NowPlayingReactionItem';
-  userId: Scalars['String'];
   reaction: NowPlayingReactionType;
+  userId: Scalars['String'];
 };
 
 export enum NowPlayingReactionType {
-  Heart = 'heart',
-  Joy = 'joy',
+  Cry = 'cry',
   Fire = 'fire',
-  Cry = 'cry'
+  Heart = 'heart',
+  Joy = 'joy'
 }
 
 export enum PlatformName {
-  Youtube = 'youtube',
-  Spotify = 'spotify'
+  Spotify = 'spotify',
+  Youtube = 'youtube'
 }
 
 export type Playlist = {
   __typename: 'Playlist';
-  id: Scalars['ID'];
-  platform: PlatformName;
-  externalId: Scalars['ID'];
-  name: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
-  url: Scalars['String'];
-  total: Scalars['Int'];
-  creatorName: Scalars['String'];
   creatorImage?: Maybe<Scalars['String']>;
+  creatorName: Scalars['String'];
+  externalId: Scalars['ID'];
+  id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  platform: PlatformName;
+  total: Scalars['Int'];
+  url: Scalars['String'];
 };
 
 export type Query = {
@@ -313,14 +312,14 @@ export type QueryCrossTracksArgs = {
 
 export type QueryMessagesArgs = {
   id: Scalars['ID'];
-  offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
 };
 
 
 export type QueryNotificationsArgs = {
-  next?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
+  next?: Maybe<Scalars['String']>;
 };
 
 
@@ -381,22 +380,22 @@ export type QuerySessionListenersArgs = {
 
 
 export type QuerySessionTracksArgs = {
-  id: Scalars['ID'];
   from?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
   to?: Maybe<Scalars['Int']>;
 };
 
 
 export type QuerySessionsArgs = {
   creatorId?: Maybe<Scalars['String']>;
-  next?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
+  next?: Maybe<Scalars['String']>;
 };
 
 
 export type QuerySessionsOnMapArgs = {
-  lng: Scalars['Float'];
   lat: Scalars['Float'];
+  lng: Scalars['Float'];
   radius: Scalars['Float'];
 };
 
@@ -412,8 +411,8 @@ export type QueryTracksArgs = {
 
 
 export type QueryUserArgs = {
-  username?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 
@@ -433,22 +432,22 @@ export type QueryUserStatArgs = {
 
 export type QueueItem = {
   __typename: 'QueueItem';
-  uid: Scalars['ID'];
-  trackId: Scalars['String'];
   creatorId: Scalars['String'];
+  trackId: Scalars['String'];
+  uid: Scalars['ID'];
 };
 
 export type Session = {
   __typename: 'Session';
-  id: Scalars['ID'];
-  text: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
-  creatorId: Scalars['ID'];
-  creator: User;
-  createdAt: Scalars['DateTime'];
-  isLive: Scalars['Boolean'];
   collaboratorIds: Array<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  creator: User;
+  creatorId: Scalars['ID'];
+  id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
+  isLive: Scalars['Boolean'];
   onMap?: Maybe<Scalars['Boolean']>;
+  text: Scalars['String'];
   trackTotal: Scalars['Int'];
 };
 
@@ -495,32 +494,32 @@ export type SubscriptionSessionUpdatedArgs = {
 
 export type Track = {
   __typename: 'Track';
-  id: Scalars['ID'];
-  platform: PlatformName;
-  externalId: Scalars['ID'];
   artists: Array<Artist>;
   duration: Scalars['Int'];
-  title: Scalars['String'];
+  externalId: Scalars['ID'];
+  id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
+  platform: PlatformName;
+  title: Scalars['String'];
   url: Scalars['String'];
 };
 
 export type User = {
   __typename: 'User';
-  id: Scalars['ID'];
-  username: Scalars['String'];
   bio?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   profilePicture?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type UserStat = {
   __typename: 'UserStat';
-  id: Scalars['ID'];
   followerCount: Scalars['Int'];
   followingCount: Scalars['Int'];
+  id: Scalars['ID'];
 };
 
-export type MessagePartsFragment = { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: Maybe<string>, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } };
+export type MessagePartsFragment = { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: string | null | undefined, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } };
 
 export type MessagesQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -529,7 +528,7 @@ export type MessagesQueryVariables = Exact<{
 }>;
 
 
-export type MessagesQuery = { messages?: Maybe<Array<{ __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: Maybe<string>, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }>> };
+export type MessagesQuery = { messages?: Array<{ __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: string | null | undefined, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } }> | null | undefined };
 
 export type MessageAddMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -544,7 +543,7 @@ export type MessageAddedSubscriptionVariables = Exact<{
 }>;
 
 
-export type MessageAddedSubscription = { messageAdded: { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: Maybe<string>, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type MessageAddedSubscription = { messageAdded: { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: string | null | undefined, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type NotificationsQueryVariables = Exact<{
   next?: Maybe<Scalars['String']>;
@@ -552,7 +551,7 @@ export type NotificationsQueryVariables = Exact<{
 }>;
 
 
-export type NotificationsQuery = { notifications: Array<{ __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> }> };
+export type NotificationsQuery = { notifications: Array<{ __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } | null | undefined } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } | null | undefined }> };
 
 export type NotificationsMarkReadMutationVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
@@ -564,7 +563,7 @@ export type NotificationsMarkReadMutation = { notificationsMarkRead: number };
 export type NotificationAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> } };
+export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } | null | undefined } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } | null | undefined } };
 
 export type NowPlayingQueuePartsFragment = { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number };
 
@@ -573,7 +572,7 @@ export type NowPlayingQueryVariables = Exact<{
 }>;
 
 
-export type NowPlayingQuery = { nowPlaying?: Maybe<{ __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> }> };
+export type NowPlayingQuery = { nowPlaying?: { __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> } | null | undefined };
 
 export type NowPlayingSkipMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -581,7 +580,7 @@ export type NowPlayingSkipMutationVariables = Exact<{
 }>;
 
 
-export type NowPlayingSkipMutation = { nowPlayingSkip?: Maybe<boolean> };
+export type NowPlayingSkipMutation = { nowPlayingSkip?: boolean | null | undefined };
 
 export type NowPlayingPlayUidMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -589,14 +588,14 @@ export type NowPlayingPlayUidMutationVariables = Exact<{
 }>;
 
 
-export type NowPlayingPlayUidMutation = { nowPlayingPlayUid?: Maybe<boolean> };
+export type NowPlayingPlayUidMutation = { nowPlayingPlayUid?: boolean | null | undefined };
 
 export type OnNowPlayingUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnNowPlayingUpdatedSubscription = { nowPlayingUpdated?: Maybe<{ __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> }> };
+export type OnNowPlayingUpdatedSubscription = { nowPlayingUpdated?: { __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> } | null | undefined };
 
 export type NowPlayingReactionsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -618,45 +617,45 @@ export type NowPlayingReactMutationVariables = Exact<{
 }>;
 
 
-export type NowPlayingReactMutation = { nowPlayingReact?: Maybe<boolean> };
+export type NowPlayingReactMutation = { nowPlayingReact?: boolean | null | undefined };
 
-export type PlaylistPartsFragment = { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> };
+export type PlaylistPartsFragment = { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined };
 
 export type PlaylistQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PlaylistQuery = { playlist?: Maybe<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
+export type PlaylistQuery = { playlist?: { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined } | null | undefined };
 
 export type MyPlaylistsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyPlaylistsQuery = { myPlaylists?: Maybe<Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }>> };
+export type MyPlaylistsQuery = { myPlaylists?: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> | null | undefined };
 
 export type PlaylistTracksQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PlaylistTracksQuery = { playlistTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
+export type PlaylistTracksQuery = { playlistTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> }> };
 
 export type PlaylistsFeaturedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlaylistsFeaturedQuery = { playlistsFeatured: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
+export type PlaylistsFeaturedQuery = { playlistsFeatured: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> };
 
 export type PlaylistsFriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlaylistsFriendsQuery = { playlistsFriends: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
+export type PlaylistsFriendsQuery = { playlistsFriends: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> };
 
 export type PlaylistsSearchQueryVariables = Exact<{
   query: Scalars['String'];
 }>;
 
 
-export type PlaylistsSearchQuery = { playlistsSearch: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
+export type PlaylistsSearchQuery = { playlistsSearch: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> };
 
 export type PlaylistAddTracksMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -672,7 +671,7 @@ export type PlaylistCreateMutationVariables = Exact<{
 }>;
 
 
-export type PlaylistCreateMutation = { playlistCreate: { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> } };
+export type PlaylistCreateMutation = { playlistCreate: { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined } };
 
 export type QueueItemPartsFragment = { __typename: 'QueueItem', uid: string, trackId: string, creatorId: string };
 
@@ -709,14 +708,14 @@ export type QueueToTopMutationVariables = Exact<{
 
 export type QueueToTopMutation = { queueToTop: boolean };
 
-export type SessionPartsFragment = { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } };
+export type SessionPartsFragment = { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } };
 
 export type SessionQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type SessionQuery = { session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type SessionQuery = { session?: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } | null | undefined };
 
 export type SessionsQueryVariables = Exact<{
   creatorId?: Maybe<Scalars['String']>;
@@ -725,7 +724,7 @@ export type SessionsQueryVariables = Exact<{
 }>;
 
 
-export type SessionsQuery = { sessions: Array<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type SessionsQuery = { sessions: Array<{ __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } }> };
 
 export type SessionsOnMapQueryVariables = Exact<{
   lng: Scalars['Float'];
@@ -734,7 +733,7 @@ export type SessionsOnMapQueryVariables = Exact<{
 }>;
 
 
-export type SessionsOnMapQuery = { sessionsOnMap: Array<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type SessionsOnMapQuery = { sessionsOnMap: Array<{ __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } }> };
 
 export type SessionCurrentLiveQueryVariables = Exact<{
   creatorId?: Maybe<Scalars['ID']>;
@@ -742,7 +741,7 @@ export type SessionCurrentLiveQueryVariables = Exact<{
 }>;
 
 
-export type SessionCurrentLiveQuery = { sessionCurrentLive?: Maybe<{ __typename: 'SessionCurrentLive', creatorId: string, sessionId: string }> };
+export type SessionCurrentLiveQuery = { sessionCurrentLive?: { __typename: 'SessionCurrentLive', creatorId: string, sessionId: string } | null | undefined };
 
 export type SessionTracksQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -751,7 +750,7 @@ export type SessionTracksQueryVariables = Exact<{
 }>;
 
 
-export type SessionTracksQuery = { sessionTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
+export type SessionTracksQuery = { sessionTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> }> };
 
 export type SessionCreateMutationVariables = Exact<{
   text: Scalars['String'];
@@ -760,7 +759,7 @@ export type SessionCreateMutationVariables = Exact<{
 }>;
 
 
-export type SessionCreateMutation = { sessionCreate: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionCreateMutation = { sessionCreate: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type SessionUpdateMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -769,7 +768,7 @@ export type SessionUpdateMutationVariables = Exact<{
 }>;
 
 
-export type SessionUpdateMutation = { sessionUpdate: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionUpdateMutation = { sessionUpdate: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type SessionDeleteMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -783,14 +782,14 @@ export type SessionEndMutationVariables = Exact<{
 }>;
 
 
-export type SessionEndMutation = { sessionEnd: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionEndMutation = { sessionEnd: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type SessionListenersQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type SessionListenersQuery = { sessionListeners?: Maybe<Array<string>> };
+export type SessionListenersQuery = { sessionListeners?: Array<string> | null | undefined };
 
 export type SessionPingMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -804,7 +803,7 @@ export type SessionUpdatedSubscriptionVariables = Exact<{
 }>;
 
 
-export type SessionUpdatedSubscription = { sessionUpdated: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionUpdatedSubscription = { sessionUpdated: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type SessionListenersUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
@@ -828,44 +827,44 @@ export type SessionCollabAddFromTokenMutationVariables = Exact<{
 
 export type SessionCollabAddFromTokenMutation = { sessionCollabAddFromToken: boolean };
 
-export type ArtistPartsFragment = { __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string };
+export type ArtistPartsFragment = { __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string };
 
-export type TrackPartsFragment = { __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> };
+export type TrackPartsFragment = { __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> };
 
 export type TrackQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type TrackQuery = { track?: Maybe<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
+export type TrackQuery = { track?: { __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> } | null | undefined };
 
 export type TracksQueryVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
-export type TracksQuery = { tracks: Array<Maybe<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }>> };
+export type TracksQuery = { tracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> } | null | undefined> };
 
 export type CrossTracksQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type CrossTracksQuery = { crossTracks?: Maybe<{ __typename: 'CrossTracks', id: string, youtube?: Maybe<string>, spotify?: Maybe<string> }> };
+export type CrossTracksQuery = { crossTracks?: { __typename: 'CrossTracks', id: string, youtube?: string | null | undefined, spotify?: string | null | undefined } | null | undefined };
 
 export type SearchTrackQueryVariables = Exact<{
   query: Scalars['String'];
 }>;
 
 
-export type SearchTrackQuery = { searchTrack: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
+export type SearchTrackQuery = { searchTrack: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> }> };
 
-export type UserPublicPartsFragment = { __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> };
+export type UserPublicPartsFragment = { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { me?: Maybe<{ __typename: 'Me', oauthId: string, platform: PlatformName, accessToken?: Maybe<string>, user: { __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> } }> };
+export type MeQuery = { me?: { __typename: 'Me', oauthId: string, platform: PlatformName, accessToken?: string | null | undefined, user: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } } | null | undefined };
 
 export type UserQueryVariables = Exact<{
   username?: Maybe<Scalars['String']>;
@@ -873,14 +872,14 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { user?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> };
+export type UserQuery = { user?: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } | null | undefined };
 
 export type UserStatQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserStatQuery = { userStat?: Maybe<{ __typename: 'UserStat', id: string, followerCount: number, followingCount: number }> };
+export type UserStatQuery = { userStat?: { __typename: 'UserStat', id: string, followerCount: number, followingCount: number } | null | undefined };
 
 export type UserFollowersQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -915,7 +914,7 @@ export type MeUpdateMutationVariables = Exact<{
 }>;
 
 
-export type MeUpdateMutation = { me?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> };
+export type MeUpdateMutation = { me?: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } | null | undefined };
 
 export type MeDeleteMutationVariables = Exact<{ [key: string]: never; }>;
 

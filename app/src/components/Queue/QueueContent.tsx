@@ -1,6 +1,9 @@
 import { Button, TextButton } from "@/components/Button";
-import type { DraggableRecyclerRenderItemInfo } from "@/components/RecyclerList";
-import { DraggableRecyclerList } from "@/components/RecyclerList";
+import type {
+  DraggableBigListRenderItem,
+  DraggableBigListRenderItemInfo,
+} from "@/components/DraggableBigList";
+import { DraggableBigList } from "@/components/DraggableBigList";
 import { Spacer } from "@/components/Spacer";
 import { QueueTrackItem, TrackItem } from "@/components/Track";
 import { Heading, Text } from "@/components/Typography";
@@ -33,6 +36,7 @@ const QueueContext = createContext(
 );
 
 const styles = StyleSheet.create({
+  list: { flex: 1 },
   np: {
     height: Size[14],
     padding: Size[1],
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
 });
 
 const DraggableQueueItem = memo<{
-  params: DraggableRecyclerRenderItemInfo<QueueItem>;
+  params: DraggableBigListRenderItemInfo<QueueItem>;
 }>(
   function DraggableQueueItem({ params }) {
     const onPress = useCallback((uid: string) => player.queuePlayUid(uid), []);
@@ -93,7 +97,7 @@ const DraggableQueueItem = memo<{
   }
 );
 
-const renderItem = (params: DraggableRecyclerRenderItemInfo<QueueItem>) => (
+const renderItem: DraggableBigListRenderItem<QueueItem> = (params) => (
   <DraggableQueueItem key={params.item.uid} params={params} />
 );
 
@@ -219,12 +223,13 @@ const QueueContent: FC<{
         <Spacer y={4} />
         <Heading level={6}>{t("queue.up_next")}</Heading>
         <Spacer y={2} />
-        <DraggableRecyclerList
+        <DraggableBigList
           data={items}
           renderItem={renderItem}
-          height={Size[12] + Size[2] + Size[3]} // height + 2 * padding + seperator
+          itemHeight={Size[12] + Size[2] + Size[2]} // height + 2 * padding + seperator
           onDragEnd={onDragEnd}
           keyExtractor={keyExtractor}
+          style={styles.list}
         />
         <Spacer y={1} />
         {hasSelected ? (

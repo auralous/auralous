@@ -19,11 +19,10 @@
     "i18next": "^20.4.0",
     "mitt": "^3.0.0",
     "react-i18next": "^11.11.4",
-    "react-native-big-list": "^1.4.2",
+    "react-native-big-list": "^1.4.3",
     "react-native-capsize": "^0.2.2",
     "react-native-image-colors": "^1.4.0",
     "react-native-youtube-iframe": "^2.1.2",
-    "recyclerlistview": "^3.0.5",
     "swiper": "6"
   },
   "devDependencies": {
