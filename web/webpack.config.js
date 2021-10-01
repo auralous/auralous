@@ -99,6 +99,10 @@ module.exports = async (env, argv) => {
         "@react-native-async-storage/async-storage": getDependencyDir(
           "@react-native-async-storage/async-storage"
         ),
+        "@react-navigation/stack": getDependencyDir("@react-navigation/stack"),
+        "@react-navigation/native": getDependencyDir(
+          "@react-navigation/native"
+        ),
       },
     },
     plugins: [

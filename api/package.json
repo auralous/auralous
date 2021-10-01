@@ -19,7 +19,7 @@
     "build:babel": "babel src -d dist --extensions \".ts\"",
     "build:dts": "tsc",
     "build:watch": "concurrently \"yarn codegen --watch\" \"yarn build:dts --watch\" \"yarn build:babel -w\"",
-    "clean": "rm -rf dist && rm tsconfig.tsbuildinfo",
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "codegen": "graphql-codegen",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -33,6 +33,9 @@
     "urql": "^2.0.5"
   },
   "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/preset-typescript": "^7.15.0",
     "@graphql-codegen/cli": "^2.2.0",
     "@graphql-codegen/typescript": "^2.2.2",
     "@graphql-codegen/typescript-operations": "^2.1.5",

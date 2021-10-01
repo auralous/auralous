@@ -2,16 +2,14 @@
   "name": "@auralous/mobile",
   "version": "0.0.1",
   "private": true,
-  "type": "commonjs",
   "scripts": {
     "android": "react-native run-android && adb reverse tcp:4000 tcp:4000",
-    "build": "yarn build:dts",
-    "build:dts": "tsc --noEmit",
-    "clean": "echo nil",
     "ios": "react-native run-ios",
-    "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "build": "tsc --noEmit",
+    "clean": "echo nil",
+    "test": "jest",
+    "postinstall": "patch-package"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -26,34 +24,39 @@
   },
   "dependencies": {
     "@auralous/app": "^0.0.0",
-    "@react-native-async-storage/async-storage": "^1.15.7",
+    "@react-native-async-storage/async-storage": "^1.15.8",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-mapbox-gl/maps": "^8.3.0",
-    "@react-navigation/native": "^6.0.2",
-    "@react-navigation/native-stack": "^6.1.0",
+    "@react-navigation/native": "^6.0.4",
+    "@react-navigation/native-stack": "^6.2.2",
     "react": "17.0.2",
-    "react-native": "0.64.2",
+    "react-native": "0.65.1",
     "react-native-config": "^1.4.4",
     "react-native-events": "^1.0.18",
-    "react-native-geolocation-service": "^5.3.0-beta.2",
+    "react-native-geolocation-service": "^5.3.0-beta.3",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-colors": "^1.4.0",
     "react-native-linear-gradient": "^2.5.6",
-    "react-native-localize": "^2.1.1",
-    "react-native-pager-view": "^5.4.1",
+    "react-native-localize": "^2.1.5",
+    "react-native-pager-view": "^5.4.4",
     "react-native-permissions": "^3.0.5",
     "react-native-reanimated": "^2.2.2",
-    "react-native-safe-area-context": "^3.3.0",
-    "react-native-screens": "^3.6.0",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.8.0",
     "react-native-spotify-remote": "^0.3.10",
     "react-native-svg": "^12.1.1",
     "react-native-svg-transformer": "^0.14.3",
-    "react-native-webview": "^11.13.0"
+    "react-native-webview": "^11.14.0"
   },
   "devDependencies": {
-    "@types/react": "^17.0.19",
-    "@types/react-native": "^0.64.13",
-    "get-yarn-workspaces": "^1.0.2",
-    "metro-react-native-babel-preset": "^0.66.2"
+    "@babel/core": "^7.15.5",
+    "@babel/runtime": "^7.15.4",
+    "@types/react": "^17.0.26",
+    "@types/react-native": "^0.65.2",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
+    "react-native-codegen": "^0.0.8",
+    "react-test-renderer": "^17.0.2"
   }
 }

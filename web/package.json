@@ -16,8 +16,7 @@
   "scripts": {
     "build": "webpack --mode=production",
     "dev": "webpack serve",
-    "clean": "rm -rf build",
-    "lint": "eslint ."
+    "clean": "rm -rf build"
   },
   "browserslist": {
     "production": [
@@ -34,32 +33,35 @@
   "dependencies": {
     "@auralous/app": "^0.0.0",
     "@react-native-async-storage/async-storage": "^1.15.8",
+    "@react-navigation/native": "^6.0.4",
+    "@react-navigation/stack": "^6.0.9",
     "@svgr/webpack": "^5.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-native-gesture-handler": "^1.10.3",
-    "react-native-reanimated": "^2.3.0-beta.1",
+    "react-native-reanimated": "^2.3.0-beta.2",
     "react-native-svg": "^12.1.1",
-    "react-native-web": "^0.17.1",
+    "react-native-web": "^0.17.5",
     "react-native-web-linear-gradient": "^1.1.2",
     "react-native-web-webview": "^1.0.2",
     "web-vitals": "^2.1.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.15.7",
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
     "@svgr/webpack": "^5.5.0",
     "babel-loader": "^8.2.2",
-    "babel-plugin-react-native-web": "^0.17.1",
+    "babel-plugin-react-native-web": "^0.17.5",
     "core-js": "^3.18.1",
     "css-loader": "^6.3.0",
     "dotenv": "^10.0.0",
     "file-loader": "^6.2.0",
     "metro-react-native-babel-preset": "^0.66.2",
     "style-loader": "^3.3.0",
-    "webpack": "^5.55.0",
+    "webpack": "^5.55.1",
     "webpack-cli": "^4.8.0",
     "webpack-config-react": "^0.0.3",
     "webpack-dev-server": "^4.3.0",

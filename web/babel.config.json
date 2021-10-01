@@ -9,28 +9,7 @@
         "loose": true
       }
     ],
-    ["@babel/preset-react", { "runtime": "automatic" }],
-    "@babel/preset-typescript"
+    ["@babel/preset-react", { "runtime": "automatic" }]
   ],
-  "plugins": [
-    [
-      "module-resolver",
-      {
-        "extensions": [
-          ".ios.js",
-          ".android.js",
-          ".js",
-          ".jsx",
-          ".ts",
-          ".tsx",
-          ".json"
-        ],
-        "alias": {
-          "@": "./src"
-        }
-      }
-    ],
-    "react-native-web",
-    "react-native-reanimated/plugin"
-  ]
+  "plugins": ["react-native-web", "react-native-reanimated/plugin"]
 }

@@ -26,6 +26,7 @@ i18n.use(initReactI18next).init({
   react: {
     useSuspense: false,
   },
+  compatibilityJSON: "v3",
 });
 
 export const getPreferredLanguage = () =>
