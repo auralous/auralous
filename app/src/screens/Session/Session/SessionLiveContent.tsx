@@ -22,11 +22,6 @@ import { Pressable, StyleSheet, View } from "react-native";
 import SessionMeta from "./SessionMeta";
 
 const styles = StyleSheet.create({
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: Size[1],
-  },
   content: {
     padding: Size[3],
   },
@@ -35,8 +30,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     borderRadius: 9999,
     flexDirection: "row",
+    height: "100%",
     paddingHorizontal: 8,
-    paddingVertical: 2,
   },
   textLive: {
     textTransform: "uppercase",
@@ -98,7 +93,7 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
     <>
       <SessionMeta
         session={session}
-        tagElement={
+        tag={
           <Pressable style={styles.tag} onPress={viewListeners}>
             <Text bold size="sm" style={styles.textLive}>
               {t("common.status.live")}{" "}
@@ -110,22 +105,24 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
             <IconUser color={Colors.primaryText} width={12} height={12} />
           </Pressable>
         }
+        buttons={
+          <>
+            <GradientButton
+              disabled={
+                playbackCurrentContext?.type === "session" &&
+                playbackCurrentContext.id === session.id
+              }
+              onPress={joinLive}
+            >
+              {t("session.join_live")}
+            </GradientButton>
+            <Spacer x={2} />
+            <View>
+              <Button onPress={viewCollabs}>{t("collab.title")}</Button>
+            </View>
+          </>
+        }
       />
-      <View style={styles.buttons}>
-        <GradientButton
-          disabled={
-            playbackCurrentContext?.type === "session" &&
-            playbackCurrentContext.id === session.id
-          }
-          onPress={joinLive}
-        >
-          {t("session.join_live")}
-        </GradientButton>
-        <Spacer x={2} />
-        <View>
-          <Button onPress={viewCollabs}>{t("collab.title")}</Button>
-        </View>
-      </View>
       <View style={styles.content}>
         <Text bold>{t("now_playing.title")}</Text>
         <Spacer y={2} />

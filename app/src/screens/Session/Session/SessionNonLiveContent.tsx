@@ -1,5 +1,5 @@
 import { Button } from "@/components/Button";
-import { LoadingScreen } from "@/components/Loading";
+import { renderLoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
@@ -20,11 +20,6 @@ import BigList from "react-native-big-list";
 import SessionMeta from "./SessionMeta";
 
 const styles = StyleSheet.create({
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: Size[1],
-  },
   item: {
     alignItems: "center",
     flexDirection: "row",
@@ -34,10 +29,12 @@ const styles = StyleSheet.create({
     paddingVertical: Size[3],
   },
   tag: {
+    alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.8)",
     borderRadius: 9999,
+    flexDirection: "row",
+    height: "100%",
     paddingHorizontal: 8,
-    paddingVertical: 2,
   },
   tagText: {
     color: "#333333",
@@ -109,32 +106,40 @@ const SessionNonLiveContent: FC<{
     [onQuickShare, session]
   );
 
+  const renderHeader = useCallback(
+    () => (
+      <SessionMeta
+        session={session}
+        tag={
+          <View style={styles.tag}>
+            <Text size="sm" style={styles.tagText}>
+              {t("session.title")} •{" "}
+              {t("playlist.x_song", { count: session.trackTotal })}
+            </Text>
+          </View>
+        }
+        buttons={
+          <>
+            <Button onPress={shufflePlay}>{t("player.shuffle_play")}</Button>
+            <Spacer x={2} />
+            <Button onPress={quickShare} variant="primary">
+              {t("new.quick_share.title")}
+            </Button>
+          </>
+        }
+      />
+    ),
+    [t, session, quickShare, shufflePlay]
+  );
+
   return (
     <>
-      <View>
-        <SessionMeta
-          session={session}
-          tagElement={
-            <View style={styles.tag}>
-              <Text size="sm" style={styles.tagText}>
-                {t("session.title")} •{" "}
-                {t("playlist.x_song", { count: session.trackTotal })}
-              </Text>
-            </View>
-          }
-        />
-        <View style={styles.buttons}>
-          <Button onPress={shufflePlay}>{t("player.shuffle_play")}</Button>
-          <Spacer x={2} />
-          <Button onPress={quickShare} variant="primary">
-            {t("new.quick_share.title")}
-          </Button>
-        </View>
-      </View>
       <SessionIdContext.Provider value={session.id}>
         <BigList
+          headerHeight={320}
+          renderHeader={renderHeader}
+          renderEmpty={fetching ? renderLoadingScreen : undefined}
           contentContainerStyle={styles.listContent}
-          ListEmptyComponent={fetching ? <LoadingScreen /> : null}
           itemHeight={Size[12] + 2 * Size[1] + Size[2]} // height + 2 * padding + seperator
           data={data?.sessionTracks || []}
           renderItem={renderItem}

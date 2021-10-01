@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[3],
     width: "100%",
   },
+  list: { flex: 1 },
   listView: {
     flex: 1,
     paddingBottom: Size[12],
@@ -178,6 +179,7 @@ export const SelectedTracksListView: FC<{
         onDragEnd={onDragEnd}
         itemHeight={Size[12] + Size[2] + Size[3]} // height + 2 * padding + seperator
         keyExtractor={identityFn}
+        style={styles.list}
       />
     </View>
   );

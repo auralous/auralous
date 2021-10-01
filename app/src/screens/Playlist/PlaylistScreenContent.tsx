@@ -1,5 +1,5 @@
 import { Container } from "@/components/Layout";
-import { LoadingScreen } from "@/components/Loading";
+import { renderLoadingScreen } from "@/components/Loading";
 import { TrackItem } from "@/components/Track";
 import player, {
   uidForIndexedTrack,
@@ -11,7 +11,7 @@ import type { Playlist, Track } from "@auralous/api";
 import { usePlaylistTracksQuery } from "@auralous/api";
 import type { FC } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import type { BigListRenderItem } from "react-native-big-list";
 import BigList from "react-native-big-list";
 import PlaylistMeta from "./PlaylistMeta";
@@ -75,23 +75,27 @@ export const PlaylistScreenContent: FC<{
   playlist: Playlist;
   onQuickShare(playlist: Playlist): void;
 }> = ({ playlist, onQuickShare }) => {
-  const [{ data: dataPlaylist, fetching }] = usePlaylistTracksQuery({
+  const [{ data, fetching }] = usePlaylistTracksQuery({
     variables: {
       id: playlist.id,
     },
   });
 
+  const renderHeader = useCallback(
+    () => <PlaylistMeta onQuickShare={onQuickShare} playlist={playlist} />,
+    [playlist, onQuickShare]
+  );
+
   return (
     <Container style={styles.root}>
       <PlaylistIdContext.Provider value={playlist.id}>
-        <View>
-          <PlaylistMeta playlist={playlist} onQuickShare={onQuickShare} />
-        </View>
         <BigList
-          ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+          headerHeight={320}
+          renderHeader={renderHeader}
+          renderEmpty={fetching ? renderLoadingScreen : undefined}
           contentContainerStyle={styles.listContent}
           itemHeight={Size[12] + 2 * Size[1] + Size[2]} // height + 2 * padding + seperator
-          data={dataPlaylist?.playlistTracks || []}
+          data={data?.playlistTracks || []}
           renderItem={renderItem}
         />
       </PlaylistIdContext.Provider>

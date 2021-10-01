@@ -53,6 +53,7 @@
     "@svgr/webpack": "^5.5.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-react-native-web": "^0.17.1",
+    "core-js": "^3.18.1",
     "css-loader": "^6.3.0",
     "dotenv": "^10.0.0",
     "file-loader": "^6.2.0",
