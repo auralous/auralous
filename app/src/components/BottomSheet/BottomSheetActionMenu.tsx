@@ -1,11 +1,9 @@
-import { BlurView } from "@/components/BlurView";
 import { TextButton } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import type { FC, ReactNode } from "react";
 import { useEffect, useRef } from "react";
@@ -32,6 +30,9 @@ export interface BottomSheetActionMenuItem {
 }
 
 const styles = StyleSheet.create({
+  bsBackground: {
+    backgroundColor: Colors.background,
+  },
   cancel: {
     height: Size[16],
   },
@@ -59,12 +60,6 @@ const styles = StyleSheet.create({
 
 const snapPoints = ["100%"];
 
-const backgroundComponent: FC<BottomSheetBackgroundProps> = ({ style }) => (
-  <View style={style}>
-    <BlurView blurType="dark" style={StyleSheet.absoluteFill} />
-  </View>
-);
-
 const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
   visible,
   onDismiss,
@@ -91,7 +86,7 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
       ref={ref}
       handleStyle={{ marginTop: top }}
       handleIndicatorStyle={styles.handleIndicator}
-      backgroundComponent={backgroundComponent}
+      backgroundStyle={styles.bsBackground}
       snapPoints={snapPoints}
       stackBehavior="push"
       onDismiss={onDismiss}

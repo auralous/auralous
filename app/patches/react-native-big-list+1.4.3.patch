@@ -1,0 +1,85 @@
+diff --git a/node_modules/react-native-big-list/dist/commonjs/BigList.js b/node_modules/react-native-big-list/dist/commonjs/BigList.js
+index 610c355..db9eb09 100644
+--- a/node_modules/react-native-big-list/dist/commonjs/BigList.js
++++ b/node_modules/react-native-big-list/dist/commonjs/BigList.js
+@@ -754,7 +754,7 @@ class BigList extends _react.PureComponent {
+ 
+     const isEmptyList = this.isEmpty();
+     const emptyItem = ListEmptyComponent
+-      ? (0, _utils.createElement)(ListHeaderComponent)
++      ? (0, _utils.createElement)(ListEmptyComponent)
+       : renderEmpty
+       ? renderEmpty()
+       : null;
+@@ -906,7 +906,7 @@ class BigList extends _react.PureComponent {
+         case _BigListItem.BigListItemType.EMPTY:
+           children.push(
+             /*#__PURE__*/ _react.default.createElement(
+-              _reactNative.View,
++              _react.Fragment,
+               {
+                 key: itemKey,
+               },
+@@ -1147,7 +1147,7 @@ class BigList extends _react.PureComponent {
+     );
+     const scrollView = wrapper(
+       /*#__PURE__*/ _react.default.createElement(
+-        _reactNative.ScrollView,
++        props.ScrollView || _reactNative.ScrollView,
+         scrollViewProps,
+         this.renderItems()
+       )
+diff --git a/node_modules/react-native-big-list/dist/module/BigList.js b/node_modules/react-native-big-list/dist/module/BigList.js
+index b6852d9..f514f3c 100644
+--- a/node_modules/react-native-big-list/dist/module/BigList.js
++++ b/node_modules/react-native-big-list/dist/module/BigList.js
+@@ -1,11 +1,11 @@
+-import React, { PureComponent } from "react";
+ import PropTypes from "prop-types";
++import React, { PureComponent } from "react";
+ import {
+   Animated,
+   Platform,
+   RefreshControl,
+   ScrollView,
+-  View,
++  View
+ } from "react-native";
+ import BigListItem, { BigListItemType } from "./BigListItem";
+ import BigListPlaceholder from "./BigListPlaceholder";
+@@ -16,7 +16,7 @@ import {
+   createElement,
+   isNumeric,
+   mergeViewStyle,
+-  processBlock,
++  processBlock
+ } from "./utils";
+ 
+ class BigList extends PureComponent {
+@@ -704,7 +704,7 @@ class BigList extends PureComponent {
+ 
+     const isEmptyList = this.isEmpty();
+     const emptyItem = ListEmptyComponent
+-      ? createElement(ListHeaderComponent)
++      ? createElement(ListEmptyComponent)
+       : renderEmpty
+       ? renderEmpty()
+       : null;
+@@ -847,7 +847,7 @@ class BigList extends PureComponent {
+         case BigListItemType.EMPTY:
+           children.push(
+             /*#__PURE__*/ React.createElement(
+-              View,
++              React.Fragment,
+               {
+                 key: itemKey,
+               },
+@@ -1079,7 +1079,7 @@ class BigList extends PureComponent {
+     );
+     const scrollView = wrapper(
+       /*#__PURE__*/ React.createElement(
+-        ScrollView,
++        props.ScrollView || ScrollView,
+         scrollViewProps,
+         this.renderItems()
+       )

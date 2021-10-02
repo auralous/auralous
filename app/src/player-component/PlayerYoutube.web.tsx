@@ -43,14 +43,15 @@ const YT_PLAYER_VARS = {
 
 const PlayerYoutube: FC = () => {
   const [loaded, setLoaded] = useState(false);
+  const [hasVideo, setHasVideo] = useState(false);
 
   const { width: windowWidth } = useWindowDimensions();
 
   useEffect(() => {
     if (!loaded) return;
     let durationInterval: number; // setInterval
-
-    const ytPlayer = new window.YT.Player("ytPlayer", {
+    const ytPlayerDom = document.querySelector("#ytPlayer") as HTMLElement;
+    const ytPlayer = new window.YT.Player(ytPlayerDom, {
       playerVars: YT_PLAYER_VARS,
       events: {
         onReady(event) {
@@ -64,9 +65,10 @@ const PlayerYoutube: FC = () => {
             playByExternalId: async (externalId) => {
               if (!externalId) {
                 event.target.pauseVideo();
-                player.emit("played_external", null);
+                setHasVideo(false);
                 return;
               }
+              setHasVideo(true);
               event.target.loadVideoById(externalId);
               player.emit("played_external", externalId);
               player.play();
@@ -110,7 +112,13 @@ const PlayerYoutube: FC = () => {
   }, [loaded]);
 
   return (
-    <View style={windowWidth >= LayoutSize.md ? styles.rootLand : styles.root}>
+    <View
+      style={[
+        windowWidth >= LayoutSize.md ? styles.rootLand : styles.root,
+        // eslint-disable-next-line react-native/no-inline-styles
+        !hasVideo && { display: "none" },
+      ]}
+    >
       <View nativeID="ytPlayer" style={styles.innerPlayer} />
     </View>
   );

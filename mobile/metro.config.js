@@ -4,6 +4,7 @@ const path = require("path");
 const packageJson = require("./package.json");
 const appPackageJson = require("../app/package.json");
 const exclusionList = require("metro-config/src/defaults/exclusionList");
+
 const pkgDir = require("pkg-dir");
 
 const appDir = path.resolve(__dirname, "..", "app");
@@ -21,6 +22,7 @@ const buildExtraNodeModules = () => {
   ];
 
   for (const dependencyName of allDependencies) {
+    if (dependencyName === "postinstall-postinstall") continue;
     if (dependencyName.startsWith("@auralous")) continue;
 
     const depDir = require.resolve(dependencyName, {

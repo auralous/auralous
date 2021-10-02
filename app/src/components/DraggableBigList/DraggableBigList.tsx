@@ -11,7 +11,6 @@ import type {
   LayoutChangeEvent,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  ScrollView,
 } from "react-native";
 import { Platform, StyleSheet } from "react-native";
 import type {
@@ -21,7 +20,7 @@ import type {
 } from "react-native-big-list";
 import BigList from "react-native-big-list";
 import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { PanGestureHandler, ScrollView } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
   scrollTo,
@@ -278,7 +277,7 @@ export default function DraggableBigList<ItemT>({
 
   const panRef = useRef<PanGestureHandler>(null);
 
-  const scrollRef = useAnimatedRef<ScrollView>();
+  const scrollRef = useAnimatedRef();
 
   const scrollOffset = useSharedValue(0);
   const scrollViewSize = useSharedValue(0);
@@ -356,6 +355,7 @@ export default function DraggableBigList<ItemT>({
       if (Platform.OS === "android") scrollDelta /= 10;
 
       if (Math.abs(scrollDelta) < SCROLL_POSITION_TOLERANCE) return;
+      // @ts-ignore
       scrollTo(scrollRef, 0, scrollOffsetValue + scrollDelta, true);
     },
     [autoscrollSpeed, autoscrollThreshold]
@@ -469,6 +469,8 @@ export default function DraggableBigList<ItemT>({
             style={styles.list}
             scrollEnabled={!scrollDisabled}
             onLayout={onLayout}
+            // @ts-ignore
+            ScrollView={ScrollView}
           />
         </Animated.View>
       </PanGestureHandler>

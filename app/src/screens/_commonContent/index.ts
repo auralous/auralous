@@ -1,7 +1,7 @@
 import { Size } from "@/styles/spacing";
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const stylesMeta = StyleSheet.create({
   buttons: {
     alignItems: "center",
     flexDirection: "row",
@@ -20,8 +20,9 @@ export const styles = StyleSheet.create({
   root: {
     alignItems: "center",
     height: 320,
+    paddingBottom: Size[3],
     paddingHorizontal: Size[6],
-    paddingVertical: Size[3],
+    paddingTop: 0,
   },
   tag: {
     flexDirection: "row",

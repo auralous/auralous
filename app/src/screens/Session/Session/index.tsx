@@ -7,7 +7,7 @@ import SessionNonLiveContent from "./SessionNonLiveContent";
 
 const styles = StyleSheet.create({
   root: {
-    height: "100%",
+    flex: 1,
   },
 });
 

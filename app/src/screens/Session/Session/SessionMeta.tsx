@@ -2,7 +2,7 @@ import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
-import { styles } from "@/screens/_commonContent";
+import { stylesMeta } from "@/screens/_commonContent";
 import type { Session } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC, ReactNode } from "react";
@@ -24,16 +24,16 @@ const SessionMeta: FC<{
   }, [navigation, session.creator.username]);
 
   return (
-    <View style={styles.root}>
-      <View style={styles.image}>
+    <View style={stylesMeta.root}>
+      <View style={stylesMeta.image}>
         <Avatar
           size={40}
           href={session.creator.profilePicture}
           username={session.creator.username}
         />
       </View>
-      <View style={styles.meta}>
-        <View style={styles.tag}>{tag}</View>
+      <View style={stylesMeta.meta}>
+        <View style={stylesMeta.tag}>{tag}</View>
         <Heading level={4} align="center" numberOfLines={1}>
           {session.text}
         </Heading>
@@ -49,7 +49,7 @@ const SessionMeta: FC<{
           </Text>
         </Pressable>
       </View>
-      <View style={styles.buttons}>{buttons}</View>
+      <View style={stylesMeta.buttons}>{buttons}</View>
     </View>
   );
 };

@@ -3,7 +3,7 @@ import { Button } from "@/components/Button";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
 import player from "@/player";
-import { styles } from "@/screens/_commonContent";
+import { stylesMeta } from "@/screens/_commonContent";
 import type { Playlist } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -31,7 +31,7 @@ const PlaylistMeta: FC<{
   }, [playlist, onQuickShare]);
 
   return (
-    <View style={styles.root}>
+    <View style={stylesMeta.root}>
       <Image
         source={
           playlist.image
@@ -39,11 +39,11 @@ const PlaylistMeta: FC<{
             : ImageSources.defaultPlaylist
         }
         defaultSource={ImageSources.defaultPlaylist}
-        style={styles.image}
+        style={stylesMeta.image}
         accessibilityLabel={playlist.name}
       />
-      <View style={styles.meta}>
-        <View style={styles.tag}>
+      <View style={stylesMeta.meta}>
+        <View style={stylesMeta.tag}>
           <Text align="center" color="textTertiary" size="sm">
             {t("playlist.title")} •{" "}
             {t("playlist.x_song", { count: playlist.total })}
@@ -57,7 +57,7 @@ const PlaylistMeta: FC<{
           {playlist.creatorName}
         </Text>
       </View>
-      <View style={styles.buttons}>
+      <View style={stylesMeta.buttons}>
         <Button onPress={shufflePlay}>{t("player.shuffle_play")}</Button>
         <Spacer x={2} />
         <Button onPress={quickShare} variant="primary">

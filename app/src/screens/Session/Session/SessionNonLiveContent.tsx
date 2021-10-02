@@ -25,9 +25,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: Size[3],
   },
-  listContent: {
-    paddingVertical: Size[3],
-  },
   tag: {
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.8)",
@@ -139,7 +136,6 @@ const SessionNonLiveContent: FC<{
           headerHeight={320}
           renderHeader={renderHeader}
           renderEmpty={fetching ? renderLoadingScreen : undefined}
-          contentContainerStyle={styles.listContent}
           itemHeight={Size[12] + 2 * Size[1] + Size[2]} // height + 2 * padding + seperator
           data={data?.sessionTracks || []}
           renderItem={renderItem}

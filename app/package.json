@@ -9,7 +9,8 @@
     "build:babel": "babel src -d dist --extensions \".ts,.tsx\" --copy-files",
     "build:dts": "tsc",
     "build:watch": "concurrently \"yarn build:dts --watch --preserveWatchOutput\" \"yarn build:babel -w\"",
-    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo"
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@auralous/api": "^0.0.0",
@@ -17,6 +18,8 @@
     "@gorhom/bottom-sheet": "^4.1.0",
     "i18next": "^21.2.0",
     "mitt": "^3.0.0",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react-i18next": "^11.12.0",
     "react-native-big-list": "^1.4.3",
     "react-native-capsize": "^0.2.2",
@@ -30,7 +33,6 @@
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
     "@react-native-async-storage/async-storage": "*",
-    "@react-native-community/blur": "*",
     "@react-native-mapbox-gl/maps": "*",
     "@react-navigation/native": "*",
     "@react-navigation/native-stack": "*",
@@ -56,7 +58,6 @@
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "*",
-    "@react-native-community/blur": "*",
     "@react-native-mapbox-gl/maps": "*",
     "@react-navigation/native": "*",
     "@react-navigation/native-stack": "*",

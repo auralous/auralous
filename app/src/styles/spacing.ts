@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import type { ArrayElement } from "./types";
 
 const sizeUnitValues = [
@@ -18,3 +19,11 @@ export const LayoutSize = {
 };
 
 export const Size = buildSizes();
+
+export const ConstantSize = {
+  headerHeight: Platform.select({
+    ios: 64,
+    android: 56,
+    default: 64,
+  }),
+};

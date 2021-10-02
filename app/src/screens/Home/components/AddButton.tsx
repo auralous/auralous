@@ -1,9 +1,6 @@
 import { IconPlus } from "@/assets";
-import { BlurView } from "@/components/BlurView";
-import { Button, GradientButton, TextButton } from "@/components/Button";
-import { SlideModal, useDialog } from "@/components/Dialog";
-import { Spacer } from "@/components/Spacer";
-import { Heading } from "@/components/Typography";
+import { Button, GradientButton } from "@/components/Button";
+import { useBackHandlerDismiss, useDialog } from "@/components/Dialog";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import { useMeQuery, useSessionCurrentLiveQuery } from "@auralous/api";
@@ -11,10 +8,21 @@ import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Pressable, StyleSheet } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const styles = StyleSheet.create({
+  backdrop: {
+    backgroundColor: "rgba(0,0,0,.8)",
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 0,
+  },
   button: {
     bottom: Size[4],
     elevation: 6,
@@ -28,27 +36,28 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
+    zIndex: 1,
+  },
+  buttonAdd: {
     width: Size[14],
   },
-  choice: {
-    flex: 1,
-    height: 54,
-    padding: Size[4],
+  buttonQuickShare: {
+    transform: [
+      {
+        translateY: -Size[16],
+      },
+    ],
   },
-  choices: {
-    flexDirection: "row",
-  },
-  newModal: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-    padding: Size[6],
+  buttonSelectSongs: {
+    transform: [
+      {
+        translateY: -Size[32],
+      },
+    ],
   },
 });
 
-const AddButtonModalContent: FC<{
-  onDismiss(): void;
-}> = ({ onDismiss }) => {
+const AddOverlay: FC<{ dismiss(): void }> = ({ dismiss }) => {
   const { t } = useTranslation();
 
   const navigation = useNavigation();
@@ -56,38 +65,42 @@ const AddButtonModalContent: FC<{
   const navigateTo = useCallback(
     (path: RouteName) => {
       navigation.navigate(path);
-      onDismiss();
+      dismiss();
     },
-    [navigation, onDismiss]
+    [navigation, dismiss]
   );
+
+  const animValue = useSharedValue(0);
+
+  useEffect(() => {
+    animValue.value = withTiming(1);
+  }, [animValue]);
+
+  const backdropStyle = useAnimatedStyle(
+    () => ({ opacity: animValue.value }),
+    []
+  );
+
+  useBackHandlerDismiss(true, dismiss);
 
   return (
     <>
-      <BlurView style={StyleSheet.absoluteFill} blurType="dark" />
-      <SafeAreaView style={styles.newModal}>
-        <Heading level={2}>{t("new.title")}</Heading>
-        <Spacer y={8} />
-        <View style={styles.choices}>
-          <Button
-            variant="primary"
-            onPress={() => navigateTo(RouteName.NewSelectSongs)}
-            style={styles.choice}
-          >
-            {t("new.select_songs.title")}
-          </Button>
-          <Spacer x={3} />
-          <GradientButton
-            onPress={() => navigateTo(RouteName.NewQuickShare)}
-            style={styles.choice}
-          >
-            {t("new.quick_share.title")}
-          </GradientButton>
-        </View>
-        <Spacer y={6} />
-        <TextButton onPress={onDismiss}>
-          {t("common.navigation.go_back")}
-        </TextButton>
-      </SafeAreaView>
+      <AnimatedPressable
+        style={[styles.backdrop, backdropStyle]}
+        onPress={dismiss}
+      />
+      <Button
+        style={[styles.button, styles.buttonSelectSongs]}
+        onPress={() => navigateTo(RouteName.NewSelectSongs)}
+      >
+        {t("new.select_songs.title")}
+      </Button>
+      <Button
+        style={[styles.button, styles.buttonQuickShare]}
+        onPress={() => navigateTo(RouteName.NewQuickShare)}
+      >
+        {t("new.quick_share.title")}
+      </Button>
     </>
   );
 };
@@ -101,6 +114,7 @@ const AddButton: FC = () => {
     useSessionCurrentLiveQuery({
       variables: { mine: true },
     });
+
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
   useEffect(refetchSessionCurrentLive, [
     me?.user.id,
@@ -114,9 +128,10 @@ const AddButton: FC = () => {
 
   return (
     <>
+      {visible && <AddOverlay dismiss={dismiss} />}
       <GradientButton
-        style={styles.button}
-        onPress={present}
+        style={[styles.button, styles.buttonAdd]}
+        onPress={visible ? dismiss : present}
         accessibilityLabel={t("new.title")}
         icon={
           <IconPlus
@@ -127,9 +142,6 @@ const AddButton: FC = () => {
           />
         }
       />
-      <SlideModal visible={visible} onDismiss={dismiss}>
-        <AddButtonModalContent onDismiss={dismiss} />
-      </SlideModal>
     </>
   );
 };

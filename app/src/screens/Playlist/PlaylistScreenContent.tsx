@@ -24,10 +24,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[3],
     width: "100%",
   },
-  listContent: {
-    paddingBottom: Size[6],
-    paddingTop: Size[3],
-  },
   root: { height: "100%" },
 });
 
@@ -93,7 +89,6 @@ export const PlaylistScreenContent: FC<{
           headerHeight={320}
           renderHeader={renderHeader}
           renderEmpty={fetching ? renderLoadingScreen : undefined}
-          contentContainerStyle={styles.listContent}
           itemHeight={Size[12] + 2 * Size[1] + Size[2]} // height + 2 * padding + seperator
           data={data?.playlistTracks || []}
           renderItem={renderItem}

@@ -14,6 +14,7 @@ import { useUiDispatch } from "@/context";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
+import { ConstantSize } from "@/styles/spacing";
 import type { Session } from "@auralous/api";
 import { useMeQuery, useSessionQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
@@ -27,7 +28,7 @@ import { SessionNewPrompts } from "./components/SessionNewPrompts";
 import { SessionScreenContent } from "./Session";
 
 const styles = StyleSheet.create({
-  root: { flex: 1 },
+  root: { flex: 1, paddingTop: ConstantSize.headerHeight },
 });
 
 const HeaderRight: FC<{ session: Session }> = ({ session }) => {
@@ -135,6 +136,7 @@ const SessionScreen: FC<NativeStackScreenProps<ParamList, RouteName.Session>> =
         },
       });
     }, [navigation, me, data, t, uiDispatch]);
+
     const onQuickShare = useCallback(
       (session: Session) => {
         navigation.navigate(RouteName.NewQuickShare, {
