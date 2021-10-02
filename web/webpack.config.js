@@ -94,7 +94,6 @@ module.exports = async (env, argv) => {
         react: getDependencyDir("react"),
         "react-native": "react-native-web",
         "react-native-linear-gradient": "react-native-web-linear-gradient",
-        "react-native-webview": "react-native-web-webview",
         "react-native-reanimated": getDependencyDir("react-native-reanimated"),
         "@react-native-async-storage/async-storage": getDependencyDir(
           "@react-native-async-storage/async-storage"
