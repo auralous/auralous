@@ -8,7 +8,7 @@ import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getLocales } from "react-native-localize";
-import { SettingsScreenContent } from "./Settings";
+import { SettingsScreenContent } from "./components";
 
 export const SettingsScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.Settings>

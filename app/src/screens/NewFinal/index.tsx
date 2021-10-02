@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CreateFinalScreen: FC<
+const NewFinalScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.NewFinal>
 > = ({ route, navigation }) => {
   const { t } = useTranslation();
@@ -130,4 +130,4 @@ const CreateFinalScreen: FC<
   );
 };
 
-export default CreateFinalScreen;
+export default NewFinalScreen;

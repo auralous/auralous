@@ -24,7 +24,6 @@ import {
   SelectedTracksListProvider,
   SelectedTracksListView,
 } from "./components/SelectedTracksListView";
-import { useRedirectOnUnauthenticated } from "./components/useRedirectOnUnauthenticated";
 
 const styles = StyleSheet.create({
   create: {
@@ -44,11 +43,9 @@ const styles = StyleSheet.create({
 // topBar + footer heights + handleHeight
 const snapPoints = [Size[10] + Size[12] + 24, "95%"];
 
-const SelectSongsScreen: FC<
+const NewSelectSongsScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.NewSelectSongs>
 > = ({ navigation }) => {
-  useRedirectOnUnauthenticated(navigation);
-
   const { t } = useTranslation();
 
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
@@ -154,4 +151,4 @@ const SelectSongsScreen: FC<
   );
 };
 
-export default SelectSongsScreen;
+export default NewSelectSongsScreen;

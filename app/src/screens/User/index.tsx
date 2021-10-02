@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { UserScreenContent } from "./User";
+import { UserScreenContent } from "./components";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },

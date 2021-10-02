@@ -17,7 +17,7 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { PlaylistScreenContent } from "./PlaylistScreenContent";
+import { PlaylistScreenContent } from "./components";
 
 const styles = StyleSheet.create({
   root: { flex: 1, paddingTop: ConstantSize.headerHeight },

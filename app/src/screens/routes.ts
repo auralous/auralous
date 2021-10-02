@@ -1,20 +1,22 @@
 import type { TFunction } from "react-i18next";
 import HomeScreen from "./Home";
 import MapScreen from "./Map";
-import { CreateFinalScreen, QuickShareScreen, SelectSongsScreen } from "./New";
+import NewFinalScreen from "./NewFinal";
+import NewQuickShareScreen from "./NewQuickShare";
+import NewSelectSongsScreen from "./NewSelectSongs";
 import { NotificationsScreen } from "./Notifications";
 import PlaylistScreen from "./Playlist";
-import {
-  SessionCollaboratorsScreen,
-  SessionEditScreen,
-  SessionInviteScreen,
-  SessionListenersScreen,
-  SessionScreen,
-} from "./Session";
+import SessionScreen from "./Session";
+import SessionCollaboratorsScreen from "./SessionCollaborators";
+import SessionEditScreen from "./SessionEdit";
+import SessionInviteScreen from "./SessionInvite";
+import SessionListenersScreen from "./SessionListeners";
 import { SettingsScreen } from "./Settings";
 import SignInScreen from "./SignIn";
 import { RouteName } from "./types";
-import { UserFollowersScreen, UserFollowingScreen, UserScreen } from "./User";
+import UserScreen from "./User";
+import UserFollowersScreen from "./UserFollowersScreen";
+import UserFollowingScreen from "./UserFollowingScreen";
 
 export const routesFn = (t: TFunction) => [
   {
@@ -109,21 +111,21 @@ export const routesFn = (t: TFunction) => [
   },
   {
     name: RouteName.NewSelectSongs,
-    component: SelectSongsScreen,
+    component: NewSelectSongsScreen,
     options: {
       title: t("new.select_songs.title"),
     },
   },
   {
     name: RouteName.NewQuickShare,
-    component: QuickShareScreen,
+    component: NewQuickShareScreen,
     options: {
       title: t("new.quick_share.title"),
     },
   },
   {
     name: RouteName.NewFinal,
-    component: CreateFinalScreen,
+    component: NewFinalScreen,
     options: {
       animation: "fade" as const,
       headerShown: false,

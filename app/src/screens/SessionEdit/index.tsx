@@ -5,7 +5,7 @@ import { useSessionQuery } from "@auralous/api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
-import { SessionEditScreenContent } from "./SessionEdit/SessionEditScreenContent";
+import { SessionEditScreenContent } from "./components";
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
