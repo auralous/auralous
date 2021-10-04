@@ -6,24 +6,15 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
-import { Colors } from "@/styles/colors";
-import { Size } from "@/styles/spacing";
-import { SongSelector } from "@/views/SongSelector";
+import { LayoutSize, Size } from "@/styles/spacing";
 import { useMeQuery } from "@auralous/api";
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetFooter,
-} from "@gorhom/bottom-sheet";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, StyleSheet, View } from "react-native";
-import {
-  SelectedTracksListFooter,
-  SelectedTracksListProvider,
-  SelectedTracksListView,
-} from "./components/SelectedTracksListView";
+import { Modal, StyleSheet, useWindowDimensions, View } from "react-native";
+import NewSelectSongs from "./NewSelectSongs";
+import NewSelectSongsLandscape from "./NewSelectSongs.landscape";
 
 const styles = StyleSheet.create({
   create: {
@@ -35,13 +26,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
-  sheet: {
-    backgroundColor: Colors.backgroundSecondary,
-  },
 });
-
-// topBar + footer heights + handleHeight
-const snapPoints = [Size[10] + Size[12] + 24, "95%"];
 
 const NewSelectSongsScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.NewSelectSongs>
@@ -50,36 +35,7 @@ const NewSelectSongsScreen: FC<
 
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
 
-  const addTracks = useCallback((trackIds: string[]) => {
-    setSelectedTracks((prev) => [...prev, ...trackIds]);
-  }, []);
-
-  const removeTracks = useCallback((trackIds: string[]) => {
-    setSelectedTracks((prev) => prev.filter((t) => !trackIds.includes(t)));
-  }, []);
-
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const [expanded, setExpanded] = useState(false);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    setExpanded(!!index);
-  }, []);
-
   const [visibleFinal, presentFinal, dismissFinal] = useDialog();
-
-  const renderFooter = useCallback(
-    (props) => (
-      <BottomSheetFooter {...props}>
-        <SelectedTracksListFooter
-          selectedTracks={selectedTracks}
-          setSelectedTracks={setSelectedTracks}
-          onFinish={presentFinal}
-        />
-      </BottomSheetFooter>
-    ),
-    [presentFinal, selectedTracks, setSelectedTracks]
-  );
 
   const textInputRef = useRef<InputRef>(null);
 
@@ -96,30 +52,23 @@ const NewSelectSongsScreen: FC<
     });
   }, [selectedTracks, navigation, defaultSessionText, dismissFinal]);
 
+  const { width: windowWidth } = useWindowDimensions();
+
   return (
     <View style={styles.root}>
-      <SongSelector
-        selectedTracks={selectedTracks}
-        addTracks={addTracks}
-        removeTracks={removeTracks}
-      />
-      <SelectedTracksListProvider expanded={expanded}>
-        <BottomSheet
-          ref={bottomSheetRef}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-          style={styles.sheet}
-          handleIndicatorStyle={{ backgroundColor: Colors.textSecondary }}
-          backgroundComponent={null}
-          backdropComponent={BottomSheetBackdrop}
-          footerComponent={renderFooter}
-        >
-          <SelectedTracksListView
-            selectedTracks={selectedTracks}
-            setSelectedTracks={setSelectedTracks}
-          />
-        </BottomSheet>
-      </SelectedTracksListProvider>
+      {windowWidth >= LayoutSize.md ? (
+        <NewSelectSongsLandscape
+          selectedTracks={selectedTracks}
+          setSelectedTracks={setSelectedTracks}
+          presentFinal={presentFinal}
+        />
+      ) : (
+        <NewSelectSongs
+          selectedTracks={selectedTracks}
+          setSelectedTracks={setSelectedTracks}
+          presentFinal={presentFinal}
+        />
+      )}
       <Modal
         visible={visibleFinal}
         animationType="slide"

@@ -80,6 +80,9 @@ const cacheExchangeFn = () =>
           cache.invalidate("Query", "sessionCurrentLive", {
             creatorId: (result.sessionCreate as Session).creatorId,
           });
+          cache.invalidate("Query", "sessionCurrentLive", {
+            mine: true,
+          });
         },
         sessionEnd: (result, args, cache) => {
           if (!result.sessionEnd) return;

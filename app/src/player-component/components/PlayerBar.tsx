@@ -72,7 +72,6 @@ const hiddenRoutes = [
   RouteName.NewFinal,
   RouteName.NewQuickShare,
   RouteName.NewSelectSongs,
-  RouteName.SignIn,
   RouteName.Map,
 ] as string[];
 

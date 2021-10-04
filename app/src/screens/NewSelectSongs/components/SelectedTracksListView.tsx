@@ -27,7 +27,6 @@ import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   footer: {
-    backgroundColor: Colors.backgroundSecondary,
     height: Size[12],
     justifyContent: "center",
     paddingHorizontal: Size[3],
@@ -36,7 +35,6 @@ const styles = StyleSheet.create({
   list: { flex: 1 },
   listView: {
     flex: 1,
-    paddingBottom: Size[12],
     paddingHorizontal: Size[3],
   },
   selectOpts: {

@@ -30,6 +30,10 @@ const commonScreenOptions: StackNavigationOptions = {
   headerLeft({ onPress, canGoBack }) {
     return <HeaderLeft onPress={onPress} canGoBack={canGoBack || false} />;
   },
+  cardStyle: {
+    minHeight: undefined,
+    flex: 1,
+  },
 };
 
 const Navigator: FC = () => {

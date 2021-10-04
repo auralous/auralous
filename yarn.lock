@@ -8757,10 +8757,15 @@ react-native-screens@^3.4.0, react-native-screens@^3.8.0:
   dependencies:
     warn-once "^0.1.0"
 
-react-native-spotify-remote@*, react-native-spotify-remote@^0.3.10:
+react-native-spotify-remote@*:
   version "0.3.10"
   resolved "https://registry.yarnpkg.com/react-native-spotify-remote/-/react-native-spotify-remote-0.3.10.tgz#6400e100e4490a9044e8d166c9eb9c8549f5c577"
   integrity sha512-6WVJ9EUXY/jNmOBY10+RrKr/OCaZkvMORZwzcPG/yM7bXCwPW20+wEooWwtfuJ8KGxSNmquZ+mF5qa8p/utSgA==
+  dependencies:
+    react-native-events "^1.0.15"
+
+"react-native-spotify-remote@file:../../react-native-spotify-remote":
+  version "0.3.10"
   dependencies:
     react-native-events "^1.0.15"
 

@@ -6,6 +6,7 @@ import "./assets/images/index";
 import reportWebVitals from "./reportWebVitals";
 import "./styles/reset.css";
 import "./styles/rnw.css";
+import "./styles/styles.css";
 
 AppRegistry.registerComponent("App", () => App);
 AppRegistry.runApplication("App", {

@@ -1,6 +1,7 @@
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import type { ParamList, RouteName } from "@/screens/types";
+import { Size } from "@/styles/spacing";
 import { SocialUserList } from "@/views/User";
 import {
   useSessionListenersQuery,
@@ -11,7 +12,7 @@ import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
-  root: { flex: 1 },
+  root: { flex: 1, paddingTop: Size[2] },
 });
 
 const SessionListenersScreen: FC<

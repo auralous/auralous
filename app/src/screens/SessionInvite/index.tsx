@@ -5,6 +5,7 @@ import { NotFoundScreen } from "@/components/NotFound";
 import { Spacer } from "@/components/Spacer";
 import { toast } from "@/components/Toast";
 import { Heading } from "@/components/Typography";
+import { useUiDispatch } from "@/context";
 import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
@@ -30,6 +31,8 @@ const SessionInviteScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.SessionInvite>
 > = ({ navigation, route }) => {
   const { t } = useTranslation();
+
+  const uiDispatch = useUiDispatch();
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
@@ -58,10 +61,10 @@ const SessionInviteScreen: FC<
 
   const onPress = useCallback(() => {
     if (!me) {
-      return navigation.navigate(RouteName.SignIn);
+      return uiDispatch({ type: "signIn", value: { visible: true } });
     }
     addCollab(route.params);
-  }, [me, navigation, route.params, addCollab]);
+  }, [me, uiDispatch, route.params, addCollab]);
 
   useEffect(() => {
     if (data?.sessionCollabAddFromToken === true) {

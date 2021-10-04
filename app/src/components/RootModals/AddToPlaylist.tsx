@@ -17,12 +17,12 @@ const styles = StyleSheet.create({
 });
 
 export const AddToPlaylistModal: FC = () => {
-  const { addToPlaylist } = useUi();
+  const ui = useUi();
   const uiDispatch = useUiDispatch();
 
   const [{ data }] = useTrackQuery({
-    variables: { id: addToPlaylist.trackId || "" },
-    pause: !addToPlaylist.trackId,
+    variables: { id: ui.addToPlaylist.trackId || "" },
+    pause: !ui.addToPlaylist.trackId,
   });
 
   const onDismiss = useCallback(
@@ -31,7 +31,7 @@ export const AddToPlaylistModal: FC = () => {
   );
 
   return (
-    <SlideModal visible={addToPlaylist.visible} onDismiss={onDismiss}>
+    <SlideModal visible={ui.addToPlaylist.visible} onDismiss={onDismiss}>
       <SafeAreaView style={styles.content}>
         {data?.track ? (
           <AddToPlaylist onDismiss={onDismiss} track={data.track} />

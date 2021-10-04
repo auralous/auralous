@@ -70,7 +70,7 @@ const PlaylistScreen: FC<
 > = ({ route, navigation }) => {
   const [{ data, fetching }] = usePlaylistQuery({
     variables: {
-      id: route.params.id,
+      id: decodeURIComponent(route.params.id), // "decode the ':' character"
     },
   });
 

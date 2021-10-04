@@ -1,3 +1,4 @@
+import { scrollTo } from "@/utils/animation";
 import {
   createContext,
   memo,
@@ -12,7 +13,7 @@ import type {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from "react-native";
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import type {
   BigListProps,
   BigListRenderItem,
@@ -23,7 +24,6 @@ import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler
 import { PanGestureHandler, ScrollView } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
-  scrollTo,
   useAnimatedGestureHandler,
   useAnimatedReaction,
   useAnimatedRef,
@@ -227,7 +227,7 @@ function DraggableItem<ItemT>({
 
 const MemoizedDraggableItem = memo(DraggableItem);
 
-const autoscrollSpeed = 100;
+const autoscrollSpeed = 10;
 const autoscrollThreshold = 30;
 const SCROLL_POSITION_TOLERANCE = 2;
 
@@ -352,11 +352,9 @@ export default function DraggableBigList<ItemT>({
         return;
       }
 
-      if (Platform.OS === "android") scrollDelta /= 10;
-
       if (Math.abs(scrollDelta) < SCROLL_POSITION_TOLERANCE) return;
       // @ts-ignore
-      scrollTo(scrollRef, 0, scrollOffsetValue + scrollDelta, true);
+      scrollTo(scrollRef, 0, scrollOffsetValue + scrollDelta, false);
     },
     [autoscrollSpeed, autoscrollThreshold]
   );

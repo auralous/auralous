@@ -1,4 +1,5 @@
 import type { TFunction } from "react-i18next";
+import { Platform } from "react-native";
 import HomeScreen from "./Home";
 import MapScreen from "./Map";
 import NewFinalScreen from "./NewFinal";
@@ -100,15 +101,19 @@ export const routesFn = (t: TFunction) => [
       title: t("session_listeners.title"),
     },
   },
-  {
-    name: RouteName.SignIn,
-    component: SignInScreen,
-    options: {
-      presentation: "modal" as const,
-      title: t("sign_in.title"),
-      headerTransparent: true,
-    },
-  },
+  ...(Platform.OS === "web"
+    ? []
+    : [
+        {
+          name: RouteName.SignIn,
+          component: SignInScreen,
+          options: {
+            presentation: "modal" as const,
+            title: t("sign_in.title"),
+            headerTransparent: true,
+          },
+        },
+      ]),
   {
     name: RouteName.NewSelectSongs,
     component: NewSelectSongsScreen,

@@ -1,12 +1,9 @@
-import { QueueModal } from "@/components/Queue";
 import player, {
   usePlaybackContextMeta,
   usePlaybackCurrentContext,
   usePlaybackCurrentControl,
-  usePlaybackNextItems,
   usePlaybackTrackId,
 } from "@/player";
-import { Size } from "@/styles/spacing";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
@@ -17,8 +14,6 @@ import PlayerViewProgress from "./PlayerViewProgress";
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    padding: Size[6],
-    paddingTop: Size[2],
   },
 });
 
@@ -31,7 +26,6 @@ const MusicView: FC = () => {
   const track = trackId ? data?.track : null;
 
   const currentControl = usePlaybackCurrentControl();
-  const nextItems = usePlaybackNextItems();
   const contextMeta = usePlaybackContextMeta(usePlaybackCurrentContext());
 
   return (
@@ -47,7 +41,6 @@ const MusicView: FC = () => {
         control={currentControl}
         player={player}
       />
-      <QueueModal currentTrack={track || null} nextItems={nextItems} />
     </View>
   );
 };

@@ -19,6 +19,7 @@ const linking: LinkingOptions<ParamList> = {
   prefixes: ["auralous://"],
   config: {
     screens: {
+      [RouteName.Home]: "",
       [RouteName.SignIn]: "sign-in",
       [RouteName.User]: "user/:username",
       [RouteName.Playlist]: "playlist/:id",

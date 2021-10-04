@@ -22,7 +22,6 @@ const buildExtraNodeModules = () => {
   ];
 
   for (const dependencyName of allDependencies) {
-    if (dependencyName === "postinstall-postinstall") continue;
     if (dependencyName.startsWith("@auralous")) continue;
 
     const depDir = require.resolve(dependencyName, {

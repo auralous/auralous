@@ -45,20 +45,23 @@ export const useStyle = (props: TextProps & { level?: number }) =>
       : props.level
       ? levelSize[props.level - 1]
       : sizes.md;
-    return {
-      ...fontWithWeight(
-        Font.Inter,
-        props.bold ? (props.bold === "medium" ? "medium" : "bold") : "normal"
-      ),
-      fontStyle: props.italic ? "italic" : "normal",
-      textAlign: props.align,
-      color: Colors[props.color || "text"] as string,
-      ...capsize({
-        fontMetrics,
-        fontSize: fontSize,
-        lineGap: (props.lineGapScale ?? 0.5) * fontSize,
-      }),
-    };
+    return StyleSheet.create({
+      // eslint-disable-next-line react-native/no-unused-styles
+      text: {
+        ...fontWithWeight(
+          Font.Inter,
+          props.bold ? (props.bold === "medium" ? "medium" : "bold") : "normal"
+        ),
+        color: Colors[props.color || "text"] as string,
+        fontStyle: props.italic ? "italic" : "normal",
+        textAlign: props.align,
+        ...capsize({
+          fontMetrics,
+          fontSize: fontSize,
+          lineGap: (props.lineGapScale ?? 0.5) * fontSize,
+        }),
+      },
+    }).text;
   }, [
     props.align,
     props.bold,
