@@ -44,6 +44,7 @@ const Context = createContext(
     hasMoved: Animated.SharedValue<boolean>;
     drag(index: number): void;
     getCellMeasurement(index: number): GetItemLayoutResult;
+    horizontal?: FlatListProps<unknown>["horizontal"];
   }
 );
 
@@ -69,7 +70,7 @@ type DraggableListProps<ItemT> = Omit<
 };
 
 type GetItemLayoutResult = ReturnType<
-  NonNullable<FlatListProps<any>["getItemLayout"]>
+  NonNullable<FlatListProps<unknown>["getItemLayout"]>
 >;
 
 interface DraggableItemProps<ItemT> {
@@ -113,6 +114,7 @@ function DraggableItem<ItemT>({ info, renderItem }: DraggableItemProps<ItemT>) {
     scrollOffset,
     getCellMeasurement,
     activeCellSizeValue,
+    horizontal,
   } = useContext(Context);
 
   const cellMeasurement = useMemo(
@@ -224,7 +226,11 @@ function DraggableItem<ItemT>({ info, renderItem }: DraggableItemProps<ItemT>) {
   const style = useAnimatedStyle(() => {
     return {
       width: "100%",
-      transform: [{ translateY: translateValue.value }],
+      transform: [
+        horizontal
+          ? { translateX: translateValue.value }
+          : { translateY: translateValue.value },
+      ],
       opacity: isActiveCell.value && hasMoved.value ? 0 : 1,
     };
   }, []);
@@ -249,6 +255,7 @@ export default function DraggableList<ItemT>({
   getItemLayout,
   style,
   data,
+  horizontal,
   ...props
 }: DraggableListProps<ItemT>) {
   const getCellMeasurement = useMemo(() => {
@@ -266,9 +273,10 @@ export default function DraggableList<ItemT>({
   const containerSize = useSharedValue(0);
   const onContainerLayout = useCallback(
     (event: LayoutChangeEvent) => {
-      containerSize.value = event.nativeEvent.layout.height;
+      containerSize.value =
+        event.nativeEvent.layout[horizontal ? "width" : "height"];
     },
-    [containerSize]
+    [containerSize, horizontal]
   );
 
   const touchAbsolute = useSharedValue(0); // Finger position on screen, relative to container (not scroll view)
@@ -311,7 +319,8 @@ export default function DraggableList<ItemT>({
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       onScrollProp?.(event);
-      scrollOffset.value = event.nativeEvent.contentOffset.y;
+      scrollOffset.value =
+        event.nativeEvent.contentOffset[horizontal ? "x" : "y"];
       // if (autoScrollTargetOffset.value !== -1) {
       //   if (
       //     Math.abs(autoScrollTargetOffset.value - scrollOffset.value) <=
@@ -321,7 +330,7 @@ export default function DraggableList<ItemT>({
       //   }
       // }
     },
-    [onScrollProp, scrollOffset]
+    [onScrollProp, scrollOffset, horizontal]
   );
 
   // Prevent user scrolling while dragging
@@ -423,16 +432,17 @@ export default function DraggableList<ItemT>({
   const eventHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>(
     {
       onActive: (event) => {
+        const eventPos = horizontal ? event.x : event.y;
         if (!isHovering.value) return;
         if (!activeCellMeasurement) return;
         if (hasMoved.value === false) {
           // We cannot use onStart because it is fired before activeIndex is set
           // so we workaround by depending on hasMoved
           touchInset.value =
-            event.y - (activeCellMeasurement.offset - scrollOffset.value); // Distance from touch to the edge of active cell
+            eventPos - (activeCellMeasurement.offset - scrollOffset.value); // Distance from touch to the edge of active cell
           hasMoved.value = true;
         }
-        touchAbsolute.value = event.y;
+        touchAbsolute.value = eventPos;
       },
       // BEGAN ------> ACTIVE ------> END
       onEnd: () => {
@@ -450,7 +460,7 @@ export default function DraggableList<ItemT>({
       // BEGAN ------> ANY ------> FINISHED
       onFinish: clearAnimState,
     },
-    [onDragEnd, clearAnimState, activeCellMeasurement]
+    [onDragEnd, clearAnimState, activeCellMeasurement, horizontal]
   );
 
   const renderItem: ListRenderItem<ItemT> = useCallback(
@@ -459,7 +469,7 @@ export default function DraggableList<ItemT>({
         <MemoizedDraggableItem
           key={keyExtractor(info.item, info.index)}
           info={info}
-          renderItem={renderItemProp as any}
+          renderItem={renderItemProp as DraggableListRenderItem<ItemT>}
         />
       );
     },
@@ -477,6 +487,7 @@ export default function DraggableList<ItemT>({
         scrollOffset,
         hasMoved,
         getCellMeasurement,
+        horizontal,
       }}
     >
       <PanGestureHandler
@@ -507,6 +518,7 @@ export default function DraggableList<ItemT>({
             onScroll={onScroll}
             onContentSizeChange={onContentSizeChange}
             style={styles.list}
+            horizontal={horizontal}
             scrollEnabled={!scrollDisabled}
           />
         </Animated.View>
