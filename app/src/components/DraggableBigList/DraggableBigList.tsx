@@ -236,7 +236,6 @@ export default function DraggableBigList<ItemT>({
   onDragEnd,
   onScroll: onScrollProp,
   keyExtractor,
-  onLayout: onLayoutProp,
   style,
   ...props
 }: DraggableBigListProps<ItemT>) {
@@ -280,12 +279,23 @@ export default function DraggableBigList<ItemT>({
   const scrollRef = useAnimatedRef();
 
   const scrollOffset = useSharedValue(0);
-  const scrollViewSize = useSharedValue(0);
+
+  const scrollContentSize = (props.data?.length || 0) * props.itemHeight;
+
+  // const autoScrollTargetOffset = useSharedValue(-1);
 
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       onScrollProp?.(event);
       scrollOffset.value = event.nativeEvent.contentOffset.y;
+      // if (autoScrollTargetOffset.value !== -1) {
+      //   if (
+      //     Math.abs(autoScrollTargetOffset.value - scrollOffset.value) <=
+      //     SCROLL_POSITION_TOLERANCE
+      //   ) {
+      //     autoScrollTargetOffset.value = -1;
+      //   }
+      // }
     },
     [onScrollProp, scrollOffset]
   );
@@ -298,14 +308,6 @@ export default function DraggableBigList<ItemT>({
       runOnJS(setScrollDisabled)(activeIndexAnimValue !== -1);
     },
     []
-  );
-
-  const onLayout = useCallback(
-    (event: LayoutChangeEvent) => {
-      onLayoutProp?.(event);
-      scrollViewSize.value = event.nativeEvent.layout.height;
-    },
-    [onLayoutProp, scrollViewSize]
   );
 
   // Distance between hovering cell and container
@@ -321,6 +323,7 @@ export default function DraggableBigList<ItemT>({
         scrollOffsetValue: scrollOffset.value,
         activeCellSizeValue: activeCellSize.value,
         containerSizeValue: containerSize.value,
+        // autoScrollTargetOffsetValue: autoScrollTargetOffset.value,
       };
     },
     ({
@@ -328,8 +331,11 @@ export default function DraggableBigList<ItemT>({
       scrollOffsetValue,
       activeCellSizeValue,
       containerSizeValue,
+      // autoScrollTargetOffsetValue,
     }) => {
       if (!hasMoved.value) return;
+      // if (autoScrollTargetOffsetValue !== -1) return;
+
       let scrollDelta = 0;
 
       const hoverOffsetEndValue = hoverOffsetValue + activeCellSizeValue;
@@ -352,11 +358,28 @@ export default function DraggableBigList<ItemT>({
         return;
       }
 
-      if (Math.abs(scrollDelta) < SCROLL_POSITION_TOLERANCE) return;
-      // @ts-ignore
-      scrollTo(scrollRef, 0, scrollOffsetValue + scrollDelta, false);
+      const calculatedTargetOffset = Math.min(
+        Math.max(0, scrollOffsetValue + scrollDelta),
+        scrollContentSize - containerSizeValue
+      ); // must be greater than 0 while < max scroll offset
+
+      if (
+        Math.abs(calculatedTargetOffset - scrollOffsetValue) <
+        SCROLL_POSITION_TOLERANCE
+      )
+        return;
+
+      // autoScrollTargetOffset.value = calculatedTargetOffset;
+
+      scrollTo(
+        // @ts-ignore
+        scrollRef,
+        0,
+        calculatedTargetOffset,
+        false
+      );
     },
-    [autoscrollSpeed, autoscrollThreshold]
+    [scrollContentSize]
   );
 
   const drag = useCallback(
@@ -466,7 +489,6 @@ export default function DraggableBigList<ItemT>({
             onScroll={onScroll}
             style={styles.list}
             scrollEnabled={!scrollDisabled}
-            onLayout={onLayout}
             // @ts-ignore
             ScrollView={ScrollView}
           />

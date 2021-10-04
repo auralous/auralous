@@ -19,7 +19,7 @@ export function useSharedValuePressed() {
   ] as const;
 }
 
-export const scrollTo: typeof rnrScrollTo = (aref, x, y, animated) => {
+export const scrollTo: typeof rnrScrollTo = (aref, x, y, animated = false) => {
   "worklet";
   if (Platform.OS === "web") {
     try {
