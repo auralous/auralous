@@ -36,13 +36,14 @@ import Animated, {
 
 const Context = createContext(
   {} as {
+    activeCellSizeValue: number | undefined;
     scrollOffset: Animated.SharedValue<number>;
     activeIndexAnim: Animated.SharedValue<number>;
     spacerIndexAnim: Animated.SharedValue<number>;
-    activeCellSize: Animated.SharedValue<number>;
     hoverOffset: Animated.SharedValue<number>;
     hasMoved: Animated.SharedValue<boolean>;
     drag(index: number): void;
+    getCellMeasurement(index: number): GetItemLayoutResult;
   }
 );
 
@@ -67,10 +68,13 @@ type DraggableListProps<ItemT> = Omit<
   getItemLayout: NonNullable<FlatListProps<ItemT>["getItemLayout"]>;
 };
 
+type GetItemLayoutResult = ReturnType<
+  NonNullable<FlatListProps<any>["getItemLayout"]>
+>;
+
 interface DraggableItemProps<ItemT> {
   info: ListRenderItemInfo<ItemT>;
   renderItem: DraggableListRenderItem<ItemT>;
-  itemHeight: number;
 }
 
 function ClonedDraggableItem<ItemT>({
@@ -99,27 +103,32 @@ function ClonedDraggableItem<ItemT>({
   );
 }
 
-function DraggableItem<ItemT>({
-  info,
-  renderItem,
-  itemHeight,
-}: DraggableItemProps<ItemT>) {
+function DraggableItem<ItemT>({ info, renderItem }: DraggableItemProps<ItemT>) {
   const {
     activeIndexAnim,
     spacerIndexAnim,
     drag: setDragging,
-    activeCellSize,
     hoverOffset,
     hasMoved,
     scrollOffset,
+    getCellMeasurement,
+    activeCellSizeValue,
   } = useContext(Context);
+
+  const cellMeasurement = useMemo(
+    () => getCellMeasurement(info.index),
+    [getCellMeasurement, info.index]
+  );
 
   // Distance between active cell and edge of scroll view
   const cellOffset = useDerivedValue(
-    () => info.index * itemHeight,
-    [info.index, itemHeight]
+    () => cellMeasurement.offset,
+    [info.index, cellMeasurement]
   );
-  const cellSize = useDerivedValue(() => itemHeight, [itemHeight]);
+  const cellSize = useDerivedValue(
+    () => cellMeasurement.length,
+    [cellMeasurement.length]
+  );
   const cellIndex = useDerivedValue(() => info.index, [info.index]);
 
   const isActiveCell = useDerivedValue(() => {
@@ -130,9 +139,11 @@ function DraggableItem<ItemT>({
     () => {
       // Do not calculate before moving and if is active cell
       if (!hasMoved.value || isActiveCell.value) return -1;
+      // Can't measure active cellSize
+      if (!activeCellSizeValue) return -1;
       // Distance between hovering cell and edge of scroll view
       const hoverOffsetValue = hoverOffset.value + scrollOffset.value;
-      const hoverPlusActiveSize = hoverOffsetValue + activeCellSize.value;
+      const hoverPlusActiveSize = hoverOffsetValue + activeCellSizeValue;
 
       const isAfterActive = cellIndex.value > activeIndexAnim.value;
       const isBeforeActive = cellIndex.value < activeIndexAnim.value;
@@ -182,7 +193,7 @@ function DraggableItem<ItemT>({
         spacerIndexAnim.value = desiredSpacerAnim;
       }
     },
-    []
+    [activeCellSizeValue]
   );
 
   const translateValue = useSharedValue(0);
@@ -190,19 +201,20 @@ function DraggableItem<ItemT>({
   useAnimatedReaction(
     () => {
       if (isActiveCell.value) return null;
+      if (!activeCellSizeValue) return null;
       const isAfterActive = cellIndex.value > activeIndexAnim.value;
       const shouldTranslate = isAfterActive
         ? cellIndex.value <= spacerIndexAnim.value
         : cellIndex.value >= spacerIndexAnim.value;
       return shouldTranslate
-        ? activeCellSize.value * (isAfterActive ? -1 : 1)
+        ? activeCellSizeValue * (isAfterActive ? -1 : 1)
         : 0;
     },
     (isActiveCellValue) => {
       if (typeof isActiveCellValue === "number")
         translateValue.value = withTiming(isActiveCellValue);
     },
-    []
+    [activeCellSizeValue]
   );
 
   const drag = useCallback(() => {
@@ -232,10 +244,25 @@ export default function DraggableList<ItemT>({
   renderItem: renderItemProp,
   onDragEnd,
   onScroll: onScrollProp,
+  onContentSizeChange: onContentSizeChangeProp,
   keyExtractor,
+  getItemLayout,
   style,
+  data,
   ...props
 }: DraggableListProps<ItemT>) {
+  const getCellMeasurement = useMemo(() => {
+    const measurementCache = new Map<number, GetItemLayoutResult>();
+    return (index: number) => {
+      if (measurementCache.has(index)) {
+        return measurementCache.get(index) as GetItemLayoutResult;
+      }
+      const measured = getItemLayout(data as ItemT[] | null | undefined, index);
+      measurementCache.set(index, measured);
+      return measured;
+    };
+  }, [getItemLayout, data]);
+
   const containerSize = useSharedValue(0);
   const onContainerLayout = useCallback(
     (event: LayoutChangeEvent) => {
@@ -259,24 +286,10 @@ export default function DraggableList<ItemT>({
     return activeIndexAnim.value > -1;
   }, []);
 
-  // FIXME: assume fixed height
-  const { getItemLayout } = props;
-  const itemHeight = useMemo(
-    () => getItemLayout([], 0).length,
-    [getItemLayout]
-  );
-
-  // Height or width of active cell
-  const activeCellSize = useDerivedValue(
-    () => itemHeight, // FIXME: force casted
-    [itemHeight]
-  );
-
-  // Distance between active cell and edge of scroll view
-  const activeCellOffset = useDerivedValue(() => {
-    if (!isHovering.value) return 0;
-    return activeIndexAnim.value * activeCellSize.value;
-  }, []);
+  const activeCellMeasurement = useMemo(() => {
+    if (activeIndex === -1) return null;
+    else return getCellMeasurement(activeIndex);
+  }, [getCellMeasurement, activeIndex]);
 
   const panRef = useRef<PanGestureHandler>(null);
 
@@ -284,7 +297,14 @@ export default function DraggableList<ItemT>({
 
   const scrollOffset = useSharedValue(0);
 
-  const scrollContentSize = (props.data?.length || 0) * itemHeight;
+  const scrollContentSize = useSharedValue(0);
+  const onContentSizeChange = useCallback(
+    (w: number, h: number) => {
+      onContentSizeChangeProp?.(w, h);
+      scrollContentSize.value = h;
+    },
+    [onContentSizeChangeProp, scrollContentSize]
+  );
 
   // const autoScrollTargetOffset = useSharedValue(-1);
 
@@ -325,24 +345,25 @@ export default function DraggableList<ItemT>({
       return {
         hoverOffsetValue: hoverOffset.value,
         scrollOffsetValue: scrollOffset.value,
-        activeCellSizeValue: activeCellSize.value,
         containerSizeValue: containerSize.value,
+        scrollContentSizeValue: scrollContentSize.value,
         // autoScrollTargetOffsetValue: autoScrollTargetOffset.value,
       };
     },
     ({
       hoverOffsetValue,
       scrollOffsetValue,
-      activeCellSizeValue,
       containerSizeValue,
+      scrollContentSizeValue,
       // autoScrollTargetOffsetValue,
     }) => {
-      if (!hasMoved.value) return;
+      if (!hasMoved.value || !activeCellMeasurement) return;
       // if (autoScrollTargetOffsetValue !== -1) return;
 
       let scrollDelta = 0;
 
-      const hoverOffsetEndValue = hoverOffsetValue + activeCellSizeValue;
+      const hoverOffsetEndValue =
+        hoverOffsetValue + activeCellMeasurement.length;
 
       if (hoverOffsetValue <= autoscrollThreshold) {
         // Should scroll up
@@ -364,7 +385,7 @@ export default function DraggableList<ItemT>({
 
       const calculatedTargetOffset = Math.min(
         Math.max(0, scrollOffsetValue + scrollDelta),
-        scrollContentSize - containerSizeValue
+        scrollContentSizeValue - containerSizeValue
       ); // must be greater than 0 while < max scroll offset
 
       if (
@@ -376,7 +397,7 @@ export default function DraggableList<ItemT>({
       // autoScrollTargetOffset.value = calculatedTargetOffset;
       scrollTo(scrollRef, 0, calculatedTargetOffset, false);
     },
-    [scrollContentSize]
+    [activeCellMeasurement]
   );
 
   const drag = useCallback(
@@ -397,17 +418,18 @@ export default function DraggableList<ItemT>({
     touchInset.value = 0;
   }, []);
 
-  useEffect(clearAnimState, [props.data, clearAnimState]);
+  useEffect(clearAnimState, [data, clearAnimState]);
 
   const eventHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>(
     {
       onActive: (event) => {
         if (!isHovering.value) return;
+        if (!activeCellMeasurement) return;
         if (hasMoved.value === false) {
           // We cannot use onStart because it is fired before activeIndex is set
           // so we workaround by depending on hasMoved
           touchInset.value =
-            event.y - (activeCellOffset.value - scrollOffset.value); // Distance from touch to the edge of active cell
+            event.y - (activeCellMeasurement.offset - scrollOffset.value); // Distance from touch to the edge of active cell
           hasMoved.value = true;
         }
         touchAbsolute.value = event.y;
@@ -428,7 +450,7 @@ export default function DraggableList<ItemT>({
       // BEGAN ------> ANY ------> FINISHED
       onFinish: clearAnimState,
     },
-    [onDragEnd, clearAnimState]
+    [onDragEnd, clearAnimState, activeCellMeasurement]
   );
 
   const renderItem: ListRenderItem<ItemT> = useCallback(
@@ -438,23 +460,23 @@ export default function DraggableList<ItemT>({
           key={keyExtractor(info.item, info.index)}
           info={info}
           renderItem={renderItemProp as any}
-          itemHeight={itemHeight}
         />
       );
     },
-    [renderItemProp, keyExtractor, itemHeight]
+    [renderItemProp, keyExtractor]
   );
 
   return (
     <Context.Provider
       value={{
         drag,
+        activeCellSizeValue: activeCellMeasurement?.length,
         activeIndexAnim,
         spacerIndexAnim,
-        activeCellSize,
         hoverOffset,
         scrollOffset,
         hasMoved,
+        getCellMeasurement,
       }}
     >
       <PanGestureHandler
@@ -463,25 +485,27 @@ export default function DraggableList<ItemT>({
         maxPointers={1}
       >
         <Animated.View style={style} onLayout={onContainerLayout}>
-          {activeIndex !== -1 && props.data?.[activeIndex] && (
+          {activeIndex !== -1 && data?.[activeIndex] && (
             <ClonedDraggableItem
               info={{
                 index: activeIndex,
                 // FIXME: Support separators
                 separators: undefined as unknown as any,
-                item: props.data[activeIndex],
+                item: data[activeIndex],
               }}
               renderItem={renderItemProp}
-              itemHeight={itemHeight}
             />
           )}
           <FlatList
             {...props}
             // @ts-ignore
             ref={scrollRef}
+            data={data}
             keyExtractor={keyExtractor}
+            getItemLayout={getItemLayout}
             renderItem={renderItem}
             onScroll={onScroll}
+            onContentSizeChange={onContentSizeChange}
             style={styles.list}
             scrollEnabled={!scrollDisabled}
           />
