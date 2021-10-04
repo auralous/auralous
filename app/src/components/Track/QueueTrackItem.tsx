@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
   check: {
     height: Size[12],
     justifyContent: "center",
-    paddingHorizontal: Size[2],
   },
   drag: {
     alignItems: "center",

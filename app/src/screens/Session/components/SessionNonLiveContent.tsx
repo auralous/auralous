@@ -1,5 +1,5 @@
 import { Button } from "@/components/Button";
-import { renderLoadingScreen } from "@/components/Loading";
+import { LoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
@@ -14,9 +14,8 @@ import { useSessionTracksQuery } from "@auralous/api";
 import type { FC } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import type { BigListRenderItem } from "react-native-big-list";
-import BigList from "react-native-big-list";
+import type { ListRenderItem } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import SessionMeta from "./SessionMeta";
 
 const styles = StyleSheet.create({
@@ -24,6 +23,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: Size[3],
+    paddingVertical: Size[1],
   },
   tag: {
     alignItems: "center",
@@ -74,9 +74,16 @@ const SessionTrackItem = memo<{
   );
 });
 
-const renderItem: BigListRenderItem<Track> = ({ item, index }) => (
+const renderItem: ListRenderItem<Track> = ({ item, index }) => (
   <SessionTrackItem key={index} track={item} index={index} />
 );
+const itemHeight = Size[12] + 2 * Size[1] + Size[2];
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
+const ItemSeparatorComponent = () => <Spacer y={2} />;
 
 const SessionNonLiveContent: FC<{
   session: Session;
@@ -103,42 +110,42 @@ const SessionNonLiveContent: FC<{
     [onQuickShare, session]
   );
 
-  const renderHeader = useCallback(
-    () => (
-      <SessionMeta
-        session={session}
-        tag={
-          <View style={styles.tag}>
-            <Text size="sm" style={styles.tagText}>
-              {t("session.title")} •{" "}
-              {t("playlist.x_song", { count: session.trackTotal })}
-            </Text>
-          </View>
-        }
-        buttons={
-          <>
-            <Button onPress={shufflePlay}>{t("player.shuffle_play")}</Button>
-            <Spacer x={2} />
-            <Button onPress={quickShare} variant="primary">
-              {t("new.quick_share.title")}
-            </Button>
-          </>
-        }
-      />
-    ),
-    [t, session, quickShare, shufflePlay]
-  );
-
   return (
     <>
       <SessionIdContext.Provider value={session.id}>
-        <BigList
-          headerHeight={320}
-          renderHeader={renderHeader}
-          renderEmpty={fetching ? renderLoadingScreen : undefined}
-          itemHeight={Size[12] + 2 * Size[1] + Size[2]} // height + 2 * padding + seperator
+        <FlatList
+          ListHeaderComponent={
+            <SessionMeta
+              session={session}
+              tag={
+                <View style={styles.tag}>
+                  <Text size="sm" style={styles.tagText}>
+                    {t("session.title")} •{" "}
+                    {t("playlist.x_song", { count: session.trackTotal })}
+                  </Text>
+                </View>
+              }
+              buttons={
+                <>
+                  <Button onPress={shufflePlay}>
+                    {t("player.shuffle_play")}
+                  </Button>
+                  <Spacer x={2} />
+                  <Button onPress={quickShare} variant="primary">
+                    {t("new.quick_share.title")}
+                  </Button>
+                </>
+              }
+            />
+          }
+          ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
+          ItemSeparatorComponent={ItemSeparatorComponent}
           data={data?.sessionTracks || []}
           renderItem={renderItem}
+          getItemLayout={getItemLayout}
+          initialNumToRender={0}
+          removeClippedSubviews
+          windowSize={10}
         />
       </SessionIdContext.Provider>
     </>

@@ -1,5 +1,6 @@
 import { Container } from "@/components/Layout";
-import { renderLoadingScreen } from "@/components/Loading";
+import { LoadingScreen } from "@/components/Loading";
+import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import player, {
   uidForIndexedTrack,
@@ -11,17 +12,16 @@ import type { Playlist, Track } from "@auralous/api";
 import { usePlaylistTracksQuery } from "@auralous/api";
 import type { FC } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
-import type { BigListRenderItem } from "react-native-big-list";
-import BigList from "react-native-big-list";
+import type { ListRenderItem } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import PlaylistMeta from "./PlaylistMeta";
 
 const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     flexDirection: "row",
-    padding: Size[1],
     paddingHorizontal: Size[3],
+    paddingVertical: Size[1],
     width: "100%",
   },
   root: { height: "100%" },
@@ -63,9 +63,16 @@ const PlaylistTrackItem = memo<{
   );
 });
 
-const renderItem: BigListRenderItem<Track> = ({ item, index }) => {
+const renderItem: ListRenderItem<Track> = ({ item, index }) => {
   return <PlaylistTrackItem key={index} track={item} index={index} />;
 };
+const itemHeight = Size[12] + 2 * Size[1] + Size[2];
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
+const ItemSeparatorComponent = () => <Spacer y={2} />;
 
 export const PlaylistScreenContent: FC<{
   playlist: Playlist;
@@ -77,21 +84,21 @@ export const PlaylistScreenContent: FC<{
     },
   });
 
-  const renderHeader = useCallback(
-    () => <PlaylistMeta onQuickShare={onQuickShare} playlist={playlist} />,
-    [playlist, onQuickShare]
-  );
-
   return (
     <Container style={styles.root}>
       <PlaylistIdContext.Provider value={playlist.id}>
-        <BigList
-          headerHeight={320}
-          renderHeader={renderHeader}
-          renderEmpty={fetching ? renderLoadingScreen : undefined}
-          itemHeight={Size[12] + 2 * Size[1] + Size[2]} // height + 2 * padding + seperator
+        <FlatList
+          ListHeaderComponent={
+            <PlaylistMeta onQuickShare={onQuickShare} playlist={playlist} />
+          }
+          ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
+          ItemSeparatorComponent={ItemSeparatorComponent}
           data={data?.playlistTracks || []}
           renderItem={renderItem}
+          getItemLayout={getItemLayout}
+          initialNumToRender={0}
+          removeClippedSubviews
+          windowSize={10}
         />
       </PlaylistIdContext.Provider>
     </Container>

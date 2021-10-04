@@ -1,5 +1,6 @@
 import { IconCheck } from "@/assets";
 import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
 import { useSharedValuePressed } from "@/utils/animation";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -45,8 +46,8 @@ const Checkbox: FC<CheckboxProps> = ({
   const [pressed, pressedProps] = useSharedValuePressed();
 
   const stylesRoot = useAnimatedStyle<ViewStyle>(() => ({
-    width: 32,
-    height: 32,
+    width: Size[10],
+    height: Size[10],
     justifyContent: "center",
     alignItems: "center",
     transform: [{ scale: withTiming(pressed.value ? 0.8 : 1) }],

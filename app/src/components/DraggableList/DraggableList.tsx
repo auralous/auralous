@@ -1,27 +1,27 @@
 import { scrollTo } from "@/utils/animation";
+import type { ReactElement } from "react";
 import {
   createContext,
   memo,
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import type {
+  FlatListProps,
   LayoutChangeEvent,
+  ListRenderItem,
+  ListRenderItemInfo,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  ScrollView,
 } from "react-native";
 import { StyleSheet } from "react-native";
-import type {
-  BigListProps,
-  BigListRenderItem,
-  BigListRenderItemInfo,
-} from "react-native-big-list";
-import BigList from "react-native-big-list";
 import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler, ScrollView } from "react-native-gesture-handler";
+import { FlatList, PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -48,28 +48,28 @@ const Context = createContext(
 
 const styles = StyleSheet.create({ list: { flex: 1, overflow: "hidden" } });
 
-export interface DraggableBigListRenderItemInfo<ItemT>
-  extends BigListRenderItemInfo<ItemT> {
+export interface DraggableListRenderItemInfo<ItemT>
+  extends ListRenderItemInfo<ItemT> {
   drag(): void;
 }
 
-export type DraggableBigListRenderItem<ItemT> = (
-  info: DraggableBigListRenderItemInfo<ItemT>
-) => JSX.Element | JSX.Element[] | null;
+export type DraggableListRenderItem<ItemT> = (
+  info: DraggableListRenderItemInfo<ItemT>
+) => ReactElement;
 
-type DraggableBigListProps<ItemT> = Omit<
-  BigListProps<ItemT>,
+type DraggableListProps<ItemT> = Omit<
+  FlatListProps<ItemT>,
   "renderItem" | "keyExtractor" | "itemHeight"
 > & {
   onDragEnd(from: number, to: number): void;
-  renderItem: DraggableBigListRenderItem<ItemT>;
-  keyExtractor: NonNullable<BigListProps<ItemT>["keyExtractor"]>;
-  itemHeight: number;
+  renderItem: DraggableListRenderItem<ItemT>;
+  keyExtractor: NonNullable<FlatListProps<ItemT>["keyExtractor"]>;
+  getItemLayout: NonNullable<FlatListProps<ItemT>["getItemLayout"]>;
 };
 
 interface DraggableItemProps<ItemT> {
-  info: BigListRenderItemInfo<ItemT>;
-  renderItem: DraggableBigListRenderItem<ItemT>;
+  info: ListRenderItemInfo<ItemT>;
+  renderItem: DraggableListRenderItem<ItemT>;
   itemHeight: number;
 }
 
@@ -90,8 +90,6 @@ function ClonedDraggableItem<ItemT>({
       top: hoverOffset.value,
       zIndex: 1,
       opacity: 0.5,
-      // because display: none does not work
-      // https://stackoverflow.com/questions/47378068/using-display-none-instead-of-condition-state-rendering
       transform: hasMoved.value ? undefined : [{ scale: 0 }],
     };
   }, []);
@@ -215,8 +213,7 @@ function DraggableItem<ItemT>({
     return {
       width: "100%",
       transform: [{ translateY: translateValue.value }],
-      opacity: isActiveCell.value ? 0.5 : 1,
-      display: isActiveCell.value && hasMoved.value ? "none" : "flex",
+      opacity: isActiveCell.value && hasMoved.value ? 0 : 1,
     };
   }, []);
 
@@ -231,14 +228,14 @@ const autoscrollSpeed = 10;
 const autoscrollThreshold = 30;
 const SCROLL_POSITION_TOLERANCE = 2;
 
-export default function DraggableBigList<ItemT>({
+export default function DraggableList<ItemT>({
   renderItem: renderItemProp,
   onDragEnd,
   onScroll: onScrollProp,
   keyExtractor,
   style,
   ...props
-}: DraggableBigListProps<ItemT>) {
+}: DraggableListProps<ItemT>) {
   const containerSize = useSharedValue(0);
   const onContainerLayout = useCallback(
     (event: LayoutChangeEvent) => {
@@ -262,10 +259,17 @@ export default function DraggableBigList<ItemT>({
     return activeIndexAnim.value > -1;
   }, []);
 
+  // FIXME: assume fixed height
+  const { getItemLayout } = props;
+  const itemHeight = useMemo(
+    () => getItemLayout([], 0).length,
+    [getItemLayout]
+  );
+
   // Height or width of active cell
   const activeCellSize = useDerivedValue(
-    () => props.itemHeight, // FIXME: force casted
-    [props.itemHeight]
+    () => itemHeight, // FIXME: force casted
+    [itemHeight]
   );
 
   // Distance between active cell and edge of scroll view
@@ -276,11 +280,11 @@ export default function DraggableBigList<ItemT>({
 
   const panRef = useRef<PanGestureHandler>(null);
 
-  const scrollRef = useAnimatedRef();
+  const scrollRef = useAnimatedRef<ScrollView>();
 
   const scrollOffset = useSharedValue(0);
 
-  const scrollContentSize = (props.data?.length || 0) * props.itemHeight;
+  const scrollContentSize = (props.data?.length || 0) * itemHeight;
 
   // const autoScrollTargetOffset = useSharedValue(-1);
 
@@ -370,14 +374,7 @@ export default function DraggableBigList<ItemT>({
         return;
 
       // autoScrollTargetOffset.value = calculatedTargetOffset;
-
-      scrollTo(
-        // @ts-ignore
-        scrollRef,
-        0,
-        calculatedTargetOffset,
-        false
-      );
+      scrollTo(scrollRef, 0, calculatedTargetOffset, false);
     },
     [scrollContentSize]
   );
@@ -434,18 +431,18 @@ export default function DraggableBigList<ItemT>({
     [onDragEnd, clearAnimState]
   );
 
-  const renderItem: BigListRenderItem<ItemT> = useCallback(
+  const renderItem: ListRenderItem<ItemT> = useCallback(
     (info) => {
       return (
         <MemoizedDraggableItem
           key={keyExtractor(info.item, info.index)}
           info={info}
           renderItem={renderItemProp as any}
-          itemHeight={props.itemHeight}
+          itemHeight={itemHeight}
         />
       );
     },
-    [renderItemProp, keyExtractor, props.itemHeight]
+    [renderItemProp, keyExtractor, itemHeight]
   );
 
   return (
@@ -475,22 +472,18 @@ export default function DraggableBigList<ItemT>({
                 item: props.data[activeIndex],
               }}
               renderItem={renderItemProp}
-              itemHeight={props.itemHeight}
+              itemHeight={itemHeight}
             />
           )}
-          <BigList
+          <FlatList
             {...props}
-            ref={(ref) => {
-              // @ts-ignore
-              if (ref) scrollRef(ref.getNativeScrollRef());
-            }}
+            // @ts-ignore
+            ref={scrollRef}
             keyExtractor={keyExtractor}
             renderItem={renderItem}
             onScroll={onScroll}
             style={styles.list}
             scrollEnabled={!scrollDisabled}
-            // @ts-ignore
-            ScrollView={ScrollView}
           />
         </Animated.View>
       </PanGestureHandler>

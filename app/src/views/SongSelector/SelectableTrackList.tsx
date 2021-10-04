@@ -1,13 +1,13 @@
 import { IconCheck, IconPlus } from "@/assets";
 import { LoadingScreen } from "@/components/Loading";
+import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Size } from "@/styles/spacing";
 import type { Track } from "@auralous/api";
 import type { FC } from "react";
 import { memo, useCallback, useMemo } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import type { BigListRenderItem } from "react-native-big-list";
-import BigList from "react-native-big-list";
+import type { ListRenderItem } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSelectedTracks, useUpdateTracks } from "./Context";
 import SearchEmpty from "./SearchEmpty";
 
@@ -64,22 +64,33 @@ const SelectableTrackListItem: FC<{ track: Track }> = ({ track }) => {
 
 const MemoSelectableTrackListItem = memo(SelectableTrackListItem);
 
-const renderItem: BigListRenderItem<Track> = ({ item, index }) => {
+const itemHeight = Size[12] + 2 * itemPadding + Size[2];
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
+const renderItem: ListRenderItem<Track> = ({ item, index }) => {
   return (
     <MemoSelectableTrackListItem key={`${index}${item.id}`} track={item} />
   );
 };
+const ItemSeparatorComponent = () => <Spacer y={2} />;
 
 const SelectableTrackList: FC<{
   fetching: boolean;
   data: Track[];
 }> = ({ fetching, data }) => {
   return (
-    <BigList
+    <FlatList
       ListEmptyComponent={fetching ? <LoadingScreen /> : <SearchEmpty />}
-      data={data}
-      itemHeight={Size[12] + itemPadding * 2 + Size[2]} // height + 2 * padding + seperator
+      ItemSeparatorComponent={ItemSeparatorComponent}
+      data={data || []}
       renderItem={renderItem}
+      getItemLayout={getItemLayout}
+      initialNumToRender={0}
+      removeClippedSubviews
+      windowSize={10}
     />
   );
 };

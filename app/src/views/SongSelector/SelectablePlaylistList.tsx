@@ -1,12 +1,12 @@
 import { LoadingScreen } from "@/components/Loading";
 import { PlaylistListItem } from "@/components/Playlist";
+import { Spacer } from "@/components/Spacer";
 import { Size } from "@/styles/spacing";
 import type { Playlist } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
-import type { BigListRenderItem } from "react-native-big-list";
-import BigList from "react-native-big-list";
+import type { ListRenderItem } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import SearchEmpty from "./SearchEmpty";
 
 interface SelectablePlaylistListProps {
@@ -23,12 +23,20 @@ const styles = StyleSheet.create({
   },
 });
 
+const itemHeight = Size[12] + 2 * Size[1] + Size[2];
+const ItemSeparatorComponent = () => <Spacer y={2} />;
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
+
 const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
   fetching,
   playlists,
   onSelect,
 }) => {
-  const renderItem = useCallback<BigListRenderItem<Playlist>>(
+  const renderItem = useCallback<ListRenderItem<Playlist>>(
     ({ item }) => (
       <TouchableOpacity
         key={item.id}
@@ -42,11 +50,15 @@ const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
   );
 
   return (
-    <BigList
+    <FlatList
       ListEmptyComponent={fetching ? <LoadingScreen /> : <SearchEmpty />}
+      ItemSeparatorComponent={ItemSeparatorComponent}
       data={playlists}
-      itemHeight={Size[12] + itemPadding * 2 + Size[2]} // height + 2 * padding + seperator
       renderItem={renderItem}
+      getItemLayout={getItemLayout}
+      initialNumToRender={0}
+      removeClippedSubviews
+      windowSize={10}
     />
   );
 };

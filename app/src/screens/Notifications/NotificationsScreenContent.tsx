@@ -16,9 +16,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
-import { StyleSheet, TouchableHighlight } from "react-native";
-import type { BigListRenderItem } from "react-native-big-list";
-import BigList from "react-native-big-list";
+import type { ListRenderItem } from "react-native";
+import { FlatList, StyleSheet, TouchableHighlight } from "react-native";
 
 const NotificationItem: FC<{
   notification: NotificationFollow | NotificationNewSession;
@@ -56,12 +55,6 @@ const NotificationItem: FC<{
   );
 };
 
-const renderItem: BigListRenderItem<
-  NotificationFollow | NotificationNewSession
-> = (info) => {
-  return <NotificationItem key={info.item.id} notification={info.item} />;
-};
-
 const styles = StyleSheet.create({
   container: {
     height: "100%",
@@ -70,6 +63,17 @@ const styles = StyleSheet.create({
     paddingVertical: Size[1],
   },
 });
+
+const itemHeight = Size[16];
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
+const renderItem: ListRenderItem<NotificationFollow | NotificationNewSession> =
+  (info) => {
+    return <NotificationItem key={info.item.id} notification={info.item} />;
+  };
 
 export const NotificationsScreenContent = () => {
   const [next, setNext] = useState<string | undefined>();
@@ -91,13 +95,13 @@ export const NotificationsScreenContent = () => {
 
   return (
     <Container style={styles.container}>
-      <BigList
+      <FlatList
+        style={styles.root}
+        onEndReached={onEndReached}
         ListEmptyComponent={fetching ? <LoadingScreen /> : null}
-        itemHeight={Size[16]}
         data={data?.notifications || []}
         renderItem={renderItem}
-        onEndReached={onEndReached}
-        style={styles.root}
+        getItemLayout={getItemLayout}
       />
     </Container>
   );

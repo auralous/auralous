@@ -1,9 +1,10 @@
 import { Button, TextButton } from "@/components/Button";
 import type {
-  DraggableBigListRenderItem,
-  DraggableBigListRenderItemInfo,
-} from "@/components/DraggableBigList";
-import { DraggableBigList } from "@/components/DraggableBigList";
+  DraggableListRenderItem,
+  DraggableListRenderItemInfo,
+} from "@/components/DraggableList";
+import { DraggableList } from "@/components/DraggableList";
+import { Spacer } from "@/components/Spacer";
 import { QueueTrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
 import { reorder, shuffle } from "@/player";
@@ -95,7 +96,7 @@ export const SelectedTracksListProvider: FC<{ expanded: boolean }> = ({
 };
 
 const SelectedQueueTrackItem = memo<{
-  params: DraggableBigListRenderItemInfo<string>;
+  params: DraggableListRenderItemInfo<string>;
 }>(
   function SelectedQueueTrackItem({ params }) {
     const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
@@ -135,12 +136,19 @@ const SelectedQueueTrackItem = memo<{
   }
 );
 
-const renderItem: DraggableBigListRenderItem<string> = (params) => (
+const itemHeight = Size[12] + Size[1] * 2 + Size[2]; // height + 2 * padding + seperator
+const renderItem: DraggableListRenderItem<string> = (params) => (
   <SelectedQueueTrackItem
     params={params}
     key={`${params.index}${params.item}`}
   />
 );
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
+const ItemSeparatorComponent = () => <Spacer y={2} />;
 
 export const SelectedTracksListView: FC<{
   selectedTracks: string[];
@@ -171,13 +179,17 @@ export const SelectedTracksListView: FC<{
       <View style={styles.shuffleButtonContainer}>
         <Button onPress={onShuffle}>{t("new.select_songs.shuffle")}</Button>
       </View>
-      <DraggableBigList
+      <DraggableList
+        style={styles.list}
+        ItemSeparatorComponent={ItemSeparatorComponent}
         data={selectedTracks}
         renderItem={renderItem}
         onDragEnd={onDragEnd}
-        itemHeight={Size[12] + Size[2] + Size[3]} // height + 2 * padding + seperator
         keyExtractor={identityFn}
-        style={styles.list}
+        getItemLayout={getItemLayout}
+        initialNumToRender={0}
+        removeClippedSubviews
+        windowSize={10}
       />
     </View>
   );

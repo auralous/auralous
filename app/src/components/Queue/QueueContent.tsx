@@ -1,9 +1,9 @@
 import { Button, TextButton } from "@/components/Button";
 import type {
-  DraggableBigListRenderItem,
-  DraggableBigListRenderItemInfo,
-} from "@/components/DraggableBigList";
-import { DraggableBigList } from "@/components/DraggableBigList";
+  DraggableListRenderItem,
+  DraggableListRenderItemInfo,
+} from "@/components/DraggableList";
+import { DraggableList } from "@/components/DraggableList";
 import { Spacer } from "@/components/Spacer";
 import { QueueTrackItem, TrackItem } from "@/components/Track";
 import { Heading, Text } from "@/components/Typography";
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 });
 
 const DraggableQueueItem = memo<{
-  params: DraggableBigListRenderItemInfo<QueueItem>;
+  params: DraggableListRenderItemInfo<QueueItem>;
 }>(
   function DraggableQueueItem({ params }) {
     const onPress = useCallback((uid: string) => player.queuePlayUid(uid), []);
@@ -97,10 +97,6 @@ const DraggableQueueItem = memo<{
   }
 );
 
-const renderItem: DraggableBigListRenderItem<QueueItem> = (params) => (
-  <DraggableQueueItem key={params.item.uid} params={params} />
-);
-
 interface SelectedObject {
   [key: string]: undefined | boolean;
 }
@@ -108,8 +104,17 @@ interface SelectedObject {
 const extractUidsFromSelected = (selected: SelectedObject) => {
   return Object.keys(selected).filter((selectedKey) => !!selected[selectedKey]);
 };
-
+const itemHeight = Size[12] + Size[1] * 2 + Size[2];
+const renderItem: DraggableListRenderItem<QueueItem> = (params) => (
+  <DraggableQueueItem key={params.item.uid} params={params} />
+);
 const keyExtractor = (item: QueueItem) => item.uid;
+const ItemSeparatorComponent = () => <Spacer y={2} />;
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
 
 const QueueContent: FC<{
   nextItems: PlaybackState["nextItems"];
@@ -223,13 +228,17 @@ const QueueContent: FC<{
         <Spacer y={4} />
         <Heading level={6}>{t("queue.up_next")}</Heading>
         <Spacer y={2} />
-        <DraggableBigList
+        <DraggableList
+          style={styles.list}
+          ItemSeparatorComponent={ItemSeparatorComponent}
           data={items}
           renderItem={renderItem}
-          itemHeight={Size[12] + Size[2] + Size[2]} // height + 2 * padding + seperator
           onDragEnd={onDragEnd}
           keyExtractor={keyExtractor}
-          style={styles.list}
+          getItemLayout={getItemLayout}
+          initialNumToRender={0}
+          removeClippedSubviews
+          windowSize={10}
         />
         <Spacer y={1} />
         {hasSelected ? (
