@@ -1,9 +1,9 @@
 import { Button, TextButton } from "@/components/Button";
 import type {
-  DraggableListRenderItem,
-  DraggableListRenderItemInfo,
-} from "@/components/DraggableList";
-import { DraggableList } from "@/components/DraggableList";
+  SortableListRenderItem,
+  SortableListRenderItemInfo,
+} from "@/components/SortableFlatList";
+import { SortableFlatList } from "@/components/SortableFlatList";
 import { Spacer } from "@/components/Spacer";
 import { QueueTrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
@@ -96,7 +96,7 @@ export const SelectedTracksListProvider: FC<{ expanded: boolean }> = ({
 };
 
 const SelectedQueueTrackItem = memo<{
-  params: DraggableListRenderItemInfo<string>;
+  params: SortableListRenderItemInfo<string>;
 }>(
   function SelectedQueueTrackItem({ params }) {
     const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
@@ -137,7 +137,7 @@ const SelectedQueueTrackItem = memo<{
 );
 
 const itemHeight = Size[12] + Size[1] * 2 + Size[2]; // height + 2 * padding + seperator
-const renderItem: DraggableListRenderItem<string> = (params) => (
+const renderItem: SortableListRenderItem<string> = (params) => (
   <SelectedQueueTrackItem
     params={params}
     key={`${params.index}${params.item}`}
@@ -179,7 +179,7 @@ export const SelectedTracksListView: FC<{
       <View style={styles.shuffleButtonContainer}>
         <Button onPress={onShuffle}>{t("new.select_songs.shuffle")}</Button>
       </View>
-      <DraggableList
+      <SortableFlatList
         style={styles.list}
         ItemSeparatorComponent={ItemSeparatorComponent}
         data={selectedTracks}

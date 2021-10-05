@@ -1,20 +1,8 @@
 import { scrollTo } from "@/utils/animation";
-import type { ReactElement } from "react";
-import {
-  createContext,
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
-  FlatListProps,
   LayoutChangeEvent,
   ListRenderItem,
-  ListRenderItemInfo,
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
@@ -27,226 +15,30 @@ import Animated, {
   useAnimatedGestureHandler,
   useAnimatedReaction,
   useAnimatedRef,
-  useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   useWorkletCallback,
-  withTiming,
 } from "react-native-reanimated";
-
-const Context = createContext(
-  {} as {
-    activeCellSizeValue: number | undefined;
-    scrollOffset: Animated.SharedValue<number>;
-    activeIndexAnim: Animated.SharedValue<number>;
-    spacerIndexAnim: Animated.SharedValue<number>;
-    hoverOffset: Animated.SharedValue<number>;
-    hasMoved: Animated.SharedValue<boolean>;
-    drag(index: number): void;
-    getCellMeasurement(index: number): GetItemLayoutResult;
-    horizontal?: FlatListProps<unknown>["horizontal"];
-  }
-);
+import ClonedItem from "./ClonedItem";
+import { SortableContext } from "./SortableContext";
+import SortableItem from "./SortableItem";
+import type { DraggableListProps, GetItemLayoutResult } from "./types";
 
 const styles = StyleSheet.create({ list: { flex: 1, overflow: "hidden" } });
 
-export interface DraggableListRenderItemInfo<ItemT>
-  extends ListRenderItemInfo<ItemT> {
-  drag(): void;
-}
-
-export type DraggableListRenderItem<ItemT> = (
-  info: DraggableListRenderItemInfo<ItemT>
-) => ReactElement;
-
-type DraggableListProps<ItemT> = Omit<
-  FlatListProps<ItemT>,
-  "renderItem" | "keyExtractor" | "itemHeight"
-> & {
-  onDragEnd(from: number, to: number): void;
-  renderItem: DraggableListRenderItem<ItemT>;
-  keyExtractor: NonNullable<FlatListProps<ItemT>["keyExtractor"]>;
-  getItemLayout: NonNullable<FlatListProps<ItemT>["getItemLayout"]>;
-};
-
-type GetItemLayoutResult = ReturnType<
-  NonNullable<FlatListProps<unknown>["getItemLayout"]>
->;
-
-interface DraggableItemProps<ItemT> {
-  info: ListRenderItemInfo<ItemT>;
-  renderItem: DraggableListRenderItem<ItemT>;
-}
-
-function ClonedDraggableItem<ItemT>({
-  info,
-  renderItem,
-}: DraggableItemProps<ItemT>) {
-  const { hoverOffset, hasMoved } = useContext(Context);
-
-  const drag = useCallback(() => {
-    // noop
-  }, []);
-
-  const style = useAnimatedStyle(() => {
-    return {
-      position: "absolute",
-      width: "100%",
-      top: hoverOffset.value,
-      zIndex: 1,
-      opacity: 0.5,
-      transform: hasMoved.value ? undefined : [{ scale: 0 }],
-    };
-  }, []);
-
-  return (
-    <Animated.View style={style}>{renderItem({ ...info, drag })}</Animated.View>
-  );
-}
-
-function DraggableItem<ItemT>({ info, renderItem }: DraggableItemProps<ItemT>) {
-  const {
-    activeIndexAnim,
-    spacerIndexAnim,
-    drag: setDragging,
-    hoverOffset,
-    hasMoved,
-    scrollOffset,
-    getCellMeasurement,
-    activeCellSizeValue,
-    horizontal,
-  } = useContext(Context);
-
-  const cellMeasurement = useMemo(
-    () => getCellMeasurement(info.index),
-    [getCellMeasurement, info.index]
-  );
-
-  // Distance between active cell and edge of scroll view
-  const cellOffset = useDerivedValue(
-    () => cellMeasurement.offset,
-    [info.index, cellMeasurement]
-  );
-  const cellSize = useDerivedValue(
-    () => cellMeasurement.length,
-    [cellMeasurement.length]
-  );
-  const cellIndex = useDerivedValue(() => info.index, [info.index]);
-
-  const isActiveCell = useDerivedValue(() => {
-    return cellIndex.value === activeIndexAnim.value;
-  });
-
-  useAnimatedReaction(
-    () => {
-      // Do not calculate before moving and if is active cell
-      if (!hasMoved.value || isActiveCell.value) return -1;
-      // Can't measure active cellSize
-      if (!activeCellSizeValue) return -1;
-      // Distance between hovering cell and edge of scroll view
-      const hoverOffsetValue = hoverOffset.value + scrollOffset.value;
-      const hoverPlusActiveSize = hoverOffsetValue + activeCellSizeValue;
-
-      const isAfterActive = cellIndex.value > activeIndexAnim.value;
-      const isBeforeActive = cellIndex.value < activeIndexAnim.value;
-
-      const offsetPlusHalfSize = cellOffset.value + cellSize.value / 2;
-      const offsetPlusSize = cellOffset.value + cellSize.value;
-
-      let desiredSpacerAnim = -1;
-      if (isAfterActive) {
-        if (
-          hoverPlusActiveSize >= cellOffset.value &&
-          hoverPlusActiveSize < offsetPlusHalfSize
-        ) {
-          // bottom edge of active cell overlaps top half of current cell
-          desiredSpacerAnim = cellIndex.value - 1;
-        } else if (
-          hoverPlusActiveSize >= offsetPlusHalfSize &&
-          hoverPlusActiveSize < offsetPlusSize
-        ) {
-          // bottom edge of active cell overlaps bottom half of current cell
-          // This will push the current cell up later
-          desiredSpacerAnim = cellIndex.value;
-        }
-      } else if (isBeforeActive) {
-        if (
-          hoverOffsetValue < offsetPlusSize &&
-          hoverOffsetValue >= offsetPlusHalfSize
-        ) {
-          // top edge of active cell overlaps bottom half of current cell
-          desiredSpacerAnim = cellIndex.value + 1;
-        } else if (
-          hoverOffsetValue >= cellOffset.value &&
-          hoverOffsetValue < offsetPlusHalfSize
-        ) {
-          // top edge of active cell overlaps top half of current cell
-          // This will push the current cell down later
-          desiredSpacerAnim = cellIndex.value;
-        }
-      }
-      return desiredSpacerAnim;
-    },
-    (desiredSpacerAnim) => {
-      if (
-        desiredSpacerAnim !== -1 &&
-        desiredSpacerAnim !== spacerIndexAnim.value
-      ) {
-        spacerIndexAnim.value = desiredSpacerAnim;
-      }
-    },
-    [activeCellSizeValue]
-  );
-
-  const translateValue = useSharedValue(0);
-
-  useAnimatedReaction(
-    () => {
-      if (isActiveCell.value) return null;
-      if (!activeCellSizeValue) return null;
-      const isAfterActive = cellIndex.value > activeIndexAnim.value;
-      const shouldTranslate = isAfterActive
-        ? cellIndex.value <= spacerIndexAnim.value
-        : cellIndex.value >= spacerIndexAnim.value;
-      return shouldTranslate
-        ? activeCellSizeValue * (isAfterActive ? -1 : 1)
-        : 0;
-    },
-    (isActiveCellValue) => {
-      if (typeof isActiveCellValue === "number")
-        translateValue.value = withTiming(isActiveCellValue);
-    },
-    [activeCellSizeValue]
-  );
-
-  const drag = useCallback(() => {
-    setDragging(info.index);
-  }, [info.index, setDragging]);
-
-  const style = useAnimatedStyle(() => {
-    return {
-      width: "100%",
-      transform: [
-        horizontal
-          ? { translateX: translateValue.value }
-          : { translateY: translateValue.value },
-      ],
-      opacity: isActiveCell.value && hasMoved.value ? 0 : 1,
-    };
-  }, []);
-
-  return (
-    <Animated.View style={style}>{renderItem({ ...info, drag })}</Animated.View>
-  );
-}
-
-const MemoizedDraggableItem = memo(DraggableItem);
+const MemoizedSortableItem = memo(
+  SortableItem,
+  (prevProps, nextProps) =>
+    prevProps.info.index === nextProps.info.index &&
+    prevProps.info.item === prevProps.info.item &&
+    prevProps.info.separators === prevProps.info.separators
+);
 
 const autoscrollSpeed = 10;
 const autoscrollThreshold = 30;
 const SCROLL_POSITION_TOLERANCE = 2;
 
-export default function DraggableList<ItemT>({
+export default function SortableFlatList<ItemT>({
   renderItem: renderItemProp,
   onDragEnd,
   onScroll: onScrollProp,
@@ -314,21 +106,11 @@ export default function DraggableList<ItemT>({
     [onContentSizeChangeProp, scrollContentSize]
   );
 
-  // const autoScrollTargetOffset = useSharedValue(-1);
-
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       onScrollProp?.(event);
       scrollOffset.value =
         event.nativeEvent.contentOffset[horizontal ? "x" : "y"];
-      // if (autoScrollTargetOffset.value !== -1) {
-      //   if (
-      //     Math.abs(autoScrollTargetOffset.value - scrollOffset.value) <=
-      //     SCROLL_POSITION_TOLERANCE
-      //   ) {
-      //     autoScrollTargetOffset.value = -1;
-      //   }
-      // }
     },
     [onScrollProp, scrollOffset, horizontal]
   );
@@ -395,15 +177,13 @@ export default function DraggableList<ItemT>({
       const calculatedTargetOffset = Math.min(
         Math.max(0, scrollOffsetValue + scrollDelta),
         scrollContentSizeValue - containerSizeValue
-      ); // must be greater than 0 while < max scroll offset
+      );
 
       if (
         Math.abs(calculatedTargetOffset - scrollOffsetValue) <
         SCROLL_POSITION_TOLERANCE
       )
         return;
-
-      // autoScrollTargetOffset.value = calculatedTargetOffset;
       scrollTo(scrollRef, 0, calculatedTargetOffset, false);
     },
     [activeCellMeasurement]
@@ -463,21 +243,12 @@ export default function DraggableList<ItemT>({
     [onDragEnd, clearAnimState, activeCellMeasurement, horizontal]
   );
 
-  const renderItem: ListRenderItem<ItemT> = useCallback(
-    (info) => {
-      return (
-        <MemoizedDraggableItem
-          key={keyExtractor(info.item, info.index)}
-          info={info}
-          renderItem={renderItemProp as DraggableListRenderItem<ItemT>}
-        />
-      );
-    },
-    [renderItemProp, keyExtractor]
-  );
+  const renderItem: ListRenderItem<ItemT> = useCallback((info) => {
+    return <MemoizedSortableItem info={info} />;
+  }, []);
 
   return (
-    <Context.Provider
+    <SortableContext.Provider
       value={{
         drag,
         activeCellSizeValue: activeCellMeasurement?.length,
@@ -488,6 +259,7 @@ export default function DraggableList<ItemT>({
         hasMoved,
         getCellMeasurement,
         horizontal,
+        sortableRenderItem: renderItemProp,
       }}
     >
       <PanGestureHandler
@@ -497,14 +269,11 @@ export default function DraggableList<ItemT>({
       >
         <Animated.View style={style} onLayout={onContainerLayout}>
           {activeIndex !== -1 && data?.[activeIndex] && (
-            <ClonedDraggableItem
+            <ClonedItem
               info={{
                 index: activeIndex,
-                // FIXME: Support separators
-                separators: undefined as unknown as any,
                 item: data[activeIndex],
               }}
-              renderItem={renderItemProp}
             />
           )}
           <FlatList
@@ -523,6 +292,6 @@ export default function DraggableList<ItemT>({
           />
         </Animated.View>
       </PanGestureHandler>
-    </Context.Provider>
+    </SortableContext.Provider>
   );
 }

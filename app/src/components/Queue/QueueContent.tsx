@@ -1,9 +1,9 @@
 import { Button, TextButton } from "@/components/Button";
 import type {
-  DraggableListRenderItem,
-  DraggableListRenderItemInfo,
-} from "@/components/DraggableList";
-import { DraggableList } from "@/components/DraggableList";
+  SortableListRenderItem,
+  SortableListRenderItemInfo,
+} from "@/components/SortableFlatList";
+import { SortableFlatList } from "@/components/SortableFlatList";
 import { Spacer } from "@/components/Spacer";
 import { QueueTrackItem, TrackItem } from "@/components/Track";
 import { Heading, Text } from "@/components/Typography";
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 });
 
 const DraggableQueueItem = memo<{
-  params: DraggableListRenderItemInfo<QueueItem>;
+  params: SortableListRenderItemInfo<QueueItem>;
 }>(
   function DraggableQueueItem({ params }) {
     const onPress = useCallback((uid: string) => player.queuePlayUid(uid), []);
@@ -105,7 +105,7 @@ const extractUidsFromSelected = (selected: SelectedObject) => {
   return Object.keys(selected).filter((selectedKey) => !!selected[selectedKey]);
 };
 const itemHeight = Size[12] + Size[1] * 2 + Size[2];
-const renderItem: DraggableListRenderItem<QueueItem> = (params) => (
+const renderItem: SortableListRenderItem<QueueItem> = (params) => (
   <DraggableQueueItem key={params.item.uid} params={params} />
 );
 const keyExtractor = (item: QueueItem) => item.uid;
@@ -228,7 +228,7 @@ const QueueContent: FC<{
         <Spacer y={4} />
         <Heading level={6}>{t("queue.up_next")}</Heading>
         <Spacer y={2} />
-        <DraggableList
+        <SortableFlatList
           style={styles.list}
           ItemSeparatorComponent={ItemSeparatorComponent}
           data={items}
