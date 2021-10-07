@@ -1,6 +1,6 @@
 import { Dialog } from "@/components/Dialog";
-import { useUi, useUiDispatch } from "@/context";
 import player from "@/player";
+import { useUi, useUiDispatch } from "@/ui-context";
 import { useSessionEndMutation } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";

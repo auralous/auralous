@@ -1,3 +1,4 @@
+import { Container } from "@/components/Layout";
 import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -22,8 +23,10 @@ const HomeScreen: FC<NativeStackScreenProps<ParamList, RouteName.Home>> =
     return (
       <SafeAreaView style={styles.root}>
         <ScrollView style={styles.scroll}>
-          <HomeHeader />
-          <HomeScreenContent />
+          <Container>
+            <HomeHeader />
+            <HomeScreenContent />
+          </Container>
         </ScrollView>
         <AddButton />
       </SafeAreaView>

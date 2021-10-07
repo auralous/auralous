@@ -1,0 +1,141 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-native/no-unused-styles */
+import { IconChevronLeft, IconChevronRight } from "@/assets";
+import { Spacer } from "@/components/Spacer";
+import { LayoutSize, Size } from "@/styles/spacing";
+import { isTouchDevice } from "@/utils/utils";
+import type { ReactElement } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import type {
+  FlatListProps,
+  LayoutChangeEvent,
+  ListRenderItem,
+  ListRenderItemInfo,
+  ViewStyle,
+} from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  View,
+} from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+
+export interface HorizontalListProps<ItemT>
+  extends Omit<FlatListProps<ItemT>, "renderItem" | "horizontal"> {
+  renderItem(
+    info: ListRenderItemInfo<ItemT> & { style: ViewStyle }
+  ): ReactElement;
+}
+
+const styles = StyleSheet.create({
+  arrowPressable: {
+    height: "100%",
+    justifyContent: "center",
+    position: "absolute",
+    width: Size[10],
+    zIndex: 1,
+  },
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: -1,
+  },
+  list: {
+    flex: 1,
+  },
+});
+
+const isTouchDeviceValue = isTouchDevice();
+
+const ItemSeparatorComponent = () => <Spacer x={4} />;
+
+function HorizontalList<ItemT>({
+  renderItem,
+  style,
+  ...props
+}: HorizontalListProps<ItemT>) {
+  const ref = useRef<FlatList>(null);
+
+  const [width, setWidth] = useState(Dimensions.get("screen").width);
+
+  const onLayout = useCallback((event: LayoutChangeEvent) => {
+    setWidth(event.nativeEvent.layout.width);
+  }, []);
+
+  const scrollOffsetRef = useRef(props.initialScrollIndex || 0);
+  const onMomentumScrollEnd = useCallback<
+    NonNullable<FlatListProps<ItemT>["onMomentumScrollEnd"]>
+  >((event) => {
+    scrollOffsetRef.current = event.nativeEvent.contentOffset.x;
+  }, []);
+
+  const itemStyle = useMemo(() => {
+    if (width >= LayoutSize.lg) return { width: (1 / 6) * width - Size[4] };
+    else if (width >= LayoutSize.md)
+      return { width: (1 / 4) * width - Size[4] };
+    else return { width: 0.4 * width - Size[4] };
+  }, [width]);
+
+  const renderItemsFL = useCallback<ListRenderItem<ItemT>>(
+    (info) => {
+      return renderItem({ ...info, style: itemStyle });
+    },
+    [renderItem, itemStyle]
+  );
+
+  return (
+    <View style={style} onLayout={onLayout}>
+      {!isTouchDeviceValue && (
+        <>
+          <Pressable
+            style={[styles.arrowPressable, { left: 0 }]}
+            onPress={() =>
+              ref.current?.scrollToOffset({
+                offset: scrollOffsetRef.current - width,
+                animated: true,
+              })
+            }
+          >
+            <LinearGradient
+              colors={["rgba(0,0,0,1)", "rgba(0,0,0,0)"]}
+              style={styles.gradient}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+            />
+            <IconChevronLeft height={Size[8]} width={Size[8]} />
+          </Pressable>
+          <Pressable
+            style={[styles.arrowPressable, { right: 0 }]}
+            onPress={() =>
+              ref.current?.scrollToOffset({
+                offset: scrollOffsetRef.current + width,
+                animated: true,
+              })
+            }
+          >
+            <LinearGradient
+              colors={["rgba(0,0,0,1)", "rgba(0,0,0,0)"]}
+              style={styles.gradient}
+              start={{ x: 1, y: 0.5 }}
+              end={{ x: 0, y: 0.5 }}
+            />
+            <IconChevronRight height={Size[8]} width={Size[8]} />
+          </Pressable>
+        </>
+      )}
+      <FlatList
+        {...props}
+        ref={ref}
+        style={styles.list}
+        horizontal
+        renderItem={renderItemsFL}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={onMomentumScrollEnd}
+      />
+    </View>
+  );
+}
+
+export default HorizontalList;

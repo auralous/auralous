@@ -61,6 +61,7 @@ export interface ParamList extends ParamListBase {
   };
   [RouteName.SessionEdit]: {
     id: string;
+    showEndModal?: boolean;
   };
   [RouteName.SessionListeners]: {
     id: string;

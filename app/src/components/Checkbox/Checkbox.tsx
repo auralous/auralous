@@ -1,7 +1,7 @@
 import { IconCheck } from "@/assets";
+import { useSharedValuePressed } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import { useSharedValuePressed } from "@/utils/animation";
 import type { FC } from "react";
 import { useCallback } from "react";
 import type { ViewStyle } from "react-native";

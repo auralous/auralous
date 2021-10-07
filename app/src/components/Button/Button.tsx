@@ -1,7 +1,7 @@
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
+import { useSharedValuePressed } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
-import { useSharedValuePressed } from "@/utils/animation";
 import type { FC } from "react";
 import { useMemo } from "react";
 import type { ColorValue, ViewStyle } from "react-native";

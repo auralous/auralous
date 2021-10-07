@@ -1,5 +1,5 @@
 import { Button } from "@/components/Button";
-import { useUiDispatch } from "@/context";
+import { useUiDispatch } from "@/ui-context";
 import {
   useMeQuery,
   useUserFollowingsQuery,

@@ -1,5 +1,5 @@
 import { Share } from "@/components/Share";
-import { useUi, useUiDispatch } from "@/context";
+import { useUi, useUiDispatch } from "@/ui-context";
 import type { FC } from "react";
 import { useCallback } from "react";
 

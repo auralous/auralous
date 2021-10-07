@@ -4,10 +4,11 @@ import { PageHeaderGradient } from "@/components/Color";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import { Config } from "@/config";
-import { useUiDispatch } from "@/context";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
+import { useUiDispatch } from "@/ui-context";
+import { isTruthy } from "@/utils/utils";
 import type { User } from "@auralous/api";
 import { useMeQuery, useUserQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
@@ -40,37 +41,31 @@ const HeaderRight: FC<{ user: User }> = ({ user }) => {
           type: "contextMenu",
           value: {
             visible: true,
-            meta: {
-              title: user.username,
-              image: user.profilePicture || undefined,
-              items: [
-                ...(user.id === me?.user.id
-                  ? [
-                      {
-                        icon: <IconEdit stroke={Colors.textSecondary} />,
-                        text: t("settings.edit_profile"),
-                        onPress() {
-                          navigation.navigate(RouteName.Settings);
-                        },
-                      },
-                    ]
-                  : []),
-                {
-                  icon: <IconShare2 stroke={Colors.textSecondary} />,
-                  text: t("share.share"),
-                  onPress() {
-                    uiDispatch({
-                      type: "share",
-                      value: {
-                        visible: true,
-                        title: user.username,
-                        url: `${Config.APP_URI}/u/${user.username}`,
-                      },
-                    });
-                  },
+            title: user.username,
+            image: user.profilePicture || undefined,
+            items: [
+              user.id === me?.user.id && {
+                icon: <IconEdit stroke={Colors.textSecondary} />,
+                text: t("settings.edit_profile"),
+                onPress() {
+                  navigation.navigate(RouteName.Settings);
                 },
-              ],
-            },
+              },
+              {
+                icon: <IconShare2 stroke={Colors.textSecondary} />,
+                text: t("share.share"),
+                onPress() {
+                  uiDispatch({
+                    type: "share",
+                    value: {
+                      visible: true,
+                      title: user.username,
+                      url: `${Config.APP_URI}/u/${user.username}`,
+                    },
+                  });
+                },
+              },
+            ].filter(isTruthy),
           },
         });
       }}

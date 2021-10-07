@@ -6,11 +6,12 @@ import {
   usePlaybackNextItems,
   usePlaybackTrackId,
 } from "@/player";
-import { Size } from "@/styles/spacing";
+import { LayoutSize, Size } from "@/styles/spacing";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import ChatView from "./ChatView";
 import MusicView from "./MusicView";
 
@@ -21,8 +22,10 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
+    marginHorizontal: "auto",
+    maxWidth: LayoutSize.sm,
     paddingBottom: Size[6],
-    paddingHorizontal: Size[2],
+    paddingHorizontal: Size[4],
   },
   noChat: {
     flex: 1,
@@ -30,11 +33,13 @@ const styles = StyleSheet.create({
     padding: Size[4],
   },
   sidebar: {
-    paddingBottom: Size[2],
     paddingHorizontal: Size[2],
+    paddingVertical: Size[2],
     width: 380,
   },
 });
+
+const gradientColors = ["rgba(0,0,0,0)", "rgba(0,0,0,.2)"];
 
 const QueueSidebar: FC = () => {
   const nextItems = usePlaybackNextItems();
@@ -68,12 +73,20 @@ const PlayerViewContentLand: FC = () => {
   return (
     <View style={styles.content}>
       <View style={styles.sidebar}>
+        <LinearGradient
+          colors={gradientColors}
+          style={StyleSheet.absoluteFill}
+        />
         <QueueSidebar />
       </View>
       <View style={styles.main}>
         <MusicView />
       </View>
       <View style={styles.sidebar}>
+        <LinearGradient
+          colors={gradientColors}
+          style={StyleSheet.absoluteFill}
+        />
         <ChatSidebar />
       </View>
     </View>

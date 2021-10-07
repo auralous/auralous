@@ -106,7 +106,7 @@
     "updated": "Phiên đã được cập nhật",
     "live": {
       "description": "Phiên này đang phát <0>TRỰC TIẾP</0>",
-      "end": "Dừng phát",
+      "end": "Dừng session",
       "end_prompt": "Bạn không thể thêm bài hát mới nhưng có thể phát lại những bài đã thêm bất cứ lúc nào.",
       "end_ok": "Phiên đã ngừng phát trực tiếp",
       "play_other_prompt": "Phát mục khác sẽ dừng phiên hiện tại"
@@ -222,7 +222,8 @@
       "retry": "Thử lại",
       "publish": "Đăng tải",
       "no_thanks": "Không, cảm ơn",
-      "later": "Để sau"
+      "later": "Để sau",
+      "done": "Xong"
     },
     "prompt": {
       "action_not_revertable": "Hành động này sẽ không thể  hoàn tác được"

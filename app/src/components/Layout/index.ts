@@ -1,1 +1,1 @@
-export { Container } from "./Container";
+export { Container, useContainerStyle } from "./Container";

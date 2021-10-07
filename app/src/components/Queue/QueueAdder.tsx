@@ -1,8 +1,8 @@
-import { IconChevronLeft } from "@/assets";
 import { Button } from "@/components/Button";
 import { SlideModal } from "@/components/Dialog";
 import { Header } from "@/components/Header";
 import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
 import { SongSelector } from "@/views/SongSelector";
 import type { QueueItem } from "@auralous/api";
 import type { FC } from "react";
@@ -20,12 +20,16 @@ interface QueueAdderProps {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    marginTop: Size[2],
+  },
   content: {
     flex: 1,
   },
   root: {
     backgroundColor: Colors.backgroundSecondary,
     flex: 1,
+    padding: Size[4],
   },
 });
 
@@ -43,16 +47,7 @@ const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
 
   return (
     <SafeAreaView style={styles.root}>
-      <Header
-        left={
-          <Button
-            icon={<IconChevronLeft width={24} height={24} />}
-            onPress={onClose}
-            accessibilityLabel={t("common.navigation.go_back")}
-          />
-        }
-        title={t("queue.add_songs")}
-      />
+      <Header title={t("queue.add_songs")} />
       <View style={styles.content}>
         <SongSelector
           addTracks={onAddTracks}
@@ -60,6 +55,9 @@ const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
           selectedTracks={selectedTracks}
         />
       </View>
+      <Button onPress={onClose} style={styles.button} variant="primary">
+        {t("common.action.done")}
+      </Button>
     </SafeAreaView>
   );
 };

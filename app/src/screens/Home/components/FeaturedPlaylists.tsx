@@ -1,52 +1,43 @@
+import type { HorizontalListProps } from "@/components/ContentList";
+import { HorizontalList } from "@/components/ContentList";
 import { LoadingScreen } from "@/components/Loading";
-import {
-  PlaylistItem,
-  useItemHorizontalWidthStyle,
-} from "@/components/Playlist";
+import { PlaylistItem } from "@/components/Playlist";
 import { RouteName } from "@/screens/types";
-import { Size } from "@/styles/spacing";
+import type { Playlist } from "@auralous/api";
 import { usePlaylistsFeaturedQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { useCallback } from "react";
+import { TouchableOpacity } from "react-native";
 import scrollStyles from "./ScrollView.styles";
-
-const styles = StyleSheet.create({
-  item: {
-    marginRight: Size[4],
-  },
-});
 
 const FeaturedPlaylists: FC = () => {
   const [{ data, fetching }] = usePlaylistsFeaturedQuery();
 
   const navigation = useNavigation();
-
-  const widthStyle = useItemHorizontalWidthStyle();
+  const renderItem = useCallback<HorizontalListProps<Playlist>["renderItem"]>(
+    (info) => (
+      <TouchableOpacity
+        key={info.item.id}
+        style={info.style}
+        onPress={() =>
+          navigation.navigate(RouteName.Playlist, { id: info.item.id })
+        }
+      >
+        <PlaylistItem playlist={info.item} />
+      </TouchableOpacity>
+    ),
+    [navigation]
+  );
 
   return (
-    <ScrollView
+    <HorizontalList
       style={scrollStyles.scroll}
       contentContainerStyle={scrollStyles.scrollContent}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-    >
-      {fetching ? (
-        <LoadingScreen />
-      ) : (
-        data?.playlistsFeatured?.map((playlist) => (
-          <TouchableOpacity
-            key={playlist.id}
-            style={[styles.item, widthStyle]}
-            onPress={() =>
-              navigation.navigate(RouteName.Playlist, { id: playlist.id })
-            }
-          >
-            <PlaylistItem playlist={playlist} />
-          </TouchableOpacity>
-        ))
-      )}
-    </ScrollView>
+      data={data?.playlistsFeatured}
+      renderItem={renderItem}
+      ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+    />
   );
 };
 

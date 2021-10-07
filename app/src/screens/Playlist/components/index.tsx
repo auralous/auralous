@@ -1,4 +1,4 @@
-import { Container } from "@/components/Layout";
+import { useContainerStyle } from "@/components/Layout";
 import { LoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
@@ -13,7 +13,7 @@ import { usePlaylistTracksQuery } from "@auralous/api";
 import type { FC } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import type { ListRenderItem } from "react-native";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import PlaylistMeta from "./PlaylistMeta";
 
 const styles = StyleSheet.create({
@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
     paddingVertical: Size[1],
     width: "100%",
   },
-  root: { height: "100%" },
+  root: {
+    flex: 1,
+  },
 });
 
 const PlaylistIdContext = createContext("");
@@ -84,8 +86,10 @@ export const PlaylistScreenContent: FC<{
     },
   });
 
+  const containerStyle = useContainerStyle();
+
   return (
-    <Container style={styles.root}>
+    <View style={styles.root}>
       <PlaylistIdContext.Provider value={playlist.id}>
         <FlatList
           ListHeaderComponent={
@@ -93,6 +97,7 @@ export const PlaylistScreenContent: FC<{
           }
           ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
           ItemSeparatorComponent={ItemSeparatorComponent}
+          contentContainerStyle={containerStyle}
           data={data?.playlistTracks || []}
           renderItem={renderItem}
           getItemLayout={getItemLayout}
@@ -101,6 +106,6 @@ export const PlaylistScreenContent: FC<{
           windowSize={10}
         />
       </PlaylistIdContext.Provider>
-    </Container>
+    </View>
   );
 };

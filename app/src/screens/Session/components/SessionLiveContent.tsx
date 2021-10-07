@@ -1,5 +1,6 @@
 import { IconUser } from "@/assets";
 import { Button, GradientButton } from "@/components/Button";
+import { Container } from "@/components/Layout";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
@@ -90,7 +91,7 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
   const track = dataNowPlaying?.nowPlaying ? dataTrack?.track : null;
 
   return (
-    <>
+    <Container>
       <SessionMeta
         session={session}
         tag={
@@ -136,7 +137,7 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
           )}
         </View>
       </View>
-    </>
+    </Container>
   );
 };
 

@@ -1,7 +1,7 @@
 import { SlideModal } from "@/components/Dialog";
 import { LoadingScreen } from "@/components/Loading";
-import { useUi, useUiDispatch } from "@/context";
 import { Colors } from "@/styles/colors";
+import { useUi, useUiDispatch } from "@/ui-context";
 import { AddToPlaylist } from "@/views/AddToPlaylist";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";

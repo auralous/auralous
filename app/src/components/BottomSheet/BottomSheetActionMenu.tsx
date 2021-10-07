@@ -1,18 +1,16 @@
-import { TextButton } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import type { FC, ReactNode } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useDerivedValue } from "react-native-reanimated";
+import { TextButton } from "../Button";
 
 export interface BottomSheetActionMenuProps {
   visible: boolean;
@@ -30,20 +28,23 @@ export interface BottomSheetActionMenuItem {
 }
 
 const styles = StyleSheet.create({
+  bs: { marginHorizontal: Size[4] },
   bsBackground: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundSecondary,
   },
   cancel: {
-    height: Size[16],
+    height: Size[10],
   },
-  content: { flex: 1, paddingHorizontal: Size[4], paddingTop: Size[16] },
   handleIndicator: {
     backgroundColor: Colors.textSecondary,
   },
   header: {
     flexDirection: "row",
+    height: Size[16],
+    marginBottom: Size[4],
   },
   headerMeta: {
+    flex: 1,
     justifyContent: "center",
   },
   image: {
@@ -56,9 +57,20 @@ const styles = StyleSheet.create({
     height: Size[12],
     marginBottom: Size[2],
   },
+  root: {
+    flex: 1,
+    padding: Size[4],
+  },
 });
 
-const snapPoints = ["100%"];
+const BackdropComponent: FC<BottomSheetBackdropProps> = (props) => {
+  const animatedIndex = useDerivedValue(
+    () => props.animatedIndex.value + 1,
+    []
+  );
+  return <BottomSheetBackdrop {...props} animatedIndex={animatedIndex} />;
+};
+const handleComponent = () => null;
 
 const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
   visible,
@@ -79,61 +91,71 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
 
   useBackHandlerDismiss(visible, onDismiss);
 
-  const { top } = useSafeAreaInsets();
+  const snapPoints = useMemo(
+    () => [
+      (Size[12] + Size[2]) * items.length +
+        Size[20] + // header
+        Size[10] + // cancel button
+        Size[4] * 2, // padding * 2
+    ],
+    [items.length]
+  );
 
   return (
     <BottomSheetModal
       ref={ref}
-      handleStyle={{ marginTop: top }}
       handleIndicatorStyle={styles.handleIndicator}
       backgroundStyle={styles.bsBackground}
+      backdropComponent={BackdropComponent}
+      handleHeight={0}
+      handleComponent={handleComponent}
       snapPoints={snapPoints}
       stackBehavior="push"
       onDismiss={onDismiss}
+      style={styles.bs}
+      detached
+      bottomInset={Size[4]}
     >
-      <SafeAreaView style={styles.content}>
-        <BottomSheetScrollView>
-          <View style={styles.header}>
-            {image && (
+      <View style={styles.root}>
+        <View style={styles.header}>
+          {image && (
+            <>
+              <Image source={{ uri: image }} style={styles.image} />
+              <Spacer x={4} />
+            </>
+          )}
+          <View style={styles.headerMeta}>
+            <Text bold numberOfLines={1}>
+              {title}
+            </Text>
+            {subtitle && (
               <>
-                <Image source={{ uri: image }} style={styles.image} />
-                <Spacer x={4} />
+                <Spacer y={2} />
+                <Text color="textSecondary">{subtitle}</Text>
               </>
             )}
-            <View style={styles.headerMeta}>
-              <Text bold>{title}</Text>
-              {subtitle && (
-                <>
-                  <Spacer y={2} />
-                  <Text color="textSecondary">{subtitle}</Text>
-                </>
-              )}
-            </View>
           </View>
-          <Spacer y={6} />
-          <View>
-            {items.map((item) => (
-              <TouchableOpacity
-                style={styles.item}
-                key={item.text}
-                onPress={() => {
-                  item.onPress?.();
-                  onDismiss();
-                }}
-              >
-                {item.icon}
-                <Spacer x={3} />
-                <Text bold="medium" size="lg">
-                  {item.text}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </BottomSheetScrollView>
-      </SafeAreaView>
-      <TextButton style={styles.cancel} onPress={onDismiss}>
-        {t("common.action.cancel")}
-      </TextButton>
+        </View>
+        {items.map((item) => (
+          <TouchableOpacity
+            style={styles.item}
+            key={item.text}
+            onPress={() => {
+              item.onPress?.();
+              onDismiss();
+            }}
+          >
+            {item.icon}
+            <Spacer x={3} />
+            <Text bold="medium" size="lg">
+              {item.text}
+            </Text>
+          </TouchableOpacity>
+        ))}
+        <TextButton style={styles.cancel} onPress={onDismiss}>
+          {t("common.action.cancel")}
+        </TextButton>
+      </View>
     </BottomSheetModal>
   );
 };

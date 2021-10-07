@@ -1,4 +1,4 @@
-import { scrollTo } from "@/utils/animation";
+import { scrollTo } from "@/styles/animation";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
   LayoutChangeEvent,

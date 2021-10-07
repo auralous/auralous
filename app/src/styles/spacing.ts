@@ -15,8 +15,8 @@ function buildSizes() {
 export const LayoutSize = {
   sm: 640,
   md: 768,
-  lg: 1024,
-};
+  lg: 1148,
+} as const;
 
 export const Size = buildSizes();
 

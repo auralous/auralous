@@ -9,10 +9,10 @@ import { StatusBar, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootModalsComponents } from "./components/RootModals";
 import { Toaster } from "./components/Toast";
-import { UIContextProvider } from "./context";
 import { PlayerComponent, PlayerProvider } from "./player-component";
 import Navigator from "./screens/Navigator";
 import { Colors } from "./styles/colors";
+import { UIContextProvider } from "./ui-context";
 
 const linking: LinkingOptions<ParamList> = {
   enabled: true,

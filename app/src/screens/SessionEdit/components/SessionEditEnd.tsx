@@ -2,12 +2,14 @@ import { Button } from "@/components/Button";
 import { Dialog, useDialog } from "@/components/Dialog";
 import { toast } from "@/components/Toast";
 import { Text } from "@/components/Typography";
+import type { ParamList, RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { Session } from "@auralous/api";
 import { useSessionEndMutation } from "@auralous/api";
+import { useRoute } from "@react-navigation/native";
 import type { FC } from "react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -26,11 +28,20 @@ const styles = StyleSheet.create({
 });
 
 export const SessionEditEnd: FC<{ session: Session }> = ({ session }) => {
+  const routeShowEndModal = (
+    useRoute()?.params as ParamList[RouteName.SessionEdit]
+  ).showEndModal;
+
   const { t } = useTranslation();
 
   const [{ fetching }, sessionEnd] = useSessionEndMutation();
 
   const [visible, present, dismiss] = useDialog();
+  useEffect(() => {
+    if (routeShowEndModal) {
+      present();
+    }
+  }, [routeShowEndModal, present]);
 
   const onEnd = useCallback(async () => {
     const result = await sessionEnd({

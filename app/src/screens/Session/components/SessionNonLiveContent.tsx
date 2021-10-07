@@ -1,4 +1,5 @@
 import { Button } from "@/components/Button";
+import { useContainerStyle } from "@/components/Layout";
 import { LoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
@@ -24,6 +25,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: Size[3],
     paddingVertical: Size[1],
+  },
+  root: {
+    flex: 1,
   },
   tag: {
     alignItems: "center",
@@ -110,45 +114,47 @@ const SessionNonLiveContent: FC<{
     [onQuickShare, session]
   );
 
+  const containerStyle = useContainerStyle();
+
   return (
-    <>
-      <SessionIdContext.Provider value={session.id}>
-        <FlatList
-          ListHeaderComponent={
-            <SessionMeta
-              session={session}
-              tag={
-                <View style={styles.tag}>
-                  <Text size="sm" style={styles.tagText}>
-                    {t("session.title")} •{" "}
-                    {t("playlist.x_song", { count: session.trackTotal })}
-                  </Text>
-                </View>
-              }
-              buttons={
-                <>
-                  <Button onPress={shufflePlay}>
-                    {t("player.shuffle_play")}
-                  </Button>
-                  <Spacer x={2} />
-                  <Button onPress={quickShare} variant="primary">
-                    {t("new.quick_share.title")}
-                  </Button>
-                </>
-              }
-            />
-          }
-          ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
-          ItemSeparatorComponent={ItemSeparatorComponent}
-          data={data?.sessionTracks || []}
-          renderItem={renderItem}
-          getItemLayout={getItemLayout}
-          initialNumToRender={0}
-          removeClippedSubviews
-          windowSize={10}
-        />
-      </SessionIdContext.Provider>
-    </>
+    <SessionIdContext.Provider value={session.id}>
+      <FlatList
+        ListHeaderComponent={
+          <SessionMeta
+            session={session}
+            tag={
+              <View style={styles.tag}>
+                <Text size="sm" style={styles.tagText}>
+                  {t("session.title")} •{" "}
+                  {t("playlist.x_song", { count: session.trackTotal })}
+                </Text>
+              </View>
+            }
+            buttons={
+              <>
+                <Button onPress={shufflePlay}>
+                  {t("player.shuffle_play")}
+                </Button>
+                <Spacer x={2} />
+                <Button onPress={quickShare} variant="primary">
+                  {t("new.quick_share.title")}
+                </Button>
+              </>
+            }
+          />
+        }
+        ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        style={styles.root}
+        contentContainerStyle={containerStyle}
+        data={data?.sessionTracks || []}
+        renderItem={renderItem}
+        getItemLayout={getItemLayout}
+        initialNumToRender={0}
+        removeClippedSubviews
+        windowSize={10}
+      />
+    </SessionIdContext.Provider>
   );
 };
 

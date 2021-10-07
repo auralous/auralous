@@ -106,7 +106,7 @@
     "updated": "The session has been updated",
     "live": {
       "description": "This session is <0>LIVE</0>",
-      "end": "Stop streaming",
+      "end": "End session",
       "end_prompt": "You will not be able to add any new songs to this session but will be able to stream played songs at any time later.",
       "end_ok": "Session has been taken offline",
       "play_other_prompt": "Playing something else will the stop the current session"
@@ -222,7 +222,8 @@
       "retry": "Retry",
       "publish": "Publish",
       "no_thanks": "No, thanks",
-      "later": "Later"
+      "later": "Later",
+      "done": "Done"
     },
     "prompt": {
       "action_not_revertable": "This action cannot be undone."

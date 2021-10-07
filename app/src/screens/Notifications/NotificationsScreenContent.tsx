@@ -1,4 +1,4 @@
-import { Container } from "@/components/Layout";
+import { useContainerStyle } from "@/components/Layout";
 import { LoadingScreen } from "@/components/Loading";
 import {
   NotificationFollowItem,
@@ -56,9 +56,6 @@ const NotificationItem: FC<{
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: "100%",
-  },
   root: {
     paddingVertical: Size[1],
   },
@@ -93,16 +90,17 @@ export const NotificationsScreenContent = () => {
 
   useNotificationAddedSubscription();
 
+  const containerStyle = useContainerStyle();
+
   return (
-    <Container style={styles.container}>
-      <FlatList
-        style={styles.root}
-        onEndReached={onEndReached}
-        ListEmptyComponent={fetching ? <LoadingScreen /> : null}
-        data={data?.notifications || []}
-        renderItem={renderItem}
-        getItemLayout={getItemLayout}
-      />
-    </Container>
+    <FlatList
+      style={styles.root}
+      contentContainerStyle={containerStyle}
+      onEndReached={onEndReached}
+      ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+      data={data?.notifications || []}
+      renderItem={renderItem}
+      getItemLayout={getItemLayout}
+    />
   );
 };

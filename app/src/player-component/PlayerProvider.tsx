@@ -1,6 +1,6 @@
-import { useUiDispatch } from "@/context";
 import type { PlaybackCurrentContext } from "@/player";
 import player, { PlayerProvider as OriginalPlayerProvider } from "@/player";
+import { useUiDispatch } from "@/ui-context";
 import {
   useClient,
   useMeQuery,

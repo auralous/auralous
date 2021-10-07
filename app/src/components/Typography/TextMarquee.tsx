@@ -1,5 +1,5 @@
+import { scrollTo } from "@/styles/animation";
 import { Size } from "@/styles/spacing";
-import { scrollTo } from "@/utils/animation";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type {

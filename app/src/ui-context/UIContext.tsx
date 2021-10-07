@@ -11,16 +11,14 @@ interface UIState {
   signIn: { visible: boolean };
   contextMenu: {
     visible: boolean;
-    meta: {
-      image?: string;
-      title: string;
-      subtitle?: string;
-      items: {
-        icon: ReactNode;
-        text: string;
-        onPress?(): void;
-      }[];
-    } | null;
+    image?: string;
+    title: string;
+    subtitle?: string;
+    items: {
+      icon: ReactNode;
+      text: string;
+      onPress?(): void;
+    }[];
   };
   stopLiveOnPlay: {
     visible: boolean;
@@ -49,13 +47,16 @@ type Action<T extends keyof UIState> = {
 function reducer<T extends keyof UIState>(state: UIState, action: Action<T>) {
   return {
     ...state,
-    [action.type]: action.value,
+    [action.type]: {
+      ...state[action.type],
+      ...action.value,
+    },
   };
 }
 
 const uiInitialValues: UIState = {
   addToPlaylist: { visible: false, trackId: null },
-  contextMenu: { visible: false, meta: null },
+  contextMenu: { visible: false, items: [], title: "" },
   signIn: { visible: false },
   stopLiveOnPlay: { visible: false, intention: null },
   share: { visible: false },

@@ -1,3 +1,7 @@
 a {
   text-decoration: none;
 }
+
+input:focus-visible {
+  outline: none;
+}

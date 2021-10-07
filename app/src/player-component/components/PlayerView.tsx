@@ -4,7 +4,6 @@ import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Header } from "@/components/Header";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { useUiDispatch } from "@/context";
 import {
   usePlaybackContextMeta,
   usePlaybackCurrentContext,
@@ -13,6 +12,7 @@ import {
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
+import { useUiDispatch } from "@/ui-context";
 import { useTrackQuery } from "@auralous/api";
 import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -77,25 +77,23 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
       type: "contextMenu",
       value: {
         visible: true,
-        meta: {
-          title: track.title,
-          subtitle: track.artists.map((artist) => artist.name).join(", "),
-          image: track.image || undefined,
-          items: [
-            {
-              icon: <IconPlayListAdd color={Colors.textSecondary} />,
-              text: t("playlist.add_to_playlist.title"),
-              onPress: () =>
-                uiDispatch({
-                  type: "addToPlaylist",
-                  value: {
-                    visible: true,
-                    trackId: track.id,
-                  },
-                }),
-            },
-          ],
-        },
+        title: track.title,
+        subtitle: track.artists.map((artist) => artist.name).join(", "),
+        image: track.image || undefined,
+        items: [
+          {
+            icon: <IconPlayListAdd color={Colors.textSecondary} />,
+            text: t("playlist.add_to_playlist.title"),
+            onPress: () =>
+              uiDispatch({
+                type: "addToPlaylist",
+                value: {
+                  visible: true,
+                  trackId: track.id,
+                },
+              }),
+          },
+        ],
       },
     });
   }, [t, track, uiDispatch]);

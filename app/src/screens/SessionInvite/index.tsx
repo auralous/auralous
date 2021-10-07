@@ -5,11 +5,11 @@ import { NotFoundScreen } from "@/components/NotFound";
 import { Spacer } from "@/components/Spacer";
 import { toast } from "@/components/Toast";
 import { Heading } from "@/components/Typography";
-import { useUiDispatch } from "@/context";
 import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
+import { useUiDispatch } from "@/ui-context";
 import {
   useMeQuery,
   useSessionCollabAddFromTokenMutation,

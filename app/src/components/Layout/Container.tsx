@@ -1,4 +1,4 @@
-import { LayoutSize } from "@/styles/spacing";
+import { LayoutSize, Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { memo } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
@@ -6,14 +6,13 @@ import { StyleSheet, useWindowDimensions, View } from "react-native";
 
 const styles = StyleSheet.create({
   root: {
-    marginHorizontal: "auto",
     width: "100%",
   },
   rootLg: {
-    width: LayoutSize.lg,
+    paddingHorizontal: Size[12],
   },
   rootMd: {
-    width: LayoutSize.md,
+    paddingHorizontal: Size[8],
   },
 });
 
@@ -22,13 +21,24 @@ const ContainerImpl: FC<{
   children: React.ReactNode;
 }> = ({ style, children }) => {
   const { width: windowWidth } = useWindowDimensions();
-  const widthStyle =
+  const paddingStyle =
     windowWidth >= LayoutSize.lg
       ? styles.rootLg
       : windowWidth >= LayoutSize.md
       ? styles.rootMd
       : undefined;
-  return <View style={[styles.root, widthStyle, style]}>{children}</View>;
+  return <View style={[styles.root, paddingStyle, style]}>{children}</View>;
+};
+
+export const useContainerStyle = () => {
+  const { width: windowWidth } = useWindowDimensions();
+  const paddingStyle =
+    windowWidth >= LayoutSize.lg
+      ? styles.rootLg
+      : windowWidth >= LayoutSize.md
+      ? styles.rootMd
+      : undefined;
+  return paddingStyle;
 };
 
 export const Container = memo(ContainerImpl);

@@ -1,3 +1,5 @@
+import { Container } from "@/components/Layout";
+import { Size } from "@/styles/spacing";
 import { SongSelector } from "@/views/SongSelector";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useCallback } from "react";
@@ -15,6 +17,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     flexDirection: "row",
+    paddingVertical: Size[2],
   },
 });
 
@@ -38,7 +41,7 @@ const NewSelectSongsLandscape: FC<{
   );
 
   return (
-    <View style={styles.root}>
+    <Container style={styles.root}>
       <View style={styles.column}>
         <SongSelector
           selectedTracks={selectedTracks}
@@ -59,7 +62,7 @@ const NewSelectSongsLandscape: FC<{
           />
         </SelectedTracksListProvider>
       </View>
-    </View>
+    </Container>
   );
 };
 

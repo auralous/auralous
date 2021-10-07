@@ -1,5 +1,5 @@
 import { Button, TextButton } from "@/components/Button";
-import { useDialog } from "@/components/Dialog";
+import { SlideModal, useDialog } from "@/components/Dialog";
 import type { InputRef } from "@/components/Input";
 import { Input } from "@/components/Input";
 import { Spacer } from "@/components/Spacer";
@@ -12,7 +12,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, StyleSheet, useWindowDimensions, View } from "react-native";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
 import NewSelectSongs from "./NewSelectSongs";
 import NewSelectSongsLandscape from "./NewSelectSongs.landscape";
 
@@ -69,12 +69,7 @@ const NewSelectSongsScreen: FC<
           presentFinal={presentFinal}
         />
       )}
-      <Modal
-        visible={visibleFinal}
-        animationType="slide"
-        transparent
-        onRequestClose={dismissFinal}
-      >
+      <SlideModal visible={visibleFinal} onDismiss={dismissFinal}>
         <View style={styles.create}>
           <Text align="center" bold>
             {t("session.text")}
@@ -95,7 +90,7 @@ const NewSelectSongsScreen: FC<
             {t("common.action.cancel")}
           </TextButton>
         </View>
-      </Modal>
+      </SlideModal>
     </View>
   );
 };

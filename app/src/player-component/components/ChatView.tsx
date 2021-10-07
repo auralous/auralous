@@ -5,9 +5,9 @@ import type { InputRef } from "@/components/Input";
 import { Input } from "@/components/Input";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { useUiDispatch } from "@/context";
 import type { PlaybackContextMeta } from "@/player";
 import { Size } from "@/styles/spacing";
+import { useUiDispatch } from "@/ui-context";
 import type { Message } from "@auralous/api";
 import {
   MessageType,

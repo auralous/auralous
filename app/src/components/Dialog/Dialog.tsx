@@ -1,6 +1,8 @@
+import { IconX } from "@/assets";
 import type { ButtonProps } from "@/components/Button";
 import { Button } from "@/components/Button";
 import { Text } from "@/components/Typography";
+import { AnimationEasings } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import type { ComponentProps, FC } from "react";
@@ -14,6 +16,7 @@ import {
   View,
 } from "react-native";
 import Animated, {
+  interpolate,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -22,12 +25,21 @@ import Animated, {
 
 const styles = StyleSheet.create({
   backdrop: {
-    backgroundColor: "rgba(0, 0, 0, .8)",
+    backgroundColor: "black",
     ...StyleSheet.absoluteFillObject,
+  },
+  backdropPressable: {
+    flex: 1,
   },
   button: {
     flex: 1,
     paddingHorizontal: Size[1],
+  },
+  closeBtn: {
+    position: "absolute",
+    right: Size[4],
+    top: Size[4],
+    zIndex: 1,
   },
   container: {
     backgroundColor: Colors.backgroundSecondary,
@@ -64,15 +76,15 @@ const DialogRoot: FC<BottomSheetDialogProps> = ({
   children,
   onDismiss,
 }) => {
-  const { width: windowWidth } = useWindowDimensions();
-
   const [mount, setMount] = useState(false);
   const sharedValue = useSharedValue(0);
 
   useEffect(() => {
     if (visible) {
       setMount(true);
-      sharedValue.value = withTiming(1);
+      sharedValue.value = withTiming(1, {
+        easing: AnimationEasings.outExp,
+      });
     } else {
       sharedValue.value = withTiming(0, undefined, (isFinished) => {
         if (isFinished) runOnJS(setMount)(false);
@@ -82,16 +94,20 @@ const DialogRoot: FC<BottomSheetDialogProps> = ({
 
   const backdropStyle = useAnimatedStyle(
     () => ({
-      opacity: sharedValue.value,
+      opacity: interpolate(sharedValue.value, [0, 1], [0, 0.5]),
     }),
     []
   );
 
+  const { width: windowWidth } = useWindowDimensions();
+  const isLargeScreen = windowWidth >= LayoutSize.md;
+
   const contentStyle = useAnimatedStyle(
     () => ({
-      bottom: (sharedValue.value - 1) * 100 + "%",
+      bottom: !isLargeScreen ? (sharedValue.value - 1) * 100 + "%" : 0,
+      opacity: isLargeScreen ? sharedValue.value : 1,
     }),
-    []
+    [isLargeScreen]
   );
 
   const { t } = useTranslation();
@@ -108,19 +124,26 @@ const DialogRoot: FC<BottomSheetDialogProps> = ({
           <Pressable
             accessibilityLabel={t("common.navigation.close")}
             onPress={onDismiss}
-            style={StyleSheet.absoluteFillObject}
+            style={styles.backdropPressable}
           />
         )}
       </Animated.View>
       <Animated.View
         style={[
           styles.container,
-          windowWidth >= LayoutSize.md
-            ? styles.containerLand
-            : styles.containerPor,
+          isLargeScreen ? styles.containerLand : styles.containerPor,
           contentStyle,
         ]}
       >
+        {isLargeScreen && onDismiss && (
+          <Pressable
+            style={styles.closeBtn}
+            accessibilityLabel={t("common.navigation.close")}
+            onPress={onDismiss}
+          >
+            <IconX />
+          </Pressable>
+        )}
         {children}
       </Animated.View>
     </Modal>

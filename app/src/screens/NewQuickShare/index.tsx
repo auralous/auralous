@@ -1,3 +1,4 @@
+import { useContainerStyle } from "@/components/Layout";
 import { LoadingScreen } from "@/components/Loading";
 import { shuffle } from "@/player";
 import type { ParamList } from "@/screens/types";
@@ -34,9 +35,6 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,.5)",
-  },
-  root: {
-    flex: 1,
   },
 });
 
@@ -126,9 +124,11 @@ const NewQuickShareScreen: FC<
   const [{ data: dataFriends }] = usePlaylistsFriendsQuery();
   const [{ data: dataMine }] = useMyPlaylistsQuery();
 
+  const containerStyle = useContainerStyle();
+
   return (
-    <View style={styles.root}>
-      <ScrollView style={styles.content}>
+    <>
+      <ScrollView style={styles.content} contentContainerStyle={containerStyle}>
         <PlaylistsSection
           title={t("home.featured_playlists.title")}
           playlists={dataFeatured?.playlistsFeatured || []}
@@ -150,7 +150,7 @@ const NewQuickShareScreen: FC<
           <LoadingScreen />
         </View>
       )}
-    </View>
+    </>
   );
 };
 

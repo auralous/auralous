@@ -1,19 +1,15 @@
+import type { HorizontalListProps } from "@/components/ContentList";
+import { HorizontalList } from "@/components/ContentList";
 import { LoadingScreen } from "@/components/Loading";
-import { useLargeItemHortizontalWidthStyle } from "@/components/Playlist";
 import { SessionItem } from "@/components/Session";
 import { RouteName } from "@/screens/types";
-import { Size } from "@/styles/spacing";
+import type { Session } from "@auralous/api";
 import { useSessionsQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { useCallback } from "react";
+import { TouchableOpacity } from "react-native";
 import scrollStyles from "./ScrollView.styles";
-
-const styles = StyleSheet.create({
-  item: {
-    marginRight: Size[4],
-  },
-});
 
 const RecentSessions: FC = () => {
   const navigation = useNavigation();
@@ -22,31 +18,29 @@ const RecentSessions: FC = () => {
     variables: { limit: 10 },
   });
 
-  const widthStyle = useLargeItemHortizontalWidthStyle();
+  const renderItem = useCallback<HorizontalListProps<Session>["renderItem"]>(
+    (info) => (
+      <TouchableOpacity
+        key={info.item.id}
+        style={info.style}
+        onPress={() =>
+          navigation.navigate(RouteName.Session, { id: info.item.id })
+        }
+      >
+        <SessionItem session={info.item} />
+      </TouchableOpacity>
+    ),
+    [navigation]
+  );
 
   return (
-    <ScrollView
+    <HorizontalList
       style={scrollStyles.scroll}
       contentContainerStyle={scrollStyles.scrollContent}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-    >
-      {fetching ? (
-        <LoadingScreen />
-      ) : (
-        data?.sessions?.map((session) => (
-          <TouchableOpacity
-            key={session.id}
-            style={[styles.item, widthStyle]}
-            onPress={() =>
-              navigation.navigate(RouteName.Session, { id: session.id })
-            }
-          >
-            <SessionItem session={session} />
-          </TouchableOpacity>
-        ))
-      )}
-    </ScrollView>
+      ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+      data={data?.sessions}
+      renderItem={renderItem}
+    />
   );
 };
 

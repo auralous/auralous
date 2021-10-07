@@ -1,10 +1,10 @@
 import { Button } from "@/components/Button";
-import { Container } from "@/components/Layout";
+import { useContainerStyle } from "@/components/Layout";
 import { Spacer } from "@/components/Spacer";
 import { Heading } from "@/components/Typography";
-import { useUiDispatch } from "@/context";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
+import { useUiDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -14,9 +14,6 @@ import LanguageUpdate from "./LanguageUpdate";
 import UserEditor from "./UserEditor";
 
 const styles = StyleSheet.create({
-  container: {
-    height: "100%",
-  },
   root: {
     flex: 1,
     padding: Size[4],
@@ -42,35 +39,35 @@ export const SettingsScreenContent: FC<{
     uiDispatch({ type: "signIn", value: { visible: true } });
   }, [uiDispatch]);
 
+  const containerStyle = useContainerStyle();
+
   return (
-    <Container style={styles.container}>
-      <ScrollView style={styles.root}>
-        <View style={styles.section}>
-          <Heading level={5} align="center">
-            {t("settings.app")}
-          </Heading>
-          <Spacer y={4} />
-          <LanguageUpdate language={language} changeLanguage={changeLanguage} />
-        </View>
-        <Spacer y={2} />
-        <View style={styles.section}>
-          <Heading level={5} align="center">
-            {t("settings.me")}
-          </Heading>
-          <Spacer y={4} />
-          {me ? (
-            <>
-              <UserEditor user={me.user} platform={me.platform} />
-              <Spacer y={2} />
-              <Button onPress={onSignOut}>{t("settings.sign_out")}</Button>
-            </>
-          ) : (
-            <>
-              <Button onPress={gotoSignIn}>{t("sign_in.title")}</Button>
-            </>
-          )}
-        </View>
-      </ScrollView>
-    </Container>
+    <ScrollView style={styles.root} contentContainerStyle={containerStyle}>
+      <View style={styles.section}>
+        <Heading level={5} align="center">
+          {t("settings.app")}
+        </Heading>
+        <Spacer y={4} />
+        <LanguageUpdate language={language} changeLanguage={changeLanguage} />
+      </View>
+      <Spacer y={2} />
+      <View style={styles.section}>
+        <Heading level={5} align="center">
+          {t("settings.me")}
+        </Heading>
+        <Spacer y={4} />
+        {me ? (
+          <>
+            <UserEditor user={me.user} platform={me.platform} />
+            <Spacer y={2} />
+            <Button onPress={onSignOut}>{t("settings.sign_out")}</Button>
+          </>
+        ) : (
+          <>
+            <Button onPress={gotoSignIn}>{t("sign_in.title")}</Button>
+          </>
+        )}
+      </View>
+    </ScrollView>
   );
 };

@@ -1,9 +1,9 @@
 import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
-import { useUiDispatch } from "@/context";
 import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
+import { useUiDispatch } from "@/ui-context";
 import { SocialUserList } from "@/views/User";
 import {
   useMeQuery,
