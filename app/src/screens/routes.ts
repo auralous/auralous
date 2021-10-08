@@ -1,3 +1,4 @@
+import { isTruthy } from "@/utils/utils";
 import type { TFunction } from "react-i18next";
 import { Platform } from "react-native";
 import HomeScreen from "./Home";
@@ -19,135 +20,134 @@ import UserScreen from "./User";
 import UserFollowersScreen from "./UserFollowersScreen";
 import UserFollowingScreen from "./UserFollowingScreen";
 
-export const routesFn = (t: TFunction) => [
-  {
-    name: RouteName.Home,
-    component: HomeScreen,
-    options: { headerShown: false, title: t("home.title") },
-  },
-  {
-    name: RouteName.Map,
-    component: MapScreen,
-    options: {
-      title: t("map.title"),
+export const routesFn = (t: TFunction) =>
+  [
+    {
+      name: RouteName.Home,
+      component: HomeScreen,
+      options: { headerShown: false, title: t("home.title") },
     },
-  },
-  {
-    name: RouteName.User,
-    component: UserScreen,
-    options: {
-      headerTitle: "",
-      headerTransparent: true,
-      title: t("user.title"),
+    {
+      name: RouteName.Map,
+      component: MapScreen,
+      options: {
+        title: t("map.title"),
+      },
     },
-  },
-  {
-    name: RouteName.UserFollowers,
-    component: UserFollowersScreen,
-    options: {
-      title: t("user.followers"),
+    {
+      name: RouteName.User,
+      component: UserScreen,
+      options: {
+        headerTitle: "",
+        headerTransparent: true,
+        title: t("user.title"),
+      },
     },
-  },
-  {
-    name: RouteName.UserFollowing,
-    component: UserFollowingScreen,
-    options: {
-      title: t("user.following"),
+    {
+      name: RouteName.UserFollowers,
+      component: UserFollowersScreen,
+      options: {
+        title: t("user.followers"),
+      },
     },
-  },
-  {
-    name: RouteName.Playlist,
-    component: PlaylistScreen,
-    options: {
-      headerTitle: "",
-      headerTransparent: true,
-      title: t("playlist.title"),
+    {
+      name: RouteName.UserFollowing,
+      component: UserFollowingScreen,
+      options: {
+        title: t("user.following"),
+      },
     },
-  },
-  {
-    name: RouteName.Session,
-    component: SessionScreen,
-    options: {
-      headerTitle: "",
-      headerTransparent: true,
-      title: t("session.title"),
+    {
+      name: RouteName.Playlist,
+      component: PlaylistScreen,
+      options: {
+        headerTitle: "",
+        headerTransparent: true,
+        title: t("playlist.title"),
+      },
     },
-  },
-  {
-    name: RouteName.SessionCollaborators,
-    component: SessionCollaboratorsScreen,
-    options: {
-      title: t("collab.title"),
+    {
+      name: RouteName.Session,
+      component: SessionScreen,
+      options: {
+        headerTitle: "",
+        headerTransparent: true,
+        title: t("session.title"),
+      },
     },
-  },
-  {
-    name: RouteName.SessionInvite,
-    component: SessionInviteScreen,
-    options: {
-      headerTitle: "",
+    {
+      name: RouteName.SessionCollaborators,
+      component: SessionCollaboratorsScreen,
+      options: {
+        title: t("collab.title"),
+      },
     },
-  },
-  {
-    name: RouteName.SessionEdit,
-    component: SessionEditScreen,
-    options: {
-      title: t("session_edit.title"),
+    {
+      name: RouteName.SessionInvite,
+      component: SessionInviteScreen,
+      options: {
+        headerTitle: "",
+        title: "",
+      },
     },
-  },
-  {
-    name: RouteName.SessionListeners,
-    component: SessionListenersScreen,
-    options: {
-      title: t("session_listeners.title"),
+    {
+      name: RouteName.SessionEdit,
+      component: SessionEditScreen,
+      options: {
+        title: t("session_edit.title"),
+      },
     },
-  },
-  ...(Platform.OS === "web"
-    ? []
-    : [
-        {
-          name: RouteName.SignIn,
-          component: SignInScreen,
-          options: {
-            presentation: "modal" as const,
-            title: t("sign_in.title"),
-            headerTransparent: true,
-          },
-        },
-      ]),
-  {
-    name: RouteName.NewSelectSongs,
-    component: NewSelectSongsScreen,
-    options: {
-      title: t("new.select_songs.title"),
+    {
+      name: RouteName.SessionListeners,
+      component: SessionListenersScreen,
+      options: {
+        title: t("session_listeners.title"),
+      },
     },
-  },
-  {
-    name: RouteName.NewQuickShare,
-    component: NewQuickShareScreen,
-    options: {
-      title: t("new.quick_share.title"),
+    Platform.OS !== "web" && {
+      name: RouteName.SignIn,
+      component: SignInScreen,
+      options: {
+        presentation: "modal" as const,
+        title: t("sign_in.title"),
+        headerTransparent: true,
+      },
     },
-  },
-  {
-    name: RouteName.NewFinal,
-    component: NewFinalScreen,
-    options: {
-      animation: "fade" as const,
-      headerShown: false,
+    {
+      name: RouteName.NewSelectSongs,
+      component: NewSelectSongsScreen,
+      options: {
+        title: t("new.select_songs.title"),
+      },
     },
-  },
-  {
-    name: RouteName.Settings,
-    component: SettingsScreen,
-    options: {
-      title: t("settings.title"),
+    {
+      name: RouteName.NewQuickShare,
+      component: NewQuickShareScreen,
+      options: {
+        title: t("new.quick_share.title"),
+      },
     },
-  },
-  {
-    name: RouteName.Notifications,
-    component: NotificationsScreen,
-    options: {
-      title: t("notifications.title"),
+    {
+      name: RouteName.NewFinal,
+      component: NewFinalScreen,
+      options: {
+        animation: "fade" as const,
+        headerShown: false,
+        title: t("new.final.title"),
+      },
     },
-  },
-];
+    {
+      name: RouteName.Settings,
+      component: SettingsScreen,
+      options: {
+        title: t("settings.title"),
+      },
+    },
+    {
+      name: RouteName.Notifications,
+      component: NotificationsScreen,
+      options: {
+        title: t("notifications.title"),
+      },
+    },
+  ].filter(isTruthy);

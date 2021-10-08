@@ -40,7 +40,7 @@
       "title": "Quick Share"
     },
     "final": {
-      "title": "Ready. Set. Listen.",
+      "title": "Going LIVE",
       "subtitle": "Gather your friends and listen together."
     }
   },
@@ -109,7 +109,8 @@
       "end": "End session",
       "end_prompt": "You will not be able to add any new songs to this session but will be able to stream played songs at any time later.",
       "end_ok": "Session has been taken offline",
-      "play_other_prompt": "Playing something else will the stop the current session"
+      "play_other_prompt": "Playing something else will the stop the current session",
+      "end_current_to_continue": "You must end current session to play something else"
     },
     "delete": {
       "title": "Delete Session",

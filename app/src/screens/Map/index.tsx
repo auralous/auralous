@@ -2,11 +2,13 @@ import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import type { Session } from "@auralous/api";
+import { useNavigationState } from "@react-navigation/core";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { MapMap } from "./components/MapMap";
+import LiveSessionIntentionCheck from "./components/LiveSessionIntentionCheck";
+import MapController from "./components/MapController";
 import { SessionPager } from "./components/SessionPager";
 
 const styles = StyleSheet.create({
@@ -15,17 +17,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = ({
-  navigation,
-}) => {
+const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = () => {
+  const pageInteracted = useRef(false);
+
   const [sessions, setSessions] = useState<Session[]>([]);
 
   const onClose = useCallback(() => {
+    // in the case there is current session, closing the page
+    // ny clicking go back on "you must end current session"
+    // prompt will stop the playback)
+    if (!pageInteracted.current) return;
     player.playContext(null);
     setSessions([]);
   }, []);
 
   const onSessionPaged = useCallback((session: Session) => {
+    pageInteracted.current = true;
     player.playContext({
       id: session.id,
       shuffle: false,
@@ -33,23 +40,29 @@ const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = ({
     });
   }, []);
 
-  const onSessionNavigated = useCallback(
-    (session: Session) => {
-      navigation.goBack();
-      navigation.navigate(RouteName.Session, { id: session.id });
-    },
-    [navigation]
+  useEffect(() => {
+    if (sessions[0]) onSessionPaged(sessions[0]);
+  }, [onSessionPaged, sessions]);
+
+  const navigationRouteName = useNavigationState((state) =>
+    state?.routes ? state.routes[state.routes.length - 1].name : ""
   );
+  useEffect(() => {
+    if (navigationRouteName !== RouteName.Map) {
+      // remove if navigate away
+      onClose();
+    }
+  }, [navigationRouteName, onClose]);
 
   return (
     <View style={styles.root}>
-      <MapMap setSessions={setSessions} />
+      <LiveSessionIntentionCheck />
+      <MapController setSessions={setSessions} />
       <SessionPager
         sessions={sessions}
         onClose={onClose}
         visible={sessions.length > 0}
         onSessionPaged={onSessionPaged}
-        onSessionNavigated={onSessionNavigated}
       />
     </View>
   );

@@ -1,7 +1,7 @@
 import { Colors } from "@/styles/colors";
 import type { FC } from "react";
 import { useEffect } from "react";
-import { PixelRatio, StyleSheet, View } from "react-native";
+import { PixelRatio, Platform, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -12,7 +12,10 @@ import Animated, {
 } from "react-native-reanimated";
 
 export const radiusPx = 32;
-const maxSize = radiusPx * PixelRatio.getPixelSizeForLayoutSize(1);
+// size on mobile is smaller for some reason
+const maxSize =
+  radiusPx *
+  (Platform.OS === "web" ? 2 : PixelRatio.getPixelSizeForLayoutSize(1));
 
 const styles = StyleSheet.create({
   marker: {

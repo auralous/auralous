@@ -109,7 +109,8 @@
       "end": "Dừng session",
       "end_prompt": "Bạn không thể thêm bài hát mới nhưng có thể phát lại những bài đã thêm bất cứ lúc nào.",
       "end_ok": "Phiên đã ngừng phát trực tiếp",
-      "play_other_prompt": "Phát mục khác sẽ dừng phiên hiện tại"
+      "play_other_prompt": "Phát mục khác sẽ dừng phiên hiện tại",
+      "end_current_to_continue": "Bạn phải ngừng phiên hiện tại để phát mục khác"
     },
     "delete": {
       "title": "Xóa Phiên",

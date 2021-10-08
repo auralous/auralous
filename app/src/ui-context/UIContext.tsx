@@ -24,7 +24,7 @@ interface UIState {
     visible: boolean;
     intention: {
       sessionId: string;
-      nextPlaybackContext: PlaybackCurrentContext;
+      nextPlaybackContext: PlaybackCurrentContext | undefined;
     } | null;
   };
   share: {

@@ -6,9 +6,9 @@ import {
   useRef,
 } from "react";
 import { View } from "react-native";
-import type { Swiper as SwiperClass } from "swiper/core";
+import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper.min.css";
+import type { Swiper as SwiperClass } from "swiper/types";
 import type { PagerViewMethods, PagerViewProps } from "./types";
 
 const PagerView = forwardRef<PagerViewMethods, PagerViewProps>(

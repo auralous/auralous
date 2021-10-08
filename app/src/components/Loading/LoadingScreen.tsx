@@ -18,6 +18,4 @@ const LoadingScreen: FC = () => {
   );
 };
 
-export const renderLoadingScreen = () => <LoadingScreen />;
-
 export default LoadingScreen;

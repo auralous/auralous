@@ -1,4 +1,4 @@
-import { IconBell, IconSettings } from "@/assets";
+import { IconBell, IconMapPin, IconSettings } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { TextButton } from "@/components/Button";
 import { Spacer } from "@/components/Spacer";
@@ -40,16 +40,6 @@ const HomeHeader: FC = () => {
 
   const navigation = useNavigation();
 
-  const gotoSettings = useCallback(
-    () => navigation.navigate(RouteName.Settings),
-    [navigation]
-  );
-
-  const gotoNotifications = useCallback(
-    () => navigation.navigate(RouteName.Notifications),
-    [navigation]
-  );
-
   const gotoUser = useCallback(
     () =>
       me &&
@@ -87,15 +77,21 @@ const HomeHeader: FC = () => {
       </View>
       <View style={styles.col}>
         <TextButton
+          icon={<IconMapPin strokeWidth={1} />}
+          accessibilityLabel={t("map.title")}
+          onPress={() => navigation.navigate(RouteName.Map)}
+        />
+        <Spacer x={2} />
+        <TextButton
           icon={<IconBell strokeWidth={1} />}
           accessibilityLabel={t("notifications.title")}
-          onPress={gotoNotifications}
+          onPress={() => navigation.navigate(RouteName.Notifications)}
         />
         <Spacer x={2} />
         <TextButton
           icon={<IconSettings strokeWidth={1} />}
           accessibilityLabel={t("settings.title")}
-          onPress={gotoSettings}
+          onPress={() => navigation.navigate(RouteName.Settings)}
         />
       </View>
     </View>

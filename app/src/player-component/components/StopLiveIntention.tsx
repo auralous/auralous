@@ -24,11 +24,13 @@ export const StopLiveIntention: FC = () => {
 
   const endAndContinue = useCallback(async () => {
     if (!stopLiveOnPlay.intention) return;
-    player.playContext(stopLiveOnPlay.intention.nextPlaybackContext);
     const result = await endSession({
       id: stopLiveOnPlay.intention.sessionId,
     });
     if (!result.error) {
+      if (stopLiveOnPlay.intention.nextPlaybackContext) {
+        player.playContext(stopLiveOnPlay.intention.nextPlaybackContext);
+      }
       onDismiss();
     }
   }, [stopLiveOnPlay.intention, onDismiss, endSession]);

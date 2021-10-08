@@ -11,6 +11,8 @@ import type {
   LayoutChangeEvent,
   ListRenderItem,
   ListRenderItemInfo,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   ViewStyle,
 } from "react-native";
 import {
@@ -63,11 +65,28 @@ function HorizontalList<ItemT>({
     setWidth(event.nativeEvent.layout.width);
   }, []);
 
+  const [listPos, setListPos] = useState<"start" | "mid" | "end">("start");
+
   const scrollOffsetRef = useRef(props.initialScrollIndex || 0);
-  const onMomentumScrollEnd = useCallback<
-    NonNullable<FlatListProps<ItemT>["onMomentumScrollEnd"]>
-  >((event) => {
-    scrollOffsetRef.current = event.nativeEvent.contentOffset.x;
+  const contentSizeRef = useRef(0);
+  const onScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      scrollOffsetRef.current = event.nativeEvent.contentOffset.x;
+      if (scrollOffsetRef.current <= 0.5) {
+        setListPos("start");
+      } else if (
+        scrollOffsetRef.current >=
+        contentSizeRef.current - width - 0.5
+      ) {
+        setListPos("end");
+      } else {
+        setListPos("mid");
+      }
+    },
+    [width]
+  );
+  const onContentSizeChange = useCallback((w: number) => {
+    contentSizeRef.current = w;
   }, []);
 
   const itemStyle = useMemo(() => {
@@ -88,40 +107,44 @@ function HorizontalList<ItemT>({
     <View style={style} onLayout={onLayout}>
       {!isTouchDeviceValue && (
         <>
-          <Pressable
-            style={[styles.arrowPressable, { left: 0 }]}
-            onPress={() =>
-              ref.current?.scrollToOffset({
-                offset: scrollOffsetRef.current - width,
-                animated: true,
-              })
-            }
-          >
-            <LinearGradient
-              colors={["rgba(0,0,0,1)", "rgba(0,0,0,0)"]}
-              style={styles.gradient}
-              start={{ x: 0, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}
-            />
-            <IconChevronLeft height={Size[8]} width={Size[8]} />
-          </Pressable>
-          <Pressable
-            style={[styles.arrowPressable, { right: 0 }]}
-            onPress={() =>
-              ref.current?.scrollToOffset({
-                offset: scrollOffsetRef.current + width,
-                animated: true,
-              })
-            }
-          >
-            <LinearGradient
-              colors={["rgba(0,0,0,1)", "rgba(0,0,0,0)"]}
-              style={styles.gradient}
-              start={{ x: 1, y: 0.5 }}
-              end={{ x: 0, y: 0.5 }}
-            />
-            <IconChevronRight height={Size[8]} width={Size[8]} />
-          </Pressable>
+          {listPos !== "start" && (
+            <Pressable
+              style={[styles.arrowPressable, { left: 0 }]}
+              onPress={() =>
+                ref.current?.scrollToOffset({
+                  offset: scrollOffsetRef.current - width,
+                  animated: true,
+                })
+              }
+            >
+              <LinearGradient
+                colors={["rgba(0,0,0,1)", "rgba(0,0,0,0)"]}
+                style={styles.gradient}
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+              />
+              <IconChevronLeft height={Size[8]} width={Size[8]} />
+            </Pressable>
+          )}
+          {listPos !== "end" && (
+            <Pressable
+              style={[styles.arrowPressable, { right: 0 }]}
+              onPress={() =>
+                ref.current?.scrollToOffset({
+                  offset: scrollOffsetRef.current + width,
+                  animated: true,
+                })
+              }
+            >
+              <LinearGradient
+                colors={["rgba(0,0,0,1)", "rgba(0,0,0,0)"]}
+                style={styles.gradient}
+                start={{ x: 1, y: 0.5 }}
+                end={{ x: 0, y: 0.5 }}
+              />
+              <IconChevronRight height={Size[8]} width={Size[8]} />
+            </Pressable>
+          )}
         </>
       )}
       <FlatList
@@ -132,7 +155,8 @@ function HorizontalList<ItemT>({
         renderItem={renderItemsFL}
         ItemSeparatorComponent={ItemSeparatorComponent}
         showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={onMomentumScrollEnd}
+        onScroll={onScroll}
+        onContentSizeChange={onContentSizeChange}
       />
     </View>
   );

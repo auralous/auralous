@@ -6,10 +6,12 @@ import { SkeletonBlock } from "@/components/Loading";
 import { PagerView } from "@/components/PagerView";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
+import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { Session } from "@auralous/api";
 import { useNowPlayingQuery, useTrackQuery } from "@auralous/api";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -171,8 +173,17 @@ export const SessionPager: FC<{
   visible: boolean;
   onClose(): void;
   onSessionPaged(session: Session): void;
-  onSessionNavigated(session: Session): void;
-}> = ({ sessions, visible, onClose, onSessionPaged, onSessionNavigated }) => {
+}> = ({ sessions, visible, onClose, onSessionPaged }) => {
+  const navigation = useNavigation();
+
+  const onSessionNavigated = useCallback(
+    (session: Session) => {
+      navigation.goBack();
+      navigation.navigate(RouteName.Session, { id: session.id });
+    },
+    [navigation]
+  );
+
   const onPageSelected = useCallback(
     (page: number) => {
       const session = sessions[page];

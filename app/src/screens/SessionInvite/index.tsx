@@ -40,6 +40,14 @@ const SessionInviteScreen: FC<
     variables: { id: route.params.id },
   });
 
+  useEffect(() => {
+    if (dataSession?.session) {
+      navigation.setOptions({
+        title: t("session_invite.title", { name: dataSession?.session?.text }),
+      });
+    }
+  }, [t, dataSession, navigation]);
+
   const [{ data, fetching }, addCollab] =
     useSessionCollabAddFromTokenMutation();
 
