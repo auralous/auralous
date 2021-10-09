@@ -4,6 +4,7 @@ import type { ParamListBase } from "@react-navigation/native";
 export enum RouteName {
   Home = "home",
   Map = "map",
+  Search = "search",
   SignIn = "sign-in",
   User = "user",
   UserFollowers = "user/followers",

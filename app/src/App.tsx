@@ -3,10 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import type { FC } from "react";
 import { StatusBar, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Layout } from "./components/Layout";
 import { RootModalsComponents } from "./components/RootModals";
 import { Toaster } from "./components/Toast";
 import { ApiProvider } from "./gql/context";
-import { PlayerComponent, PlayerProvider } from "./player-component";
+import { PlayerComponent, PlayerProvider } from "./player-components";
 import { linking } from "./screens/linking";
 import Navigator from "./screens/Navigator";
 import { Colors } from "./styles/colors";
@@ -40,7 +41,9 @@ const App: FC = () => {
             <NavigationContainer theme={navigationTheme} linking={linking}>
               <BottomSheetModalProvider>
                 <PlayerComponent>
-                  <Navigator />
+                  <Layout>
+                    <Navigator />
+                  </Layout>
                 </PlayerComponent>
                 <RootModalsComponents />
               </BottomSheetModalProvider>

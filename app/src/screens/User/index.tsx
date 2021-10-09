@@ -11,8 +11,10 @@ import { useUiDispatch } from "@/ui-context";
 import { isTruthy } from "@/utils/utils";
 import type { User } from "@auralous/api";
 import { useMeQuery, useUserQuery } from "@auralous/api";
-import { useNavigation } from "@react-navigation/native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -24,10 +26,12 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
 });
 
-const HeaderRight: FC<{ user: User }> = ({ user }) => {
+const HeaderRight: FC<{
+  navigation: NativeStackNavigationProp<ParamList, RouteName.User>;
+  user: User;
+}> = ({ navigation, user }) => {
   const { t } = useTranslation();
 
-  const navigation = useNavigation();
   const uiDispatch = useUiDispatch();
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
@@ -89,7 +93,7 @@ const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
     navigation.setOptions({
       title: user.username,
       headerRight() {
-        return <HeaderRight user={user} />;
+        return <HeaderRight navigation={navigation} user={user} />;
       },
     });
   }, [data, navigation]);

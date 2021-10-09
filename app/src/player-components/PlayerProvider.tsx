@@ -8,7 +8,7 @@ import {
 } from "@auralous/api";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { useTrackColor } from "./components/useTrackColor";
+import { useTrackColor } from "./PlayerView/useTrackColor";
 
 export const PlayerProvider: FC = ({ children }) => {
   const client = useClient();

@@ -1,4 +1,4 @@
-import { Container } from "@/components/Layout";
+import { Container } from "@/components/Container";
 import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";

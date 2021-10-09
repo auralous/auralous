@@ -1,4 +1,4 @@
-import { useContainerStyle } from "@/components/Layout";
+import { useContainerStyle } from "@/components/Container";
 import { LoadingScreen } from "@/components/Loading";
 import {
   NotificationFollowItem,

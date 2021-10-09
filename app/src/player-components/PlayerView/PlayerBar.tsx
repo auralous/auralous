@@ -34,14 +34,14 @@ const styles = StyleSheet.create({
   bg: { opacity: 0.5 },
   button: {
     alignItems: "center",
-    height: Size[16],
+    height: Size[14],
     justifyContent: "center",
-    width: Size[16],
+    width: Size[14],
   },
   image: {
-    height: Size[16],
+    height: Size[14],
     resizeMode: "cover",
-    width: Size[16],
+    width: Size[14],
   },
   meta: {
     flex: 1,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: Colors.backgroundSecondary,
     flexDirection: "row",
-    height: Size[16],
+    height: Size[14],
   },
   title: {
     alignItems: "center",

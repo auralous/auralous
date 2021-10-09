@@ -176,7 +176,7 @@ export const SignInModal: FC = () => {
   );
 
   return (
-    <Dialog.Dialog visible={ui.signIn.visible}>
+    <Dialog.Dialog onDismiss={onDismiss} visible={ui.signIn.visible}>
       <Dialog.Title>{t("sign_in.title")}</Dialog.Title>
       <Dialog.Content>
         <View

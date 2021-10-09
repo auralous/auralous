@@ -1,4 +1,4 @@
-import { StopLiveIntention } from "@/player-component/components/StopLiveIntention";
+import { StopLiveIntention } from "@/player-components/StopLiveIntention";
 import type { FC } from "react";
 import { AddToPlaylistModal } from "./AddToPlaylist";
 import { BottomSheetActionMenuModal } from "./BottomSheetActionMenu";

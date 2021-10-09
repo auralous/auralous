@@ -1,4 +1,4 @@
-import { IconBell, IconMapPin, IconSettings } from "@/assets";
+import { IconBell, IconSettings } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { TextButton } from "@/components/Button";
 import { Spacer } from "@/components/Spacer";
@@ -76,12 +76,6 @@ const HomeHeader: FC = () => {
         )}
       </View>
       <View style={styles.col}>
-        <TextButton
-          icon={<IconMapPin strokeWidth={1} />}
-          accessibilityLabel={t("map.title")}
-          onPress={() => navigation.navigate(RouteName.Map)}
-        />
-        <Spacer x={2} />
         <TextButton
           icon={<IconBell strokeWidth={1} />}
           accessibilityLabel={t("notifications.title")}

@@ -19,8 +19,10 @@ import { useUiDispatch } from "@/ui-context";
 import { isTruthy } from "@/utils/utils";
 import type { Session } from "@auralous/api";
 import { useMeQuery, useSessionQuery } from "@auralous/api";
-import { useNavigation } from "@react-navigation/native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -33,10 +35,12 @@ const styles = StyleSheet.create({
   root: { flex: 1, paddingTop: ConstantSize.headerHeight },
 });
 
-const HeaderRight: FC<{ session: Session }> = ({ session }) => {
+const HeaderRight: FC<{
+  session: Session;
+  navigation: NativeStackNavigationProp<ParamList, RouteName.Session>;
+}> = ({ session, navigation }) => {
   const { t } = useTranslation();
 
-  const navigation = useNavigation();
   const uiDispatch = useUiDispatch();
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
@@ -137,7 +141,7 @@ const SessionScreen: FC<NativeStackScreenProps<ParamList, RouteName.Session>> =
       navigation.setOptions({
         title: session.text,
         headerRight() {
-          return <HeaderRight session={session} />;
+          return <HeaderRight navigation={navigation} session={session} />;
         },
       });
     }, [navigation, me, data, t, uiDispatch]);

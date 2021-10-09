@@ -1,6 +1,6 @@
 import { IconUser } from "@/assets";
 import { Button, GradientButton } from "@/components/Button";
-import { Container } from "@/components/Layout";
+import { Container } from "@/components/Container";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";

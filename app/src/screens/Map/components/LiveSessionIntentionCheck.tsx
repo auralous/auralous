@@ -4,7 +4,7 @@ import { Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import { useSessionCurrentLiveQuery } from "@auralous/api";
-import { useNavigation, useNavigationState } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Modal, StyleSheet, View } from "react-native";
@@ -33,14 +33,9 @@ const LiveSessionIntentionCheck: FC = () => {
 
   const navigation = useNavigation();
 
-  const navigationRouteName = useNavigationState((state) =>
-    state?.routes ? state.routes[state.routes.length - 1].name : ""
-  );
+  const isFocused = useIsFocused();
 
-  if (
-    dataSessionCurrentLive?.sessionCurrentLive &&
-    navigationRouteName === RouteName.Map
-  ) {
+  if (isFocused && dataSessionCurrentLive?.sessionCurrentLive) {
     return (
       <Modal transparent>
         <View style={styles.root}>

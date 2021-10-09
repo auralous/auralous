@@ -1,4 +1,4 @@
-import { Container } from "@/components/Layout";
+import { Container } from "@/components/Container";
 import { Size } from "@/styles/spacing";
 import { SongSelector } from "@/views/SongSelector";
 import type { Dispatch, FC, SetStateAction } from "react";

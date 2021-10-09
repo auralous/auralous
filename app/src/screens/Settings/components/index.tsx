@@ -1,5 +1,5 @@
 import { Button } from "@/components/Button";
-import { useContainerStyle } from "@/components/Layout";
+import { useContainerStyle } from "@/components/Container";
 import { Spacer } from "@/components/Spacer";
 import { Heading } from "@/components/Typography";
 import { Colors } from "@/styles/colors";

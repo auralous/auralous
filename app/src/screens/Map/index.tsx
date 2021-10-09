@@ -1,8 +1,7 @@
 import player from "@/player";
-import type { ParamList } from "@/screens/types";
-import { RouteName } from "@/screens/types";
+import type { ParamList, RouteName } from "@/screens/types";
 import type { Session } from "@auralous/api";
-import { useNavigationState } from "@react-navigation/core";
+import { useIsFocused } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -44,15 +43,13 @@ const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = () => {
     if (sessions[0]) onSessionPaged(sessions[0]);
   }, [onSessionPaged, sessions]);
 
-  const navigationRouteName = useNavigationState((state) =>
-    state?.routes ? state.routes[state.routes.length - 1].name : ""
-  );
+  const isFocused = useIsFocused();
   useEffect(() => {
-    if (navigationRouteName !== RouteName.Map) {
+    if (isFocused) {
       // remove if navigate away
       onClose();
     }
-  }, [navigationRouteName, onClose]);
+  }, [isFocused, onClose]);
 
   return (
     <View style={styles.root}>

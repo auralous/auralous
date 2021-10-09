@@ -1,4 +1,4 @@
-import { useContainerStyle } from "@/components/Layout";
+import { useContainerStyle } from "@/components/Container";
 import { LoadingScreen } from "@/components/Loading";
 import { shuffle } from "@/player";
 import type { ParamList } from "@/screens/types";
