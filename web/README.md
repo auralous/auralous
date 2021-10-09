@@ -1,46 +1,38 @@
-# Getting Started with Create React App
+# @auralous/web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React Native app for Android and iOS for Auralous
 
-## Available Scripts
+## Setup
 
-In the project directory, you can run:
+### Environment variables
 
-### `yarn start`
+Create a `.env` in the `web` (current) directory:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```env
+API_URI=https://api.auralous.com
+WEBSOCKET_URI=wss://api.auralous.com
+APP_URI=https://app.auralous.com
+SPOTIFY_CLIENT_ID=spotify_client_id
+MAPBOX_ACCESS_TOKEN=PASTE_YOUR_MAPBOX_ACCESS_TOKEN
+FACEBOOK_APP_ID=
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Spotify
 
-### `yarn test`
+You will need a [Spotify Developer](https://developer.spotify.com/) to work with Spotify playback.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Mapbox
 
-### `yarn build`
+You will need a [Mapbox](https://www.mapbox.com/) to work on the Map Screen.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Workflows
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Make sure you have run `yarn dev` from the parent directory.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `yarn dev`
 
-### `yarn eject`
+Start [webpack-dev-server](https://github.com/webpack/webpack-dev-server) for development.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Build
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Run `yarn build` to create a production build in the `build` directory.

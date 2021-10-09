@@ -19,11 +19,10 @@ Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com
 
 | Codebase         |                  Description                  |
 | :--------------- | :-------------------------------------------: |
-| [web](web)       |      Next.js + React Native Web frontend      |
-| [app](app)       |               React Native App                |
-| [ui](ui)         |      Shared components, styles, UI utils      |
+| [web](web)       |             React Native Web app              |
+| [mobile](mobile) |     React Native app for Android and iOS      |
+| [app](app)       |              The shared main app              |
 | [api](api)       | GraphQL API / URQL code, hooks, and exchanges |
-| [player](player) |      The Player class and React Context       |
 
 ### Workflows
 
@@ -31,7 +30,7 @@ Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com
 
 #### `yarn dev`
 
-Start the file watcher to build common components for the project for uses in both `web` and `app`.
+Start the file watcher to build common components for the project for uses in both `web` and `mobile`.
 
 #### `yarn lint`
 
