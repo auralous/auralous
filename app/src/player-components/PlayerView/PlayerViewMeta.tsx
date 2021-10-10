@@ -1,4 +1,6 @@
-import { ImageSources } from "@/assets";
+import imageDefaultTrack from "@/assets/images/default_track.jpg";
+import spotifyLogoRGBWhite from "@/assets/images/Spotify_Logo_RGB_White.png";
+import ytLogoMonoDark from "@/assets/images/yt_logo_mono_dark.png";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
@@ -73,8 +75,8 @@ const ErrorNoCrossTrack = () => {
 const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
   const providerLogoImageSource = useMemo(
     () => ({
-      [PlatformName.Spotify]: ImageSources.spotifyLogoRGBWhite,
-      [PlatformName.Youtube]: ImageSources.ytLogoMonoDark,
+      [PlatformName.Spotify]: spotifyLogoRGBWhite,
+      [PlatformName.Youtube]: ytLogoMonoDark,
     }),
     []
   );
@@ -104,10 +106,8 @@ const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
         <ImageBackground
           style={styles.image}
           resizeMode="contain"
-          source={
-            track?.image ? { uri: track?.image } : ImageSources.defaultTrack
-          }
-          defaultSource={ImageSources.defaultTrack}
+          source={track?.image ? { uri: track?.image } : imageDefaultTrack}
+          defaultSource={imageDefaultTrack}
           accessibilityLabel={track?.title}
         />
       </View>

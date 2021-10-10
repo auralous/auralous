@@ -1,4 +1,4 @@
-import { ImageSources } from "@/assets";
+import imageDefaultUser from "@/assets/images/default_user.jpg";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
 import { formatTime } from "@/utils/ms";
@@ -66,9 +66,9 @@ export const NotificationFollowItem: FC<{ notification: NotificationFollow }> =
           source={
             notification.follower?.profilePicture
               ? { uri: notification.follower?.profilePicture }
-              : ImageSources.defaultUser
+              : imageDefaultUser
           }
-          defaultSource={ImageSources.defaultUser}
+          defaultSource={imageDefaultUser}
         />
         <Spacer x={2} />
         <View style={styles.content}>
@@ -99,9 +99,9 @@ export const NotificationNewSessionItem: FC<{
         source={
           notification.session?.creator.profilePicture
             ? { uri: notification.session?.creator.profilePicture }
-            : ImageSources.defaultUser
+            : imageDefaultUser
         }
-        defaultSource={ImageSources.defaultUser}
+        defaultSource={imageDefaultUser}
       />
       <Spacer x={2} />
       <View style={styles.content}>

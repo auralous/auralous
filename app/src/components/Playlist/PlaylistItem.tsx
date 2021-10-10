@@ -1,4 +1,4 @@
-import { ImageSources } from "@/assets";
+import imageDefaultPlaylist from "@/assets/images/default_playlist.jpg";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
@@ -36,13 +36,12 @@ const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
       <View style={styles.image}>
         <Image
           source={
-            playlist.image
-              ? { uri: playlist.image }
-              : ImageSources.defaultPlaylist
+            playlist.image ? { uri: playlist.image } : imageDefaultPlaylist
           }
-          defaultSource={ImageSources.defaultPlaylist}
+          defaultSource={imageDefaultPlaylist}
           style={StyleSheet.absoluteFill}
           accessibilityLabel={playlist.name}
+          resizeMode="cover"
         />
       </View>
       <View style={styles.meta}>

@@ -15,34 +15,24 @@
   "license": "AGPL-3.0",
   "scripts": {
     "build": "webpack --mode=production",
+    "build:analyze": "ANALYZE=true yarn build",
     "dev": "webpack serve",
     "clean": "rm -rf build"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "dependencies": {
     "@auralous/app": "^0.0.0",
     "@react-native-async-storage/async-storage": "^1.15.8",
     "@react-navigation/native": "^6.0.4",
+    "@react-navigation/native-stack": "^6.2.3",
     "@svgr/webpack": "^5.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-reanimated": "^2.3.0-beta.2",
+    "react-native-safe-area-context": "^3.3.2",
     "react-native-svg": "^12.1.1",
     "react-native-web": "^0.17.5",
-    "react-native-web-linear-gradient": "^1.1.2",
-    "web-vitals": "^2.1.0"
+    "react-native-web-linear-gradient": "^1.1.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
@@ -60,6 +50,7 @@
     "metro-react-native-babel-preset": "^0.66.2",
     "style-loader": "^3.3.0",
     "webpack": "^5.55.1",
+    "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0",
     "webpack-config-react": "^0.0.3",
     "webpack-dev-server": "^4.3.0",

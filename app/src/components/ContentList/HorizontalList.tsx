@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   list: {
-    flex: 1,
+    width: "100%",
   },
 });
 
@@ -59,7 +59,7 @@ function HorizontalList<ItemT>({
 }: HorizontalListProps<ItemT>) {
   const ref = useRef<FlatList>(null);
 
-  const [width, setWidth] = useState(Dimensions.get("screen").width);
+  const [width, setWidth] = useState(Dimensions.get("window").width);
 
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     setWidth(event.nativeEvent.layout.width);

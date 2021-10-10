@@ -1,9 +1,11 @@
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { NavigationContainer } from "@react-navigation/native";
 import type { FC } from "react";
+import { Suspense } from "react";
 import { StatusBar, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Layout } from "./components/Layout";
+import { LoadingScreen } from "./components/Loading";
 import { RootModalsComponents } from "./components/RootModals";
 import { Toaster } from "./components/Toast";
 import { ApiProvider } from "./gql/context";
@@ -42,7 +44,9 @@ const App: FC = () => {
               <BottomSheetModalProvider>
                 <PlayerComponent>
                   <Layout>
-                    <Navigator />
+                    <Suspense fallback={<LoadingScreen />}>
+                      <Navigator />
+                    </Suspense>
                   </Layout>
                 </PlayerComponent>
                 <RootModalsComponents />

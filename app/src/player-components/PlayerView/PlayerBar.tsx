@@ -1,9 +1,5 @@
-import {
-  IconByPlatformName,
-  IconPause,
-  IconPlay,
-  ImageSources,
-} from "@/assets";
+import { IconByPlatformName, IconPause, IconPlay } from "@/assets";
+import imageDefaultTrack from "@/assets/images/default_track.jpg";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TextMarquee } from "@/components/Typography";
@@ -113,10 +109,8 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
       <Pressable style={styles.viewExpandTrigger} onPress={onPress}>
         <Image
           style={styles.image}
-          source={
-            track?.image ? { uri: track?.image } : ImageSources.defaultTrack
-          }
-          defaultSource={ImageSources.defaultTrack}
+          source={track?.image ? { uri: track?.image } : imageDefaultTrack}
+          defaultSource={imageDefaultTrack}
           accessibilityLabel={track?.title}
         />
         <View style={styles.meta}>

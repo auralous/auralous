@@ -4,6 +4,8 @@ const pkgDir = require("pkg-dir");
 const { merge } = require("webpack-merge");
 const webpack = require("webpack");
 const dotenvResult = require("dotenv").config();
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const getDependencyDir = (name, options) =>
   pkgDir.sync(require.resolve(name, options));
@@ -101,6 +103,9 @@ module.exports = async (env, argv) => {
         "@react-navigation/native": getDependencyDir(
           "@react-navigation/native"
         ),
+        "@react-navigation/native-stack": getDependencyDir(
+          "@react-navigation/native-stack"
+        ),
       },
     },
     plugins: [
@@ -108,6 +113,7 @@ module.exports = async (env, argv) => {
         __DEV__: process.env.NODE_ENV === "production",
         process: { env: { ...dotEnvEnv } },
       }),
-    ],
+      isProductionEnv ** process.env.ANALYZE && new BundleAnalyzerPlugin(),
+    ].filter(Boolean),
   });
 };

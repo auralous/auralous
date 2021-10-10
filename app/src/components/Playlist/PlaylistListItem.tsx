@@ -1,4 +1,5 @@
-import { IconByPlatformName, ImageSources } from "@/assets";
+import { IconByPlatformName } from "@/assets";
+import imageDefaultPlaylist from "@/assets/images/default_playlist.jpg";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
@@ -38,11 +39,9 @@ const PlaylistListItem: FC<PlaylistListItemProps> = ({ playlist }) => {
       <Image
         style={styles.image}
         source={
-          playlist?.image
-            ? { uri: playlist?.image }
-            : ImageSources.defaultPlaylist
+          playlist?.image ? { uri: playlist?.image } : imageDefaultPlaylist
         }
-        defaultSource={ImageSources.defaultPlaylist}
+        defaultSource={imageDefaultPlaylist}
         accessibilityLabel={playlist?.name}
       />
       <Spacer x={2} />

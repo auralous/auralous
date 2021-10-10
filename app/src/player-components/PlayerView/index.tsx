@@ -2,6 +2,7 @@ import { IconChevronDown, IconMoreHorizontal, IconPlayListAdd } from "@/assets";
 import { TextButton } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Header } from "@/components/Header";
+import { LoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import {
@@ -18,7 +19,14 @@ import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import {
   StyleSheet,
@@ -28,8 +36,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import PlayerBar from "./PlayerBar";
 import PlayerViewBackground from "./PlayerViewBackground";
-import PlayerViewContent from "./PlayerViewContent";
-import PlayerViewContentLand from "./PlayerViewContent.land";
+
+const PlayerViewContent = lazy(() => import("./PlayerViewContent"));
+const PlayerViewContentLand = lazy(() => import("./PlayerViewContent.land"));
 
 const styles = StyleSheet.create({
   headerTitle: {
@@ -185,11 +194,13 @@ const PlayerView: FC = () => {
       >
         <SafeAreaView style={styles.root}>
           <PlayerViewHeader onDismiss={dismiss} />
-          {windowWidth >= LayoutSize.lg ? (
-            <PlayerViewContentLand />
-          ) : (
-            <PlayerViewContent />
-          )}
+          <Suspense fallback={<LoadingScreen />}>
+            {windowWidth >= LayoutSize.lg ? (
+              <PlayerViewContentLand />
+            ) : (
+              <PlayerViewContent />
+            )}
+          </Suspense>
         </SafeAreaView>
       </BottomSheetModal>
       <PlayerBar onPress={present} />

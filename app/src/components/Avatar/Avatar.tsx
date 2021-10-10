@@ -1,4 +1,4 @@
-import { ImageSources } from "@/assets";
+import imageDefaultUser from "@/assets/images/default_user.jpg";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
@@ -28,8 +28,8 @@ const Avatar: FC<AvatarProps> = ({ href, username, size }) => {
     <View style={[styles.root, { width: Size[size], height: Size[size] }]}>
       <Image
         style={styles.image}
-        source={href ? { uri: href } : ImageSources.defaultUser}
-        defaultSource={ImageSources.defaultUser}
+        source={href ? { uri: href } : imageDefaultUser}
+        defaultSource={imageDefaultUser}
         accessibilityLabel={username}
       />
     </View>

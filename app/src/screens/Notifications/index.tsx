@@ -3,8 +3,10 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { NotificationsScreenContent } from "./NotificationsScreenContent";
 
-export const NotificationsScreen: FC<
+const NotificationsScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.Notifications>
 > = () => {
   return <NotificationsScreenContent />;
 };
+
+export default NotificationsScreen;

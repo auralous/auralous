@@ -1,4 +1,4 @@
-import { ImageSources } from "@/assets";
+import imageDefaultTrack from "@/assets/images/default_track.jpg";
 import { Avatar } from "@/components/Avatar";
 import { Button } from "@/components/Button";
 import { SlideModal } from "@/components/Dialog";
@@ -83,9 +83,9 @@ const SessionPagerNowPlaying: FC<{ trackId?: string; fetching?: boolean }> = ({
             source={
               dataTrack?.track?.image
                 ? { uri: dataTrack.track.image }
-                : ImageSources.defaultTrack
+                : imageDefaultTrack
             }
-            defaultSource={ImageSources.defaultTrack}
+            defaultSource={imageDefaultTrack}
             style={StyleSheet.absoluteFill}
             resizeMode="contain"
           />

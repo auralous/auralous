@@ -1,4 +1,4 @@
-import { ImageSources } from "@/assets";
+import imageDefaultPlaylist from "@/assets/images/default_playlist.jpg";
 import { Button } from "@/components/Button";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
@@ -33,12 +33,8 @@ const PlaylistMeta: FC<{
   return (
     <View style={stylesMeta.root}>
       <Image
-        source={
-          playlist.image
-            ? { uri: playlist.image }
-            : ImageSources.defaultPlaylist
-        }
-        defaultSource={ImageSources.defaultPlaylist}
+        source={playlist.image ? { uri: playlist.image } : imageDefaultPlaylist}
+        defaultSource={imageDefaultPlaylist}
         style={stylesMeta.image}
         accessibilityLabel={playlist.name}
       />

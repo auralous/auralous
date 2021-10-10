@@ -1,4 +1,4 @@
-import { ImageSources } from "@/assets";
+import imageDefaultPlaylist from "@/assets/images/default_playlist.jpg";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
@@ -70,10 +70,8 @@ const SessionItem: FC<SessionItemProps> = ({ session }) => {
   return (
     <View style={styles.root}>
       <ImageBackground
-        source={
-          session.image ? { uri: session.image } : ImageSources.defaultPlaylist
-        }
-        defaultSource={ImageSources.defaultPlaylist}
+        source={session.image ? { uri: session.image } : imageDefaultPlaylist}
+        defaultSource={imageDefaultPlaylist}
         style={styles.background}
         accessible={false}
       >

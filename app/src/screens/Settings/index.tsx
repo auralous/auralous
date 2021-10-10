@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { getLocales } from "react-native-localize";
 import { SettingsScreenContent } from "./components";
 
-export const SettingsScreen: FC<
+const SettingsScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.Settings>
 > = () => {
   const authActions = useAuthActions();
@@ -41,3 +41,5 @@ export const SettingsScreen: FC<
     />
   );
 };
+
+export default SettingsScreen;

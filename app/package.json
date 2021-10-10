@@ -12,6 +12,7 @@
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "postinstall": "patch-package"
   },
+  "sideEffects": false,
   "dependencies": {
     "@auralous/api": "^0.0.0",
     "@fluentui/react-context-selector": "^0.53.4",
@@ -70,6 +71,7 @@
     "react-native-permissions": "*",
     "react-native-reanimated": "*",
     "react-native-safe-area-context": "*",
+    "react-native-screen": "*",
     "react-native-spotify-remote": "*"
   }
 }

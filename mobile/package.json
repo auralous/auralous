@@ -6,7 +6,7 @@
     "android": "react-native run-android && adb reverse tcp:4000 tcp:4000",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "build": "tsc --noEmit",
+    "build": "echo nil",
     "clean": "echo nil",
     "test": "jest",
     "postinstall": "patch-package"

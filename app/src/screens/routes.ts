@@ -1,31 +1,15 @@
 import { isTruthy } from "@/utils/utils";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import type { ComponentType } from "react";
+import type { ComponentType, LazyExoticComponent } from "react";
+import { lazy } from "react";
 import type { TFunction } from "react-i18next";
 import { Platform } from "react-native";
-import HomeScreen from "./Home";
-import MapScreen from "./Map";
-import NewFinalScreen from "./NewFinal";
-import NewQuickShareScreen from "./NewQuickShare";
-import NewSelectSongsScreen from "./NewSelectSongs";
-import { NotificationsScreen } from "./Notifications";
-import PlaylistScreen from "./Playlist";
-import SessionScreen from "./Session";
-import SessionCollaboratorsScreen from "./SessionCollaborators";
-import SessionEditScreen from "./SessionEdit";
-import SessionInviteScreen from "./SessionInvite";
-import SessionListenersScreen from "./SessionListeners";
-import { SettingsScreen } from "./Settings";
-import SignInScreen from "./SignIn";
 import { RouteName } from "./types";
-import UserScreen from "./User";
-import UserFollowersScreen from "./UserFollowersScreen";
-import UserFollowingScreen from "./UserFollowingScreen";
 
 interface RouteFnParam {
   name: string;
   options: NativeStackNavigationOptions;
-  component: ComponentType;
+  component: ComponentType | LazyExoticComponent<ComponentType>;
 }
 
 export const routesFn = (t: TFunction) => {
@@ -33,19 +17,19 @@ export const routesFn = (t: TFunction) => {
     [
       {
         name: RouteName.Home,
-        component: HomeScreen,
+        component: lazy(() => import("./Home")),
         options: { headerShown: false, title: t("home.title") },
       },
       {
         name: RouteName.Map,
-        component: MapScreen,
+        component: lazy(() => import("./Map")),
         options: {
           title: t("map.title"),
         },
       },
       {
         name: RouteName.User,
-        component: UserScreen,
+        component: lazy(() => import("./User")),
         options: {
           headerTitle: "",
           headerTransparent: true,
@@ -54,21 +38,21 @@ export const routesFn = (t: TFunction) => {
       },
       {
         name: RouteName.UserFollowers,
-        component: UserFollowersScreen,
+        component: lazy(() => import("./UserFollowersScreen")),
         options: {
           title: t("user.followers"),
         },
       },
       {
         name: RouteName.UserFollowing,
-        component: UserFollowingScreen,
+        component: lazy(() => import("./UserFollowingScreen")),
         options: {
           title: t("user.following"),
         },
       },
       {
         name: RouteName.Playlist,
-        component: PlaylistScreen,
+        component: lazy(() => import("./Playlist")),
         options: {
           headerTitle: "",
           headerTransparent: true,
@@ -77,7 +61,7 @@ export const routesFn = (t: TFunction) => {
       },
       {
         name: RouteName.Session,
-        component: SessionScreen,
+        component: lazy(() => import("./Session")),
         options: {
           headerTitle: "",
           headerTransparent: true,
@@ -86,14 +70,14 @@ export const routesFn = (t: TFunction) => {
       },
       {
         name: RouteName.SessionCollaborators,
-        component: SessionCollaboratorsScreen,
+        component: lazy(() => import("./SessionCollaborators")),
         options: {
           title: t("collab.title"),
         },
       },
       {
         name: RouteName.SessionInvite,
-        component: SessionInviteScreen,
+        component: lazy(() => import("./SessionInvite")),
         options: {
           headerTitle: "",
           title: "",
@@ -101,21 +85,21 @@ export const routesFn = (t: TFunction) => {
       },
       {
         name: RouteName.SessionEdit,
-        component: SessionEditScreen,
+        component: lazy(() => import("./SessionEdit")),
         options: {
           title: t("session_edit.title"),
         },
       },
       {
         name: RouteName.SessionListeners,
-        component: SessionListenersScreen,
+        component: lazy(() => import("./SessionListeners")),
         options: {
           title: t("session_listeners.title"),
         },
       },
       Platform.OS !== "web" && {
         name: RouteName.SignIn,
-        component: SignInScreen,
+        component: lazy(() => import("./SignIn")),
         options: {
           presentation: "modal" as const,
           title: t("sign_in.title"),
@@ -124,21 +108,21 @@ export const routesFn = (t: TFunction) => {
       },
       {
         name: RouteName.NewSelectSongs,
-        component: NewSelectSongsScreen,
+        component: lazy(() => import("./NewSelectSongs")),
         options: {
           title: t("new.select_songs.title"),
         },
       },
       {
         name: RouteName.NewQuickShare,
-        component: NewQuickShareScreen,
+        component: lazy(() => import("./NewQuickShare")),
         options: {
           title: t("new.quick_share.title"),
         },
       },
       {
         name: RouteName.NewFinal,
-        component: NewFinalScreen,
+        component: lazy(() => import("./NewFinal")),
         options: {
           animation: "fade" as const,
           headerShown: false,
@@ -147,14 +131,14 @@ export const routesFn = (t: TFunction) => {
       },
       {
         name: RouteName.Settings,
-        component: SettingsScreen,
+        component: lazy(() => import("./Settings")),
         options: {
           title: t("settings.title"),
         },
       },
       {
         name: RouteName.Notifications,
-        component: NotificationsScreen,
+        component: lazy(() => import("./Notifications")),
         options: {
           title: t("notifications.title"),
         },
