@@ -6,18 +6,18 @@ import {
   IconMapPin,
   IconSearch,
 } from "@/assets";
+import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { RNLink, Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
+import { useRouteNames } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import { useUiDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
-import { useNavigationState } from "@react-navigation/native";
 import type { FC, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
-import { Avatar } from "../Avatar";
 
 const styles = StyleSheet.create({
   button: {
@@ -47,17 +47,18 @@ const SidebarButton: FC<{ icon: ReactNode; name: RouteName }> = ({
   icon,
   name,
 }) => {
-  const navigationRouteName = useNavigationState((state) =>
-    state?.routes ? state.routes[state.routes.length - 1].name : ""
-  );
+  const routeNames = useRouteNames();
+  const routeName = routeNames[routeNames.length - 1];
 
   return (
     <RNLink
-      to={{ screen: name }}
-      style={[
-        styles.button,
-        navigationRouteName === name && styles.buttonActive,
-      ]}
+      to={{
+        screen: RouteName.Main,
+        params: {
+          screen: name,
+        },
+      }}
+      style={[styles.button, routeName === name && styles.buttonActive]}
     >
       {icon}
       <Spacer x={3} />

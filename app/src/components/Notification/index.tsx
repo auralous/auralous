@@ -1,4 +1,5 @@
 import imageDefaultUser from "@/assets/images/default_user.jpg";
+import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
 import { formatTime } from "@/utils/ms";
@@ -11,7 +12,6 @@ import type { FC } from "react";
 import { useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Image, StyleSheet, View } from "react-native";
-import { Spacer } from "../Spacer";
 
 const styles = StyleSheet.create({
   content: {

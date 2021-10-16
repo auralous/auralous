@@ -12,9 +12,12 @@ import { LoadingScreen } from "./components/Loading";
 import { RootModalsComponents } from "./components/RootModals";
 import { Toaster } from "./components/Toast";
 import { ApiProvider } from "./gql/context";
-import { PlayerComponent, PlayerProvider } from "./player-components";
-import { linking } from "./screens/linking";
-import Navigator from "./screens/Navigator";
+import {
+  PlayerComponent,
+  PlayerProvider,
+  PlayerView,
+} from "./player-components";
+import Navigator, { linking } from "./screens/Navigator";
 import { Colors } from "./styles/colors";
 import { UIContextProvider } from "./ui-context";
 
@@ -56,6 +59,7 @@ const App: FC = () => {
                       <Navigator />
                     </Suspense>
                   </Layout>
+                  <PlayerView />
                 </PlayerComponent>
                 <RootModalsComponents />
               </BottomSheetModalProvider>

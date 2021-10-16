@@ -2,6 +2,7 @@ import player from "@/player";
 import { Size } from "@/styles/spacing";
 import { SessionPager } from "@/views/SessionPager";
 import { useSessionsQuery } from "@auralous/api";
+import { useIsFocused } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -26,8 +27,11 @@ const HomeFeed: FC<{ isFollowing: boolean }> = ({ isFollowing }) => {
     },
   });
 
+  const isFocused = useIsFocused();
+
   const onSelected = useCallback(
     (index: number) => {
+      if (!isFocused) return;
       if (!data?.sessions) return;
       const session = data.sessions[index];
       if (!session) return;
@@ -40,7 +44,7 @@ const HomeFeed: FC<{ isFollowing: boolean }> = ({ isFollowing }) => {
         setNext(data.sessions[data.sessions.length - 1].id);
       }
     },
-    [data?.sessions]
+    [data?.sessions, isFocused]
   );
 
   return (

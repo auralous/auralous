@@ -5,24 +5,32 @@ import {
   IconMapPin,
   IconSearch,
 } from "@/assets";
+import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { RNLink } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
+import { LayoutSize } from "@/styles/spacing";
 import { useUiDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
-import { useNavigationState } from "@react-navigation/native";
+import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import type { FC, NamedExoticComponent } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View } from "react-native";
+import type { ViewStyle } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
-import { Avatar } from "../Avatar";
+
+export const BOTTOM_TABs_HEIGHT = 56;
 
 const styles = StyleSheet.create({
+  hidden: {
+    height: 0,
+  },
   root: {
     backgroundColor: Colors.backgroundSecondary,
     flexDirection: "row",
-    height: 56,
+    height: BOTTOM_TABs_HEIGHT,
+    overflow: "hidden",
     width: "100%",
   },
   tab: {
@@ -33,27 +41,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const hiddenRoutes = [
-  RouteName.NewFinal,
-  RouteName.NewQuickShare,
-  RouteName.NewSelectSongs,
-] as string[];
-
 const Tab: FC<{
   Icon: NamedExoticComponent<SvgProps>;
   name: RouteName;
-  navigationRouteName: string;
   children: string;
-}> = ({ Icon, name, navigationRouteName, children }) => {
-  const isActive = navigationRouteName === name;
-
+  isFocused: boolean;
+}> = ({ Icon, name, isFocused, children }) => {
   return (
     <RNLink
       to={{ screen: name }}
       style={styles.tab}
       accessibilityLabel={children}
     >
-      <Icon color={isActive ? Colors.text : Colors.textTertiary} />
+      <Icon color={isFocused ? Colors.text : Colors.textTertiary} />
     </RNLink>
   );
 };
@@ -62,16 +62,17 @@ const TabProfile: FC = () => {
   const { t } = useTranslation();
   const [{ data }] = useMeQuery();
   const uiDispatch = useUiDispatch();
-  if (!data?.me)
+  if (!data?.me) {
     return (
       <Pressable
         style={styles.tab}
         onPress={() => uiDispatch({ type: "signIn", value: { visible: true } })}
-        accessibilityLabel={this}
+        accessibilityLabel={t("sign_in.title")}
       >
         <IconLogIn color={Colors.textTertiary} />
       </Pressable>
     );
+  }
   return (
     <RNLink
       to={{
@@ -86,45 +87,43 @@ const TabProfile: FC = () => {
   );
 };
 
-const BottomTabs: FC = () => {
+const BottomTabs: FC<BottomTabBarProps> = ({ state, descriptors }) => {
   const { t } = useTranslation();
-
-  const navigationRouteName = useNavigationState((state) =>
-    state?.routes ? state.routes[state.routes.length - 1].name : ""
-  );
-
-  if (hiddenRoutes.includes(navigationRouteName)) return null;
-
+  const windowWidth = useWindowDimensions().width;
+  const isLandscape = windowWidth >= LayoutSize.md;
   return (
-    <View style={styles.root}>
-      <Tab
-        name={RouteName.Home}
-        Icon={IconHome}
-        navigationRouteName={navigationRouteName}
-      >
+    <View
+      style={[
+        styles.root,
+        descriptors[state.routes[state.index].key].options
+          .tabBarStyle as ViewStyle,
+        isLandscape && styles.hidden,
+      ]}
+      {...(isLandscape && {
+        accessibilityElementsHidden: true,
+        importantForAccessibility: "no-hide-descendants",
+      })}
+    >
+      <Tab name={RouteName.Home} Icon={IconHome} isFocused={state.index === 0}>
         {t("home.title")}
       </Tab>
       <Spacer y={2} />
       <Tab
         name={RouteName.Explore}
         Icon={IconSearch}
-        navigationRouteName={navigationRouteName}
+        isFocused={state.index === 1}
       >
         {t("explore.title")}
       </Tab>
       <Spacer y={2} />
-      <Tab
-        name={RouteName.Map}
-        Icon={IconMapPin}
-        navigationRouteName={navigationRouteName}
-      >
+      <Tab name={RouteName.Map} Icon={IconMapPin} isFocused={state.index === 2}>
         {t("map.title")}
       </Tab>
       <Spacer y={2} />
       <Tab
         name={RouteName.Notifications}
         Icon={IconActivity}
-        navigationRouteName={navigationRouteName}
+        isFocused={state.index === 3}
       >
         {t("notification.title")}
       </Tab>

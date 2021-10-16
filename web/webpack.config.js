@@ -106,6 +106,9 @@ module.exports = async (env, argv) => {
         "@react-navigation/native-stack": getDependencyDir(
           "@react-navigation/native-stack"
         ),
+        "@react-navigation/bottom-tabs": getDependencyDir(
+          "@react-navigation/bottom-tabs"
+        ),
       },
     },
     plugins: [

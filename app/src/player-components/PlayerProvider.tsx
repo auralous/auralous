@@ -8,7 +8,7 @@ import {
   useMeQuery,
   useSessionCurrentLiveQuery,
 } from "@auralous/api";
-import type { NavigationContainerRefWithCurrent } from "@react-navigation/core";
+import type { NavigationContainerRefWithCurrent } from "@react-navigation/native";
 import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useTrackColor } from "./PlayerView/useTrackColor";
@@ -45,7 +45,7 @@ export const PlayerProvider: FC<{
       type: "session",
       shuffle: false,
     });
-    navigationRef.navigate(RouteName.Session, { id: sessionId });
+    navigationRef.current?.navigate(RouteName.Session, { id: sessionId });
   }, [dataSessionCurrentLive?.sessionCurrentLive, navigationRef]);
 
   useEffect(() => {

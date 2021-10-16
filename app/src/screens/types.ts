@@ -2,6 +2,7 @@ import type { Playlist, Session } from "@auralous/api";
 import type { ParamListBase } from "@react-navigation/native";
 
 export enum RouteName {
+  Main = "main",
   Home = "home",
   Map = "map",
   Explore = "explore",

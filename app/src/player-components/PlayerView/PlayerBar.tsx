@@ -1,5 +1,6 @@
 import { IconByPlatformName, IconPause, IconPlay } from "@/assets";
 import imageDefaultTrack from "@/assets/images/default_track.jpg";
+import { BOTTOM_TABs_HEIGHT } from "@/components/Layout/BottomTabs";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TextMarquee } from "@/components/Typography";
@@ -9,13 +10,13 @@ import player, {
   usePlaybackTrackId,
 } from "@/player";
 import { RouteName } from "@/screens/types";
+import { useRouteNames } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import { useAnimatedBgColors } from "@/styles/utils";
 import { useTrackQuery } from "@auralous/api";
-import { useNavigationState } from "@react-navigation/native";
 import type { FC } from "react";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Image,
@@ -27,7 +28,6 @@ import {
 } from "react-native";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 
@@ -41,6 +41,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: PLAYER_BAR_HEIGHT,
   },
+  content: {
+    backgroundColor: Colors.backgroundSecondary,
+    borderTopColor: Colors.border,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    flexDirection: "row",
+    height: PLAYER_BAR_HEIGHT,
+    width: "100%",
+  },
   image: {
     height: PLAYER_BAR_HEIGHT,
     resizeMode: "cover",
@@ -53,11 +61,8 @@ const styles = StyleSheet.create({
     paddingVertical: Size[2],
   },
   root: {
-    backgroundColor: Colors.backgroundSecondary,
-    borderTopColor: Colors.border,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    flexDirection: "row",
-    height: PLAYER_BAR_HEIGHT,
+    bottom: BOTTOM_TABs_HEIGHT,
+    overflow: "hidden",
     position: "absolute",
     width: "100%",
   },
@@ -103,91 +108,97 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
 
   const animatedBgStyle = useAnimatedBgColors(usePlaybackColor());
 
-  const navigationRouteName = useNavigationState((state) =>
-    state?.routes ? state.routes[state.routes.length - 1].name : ""
-  );
+  const routeNames = useRouteNames();
+  const routeName = routeNames[routeNames.length - 1];
+  const hasTabBars = routeNames[0] === RouteName.Main;
 
-  const hidden =
-    !navigationRouteName || hiddenRoutes.includes(navigationRouteName);
-
-  const animValue = useSharedValue(0);
-
-  useEffect(() => {
-    if (hidden) animValue.value = withTiming(0);
-    else animValue.value = withTiming(1);
-  }, [hidden, animValue]);
+  const hidden = hiddenRoutes.includes(routeName);
 
   const windowWidth = useWindowDimensions().width;
-  const baseBottom = windowWidth >= LayoutSize.md ? 0 : Size[14];
-  const animRootStyle = useAnimatedStyle(() => {
+  const isLandscape = windowWidth >= LayoutSize.md;
+
+  const animContentStyle = useAnimatedStyle(() => {
     return {
-      bottom: baseBottom - (1 - animValue.value) * 2 * Size[14],
+      transform: [
+        { translateY: withTiming((hidden ? 1 : 0) * PLAYER_BAR_HEIGHT) },
+      ],
     };
-  }, [baseBottom]);
+  }, [hidden]);
+  const animRootStyle = useAnimatedStyle(() => {
+    if (!hasTabBars || isLandscape) return { bottom: withTiming(0) };
+    return { bottom: withTiming(BOTTOM_TABs_HEIGHT) };
+  }, [hasTabBars, isLandscape]);
 
   return (
-    <Animated.View style={[styles.root, animRootStyle]}>
-      <Animated.View
-        pointerEvents="none"
-        style={[styles.bg, StyleSheet.absoluteFill, animatedBgStyle]}
-      />
-      <Pressable style={styles.viewExpandTrigger} onPress={onPress}>
-        <Image
-          style={styles.image}
-          source={track?.image ? { uri: track?.image } : imageDefaultTrack}
-          defaultSource={imageDefaultTrack}
-          accessibilityLabel={track?.title}
+    <Animated.View
+      pointerEvents={hidden ? "none" : "auto"}
+      style={[styles.root, animRootStyle]}
+    >
+      <Animated.View style={[styles.content, animContentStyle]}>
+        <Animated.View
+          pointerEvents="none"
+          style={[styles.bg, StyleSheet.absoluteFill, animatedBgStyle]}
         />
-        <View style={styles.meta}>
-          {fetching ? (
-            <SkeletonBlock width={27} height={2} />
-          ) : (
-            <View style={styles.title}>
-              {track?.platform && (
-                <IconByPlatformName
-                  platformName={track.platform}
-                  width={Size[3]}
-                  height={Size[3]}
-                  noColor
-                />
-              )}
-              <Spacer x={1} />
-              <TextMarquee
-                containerStyle={styles.titleText}
-                bold
-                size="sm"
-                duration={15000}
-              >
-                {track?.title}
-              </TextMarquee>
-            </View>
-          )}
-          <Spacer y={2} />
-          <View>
+        <Pressable style={styles.viewExpandTrigger} onPress={onPress}>
+          <Image
+            style={styles.image}
+            source={track?.image ? { uri: track?.image } : imageDefaultTrack}
+            defaultSource={imageDefaultTrack}
+            accessibilityLabel={track?.title}
+          />
+          <View style={styles.meta}>
             {fetching ? (
-              <SkeletonBlock width={24} height={2} />
+              <SkeletonBlock width={27} height={2} />
             ) : (
-              <TextMarquee color="textSecondary" size="sm" duration={15000}>
-                {track?.artists.map((artist) => artist.name).join(", ")}
-              </TextMarquee>
+              <View style={styles.title}>
+                {track?.platform && (
+                  <IconByPlatformName
+                    platformName={track.platform}
+                    width={Size[3]}
+                    height={Size[3]}
+                    noColor
+                  />
+                )}
+                <Spacer x={1} />
+                <TextMarquee
+                  containerStyle={styles.titleText}
+                  bold
+                  size="sm"
+                  duration={15000}
+                >
+                  {track?.title}
+                </TextMarquee>
+              </View>
             )}
+            <Spacer y={2} />
+            <View>
+              {fetching ? (
+                <SkeletonBlock width={24} height={2} />
+              ) : (
+                <TextMarquee color="textSecondary" size="sm" duration={15000}>
+                  {track?.artists.map((artist) => artist.name).join(", ")}
+                </TextMarquee>
+              )}
+            </View>
           </View>
+        </Pressable>
+        <View>
+          <TouchableOpacity
+            onPress={togglePlay}
+            style={styles.button}
+            accessibilityLabel={
+              isPlaying ? t("player.pause") : t("player.play")
+            }
+            disabled={!trackId}
+          >
+            {isPlaying ? (
+              <IconPause fill={Colors.text} />
+            ) : (
+              <IconPlay fill={Colors.text} />
+            )}
+          </TouchableOpacity>
         </View>
-      </Pressable>
-      <View>
-        <TouchableOpacity
-          onPress={togglePlay}
-          style={styles.button}
-          accessibilityLabel={isPlaying ? t("player.pause") : t("player.play")}
-          disabled={!trackId}
-        >
-          {isPlaying ? (
-            <IconPause fill={Colors.text} />
-          ) : (
-            <IconPlay fill={Colors.text} />
-          )}
-        </TouchableOpacity>
-      </View>
+      </Animated.View>
     </Animated.View>
   );
 };
