@@ -1,13 +1,23 @@
-import { IconHome, IconLogo, IconMapPin, IconSearch } from "@/assets";
+import {
+  IconActivity,
+  IconHome,
+  IconLogIn,
+  IconLogo,
+  IconMapPin,
+  IconSearch,
+} from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { RNLink, Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
+import { useUiDispatch } from "@/ui-context";
+import { useMeQuery } from "@auralous/api";
 import { useNavigationState } from "@react-navigation/native";
 import type { FC, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
+import { Avatar } from "../Avatar";
 
 const styles = StyleSheet.create({
   button: {
@@ -56,6 +66,36 @@ const SidebarButton: FC<{ icon: ReactNode; name: RouteName }> = ({
   );
 };
 
+const SidebarButtonProfile: FC = () => {
+  const { t } = useTranslation();
+  const [{ data }] = useMeQuery();
+  const uiDispatch = useUiDispatch();
+  if (!data?.me)
+    return (
+      <Pressable
+        style={styles.button}
+        onPress={() => uiDispatch({ type: "signIn", value: { visible: true } })}
+      >
+        <IconLogIn />
+        <Spacer x={3} />
+        <Text>{t("sign_in.title")}</Text>
+      </Pressable>
+    );
+  return (
+    <RNLink
+      to={{
+        screen: RouteName.User,
+        params: { username: data.me.user.username },
+      }}
+      style={styles.button}
+    >
+      <Avatar username={data.me.user.username} size={8} />
+      <Spacer x={3} />
+      <Text>{data.me.user.username}</Text>
+    </RNLink>
+  );
+};
+
 const Sidebar: FC = () => {
   const { t } = useTranslation();
   return (
@@ -67,13 +107,19 @@ const Sidebar: FC = () => {
         {t("home.title")}
       </SidebarButton>
       <Spacer y={2} />
-      <SidebarButton name={RouteName.Search} icon={<IconSearch />}>
-        {t("search.title")}
+      <SidebarButton name={RouteName.Explore} icon={<IconSearch />}>
+        {t("explore.title")}
       </SidebarButton>
       <Spacer y={2} />
       <SidebarButton name={RouteName.Map} icon={<IconMapPin />}>
         {t("map.title")}
       </SidebarButton>
+      <Spacer y={2} />
+      <SidebarButton name={RouteName.Notifications} icon={<IconActivity />}>
+        {t("notifications.title")}
+      </SidebarButton>
+      <Spacer y={2} />
+      <SidebarButtonProfile />
     </View>
   );
 };

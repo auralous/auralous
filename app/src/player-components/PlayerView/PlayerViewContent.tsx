@@ -6,7 +6,7 @@ import { usePlaybackContextMeta, usePlaybackCurrentContext } from "@/player";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 import ChatView from "./ChatView";

@@ -1,6 +1,5 @@
 import { IconEdit, IconMoreVertical, IconShare2 } from "@/assets";
-import { TextButton } from "@/components/Button";
-import { PageHeaderGradient } from "@/components/Color";
+import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import { Config } from "@/config";
@@ -16,7 +15,7 @@ import type {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -36,8 +35,11 @@ const HeaderRight: FC<{
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
+  const isCurrentUser = user.id === me?.user.id;
+
   return (
-    <TextButton
+    <Button
+      variant="text"
       icon={<IconMoreVertical width={21} height={21} />}
       accessibilityLabel={t("common.navigation.open_menu")}
       onPress={() => {
@@ -48,9 +50,9 @@ const HeaderRight: FC<{
             title: user.username,
             image: user.profilePicture || undefined,
             items: [
-              user.id === me?.user.id && {
+              isCurrentUser && {
                 icon: <IconEdit stroke={Colors.textSecondary} />,
-                text: t("settings.edit_profile"),
+                text: t("settings.title"),
                 onPress() {
                   navigation.navigate(RouteName.Settings);
                 },
@@ -86,7 +88,7 @@ const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
     variables: { username },
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const user = data?.user;
     if (!user) return;
 
@@ -100,7 +102,6 @@ const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
 
   return (
     <SafeAreaView style={styles.root}>
-      <PageHeaderGradient image={data?.user?.profilePicture} />
       {fetching ? (
         <LoadingScreen />
       ) : data?.user ? (

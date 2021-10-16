@@ -1,13 +1,22 @@
-import { IconHome, IconMapPin, IconSearch } from "@/assets";
+import {
+  IconActivity,
+  IconHome,
+  IconLogIn,
+  IconMapPin,
+  IconSearch,
+} from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { RNLink } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
+import { useUiDispatch } from "@/ui-context";
+import { useMeQuery } from "@auralous/api";
 import { useNavigationState } from "@react-navigation/native";
 import type { FC, NamedExoticComponent } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
+import { Avatar } from "../Avatar";
 
 const styles = StyleSheet.create({
   root: {
@@ -34,12 +43,45 @@ const Tab: FC<{
   Icon: NamedExoticComponent<SvgProps>;
   name: RouteName;
   navigationRouteName: string;
-}> = ({ Icon, name, navigationRouteName }) => {
+  children: string;
+}> = ({ Icon, name, navigationRouteName, children }) => {
   const isActive = navigationRouteName === name;
 
   return (
-    <RNLink to={{ screen: name }} style={styles.tab}>
-      <Icon color={isActive ? Colors.text : Colors.textSecondary} />
+    <RNLink
+      to={{ screen: name }}
+      style={styles.tab}
+      accessibilityLabel={children}
+    >
+      <Icon color={isActive ? Colors.text : Colors.textTertiary} />
+    </RNLink>
+  );
+};
+
+const TabProfile: FC = () => {
+  const { t } = useTranslation();
+  const [{ data }] = useMeQuery();
+  const uiDispatch = useUiDispatch();
+  if (!data?.me)
+    return (
+      <Pressable
+        style={styles.tab}
+        onPress={() => uiDispatch({ type: "signIn", value: { visible: true } })}
+        accessibilityLabel={this}
+      >
+        <IconLogIn color={Colors.textTertiary} />
+      </Pressable>
+    );
+  return (
+    <RNLink
+      to={{
+        screen: RouteName.User,
+        params: { username: data.me.user.username },
+      }}
+      style={styles.tab}
+      accessibilityLabel={t("sign_in.title")}
+    >
+      <Avatar username={data.me.user.username} size={8} />
     </RNLink>
   );
 };
@@ -64,11 +106,11 @@ const BottomTabs: FC = () => {
       </Tab>
       <Spacer y={2} />
       <Tab
-        name={RouteName.Search}
+        name={RouteName.Explore}
         Icon={IconSearch}
         navigationRouteName={navigationRouteName}
       >
-        {t("search.title")}
+        {t("explore.title")}
       </Tab>
       <Spacer y={2} />
       <Tab
@@ -78,6 +120,16 @@ const BottomTabs: FC = () => {
       >
         {t("map.title")}
       </Tab>
+      <Spacer y={2} />
+      <Tab
+        name={RouteName.Notifications}
+        Icon={IconActivity}
+        navigationRouteName={navigationRouteName}
+      >
+        {t("notification.title")}
+      </Tab>
+      <Spacer y={2} />
+      <TabProfile />
     </View>
   );
 };

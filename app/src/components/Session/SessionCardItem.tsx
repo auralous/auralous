@@ -1,14 +1,16 @@
-import { IconByPlatformName, IconPlay } from "@/assets";
+import { IconPlay } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
-import { Text } from "@/components/Typography";
+import { RNLink, Text } from "@/components/Typography";
+import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import type { Session, Track } from "@auralous/api";
+import { isTruthy } from "@/utils/utils";
+import type { Session } from "@auralous/api";
 import { useSessionTracksQuery } from "@auralous/api";
 import type { FC } from "react";
-import { useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import { useCallback, useMemo } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import {
   Image,
   Pressable,
@@ -23,29 +25,25 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   head: {
+    alignItems: "center",
     flexDirection: "row",
-    paddingHorizontal: Size[4],
     paddingVertical: Size[3],
   },
   headMeta: {
     paddingLeft: Size[2],
-    paddingTop: Size[1],
-  },
-  headMetaTop: {
-    alignItems: "center",
-    flexDirection: "row",
   },
   main: {
     backgroundColor: Colors.backgroundSecondary,
     borderRadius: Size[2],
     flexDirection: "row",
-    height: Size[24],
+    height: Size[27],
     overflow: "hidden",
+    padding: Size[2],
   },
   mainContent: {
     flex: 1,
-    paddingHorizontal: Size[2],
-    paddingVertical: Size[1],
+    paddingHorizontal: Size[4],
+    paddingVertical: Size[2],
   },
   mainPlay: {
     alignItems: "center",
@@ -63,27 +61,6 @@ const styles = StyleSheet.create({
   root: {
     width: "100%",
   },
-  trackItem: {
-    alignItems: "center",
-    flexDirection: "row",
-    marginBottom: Size[1],
-  },
-  trackItemIndex: {
-    borderRadius: 9999,
-    height: Size[6],
-    marginRight: Size[2],
-    textAlign: "center",
-    textAlignVertical: "center",
-    width: Size[6],
-  },
-  trackItemTrack: {
-    flex: 1,
-  },
-  trackTitle: {
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  trackTitleText: { flex: 1 },
 });
 
 interface SessionCardItemProps {
@@ -92,44 +69,17 @@ interface SessionCardItemProps {
   onPlay(sessionId: string, index: number): void;
 }
 
-const SessionCardItemTrack: FC<{
-  track: Track;
-  index: number;
-  onPress(): void;
-}> = ({ track, index, onPress }) => {
-  return (
-    <View style={styles.trackItem}>
-      <Text size="sm" color="textSecondary" style={styles.trackItemIndex}>
-        {index + 1}
-      </Text>
-      <View style={styles.trackItemTrack}>
-        <TouchableOpacity onPress={onPress} style={styles.trackTitle}>
-          <IconByPlatformName
-            platformName={track.platform}
-            width={Size[4]}
-            height={Size[4]}
-          />
-          <Spacer x={1} />
-          <Text
-            style={styles.trackTitleText}
-            size="sm"
-            color="textSecondary"
-            numberOfLines={1}
-          >
-            {track.title}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
-
 const SessionCardItem: FC<SessionCardItemProps> = ({
   session,
   onNavigate,
   onPlay,
 }) => {
   const { t } = useTranslation();
+
+  const gotoSession = useCallback(
+    () => onNavigate(session.id),
+    [onNavigate, session.id]
+  );
 
   const [{ data: dataSessionTracks }] = useSessionTracksQuery({
     variables: {
@@ -139,37 +89,40 @@ const SessionCardItem: FC<SessionCardItemProps> = ({
     },
   });
 
-  const gotoSession = useCallback(
-    () => onNavigate(session.id),
-    [onNavigate, session.id]
-  );
+  const previewThreeArtists = useMemo(() => {
+    if (!dataSessionTracks?.sessionTracks) return;
+    return [
+      dataSessionTracks.sessionTracks[0]?.artists[0],
+      dataSessionTracks.sessionTracks[1]?.artists[0],
+      dataSessionTracks.sessionTracks[2]?.artists[0],
+    ].filter(isTruthy);
+  }, [dataSessionTracks]);
 
   return (
     <View style={styles.root}>
       <Pressable onPress={gotoSession} style={styles.head}>
         <Avatar username={session.creator.username} size={12} />
         <View style={styles.headMeta}>
-          <View style={styles.headMetaTop}>
-            <Text bold="medium" color="textSecondary">
-              {session.creator.username}
-            </Text>
-            <Spacer x={1} />
-            <Text size="sm" color="textTertiary">
-              {session.createdAt.toLocaleDateString()}
-            </Text>
-          </View>
-          <Spacer y={2} />
-          <Text bold>{session.text}</Text>
+          <Text color="textSecondary">
+            <Trans
+              t={t}
+              i18nKey="user.share_a_session"
+              components={[<Text key="name" bold />]}
+              values={{
+                username: session.creator.username,
+              }}
+            />
+          </Text>
+          <Spacer y={3} />
+          <Text size="sm" color="textSecondary">
+            {session.createdAt.toLocaleDateString()}
+          </Text>
         </View>
       </Pressable>
       <View style={styles.main}>
         <View style={styles.mainPlay}>
           {session.image && (
-            <Image
-              source={{ uri: session.image }}
-              style={styles.bg}
-              blurRadius={4}
-            />
+            <Image source={{ uri: session.image }} style={styles.bg} />
           )}
           <TouchableOpacity
             style={styles.mainPlayButton}
@@ -179,20 +132,22 @@ const SessionCardItem: FC<SessionCardItemProps> = ({
           </TouchableOpacity>
         </View>
         <View style={styles.mainContent}>
-          {dataSessionTracks?.sessionTracks?.map((item, index) => (
-            <SessionCardItemTrack
-              key={`${index}${item.id}`}
-              track={item}
-              index={index}
-              onPress={() => onPlay(session.id, index)}
-            />
-          ))}
-          <Spacer y={1.5} />
-          <TouchableOpacity onPress={gotoSession}>
-            <Text size="sm" align="center">
-              {t("playlist.view_all_x_songs", { count: session.trackTotal })}
+          <RNLink
+            to={{ screen: RouteName.Session, params: { id: session.id } }}
+          >
+            <Text bold size="lg">
+              {session.text}
             </Text>
-          </TouchableOpacity>
+          </RNLink>
+          <Spacer y={3} />
+          <Text color="textTertiary" size="sm" numberOfLines={2}>
+            {previewThreeArtists &&
+              t("session.artists_preview", {
+                artistNames: previewThreeArtists
+                  ?.map((artist) => artist.name)
+                  .join(", "),
+              })}
+          </Text>
         </View>
       </View>
     </View>

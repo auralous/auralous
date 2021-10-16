@@ -1,4 +1,4 @@
-import { TextButton } from "@/components/Button";
+import { Button } from "@/components/Button";
 import { Dialog, useDialog } from "@/components/Dialog";
 import { toast } from "@/components/Toast";
 import player, { usePlaybackCurrentContext } from "@/player";
@@ -49,9 +49,9 @@ export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
 
   return (
     <View style={styles.root}>
-      <TextButton onPress={present}>
+      <Button variant="text" onPress={present}>
         {t("session_edit.delete.title")}
-      </TextButton>
+      </Button>
       <Dialog.Dialog visible={visible} onDismiss={dismiss}>
         <Dialog.Title>{`${t("session_edit.delete.title")}?`}</Dialog.Title>
         <Dialog.Content>

@@ -10,34 +10,41 @@ import player, {
 } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
-import { Size } from "@/styles/spacing";
+import { LayoutSize, Size } from "@/styles/spacing";
 import { useAnimatedBgColors } from "@/styles/utils";
 import { useTrackQuery } from "@auralous/api";
 import { useNavigationState } from "@react-navigation/native";
 import type { FC } from "react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Image,
   Pressable,
   StyleSheet,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from "react-native";
-import Animated from "react-native-reanimated";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+
+export const PLAYER_BAR_HEIGHT = Size[14];
 
 const styles = StyleSheet.create({
   bg: { opacity: 0.5 },
   button: {
     alignItems: "center",
-    height: Size[14],
+    height: PLAYER_BAR_HEIGHT,
     justifyContent: "center",
-    width: Size[14],
+    width: PLAYER_BAR_HEIGHT,
   },
   image: {
-    height: Size[14],
+    height: PLAYER_BAR_HEIGHT,
     resizeMode: "cover",
-    width: Size[14],
+    width: PLAYER_BAR_HEIGHT,
   },
   meta: {
     flex: 1,
@@ -47,8 +54,12 @@ const styles = StyleSheet.create({
   },
   root: {
     backgroundColor: Colors.backgroundSecondary,
+    borderTopColor: Colors.border,
+    borderTopWidth: StyleSheet.hairlineWidth,
     flexDirection: "row",
-    height: Size[14],
+    height: PLAYER_BAR_HEIGHT,
+    position: "absolute",
+    width: "100%",
   },
   title: {
     alignItems: "center",
@@ -65,6 +76,7 @@ const styles = StyleSheet.create({
 });
 
 const hiddenRoutes = [
+  RouteName.Home,
   RouteName.NewFinal,
   RouteName.NewQuickShare,
   RouteName.NewSelectSongs,
@@ -76,7 +88,6 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
 
   const { isPlaying } = usePlaybackCurrentControl();
   const trackId = usePlaybackTrackId();
-  const playbackCurrentContext = usePlaybackCurrentControl();
 
   const [{ data, fetching }] = useTrackQuery({
     variables: { id: trackId || "" },
@@ -96,12 +107,26 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
     state?.routes ? state.routes[state.routes.length - 1].name : ""
   );
 
-  if (hiddenRoutes.includes(navigationRouteName)) return null;
+  const hidden =
+    !navigationRouteName || hiddenRoutes.includes(navigationRouteName);
 
-  if (!playbackCurrentContext) return null;
+  const animValue = useSharedValue(0);
+
+  useEffect(() => {
+    if (hidden) animValue.value = withTiming(0);
+    else animValue.value = withTiming(1);
+  }, [hidden, animValue]);
+
+  const windowWidth = useWindowDimensions().width;
+  const baseBottom = windowWidth >= LayoutSize.md ? 0 : Size[14];
+  const animRootStyle = useAnimatedStyle(() => {
+    return {
+      bottom: baseBottom - (1 - animValue.value) * 2 * Size[14],
+    };
+  }, [baseBottom]);
 
   return (
-    <View style={styles.root}>
+    <Animated.View style={[styles.root, animRootStyle]}>
       <Animated.View
         pointerEvents="none"
         style={[styles.bg, StyleSheet.absoluteFill, animatedBgStyle]}
@@ -163,7 +188,7 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
           )}
         </TouchableOpacity>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

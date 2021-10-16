@@ -45,7 +45,7 @@ const PlaylistItem: FC<PlaylistItemProps> = ({ playlist }) => {
         />
       </View>
       <View style={styles.meta}>
-        <Text bold="medium" numberOfLines={1}>
+        <Text fontWeight="medium" numberOfLines={1}>
           {playlist.name}
         </Text>
         <Spacer y={2} />

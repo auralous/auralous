@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@auralous/app": "^0.0.0",
+    "@hoangvvo/react-native-spotify-remote": "^0.3.11-2",
     "@react-native-async-storage/async-storage": "^1.15.9",
     "@react-native-mapbox-gl/maps": "^8.3.0",
     "@react-navigation/native": "^6.0.5",
@@ -42,7 +43,6 @@
     "react-native-reanimated": "^2.2.2",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.8.0",
-    "react-native-spotify-remote": "file:/home/hoang/dev/react-native-spotify-remote",
     "react-native-svg": "^12.1.1",
     "react-native-svg-transformer": "^0.14.3",
     "react-native-webview": "^11.14.0"

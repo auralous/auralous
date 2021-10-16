@@ -18,13 +18,14 @@ import {
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    paddingBottom: Size[12],
+    paddingBottom: Size[14],
   },
   sheet: {
     backgroundColor: Colors.backgroundSecondary,
   },
   sheetBottom: {
     backgroundColor: Colors.backgroundSecondary,
+    paddingBottom: Size[2],
   },
 });
 

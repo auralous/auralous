@@ -49,7 +49,7 @@ export const useImageColor = (url: string | undefined | null) => {
           colorCache.set(url, result);
           setColor(result);
         })
-        .catch((err) => {
+        .catch(() => {
           setColor(Colors.background);
         });
       return () => {

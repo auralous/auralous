@@ -1,4 +1,5 @@
 import { Container } from "@/components/Container";
+import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { SongSelector } from "@/views/SongSelector";
 import type { Dispatch, FC, SetStateAction } from "react";
@@ -18,6 +19,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     paddingVertical: Size[2],
+  },
+  seperator: {
+    backgroundColor: Colors.border,
+    height: "100%",
+    width: StyleSheet.hairlineWidth,
   },
 });
 
@@ -49,6 +55,7 @@ const NewSelectSongsLandscape: FC<{
           removeTracks={removeTracks}
         />
       </View>
+      <View style={styles.seperator} />
       <View style={styles.column}>
         <SelectedTracksListProvider expanded>
           <SelectedTracksListView

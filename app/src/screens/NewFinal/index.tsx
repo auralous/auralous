@@ -5,7 +5,7 @@ import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Colors, GradientColors } from "@/styles/colors";
-import { Font, fontWithWeight } from "@/styles/fonts";
+import { Font, fontPropsFn } from "@/styles/fonts";
 import { Size } from "@/styles/spacing";
 import { useSessionCreateMutation } from "@auralous/api";
 import { useFocusEffect } from "@react-navigation/native";
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   number: {
     color: Colors.white,
-    ...fontWithWeight(Font.Inter, "bold"),
+    ...fontPropsFn(Font.NotoSans, "bold"),
     fontSize: 144,
   },
   root: {

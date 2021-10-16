@@ -21,8 +21,18 @@ query session($id: ID!) {
   }
 }
 
-query sessions($creatorId: String, $next: String, $limit: Int!) {
-  sessions(creatorId: $creatorId, next: $next, limit: $limit) {
+query sessions(
+  $creatorId: String
+  $following: Boolean
+  $next: String
+  $limit: Int!
+) {
+  sessions(
+    creatorId: $creatorId
+    following: $following
+    next: $next
+    limit: $limit
+  ) {
     ...SessionParts
   }
 }

@@ -1,5 +1,5 @@
 import { IconChevronDown, IconMoreHorizontal, IconPlayListAdd } from "@/assets";
-import { TextButton } from "@/components/Button";
+import { Button } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Header } from "@/components/Header";
 import { LoadingScreen } from "@/components/Loading";
@@ -19,7 +19,7 @@ import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import React, {
+import {
   lazy,
   Suspense,
   useCallback,
@@ -129,14 +129,16 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
           )
         }
         left={
-          <TextButton
+          <Button
+            variant="text"
             onPress={onDismiss}
             icon={<IconChevronDown />}
             accessibilityLabel={t("common.navigation.go_back")}
           />
         }
         right={
-          <TextButton
+          <Button
+            variant="text"
             icon={<IconMoreHorizontal />}
             onPress={presentMenu}
             accessibilityLabel={t("common.navigation.open_menu")}

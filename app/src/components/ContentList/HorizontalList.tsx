@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
 const isTouchDeviceValue = isTouchDevice();
 
-const ItemSeparatorComponent = () => <Spacer x={4} />;
+const ItemSeparatorComponent = () => <Spacer x={3} />;
 
 function HorizontalList<ItemT>({
   renderItem,

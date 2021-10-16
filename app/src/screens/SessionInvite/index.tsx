@@ -17,7 +17,7 @@ import {
 } from "@auralous/api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -40,7 +40,7 @@ const SessionInviteScreen: FC<
     variables: { id: route.params.id },
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (dataSession?.session) {
       navigation.setOptions({
         title: t("session_invite.title", { name: dataSession?.session?.text }),

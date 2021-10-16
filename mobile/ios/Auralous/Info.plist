@@ -53,10 +53,12 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Inter-Black.ttf</string>
-		<string>Inter-Bold.ttf</string>
-		<string>Inter-Medium.ttf</string>
-		<string>Inter-Regular.ttf</string>
+		<string>NotoSansDisplay-Bold.ttf</string>
+		<string>NotoSansDisplay-BoldItalic.ttf</string>
+		<string>NotoSansDisplay-Italic.ttf</string>
+		<string>NotoSansDisplay-Medium.ttf</string>
+		<string>NotoSansDisplay-MediumItalic.ttf</string>
+		<string>NotoSansDisplay-Regular.ttf</string>
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>

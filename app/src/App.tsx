@@ -1,5 +1,8 @@
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
 import type { FC } from "react";
 import { Suspense } from "react";
 import { StatusBar, StyleSheet } from "react-native";
@@ -34,13 +37,18 @@ const navigationTheme = {
 };
 
 const App: FC = () => {
+  const navigationRef = useNavigationContainerRef();
   return (
     <UIContextProvider>
       <ApiProvider>
-        <PlayerProvider>
+        <PlayerProvider navigationRef={navigationRef}>
           <SafeAreaProvider style={styles.sap}>
             <StatusBar translucent backgroundColor="transparent" />
-            <NavigationContainer theme={navigationTheme} linking={linking}>
+            <NavigationContainer
+              ref={navigationRef}
+              theme={navigationTheme}
+              linking={linking}
+            >
               <BottomSheetModalProvider>
                 <PlayerComponent>
                   <Layout>

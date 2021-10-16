@@ -14,7 +14,7 @@ import { useStyles } from "./styles";
 import type { BaseButtonProps } from "./types";
 
 export interface ButtonProps extends BaseButtonProps {
-  variant?: "primary" | "filled";
+  variant?: "primary" | "filled" | "text";
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -35,39 +35,54 @@ export const Button: FC<ButtonProps> = (props) => {
   const [pressed, pressedProps] = useSharedValuePressed();
 
   const animatedStyles = useAnimatedStyle<ViewStyle>(() => {
+    if (disabled) {
+      return {
+        backgroundColor: Colors.control,
+        borderWidth: 0,
+        opacity: 0.4,
+      };
+    }
+    if (variant === "text") {
+      return {
+        backgroundColor: "transparent",
+        borderWidth: 0,
+        opacity: withTiming(pressed.value ? 0.7 : 1),
+      };
+    }
     if (variant === "primary") {
       return {
         backgroundColor: withTiming(
-          !disabled && pressed.value ? Colors.primaryDark : Colors.primary
+          pressed.value ? Colors.primaryDark : Colors.primary
         ) as unknown as ColorValue,
         borderWidth: 0,
-        borderColor: Colors.none,
+        opacity: 1,
       };
     }
     if (variant === "filled") {
       return {
         backgroundColor: withTiming(
-          !disabled && pressed.value ? Colors.textSecondary : Colors.text
+          pressed.value ? Colors.textSecondary : Colors.text
         ) as unknown as ColorValue,
         borderWidth: 0,
-        borderColor: Colors.none,
+        opacity: 1,
       };
     }
-
     return {
-      backgroundColor: Colors.none,
+      backgroundColor: "transparent",
       borderWidth: 1.5,
       borderColor: withTiming(
-        !disabled && pressed.value ? Colors.controlDark : Colors.control
+        pressed.value ? Colors.controlDark : Colors.control
       ) as unknown as ColorValue,
+      opacity: 1,
     };
-  }, [variant]);
+  }, [variant, disabled]);
 
   const textColor = useMemo(() => {
+    if (disabled) return Colors.text;
     if (variant === "primary") return Colors.primaryText;
     if (variant === "filled") return Colors.backgroundSecondary;
     return Colors.text;
-  }, [variant]);
+  }, [variant, disabled]);
 
   return (
     <AnimatedPressable

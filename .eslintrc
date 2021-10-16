@@ -10,6 +10,7 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended"
   ],
@@ -20,15 +21,17 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "settings": { "react": { "version": "detect" } },
+  "settings": {
+    "react": {
+      "version": "latest"
+    }
+  },
   "ignorePatterns": ["**/*.gen.ts"],
   "rules": {
     "react/prop-types": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/consistent-type-imports": "error",
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
     "react-native/no-unused-styles": "error",
     "react-native/sort-styles": "error",
     "react-native/no-single-element-style-arrays": "error",

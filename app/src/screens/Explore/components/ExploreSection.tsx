@@ -17,24 +17,28 @@ const styles = StyleSheet.create({
     marginBottom: Size[2],
   },
   root: {
-    marginBottom: Size[6],
+    marginBottom: Size[10],
   },
 });
 
-const HomeSection: FC<SectionProps> = ({ title, description, children }) => {
+const ExploreSection: FC<SectionProps> = ({ title, description, children }) => {
   return (
     <View style={styles.root}>
       <View style={styles.header}>
         <View>
           <Heading level={6}>{title}</Heading>
-          <Spacer y={3} />
-          {!!description && <Text color="textSecondary">{description}</Text>}
+          {!!description && (
+            <>
+              <Spacer y={4} />
+              <Text color="textSecondary">{description}</Text>
+            </>
+          )}
         </View>
       </View>
-      <Spacer y={2} />
+      <Spacer y={4} />
       <View>{children}</View>
     </View>
   );
 };
 
-export default HomeSection;
+export default ExploreSection;

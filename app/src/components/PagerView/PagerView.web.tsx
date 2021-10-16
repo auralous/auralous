@@ -2,6 +2,7 @@ import {
   Children,
   forwardRef,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useRef,
 } from "react";
@@ -14,6 +15,9 @@ import type { PagerViewMethods, PagerViewProps } from "./types";
 const PagerView = forwardRef<PagerViewMethods, PagerViewProps>(
   function PagerView({ children, style, onSelected, orientation }, ref) {
     const swiperRef = useRef<SwiperClass>();
+
+    const firstOnPageSelected = useRef(false);
+
     useImperativeHandle(
       ref,
       () => ({
@@ -30,6 +34,13 @@ const PagerView = forwardRef<PagerViewMethods, PagerViewProps>(
       },
       [onSelected]
     );
+
+    useEffect(() => {
+      if (Children.count(children) > 0 && !firstOnPageSelected.current) {
+        onSelected?.(0);
+        firstOnPageSelected.current = true;
+      }
+    }, [children, onSelected]);
 
     return (
       <View style={style}>

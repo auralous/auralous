@@ -31,6 +31,7 @@
     "@babel/core": "^7.15.8",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
+    "@hoangvvo/react-native-spotify-remote": "*",
     "@react-native-async-storage/async-storage": "*",
     "@react-native-mapbox-gl/maps": "*",
     "@react-navigation/native": "*",
@@ -52,10 +53,10 @@
     "react-native-permissions": "*",
     "react-native-reanimated": "*",
     "react-native-safe-area-context": "*",
-    "react-native-spotify-remote": "*",
     "react-native-svg": "*"
   },
   "peerDependencies": {
+    "@hoangvvo/react-native-spotify-remote": "*",
     "@react-native-async-storage/async-storage": "*",
     "@react-native-mapbox-gl/maps": "*",
     "@react-navigation/native": "*",
@@ -71,7 +72,6 @@
     "react-native-permissions": "*",
     "react-native-reanimated": "*",
     "react-native-safe-area-context": "*",
-    "react-native-screen": "*",
-    "react-native-spotify-remote": "*"
+    "react-native-screen": "*"
   }
 }

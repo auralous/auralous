@@ -1,3 +1,4 @@
+export { default as Activity } from "./activity.svg";
 export { default as ArrowRight } from "./arrow-right.svg";
 export { default as Bell } from "./bell.svg";
 export { default as Check } from "./check.svg";

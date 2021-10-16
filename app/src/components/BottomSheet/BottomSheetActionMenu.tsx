@@ -1,3 +1,4 @@
+import { Button } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
@@ -10,7 +11,6 @@ import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useDerivedValue } from "react-native-reanimated";
-import { TextButton } from "../Button";
 
 export interface BottomSheetActionMenuProps {
   visible: boolean;
@@ -147,14 +147,14 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
           >
             {item.icon}
             <Spacer x={3} />
-            <Text bold="medium" size="lg">
+            <Text fontWeight="medium" size="lg">
               {item.text}
             </Text>
           </TouchableOpacity>
         ))}
-        <TextButton style={styles.cancel} onPress={onDismiss}>
+        <Button variant="text" style={styles.cancel} onPress={onDismiss}>
           {t("common.action.cancel")}
-        </TextButton>
+        </Button>
       </View>
     </BottomSheetModal>
   );

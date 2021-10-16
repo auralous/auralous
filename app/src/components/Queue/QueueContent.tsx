@@ -1,4 +1,4 @@
-import { Button, TextButton } from "@/components/Button";
+import { Button } from "@/components/Button";
 import type {
   SortableListRenderItem,
   SortableListRenderItemInfo,
@@ -10,7 +10,7 @@ import { Heading, Text } from "@/components/Typography";
 import type { PlaybackState } from "@/player";
 import player, { usePreloadedTrackQueries } from "@/player";
 import { Colors } from "@/styles/colors";
-import { Font, fontWithWeight } from "@/styles/fonts";
+import { Font, fontPropsFn } from "@/styles/fonts";
 import { Size } from "@/styles/spacing";
 import type { QueueItem, Track } from "@auralous/api";
 import { useTrackQuery } from "@auralous/api";
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     paddingTop: Size[2],
   },
   selectOptsText: {
-    ...fontWithWeight(Font.Inter, "medium"),
+    ...fontPropsFn(Font.NotoSans, "medium"),
     textTransform: "uppercase",
   },
 });
@@ -243,18 +243,20 @@ const QueueContent: FC<{
         <Spacer y={1} />
         {hasSelected ? (
           <View style={styles.selectOpts}>
-            <TextButton
+            <Button
+              variant="text"
               onPress={removeSelected}
               textProps={{ style: styles.selectOptsText }}
             >
               {t("queue.remove")}
-            </TextButton>
-            <TextButton
+            </Button>
+            <Button
+              variant="text"
               onPress={playNextSelected}
               textProps={{ style: styles.selectOptsText }}
             >
               {t("queue.play_next")}
-            </TextButton>
+            </Button>
           </View>
         ) : (
           <Button onPress={openAdd}>{t("queue.add_songs")}</Button>

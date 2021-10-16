@@ -1,5 +1,7 @@
 // @ts-nocheck
 import { wrapIcon } from "./wrapIcon";
+import { Activity } from "./exports";
+export const IconActivity = wrapIcon(Activity);
 import { ArrowRight } from "./exports";
 export const IconArrowRight = wrapIcon(ArrowRight);
 import { Bell } from "./exports";

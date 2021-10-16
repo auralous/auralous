@@ -6,8 +6,7 @@ import {
   IconUser,
   IconX,
 } from "@/assets";
-import { TextButton } from "@/components/Button";
-import { PageHeaderGradient } from "@/components/Color";
+import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import { Config } from "@/config";
@@ -24,7 +23,7 @@ import type {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -48,7 +47,8 @@ const HeaderRight: FC<{
   const isCreator = session.creatorId === me?.user.id;
 
   return (
-    <TextButton
+    <Button
+      variant="text"
       icon={<IconMoreVertical width={21} height={21} />}
       accessibilityLabel={t("common.navigation.open_menu")}
       onPress={() => {
@@ -135,7 +135,7 @@ const SessionScreen: FC<NativeStackScreenProps<ParamList, RouteName.Session>> =
 
     const uiDispatch = useUiDispatch();
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       const session = data?.session;
       if (!session) return;
       navigation.setOptions({
@@ -161,7 +161,6 @@ const SessionScreen: FC<NativeStackScreenProps<ParamList, RouteName.Session>> =
 
     return (
       <SafeAreaView style={styles.root}>
-        <PageHeaderGradient image={data?.session?.image} />
         {fetching ? (
           <LoadingScreen />
         ) : data?.session ? (

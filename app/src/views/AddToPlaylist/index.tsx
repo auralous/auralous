@@ -1,5 +1,5 @@
 import { IconChevronLeft } from "@/assets";
-import { Button, TextButton } from "@/components/Button";
+import { Button } from "@/components/Button";
 import { Header } from "@/components/Header";
 import type { InputRef } from "@/components/Input";
 import { Input } from "@/components/Input";
@@ -167,7 +167,8 @@ export const AddToPlaylist: FC<AddToPlaylistProps> = ({ track, onDismiss }) => {
     <View style={styles.root}>
       <Header
         left={
-          <TextButton
+          <Button
+            variant="text"
             accessibilityLabel={t("common.naviation.go_back")}
             icon={<IconChevronLeft />}
             onPress={onDismiss}

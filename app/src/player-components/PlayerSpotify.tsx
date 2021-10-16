@@ -3,18 +3,18 @@ import { Spacer } from "@/components/Spacer";
 import { toast } from "@/components/Toast";
 import { Config } from "@/config";
 import player, { usePlaybackAuthentication } from "@/player";
-import type { FC } from "react";
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import type {
   ApiConfig,
   PlayerContext as SpotifyPlayerContext,
   PlayerState as SpotifyPlayerState,
-} from "react-native-spotify-remote";
+} from "@hoangvvo/react-native-spotify-remote";
 import {
   auth as SpotifyAuth,
   remote as SpotifyRemote,
-} from "react-native-spotify-remote";
+} from "@hoangvvo/react-native-spotify-remote";
+import type { FC } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const spotifyConfig: ApiConfig = {
   clientID: Config.SPOTIFY_CLIENT_ID,

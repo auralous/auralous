@@ -1,6 +1,6 @@
 import type { ThemeColorKey } from "@/styles/colors";
 import { Colors } from "@/styles/colors";
-import { Font, fontWithWeight } from "@/styles/fonts";
+import { Font, fontMetrics, fontPropsFn } from "@/styles/fonts";
 import type { FC } from "react";
 import { useCallback, useMemo } from "react";
 import type { StyleProp, TextStyle } from "react-native";
@@ -19,7 +19,8 @@ const sizes = {
 };
 
 export interface TextProps {
-  bold?: boolean | "medium";
+  bold?: boolean;
+  fontWeight?: "bold" | "medium" | "normal";
   italic?: boolean;
   style?: StyleProp<TextStyle>;
   color?: ThemeColorKey;
@@ -29,17 +30,9 @@ export interface TextProps {
   lineGapScale?: number;
 }
 
-// https://seek-oss.github.io/capsize/
-const fontMetrics = {
-  capHeight: 2048,
-  ascent: 2728,
-  descent: -680,
-  lineGap: 0,
-  unitsPerEm: 2816,
-};
-
-export const useStyle = (props: TextProps & { level?: number }) =>
-  useMemo<TextStyle>(() => {
+export const useStyle = (props: TextProps & { level?: number }) => {
+  if (props.bold) props.fontWeight = "bold";
+  return useMemo<TextStyle>(() => {
     const fontSize = props.size
       ? sizes[props.size]
       : props.level
@@ -48,15 +41,15 @@ export const useStyle = (props: TextProps & { level?: number }) =>
     return StyleSheet.create({
       // eslint-disable-next-line react-native/no-unused-styles
       text: {
-        ...fontWithWeight(
-          Font.Inter,
-          props.bold ? (props.bold === "medium" ? "medium" : "bold") : "normal"
+        ...fontPropsFn(
+          Font.NotoSans,
+          props.fontWeight || "normal",
+          props.italic
         ),
         color: Colors[props.color || "text"] as string,
-        fontStyle: props.italic ? "italic" : "normal",
         textAlign: props.align,
         ...capsize({
-          fontMetrics,
+          fontMetrics: fontMetrics[Font.NotoSans],
           fontSize: fontSize,
           lineGap: (props.lineGapScale ?? 0.5) * fontSize,
         }),
@@ -64,13 +57,14 @@ export const useStyle = (props: TextProps & { level?: number }) =>
     }).text;
   }, [
     props.align,
-    props.bold,
+    props.fontWeight,
     props.italic,
     props.size,
     props.level,
     props.color,
     props.lineGapScale,
   ]);
+};
 
 export const Text: FC<TextProps> = ({ children, numberOfLines, ...props }) => {
   const style = useStyle(props);

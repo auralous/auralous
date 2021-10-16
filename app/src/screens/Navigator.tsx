@@ -1,4 +1,4 @@
-import { Font, fontWithWeight } from "@/styles/fonts";
+import { Font, fontPropsFn } from "@/styles/fonts";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { FC } from "react";
@@ -10,7 +10,8 @@ const Stack = createNativeStackNavigator();
 
 const commonScreenOptions: NativeStackNavigationOptions = {
   headerShadowVisible: false,
-  headerTitleStyle: { ...fontWithWeight(Font.Inter, "bold") },
+  // @ts-ignore
+  headerTitleStyle: { ...fontPropsFn(Font.NotoSans, "bold") },
 };
 
 const Navigator: FC = () => {

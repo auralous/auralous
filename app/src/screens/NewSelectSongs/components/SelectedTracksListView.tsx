@@ -1,4 +1,4 @@
-import { Button, TextButton } from "@/components/Button";
+import { Button } from "@/components/Button";
 import type {
   SortableListRenderItem,
   SortableListRenderItemInfo,
@@ -9,7 +9,7 @@ import { QueueTrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
 import { reorder, shuffle } from "@/player";
 import { Colors } from "@/styles/colors";
-import { Font, fontWithWeight } from "@/styles/fonts";
+import { Font, fontPropsFn } from "@/styles/fonts";
 import { Size } from "@/styles/spacing";
 import { identityFn } from "@/utils/utils";
 import { useTrackQuery } from "@auralous/api";
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     paddingTop: Size[2],
   },
   selectOptsText: {
-    ...fontWithWeight(Font.Inter, "medium"),
+    ...fontPropsFn(Font.NotoSans, "medium"),
     textTransform: "uppercase",
   },
   shuffleButtonContainer: {
@@ -246,18 +246,20 @@ export const SelectedTracksListFooter: FC<{
     <View style={styles.footer}>
       {hasChecked ? (
         <View style={styles.selectOpts}>
-          <TextButton
+          <Button
+            variant="text"
             onPress={removeChecked}
             textProps={{ style: styles.selectOptsText }}
           >
             {t("queue.remove")}
-          </TextButton>
-          <TextButton
+          </Button>
+          <Button
+            variant="text"
             onPress={moveToTopChecked}
             textProps={{ style: styles.selectOptsText }}
           >
             {t("queue.move_to_top")}
-          </TextButton>
+          </Button>
         </View>
       ) : (
         <Button

@@ -125,7 +125,7 @@ export const Toaster: FC = () => {
           </>
         )}
         <Spacer x={3} />
-        <Text style={styles.text} bold="medium" color="textSecondary">
+        <Text style={styles.text} fontWeight="medium" color="textSecondary">
           {toast.message}
         </Text>
         <Spacer x={3} />

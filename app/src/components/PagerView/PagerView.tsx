@@ -24,6 +24,7 @@ const PagerView = forwardRef<PagerViewMethods, PagerViewProps>(
       <RNPagerView
         orientation={orientation}
         onPageSelected={onPageSelected}
+        initialPage={0}
         ref={pagerRef}
         style={style}
       >

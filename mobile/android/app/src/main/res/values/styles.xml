@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="android:textColor">#ffffff</item>
         <item name="android:forceDarkAllowed">false</item>
-        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:navigationBarColor">#090a0c</item>
     </style>
 
 </resources>

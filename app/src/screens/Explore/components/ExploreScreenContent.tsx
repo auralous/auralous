@@ -2,8 +2,8 @@ import { Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import ExploreSection from "./ExploreSection";
 import FeaturedPlaylists from "./FeaturedPlaylists";
-import HomeSection from "./HomeSection";
 import RecentSessions from "./RecentSessions";
 
 const styles = StyleSheet.create({
@@ -13,23 +13,25 @@ const styles = StyleSheet.create({
   },
 });
 
-export const HomeScreenContent: FC = () => {
+const ExploreScreenContent: FC = () => {
   const { t } = useTranslation();
   return (
     <View style={styles.content}>
-      <HomeSection title={t("home.featured_playlists.title")}>
+      <ExploreSection title={t("explore.featured_playlists.title")}>
         <FeaturedPlaylists />
-      </HomeSection>
-      <HomeSection
-        title={t("home.recent_sessions.title")}
-        description={t("home.recent_sessions.description")}
+      </ExploreSection>
+      <ExploreSection
+        title={t("explore.recent_sessions.title")}
+        description={t("explore.recent_sessions.description")}
       >
         <RecentSessions />
-      </HomeSection>
-      <HomeSection
-        title={t("home.radio_stations.title")}
-        description={t("home.radio_stations.description")}
-      ></HomeSection>
+      </ExploreSection>
+      <ExploreSection
+        title={t("explore.radio_stations.title")}
+        description={t("explore.radio_stations.description")}
+      ></ExploreSection>
     </View>
   );
 };
+
+export default ExploreScreenContent;

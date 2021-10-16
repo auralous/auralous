@@ -1,6 +1,10 @@
 {
   "home": {
     "title": "Home",
+    "feed_empty": "No sessions found at the moment"
+  },
+  "explore": {
+    "title": "Explore",
     "featured_playlists": {
       "title": "Featured Playlists"
     },
@@ -23,9 +27,6 @@
     "description": "Discover music around you",
     "open_map": "Open Map",
     "no_sessions_found": "No sessions found"
-  },
-  "search": {
-    "title": "Search"
   },
   "new": {
     "title": "New Session",
@@ -62,7 +63,8 @@
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": "Followers",
-    "following": "Following"
+    "following": "Following",
+    "share_a_session": "<0>{{ username }}</0> hosts a session"
   },
   "playlist": {
     "title": "Playlist",
@@ -85,7 +87,8 @@
     "go_to_session": "Go to session",
     "text": "What's on your mind",
     "session_of_name": "{{ name }}'s session",
-    "creator": "Session creator"
+    "creator": "Session creator",
+    "artists_preview": "{{ artistNames }}, and more"
   },
   "session_invite": {
     "title": "You are invited to collaborate in \"{{ name }}\"",
@@ -110,7 +113,7 @@
       "end_prompt": "You will not be able to add any new songs to this session but will be able to stream played songs at any time later.",
       "end_ok": "Session has been taken offline",
       "play_other_prompt": "Playing something else will the stop the current session",
-      "end_current_to_continue": "You must end current session to play something else"
+      "end_current_to_continue": "You must end current session to continue"
     },
     "delete": {
       "title": "Delete Session",

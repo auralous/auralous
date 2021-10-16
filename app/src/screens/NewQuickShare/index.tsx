@@ -130,12 +130,12 @@ const NewQuickShareScreen: FC<
     <>
       <ScrollView style={styles.content} contentContainerStyle={containerStyle}>
         <PlaylistsSection
-          title={t("home.featured_playlists.title")}
+          title={t("explore.featured_playlists.title")}
           playlists={dataFeatured?.playlistsFeatured || []}
           onSelect={onSelectPlaylist}
         />
         <PlaylistsSection
-          title={t("home.friends_playlists.title")}
+          title={t("explore.friends_playlists.title")}
           playlists={dataFriends?.playlistsFriends || []}
           onSelect={onSelectPlaylist}
         />

@@ -1,3 +1,4 @@
+import { PLAYER_BAR_HEIGHT } from "@/player-components/PlayerView/PlayerBar";
 import { isTruthy } from "@/utils/utils";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import type { ComponentType, LazyExoticComponent } from "react";
@@ -18,13 +19,33 @@ export const routesFn = (t: TFunction) => {
       {
         name: RouteName.Home,
         component: lazy(() => import("./Home")),
-        options: { headerShown: false, title: t("home.title") },
+        options: {
+          headerShown: false,
+          title: t("home.title"),
+          animation: "none",
+          headerBackVisible: false,
+        },
+      },
+      {
+        name: RouteName.Explore,
+        component: lazy(() => import("./Explore")),
+        options: {
+          title: t("explore.title"),
+          animation: "none",
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
+          headerBackVisible: false,
+        },
+        animation: "none",
       },
       {
         name: RouteName.Map,
         component: lazy(() => import("./Map")),
         options: {
+          headerShown: false,
           title: t("map.title"),
+          animation: "none",
         },
       },
       {
@@ -34,6 +55,9 @@ export const routesFn = (t: TFunction) => {
           headerTitle: "",
           headerTransparent: true,
           title: t("user.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       {
@@ -41,6 +65,9 @@ export const routesFn = (t: TFunction) => {
         component: lazy(() => import("./UserFollowersScreen")),
         options: {
           title: t("user.followers"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       {
@@ -48,6 +75,9 @@ export const routesFn = (t: TFunction) => {
         component: lazy(() => import("./UserFollowingScreen")),
         options: {
           title: t("user.following"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       {
@@ -57,6 +87,9 @@ export const routesFn = (t: TFunction) => {
           headerTitle: "",
           headerTransparent: true,
           title: t("playlist.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       {
@@ -66,6 +99,9 @@ export const routesFn = (t: TFunction) => {
           headerTitle: "",
           headerTransparent: true,
           title: t("session.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       {
@@ -73,6 +109,9 @@ export const routesFn = (t: TFunction) => {
         component: lazy(() => import("./SessionCollaborators")),
         options: {
           title: t("collab.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       {
@@ -81,6 +120,9 @@ export const routesFn = (t: TFunction) => {
         options: {
           headerTitle: "",
           title: "",
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       {
@@ -88,6 +130,9 @@ export const routesFn = (t: TFunction) => {
         component: lazy(() => import("./SessionEdit")),
         options: {
           title: t("session_edit.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       {
@@ -95,6 +140,9 @@ export const routesFn = (t: TFunction) => {
         component: lazy(() => import("./SessionListeners")),
         options: {
           title: t("session_listeners.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       Platform.OS !== "web" && {
@@ -134,6 +182,9 @@ export const routesFn = (t: TFunction) => {
         component: lazy(() => import("./Settings")),
         options: {
           title: t("settings.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
       {
@@ -141,6 +192,9 @@ export const routesFn = (t: TFunction) => {
         component: lazy(() => import("./Notifications")),
         options: {
           title: t("notifications.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
         },
       },
     ] as RouteFnParam[]

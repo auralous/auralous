@@ -1,6 +1,10 @@
 {
   "home": {
     "title": "Trang chủ",
+    "feed_empty": "Không tìm thấy phiên nào vào lúc này"
+  },
+  "explore": {
+    "title": "Khám phá",
     "featured_playlists": {
       "title": "Playlist nổi bật"
     },
@@ -23,9 +27,6 @@
     "description": "Khám phá âm nhạc quanh bạn",
     "open_map": "Mở bản đồ",
     "no_sessions_found": "Không tìm thấy phiên"
-  },
-  "search": {
-    "title": "Tìm kiếm"
   },
   "new": {
     "title": "Tạo phiên nghe",
@@ -62,7 +63,8 @@
     "follow": "Theo dõi",
     "unfollow": "Bỏ theo dõi",
     "followers": "Người theo dõi",
-    "following": "Đang theo dõi"
+    "following": "Đang theo dõi",
+    "share_a_session": "<0>{{ username }}</0> tổ chức một phiên"
   },
   "playlist": {
     "title": "Playlist",
@@ -85,7 +87,8 @@
     "go_to_session": "Đi đến Phiên nghe",
     "text": "Bạn đang nghĩ gì thế",
     "session_of_name": "Phiên của {{ name }}",
-    "creator": "Người tạo phiên"
+    "creator": "Người tạo phiên",
+    "artists_preview": "{{ artistNames }}, và nhiều hơn nữa"
   },
   "session_invite": {
     "title": "Bạn được mời cộng tác tại \"{{ name }}\"",
@@ -110,7 +113,7 @@
       "end_prompt": "Bạn không thể thêm bài hát mới nhưng có thể phát lại những bài đã thêm bất cứ lúc nào.",
       "end_ok": "Phiên đã ngừng phát trực tiếp",
       "play_other_prompt": "Phát mục khác sẽ dừng phiên hiện tại",
-      "end_current_to_continue": "Bạn phải ngừng phiên hiện tại để phát mục khác"
+      "end_current_to_continue": "Bạn phải ngừng phiên hiện tại để tiếp tục"
     },
     "delete": {
       "title": "Xóa Phiên",

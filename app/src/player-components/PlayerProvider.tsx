@@ -1,16 +1,21 @@
 import type { PlaybackCurrentContext } from "@/player";
 import player, { PlayerProvider as OriginalPlayerProvider } from "@/player";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
 import { useUiDispatch } from "@/ui-context";
 import {
   useClient,
   useMeQuery,
   useSessionCurrentLiveQuery,
 } from "@auralous/api";
+import type { NavigationContainerRefWithCurrent } from "@react-navigation/core";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTrackColor } from "./PlayerView/useTrackColor";
 
-export const PlayerProvider: FC = ({ children }) => {
+export const PlayerProvider: FC<{
+  navigationRef: NavigationContainerRefWithCurrent<ParamList>;
+}> = ({ children, navigationRef }) => {
   const client = useClient();
 
   const [playbackCurrentContext, setPlaybackCurrentContext] =
@@ -28,7 +33,11 @@ export const PlayerProvider: FC = ({ children }) => {
     refetchSessionCurrentLive,
   ]);
 
+  const initialLiveCheck = useRef(false);
   useEffect(() => {
+    if (dataSessionCurrentLive?.sessionCurrentLive === undefined) return;
+    if (initialLiveCheck.current === true) return;
+    initialLiveCheck.current = true;
     const sessionId = dataSessionCurrentLive?.sessionCurrentLive?.sessionId;
     if (!sessionId) return undefined;
     setPlaybackCurrentContext({
@@ -36,7 +45,8 @@ export const PlayerProvider: FC = ({ children }) => {
       type: "session",
       shuffle: false,
     });
-  }, [dataSessionCurrentLive?.sessionCurrentLive?.sessionId]);
+    navigationRef.navigate(RouteName.Session, { id: sessionId });
+  }, [dataSessionCurrentLive?.sessionCurrentLive, navigationRef]);
 
   useEffect(() => {
     const onPlayerContext = async (

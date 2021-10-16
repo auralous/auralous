@@ -1,4 +1,4 @@
-import { Button, TextButton } from "@/components/Button";
+import { Button } from "@/components/Button";
 import { SlideModal, useDialog } from "@/components/Dialog";
 import type { InputRef } from "@/components/Input";
 import { Input } from "@/components/Input";
@@ -86,9 +86,9 @@ const NewSelectSongsScreen: FC<
             {t("new.select_songs.create_session")}
           </Button>
           <Spacer y={1} />
-          <TextButton onPress={dismissFinal}>
+          <Button variant="text" onPress={dismissFinal}>
             {t("common.action.cancel")}
-          </TextButton>
+          </Button>
         </View>
       </SlideModal>
     </View>

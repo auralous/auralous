@@ -1,5 +1,5 @@
 import { IconX } from "@/assets";
-import { TextButton } from "@/components/Button";
+import { Button } from "@/components/Button";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
 import type { Playlist } from "@auralous/api";
@@ -112,13 +112,14 @@ const PlaylistTrackList: FC<{ playlist: Playlist; close(): void }> = ({
         </TouchableOpacity>
       </View>
       <View style={styles.tracks}>
-        <TextButton
+        <Button
+          variant="text"
           textProps={{ size: "sm" }}
           onPress={onAddAll}
           disabled={addAllTracks.length === 0}
         >
           {t("select_songs.playlists.add_all_songs")}
-        </TextButton>
+        </Button>
         <SelectableTrackList data={playlistTracks || []} fetching={fetching} />
       </View>
     </>
