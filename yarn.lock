@@ -1579,7 +1579,7 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hoangvvo/react-native-spotify-remote@^0.3.11-2":
+"@hoangvvo/react-native-spotify-remote@*", "@hoangvvo/react-native-spotify-remote@^0.3.11-2":
   version "0.3.11-2"
   resolved "https://registry.yarnpkg.com/@hoangvvo/react-native-spotify-remote/-/react-native-spotify-remote-0.3.11-2.tgz#e9ea5282de1da9efefc3b525703b899a7a80a863"
   integrity sha512-CSDBjR+USsF3QmtH43ifYJmNgnORUFyqf1zXnzUD0gzC284GG0FkV3viqePe+woS58vMrq8vRyQaSGi4gpSh6Q==

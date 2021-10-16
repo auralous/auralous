@@ -12,6 +12,7 @@ export const linking: LinkingOptions<ParamList> = {
       [RouteName.Map]: "map",
       [RouteName.SignIn]: "sign-in",
       [RouteName.Settings]: "settings",
+      [RouteName.Notifications]: "notifications",
       [RouteName.User]: "user/:username",
       [RouteName.Playlist]: "playlist/:id",
       [RouteName.Session]: "session/:id",

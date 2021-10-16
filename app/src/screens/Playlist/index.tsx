@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   root: { flex: 1, paddingTop: ConstantSize.headerHeight },
 });
 
-const HeaderRight: FC<{ playlist: Playlist }> = ({ playlist }) => {
+const HeaderRight: FC<{ playlist?: Playlist | null }> = ({ playlist }) => {
   const { t } = useTranslation();
 
   const uiDispatch = useUiDispatch();
@@ -33,31 +33,32 @@ const HeaderRight: FC<{ playlist: Playlist }> = ({ playlist }) => {
       icon={<IconMoreVertical width={21} height={21} />}
       accessibilityLabel={t("common.navigation.open_menu")}
       onPress={() => {
-        uiDispatch({
-          type: "contextMenu",
-          value: {
-            visible: true,
-            title: playlist.name,
-            subtitle: playlist.creatorName,
-            image: playlist.image || undefined,
-            items: [
-              {
-                icon: <IconShare2 stroke={Colors.textSecondary} />,
-                text: t("share.share"),
-                onPress() {
-                  uiDispatch({
-                    type: "share",
-                    value: {
-                      visible: true,
-                      title: playlist.name,
-                      url: `${Config.APP_URI}/playlist/${playlist.id}`,
-                    },
-                  });
+        playlist &&
+          uiDispatch({
+            type: "contextMenu",
+            value: {
+              visible: true,
+              title: playlist.name,
+              subtitle: playlist.creatorName,
+              image: playlist.image || undefined,
+              items: [
+                {
+                  icon: <IconShare2 stroke={Colors.textSecondary} />,
+                  text: t("share.share"),
+                  onPress() {
+                    uiDispatch({
+                      type: "share",
+                      value: {
+                        visible: true,
+                        title: playlist.name,
+                        url: `${Config.APP_URI}/playlist/${playlist.id}`,
+                      },
+                    });
+                  },
                 },
-              },
-            ],
-          },
-        });
+              ],
+            },
+          });
       }}
     />
   );
@@ -80,9 +81,8 @@ const PlaylistScreen: FC<
 
   useLayoutEffect(() => {
     const playlist = data?.playlist;
-    if (!playlist) return;
     navigation.setOptions({
-      title: playlist.name,
+      ...(playlist?.name && { title: playlist?.name }),
       headerRight() {
         return <HeaderRight playlist={playlist} />;
       },

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
 const HeaderRight: FC<{
   navigation: NativeStackNavigationProp<ParamList, RouteName.User>;
-  user: User;
+  user?: User | null;
 }> = ({ navigation, user }) => {
   const { t } = useTranslation();
 
@@ -35,14 +35,15 @@ const HeaderRight: FC<{
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
-  const isCurrentUser = user.id === me?.user.id;
+  const isCurrentUser = user?.id === me?.user.id;
 
   return (
     <Button
       variant="text"
       icon={<IconMoreVertical width={21} height={21} />}
       accessibilityLabel={t("common.navigation.open_menu")}
-      onPress={() => {
+      onPress={() =>
+        user &&
         uiDispatch({
           type: "contextMenu",
           value: {
@@ -73,8 +74,8 @@ const HeaderRight: FC<{
               },
             ].filter(isTruthy),
           },
-        });
-      }}
+        })
+      }
     />
   );
 };
@@ -90,10 +91,9 @@ const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
 
   useLayoutEffect(() => {
     const user = data?.user;
-    if (!user) return;
 
     navigation.setOptions({
-      title: user.username,
+      ...(user && { title: user.username }),
       headerRight() {
         return <HeaderRight navigation={navigation} user={user} />;
       },
