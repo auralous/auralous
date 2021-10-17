@@ -25,5 +25,3 @@ jobs:
         run: yarn lint
       - name: Build
         run: yarn build
-        env:
-          SENTRY_DSN: https://foo@bar.ingest.sentry.io/0

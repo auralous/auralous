@@ -224,7 +224,7 @@ export const setupExchanges = ({
 }: SetupExchangesOptions) => {
   if (!wsClient) {
     wsClient = createWSClient({
-      url: `${websocketUri}/graphql`,
+      url: `${websocketUri}/graphql-ws`,
     });
   }
   return [
