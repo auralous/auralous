@@ -30,6 +30,7 @@ const fontConfig = {
       normal: "NotoSansDisplay-Bold",
       italic: "NotoSansDisplay-BoldItalic",
     },
+    web: "Noto Sans Display",
   },
 };
 
@@ -40,7 +41,7 @@ export const fontPropsFn = (
 ): Partial<TextStyle> => {
   return Platform.select({
     web: {
-      fontFamily: `'${fontFamily}', sans-serif`,
+      fontFamily: `'${fontConfig[fontFamily].web}', sans-serif`,
       fontWeight: fontWeight === "medium" ? "500" : fontWeight,
       fontStyle: isItalic ? "italic" : undefined,
     },

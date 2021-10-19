@@ -1,10 +1,13 @@
+import { IconPlusSquare } from "@/assets";
+import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { FC } from "react";
+import { useUiDispatch } from "@/ui-context";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { FC, useLayoutEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
-import AddButton from "./components/AddButton";
 import ExploreScreenContent from "./components/ExploreScreenContent";
 
 const styles = StyleSheet.create({
@@ -14,20 +17,51 @@ const styles = StyleSheet.create({
   scroll: {
     paddingVertical: Size[2],
   },
+  add: {
+    paddingHorizontal: Size[2],
+  },
 });
 
-const ExploreScreen: FC<NativeStackScreenProps<ParamList, RouteName.Home>> =
-  () => {
-    return (
-      <View style={styles.root}>
-        <ScrollView style={styles.scroll}>
-          <Container>
-            <ExploreScreenContent />
-          </Container>
-        </ScrollView>
-        <AddButton />
-      </View>
-    );
-  };
+const HeaderRight: FC = () => {
+  const { t } = useTranslation();
+  const uiDispatch = useUiDispatch();
+
+  return (
+    <Button
+      variant="text"
+      icon={<IconPlusSquare />}
+      accessibilityLabel={t("new.title")}
+      onPress={() =>
+        uiDispatch({ type: "newSession", value: { visible: true } })
+      }
+      style={styles.add}
+    />
+  );
+};
+
+const ExploreScreen: FC<BottomTabScreenProps<ParamList, RouteName.Home>> = ({
+  navigation,
+}) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRightContainerStyle: {
+        paddingHorizontal: Size[2],
+      },
+      headerRight() {
+        return <HeaderRight />;
+      },
+    });
+  }, [navigation]);
+
+  return (
+    <View style={styles.root}>
+      <ScrollView style={styles.scroll}>
+        <Container>
+          <ExploreScreenContent />
+        </Container>
+      </ScrollView>
+    </View>
+  );
+};
 
 export default ExploreScreen;

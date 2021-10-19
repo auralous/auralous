@@ -7,6 +7,7 @@ import type { Dispatch, FC, ReactNode } from "react";
 import { useReducer } from "react";
 
 interface UIState {
+  newSession: { visible: boolean };
   addToPlaylist: { visible: boolean; trackId: null | string };
   signIn: { visible: boolean };
   contextMenu: {
@@ -55,6 +56,7 @@ function reducer<T extends keyof UIState>(state: UIState, action: Action<T>) {
 }
 
 const uiInitialValues: UIState = {
+  newSession: { visible: false },
   addToPlaylist: { visible: false, trackId: null },
   contextMenu: { visible: false, items: [], title: "" },
   signIn: { visible: false },

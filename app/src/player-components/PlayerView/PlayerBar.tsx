@@ -1,6 +1,6 @@
 import { IconByPlatformName, IconPause, IconPlay } from "@/assets";
 import imageDefaultTrack from "@/assets/images/default_track.jpg";
-import { BOTTOM_TABs_HEIGHT } from "@/components/Layout/BottomTabs";
+import { BOTTOM_TABS_HEIGHT } from "@/components/Layout/BottomTabs";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TextMarquee } from "@/components/Typography";
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     paddingVertical: Size[2],
   },
   root: {
-    bottom: BOTTOM_TABs_HEIGHT,
+    bottom: BOTTOM_TABS_HEIGHT,
     overflow: "hidden",
     position: "absolute",
     width: "100%",
@@ -126,7 +126,7 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
   }, [hidden]);
   const animRootStyle = useAnimatedStyle(() => {
     if (!hasTabBars || isLandscape) return { bottom: withTiming(0) };
-    return { bottom: withTiming(BOTTOM_TABs_HEIGHT) };
+    return { bottom: withTiming(BOTTOM_TABS_HEIGHT) };
   }, [hasTabBars, isLandscape]);
 
   return (

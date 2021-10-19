@@ -3,13 +3,19 @@ import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
-import { Size } from "@/styles/spacing";
+import { LayoutSize, Size } from "@/styles/spacing";
 import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 import type { FC, ReactNode } from "react";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { useDerivedValue } from "react-native-reanimated";
 
 export interface BottomSheetActionMenuProps {
@@ -28,7 +34,13 @@ export interface BottomSheetActionMenuItem {
 }
 
 const styles = StyleSheet.create({
-  bs: { marginHorizontal: Size[4] },
+  bs: {
+    marginHorizontal: Size[4],
+  },
+  bsLand: {
+    maxWidth: LayoutSize.md - Size[8],
+    marginHorizontal: "auto",
+  },
   bsBackground: {
     backgroundColor: Colors.backgroundSecondary,
   },
@@ -101,6 +113,8 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
     [items.length]
   );
 
+  const isLandscape = useWindowDimensions().width > LayoutSize.md;
+
   return (
     <BottomSheetModal
       ref={ref}
@@ -112,7 +126,7 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
       snapPoints={snapPoints}
       stackBehavior="push"
       onDismiss={onDismiss}
-      style={styles.bs}
+      style={isLandscape ? styles.bsLand : styles.bs}
       detached
       bottomInset={Size[4]}
     >

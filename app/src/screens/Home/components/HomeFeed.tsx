@@ -1,5 +1,4 @@
 import player from "@/player";
-import { Size } from "@/styles/spacing";
 import { SessionPager } from "@/views/SessionPager";
 import { useSessionsQuery } from "@auralous/api";
 import { useIsFocused } from "@react-navigation/native";
@@ -9,7 +8,6 @@ import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   slider: {
-    borderRadius: Size[4],
     flex: 1,
     overflow: "hidden",
   },

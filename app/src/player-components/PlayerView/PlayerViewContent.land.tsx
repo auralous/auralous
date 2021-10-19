@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   sidebar: {
     paddingHorizontal: Size[2],
     paddingVertical: Size[2],
-    width: 380,
+    width: 342,
   },
 });
 

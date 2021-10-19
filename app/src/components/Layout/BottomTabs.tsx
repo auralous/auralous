@@ -20,7 +20,7 @@ import type { ViewStyle } from "react-native";
 import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
 
-export const BOTTOM_TABs_HEIGHT = 56;
+export const BOTTOM_TABS_HEIGHT = 48;
 
 const styles = StyleSheet.create({
   hidden: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: Colors.backgroundSecondary,
     flexDirection: "row",
-    height: BOTTOM_TABs_HEIGHT,
+    height: BOTTOM_TABS_HEIGHT,
     overflow: "hidden",
     width: "100%",
   },

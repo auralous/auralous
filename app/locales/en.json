@@ -1,7 +1,9 @@
 {
   "home": {
     "title": "Home",
-    "feed_empty": "No sessions found at the moment"
+    "feed_empty": "No sessions found at the moment",
+    "for_you": "For you",
+    "following": "Following"
   },
   "explore": {
     "title": "Explore",
@@ -29,7 +31,7 @@
     "no_sessions_found": "No sessions found"
   },
   "new": {
-    "title": "New Session",
+    "title": "Create Session",
     "select_songs": {
       "title": "Select Songs",
       "num_selected": "{{count}} songs selected",

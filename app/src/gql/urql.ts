@@ -12,7 +12,10 @@ export const createUrqlClient = () => {
       onError(error, operation) {
         if (operation.kind === "mutation") {
           // we only show toast error for mutation
-          toast.error(error.graphQLErrors[0].message);
+          toast.error(
+            error.graphQLErrors[0]?.message ||
+              "An unexpected error has occurred"
+          );
         }
       },
       getToken() {

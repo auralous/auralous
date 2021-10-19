@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     paddingVertical: Size[2],
   },
   buttonActive: {
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: "rgba(255, 255, 255, .1)",
   },
   logo: {
     padding: Size[8],

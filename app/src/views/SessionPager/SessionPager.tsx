@@ -5,10 +5,9 @@ import {
   IconSkipBack,
   IconSkipForward,
 } from "@/assets";
-import imageDefaultTrack from "@/assets/images/default_track.jpg";
 import { Avatar } from "@/components/Avatar";
 import { Button } from "@/components/Button";
-import { LoadingScreen, SkeletonBlock } from "@/components/Loading";
+import { LoadingScreen } from "@/components/Loading";
 import type { PagerViewMethods } from "@/components/PagerView";
 import { PagerView } from "@/components/PagerView";
 import { Spacer } from "@/components/Spacer";
@@ -33,11 +32,9 @@ import {
   Image,
   Pressable,
   StyleSheet,
-  Text as RNText,
   useWindowDimensions,
   View,
 } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -47,6 +44,7 @@ import Animated, {
 const styles = StyleSheet.create({
   background: {
     zIndex: -1,
+    opacity: 0.6,
     ...StyleSheet.absoluteFillObject,
   },
   buttonPlay: {
@@ -66,9 +64,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   isPlaying: {
-    ...StyleSheet.absoluteFillObject,
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, .5)",
     justifyContent: "center",
   },
   landscapeBtn: {
@@ -79,6 +75,7 @@ const styles = StyleSheet.create({
         translateY: -Size[10] / 2,
       },
     ],
+    zIndex: 1,
   },
   landscapeBtnLeft: {
     left: Size[2],
@@ -89,7 +86,8 @@ const styles = StyleSheet.create({
   meta: {
     alignItems: "center",
     flexDirection: "row",
-    padding: Size[4],
+    paddingHorizontal: Size[4],
+    paddingVertical: Size[1],
   },
   metaText: {
     flex: 1,
@@ -97,12 +95,16 @@ const styles = StyleSheet.create({
   },
   nowPlaying: {
     flexDirection: "row",
-    padding: Size[4],
+    marginHorizontal: Size[4],
+    marginVertical: Size[1],
+    backgroundColor: "rgba(0,0,0,.5)",
+    paddingHorizontal: Size[2],
+    borderRadius: 8,
+    height: Size[12],
   },
-  nowPlayingImage: {
-    height: Size[14],
-    overflow: "hidden",
-    width: Size[14],
+  nowPlayingText: {
+    justifyContent: "center",
+    flex: 1,
   },
   nowPlayingMeta: {
     alignItems: "flex-start",
@@ -131,12 +133,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
-  rootLand: {
-    marginHorizontal: "auto",
-    maxWidth: LayoutSize.md,
-    paddingHorizontal: Size[16],
-    width: "100%",
-  },
   textBlock: {
     backgroundColor: "black",
     color: "white",
@@ -158,59 +154,26 @@ const styles = StyleSheet.create({
 
 const SessionPagerNowPlaying: FC<{ trackId?: string; fetching?: boolean }> = ({
   trackId,
-  fetching: fetchingProp,
 }) => {
-  const [{ data: dataTrack, fetching: fetchingTrack }] = useTrackQuery({
+  const [{ data: dataTrack }] = useTrackQuery({
     variables: { id: trackId || "" },
     pause: !trackId,
   });
 
-  const fetching = !dataTrack || fetchingTrack || fetchingProp;
-
-  if (!trackId) return null;
-
   return (
     <View style={styles.nowPlaying}>
-      <View style={styles.nowPlayingImage}>
-        {fetching ? (
-          <SkeletonBlock style={StyleSheet.absoluteFill} />
-        ) : (
-          <Image
-            source={
-              dataTrack?.track?.image
-                ? { uri: dataTrack.track.image }
-                : imageDefaultTrack
-            }
-            defaultSource={imageDefaultTrack}
-            style={StyleSheet.absoluteFill}
-            resizeMode="contain"
-          />
-        )}
-        <View style={styles.isPlaying}>
-          <AnimatedAudioBar />
-        </View>
+      <View style={styles.isPlaying}>
+        <AnimatedAudioBar />
       </View>
-      <View style={styles.nowPlayingMeta}>
-        {fetching ? (
-          <SkeletonBlock width={27} height={3} />
-        ) : (
-          <RNText
-            style={[styles.textBlock, styles.textBlockTitle]}
-            numberOfLines={1}
-          >
-            {dataTrack?.track?.title}
-          </RNText>
-        )}
-        {fetching ? (
-          <SkeletonBlock width={24} height={3} />
-        ) : (
-          <RNText
-            style={[styles.textBlock, styles.textBlockSubtitle]}
-            numberOfLines={1}
-          >
-            {dataTrack?.track?.artists.map((artist) => artist.name).join(", ")}
-          </RNText>
-        )}
+      <Spacer x={2} />
+      <View style={styles.nowPlayingText}>
+        <Text bold numberOfLines={1}>
+          {dataTrack?.track?.title}
+        </Text>
+        <Spacer y={2} />
+        <Text numberOfLines={1} color="textSecondary">
+          {dataTrack?.track?.artists.map((artist) => artist.name).join(", ")}
+        </Text>
       </View>
     </View>
   );
@@ -221,10 +184,6 @@ const SessionPagerMeta: FC<{ session: Session }> = ({ session }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.meta}>
-      <LinearGradient
-        style={StyleSheet.absoluteFill}
-        colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.75)"]}
-      />
       <Avatar
         size={12}
         username={session.creator.username}
@@ -250,7 +209,7 @@ const SessionPagerMeta: FC<{ session: Session }> = ({ session }) => {
             })
           }
         >
-          <Text color="textSecondary">{session.text}</Text>
+          <Text>{session.text}</Text>
         </Pressable>
       </View>
       <Button
@@ -371,9 +330,9 @@ const SessionPagerItem: FC<{
     <View collapsable={false} style={styles.page}>
       <SessionPagerBg session={session} />
       <SessionPagerControl session={session} />
-      <SessionPagerNowPlaying trackId={currentTrackId || undefined} />
       <View style={styles.content} pointerEvents="none" />
       <SessionPagerMeta session={session} />
+      <SessionPagerNowPlaying trackId={currentTrackId || undefined} />
     </View>
   );
 };
@@ -409,22 +368,20 @@ const SessionPager: FC<{
   }
 
   return (
-    <View style={[styles.root, isLandscape && styles.rootLand]}>
+    <View style={styles.root}>
       {isLandscape && (
         <>
           <Button
             accessibilityLabel={t("common.navigation.go_back")}
             style={[styles.landscapeBtn, styles.landscapeBtnLeft]}
-            variant="filled"
-            icon={<IconChevronLeft color={Colors.background} />}
+            icon={<IconChevronLeft />}
             onPress={() => ref.current?.setPage(currentPage - 1)}
             disabled={currentPage <= 0}
           />
           <Button
             accessibilityLabel={t("common.navigation.go_forward")}
             style={[styles.landscapeBtn, styles.landscapeBtnRight]}
-            variant="filled"
-            icon={<IconChevronRight color={Colors.background} />}
+            icon={<IconChevronRight />}
             onPress={() => ref.current?.setPage(currentPage + 1)}
             disabled={currentPage >= sessions.length - 1}
           />

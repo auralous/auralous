@@ -84,7 +84,8 @@ const Navigator: FC = () => {
               component={HomeScreen}
               options={{
                 title: t("home.title"),
-                headerShown: false,
+                headerTitle: "",
+                headerTransparent: true,
               }}
             />
             <Tab.Screen
