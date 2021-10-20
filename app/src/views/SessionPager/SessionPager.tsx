@@ -20,7 +20,6 @@ import player, {
 } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
-import { Font, fontPropsFn } from "@/styles/fonts";
 import { LayoutSize, Size } from "@/styles/spacing";
 import type { Session } from "@auralous/api";
 import { useNowPlayingQuery, useTrackQuery } from "@auralous/api";
@@ -43,8 +42,8 @@ import Animated, {
 
 const styles = StyleSheet.create({
   background: {
-    zIndex: -1,
     opacity: 0.6,
+    zIndex: -1,
     ...StyleSheet.absoluteFillObject,
   },
   buttonPlay: {
@@ -94,22 +93,17 @@ const styles = StyleSheet.create({
     marginLeft: Size[2],
   },
   nowPlaying: {
+    backgroundColor: "rgba(0,0,0,.5)",
+    borderRadius: 8,
     flexDirection: "row",
+    height: Size[12],
     marginHorizontal: Size[4],
     marginVertical: Size[1],
-    backgroundColor: "rgba(0,0,0,.5)",
     paddingHorizontal: Size[2],
-    borderRadius: 8,
-    height: Size[12],
   },
   nowPlayingText: {
+    flex: 1,
     justifyContent: "center",
-    flex: 1,
-  },
-  nowPlayingMeta: {
-    alignItems: "flex-start",
-    flex: 1,
-    marginLeft: Size[2],
   },
   page: {
     backgroundColor: Colors.black,
@@ -132,23 +126,6 @@ const styles = StyleSheet.create({
   },
   root: {
     flex: 1,
-  },
-  textBlock: {
-    backgroundColor: "black",
-    color: "white",
-    fontSize: 18,
-    paddingHorizontal: Size[2],
-    textAlignVertical: "center",
-  },
-  textBlockSubtitle: {
-    ...fontPropsFn(Font.NotoSans, "medium"),
-    color: Colors.textSecondary,
-    fontSize: 14,
-    height: Size[6],
-  },
-  textBlockTitle: {
-    ...fontPropsFn(Font.NotoSans, "bold"),
-    height: Size[8],
   },
 });
 

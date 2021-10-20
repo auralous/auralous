@@ -1,29 +1,31 @@
 import { PlaylistItem } from "@/components/Playlist";
-import { ParamList, RouteName } from "@/screens/types";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
 import { LayoutSize, Size } from "@/styles/spacing";
+import type { Playlist } from "@auralous/api";
 import {
-  Playlist,
   useRecommendationContentQuery,
   useRecommendationSectionQuery,
 } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC, useLayoutEffect, useMemo } from "react";
+import type { FC } from "react";
+import { useLayoutEffect, useMemo } from "react";
+import type { ListRenderItem } from "react-native";
 import {
   FlatList,
-  ListRenderItem,
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
   item: {
     flex: 1,
     padding: Size[2],
+  },
+  root: {
+    flex: 1,
   },
 });
 
@@ -63,7 +65,7 @@ const ExploreRecommendationScreen: FC<
         title: dataSection?.recommendationSection?.title,
       });
     }
-  }, [dataSection?.recommendationSection?.title]);
+  }, [navigation, dataSection?.recommendationSection?.title]);
 
   const [{ data }] = useRecommendationContentQuery({
     variables: {

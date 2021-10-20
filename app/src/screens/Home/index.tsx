@@ -4,7 +4,7 @@ import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import { useUiDispatch } from "@/ui-context";
 import { useSessionCurrentLiveQuery } from "@auralous/api";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { FC } from "react";
 import { useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,9 @@ import { RequireEndSessionModal } from "../_commonContent/RequireEndSessionModal
 import HomeFeed from "./components/HomeFeed";
 
 const styles = StyleSheet.create({
+  add: {
+    paddingHorizontal: Size[2],
+  },
   root: {
     flex: 1,
   },
@@ -24,9 +27,6 @@ const styles = StyleSheet.create({
   tabs: {
     flexDirection: "row",
     justifyContent: "center",
-  },
-  add: {
-    paddingHorizontal: Size[2],
   },
 });
 

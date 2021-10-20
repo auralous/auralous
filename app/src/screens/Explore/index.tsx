@@ -4,21 +4,22 @@ import { Container } from "@/components/Container";
 import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import { useUiDispatch } from "@/ui-context";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { FC, useLayoutEffect } from "react";
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import type { FC } from "react";
+import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import ExploreScreenContent from "./components/index";
 
 const styles = StyleSheet.create({
+  add: {
+    paddingHorizontal: Size[2],
+  },
   root: {
     flex: 1,
   },
   scroll: {
     paddingVertical: Size[2],
-  },
-  add: {
-    paddingHorizontal: Size[2],
   },
 });
 

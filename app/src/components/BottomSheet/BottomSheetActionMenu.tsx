@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
   bs: {
     marginHorizontal: Size[4],
   },
-  bsLand: {
-    maxWidth: LayoutSize.md - Size[8],
-    marginHorizontal: "auto",
-  },
   bsBackground: {
     backgroundColor: Colors.backgroundSecondary,
+  },
+  bsLand: {
+    marginHorizontal: "auto",
+    maxWidth: LayoutSize.md - Size[8],
   },
   cancel: {
     height: Size[10],
