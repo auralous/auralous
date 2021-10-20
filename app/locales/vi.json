@@ -7,9 +7,6 @@
   },
   "explore": {
     "title": "Khám phá",
-    "featured_playlists": {
-      "title": "Playlist nổi bật"
-    },
     "friends_playlists": {
       "title": "Trong vòng kết nối",
       "description": "Khám phá âm nhạc từ bạn bè của bạn"
@@ -209,7 +206,8 @@
       "go_back": "Trở về",
       "go_forward": "Về sau",
       "open_menu": "Mở menu",
-      "close": "Đóng"
+      "close": "Đóng",
+      "see_all": "Xem tất cả"
     },
     "label": {
       "search": "Tìm kiếm"

@@ -285,9 +285,11 @@ export type Query = {
   nowPlayingReactions: Array<NowPlayingReactionItem>;
   playlist?: Maybe<Playlist>;
   playlistTracks: Array<Track>;
-  playlistsFeatured: Array<Playlist>;
   playlistsFriends: Array<Playlist>;
   playlistsSearch: Array<Playlist>;
+  recommendationContent: Array<Playlist>;
+  recommendationSection?: Maybe<RecommendationSection>;
+  recommendationSections: Array<RecommendationSection>;
   searchTrack: Array<Track>;
   session?: Maybe<Session>;
   sessionCurrentLive?: Maybe<SessionCurrentLive>;
@@ -343,13 +345,19 @@ export type QueryPlaylistTracksArgs = {
 };
 
 
-export type QueryPlaylistsFeaturedArgs = {
-  limit?: Maybe<Scalars['Int']>;
+export type QueryPlaylistsSearchArgs = {
+  query: Scalars['String'];
 };
 
 
-export type QueryPlaylistsSearchArgs = {
-  query: Scalars['String'];
+export type QueryRecommendationContentArgs = {
+  id: Scalars['ID'];
+  limit: Scalars['Int'];
+};
+
+
+export type QueryRecommendationSectionArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -436,6 +444,13 @@ export type QueueItem = {
   creatorId: Scalars['String'];
   trackId: Scalars['String'];
   uid: Scalars['ID'];
+};
+
+export type RecommendationSection = {
+  __typename: 'RecommendationSection';
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  title: Scalars['String'];
 };
 
 export type Session = {
@@ -641,11 +656,6 @@ export type PlaylistTracksQueryVariables = Exact<{
 
 export type PlaylistTracksQuery = { playlistTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> }> };
 
-export type PlaylistsFeaturedQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PlaylistsFeaturedQuery = { playlistsFeatured: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> };
-
 export type PlaylistsFriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -708,6 +718,26 @@ export type QueueToTopMutationVariables = Exact<{
 
 
 export type QueueToTopMutation = { queueToTop: boolean };
+
+export type RecommendationSectionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecommendationSectionsQuery = { recommendationSections: Array<{ __typename: 'RecommendationSection', id: string, title: string, description?: string | null | undefined }> };
+
+export type RecommendationSectionQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type RecommendationSectionQuery = { recommendationSection?: { __typename: 'RecommendationSection', id: string, title: string, description?: string | null | undefined } | null | undefined };
+
+export type RecommendationContentQueryVariables = Exact<{
+  id: Scalars['ID'];
+  limit: Scalars['Int'];
+}>;
+
+
+export type RecommendationContentQuery = { recommendationContent: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> };
 
 export type SessionPartsFragment = { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } };
 
@@ -1011,11 +1041,6 @@ export const PlaylistTracksDocument = {"kind":"Document","definitions":[{"kind":
 export function usePlaylistTracksQuery(options: Omit<Urql.UseQueryArgs<PlaylistTracksQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PlaylistTracksQuery>({ query: PlaylistTracksDocument, ...options });
 };
-export const PlaylistsFeaturedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"playlistsFeatured"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playlistsFeatured"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"creatorName"}},{"kind":"Field","name":{"kind":"Name","value":"creatorImage"}}]}}]} as unknown as DocumentNode;
-
-export function usePlaylistsFeaturedQuery(options: Omit<Urql.UseQueryArgs<PlaylistsFeaturedQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<PlaylistsFeaturedQuery>({ query: PlaylistsFeaturedDocument, ...options });
-};
 export const PlaylistsFriendsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"playlistsFriends"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playlistsFriends"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"creatorName"}},{"kind":"Field","name":{"kind":"Name","value":"creatorImage"}}]}}]} as unknown as DocumentNode;
 
 export function usePlaylistsFriendsQuery(options: Omit<Urql.UseQueryArgs<PlaylistsFriendsQueryVariables>, 'query'> = {}) {
@@ -1055,6 +1080,21 @@ export const QueueToTopDocument = {"kind":"Document","definitions":[{"kind":"Ope
 
 export function useQueueToTopMutation() {
   return Urql.useMutation<QueueToTopMutation, QueueToTopMutationVariables>(QueueToTopDocument);
+};
+export const RecommendationSectionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"recommendationSections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendationSections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode;
+
+export function useRecommendationSectionsQuery(options: Omit<Urql.UseQueryArgs<RecommendationSectionsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RecommendationSectionsQuery>({ query: RecommendationSectionsDocument, ...options });
+};
+export const RecommendationSectionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"recommendationSection"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendationSection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode;
+
+export function useRecommendationSectionQuery(options: Omit<Urql.UseQueryArgs<RecommendationSectionQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RecommendationSectionQuery>({ query: RecommendationSectionDocument, ...options });
+};
+export const RecommendationContentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"recommendationContent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendationContent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"creatorName"}},{"kind":"Field","name":{"kind":"Name","value":"creatorImage"}}]}}]} as unknown as DocumentNode;
+
+export function useRecommendationContentQuery(options: Omit<Urql.UseQueryArgs<RecommendationContentQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RecommendationContentQuery>({ query: RecommendationContentDocument, ...options });
 };
 export const SessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"session"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
@@ -1210,6 +1250,7 @@ export type GraphCacheKeysConfig = {
   NowPlayingReactionItem?: (data: WithTypename<NowPlayingReactionItem>) => null | string,
   Playlist?: (data: WithTypename<Playlist>) => null | string,
   QueueItem?: (data: WithTypename<QueueItem>) => null | string,
+  RecommendationSection?: (data: WithTypename<RecommendationSection>) => null | string,
   Session?: (data: WithTypename<Session>) => null | string,
   SessionCurrentLive?: (data: WithTypename<SessionCurrentLive>) => null | string,
   Track?: (data: WithTypename<Track>) => null | string,
@@ -1228,9 +1269,11 @@ export type GraphCacheResolvers = {
     nowPlayingReactions?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingReactionsArgs, Array<WithTypename<NowPlayingReactionItem> | string>>,
     playlist?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistArgs, WithTypename<Playlist> | string>,
     playlistTracks?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistTracksArgs, Array<WithTypename<Track> | string>>,
-    playlistsFeatured?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistsFeaturedArgs, Array<WithTypename<Playlist> | string>>,
     playlistsFriends?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
     playlistsSearch?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistsSearchArgs, Array<WithTypename<Playlist> | string>>,
+    recommendationContent?: GraphCacheResolver<WithTypename<Query>, QueryRecommendationContentArgs, Array<WithTypename<Playlist> | string>>,
+    recommendationSection?: GraphCacheResolver<WithTypename<Query>, QueryRecommendationSectionArgs, WithTypename<RecommendationSection> | string>,
+    recommendationSections?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<RecommendationSection> | string>>,
     searchTrack?: GraphCacheResolver<WithTypename<Query>, QuerySearchTrackArgs, Array<WithTypename<Track> | string>>,
     session?: GraphCacheResolver<WithTypename<Query>, QuerySessionArgs, WithTypename<Session> | string>,
     sessionCurrentLive?: GraphCacheResolver<WithTypename<Query>, QuerySessionCurrentLiveArgs, WithTypename<SessionCurrentLive> | string>,
@@ -1317,6 +1360,11 @@ export type GraphCacheResolvers = {
     uid?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['ID'] | string>,
     trackId?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['String'] | string>,
     creatorId?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['String'] | string>
+  },
+  RecommendationSection?: {
+    id?: GraphCacheResolver<WithTypename<RecommendationSection>, Record<string, never>, Scalars['ID'] | string>,
+    title?: GraphCacheResolver<WithTypename<RecommendationSection>, Record<string, never>, Scalars['String'] | string>,
+    description?: GraphCacheResolver<WithTypename<RecommendationSection>, Record<string, never>, Scalars['String'] | string>
   },
   Session?: {
     id?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['ID'] | string>,

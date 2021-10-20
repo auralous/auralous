@@ -25,6 +25,7 @@ export const linking: LinkingOptions<ParamList> = {
           [RouteName.Map]: "map",
         },
       },
+      [RouteName.ExploreRecommendation]: "explore/:id",
       [RouteName.SignIn]: "sign-in",
       [RouteName.Settings]: "settings",
       [RouteName.Notifications]: "notifications",
@@ -40,6 +41,9 @@ export const linking: LinkingOptions<ParamList> = {
 
 const HomeScreen = lazy(() => import("./Home"));
 const ExploreScreen = lazy(() => import("./Explore"));
+const ExploreRecommendationScreen = lazy(
+  () => import("./ExploreRecommendation")
+);
 const MapScreen = lazy(() => import("./Map"));
 const UserScreen = lazy(() => import("./User"));
 const UserFollowersScreen = lazy(() => import("./UserFollowersScreen"));
@@ -119,6 +123,16 @@ const Navigator: FC = () => {
           </Tab.Navigator>
         )}
       </Stack.Screen>
+      <Stack.Screen
+        name={RouteName.ExploreRecommendation}
+        component={ExploreRecommendationScreen}
+        options={{
+          title: t("explore.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
+        }}
+      />
       <Stack.Screen
         name={RouteName.Settings}
         component={SettingsScreen}

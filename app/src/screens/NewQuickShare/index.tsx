@@ -17,8 +17,8 @@ import {
   SessionTracksDocument,
   useClient,
   useMyPlaylistsQuery,
-  usePlaylistsFeaturedQuery,
   usePlaylistsFriendsQuery,
+  useRecommendationSectionsQuery,
 } from "@auralous/api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
@@ -26,6 +26,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, ScrollView, StyleSheet, View } from "react-native";
 import PlaylistsSection from "./components/PlaylistsSection";
+import RecommendationPlaylistsSection from "./components/RecommendationSection";
 
 const styles = StyleSheet.create({
   content: {
@@ -120,9 +121,11 @@ const NewQuickShareScreen: FC<
     }
   }, [route, onSelectPlaylist, onSelectSession]);
 
-  const [{ data: dataFeatured }] = usePlaylistsFeaturedQuery();
   const [{ data: dataFriends }] = usePlaylistsFriendsQuery();
   const [{ data: dataMine }] = useMyPlaylistsQuery();
+  const [{ data: dataRecommendations }] = useRecommendationSectionsQuery();
+
+  console.log(dataRecommendations);
 
   const containerStyle = useContainerStyle();
 
@@ -130,8 +133,8 @@ const NewQuickShareScreen: FC<
     <>
       <ScrollView style={styles.content} contentContainerStyle={containerStyle}>
         <PlaylistsSection
-          title={t("explore.featured_playlists.title")}
-          playlists={dataFeatured?.playlistsFeatured || []}
+          title={t("playlist.my_playlists")}
+          playlists={dataMine?.myPlaylists || []}
           onSelect={onSelectPlaylist}
         />
         <PlaylistsSection
@@ -139,11 +142,13 @@ const NewQuickShareScreen: FC<
           playlists={dataFriends?.playlistsFriends || []}
           onSelect={onSelectPlaylist}
         />
-        <PlaylistsSection
-          title={t("playlist.my_playlists")}
-          playlists={dataMine?.myPlaylists || []}
-          onSelect={onSelectPlaylist}
-        />
+        {dataRecommendations?.recommendationSections.map((recommendation) => (
+          <RecommendationPlaylistsSection
+            key={recommendation.id}
+            recommendation={recommendation}
+            onSelect={onSelectPlaylist}
+          />
+        ))}
       </ScrollView>
       {fetching && (
         <View style={styles.overlay}>

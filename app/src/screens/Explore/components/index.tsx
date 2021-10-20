@@ -1,10 +1,12 @@
+import { LoadingScreen } from "@/components/Loading";
 import { Size } from "@/styles/spacing";
+import { useRecommendationSectionsQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import ExploreSection from "./ExploreSection";
-import FeaturedPlaylists from "./FeaturedPlaylists";
 import RecentSessions from "./RecentSessions";
+import RecommendationSection from "./RecommendationSection";
 
 const styles = StyleSheet.create({
   content: {
@@ -15,11 +17,10 @@ const styles = StyleSheet.create({
 
 const ExploreScreenContent: FC = () => {
   const { t } = useTranslation();
+  const [{ data, fetching }] = useRecommendationSectionsQuery();
+  if (fetching) return <LoadingScreen />;
   return (
     <View style={styles.content}>
-      <ExploreSection title={t("explore.featured_playlists.title")}>
-        <FeaturedPlaylists />
-      </ExploreSection>
       <ExploreSection
         title={t("explore.recent_sessions.title")}
         description={t("explore.recent_sessions.description")}
@@ -30,6 +31,14 @@ const ExploreScreenContent: FC = () => {
         title={t("explore.radio_stations.title")}
         description={t("explore.radio_stations.description")}
       ></ExploreSection>
+      {data?.recommendationSections.map((recommendation) => (
+        <RecommendationSection
+          key={recommendation.id}
+          id={recommendation.id}
+          title={recommendation.title}
+          description={recommendation.description}
+        />
+      ))}
     </View>
   );
 };

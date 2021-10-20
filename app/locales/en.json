@@ -7,9 +7,6 @@
   },
   "explore": {
     "title": "Explore",
-    "featured_playlists": {
-      "title": "Featured Playlists"
-    },
     "friends_playlists": {
       "title": "In Your Circle",
       "description": "Discover what your friends are jamming to"
@@ -209,7 +206,8 @@
       "go_back": "Go back",
       "go_forward": "Go forward",
       "open_menu": "Open menu",
-      "close": "Close"
+      "close": "Close",
+      "see_all": "See all"
     },
     "label": {
       "search": "Search"

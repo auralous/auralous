@@ -8,7 +8,7 @@ import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { FC, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
-import ExploreScreenContent from "./components/ExploreScreenContent";
+import ExploreScreenContent from "./components/index";
 
 const styles = StyleSheet.create({
   root: {

@@ -49,6 +49,10 @@ const cacheExchangeFn = () =>
         session: (parent, args) => ({ __typename: "Session", id: args.id }),
         playlist: (parent, args) => ({ __typename: "Playlist", id: args.id }),
         track: (parent, args) => ({ __typename: "Track", id: args.id }),
+        recommendationSection: (parent, args) => ({
+          __typename: "RecommendationSection",
+          id: args.id,
+        }),
       },
       Message: {
         createdAt: (parent) => new Date(parent.createdAt),
