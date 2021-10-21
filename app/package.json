@@ -19,6 +19,7 @@
     "@auralous/api": "^0.0.0",
     "@fluentui/react-context-selector": "^0.53.4",
     "@gorhom/bottom-sheet": "^4.1.2",
+    "hash.js": "^1.1.7",
     "i18next": "^21.3.2",
     "mapbox-gl": "^2.5.1",
     "mitt": "^3.0.0",

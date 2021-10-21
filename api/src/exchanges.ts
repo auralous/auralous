@@ -2,12 +2,13 @@ import { devtoolsExchange } from "@urql/devtools";
 import { authExchange } from "@urql/exchange-auth";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
+import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
+import type { DocumentNode } from "graphql";
 import { createClient as createWSClient } from "graphql-ws";
 import type { CombinedError, Operation } from "urql";
 import {
   dedupExchange,
   errorExchange,
-  fetchExchange,
   makeOperation,
   subscriptionExchange,
 } from "urql";
@@ -217,6 +218,7 @@ interface SetupExchangesOptions {
   websocketUri: string;
   onError(error: CombinedError, operation: Operation): void;
   getToken(): Promise<string | null>;
+  generateHash?: (query: string, document: DocumentNode) => Promise<string>;
 }
 
 let wsClient: ReturnType<typeof createWSClient>;
@@ -225,7 +227,13 @@ export const setupExchanges = ({
   websocketUri,
   onError,
   getToken,
+  generateHash,
 }: SetupExchangesOptions) => {
+  const fetchExchange = persistedFetchExchange({
+    preferGetForPersistedQueries: true,
+    generateHash,
+  });
+
   if (!wsClient) {
     wsClient = createWSClient({
       url: `${websocketUri}/graphql-ws`,
