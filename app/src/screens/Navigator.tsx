@@ -1,9 +1,13 @@
+import { IconChevronLeft } from "@/assets";
+import { Button } from "@/components/Button";
 import BottomTabs from "@/components/Layout/BottomTabs";
 import { PLAYER_BAR_HEIGHT } from "@/player-components/PlayerView/PlayerBar";
 import { Font, fontPropsFn } from "@/styles/fonts";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import type { LinkingOptions } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import type { HeaderBackButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import type { FC } from "react";
 import { lazy } from "react";
 import { useTranslation } from "react-i18next";
@@ -65,6 +69,24 @@ const Tab = createBottomTabNavigator();
 
 const headerTitleStyle = { ...fontPropsFn(Font.NotoSans, "bold") };
 
+const HeaderLeft: FC<HeaderBackButtonProps> = ({ canGoBack }) => {
+  const navigation = useNavigation();
+  return (
+    <Button
+      onPress={
+        canGoBack
+          ? navigation.goBack
+          : () => navigation.navigate(RouteName.Main)
+      }
+      variant="text"
+      icon={<IconChevronLeft />}
+    />
+  );
+};
+const headerLeft = (props: HeaderBackButtonProps) => {
+  return <HeaderLeft {...props} />;
+};
+
 const Navigator: FC = () => {
   const { t } = useTranslation();
   return (
@@ -73,6 +95,7 @@ const Navigator: FC = () => {
         headerShadowVisible: false,
         // @ts-ignore
         headerTitleStyle,
+        headerLeft,
       }}
     >
       <Stack.Screen name={RouteName.Main} options={{ headerShown: false }}>

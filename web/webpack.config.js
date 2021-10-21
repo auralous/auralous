@@ -116,7 +116,7 @@ module.exports = async (env, argv) => {
         __DEV__: process.env.NODE_ENV === "production",
         process: { env: { ...dotEnvEnv } },
       }),
-      isProductionEnv ** process.env.ANALYZE && new BundleAnalyzerPlugin(),
+      isProductionEnv && process.env.ANALYZE && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
   });
 };
