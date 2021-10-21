@@ -10,14 +10,25 @@ const BundleAnalyzerPlugin =
 const getDependencyDir = (name, options) =>
   pkgDir.sync(require.resolve(name, options));
 
+const envNames = [
+  "APP_URI",
+  "API_URI",
+  "WEBSOCKET_URI",
+  "SPOTIFY_CLIENT_ID",
+  "MAPBOX_ACCESS_TOKEN",
+  "FACEBOOK_APP_ID",
+];
+
 module.exports = async (env, argv) => {
   const isProductionEnv = Boolean(argv.mode === "production" || env.production);
   const webpackConfig = await createConfig(isProductionEnv);
   webpackConfig.module.rules[0].include.push(getDependencyDir("@auralous/app"));
 
-  const dotEnvEnv = dotenvResult.parsed;
-  for (const envVal in dotEnvEnv) {
-    dotEnvEnv[envVal] = JSON.stringify(dotEnvEnv[envVal]);
+  const dotEnvEnv = dotenvResult.parsed || {};
+  for (const envName of envNames) {
+    dotEnvEnv[envName] = JSON.stringify(
+      dotEnvEnv[envName] || process.env[envName]
+    );
   }
 
   return merge(webpackConfig, {
