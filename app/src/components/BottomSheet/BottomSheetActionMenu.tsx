@@ -52,16 +52,16 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    height: Size[16],
-    marginBottom: Size[4],
+    height: Size[12],
+    marginBottom: Size[2],
   },
   headerMeta: {
     flex: 1,
     justifyContent: "center",
   },
   image: {
-    height: Size[16],
-    width: Size[16],
+    height: Size[12],
+    width: Size[12],
   },
   item: {
     alignItems: "center",
@@ -106,7 +106,7 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
   const snapPoints = useMemo(
     () => [
       (Size[12] + Size[2]) * items.length +
-        Size[20] + // header
+        Size[14] + // header
         Size[10] + // cancel button
         Size[4] * 2, // padding * 2
     ],

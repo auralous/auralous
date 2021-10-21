@@ -18,7 +18,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 0,
   },
-  music: { flex: 1, padding: Size[6], paddingTop: Size[2] },
+  music: {
+    flex: 1,
+    padding: Size[6],
+    paddingTop: Size[2],
+  },
   noChat: {
     flex: 1,
     justifyContent: "center",
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
     padding: Size[2],
   },
   tabSelected: {
-    backgroundColor: Colors.control,
+    backgroundColor: "rgba(255, 255, 255, .2)",
   },
   tabs: {
     flexDirection: "row",

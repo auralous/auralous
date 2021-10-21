@@ -38,14 +38,12 @@ export const Button: FC<ButtonProps> = (props) => {
     if (disabled) {
       return {
         backgroundColor: Colors.control,
-        borderWidth: 0,
         opacity: 0.4,
       };
     }
     if (variant === "text") {
       return {
         backgroundColor: "transparent",
-        borderWidth: 0,
         opacity: withTiming(pressed.value ? 0.7 : 1),
       };
     }
@@ -54,7 +52,6 @@ export const Button: FC<ButtonProps> = (props) => {
         backgroundColor: withTiming(
           pressed.value ? Colors.primaryDark : Colors.primary
         ) as unknown as ColorValue,
-        borderWidth: 0,
         opacity: 1,
       };
     }
@@ -63,14 +60,11 @@ export const Button: FC<ButtonProps> = (props) => {
         backgroundColor: withTiming(
           pressed.value ? Colors.textSecondary : Colors.text
         ) as unknown as ColorValue,
-        borderWidth: 0,
         opacity: 1,
       };
     }
     return {
-      backgroundColor: "transparent",
-      borderWidth: 1.5,
-      borderColor: withTiming(
+      backgroundColor: withTiming(
         pressed.value ? Colors.controlDark : Colors.control
       ) as unknown as ColorValue,
       opacity: 1,
