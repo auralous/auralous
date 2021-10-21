@@ -1,17 +1,14 @@
 import { useContainerStyle } from "@/components/Container";
-import { PlaylistItem } from "@/components/Playlist";
+import { SessionItem } from "@/components/Session";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { LayoutSize, Size } from "@/styles/spacing";
-import type { Playlist } from "@auralous/api";
-import {
-  useRecommendationContentQuery,
-  useRecommendationSectionQuery,
-} from "@auralous/api";
+import type { Session } from "@auralous/api";
+import { useSessionsQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useLayoutEffect, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { ListRenderItem } from "react-native";
 import {
   FlatList,
@@ -30,50 +27,39 @@ const styles = StyleSheet.create({
   },
 });
 
-const RecommendationItem: FC<{ playlist: Playlist }> = ({ playlist }) => {
+const RecommendationItem: FC<{ session: Session }> = ({ session }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.item}
-      onPress={() =>
-        navigation.navigate(RouteName.Playlist, { id: playlist.id })
-      }
+      onPress={() => navigation.navigate(RouteName.Session, { id: session.id })}
     >
-      <PlaylistItem playlist={playlist} />
+      <SessionItem session={session} />
     </TouchableOpacity>
   );
 };
 
-const renderItem: ListRenderItem<Playlist> = ({ item }) => (
-  <RecommendationItem playlist={item} key={item.id} />
+const renderItem: ListRenderItem<Session> = ({ item }) => (
+  <RecommendationItem session={item} key={item.id} />
 );
 
-const ExploreRecommendationScreen: FC<
-  NativeStackScreenProps<ParamList, RouteName.ExploreRecommendation>
-> = ({
-  navigation,
-  route: {
-    params: { id },
-  },
-}) => {
-  const [{ data: dataSection }] = useRecommendationSectionQuery({
-    variables: { id },
-  });
+const LIMIT = 20;
 
-  useLayoutEffect(() => {
-    if (dataSection?.recommendationSection?.title) {
-      navigation.setOptions({
-        title: dataSection?.recommendationSection?.title,
-      });
-    }
-  }, [navigation, dataSection?.recommendationSection?.title]);
-
-  const [{ data }] = useRecommendationContentQuery({
+const SessionsScreen: FC<
+  NativeStackScreenProps<ParamList, RouteName.Sessions>
+> = () => {
+  const [next, setNext] = useState<undefined | string>();
+  const [{ data }] = useSessionsQuery({
     variables: {
-      id,
-      limit: 50,
+      limit: LIMIT,
+      next,
     },
   });
+
+  const loadMore = useCallback(() => {
+    if (!data?.sessions.length) return;
+    setNext(data.sessions[data.sessions.length - 1].id);
+  }, [data?.sessions]);
 
   const windowWidth = useWindowDimensions().width;
   const numColumns =
@@ -86,12 +72,12 @@ const ExploreRecommendationScreen: FC<
       : 2;
 
   const listData = useMemo(() => {
-    if (!data?.recommendationContent) return undefined;
+    if (!data?.sessions) return undefined;
     // If the # of items is odd, the last items will have full widths due to flex: 1
     // we manually cut them off
-    const len = data.recommendationContent.length;
+    const len = data.sessions.length;
     const maxlen = len - (len % numColumns);
-    return data.recommendationContent.slice(0, maxlen);
+    return data.sessions.slice(0, maxlen);
   }, [data, numColumns]);
 
   const containerStyle = useContainerStyle();
@@ -104,8 +90,9 @@ const ExploreRecommendationScreen: FC<
       style={styles.root}
       contentContainerStyle={containerStyle}
       numColumns={numColumns}
+      onEndReached={loadMore}
     />
   );
 };
 
-export default ExploreRecommendationScreen;
+export default SessionsScreen;

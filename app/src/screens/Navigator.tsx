@@ -29,16 +29,17 @@ export const linking: LinkingOptions<ParamList> = {
           [RouteName.Map]: "map",
         },
       },
+      [RouteName.Sessions]: "sessions",
       [RouteName.ExploreRecommendation]: "explore/:id",
       [RouteName.SignIn]: "sign-in",
       [RouteName.Settings]: "settings",
       [RouteName.Notifications]: "notifications",
-      [RouteName.User]: "user/:username",
-      [RouteName.Playlist]: "playlist/:id",
-      [RouteName.Session]: "session/:id",
-      [RouteName.SessionCollaborators]: "session/:id/collaborators",
-      [RouteName.SessionInvite]: "session/:id/invite/:token",
-      [RouteName.SessionEdit]: "session/:id/edit",
+      [RouteName.User]: "users/:username",
+      [RouteName.Playlist]: "playlists/:id",
+      [RouteName.Session]: "sessions/:id",
+      [RouteName.SessionCollaborators]: "sessions/:id/collaborators",
+      [RouteName.SessionInvite]: "sessions/:id/invite/:token",
+      [RouteName.SessionEdit]: "sessions/:id/edit",
     },
   },
 };
@@ -48,6 +49,7 @@ const ExploreScreen = lazy(() => import("./Explore"));
 const ExploreRecommendationScreen = lazy(
   () => import("./ExploreRecommendation")
 );
+const SessionsScreen = lazy(() => import("./Sessions"));
 const MapScreen = lazy(() => import("./Map"));
 const UserScreen = lazy(() => import("./User"));
 const UserFollowersScreen = lazy(() => import("./UserFollowersScreen"));
@@ -151,6 +153,16 @@ const Navigator: FC = () => {
         component={ExploreRecommendationScreen}
         options={{
           title: t("explore.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={RouteName.Sessions}
+        component={SessionsScreen}
+        options={{
+          title: t("explore.recent_sessions.title"),
           contentStyle: {
             paddingBottom: PLAYER_BAR_HEIGHT,
           },

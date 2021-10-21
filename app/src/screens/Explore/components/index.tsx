@@ -24,6 +24,7 @@ const ExploreScreenContent: FC = () => {
       <ExploreSection
         title={t("explore.recent_sessions.title")}
         description={t("explore.recent_sessions.description")}
+        href="/sessions"
       >
         <RecentSessions />
       </ExploreSection>
