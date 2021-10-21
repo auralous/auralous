@@ -28,12 +28,6 @@ query playlistTracks($id: ID!) {
   }
 }
 
-query playlistsFeatured {
-  playlistsFeatured {
-    ...PlaylistParts
-  }
-}
-
 query playlistsFriends {
   playlistsFriends {
     ...PlaylistParts

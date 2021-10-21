@@ -19,48 +19,47 @@ export type Scalars = {
 
 export type Artist = {
   __typename: 'Artist';
-  id: Scalars['ID'];
-  platform: PlatformName;
   externalId: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  platform: PlatformName;
   url: Scalars['String'];
 };
 
 export type CrossTracks = {
   __typename: 'CrossTracks';
   id: Scalars['ID'];
-  youtube?: Maybe<Scalars['ID']>;
   spotify?: Maybe<Scalars['ID']>;
+  youtube?: Maybe<Scalars['ID']>;
 };
 
-
 export type LocationInput = {
-  lng: Scalars['Float'];
   lat: Scalars['Float'];
+  lng: Scalars['Float'];
 };
 
 export type Me = {
   __typename: 'Me';
-  user: User;
+  accessToken?: Maybe<Scalars['String']>;
   oauthId: Scalars['String'];
   platform: PlatformName;
-  accessToken?: Maybe<Scalars['String']>;
+  user: User;
 };
 
 export type Message = {
   __typename: 'Message';
-  id: Scalars['ID'];
-  creatorId: Scalars['String'];
-  creator: User;
   createdAt: Scalars['DateTime'];
+  creator: User;
+  creatorId: Scalars['String'];
+  id: Scalars['ID'];
   text?: Maybe<Scalars['String']>;
   type: MessageType;
 };
 
 export enum MessageType {
-  Message = 'message',
-  Join = 'join'
+  Join = 'join',
+  Message = 'message'
 }
 
 export type Mutation = {
@@ -90,8 +89,8 @@ export type Mutation = {
 
 
 export type MutationMeArgs = {
-  username?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 
@@ -150,8 +149,8 @@ export type MutationQueueRemoveArgs = {
 
 export type MutationQueueReorderArgs = {
   id: Scalars['ID'];
-  position: Scalars['Int'];
   insertPosition: Scalars['Int'];
+  position: Scalars['Int'];
 };
 
 
@@ -168,8 +167,8 @@ export type MutationSessionCollabAddFromTokenArgs = {
 
 
 export type MutationSessionCreateArgs = {
-  text: Scalars['String'];
   location?: Maybe<LocationInput>;
+  text: Scalars['String'];
   tracks: Array<Scalars['ID']>;
 };
 
@@ -191,8 +190,8 @@ export type MutationSessionPingArgs = {
 
 export type MutationSessionUpdateArgs = {
   id: Scalars['ID'];
-  text?: Maybe<Scalars['String']>;
   location?: Maybe<LocationInput>;
+  text?: Maybe<Scalars['String']>;
 };
 
 
@@ -206,73 +205,73 @@ export type MutationUserUnfollowArgs = {
 };
 
 export type Notification = {
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
+  hasRead: Scalars['Boolean'];
+  id: Scalars['ID'];
 };
 
 export type NotificationFollow = Notification & {
   __typename: 'NotificationFollow';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   follower?: Maybe<User>;
+  hasRead: Scalars['Boolean'];
+  id: Scalars['ID'];
 };
 
 export type NotificationNewSession = Notification & {
   __typename: 'NotificationNewSession';
-  id: Scalars['ID'];
-  hasRead: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
+  hasRead: Scalars['Boolean'];
+  id: Scalars['ID'];
   session?: Maybe<Session>;
 };
 
 export type NowPlaying = {
   __typename: 'NowPlaying';
-  id: Scalars['ID'];
   current: NowPlayingQueueItem;
+  id: Scalars['ID'];
   next: Array<QueueItem>;
 };
 
 export type NowPlayingQueueItem = {
   __typename: 'NowPlayingQueueItem';
-  uid: Scalars['ID'];
-  trackId: Scalars['String'];
   creatorId: Scalars['String'];
+  endedAt: Scalars['DateTime'];
   index: Scalars['Int'];
   playedAt: Scalars['DateTime'];
-  endedAt: Scalars['DateTime'];
+  trackId: Scalars['String'];
+  uid: Scalars['ID'];
 };
 
 export type NowPlayingReactionItem = {
   __typename: 'NowPlayingReactionItem';
-  userId: Scalars['String'];
   reaction: NowPlayingReactionType;
+  userId: Scalars['String'];
 };
 
 export enum NowPlayingReactionType {
-  Heart = 'heart',
-  Joy = 'joy',
+  Cry = 'cry',
   Fire = 'fire',
-  Cry = 'cry'
+  Heart = 'heart',
+  Joy = 'joy'
 }
 
 export enum PlatformName {
-  Youtube = 'youtube',
-  Spotify = 'spotify'
+  Spotify = 'spotify',
+  Youtube = 'youtube'
 }
 
 export type Playlist = {
   __typename: 'Playlist';
-  id: Scalars['ID'];
-  platform: PlatformName;
-  externalId: Scalars['ID'];
-  name: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
-  url: Scalars['String'];
-  total: Scalars['Int'];
-  creatorName: Scalars['String'];
   creatorImage?: Maybe<Scalars['String']>;
+  creatorName: Scalars['String'];
+  externalId: Scalars['ID'];
+  id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  platform: PlatformName;
+  total: Scalars['Int'];
+  url: Scalars['String'];
 };
 
 export type Query = {
@@ -286,9 +285,11 @@ export type Query = {
   nowPlayingReactions: Array<NowPlayingReactionItem>;
   playlist?: Maybe<Playlist>;
   playlistTracks: Array<Track>;
-  playlistsFeatured: Array<Playlist>;
   playlistsFriends: Array<Playlist>;
   playlistsSearch: Array<Playlist>;
+  recommendationContent: Array<Playlist>;
+  recommendationSection?: Maybe<RecommendationSection>;
+  recommendationSections: Array<RecommendationSection>;
   searchTrack: Array<Track>;
   session?: Maybe<Session>;
   sessionCurrentLive?: Maybe<SessionCurrentLive>;
@@ -313,14 +314,14 @@ export type QueryCrossTracksArgs = {
 
 export type QueryMessagesArgs = {
   id: Scalars['ID'];
-  offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
 };
 
 
 export type QueryNotificationsArgs = {
-  next?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
+  next?: Maybe<Scalars['String']>;
 };
 
 
@@ -344,13 +345,19 @@ export type QueryPlaylistTracksArgs = {
 };
 
 
-export type QueryPlaylistsFeaturedArgs = {
-  limit?: Maybe<Scalars['Int']>;
+export type QueryPlaylistsSearchArgs = {
+  query: Scalars['String'];
 };
 
 
-export type QueryPlaylistsSearchArgs = {
-  query: Scalars['String'];
+export type QueryRecommendationContentArgs = {
+  id: Scalars['ID'];
+  limit: Scalars['Int'];
+};
+
+
+export type QueryRecommendationSectionArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -365,7 +372,8 @@ export type QuerySessionArgs = {
 
 
 export type QuerySessionCurrentLiveArgs = {
-  creatorId: Scalars['ID'];
+  creatorId?: Maybe<Scalars['ID']>;
+  mine?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -380,22 +388,23 @@ export type QuerySessionListenersArgs = {
 
 
 export type QuerySessionTracksArgs = {
-  id: Scalars['ID'];
   from?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
   to?: Maybe<Scalars['Int']>;
 };
 
 
 export type QuerySessionsArgs = {
   creatorId?: Maybe<Scalars['String']>;
-  next?: Maybe<Scalars['String']>;
+  following?: Maybe<Scalars['Boolean']>;
   limit: Scalars['Int'];
+  next?: Maybe<Scalars['String']>;
 };
 
 
 export type QuerySessionsOnMapArgs = {
-  lng: Scalars['Float'];
   lat: Scalars['Float'];
+  lng: Scalars['Float'];
   radius: Scalars['Float'];
 };
 
@@ -411,8 +420,8 @@ export type QueryTracksArgs = {
 
 
 export type QueryUserArgs = {
-  username?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 
@@ -432,22 +441,29 @@ export type QueryUserStatArgs = {
 
 export type QueueItem = {
   __typename: 'QueueItem';
-  uid: Scalars['ID'];
-  trackId: Scalars['String'];
   creatorId: Scalars['String'];
+  trackId: Scalars['String'];
+  uid: Scalars['ID'];
+};
+
+export type RecommendationSection = {
+  __typename: 'RecommendationSection';
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  title: Scalars['String'];
 };
 
 export type Session = {
   __typename: 'Session';
-  id: Scalars['ID'];
-  text: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
-  creatorId: Scalars['ID'];
-  creator: User;
-  createdAt: Scalars['DateTime'];
-  isLive: Scalars['Boolean'];
   collaboratorIds: Array<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  creator: User;
+  creatorId: Scalars['ID'];
+  id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
+  isLive: Scalars['Boolean'];
   onMap?: Maybe<Scalars['Boolean']>;
+  text: Scalars['String'];
   trackTotal: Scalars['Int'];
 };
 
@@ -494,32 +510,32 @@ export type SubscriptionSessionUpdatedArgs = {
 
 export type Track = {
   __typename: 'Track';
-  id: Scalars['ID'];
-  platform: PlatformName;
-  externalId: Scalars['ID'];
   artists: Array<Artist>;
   duration: Scalars['Int'];
-  title: Scalars['String'];
+  externalId: Scalars['ID'];
+  id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
+  platform: PlatformName;
+  title: Scalars['String'];
   url: Scalars['String'];
 };
 
 export type User = {
   __typename: 'User';
-  id: Scalars['ID'];
-  username: Scalars['String'];
   bio?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   profilePicture?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type UserStat = {
   __typename: 'UserStat';
-  id: Scalars['ID'];
   followerCount: Scalars['Int'];
   followingCount: Scalars['Int'];
+  id: Scalars['ID'];
 };
 
-export type MessagePartsFragment = { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: Maybe<string>, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } };
+export type MessagePartsFragment = { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: string | null | undefined, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } };
 
 export type MessagesQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -528,7 +544,7 @@ export type MessagesQueryVariables = Exact<{
 }>;
 
 
-export type MessagesQuery = { messages?: Maybe<Array<{ __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: Maybe<string>, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }>> };
+export type MessagesQuery = { messages?: Array<{ __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: string | null | undefined, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } }> | null | undefined };
 
 export type MessageAddMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -543,7 +559,7 @@ export type MessageAddedSubscriptionVariables = Exact<{
 }>;
 
 
-export type MessageAddedSubscription = { messageAdded: { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: Maybe<string>, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type MessageAddedSubscription = { messageAdded: { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: string | null | undefined, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type NotificationsQueryVariables = Exact<{
   next?: Maybe<Scalars['String']>;
@@ -551,7 +567,7 @@ export type NotificationsQueryVariables = Exact<{
 }>;
 
 
-export type NotificationsQuery = { notifications: Array<{ __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> }> };
+export type NotificationsQuery = { notifications: Array<{ __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } | null | undefined } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } | null | undefined }> };
 
 export type NotificationsMarkReadMutationVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
@@ -563,7 +579,7 @@ export type NotificationsMarkReadMutation = { notificationsMarkRead: number };
 export type NotificationAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> } };
+export type NotificationAddedSubscription = { notificationAdded: { __typename: 'NotificationFollow', id: string, createdAt: any, hasRead: boolean, follower?: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } | null | undefined } | { __typename: 'NotificationNewSession', id: string, createdAt: any, hasRead: boolean, session?: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } | null | undefined } };
 
 export type NowPlayingQueuePartsFragment = { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number };
 
@@ -572,7 +588,7 @@ export type NowPlayingQueryVariables = Exact<{
 }>;
 
 
-export type NowPlayingQuery = { nowPlaying?: Maybe<{ __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> }> };
+export type NowPlayingQuery = { nowPlaying?: { __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> } | null | undefined };
 
 export type NowPlayingSkipMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -580,7 +596,7 @@ export type NowPlayingSkipMutationVariables = Exact<{
 }>;
 
 
-export type NowPlayingSkipMutation = { nowPlayingSkip?: Maybe<boolean> };
+export type NowPlayingSkipMutation = { nowPlayingSkip?: boolean | null | undefined };
 
 export type NowPlayingPlayUidMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -588,14 +604,14 @@ export type NowPlayingPlayUidMutationVariables = Exact<{
 }>;
 
 
-export type NowPlayingPlayUidMutation = { nowPlayingPlayUid?: Maybe<boolean> };
+export type NowPlayingPlayUidMutation = { nowPlayingPlayUid?: boolean | null | undefined };
 
 export type OnNowPlayingUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OnNowPlayingUpdatedSubscription = { nowPlayingUpdated?: Maybe<{ __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> }> };
+export type OnNowPlayingUpdatedSubscription = { nowPlayingUpdated?: { __typename: 'NowPlaying', id: string, current: { __typename: 'NowPlayingQueueItem', uid: string, trackId: string, playedAt: any, endedAt: any, creatorId: string, index: number }, next: Array<{ __typename: 'QueueItem', uid: string, trackId: string, creatorId: string }> } | null | undefined };
 
 export type NowPlayingReactionsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -617,45 +633,40 @@ export type NowPlayingReactMutationVariables = Exact<{
 }>;
 
 
-export type NowPlayingReactMutation = { nowPlayingReact?: Maybe<boolean> };
+export type NowPlayingReactMutation = { nowPlayingReact?: boolean | null | undefined };
 
-export type PlaylistPartsFragment = { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> };
+export type PlaylistPartsFragment = { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined };
 
 export type PlaylistQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PlaylistQuery = { playlist?: Maybe<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
+export type PlaylistQuery = { playlist?: { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined } | null | undefined };
 
 export type MyPlaylistsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyPlaylistsQuery = { myPlaylists?: Maybe<Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }>> };
+export type MyPlaylistsQuery = { myPlaylists?: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> | null | undefined };
 
 export type PlaylistTracksQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PlaylistTracksQuery = { playlistTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
-
-export type PlaylistsFeaturedQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PlaylistsFeaturedQuery = { playlistsFeatured: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
+export type PlaylistTracksQuery = { playlistTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> }> };
 
 export type PlaylistsFriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlaylistsFriendsQuery = { playlistsFriends: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
+export type PlaylistsFriendsQuery = { playlistsFriends: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> };
 
 export type PlaylistsSearchQueryVariables = Exact<{
   query: Scalars['String'];
 }>;
 
 
-export type PlaylistsSearchQuery = { playlistsSearch: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> }> };
+export type PlaylistsSearchQuery = { playlistsSearch: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> };
 
 export type PlaylistAddTracksMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -671,7 +682,7 @@ export type PlaylistCreateMutationVariables = Exact<{
 }>;
 
 
-export type PlaylistCreateMutation = { playlistCreate: { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string, total: number, creatorName: string, creatorImage?: Maybe<string> } };
+export type PlaylistCreateMutation = { playlistCreate: { __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined } };
 
 export type QueueItemPartsFragment = { __typename: 'QueueItem', uid: string, trackId: string, creatorId: string };
 
@@ -708,23 +719,44 @@ export type QueueToTopMutationVariables = Exact<{
 
 export type QueueToTopMutation = { queueToTop: boolean };
 
-export type SessionDetailPartsFragment = { __typename: 'Session', text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } };
+export type RecommendationSectionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecommendationSectionsQuery = { recommendationSections: Array<{ __typename: 'RecommendationSection', id: string, title: string, description?: string | null | undefined }> };
+
+export type RecommendationSectionQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type RecommendationSectionQuery = { recommendationSection?: { __typename: 'RecommendationSection', id: string, title: string, description?: string | null | undefined } | null | undefined };
+
+export type RecommendationContentQueryVariables = Exact<{
+  id: Scalars['ID'];
+  limit: Scalars['Int'];
+}>;
+
+
+export type RecommendationContentQuery = { recommendationContent: Array<{ __typename: 'Playlist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string, total: number, creatorName: string, creatorImage?: string | null | undefined }> };
+
+export type SessionPartsFragment = { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } };
 
 export type SessionQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type SessionQuery = { session?: Maybe<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type SessionQuery = { session?: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } | null | undefined };
 
 export type SessionsQueryVariables = Exact<{
   creatorId?: Maybe<Scalars['String']>;
+  following?: Maybe<Scalars['Boolean']>;
   next?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
 }>;
 
 
-export type SessionsQuery = { sessions: Array<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type SessionsQuery = { sessions: Array<{ __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } }> };
 
 export type SessionsOnMapQueryVariables = Exact<{
   lng: Scalars['Float'];
@@ -733,14 +765,15 @@ export type SessionsOnMapQueryVariables = Exact<{
 }>;
 
 
-export type SessionsOnMapQuery = { sessionsOnMap: Array<{ __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } }> };
+export type SessionsOnMapQuery = { sessionsOnMap: Array<{ __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } }> };
 
 export type SessionCurrentLiveQueryVariables = Exact<{
-  creatorId: Scalars['ID'];
+  creatorId?: Maybe<Scalars['ID']>;
+  mine?: Maybe<Scalars['Boolean']>;
 }>;
 
 
-export type SessionCurrentLiveQuery = { sessionCurrentLive?: Maybe<{ __typename: 'SessionCurrentLive', creatorId: string, sessionId: string }> };
+export type SessionCurrentLiveQuery = { sessionCurrentLive?: { __typename: 'SessionCurrentLive', creatorId: string, sessionId: string } | null | undefined };
 
 export type SessionTracksQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -749,7 +782,7 @@ export type SessionTracksQueryVariables = Exact<{
 }>;
 
 
-export type SessionTracksQuery = { sessionTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
+export type SessionTracksQuery = { sessionTracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> }> };
 
 export type SessionCreateMutationVariables = Exact<{
   text: Scalars['String'];
@@ -758,7 +791,7 @@ export type SessionCreateMutationVariables = Exact<{
 }>;
 
 
-export type SessionCreateMutation = { sessionCreate: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionCreateMutation = { sessionCreate: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type SessionUpdateMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -767,7 +800,7 @@ export type SessionUpdateMutationVariables = Exact<{
 }>;
 
 
-export type SessionUpdateMutation = { sessionUpdate: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionUpdateMutation = { sessionUpdate: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type SessionDeleteMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -781,14 +814,14 @@ export type SessionEndMutationVariables = Exact<{
 }>;
 
 
-export type SessionEndMutation = { sessionEnd: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionEndMutation = { sessionEnd: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type SessionListenersQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type SessionListenersQuery = { sessionListeners?: Maybe<Array<string>> };
+export type SessionListenersQuery = { sessionListeners?: Array<string> | null | undefined };
 
 export type SessionPingMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -802,7 +835,7 @@ export type SessionUpdatedSubscriptionVariables = Exact<{
 }>;
 
 
-export type SessionUpdatedSubscription = { sessionUpdated: { __typename: 'Session', id: string, text: string, image?: Maybe<string>, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: Maybe<boolean>, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: Maybe<string> } } };
+export type SessionUpdatedSubscription = { sessionUpdated: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type SessionListenersUpdatedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
@@ -826,44 +859,44 @@ export type SessionCollabAddFromTokenMutationVariables = Exact<{
 
 export type SessionCollabAddFromTokenMutation = { sessionCollabAddFromToken: boolean };
 
-export type ArtistPartsFragment = { __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string };
+export type ArtistPartsFragment = { __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string };
 
-export type TrackPartsFragment = { __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> };
+export type TrackPartsFragment = { __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> };
 
 export type TrackQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type TrackQuery = { track?: Maybe<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
+export type TrackQuery = { track?: { __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> } | null | undefined };
 
 export type TracksQueryVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
-export type TracksQuery = { tracks: Array<Maybe<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }>> };
+export type TracksQuery = { tracks: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> } | null | undefined> };
 
 export type CrossTracksQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type CrossTracksQuery = { crossTracks?: Maybe<{ __typename: 'CrossTracks', id: string, youtube?: Maybe<string>, spotify?: Maybe<string> }> };
+export type CrossTracksQuery = { crossTracks?: { __typename: 'CrossTracks', id: string, youtube?: string | null | undefined, spotify?: string | null | undefined } | null | undefined };
 
 export type SearchTrackQueryVariables = Exact<{
   query: Scalars['String'];
 }>;
 
 
-export type SearchTrackQuery = { searchTrack: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: Maybe<string>, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: Maybe<string>, url: string }> }> };
+export type SearchTrackQuery = { searchTrack: Array<{ __typename: 'Track', id: string, platform: PlatformName, externalId: string, title: string, duration: number, image?: string | null | undefined, url: string, artists: Array<{ __typename: 'Artist', id: string, platform: PlatformName, externalId: string, name: string, image?: string | null | undefined, url: string }> }> };
 
-export type UserPublicPartsFragment = { __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> };
+export type UserPublicPartsFragment = { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { me?: Maybe<{ __typename: 'Me', oauthId: string, platform: PlatformName, accessToken?: Maybe<string>, user: { __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> } }> };
+export type MeQuery = { me?: { __typename: 'Me', oauthId: string, platform: PlatformName, accessToken?: string | null | undefined, user: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } } | null | undefined };
 
 export type UserQueryVariables = Exact<{
   username?: Maybe<Scalars['String']>;
@@ -871,14 +904,14 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { user?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> };
+export type UserQuery = { user?: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } | null | undefined };
 
 export type UserStatQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserStatQuery = { userStat?: Maybe<{ __typename: 'UserStat', id: string, followerCount: number, followingCount: number }> };
+export type UserStatQuery = { userStat?: { __typename: 'UserStat', id: string, followerCount: number, followingCount: number } | null | undefined };
 
 export type UserFollowersQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -913,7 +946,7 @@ export type MeUpdateMutationVariables = Exact<{
 }>;
 
 
-export type MeUpdateMutation = { me?: Maybe<{ __typename: 'User', id: string, username: string, bio?: Maybe<string>, profilePicture?: Maybe<string> }> };
+export type MeUpdateMutation = { me?: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } | null | undefined };
 
 export type MeDeleteMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -924,7 +957,7 @@ export const MessagePartsFragmentDoc = {"kind":"Document","definitions":[{"kind"
 export const NowPlayingQueuePartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NowPlayingQueueParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NowPlayingQueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"playedAt"}},{"kind":"Field","name":{"kind":"Name","value":"endedAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"index"}}]}}]} as unknown as DocumentNode;
 export const PlaylistPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"creatorName"}},{"kind":"Field","name":{"kind":"Name","value":"creatorImage"}}]}}]} as unknown as DocumentNode;
 export const QueueItemPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueItemParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"QueueItem"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"trackId"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}}]}}]} as unknown as DocumentNode;
-export const SessionDetailPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 export const ArtistPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]} as unknown as DocumentNode;
 export const TrackPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"TrackParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Track"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"artists"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArtistParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArtistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Artist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]} as unknown as DocumentNode;
 export const UserPublicPartsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
@@ -943,7 +976,7 @@ export const MessageAddedDocument = {"kind":"Document","definitions":[{"kind":"O
 export function useMessageAddedSubscription<TData = MessageAddedSubscription>(options: Omit<Urql.UseSubscriptionArgs<MessageAddedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<MessageAddedSubscription, TData>) {
   return Urql.useSubscription<MessageAddedSubscription, TData, MessageAddedSubscriptionVariables>({ query: MessageAddedDocument, ...options }, handler);
 };
-export const NotificationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notifications"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notifications"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewSession"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
+export const NotificationsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"notifications"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notifications"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewSession"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
 
 export function useNotificationsQuery(options: Omit<Urql.UseQueryArgs<NotificationsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<NotificationsQuery>({ query: NotificationsDocument, ...options });
@@ -953,7 +986,7 @@ export const NotificationsMarkReadDocument = {"kind":"Document","definitions":[{
 export function useNotificationsMarkReadMutation() {
   return Urql.useMutation<NotificationsMarkReadMutation, NotificationsMarkReadMutationVariables>(NotificationsMarkReadDocument);
 };
-export const NotificationAddedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewSession"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
+export const NotificationAddedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notificationAdded"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hasRead"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationFollow"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"follower"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotificationNewSession"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
 
 export function useNotificationAddedSubscription<TData = NotificationAddedSubscription>(options: Omit<Urql.UseSubscriptionArgs<NotificationAddedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<NotificationAddedSubscription, TData>) {
   return Urql.useSubscription<NotificationAddedSubscription, TData, NotificationAddedSubscriptionVariables>({ query: NotificationAddedDocument, ...options }, handler);
@@ -1008,11 +1041,6 @@ export const PlaylistTracksDocument = {"kind":"Document","definitions":[{"kind":
 export function usePlaylistTracksQuery(options: Omit<Urql.UseQueryArgs<PlaylistTracksQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PlaylistTracksQuery>({ query: PlaylistTracksDocument, ...options });
 };
-export const PlaylistsFeaturedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"playlistsFeatured"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playlistsFeatured"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"creatorName"}},{"kind":"Field","name":{"kind":"Name","value":"creatorImage"}}]}}]} as unknown as DocumentNode;
-
-export function usePlaylistsFeaturedQuery(options: Omit<Urql.UseQueryArgs<PlaylistsFeaturedQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<PlaylistsFeaturedQuery>({ query: PlaylistsFeaturedDocument, ...options });
-};
 export const PlaylistsFriendsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"playlistsFriends"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"playlistsFriends"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"creatorName"}},{"kind":"Field","name":{"kind":"Name","value":"creatorImage"}}]}}]} as unknown as DocumentNode;
 
 export function usePlaylistsFriendsQuery(options: Omit<Urql.UseQueryArgs<PlaylistsFriendsQueryVariables>, 'query'> = {}) {
@@ -1053,22 +1081,37 @@ export const QueueToTopDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export function useQueueToTopMutation() {
   return Urql.useMutation<QueueToTopMutation, QueueToTopMutationVariables>(QueueToTopDocument);
 };
-export const SessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"session"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const RecommendationSectionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"recommendationSections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendationSections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode;
+
+export function useRecommendationSectionsQuery(options: Omit<Urql.UseQueryArgs<RecommendationSectionsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RecommendationSectionsQuery>({ query: RecommendationSectionsDocument, ...options });
+};
+export const RecommendationSectionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"recommendationSection"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendationSection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode;
+
+export function useRecommendationSectionQuery(options: Omit<Urql.UseQueryArgs<RecommendationSectionQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RecommendationSectionQuery>({ query: RecommendationSectionDocument, ...options });
+};
+export const RecommendationContentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"recommendationContent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recommendationContent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PlaylistParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PlaylistParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Playlist"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"platform"}},{"kind":"Field","name":{"kind":"Name","value":"externalId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"creatorName"}},{"kind":"Field","name":{"kind":"Name","value":"creatorImage"}}]}}]} as unknown as DocumentNode;
+
+export function useRecommendationContentQuery(options: Omit<Urql.UseQueryArgs<RecommendationContentQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RecommendationContentQuery>({ query: RecommendationContentDocument, ...options });
+};
+export const SessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"session"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"session"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionQuery(options: Omit<Urql.UseQueryArgs<SessionQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SessionQuery>({ query: SessionDocument, ...options });
 };
-export const SessionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}},{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"following"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"next"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"limit"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}},{"kind":"Argument","name":{"kind":"Name","value":"following"},"value":{"kind":"Variable","name":{"kind":"Name","value":"following"}}},{"kind":"Argument","name":{"kind":"Name","value":"next"},"value":{"kind":"Variable","name":{"kind":"Name","value":"next"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"Variable","name":{"kind":"Name","value":"limit"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionsQuery(options: Omit<Urql.UseQueryArgs<SessionsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SessionsQuery>({ query: SessionsDocument, ...options });
 };
-export const SessionsOnMapDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionsOnMap"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lng"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"radius"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionsOnMap"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lng"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lng"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"radius"},"value":{"kind":"Variable","name":{"kind":"Name","value":"radius"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionsOnMapDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionsOnMap"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lng"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"radius"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionsOnMap"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lng"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lng"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"radius"},"value":{"kind":"Variable","name":{"kind":"Name","value":"radius"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionsOnMapQuery(options: Omit<Urql.UseQueryArgs<SessionsOnMapQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SessionsOnMapQuery>({ query: SessionsOnMapDocument, ...options });
 };
-export const SessionCurrentLiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionCurrentLive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionCurrentLive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"sessionId"}}]}}]}}]} as unknown as DocumentNode;
+export const SessionCurrentLiveDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionCurrentLive"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mine"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionCurrentLive"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"creatorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"creatorId"}}},{"kind":"Argument","name":{"kind":"Name","value":"mine"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mine"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"sessionId"}}]}}]}}]} as unknown as DocumentNode;
 
 export function useSessionCurrentLiveQuery(options: Omit<Urql.UseQueryArgs<SessionCurrentLiveQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SessionCurrentLiveQuery>({ query: SessionCurrentLiveDocument, ...options });
@@ -1078,12 +1121,12 @@ export const SessionTracksDocument = {"kind":"Document","definitions":[{"kind":"
 export function useSessionTracksQuery(options: Omit<Urql.UseQueryArgs<SessionTracksQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SessionTracksQuery>({ query: SessionTracksDocument, ...options });
 };
-export const SessionCreateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionCreate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}},{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}},{"kind":"Argument","name":{"kind":"Name","value":"tracks"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionCreateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionCreate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionCreate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}},{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}},{"kind":"Argument","name":{"kind":"Name","value":"tracks"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tracks"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionCreateMutation() {
   return Urql.useMutation<SessionCreateMutation, SessionCreateMutationVariables>(SessionCreateDocument);
 };
-export const SessionUpdateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}},{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionUpdateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionUpdate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"text"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"location"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"LocationInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionUpdate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"text"},"value":{"kind":"Variable","name":{"kind":"Name","value":"text"}}},{"kind":"Argument","name":{"kind":"Name","value":"location"},"value":{"kind":"Variable","name":{"kind":"Name","value":"location"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionUpdateMutation() {
   return Urql.useMutation<SessionUpdateMutation, SessionUpdateMutationVariables>(SessionUpdateDocument);
@@ -1093,7 +1136,7 @@ export const SessionDeleteDocument = {"kind":"Document","definitions":[{"kind":"
 export function useSessionDeleteMutation() {
   return Urql.useMutation<SessionDeleteMutation, SessionDeleteMutationVariables>(SessionDeleteDocument);
 };
-export const SessionEndDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionEnd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionEnd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionEndDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"sessionEnd"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionEnd"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionEndMutation() {
   return Urql.useMutation<SessionEndMutation, SessionEndMutationVariables>(SessionEndDocument);
@@ -1108,7 +1151,7 @@ export const SessionPingDocument = {"kind":"Document","definitions":[{"kind":"Op
 export function useSessionPingMutation() {
   return Urql.useMutation<SessionPingMutation, SessionPingMutationVariables>(SessionPingDocument);
 };
-export const SessionUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"sessionUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionDetailParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionDetailParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+export const SessionUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"sessionUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionUpdatedSubscription<TData = SessionUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<SessionUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SessionUpdatedSubscription, TData>) {
   return Urql.useSubscription<SessionUpdatedSubscription, TData, SessionUpdatedSubscriptionVariables>({ query: SessionUpdatedDocument, ...options }, handler);
@@ -1207,6 +1250,7 @@ export type GraphCacheKeysConfig = {
   NowPlayingReactionItem?: (data: WithTypename<NowPlayingReactionItem>) => null | string,
   Playlist?: (data: WithTypename<Playlist>) => null | string,
   QueueItem?: (data: WithTypename<QueueItem>) => null | string,
+  RecommendationSection?: (data: WithTypename<RecommendationSection>) => null | string,
   Session?: (data: WithTypename<Session>) => null | string,
   SessionCurrentLive?: (data: WithTypename<SessionCurrentLive>) => null | string,
   Track?: (data: WithTypename<Track>) => null | string,
@@ -1225,9 +1269,11 @@ export type GraphCacheResolvers = {
     nowPlayingReactions?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingReactionsArgs, Array<WithTypename<NowPlayingReactionItem> | string>>,
     playlist?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistArgs, WithTypename<Playlist> | string>,
     playlistTracks?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistTracksArgs, Array<WithTypename<Track> | string>>,
-    playlistsFeatured?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistsFeaturedArgs, Array<WithTypename<Playlist> | string>>,
     playlistsFriends?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
     playlistsSearch?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistsSearchArgs, Array<WithTypename<Playlist> | string>>,
+    recommendationContent?: GraphCacheResolver<WithTypename<Query>, QueryRecommendationContentArgs, Array<WithTypename<Playlist> | string>>,
+    recommendationSection?: GraphCacheResolver<WithTypename<Query>, QueryRecommendationSectionArgs, WithTypename<RecommendationSection> | string>,
+    recommendationSections?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<RecommendationSection> | string>>,
     searchTrack?: GraphCacheResolver<WithTypename<Query>, QuerySearchTrackArgs, Array<WithTypename<Track> | string>>,
     session?: GraphCacheResolver<WithTypename<Query>, QuerySessionArgs, WithTypename<Session> | string>,
     sessionCurrentLive?: GraphCacheResolver<WithTypename<Query>, QuerySessionCurrentLiveArgs, WithTypename<SessionCurrentLive> | string>,
@@ -1314,6 +1360,11 @@ export type GraphCacheResolvers = {
     uid?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['ID'] | string>,
     trackId?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['String'] | string>,
     creatorId?: GraphCacheResolver<WithTypename<QueueItem>, Record<string, never>, Scalars['String'] | string>
+  },
+  RecommendationSection?: {
+    id?: GraphCacheResolver<WithTypename<RecommendationSection>, Record<string, never>, Scalars['ID'] | string>,
+    title?: GraphCacheResolver<WithTypename<RecommendationSection>, Record<string, never>, Scalars['String'] | string>,
+    description?: GraphCacheResolver<WithTypename<RecommendationSection>, Record<string, never>, Scalars['String'] | string>
   },
   Session?: {
     id?: GraphCacheResolver<WithTypename<Session>, Record<string, never>, Scalars['ID'] | string>,

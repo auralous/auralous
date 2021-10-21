@@ -1,57 +1,134 @@
-import { ParamList, RouteName } from "@/screens/types";
-import { Size } from "@auralous/ui";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { FC } from "react";
+import { IconPlusSquare } from "@/assets";
+import { Button } from "@/components/Button";
+import type { ParamList, RouteName } from "@/screens/types";
+import { Size } from "@/styles/spacing";
+import { useUiDispatch } from "@/ui-context";
+import { useSessionCurrentLiveQuery } from "@auralous/api";
+import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import type { FC } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AddButton from "./components/AddButton";
-import FeaturedPlaylists from "./components/FeaturedPlaylists";
-import HeaderSection from "./components/Header";
-import MapNavigate from "./components/MapNavigate";
-import RecentSessions from "./components/RecentSessions";
-import Section from "./components/Section";
+import { RequireEndSessionModal } from "../_commonContent/RequireEndSessionModal";
+import HomeFeed from "./components/HomeFeed";
 
 const styles = StyleSheet.create({
-  content: {
-    paddingHorizontal: Size[6],
-    paddingVertical: Size[3],
+  add: {
+    paddingHorizontal: Size[2],
   },
   root: {
     flex: 1,
   },
-  scroll: {
-    paddingVertical: Size[2],
+  tab: {
+    height: Size[8],
+    paddingHorizontal: Size[2],
+  },
+  tabs: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });
 
-const HomeScreen: FC<NativeStackScreenProps<ParamList, RouteName.Home>> =
-  () => {
-    const { t } = useTranslation();
-    return (
-      <SafeAreaView style={styles.root}>
-        <ScrollView style={styles.scroll}>
-          <HeaderSection />
-          <View style={styles.content}>
-            <Section title={t("home.featured_playlists.title")}>
-              <FeaturedPlaylists />
-            </Section>
-            <MapNavigate />
-            <Section
-              title={t("home.recent_sessions.title")}
-              description={t("home.recent_sessions.description")}
-            >
-              <RecentSessions />
-            </Section>
-            <Section
-              title={t("home.radio_stations.title")}
-              description={t("home.radio_stations.description")}
-            ></Section>
-          </View>
-        </ScrollView>
-        <AddButton />
-      </SafeAreaView>
-    );
-  };
+type TabName = "for_you" | "following";
+
+const HeaderLeft: FC<{
+  tab: TabName;
+  setTab(tab: TabName): void;
+}> = ({ tab, setTab }) => {
+  const { t } = useTranslation();
+  return (
+    <View style={styles.tabs}>
+      <Button
+        variant="text"
+        style={styles.tab}
+        onPress={() => setTab("for_you")}
+        textProps={{
+          color: tab === "following" ? "textTertiary" : "text",
+        }}
+      >
+        {t("home.for_you")}
+      </Button>
+      <Button
+        variant="text"
+        style={styles.tab}
+        onPress={() => setTab("following")}
+        textProps={{
+          color: tab === "for_you" ? "textTertiary" : "text",
+        }}
+      >
+        {t("home.following")}
+      </Button>
+    </View>
+  );
+};
+
+const HeaderRight: FC = () => {
+  const { t } = useTranslation();
+  const uiDispatch = useUiDispatch();
+
+  return (
+    <Button
+      variant="text"
+      icon={<IconPlusSquare />}
+      accessibilityLabel={t("new.title")}
+      onPress={() =>
+        uiDispatch({ type: "newSession", value: { visible: true } })
+      }
+      style={styles.add}
+    />
+  );
+};
+
+const HomeScreen: FC<BottomTabScreenProps<ParamList, RouteName.Home>> = ({
+  navigation,
+}) => {
+  const [tab, setTab] = useState<TabName>("for_you");
+
+  const [{ data: dataSessionCurrentLive }] = useSessionCurrentLiveQuery({
+    variables: { mine: true },
+  });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeftContainerStyle: {
+        paddingHorizontal: Size[2],
+      },
+      headerRightContainerStyle: {
+        paddingHorizontal: Size[2],
+      },
+      headerRight() {
+        return <HeaderRight />;
+      },
+    });
+  }, [navigation]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft() {
+        return <HeaderLeft tab={tab} setTab={setTab} />;
+      },
+    });
+  }, [tab, setTab, navigation]);
+
+  return (
+    <SafeAreaView style={styles.root}>
+      {dataSessionCurrentLive?.sessionCurrentLive?.sessionId ? (
+        <RequireEndSessionModal
+          visible={!!dataSessionCurrentLive?.sessionCurrentLive}
+          sessionId={dataSessionCurrentLive?.sessionCurrentLive?.sessionId}
+        />
+      ) : (
+        <>
+          {tab === "following" ? (
+            <HomeFeed isFollowing />
+          ) : (
+            <HomeFeed isFollowing={false} />
+          )}
+        </>
+      )}
+    </SafeAreaView>
+  );
+};
 
 export default HomeScreen;

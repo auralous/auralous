@@ -1,11 +1,11 @@
-import { ASYNC_STORAGE_AUTH } from "@/utils/auth";
+import { Provider, STORAGE_KEY_AUTH } from "@auralous/api";
 import {
   createContext,
   useContextSelector,
 } from "@fluentui/react-context-selector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FC, useCallback, useState } from "react";
-import { Provider } from "urql";
+import type { FC } from "react";
+import { useCallback, useState } from "react";
 import { createUrqlClient } from "./urql";
 
 interface ApiState {
@@ -18,11 +18,11 @@ const ApiContext = createContext({} as ApiState);
 export const ApiProvider: FC = ({ children }) => {
   const [client, setClient] = useState(createUrqlClient);
   const signIn: ApiState["signIn"] = useCallback(async (token) => {
-    await AsyncStorage.setItem(ASYNC_STORAGE_AUTH, token);
+    await AsyncStorage.setItem(STORAGE_KEY_AUTH, token);
     setClient(createUrqlClient());
   }, []);
   const signOut: ApiState["signOut"] = useCallback(async () => {
-    await AsyncStorage.removeItem(ASYNC_STORAGE_AUTH);
+    await AsyncStorage.removeItem(STORAGE_KEY_AUTH);
     setClient(createUrqlClient());
   }, []);
   return (

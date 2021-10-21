@@ -1,4 +1,5 @@
-fragment SessionDetailParts on Session {
+fragment SessionParts on Session {
+  id
   text
   image
   createdAt
@@ -16,27 +17,34 @@ fragment SessionDetailParts on Session {
 
 query session($id: ID!) {
   session(id: $id) {
-    id
-    ...SessionDetailParts
+    ...SessionParts
   }
 }
 
-query sessions($creatorId: String, $next: String, $limit: Int!) {
-  sessions(creatorId: $creatorId, next: $next, limit: $limit) {
-    id
-    ...SessionDetailParts
+query sessions(
+  $creatorId: String
+  $following: Boolean
+  $next: String
+  $limit: Int!
+) {
+  sessions(
+    creatorId: $creatorId
+    following: $following
+    next: $next
+    limit: $limit
+  ) {
+    ...SessionParts
   }
 }
 
 query sessionsOnMap($lng: Float!, $lat: Float!, $radius: Float!) {
   sessionsOnMap(lng: $lng, lat: $lat, radius: $radius) {
-    id
-    ...SessionDetailParts
+    ...SessionParts
   }
 }
 
-query sessionCurrentLive($creatorId: ID!) {
-  sessionCurrentLive(creatorId: $creatorId) {
+query sessionCurrentLive($creatorId: ID, $mine: Boolean) {
+  sessionCurrentLive(creatorId: $creatorId, mine: $mine) {
     creatorId
     sessionId
   }
@@ -54,15 +62,13 @@ mutation sessionCreate(
   $tracks: [ID!]!
 ) {
   sessionCreate(text: $text, location: $location, tracks: $tracks) {
-    id
-    ...SessionDetailParts
+    ...SessionParts
   }
 }
 
 mutation sessionUpdate($id: ID!, $text: String, $location: LocationInput) {
   sessionUpdate(id: $id, text: $text, location: $location) {
-    id
-    ...SessionDetailParts
+    ...SessionParts
   }
 }
 
@@ -72,8 +78,7 @@ mutation sessionDelete($id: ID!) {
 
 mutation sessionEnd($id: ID!) {
   sessionEnd(id: $id) {
-    id
-    ...SessionDetailParts
+    ...SessionParts
   }
 }
 
@@ -87,8 +92,7 @@ mutation sessionPing($id: ID!) {
 
 subscription sessionUpdated($id: ID!) {
   sessionUpdated(id: $id) {
-    id
-    ...SessionDetailParts
+    ...SessionParts
   }
 }
 

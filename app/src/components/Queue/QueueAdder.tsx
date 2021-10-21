@@ -1,14 +1,12 @@
-import { QueueItem } from "@auralous/api";
-import {
-  Button,
-  Colors,
-  Header,
-  IconChevronLeft,
-  SongSelector,
-  useBackHandlerDismiss,
-} from "@auralous/ui";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { FC, useCallback, useEffect, useMemo, useRef } from "react";
+import { Button } from "@/components/Button";
+import { SlideModal } from "@/components/Dialog";
+import { Header } from "@/components/Header";
+import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
+import { SongSelector } from "@/views/SongSelector";
+import type { QueueItem } from "@auralous/api";
+import type { FC } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,12 +20,16 @@ interface QueueAdderProps {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    marginTop: Size[2],
+  },
   content: {
     flex: 1,
   },
-  sav: {
+  root: {
     backgroundColor: Colors.backgroundSecondary,
     flex: 1,
+    padding: Size[4],
   },
 });
 
@@ -44,17 +46,8 @@ const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
   );
 
   return (
-    <SafeAreaView style={styles.sav}>
-      <Header
-        left={
-          <Button
-            icon={<IconChevronLeft width={24} height={24} />}
-            onPress={onClose}
-            accessibilityLabel={t("common.navigation.go_back")}
-          />
-        }
-        title={t("queue.add_songs")}
-      />
+    <SafeAreaView style={styles.root}>
+      <Header title={t("queue.add_songs")} />
       <View style={styles.content}>
         <SongSelector
           addTracks={onAddTracks}
@@ -62,41 +55,17 @@ const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
           selectedTracks={selectedTracks}
         />
       </View>
+      <Button onPress={onClose} style={styles.button} variant="primary">
+        {t("common.action.done")}
+      </Button>
     </SafeAreaView>
   );
 };
 
-const snapPoints = ["100%"];
-
 export const QueueAdder: FC<QueueAdderProps> = (props) => {
-  const ref = useRef<BottomSheetModal>(null);
-  useEffect(() => {
-    if (props.visible) {
-      ref.current?.present();
-    } else {
-      ref.current?.dismiss();
-    }
-  });
-
-  useBackHandlerDismiss(props.visible, props.onClose);
-
-  const onChange = useCallback(
-    (index: number) => index === -1 && props.onClose(),
-    [props]
-  );
-
   return (
-    <BottomSheetModal
-      stackBehavior="push"
-      onChange={onChange}
-      ref={ref}
-      handleComponent={null}
-      snapPoints={snapPoints}
-      enableContentPanningGesture={false}
-      enableHandlePanningGesture={false}
-      dismissOnPanDown={false}
-    >
+    <SlideModal visible={props.visible} onDismiss={props.onClose}>
       <QueueAdderContent {...props} />
-    </BottomSheetModal>
+    </SlideModal>
   );
 };

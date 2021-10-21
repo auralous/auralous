@@ -1,56 +1,41 @@
-import { RouteName } from "@/screens/types";
-import { Session, Track, useSessionTracksQuery } from "@auralous/api";
+import { Button } from "@/components/Button";
+import { useContainerStyle } from "@/components/Container";
+import { LoadingScreen } from "@/components/Loading";
+import { Spacer } from "@/components/Spacer";
+import { TrackItem } from "@/components/Track";
+import { Text } from "@/components/Typography";
 import player, {
   uidForIndexedTrack,
   usePlaybackCurrentContext,
   usePlaybackQueuePlayingId,
-} from "@auralous/player";
-import {
-  Button,
-  LoadingScreen,
-  RecyclerList,
-  RecyclerRenderItem,
-  Size,
-  Spacer,
-  Text,
-  TrackItem,
-} from "@auralous/ui";
-import { useNavigation } from "@react-navigation/native";
-import {
-  createContext,
-  FC,
-  memo,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+} from "@/player";
+import { Size } from "@/styles/spacing";
+import type { Session, Track } from "@auralous/api";
+import { useSessionTracksQuery } from "@auralous/api";
+import type { FC } from "react";
+import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import type { ListRenderItem } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import SessionMeta from "./SessionMeta";
 
-const listPadding = Size[3];
-const itemPadding = Size[1];
-
 const styles = StyleSheet.create({
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: Size[1],
-  },
   item: {
     alignItems: "center",
     flexDirection: "row",
-    padding: itemPadding,
+    paddingHorizontal: Size[3],
+    paddingVertical: Size[1],
   },
-  listContent: {
-    padding: listPadding,
+  root: {
+    flex: 1,
   },
   tag: {
+    alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.8)",
     borderRadius: 9999,
+    flexDirection: "row",
+    height: "100%",
     paddingHorizontal: 8,
-    paddingVertical: 2,
   },
   tagText: {
     color: "#333333",
@@ -93,11 +78,21 @@ const SessionTrackItem = memo<{
   );
 });
 
-const renderItem: RecyclerRenderItem<Track> = ({ item, index }) => (
+const renderItem: ListRenderItem<Track> = ({ item, index }) => (
   <SessionTrackItem key={index} track={item} index={index} />
 );
+const itemHeight = Size[12] + 2 * Size[1] + Size[2];
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
+const ItemSeparatorComponent = () => <Spacer y={2} />;
 
-const SessionNonLiveContent: FC<{ session: Session }> = ({ session }) => {
+const SessionNonLiveContent: FC<{
+  session: Session;
+  onQuickShare(session: Session): void;
+}> = ({ session, onQuickShare }) => {
   const { t } = useTranslation();
 
   const [{ data, fetching }] = useSessionTracksQuery({
@@ -114,49 +109,52 @@ const SessionNonLiveContent: FC<{ session: Session }> = ({ session }) => {
     [session]
   );
 
-  const navigation = useNavigation();
+  const quickShare = useCallback(
+    () => onQuickShare(session),
+    [onQuickShare, session]
+  );
 
-  const quickPlay = useCallback(() => {
-    navigation.navigate(RouteName.NewQuickShare, {
-      session: {
-        ...session,
-        // erase createdAt since Date object breaks navigation
-        createdAt: null,
-      },
-    });
-  }, [session, navigation]);
+  const containerStyle = useContainerStyle();
 
   return (
-    <>
-      <SessionMeta
-        session={session}
-        tagElement={
-          <View style={styles.tag}>
-            <Text size="sm" style={styles.tagText}>
-              {t("session.title")} •{" "}
-              {t("playlist.x_song", { count: session.trackTotal })}
-            </Text>
-          </View>
+    <SessionIdContext.Provider value={session.id}>
+      <FlatList
+        ListHeaderComponent={
+          <SessionMeta
+            session={session}
+            tag={
+              <View style={styles.tag}>
+                <Text size="sm" style={styles.tagText}>
+                  {t("session.title")} •{" "}
+                  {t("playlist.x_song", { count: session.trackTotal })}
+                </Text>
+              </View>
+            }
+            buttons={
+              <>
+                <Button onPress={shufflePlay}>
+                  {t("player.shuffle_play")}
+                </Button>
+                <Spacer x={2} />
+                <Button onPress={quickShare} variant="primary">
+                  {t("new.quick_share.title")}
+                </Button>
+              </>
+            }
+          />
         }
+        ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        style={styles.root}
+        contentContainerStyle={containerStyle}
+        data={data?.sessionTracks || []}
+        renderItem={renderItem}
+        getItemLayout={getItemLayout}
+        initialNumToRender={0}
+        removeClippedSubviews
+        windowSize={10}
       />
-      <View style={styles.buttons}>
-        <Button onPress={shufflePlay}>{t("player.shuffle_play")}</Button>
-        <Spacer x={2} />
-        <Button onPress={quickPlay} variant="primary">
-          {t("new.quick_share.title")}
-        </Button>
-      </View>
-      <SessionIdContext.Provider value={session.id}>
-        <RecyclerList
-          contentContainerStyle={styles.listContent}
-          ListEmptyComponent={fetching ? <LoadingScreen /> : null}
-          data={data?.sessionTracks || []}
-          height={Size[12] + 2 * itemPadding + Size[3]} // height + 2 * padding + seperator
-          renderItem={renderItem}
-          contentHorizontalPadding={listPadding}
-        />
-      </SessionIdContext.Provider>
-    </>
+    </SessionIdContext.Provider>
   );
 };
 

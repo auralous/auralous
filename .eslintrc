@@ -5,12 +5,13 @@
     "node": true,
     "react-native/react-native": true
   },
+  "plugins": ["react", "react-native", "@typescript-eslint"],
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "plugin:jsx-a11y/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:prettier/recommended",
     "plugin:react-hooks/recommended"
   ],
   "globals": { "Atomics": "readonly", "SharedArrayBuffer": "readonly" },
@@ -20,39 +21,20 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "settings": { "react": { "version": "detect" } },
+  "settings": {
+    "react": {
+      "version": "latest"
+    }
+  },
   "ignorePatterns": ["**/*.gen.ts"],
-  "plugins": [
-    "react",
-    "react-native",
-    "jsx-a11y",
-    "@typescript-eslint",
-    "prettier"
-  ],
   "rules": {
-    "prettier/prettier": "error",
     "react/prop-types": "off",
-    "jsx-a11y/anchor-is-valid": [
-      "error",
-      {
-        "components": ["Link"],
-        "specialLink": ["hrefLeft", "hrefRight"],
-        "aspects": ["invalidHref", "preferButton"]
-      }
-    ],
-    "jsx-a11y/label-has-associated-control": [
-      "error",
-      { "required": { "some": ["nesting", "id"] } }
-    ],
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-ts-comment": "warn",
-    "@typescript-eslint/no-unused-vars": "error",
-    "jsx-a11y/no-onchange": "warn",
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/consistent-type-imports": "error",
     "react-native/no-unused-styles": "error",
     "react-native/sort-styles": "error",
     "react-native/no-single-element-style-arrays": "error",
-    "react-native/no-inline-styles": "warn"
+    "react-native/no-inline-styles": "error"
   }
 }

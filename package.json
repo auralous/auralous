@@ -3,10 +3,8 @@
     "packages": [
       "api",
       "app",
-      "locales",
-      "player",
-      "ui",
-      "web"
+      "web",
+      "mobile"
     ],
     "nohoist": [
       "**/react",
@@ -24,25 +22,26 @@
     "lint": "eslint .",
     "format": "prettier . -w --ignore-path ./.eslintignore",
     "build": "yarn workspaces run build",
-    "build:watch": "concurrently \"yarn workspace @auralous/api run build:watch\" \"yarn workspace @auralous/player run build:watch\" \"yarn workspace @auralous/ui run build:watch\"",
-    "dev": "yarn build:watch"
+    "build:watch": "concurrently \"yarn workspace @auralous/app run build:watch\" \"yarn workspace @auralous/api run build:watch\"",
+    "dev": "yarn build:watch",
+    "clean": "yarn workspaces run clean"
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.8",
-    "@babel/core": "^7.14.8",
-    "@babel/preset-typescript": "^7.14.5",
-    "@typescript-eslint/eslint-plugin": "^4.29.0",
-    "@typescript-eslint/parser": "^4.29.0",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "concurrently": "^6.2.0",
-    "eslint": "^7.32.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "concurrently": "^6.3.0",
+    "eslint": "7",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-react-native": "^3.11.0",
-    "prettier": "^2.3.2",
-    "typescript": "^4.3.5"
+    "pkg-dir": "^5.0.0",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0"
   }
 }

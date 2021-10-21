@@ -1,9 +1,11 @@
-import en from "@auralous/locales/src/en.json";
-import vi from "@auralous/locales/src/vi.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import i18n, { Resource } from "i18next";
+import type { Resource } from "i18next";
+import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { getLocales } from "react-native-localize";
+import en from "../locales/en.json";
+import vi from "../locales/vi.json";
+import { STORAGE_KEY_SETTINGS_LANGUAGE } from "./utils/constants";
 
 const resources: Resource = {
   en: {
@@ -13,8 +15,6 @@ const resources: Resource = {
     translation: vi,
   },
 };
-
-export const supportedLanguages = Object.keys(resources);
 
 i18n.use(initReactI18next).init({
   resources,
@@ -26,10 +26,16 @@ i18n.use(initReactI18next).init({
   react: {
     useSuspense: false,
   },
+  compatibilityJSON: "v3",
 });
 
-AsyncStorage.getItem("settings/language").then((value) => {
-  if (value) i18n.changeLanguage(value);
+export const getPreferredLanguage = () =>
+  AsyncStorage.getItem(STORAGE_KEY_SETTINGS_LANGUAGE).then(
+    (value) => value || undefined
+  );
+
+getPreferredLanguage().then((value) => {
+  value && i18n.changeLanguage(value);
 });
 
 export default i18n;

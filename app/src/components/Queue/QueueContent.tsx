@@ -1,23 +1,22 @@
-import { usePreloadedTrackQueries } from "@/gql/track";
-import { QueueItem, Track, useTrackQuery } from "@auralous/api";
-import player, { PlaybackState } from "@auralous/player";
-import {
-  Button,
-  Colors,
-  DraggableRecyclerList,
-  DraggableRecyclerRenderItemInfo,
-  Font,
-  Heading,
-  QueueTrackItem,
-  Size,
-  Spacer,
-  Text,
-  TextButton,
-  TrackItem,
-} from "@auralous/ui";
+import { Button } from "@/components/Button";
+import type {
+  SortableListRenderItem,
+  SortableListRenderItemInfo,
+} from "@/components/SortableFlatList";
+import { SortableFlatList } from "@/components/SortableFlatList";
+import { Spacer } from "@/components/Spacer";
+import { QueueTrackItem, TrackItem } from "@/components/Track";
+import { Heading, Text } from "@/components/Typography";
+import type { PlaybackState } from "@/player";
+import player, { usePreloadedTrackQueries } from "@/player";
+import { Colors } from "@/styles/colors";
+import { Font, fontPropsFn } from "@/styles/fonts";
+import { Size } from "@/styles/spacing";
+import type { QueueItem, Track } from "@auralous/api";
+import { useTrackQuery } from "@auralous/api";
+import type { FC } from "react";
 import {
   createContext,
-  FC,
   memo,
   useCallback,
   useContext,
@@ -27,7 +26,6 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import "react-native-gesture-handler";
 import { QueueAdder } from "./QueueAdder";
 
 const QueueContext = createContext(
@@ -38,6 +36,7 @@ const QueueContext = createContext(
 );
 
 const styles = StyleSheet.create({
+  list: { flex: 1 },
   np: {
     height: Size[14],
     padding: Size[1],
@@ -54,13 +53,13 @@ const styles = StyleSheet.create({
     paddingTop: Size[2],
   },
   selectOptsText: {
-    fontFamily: Font.Medium,
+    ...fontPropsFn(Font.NotoSans, "medium"),
     textTransform: "uppercase",
   },
 });
 
 const DraggableQueueItem = memo<{
-  params: DraggableRecyclerRenderItemInfo<QueueItem>;
+  params: SortableListRenderItemInfo<QueueItem>;
 }>(
   function DraggableQueueItem({ params }) {
     const onPress = useCallback((uid: string) => player.queuePlayUid(uid), []);
@@ -98,10 +97,6 @@ const DraggableQueueItem = memo<{
   }
 );
 
-const renderItem = (params: DraggableRecyclerRenderItemInfo<QueueItem>) => (
-  <DraggableQueueItem key={params.item.uid} params={params} />
-);
-
 interface SelectedObject {
   [key: string]: undefined | boolean;
 }
@@ -109,8 +104,17 @@ interface SelectedObject {
 const extractUidsFromSelected = (selected: SelectedObject) => {
   return Object.keys(selected).filter((selectedKey) => !!selected[selectedKey]);
 };
-
+const itemHeight = Size[12] + Size[1] * 2 + Size[2];
+const renderItem: SortableListRenderItem<QueueItem> = (params) => (
+  <DraggableQueueItem key={params.item.uid} params={params} />
+);
 const keyExtractor = (item: QueueItem) => item.uid;
+const ItemSeparatorComponent = () => <Spacer y={2} />;
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
 
 const QueueContent: FC<{
   nextItems: PlaybackState["nextItems"];
@@ -224,28 +228,35 @@ const QueueContent: FC<{
         <Spacer y={4} />
         <Heading level={6}>{t("queue.up_next")}</Heading>
         <Spacer y={2} />
-        <DraggableRecyclerList
+        <SortableFlatList
+          style={styles.list}
+          ItemSeparatorComponent={ItemSeparatorComponent}
           data={items}
           renderItem={renderItem}
-          height={Size[12] + Size[2] + Size[3]} // height + 2 * padding + seperator
           onDragEnd={onDragEnd}
           keyExtractor={keyExtractor}
+          getItemLayout={getItemLayout}
+          initialNumToRender={0}
+          removeClippedSubviews
+          windowSize={10}
         />
         <Spacer y={1} />
         {hasSelected ? (
           <View style={styles.selectOpts}>
-            <TextButton
+            <Button
+              variant="text"
               onPress={removeSelected}
               textProps={{ style: styles.selectOptsText }}
             >
               {t("queue.remove")}
-            </TextButton>
-            <TextButton
+            </Button>
+            <Button
+              variant="text"
               onPress={playNextSelected}
               textProps={{ style: styles.selectOptsText }}
             >
               {t("queue.play_next")}
-            </TextButton>
+            </Button>
           </View>
         ) : (
           <Button onPress={openAdd}>{t("queue.add_songs")}</Button>

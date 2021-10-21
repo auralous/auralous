@@ -1,0 +1,60 @@
+{
+  "name": "@auralous/mobile",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android && adb reverse tcp:4000 tcp:4000",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "build": "echo nil",
+    "clean": "echo nil",
+    "test": "jest",
+    "postinstall": "patch-package"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "preset": "react-native"
+  },
+  "dependencies": {
+    "@auralous/app": "^0.0.0",
+    "@hoangvvo/react-native-spotify-remote": "^0.3.11-2",
+    "@react-native-async-storage/async-storage": "^1.15.9",
+    "@react-native-mapbox-gl/maps": "^8.3.0",
+    "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
+    "react": "17.0.2",
+    "react-native": "0.66.1",
+    "react-native-config": "^1.4.4",
+    "react-native-events": "^1.0.18",
+    "react-native-geolocation-service": "^5.3.0-beta.3",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-image-colors": "^1.4.0",
+    "react-native-linear-gradient": "^2.5.6",
+    "react-native-localize": "^2.1.5",
+    "react-native-pager-view": "^5.4.7",
+    "react-native-permissions": "^3.1.0",
+    "react-native-reanimated": "^2.2.3",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.8.0",
+    "react-native-svg": "^12.1.1",
+    "react-native-svg-transformer": "^0.14.3",
+    "react-native-webview": "^11.14.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/runtime": "^7.15.4",
+    "@types/react": "^17.0.30",
+    "@types/react-native": "^0.65.8",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "postinstall-postinstall": "^2.1.0",
+    "react-test-renderer": "^17.0.2"
+  }
+}

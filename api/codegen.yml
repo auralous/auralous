@@ -1,4 +1,5 @@
-schema: ../../api/src/graphql/*/*.graphql
+# schema: ../../api/src/graphql/*/*.graphql
+schema: https://api.auralous.com/graphql
 documents: "./schema/*.graphql"
 generates:
   ./src/gql.gen.ts:
@@ -14,8 +15,3 @@ generates:
       documentMode: "documentNode"
       nonOptionalTypename: true
       skipTypeNameForRoot: true
-  ./src/introspection.gen.ts:
-    plugins:
-      - urql-introspection
-    config:
-      useTypeImports: true

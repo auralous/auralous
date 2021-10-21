@@ -1,12 +1,16 @@
-import { PageHeaderGradient } from "@/components/Colors";
+import { Avatar } from "@/components/Avatar";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
-import { User, useUserStatQuery } from "@auralous/api";
-import { Avatar, Size, Spacer, Text, UserFollowButton } from "@auralous/ui";
+import { Size } from "@/styles/spacing";
+import { UserFollowButton } from "@/views/User";
+import type { User } from "@auralous/api";
+import { useUserStatQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback } from "react";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
   actions: {
@@ -41,26 +45,13 @@ const styles = StyleSheet.create({
 interface UserStatProps {
   name: string;
   value: number;
-  list: "followers" | "following";
-  username: string;
+  onPress(): void;
 }
 
-const UserStat: FC<UserStatProps> = ({ name, value, list, username }) => {
-  const navigation = useNavigation();
-  const goToList = useCallback(
-    () =>
-      navigation.navigate(
-        list === "followers"
-          ? RouteName.UserFollowers
-          : RouteName.UserFollowing,
-        { username }
-      ),
-    [navigation, username, list]
-  );
-
+const UserStat: FC<UserStatProps> = ({ name, value, onPress }) => {
   return (
     <View style={styles.stat}>
-      <TouchableOpacity style={styles.statTouchable} onPress={goToList}>
+      <TouchableOpacity style={styles.statTouchable} onPress={onPress}>
         <Text bold size="xl" color="textSecondary">
           {value}
         </Text>
@@ -73,24 +64,31 @@ const UserStat: FC<UserStatProps> = ({ name, value, list, username }) => {
   );
 };
 
-const UserMeta: FC<{ user: User }> = ({ user }) => {
+const UserMeta: FC<{
+  user: User;
+}> = ({ user }) => {
   const { t } = useTranslation();
-
-  const navigation = useNavigation();
 
   const [{ data: { userStat } = { userStat: undefined } }] = useUserStatQuery({
     variables: { id: user.id },
     requestPolicy: "cache-and-network",
   });
 
-  const onUnauthenticated = useCallback(
-    () => navigation.navigate(RouteName.SignIn),
-    [navigation]
+  const navigation = useNavigation();
+
+  const gotoFollowers = useCallback(
+    () =>
+      navigation.navigate(RouteName.UserFollowers, { username: user.username }),
+    [user.username, navigation]
+  );
+  const gotoFollowing = useCallback(
+    () =>
+      navigation.navigate(RouteName.UserFollowing, { username: user.username }),
+    [user.username, navigation]
   );
 
   return (
     <>
-      <PageHeaderGradient image={user.profilePicture} />
       <View style={styles.root}>
         <View style={styles.meta}>
           <Avatar
@@ -104,24 +102,19 @@ const UserMeta: FC<{ user: User }> = ({ user }) => {
         </View>
         <Spacer y={1} />
         <View style={styles.actions}>
-          <UserFollowButton
-            id={user.id}
-            onUnauthenticated={onUnauthenticated}
-          />
+          <UserFollowButton id={user.id} />
         </View>
         <Spacer y={2} />
         <View style={styles.stats}>
           <UserStat
             value={userStat?.followerCount || 0}
             name={t("user.followers")}
-            list="followers"
-            username={user.username}
+            onPress={gotoFollowers}
           />
           <UserStat
             value={userStat?.followingCount || 0}
             name={t("user.following")}
-            list="following"
-            username={user.username}
+            onPress={gotoFollowing}
           />
         </View>
       </View>

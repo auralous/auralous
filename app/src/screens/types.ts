@@ -1,9 +1,13 @@
-import { Playlist, Session } from "@auralous/api";
-import { ParamListBase } from "@react-navigation/native";
+import type { Playlist, Session } from "@auralous/api";
+import type { ParamListBase } from "@react-navigation/native";
 
 export enum RouteName {
+  Main = "main",
   Home = "home",
   Map = "map",
+  Explore = "explore",
+  ExploreRecommendation = "explore/recommendation",
+  Sessions = "sessions",
   SignIn = "sign-in",
   User = "user",
   UserFollowers = "user/followers",
@@ -24,6 +28,11 @@ export enum RouteName {
 export interface ParamList extends ParamListBase {
   root: undefined;
   [RouteName.Home]: undefined;
+  [RouteName.Explore]: undefined;
+  [RouteName.ExploreRecommendation]: {
+    id: string;
+  };
+  [RouteName.Sessions]: undefined;
   [RouteName.SignIn]?: {
     access_token?: string;
   };
@@ -61,6 +70,7 @@ export interface ParamList extends ParamListBase {
   };
   [RouteName.SessionEdit]: {
     id: string;
+    showEndModal?: boolean;
   };
   [RouteName.SessionListeners]: {
     id: string;

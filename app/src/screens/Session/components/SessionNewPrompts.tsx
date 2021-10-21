@@ -1,16 +1,19 @@
+import { Dialog } from "@/components/Dialog";
+import { Spacer } from "@/components/Spacer";
+import { toast } from "@/components/Toast";
 import { RouteName } from "@/screens/types";
-import { checkAndRequestPermission } from "@/utils/permission";
+import { Size } from "@/styles/spacing";
 import {
-  LocationInput,
-  Session,
-  useSessionUpdateMutation,
-} from "@auralous/api";
-import { Dialog, Size, Spacer, toast } from "@auralous/ui";
+  getCurrentPosition,
+  requestLocationPermission,
+} from "@/utils/location";
+import type { LocationInput, Session } from "@auralous/api";
+import { useSessionUpdateMutation } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback, useState } from "react";
+import type { FC } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
-import Geolocation from "react-native-geolocation-service";
 
 const styles = StyleSheet.create({
   note: {
@@ -34,28 +37,22 @@ export const SessionNewPrompts: FC<{ session: Session }> = ({ session }) => {
 
   const addToMap = useCallback(async () => {
     // perform permission check
-    const hasPermission = await checkAndRequestPermission();
+    const hasPermission = await requestLocationPermission();
     if (!hasPermission) {
       return toast.error(t("permission.location.not_allowed"));
     }
+    let location: LocationInput;
     try {
-      const location = await new Promise<LocationInput>((resolve, reject) => {
-        Geolocation.getCurrentPosition((position) => {
-          resolve({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        }, reject);
-      });
-      const result = await sessionUpdate({
-        id: session.id,
-        location,
-      });
-      if (!result.error) {
-        dismissMap();
-      }
+      location = await getCurrentPosition();
     } catch (err) {
-      return toast.error(err.message);
+      return toast.error((err as Error).message);
+    }
+    const result = await sessionUpdate({
+      id: session.id,
+      location,
+    });
+    if (!result.error) {
+      dismissMap();
     }
   }, [session.id, dismissMap, sessionUpdate, t]);
 

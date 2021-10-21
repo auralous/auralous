@@ -1,48 +1,24 @@
-import { RouteName } from "@/screens/types";
-import { User, useSessionsQuery } from "@auralous/api";
-import player from "@auralous/player";
-import { Colors, SessionCardItem, Size, Spacer } from "@auralous/ui";
+import { SessionCardItem } from "@/components/Session";
+import { Spacer } from "@/components/Spacer";
+import player from "@/player";
+import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
+import type { Session } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
-import { FC, useCallback, useState } from "react";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   content: {
     padding: Size[4],
   },
-  root: {
-    flex: 1,
-  },
 });
 
-export const UserTimeline: FC<{ user: User }> = ({ user }) => {
-  // Pagination
-  const [next, setNext] = useState<undefined | string>("");
-
-  const [{ data, fetching, stale }] = useSessionsQuery({
-    variables: {
-      creatorId: user.id,
-      next,
-      limit: 10,
-    },
-    requestPolicy: "cache-and-network",
-  });
-
-  const loadMore = useCallback(() => {
-    const sessions = data?.sessions;
-    if (!sessions?.length) return;
-    setNext(sessions[sessions.length - 1].id);
-  }, [data?.sessions]);
-
-  const navigation = useNavigation();
-
-  const onSessionCardItemNavigate = useCallback(
-    (sessionId: string) =>
-      navigation.navigate(RouteName.Session, { id: sessionId }),
-    [navigation]
-  );
-
+export const UserTimeline: FC<{
+  fetching: boolean;
+  sessions: Session[];
+}> = ({ fetching, sessions }) => {
   const onSessionCardPlay = useCallback(
     (sessionId: string, index: number) =>
       player.playContext({
@@ -54,27 +30,26 @@ export const UserTimeline: FC<{ user: User }> = ({ user }) => {
     []
   );
 
+  const navigation = useNavigation();
+
   return (
-    <ScrollView
-      style={styles.root}
-      contentContainerStyle={styles.content}
-      onEnded={loadMore}
-    >
-      {data?.sessions.map(
+    <View style={styles.content}>
+      {sessions.map(
         (session) =>
           !session.isLive && (
             <View key={session.id}>
               <SessionCardItem
                 session={session}
-                onNavigate={onSessionCardItemNavigate}
+                onNavigate={(sessionId) =>
+                  navigation.navigate("session", { id: sessionId })
+                }
                 onPlay={onSessionCardPlay}
               />
               <Spacer y={4} />
             </View>
           )
       )}
-      {fetching ||
-        (stale && <ActivityIndicator color={Colors.textSecondary} />)}
-    </ScrollView>
+      {fetching && <ActivityIndicator color={Colors.textSecondary} />}
+    </View>
   );
 };

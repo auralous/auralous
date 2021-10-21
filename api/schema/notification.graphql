@@ -11,7 +11,7 @@ query notifications($next: String, $limit: Int!) {
     ... on NotificationNewSession {
       session {
         id
-        ...SessionDetailParts
+        ...SessionParts
       }
     }
     __typename
@@ -35,7 +35,7 @@ subscription notificationAdded {
     ... on NotificationNewSession {
       session {
         id
-        ...SessionDetailParts
+        ...SessionParts
       }
     }
     __typename

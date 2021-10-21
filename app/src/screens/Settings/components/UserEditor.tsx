@@ -1,14 +1,14 @@
-import { PlatformName, useMeUpdateMutation, User } from "@auralous/api";
-import {
-  Avatar,
-  Button,
-  Input,
-  InputRef,
-  Spacer,
-  Text,
-  toast,
-} from "@auralous/ui";
-import { FC, useCallback, useEffect, useRef } from "react";
+import { Avatar } from "@/components/Avatar";
+import { Button } from "@/components/Button";
+import type { InputRef } from "@/components/Input";
+import { Input } from "@/components/Input";
+import { Spacer } from "@/components/Spacer";
+import { toast } from "@/components/Toast";
+import { Text } from "@/components/Typography";
+import type { PlatformName, User } from "@auralous/api";
+import { useMeUpdateMutation } from "@auralous/api";
+import type { FC } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 

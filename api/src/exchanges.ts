@@ -1,26 +1,37 @@
+import { devtoolsExchange } from "@urql/devtools";
+import { authExchange } from "@urql/exchange-auth";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
 import { simplePagination } from "@urql/exchange-graphcache/extras";
+import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
+import type { DocumentNode } from "graphql";
+import { createClient as createWSClient } from "graphql-ws";
+import type { CombinedError, Operation } from "urql";
 import {
+  dedupExchange,
+  errorExchange,
+  makeOperation,
+  subscriptionExchange,
+} from "urql";
+import type {
   GraphCacheConfig,
-  MeDocument,
   MeQuery,
-  NowPlayingReactionsDocument,
   NowPlayingReactionsQuery,
   NowPlayingReactionsUpdatedSubscription,
   Session,
-  SessionListenersDocument,
   SessionListenersQuery,
-  UserFollowingsDocument,
   UserFollowingsQuery,
   UserFollowingsQueryVariables,
 } from "./gql.gen";
-import schema from "./introspection.gen";
+import {
+  MeDocument,
+  NowPlayingReactionsDocument,
+  SessionListenersDocument,
+  UserFollowingsDocument,
+} from "./gql.gen";
 import { nextCursorPagination } from "./_pagination";
 
-export const cacheExchange = () =>
+const cacheExchangeFn = () =>
   createCacheExchange<GraphCacheConfig>({
-    // @ts-ignore
-    schema,
     keys: {
       QueueItem: () => null,
       Me: () => null,
@@ -37,7 +48,12 @@ export const cacheExchange = () =>
         sessions: nextCursorPagination(),
         notifications: nextCursorPagination(),
         session: (parent, args) => ({ __typename: "Session", id: args.id }),
+        playlist: (parent, args) => ({ __typename: "Playlist", id: args.id }),
         track: (parent, args) => ({ __typename: "Track", id: args.id }),
+        recommendationSection: (parent, args) => ({
+          __typename: "RecommendationSection",
+          id: args.id,
+        }),
       },
       Message: {
         createdAt: (parent) => new Date(parent.createdAt),
@@ -69,11 +85,17 @@ export const cacheExchange = () =>
           cache.invalidate("Query", "sessionCurrentLive", {
             creatorId: (result.sessionCreate as Session).creatorId,
           });
+          cache.invalidate("Query", "sessionCurrentLive", {
+            mine: true,
+          });
         },
         sessionEnd: (result, args, cache) => {
           if (!result.sessionEnd) return;
           cache.invalidate("Query", "sessionCurrentLive", {
             creatorId: (result.sessionEnd as Session).creatorId,
+          });
+          cache.invalidate("Query", "sessionCurrentLive", {
+            mine: true,
           });
         },
         sessionDelete: (result, args, cache) => {
@@ -191,3 +213,79 @@ export const cacheExchange = () =>
       },
     },
   });
+
+interface SetupExchangesOptions {
+  websocketUri: string;
+  onError(error: CombinedError, operation: Operation): void;
+  getToken(): Promise<string | null>;
+  generateHash?: (query: string, document: DocumentNode) => Promise<string>;
+}
+
+let wsClient: ReturnType<typeof createWSClient>;
+
+export const setupExchanges = ({
+  websocketUri,
+  onError,
+  getToken,
+  generateHash,
+}: SetupExchangesOptions) => {
+  const fetchExchange = persistedFetchExchange({
+    preferGetForPersistedQueries: true,
+    generateHash,
+  });
+
+  if (!wsClient) {
+    wsClient = createWSClient({
+      url: `${websocketUri}/graphql-ws`,
+    });
+  }
+  return [
+    ...(process.env.NODE_ENV !== "production" ? [devtoolsExchange] : []),
+    dedupExchange,
+    cacheExchangeFn(),
+    authExchange<{ accessToken?: string | null }>({
+      async getAuth({ authState }) {
+        if (!authState) {
+          return {
+            accessToken: await getToken(),
+          };
+        }
+        return null;
+      },
+      addAuthToOperation({ authState, operation }) {
+        if (!authState?.accessToken) {
+          return operation;
+        }
+        const fetchOptions =
+          typeof operation.context.fetchOptions === "function"
+            ? operation.context.fetchOptions()
+            : operation.context.fetchOptions || {};
+        return makeOperation(operation.kind, operation, {
+          ...operation.context,
+          fetchOptions: {
+            ...fetchOptions,
+            headers: {
+              ...fetchOptions.headers,
+              Authorization: authState.accessToken,
+            },
+          },
+        });
+      },
+    }),
+    errorExchange({ onError }),
+    fetchExchange,
+    subscriptionExchange({
+      forwardSubscription(operation) {
+        return {
+          subscribe: (sink) => {
+            // @ts-ignore
+            const dispose = wsClient.subscribe(operation, sink);
+            return {
+              unsubscribe: dispose,
+            };
+          },
+        };
+      },
+    }),
+  ];
+};

@@ -1,45 +1,19 @@
-import { supportedLanguages } from "@/i18n";
-import {
-  Button,
-  Colors,
-  Heading,
-  IconEdit,
-  IconX,
-  Size,
-  Spacer,
-  Text,
-  TextButton,
-  useBackHandlerDismiss,
-} from "@auralous/ui";
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetScrollView,
-} from "@gorhom/bottom-sheet";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { IconEdit } from "@/assets";
+import { Button } from "@/components/Button";
+import { Dialog, useBackHandlerDismiss, useDialog } from "@/components/Dialog";
+import { Spacer } from "@/components/Spacer";
+import { Text } from "@/components/Typography";
+import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
+import { supportedLanguages } from "@/utils/constants";
+import type { FC } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { getLocales } from "react-native-localize";
-
-const snapPoints = [240];
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
   option: {
     marginBottom: Size[2],
-  },
-  sheet: {
-    backgroundColor: Colors.background,
-    padding: Size[4],
-  },
-  sheetHeading: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  sheetOptions: {
-    flex: 1,
   },
   value: {
     alignItems: "center",
@@ -49,32 +23,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const LanguageUpdate: FC = () => {
+const LanguageUpdate: FC<{
+  language: string | undefined;
+  changeLanguage(language: string | undefined): void;
+}> = ({ language, changeLanguage }) => {
   const { t, i18n } = useTranslation();
-  const [language, setLanguage] = useState<string | undefined>();
-  useEffect(() => {
-    // initial value
-    AsyncStorage.getItem("settings/language").then((value) =>
-      setLanguage(value || undefined)
-    );
-  }, []);
+  i18n.languages;
 
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
-  const open = useCallback(() => bottomSheetRef.current?.present(), []);
-  const close = useCallback(() => bottomSheetRef.current?.dismiss(), []);
+  const [visible, present, dismiss] = useDialog();
 
-  useBackHandlerDismiss(bottomSheetIndex === 0, close);
+  useBackHandlerDismiss(visible, dismiss);
 
   const updateLanguage = useCallback(
     (newLanguage: string | undefined) => {
-      close();
-      setLanguage(newLanguage);
-      i18n.changeLanguage(newLanguage || getLocales()[0].languageCode);
-      if (newLanguage) AsyncStorage.setItem("settings/language", newLanguage);
-      else AsyncStorage.removeItem("settings/language");
+      dismiss();
+      changeLanguage(newLanguage || undefined);
     },
-    [i18n, close]
+    [changeLanguage, dismiss]
   );
 
   return (
@@ -84,7 +49,7 @@ const LanguageUpdate: FC = () => {
           {t("settings.language.title")}
         </Text>
         <Spacer y={4} />
-        <TouchableOpacity style={styles.value} onPress={open}>
+        <TouchableOpacity style={styles.value} onPress={present}>
           <Text align="center" color="textSecondary">
             {t(`settings.language.${language || "_"}`)}
           </Text>
@@ -97,25 +62,9 @@ const LanguageUpdate: FC = () => {
           />
         </TouchableOpacity>
       </View>
-      <BottomSheetModal
-        backdropComponent={BottomSheetBackdrop}
-        backgroundComponent={null}
-        handleComponent={null}
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        style={styles.sheet}
-        onChange={setBottomSheetIndex}
-      >
-        <View style={styles.sheetHeading}>
-          <Heading level={6}>{t("settings.language.title_edit")}</Heading>
-          <TextButton
-            icon={<IconX />}
-            onPress={close}
-            accessibilityLabel={t("common.navigation.go_back")}
-          />
-        </View>
-        <Spacer y={2} />
-        <BottomSheetScrollView style={styles.sheetOptions}>
+      <Dialog.Dialog visible={visible} onDismiss={dismiss}>
+        <Dialog.Title>{t("settings.language.title_edit")}</Dialog.Title>
+        <Dialog.Content>
           {supportedLanguages.map((languageOpt) => (
             <Button
               key={languageOpt}
@@ -131,8 +80,8 @@ const LanguageUpdate: FC = () => {
           >
             {t(`settings.language._`)}
           </Button>
-        </BottomSheetScrollView>
-      </BottomSheetModal>
+        </Dialog.Content>
+      </Dialog.Dialog>
     </>
   );
 };
