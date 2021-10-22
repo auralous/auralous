@@ -135,12 +135,13 @@ module.exports = async (env, argv) => {
         __DEV__: process.env.NODE_ENV === "production",
         process: { env: { ...dotEnvEnv } },
       }),
-      new WorkboxPlugin.GenerateSW({
-        // these options encourage the ServiceWorkers to get in there fast
-        // and not allow any straggling "old" SWs to hang around
-        clientsClaim: true,
-        skipWaiting: true,
-      }),
+      isProductionEnv &&
+        new WorkboxPlugin.GenerateSW({
+          // these options encourage the ServiceWorkers to get in there fast
+          // and not allow any straggling "old" SWs to hang around
+          clientsClaim: true,
+          skipWaiting: true,
+        }),
       isProductionEnv && process.env.ANALYZE && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
   });
