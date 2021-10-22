@@ -17,7 +17,7 @@ import {
   useMessagesQuery,
 } from "@auralous/api";
 import type { FC } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   ListRenderItem,
@@ -33,7 +33,13 @@ const styles = StyleSheet.create({
     padding: Size[6],
   },
   content: {
-    paddingTop: Size[1.5],
+    borderRadius: 50,
+    flex: 1,
+    paddingHorizontal: Size[4],
+    paddingVertical: Size[2],
+  },
+  contentSpecial: {
+    padding: Size[1.5],
   },
   icon: {
     backgroundColor: "rgba(255, 255, 255, .1)",
@@ -41,6 +47,7 @@ const styles = StyleSheet.create({
     padding: Size[1],
   },
   input: {
+    backgroundColor: "rgba(255, 255, 255, .1)",
     flex: 1,
     marginRight: Size[1],
   },
@@ -58,8 +65,6 @@ const styles = StyleSheet.create({
   },
   root: {
     flex: 1,
-    padding: Size[6],
-    paddingTop: Size[2],
   },
 });
 
@@ -74,7 +79,7 @@ const ChatItemJoin: FC<{
         <IconLogIn width={18} height={18} />
       </View>
       <Spacer x={2} />
-      <View style={styles.content}>
+      <View style={[styles.content, styles.contentSpecial]}>
         <Text color="textSecondary">
           {t("chat.join", { username: message.creator.username })}
         </Text>
@@ -89,16 +94,17 @@ const ChatItemText: FC<{
   return (
     <View style={styles.listItem}>
       <Avatar
-        size={6}
+        size={8}
         username={message.creator.username}
         href={message.creator.profilePicture}
       />
-      <Spacer x={2} />
       <View style={styles.content}>
         <Text>
           <Text bold>{message.creator.username}</Text>
           <Spacer x={2} />
-          <Text color="text">{message.text}</Text>
+          <Text color="text" lineGapScale={1}>
+            {message.text}
+          </Text>
         </Text>
       </View>
     </View>
@@ -112,13 +118,15 @@ const renderItem: ListRenderItem<Message> = ({ item: message }) => {
   return <ChatItemText key={message.id} message={message} />;
 };
 
+const LIMIT = 20;
+
 const ChatList: FC<{ id: string }> = ({ id }) => {
   const ref = useRef<FlatList>(null);
   const scrollShouldFollow = useRef(true);
 
-  const [offset, setOffset] = useState(0);
+  const [next, setNext] = useState<string | undefined>();
   const [{ data }] = useMessagesQuery({
-    variables: { id, limit: 20, offset },
+    variables: { id, limit: LIMIT, next },
     requestPolicy: "cache-and-network",
   });
 
@@ -138,8 +146,8 @@ const ChatList: FC<{ id: string }> = ({ id }) => {
     }
   );
 
-  const messages = useMemo(() => {
-    const allMessages = Array.from(prevMessages || []);
+  const displayingMessages = useMemo(() => {
+    const allMessages = Array.from(prevMessages || []).reverse();
     newMessages?.forEach((nM) => {
       // Filter out messages from new that already exist in prev
       if (!allMessages.some((m) => m.id === nM.id)) allMessages.push(nM);
@@ -147,30 +155,44 @@ const ChatList: FC<{ id: string }> = ({ id }) => {
     return allMessages;
   }, [prevMessages, newMessages]);
 
-  useEffect(() => {
+  const onContentSizeChange = useCallback(() => {
     if (scrollShouldFollow.current && ref.current) {
       // Scrool to bottom
       ref.current.scrollToEnd();
     }
-  }, [messages.length]);
+  }, []);
 
+  const prevScrollY = useRef(0);
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-      if (event.nativeEvent.contentOffset.y <= 0) {
+      const currScrollY = event.nativeEvent.contentOffset.y;
+      if (currScrollY <= 0 && prevMessages?.length) {
         // scroll is at top, try to load more
-        setOffset(messages.length);
+        setNext(prevMessages[prevMessages.length - 1].id);
       }
+      // autoscroll
+      if (
+        prevScrollY.current !== -1 &&
+        currScrollY < prevScrollY.current - 10
+      ) {
+        // user scroll up, disable autoscroll
+        scrollShouldFollow.current = false;
+      }
+      prevScrollY.current = currScrollY;
     },
-    [messages]
+    [prevMessages]
   );
   return (
     <FlatList
       ref={ref}
       style={styles.list}
       renderItem={renderItem}
-      data={messages}
+      data={displayingMessages}
       onScroll={onScroll}
       removeClippedSubviews
+      onContentSizeChange={onContentSizeChange}
+      onResponderEnd={() => (prevScrollY.current = -1)}
+      onEndReached={() => (scrollShouldFollow.current = true)}
     />
   );
 };
@@ -202,7 +224,8 @@ const ChatInput: FC<{ id: string }> = ({ id }) => {
         icon={<IconArrowRight />}
         onPress={onSend}
         disabled={fetching}
-      ></Button>
+        variant="text"
+      />
     </View>
   );
 };

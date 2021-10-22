@@ -35,39 +35,30 @@ export const Button: FC<ButtonProps> = (props) => {
   const [pressed, pressedProps] = useSharedValuePressed();
 
   const animatedStyles = useAnimatedStyle<ViewStyle>(() => {
-    if (disabled) {
-      return {
-        backgroundColor: Colors.control,
-        opacity: 0.4,
-      };
-    }
     if (variant === "text") {
       return {
         backgroundColor: "transparent",
-        opacity: withTiming(pressed.value ? 0.7 : 1),
+        opacity: withTiming(pressed.value && !disabled ? 0.7 : 1),
       };
     }
     if (variant === "primary") {
       return {
         backgroundColor: withTiming(
-          pressed.value ? Colors.primaryDark : Colors.primary
+          pressed.value && !disabled ? Colors.primaryDark : Colors.primary
         ) as unknown as ColorValue,
-        opacity: 1,
       };
     }
     if (variant === "filled") {
       return {
         backgroundColor: withTiming(
-          pressed.value ? Colors.textSecondary : Colors.text
+          pressed.value && !disabled ? Colors.textSecondary : Colors.text
         ) as unknown as ColorValue,
-        opacity: 1,
       };
     }
     return {
       backgroundColor: withTiming(
-        pressed.value ? Colors.controlDark : Colors.control
+        pressed.value && !disabled ? Colors.controlDark : Colors.control
       ) as unknown as ColorValue,
-      opacity: 1,
     };
   }, [variant, disabled]);
 
@@ -84,7 +75,13 @@ export const Button: FC<ButtonProps> = (props) => {
       onPress={onPress}
       disabled={disabled}
       {...pressedProps}
-      style={[styles.base, animatedStyles, props.style]}
+      style={[
+        styles.base,
+        animatedStyles,
+        // eslint-disable-next-line react-native/no-inline-styles
+        disabled && { opacity: 0.5 },
+        props.style,
+      ]}
     >
       {icon}
       {!!(icon && children) && <Spacer x={1} />}

@@ -14,6 +14,12 @@ import MusicView from "./MusicView";
 import QueueButtonAndSheet from "./QueueButtonAndSheet";
 
 const styles = StyleSheet.create({
+  chatView: {
+    flex: 1,
+    justifyContent: "center",
+    padding: Size[6],
+    paddingTop: Size[2],
+  },
   content: {
     flex: 1,
     paddingTop: 0,
@@ -22,11 +28,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: Size[6],
     paddingTop: Size[2],
-  },
-  noChat: {
-    flex: 1,
-    justifyContent: "center",
-    padding: Size[4],
   },
   page: {
     height: "100%",
@@ -105,15 +106,15 @@ const PlayerViewContent: FC = () => {
           </View>
         </View>
         <View style={styles.page} key={1}>
-          {contextMeta?.isLive ? (
-            <ChatView contextMeta={contextMeta} />
-          ) : (
-            <View style={styles.noChat}>
+          <View style={styles.chatView}>
+            {contextMeta?.isLive ? (
+              <ChatView contextMeta={contextMeta} />
+            ) : (
               <Text align="center" bold color="textSecondary">
                 {t("chat.not_live")}
               </Text>
-            </View>
-          )}
+            )}
+          </View>
         </View>
       </PagerView>
     </View>

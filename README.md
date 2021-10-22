@@ -13,7 +13,7 @@ Auralous currently supports streaming music on [YouTube](https://www.youtube.com
 ![CI](https://github.com/auralous/auralous/workflows/CI/badge.svg)
 [![PRs Welcome](https://badgen.net/badge/PRs/welcome/ff5252)](/CONTRIBUTING.md)
 
-Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com after `alpha`)
+Website: [auralous.com](https://auralous.com)
 
 ## Structure
 

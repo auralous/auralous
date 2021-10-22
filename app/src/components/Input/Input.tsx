@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
   },
   rootDefault: {
     borderRadius: 9999,
-    borderWidth: 1.5,
   },
   rootUnderline: {
     backgroundColor: "transparent",
@@ -103,7 +102,7 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
         return internalRef.current?.blur();
       },
       clear() {
-        return internalRef.current?.clear();
+        return setValue("");
       },
       isFocused() {
         return internalRef.current?.isFocused() || false;

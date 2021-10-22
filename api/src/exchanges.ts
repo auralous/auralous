@@ -1,7 +1,6 @@
 import { devtoolsExchange } from "@urql/devtools";
 import { authExchange } from "@urql/exchange-auth";
 import { cacheExchange as createCacheExchange } from "@urql/exchange-graphcache";
-import { simplePagination } from "@urql/exchange-graphcache/extras";
 import { persistedFetchExchange } from "@urql/exchange-persisted-fetch";
 import type { DocumentNode } from "graphql";
 import { createClient as createWSClient } from "graphql-ws";
@@ -29,7 +28,7 @@ import {
   SessionListenersDocument,
   UserFollowingsDocument,
 } from "./gql.gen";
-import { nextCursorPagination } from "./_pagination";
+import { mongodbPagination } from "./urql-pagination-mongodb";
 
 const cacheExchangeFn = () =>
   createCacheExchange<GraphCacheConfig>({
@@ -42,12 +41,9 @@ const cacheExchangeFn = () =>
     },
     resolvers: {
       Query: {
-        messages: simplePagination({
-          offsetArgument: "offset",
-          mergeMode: "before",
-        }),
-        sessions: nextCursorPagination(),
-        notifications: nextCursorPagination(),
+        messages: mongodbPagination(),
+        sessions: mongodbPagination(),
+        notifications: mongodbPagination(),
         session: (parent, args) => ({ __typename: "Session", id: args.id }),
         playlist: (parent, args) => ({ __typename: "Playlist", id: args.id }),
         track: (parent, args) => ({ __typename: "Track", id: args.id }),

@@ -259,7 +259,9 @@ const QueueContent: FC<{
             </Button>
           </View>
         ) : (
-          <Button onPress={openAdd}>{t("queue.add_songs")}</Button>
+          <Button onPress={openAdd} variant="text">
+            {t("queue.add_songs")}
+          </Button>
         )}
         <QueueAdder
           onAddTracks={onAddTracks}

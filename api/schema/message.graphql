@@ -11,8 +11,8 @@ fragment MessageParts on Message {
   type
 }
 
-query messages($id: ID!, $offset: Int, $limit: Int) {
-  messages(id: $id, offset: $offset, limit: $limit) {
+query messages($id: ID!, $next: String, $limit: Int) {
+  messages(id: $id, next: $next, limit: $limit) {
     ...MessageParts
   }
 }
