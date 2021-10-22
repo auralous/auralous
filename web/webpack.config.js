@@ -6,6 +6,7 @@ const webpack = require("webpack");
 const dotenvResult = require("dotenv").config();
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const getDependencyDir = (name, options) =>
   pkgDir.sync(require.resolve(name, options));
@@ -32,6 +33,7 @@ module.exports = async (env, argv) => {
   }
 
   return merge(webpackConfig, {
+    devtool: isProductionEnv ? "source-map" : "eval-source-map",
     devServer: {
       port: 3000,
     },
@@ -100,6 +102,12 @@ module.exports = async (env, argv) => {
             },
           },
         },
+        {
+          test: /\.(js|mjs|jsx|ts|tsx|css)$/,
+          exclude: /@babel(?:\/|\\{1,2})runtime/,
+          enforce: "pre",
+          use: ["source-map-loader"],
+        },
       ],
     },
     resolve: {
@@ -126,6 +134,12 @@ module.exports = async (env, argv) => {
       new webpack.DefinePlugin({
         __DEV__: process.env.NODE_ENV === "production",
         process: { env: { ...dotEnvEnv } },
+      }),
+      new WorkboxPlugin.GenerateSW({
+        // these options encourage the ServiceWorkers to get in there fast
+        // and not allow any straggling "old" SWs to hang around
+        clientsClaim: true,
+        skipWaiting: true,
       }),
       isProductionEnv && process.env.ANALYZE && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
