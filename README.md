@@ -17,12 +17,13 @@ Website: [withstereo.com](https://withstereo.com) (will be moved to auralous.com
 
 ## Structure
 
-| Codebase         |                  Description                  |
-| :--------------- | :-------------------------------------------: |
-| [web](web)       |             React Native Web app              |
-| [mobile](mobile) |     React Native app for Android and iOS      |
-| [app](app)       |              The shared main app              |
-| [api](api)       | GraphQL API / URQL code, hooks, and exchanges |
+| Codebase             |                  Description                  |
+| :------------------- | :-------------------------------------------: |
+| [web](web)           |             React Native Web app              |
+| [mobile](mobile)     |     React Native app for Android and iOS      |
+| [app](app)           |              The shared main app              |
+| [api](api)           | GraphQL API / URQL code, hooks, and exchanges |
+| [homepage](homepage) |           Auralous Preact homepage            |
 
 ### Workflows
 

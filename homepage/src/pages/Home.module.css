@@ -1,0 +1,62 @@
+.logo {
+  text-align: center;
+}
+
+.logo img {
+  width: 240px;
+  max-width: 100%;
+}
+
+.first {
+  padding-top: 15%;
+}
+
+.motto {
+  color: var(--primary-dark);
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: normal;
+  margin: 24px 0 2rem 0;
+}
+
+.launches {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.launch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  transition-property: background-color, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  text-decoration: none;
+  max-width: 500px;
+  margin: 0 auto 10px auto;
+  width: 100%;
+  text-align: center;
+}
+
+.launch img {
+  margin-right: 4px;
+}
+
+.launchWeb {
+  background-color: var(--primary);
+  color: var(--text);
+}
+
+.launchWeb:hover,
+.launchWeb:focus {
+  background-color: var(--primary-dark);
+}
+
+.launchNative {
+  background-color: #fff;
+  color: #000000bf;
+  opacity: 0.5;
+}

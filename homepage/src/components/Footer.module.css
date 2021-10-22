@@ -1,0 +1,43 @@
+.footer {
+  padding: 3rem 0.5rem;
+  width: 100%;
+}
+
+.links {
+  text-align: center;
+}
+
+.links a {
+  margin-left: 1rem;
+}
+.links a:first-child {
+  margin-left: 0;
+}
+
+@media (max-width: 400px) {
+  .links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .links a {
+    margin-left: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.links a {
+  color: var(--text);
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.15s;
+  text-decoration: none;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.links a:hover,
+.links a:focus {
+  opacity: 0.5;
+}
