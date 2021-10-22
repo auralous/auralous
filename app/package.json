@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "yarn build:dts && yarn build:babel",
-    "build:babel": "babel src -d dist --extensions \".ts,.tsx\" --copy-files",
+    "build:babel": "babel src -d dist --source-maps --extensions \".ts,.tsx\" --copy-files",
     "build:dts": "tsc",
     "build:watch": "concurrently \"yarn build:dts --watch --preserveWatchOutput\" \"yarn build:babel -w\"",
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
