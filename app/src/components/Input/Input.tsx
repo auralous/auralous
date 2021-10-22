@@ -8,19 +8,14 @@ import {
   useState,
 } from "react";
 import type {
-  ColorValue,
   NativeSyntheticEvent,
   ReturnKeyTypeOptions,
   StyleProp,
   TextInputSubmitEditingEventData,
   ViewStyle,
 } from "react-native";
-import { StyleSheet, TextInput } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import { StyleSheet, TextInput, View } from "react-native";
+import { useSharedValue } from "react-native-reanimated";
 
 interface InputProps {
   endIcon?: React.ReactNode;
@@ -43,6 +38,7 @@ const styles = StyleSheet.create({
   root: {
     alignContent: "center",
     alignItems: "center",
+    backgroundColor: Colors.control,
     flexDirection: "row",
     height: Size[10],
     paddingHorizontal: Size[4],
@@ -52,6 +48,8 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   rootUnderline: {
+    backgroundColor: "transparent",
+    borderBottomColor: Colors.control,
     borderBottomWidth: 1.5,
   },
 });
@@ -88,15 +86,6 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
   const onFocused = useCallback(() => (isFocused.value = true), [isFocused]);
   const onBlur = useCallback(() => (isFocused.value = false), [isFocused]);
 
-  const stylesRoot = useAnimatedStyle<ViewStyle>(
-    () => ({
-      borderColor: withTiming(
-        isFocused.value ? Colors.control : Colors.controlDark
-      ) as unknown as ColorValue,
-    }),
-    [Colors, variant]
-  );
-
   const onSubmitEditing = useCallback(
     (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
       onSubmit?.(e.nativeEvent.text);
@@ -126,11 +115,10 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
   );
 
   return (
-    <Animated.View
+    <View
       style={[
         StyleSheet.compose(styles.root as ViewStyle, style),
         variant === "underline" ? styles.rootUnderline : styles.rootDefault,
-        stylesRoot,
       ]}
     >
       {startIcon}
@@ -149,7 +137,7 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
         underlineColorAndroid="rgba(0,0,0,0)"
       />
       {endIcon}
-    </Animated.View>
+    </View>
   );
 });
 

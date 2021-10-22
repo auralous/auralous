@@ -9,6 +9,7 @@ import type { CombinedError, Operation } from "urql";
 import {
   dedupExchange,
   errorExchange,
+  fetchExchange,
   makeOperation,
   subscriptionExchange,
 } from "urql";
@@ -229,11 +230,6 @@ export const setupExchanges = ({
   getToken,
   generateHash,
 }: SetupExchangesOptions) => {
-  const fetchExchange = persistedFetchExchange({
-    preferGetForPersistedQueries: true,
-    generateHash,
-  });
-
   if (!wsClient) {
     wsClient = createWSClient({
       url: `${websocketUri}/graphql-ws`,
@@ -273,6 +269,10 @@ export const setupExchanges = ({
       },
     }),
     errorExchange({ onError }),
+    persistedFetchExchange({
+      preferGetForPersistedQueries: true,
+      generateHash,
+    }),
     fetchExchange,
     subscriptionExchange({
       forwardSubscription(operation) {

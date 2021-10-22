@@ -125,8 +125,6 @@ const NewQuickShareScreen: FC<
   const [{ data: dataMine }] = useMyPlaylistsQuery();
   const [{ data: dataRecommendations }] = useRecommendationSectionsQuery();
 
-  console.log(dataRecommendations);
-
   const containerStyle = useContainerStyle();
 
   return (

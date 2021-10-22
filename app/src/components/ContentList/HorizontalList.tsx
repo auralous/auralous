@@ -2,6 +2,7 @@
 /* eslint-disable react-native/no-unused-styles */
 import { IconChevronLeft, IconChevronRight } from "@/assets";
 import { Spacer } from "@/components/Spacer";
+import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import { isTouchDevice } from "@/utils/utils";
 import type { ReactElement } from "react";
@@ -118,7 +119,7 @@ function HorizontalList<ItemT>({
               }
             >
               <LinearGradient
-                colors={["rgba(0,0,0,1)", "rgba(0,0,0,0)"]}
+                colors={[Colors.background, "rgba(0,0,0,0)"]}
                 style={styles.gradient}
                 start={{ x: 0, y: 0.5 }}
                 end={{ x: 1, y: 0.5 }}
@@ -137,7 +138,7 @@ function HorizontalList<ItemT>({
               }
             >
               <LinearGradient
-                colors={["rgba(0,0,0,1)", "rgba(0,0,0,0)"]}
+                colors={[Colors.background, "rgba(0,0,0,0)"]}
                 style={styles.gradient}
                 start={{ x: 1, y: 0.5 }}
                 end={{ x: 0, y: 0.5 }}

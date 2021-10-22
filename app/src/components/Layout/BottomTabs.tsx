@@ -125,7 +125,7 @@ const BottomTabs: FC<BottomTabBarProps> = ({ state, descriptors }) => {
         Icon={IconActivity}
         isFocused={state.index === 3}
       >
-        {t("notification.title")}
+        {t("notifications.title")}
       </Tab>
       <Spacer y={2} />
       <TabProfile />
