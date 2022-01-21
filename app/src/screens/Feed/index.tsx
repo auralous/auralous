@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RequireEndSessionModal } from "../_commonContent/RequireEndSessionModal";
-import HomeFeed from "./components/HomeFeed";
+import FeedFeed from "./components/FeedFeed";
 
 const styles = StyleSheet.create({
   add: {
@@ -47,7 +47,7 @@ const HeaderLeft: FC<{
           color: tab === "following" ? "textTertiary" : "text",
         }}
       >
-        {t("home.for_you")}
+        {t("feed.for_you")}
       </Button>
       <Button
         variant="text"
@@ -57,7 +57,7 @@ const HeaderLeft: FC<{
           color: tab === "for_you" ? "textTertiary" : "text",
         }}
       >
-        {t("home.following")}
+        {t("feed.following")}
       </Button>
     </View>
   );
@@ -80,7 +80,7 @@ const HeaderRight: FC = () => {
   );
 };
 
-const HomeScreen: FC<BottomTabScreenProps<ParamList, RouteName.Home>> = ({
+const FeedScreen: FC<BottomTabScreenProps<ParamList, RouteName.Feed>> = ({
   navigation,
 }) => {
   const [tab, setTab] = useState<TabName>("for_you");
@@ -121,9 +121,9 @@ const HomeScreen: FC<BottomTabScreenProps<ParamList, RouteName.Home>> = ({
       ) : (
         <>
           {tab === "following" ? (
-            <HomeFeed isFollowing />
+            <FeedFeed isFollowing />
           ) : (
-            <HomeFeed isFollowing={false} />
+            <FeedFeed isFollowing={false} />
           )}
         </>
       )}
@@ -131,4 +131,4 @@ const HomeScreen: FC<BottomTabScreenProps<ParamList, RouteName.Home>> = ({
   );
 };
 
-export default HomeScreen;
+export default FeedScreen;

@@ -339,7 +339,7 @@ const SessionPager: FC<{
     if (fetching) return <LoadingScreen />;
     return (
       <View style={styles.empty}>
-        <Text color="textSecondary">{t("home.feed_empty")}</Text>
+        <Text color="textSecondary">{t("feed.feed_empty")}</Text>
       </View>
     );
   }

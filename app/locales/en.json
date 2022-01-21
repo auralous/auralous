@@ -1,6 +1,6 @@
 {
-  "home": {
-    "title": "Home",
+  "feed": {
+    "title": "Feed",
     "feed_empty": "No sessions found at the moment",
     "for_you": "For you",
     "following": "Following"

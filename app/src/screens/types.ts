@@ -3,7 +3,7 @@ import type { ParamListBase } from "@react-navigation/native";
 
 export enum RouteName {
   Main = "main",
-  Home = "home",
+  Feed = "feed",
   Map = "map",
   Explore = "explore",
   ExploreRecommendation = "explore/recommendation",
@@ -27,7 +27,7 @@ export enum RouteName {
 
 export interface ParamList extends ParamListBase {
   root: undefined;
-  [RouteName.Home]: undefined;
+  [RouteName.Feed]: undefined;
   [RouteName.Explore]: undefined;
   [RouteName.ExploreRecommendation]: {
     id: string;

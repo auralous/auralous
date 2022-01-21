@@ -1,9 +1,9 @@
 import {
   IconActivity,
-  IconHome,
   IconLogIn,
   IconMapPin,
   IconSearch,
+  IconZap,
 } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
@@ -104,16 +104,16 @@ const BottomTabs: FC<BottomTabBarProps> = ({ state, descriptors }) => {
         importantForAccessibility: "no-hide-descendants",
       })}
     >
-      <Tab name={RouteName.Home} Icon={IconHome} isFocused={state.index === 0}>
-        {t("home.title")}
-      </Tab>
-      <Spacer y={2} />
       <Tab
         name={RouteName.Explore}
         Icon={IconSearch}
-        isFocused={state.index === 1}
+        isFocused={state.index === 0}
       >
         {t("explore.title")}
+      </Tab>
+      <Spacer y={2} />
+      <Tab name={RouteName.Feed} Icon={IconZap} isFocused={state.index === 1}>
+        {t("feed.title")}
       </Tab>
       <Spacer y={2} />
       <Tab name={RouteName.Map} Icon={IconMapPin} isFocused={state.index === 2}>

@@ -40,7 +40,7 @@ const HeaderRight: FC = () => {
   );
 };
 
-const ExploreScreen: FC<BottomTabScreenProps<ParamList, RouteName.Home>> = ({
+const ExploreScreen: FC<BottomTabScreenProps<ParamList, RouteName.Feed>> = ({
   navigation,
 }) => {
   useLayoutEffect(() => {

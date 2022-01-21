@@ -11,6 +11,7 @@ export { default as Facebook } from "./facebook.svg";
 export { default as GoogleColor } from "./google-color.svg";
 export { default as Headphones } from "./headphones.svg";
 export { default as Home } from "./home.svg";
+export { default as List } from "./list.svg";
 export { default as LogIn } from "./log-in.svg";
 export { default as Logo } from "./logo.svg";
 export { default as MapPin } from "./map-pin.svg";

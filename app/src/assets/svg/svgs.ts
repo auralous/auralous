@@ -26,6 +26,8 @@ import { Headphones } from "./exports";
 export const IconHeadphones = wrapIcon(Headphones);
 import { Home } from "./exports";
 export const IconHome = wrapIcon(Home);
+import { List } from "./exports";
+export const IconList = wrapIcon(List);
 import { LogIn } from "./exports";
 export const IconLogIn = wrapIcon(LogIn);
 import { Logo } from "./exports";

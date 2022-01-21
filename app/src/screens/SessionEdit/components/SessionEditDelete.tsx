@@ -43,7 +43,7 @@ export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
       ) {
         player.playContext(null);
       }
-      navigation.navigate(RouteName.Home, undefined);
+      navigation.navigate(RouteName.Feed, undefined);
     }
   }, [t, sessionDelete, session.id, navigation, playbackCurrentContext]);
 

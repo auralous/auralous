@@ -1,6 +1,6 @@
 {
-  "home": {
-    "title": "Trang chủ",
+  "feed": {
+    "title": "Feed",
     "feed_empty": "Không tìm thấy phiên nào vào lúc này",
     "for_you": "Dành cho bạn",
     "following": "Đang theo dõi"

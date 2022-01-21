@@ -245,6 +245,13 @@ const ChatView: FC<{
 
   if (!contextMeta?.id) return null;
 
+  if (!contextMeta.isLive)
+    return (
+      <Text align="center" bold color="textSecondary">
+        {t("chat.not_live")}
+      </Text>
+    );
+
   if (!me)
     return (
       <View style={styles.auth}>
