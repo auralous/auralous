@@ -1,27 +1,29 @@
 import player from "@/player";
-import { LayoutSize, Size } from "@/styles/spacing";
+import { Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import { StyleSheet, useWindowDimensions } from "react-native";
+import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { YoutubeIframeRef } from "react-native-youtube-iframe";
 import YoutubePlayer from "react-native-youtube-iframe";
 
-const height = 200;
-const width = 355;
-
 const styles = StyleSheet.create({
   root: {
-    height,
-  },
-  rootLand: {
-    height,
     position: "absolute",
-    right: Size[2],
-    top: Size[2],
-    width,
     zIndex: 20,
   },
 });
+
+const widthToHeightRatio = 16 / 9;
+const maxWidth = 356;
 
 const PlayerYoutube: FC = () => {
   const youtubeRef = useRef<YoutubeIframeRef>(null);
@@ -83,29 +85,91 @@ const PlayerYoutube: FC = () => {
     };
   }, [isReady]);
 
-  const { width: windowWidth } = useWindowDimensions();
+  const safeAreaInsets = useSafeAreaInsets();
+  const windowDimensions = useWindowDimensions();
+
+  const width = Math.min(maxWidth, (windowDimensions.width / 2) * 1.2);
+  const height = width / widthToHeightRatio;
+
+  const topMin = Size[2] + safeAreaInsets.top;
+  const topMax = windowDimensions.height - height - Size[2];
+  const rightMin = windowDimensions.width - width - Size[2];
+  const rightMax = Size[2];
+
+  const rightAnim = useSharedValue(rightMax);
+  const topAnim = useSharedValue(topMin);
+
+  const animStyles = useAnimatedStyle(
+    () => ({
+      top: topAnim.value,
+      right: rightAnim.value,
+    }),
+    []
+  );
+
+  const panRef = useRef<PanGestureHandler>(null);
+  const eventHandler = useAnimatedGestureHandler<
+    PanGestureHandlerGestureEvent,
+    {
+      initialRight: number;
+      initialTop: number;
+    }
+  >(
+    {
+      onStart: (event, context) => {
+        context.initialTop = topAnim.value;
+        context.initialRight = rightAnim.value;
+      },
+      onActive: (event, context) => {
+        topAnim.value = context.initialTop + event.translationY;
+        rightAnim.value = context.initialRight - event.translationX;
+      },
+      // BEGAN ------> ANY ------> FINISHED
+      onFinish: (event, context) => {
+        function clamp(num: number, min: number, max: number) {
+          return Math.min(Math.max(num, min), max);
+        }
+        topAnim.value = withTiming(clamp(topAnim.value, topMin, topMax));
+        if (event.translationX > windowDimensions.width / 4) {
+          rightAnim.value = withTiming(rightMax);
+        } else if (event.translationX < -windowDimensions.width / 4) {
+          rightAnim.value = withTiming(rightMin);
+        } else {
+          rightAnim.value = withTiming(context.initialRight);
+        }
+      },
+    },
+    [topMin, topMax, rightMin, rightMax, windowDimensions]
+  );
 
   if (!videoId) return null;
 
   return (
-    <View style={windowWidth >= LayoutSize.md ? styles.rootLand : styles.root}>
-      {videoId && (
-        <YoutubePlayer
-          play={isPlaying}
-          onChangeState={onChangeState}
-          height={height}
-          volume={volume}
-          videoId={videoId}
-          ref={youtubeRef}
-          onReady={onReady}
-          webViewProps={{
-            userAgent:
-              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246",
-            mediaPlaybackRequiresUserAction: false,
-          }}
-        />
-      )}
-    </View>
+    <PanGestureHandler
+      ref={panRef}
+      onGestureEvent={eventHandler}
+      maxPointers={1}
+      minDist={50}
+    >
+      <Animated.View style={[styles.root, animStyles, { width, height }]}>
+        {videoId && (
+          <YoutubePlayer
+            play={isPlaying}
+            onChangeState={onChangeState}
+            height={height}
+            volume={volume}
+            videoId={videoId}
+            ref={youtubeRef}
+            onReady={onReady}
+            webViewProps={{
+              userAgent:
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246",
+              mediaPlaybackRequiresUserAction: false,
+            }}
+          />
+        )}
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
 
