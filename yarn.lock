@@ -2570,13 +2570,6 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hoangvvo/react-native-spotify-remote@^0.3.11-2":
-  version "0.3.11-2"
-  resolved "https://registry.yarnpkg.com/@hoangvvo/react-native-spotify-remote/-/react-native-spotify-remote-0.3.11-2.tgz#e9ea5282de1da9efefc3b525703b899a7a80a863"
-  integrity sha512-CSDBjR+USsF3QmtH43ifYJmNgnORUFyqf1zXnzUD0gzC284GG0FkV3viqePe+woS58vMrq8vRyQaSGi4gpSh6Q==
-  dependencies:
-    react-native-events "^1.0.15"
-
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.5.0.tgz#1407967d4c6eecd7388f83acf1eaf4d0c6e58ef9"
@@ -9832,14 +9825,7 @@ react-native-config@^1.4.5:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.4.5.tgz#6fe5895410b75e44fe4f4bf00caaf894a0981f3a"
   integrity sha512-5oiAsoW88SOYDg/0cleJ2vJDqv98FJUbFQYEnH4sdMtEn3AAT3lb7BkTGW8HO/t3Vk9VOruwxUUnO4tzuxzCsw==
 
-react-native-events@^1.0.15:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/react-native-events/-/react-native-events-1.0.18.tgz#fca582e82421094f962509fc29c69e4dfca69a4f"
-  integrity sha512-gSkeWZ0oCQjZ7vWnrgTQqotetP281hWk3LYIiSQidBayW3IiosY5V5uICkJOs2JhN3COmpgNRPWLNvJw5B7D5A==
-  dependencies:
-    events "^3.0.0"
-
-react-native-events@^1.0.21:
+react-native-events@^1.0.20, react-native-events@^1.0.21:
   version "1.0.21"
   resolved "https://registry.yarnpkg.com/react-native-events/-/react-native-events-1.0.21.tgz#d1fbe492a3321d09c630da5132dad10a5312b823"
   integrity sha512-qBolATOf+xzUkYOlOK3I4Nm/l6Y5vtng8dAM9TPHy170NSKKpsgirAnaCO82+nEkniEanm+Nb/cP4pFVPQAeaQ==
@@ -9928,6 +9914,13 @@ react-native-screens@^3.4.0:
   integrity sha512-lHrnB/elAoMJKv8O12U6BLgeup4lB6ZKJHEOVuG/D72nv/OE9wUusbou6YCB5tp3YbaSpHflPnkFmHA/vCejpw==
   dependencies:
     warn-once "^0.1.0"
+
+react-native-spotify-remote@^0.3.11-3:
+  version "0.3.11-3"
+  resolved "https://registry.yarnpkg.com/react-native-spotify-remote/-/react-native-spotify-remote-0.3.11-3.tgz#a85d49b7593ee69d01d8f24e953163e5e734a42c"
+  integrity sha512-x9WWJ6TE3lxy5z0Uw8aff8KezrVWHNF29qxhx/4qRMxJdCO/2/ONHQIlBsNWLL1L3IfcO1T154Fm9T1WVox6zQ==
+  dependencies:
+    react-native-events "^1.0.20"
 
 react-native-svg-transformer@^1.0.0:
   version "1.0.0"
