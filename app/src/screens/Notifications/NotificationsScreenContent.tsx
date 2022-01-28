@@ -67,10 +67,11 @@ const getItemLayout = (data: unknown, index: number) => ({
   offset: itemHeight * index,
   index,
 });
-const renderItem: ListRenderItem<NotificationFollow | NotificationNewSession> =
-  (info) => {
-    return <NotificationItem key={info.item.id} notification={info.item} />;
-  };
+const renderItem: ListRenderItem<
+  NotificationFollow | NotificationNewSession
+> = (info) => {
+  return <NotificationItem key={info.item.id} notification={info.item} />;
+};
 
 export const NotificationsScreenContent = () => {
   const [next, setNext] = useState<string | undefined>();

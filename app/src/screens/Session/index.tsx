@@ -121,61 +121,62 @@ const HeaderRight: FC<{
   );
 };
 
-const SessionScreen: FC<NativeStackScreenProps<ParamList, RouteName.Session>> =
-  ({ route, navigation }) => {
-    const { t } = useTranslation();
+const SessionScreen: FC<
+  NativeStackScreenProps<ParamList, RouteName.Session>
+> = ({ route, navigation }) => {
+  const { t } = useTranslation();
 
-    const [{ data, fetching }] = useSessionQuery({
-      variables: {
-        id: route.params.id,
+  const [{ data, fetching }] = useSessionQuery({
+    variables: {
+      id: route.params.id,
+    },
+    requestPolicy: "cache-and-network",
+  });
+
+  const [{ data: { me } = { me: undefined } }] = useMeQuery();
+
+  const uiDispatch = useUiDispatch();
+
+  useLayoutEffect(() => {
+    const session = data?.session;
+    navigation.setOptions({
+      ...(session && { title: session.text }),
+      headerRight() {
+        return <HeaderRight navigation={navigation} session={session} />;
       },
-      requestPolicy: "cache-and-network",
     });
+  }, [navigation, me, data, t, uiDispatch]);
 
-    const [{ data: { me } = { me: undefined } }] = useMeQuery();
-
-    const uiDispatch = useUiDispatch();
-
-    useLayoutEffect(() => {
-      const session = data?.session;
-      navigation.setOptions({
-        ...(session && { title: session.text }),
-        headerRight() {
-          return <HeaderRight navigation={navigation} session={session} />;
+  const onQuickShare = useCallback(
+    (session: Session) => {
+      navigation.navigate(RouteName.NewQuickShare, {
+        session: {
+          ...session,
+          // erase createdAt since Date object breaks navigation
+          createdAt: null,
         },
       });
-    }, [navigation, me, data, t, uiDispatch]);
+    },
+    [navigation]
+  );
 
-    const onQuickShare = useCallback(
-      (session: Session) => {
-        navigation.navigate(RouteName.NewQuickShare, {
-          session: {
-            ...session,
-            // erase createdAt since Date object breaks navigation
-            createdAt: null,
-          },
-        });
-      },
-      [navigation]
-    );
-
-    return (
-      <SafeAreaView style={styles.root}>
-        {fetching ? (
-          <LoadingScreen />
-        ) : data?.session ? (
-          <>
-            <SessionScreenContent
-              session={data.session}
-              onQuickShare={onQuickShare}
-            />
-            {route.params.isNew && <SessionNewPrompts session={data.session} />}
-          </>
-        ) : (
-          <NotFoundScreen />
-        )}
-      </SafeAreaView>
-    );
-  };
+  return (
+    <SafeAreaView style={styles.root}>
+      {fetching ? (
+        <LoadingScreen />
+      ) : data?.session ? (
+        <>
+          <SessionScreenContent
+            session={data.session}
+            onQuickShare={onQuickShare}
+          />
+          {route.params.isNew && <SessionNewPrompts session={data.session} />}
+        </>
+      ) : (
+        <NotFoundScreen />
+      )}
+    </SafeAreaView>
+  );
+};
 
 export default SessionScreen;

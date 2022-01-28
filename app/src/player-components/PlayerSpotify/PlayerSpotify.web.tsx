@@ -1,19 +1,13 @@
-import { toast } from "@/components/Toast";
 import player, { usePlaybackAuthentication } from "@/player";
 import { injectScript } from "@/utils/scripts";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
+import PlayerSpotifyError from "./PlayerSpotifyError";
 
 /// <reference path="spotify-web-playback-sdk" />
 const PlayerSpotify: FC = () => {
   const [error, setError] = useState<Spotify.Error | null>(null);
   const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message);
-    }
-  }, [error]);
 
   const { accessToken } = usePlaybackAuthentication();
 
@@ -143,6 +137,17 @@ const PlayerSpotify: FC = () => {
       window.onSpotifyWebPlaybackSDKReady = null;
     };
   }, [loaded]);
+
+  if (error) {
+    return (
+      <PlayerSpotifyError
+        error={error}
+        onRetry={() => {
+          window.location.reload();
+        }}
+      />
+    );
+  }
 
   return null;
 };

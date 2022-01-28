@@ -54,39 +54,38 @@ const NotificationTimeDiff: FC<{ notification: Notification }> = ({
   );
 };
 
-export const NotificationFollowItem: FC<{ notification: NotificationFollow }> =
-  ({ notification }) => {
-    const { t } = useTranslation();
-    return (
-      <View
-        style={[styles.notification, notification.hasRead && styles.hasRead]}
-      >
-        <Image
-          style={styles.image}
-          source={
-            notification.follower?.profilePicture
-              ? { uri: notification.follower?.profilePicture }
-              : imageDefaultUser
-          }
-          defaultSource={imageDefaultUser}
-        />
-        <Spacer x={2} />
-        <View style={styles.content}>
-          <Text>
-            <Trans
-              t={t}
-              i18nKey="notifications.follow"
-              components={[<Text key="name" bold />]}
-              values={{
-                username: notification.follower?.username,
-              }}
-            />
-          </Text>
-          <NotificationTimeDiff notification={notification} />
-        </View>
+export const NotificationFollowItem: FC<{
+  notification: NotificationFollow;
+}> = ({ notification }) => {
+  const { t } = useTranslation();
+  return (
+    <View style={[styles.notification, notification.hasRead && styles.hasRead]}>
+      <Image
+        style={styles.image}
+        source={
+          notification.follower?.profilePicture
+            ? { uri: notification.follower?.profilePicture }
+            : imageDefaultUser
+        }
+        defaultSource={imageDefaultUser}
+      />
+      <Spacer x={2} />
+      <View style={styles.content}>
+        <Text>
+          <Trans
+            t={t}
+            i18nKey="notifications.follow"
+            components={[<Text key="name" bold />]}
+            values={{
+              username: notification.follower?.username,
+            }}
+          />
+        </Text>
+        <NotificationTimeDiff notification={notification} />
       </View>
-    );
-  };
+    </View>
+  );
+};
 
 export const NotificationNewSessionItem: FC<{
   notification: NotificationNewSession;

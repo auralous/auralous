@@ -1,6 +1,6 @@
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { useSharedValuePressed } from "@/styles/animation";
+import { useAnimPressedProps } from "@/styles/animation";
 import { GradientColors } from "@/styles/colors";
 import type { FC } from "react";
 import type { ViewStyle } from "react-native";
@@ -29,7 +29,7 @@ export const GradientButton: FC<GradientButtonProps> = (props) => {
   const { icon, children, onPress, accessibilityLabel, disabled, textProps } =
     props;
 
-  const [pressed, pressedProps] = useSharedValuePressed();
+  const [pressed, pressedProps] = useAnimPressedProps();
 
   const animatedStyles = useAnimatedStyle<ViewStyle>(() => ({
     opacity: disabled ? 0.5 : withTiming(pressed.value ? 0.2 : 1),

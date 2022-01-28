@@ -1,6 +1,6 @@
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { useSharedValuePressed } from "@/styles/animation";
+import { useAnimPressedProps } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
 import type { FC } from "react";
 import { useMemo } from "react";
@@ -32,7 +32,7 @@ export const Button: FC<ButtonProps> = (props) => {
 
   const styles = useStyles(props);
 
-  const [pressed, pressedProps] = useSharedValuePressed();
+  const [pressed, pressedProps] = useAnimPressedProps();
 
   const animatedStyles = useAnimatedStyle<ViewStyle>(() => {
     if (variant === "text") {

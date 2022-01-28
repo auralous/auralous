@@ -1,6 +1,3 @@
-import { Dialog } from "@/components/Dialog";
-import { Spacer } from "@/components/Spacer";
-import { toast } from "@/components/Toast";
 import { Config } from "@/config";
 import player, { usePlaybackAuthentication } from "@/player";
 import type {
@@ -14,7 +11,7 @@ import {
 } from "@hoangvvo/react-native-spotify-remote";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import PlayerSpotifyError from "./PlayerSpotifyError";
 
 const spotifyConfig: ApiConfig = {
   clientID: Config.SPOTIFY_CLIENT_ID,
@@ -50,17 +47,9 @@ const connectWithAccessToken = async (
 };
 
 const PlayerSpotify: FC = () => {
-  const { t } = useTranslation();
-
   const [isInitialized, setIsInitialized] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message);
-    }
-  }, [error]);
 
   useEffect(() => {
     const onRemoteConnected = () => setIsConnected(true);
@@ -182,36 +171,19 @@ const PlayerSpotify: FC = () => {
     };
   }, [isConnected, accessToken]);
 
-  if (error)
+  if (error) {
     return (
-      <Dialog.Dialog visible>
-        <Dialog.Title>
-          {t("player.spotify.error_initialize_player")}
-        </Dialog.Title>
-        <Dialog.Content>
-          <Dialog.ContentText>
-            {t("player.spotify.error_initialize_player_help")}
-          </Dialog.ContentText>
-          <Spacer y={2} />
-          <Dialog.ContentText size="xs" color="textTertiary">
-            {error.message}
-          </Dialog.ContentText>
-        </Dialog.Content>
-        <Dialog.Footer>
-          <Dialog.Button
-            onPress={() => {
-              setIsInitialized(false);
-              setIsConnected(false);
-              setError(null);
-              doInitialize();
-            }}
-            variant="primary"
-          >
-            {t("common.action.retry")}
-          </Dialog.Button>
-        </Dialog.Footer>
-      </Dialog.Dialog>
+      <PlayerSpotifyError
+        error={error}
+        onRetry={() => {
+          setIsInitialized(false);
+          setIsConnected(false);
+          setError(null);
+          doInitialize();
+        }}
+      />
     );
+  }
 
   return null;
 };

@@ -6,7 +6,6 @@ const webpack = require("webpack");
 const dotenvResult = require("dotenv").config();
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const getDependencyDir = (name, options) =>
   pkgDir.sync(require.resolve(name, options));
@@ -63,12 +62,8 @@ module.exports = async (env, argv) => {
               plugins: [
                 "react-native-web",
                 "react-native-reanimated/plugin",
-                [
-                  "@babel/plugin-transform-react-jsx",
-                  {
-                    runtime: "automatic",
-                  },
-                ],
+                ["@babel/plugin-transform-react-jsx", { runtime: "automatic" }],
+                ["@babel/plugin-proposal-class-properties", { loose: true }],
               ],
             },
           },
@@ -84,7 +79,14 @@ module.exports = async (env, argv) => {
               loader: "@svgr/webpack",
               options: {
                 native: true,
-                svgoConfig: { plugins: { removeViewBox: false } },
+                svgoConfig: {
+                  plugins: [
+                    {
+                      name: "removeViewBox",
+                      active: false,
+                    },
+                  ],
+                },
               },
             },
           ],
@@ -135,13 +137,6 @@ module.exports = async (env, argv) => {
         __DEV__: process.env.NODE_ENV === "production",
         process: { env: { ...dotEnvEnv } },
       }),
-      isProductionEnv &&
-        new WorkboxPlugin.GenerateSW({
-          // these options encourage the ServiceWorkers to get in there fast
-          // and not allow any straggling "old" SWs to hang around
-          clientsClaim: true,
-          skipWaiting: true,
-        }),
       isProductionEnv && process.env.ANALYZE && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
   });

@@ -1,9 +1,9 @@
 import player from "@/player";
-import { LayoutSize, Size } from "@/styles/spacing";
 import { injectScript } from "@/utils/scripts";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import PlayerYoutubeContainer from "./PlayerYoutubeContainer";
 
 /// <reference path="youtube" />
 declare global {
@@ -12,24 +12,10 @@ declare global {
   }
 }
 
-const height = 200;
-const width = 355;
-
 const styles = StyleSheet.create({
   innerPlayer: {
     height: "100%",
     width: "100%",
-  },
-  root: {
-    height,
-  },
-  rootLand: {
-    height,
-    position: "absolute",
-    right: Size[2],
-    top: Size[2],
-    width,
-    zIndex: 20,
   },
 });
 
@@ -44,8 +30,6 @@ const YT_PLAYER_VARS = {
 const PlayerYoutube: FC = () => {
   const [loaded, setLoaded] = useState(false);
   const [hasVideo, setHasVideo] = useState(false);
-
-  const { width: windowWidth } = useWindowDimensions();
 
   useEffect(() => {
     if (!loaded) return;
@@ -112,15 +96,14 @@ const PlayerYoutube: FC = () => {
   }, [loaded]);
 
   return (
-    <View
-      style={[
-        windowWidth >= LayoutSize.md ? styles.rootLand : styles.root,
-        // eslint-disable-next-line react-native/no-inline-styles
-        !hasVideo && { display: "none" },
-      ]}
-    >
-      <View nativeID="ytPlayer" style={styles.innerPlayer} />
-    </View>
+    // eslint-disable-next-line react-native/no-inline-styles
+    <PlayerYoutubeContainer style={!hasVideo ? { display: "none" } : undefined}>
+      <View
+        pointerEvents="none"
+        nativeID="ytPlayer"
+        style={styles.innerPlayer}
+      />
+    </PlayerYoutubeContainer>
   );
 };
 

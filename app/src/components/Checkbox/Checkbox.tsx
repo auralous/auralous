@@ -1,5 +1,5 @@
 import { IconCheck } from "@/assets";
-import { useSharedValuePressed } from "@/styles/animation";
+import { useAnimPressedProps } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
@@ -43,7 +43,7 @@ const Checkbox: FC<CheckboxProps> = ({
   onValueChange,
   accessibilityLabel,
 }) => {
-  const [pressed, pressedProps] = useSharedValuePressed();
+  const [pressed, pressedProps] = useAnimPressedProps();
 
   const stylesRoot = useAnimatedStyle<ViewStyle>(() => ({
     width: Size[10],

@@ -5,7 +5,7 @@ import {
   useSharedValue,
 } from "react-native-reanimated";
 
-export function useSharedValuePressed() {
+export function useAnimPressedProps() {
   const pressed = useSharedValue(false);
   return [
     pressed,
