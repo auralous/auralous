@@ -3,10 +3,8 @@ import { Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { StyleSheet, useWindowDimensions } from "react-native";
-import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -107,50 +105,37 @@ const PlayerYoutube: FC = () => {
     []
   );
 
-  const panRef = useRef<PanGestureHandler>(null);
-  const eventHandler = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    {
-      initialRight: number;
-      initialTop: number;
-    }
-  >(
-    {
-      onStart: (event, context) => {
-        context.initialTop = topAnim.value;
-        context.initialRight = rightAnim.value;
-      },
-      onActive: (event, context) => {
-        topAnim.value = context.initialTop + event.translationY;
-        rightAnim.value = context.initialRight - event.translationX;
-      },
-      // BEGAN ------> ANY ------> FINISHED
-      onFinish: (event, context) => {
-        function clamp(num: number, min: number, max: number) {
-          return Math.min(Math.max(num, min), max);
-        }
-        topAnim.value = withTiming(clamp(topAnim.value, topMin, topMax));
-        if (event.translationX > windowDimensions.width / 4) {
-          rightAnim.value = withTiming(rightMax);
-        } else if (event.translationX < -windowDimensions.width / 4) {
-          rightAnim.value = withTiming(rightMin);
-        } else {
-          rightAnim.value = withTiming(context.initialRight);
-        }
-      },
-    },
-    [topMin, topMax, rightMin, rightMax, windowDimensions]
-  );
+  const rightAnimInitial = useSharedValue(rightAnim.value);
+  const topAnimInitial = useSharedValue(topAnim.value);
+  const panGesture = Gesture.Pan()
+    .maxPointers(1)
+    .minDistance(50)
+    .onStart(() => {
+      rightAnimInitial.value = rightAnim.value;
+      topAnimInitial.value = topAnim.value;
+    })
+    .onUpdate((event) => {
+      topAnim.value = topAnimInitial.value + event.translationY;
+      rightAnim.value = rightAnimInitial.value - event.translationX;
+    })
+    .onFinalize((event) => {
+      function clamp(num: number, min: number, max: number) {
+        return Math.min(Math.max(num, min), max);
+      }
+      topAnim.value = withTiming(clamp(topAnim.value, topMin, topMax));
+      if (event.translationX > windowDimensions.width / 4) {
+        rightAnim.value = withTiming(rightMax);
+      } else if (event.translationX < -windowDimensions.width / 4) {
+        rightAnim.value = withTiming(rightMin);
+      } else {
+        rightAnim.value = withTiming(rightAnimInitial.value);
+      }
+    });
 
   if (!videoId) return null;
 
   return (
-    <PanGestureHandler
-      ref={panRef}
-      onGestureEvent={eventHandler}
-      maxPointers={1}
-      minDist={50}
-    >
+    <GestureDetector gesture={panGesture}>
       <Animated.View style={[styles.root, animStyles, { width, height }]}>
         {videoId && (
           <YoutubePlayer
@@ -169,7 +154,7 @@ const PlayerYoutube: FC = () => {
           />
         )}
       </Animated.View>
-    </PanGestureHandler>
+    </GestureDetector>
   );
 };
 

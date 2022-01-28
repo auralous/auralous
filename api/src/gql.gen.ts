@@ -3,6 +3,7 @@ import { IntrospectionData } from '@urql/exchange-graphcache/dist/types/ast';
 import { DocumentNode } from 'graphql';
 import * as Urql from 'urql';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -89,8 +90,8 @@ export type Mutation = {
 
 
 export type MutationMeArgs = {
-  bio?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -167,7 +168,7 @@ export type MutationSessionCollabAddFromTokenArgs = {
 
 
 export type MutationSessionCreateArgs = {
-  location?: Maybe<LocationInput>;
+  location?: InputMaybe<LocationInput>;
   text: Scalars['String'];
   tracks: Array<Scalars['ID']>;
 };
@@ -190,8 +191,8 @@ export type MutationSessionPingArgs = {
 
 export type MutationSessionUpdateArgs = {
   id: Scalars['ID'];
-  location?: Maybe<LocationInput>;
-  text?: Maybe<Scalars['String']>;
+  location?: InputMaybe<LocationInput>;
+  text?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -314,14 +315,14 @@ export type QueryCrossTracksArgs = {
 
 export type QueryMessagesArgs = {
   id: Scalars['ID'];
-  limit?: Maybe<Scalars['Int']>;
-  next?: Maybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  next?: InputMaybe<Scalars['String']>;
 };
 
 
 export type QueryNotificationsArgs = {
   limit: Scalars['Int'];
-  next?: Maybe<Scalars['String']>;
+  next?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -372,8 +373,8 @@ export type QuerySessionArgs = {
 
 
 export type QuerySessionCurrentLiveArgs = {
-  creatorId?: Maybe<Scalars['ID']>;
-  mine?: Maybe<Scalars['Boolean']>;
+  creatorId?: InputMaybe<Scalars['ID']>;
+  mine?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -388,17 +389,17 @@ export type QuerySessionListenersArgs = {
 
 
 export type QuerySessionTracksArgs = {
-  from?: Maybe<Scalars['Int']>;
+  from?: InputMaybe<Scalars['Int']>;
   id: Scalars['ID'];
-  to?: Maybe<Scalars['Int']>;
+  to?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type QuerySessionsArgs = {
-  creatorId?: Maybe<Scalars['String']>;
-  following?: Maybe<Scalars['Boolean']>;
+  creatorId?: InputMaybe<Scalars['String']>;
+  following?: InputMaybe<Scalars['Boolean']>;
   limit: Scalars['Int'];
-  next?: Maybe<Scalars['String']>;
+  next?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -420,8 +421,8 @@ export type QueryTracksArgs = {
 
 
 export type QueryUserArgs = {
-  id?: Maybe<Scalars['ID']>;
-  username?: Maybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -539,8 +540,8 @@ export type MessagePartsFragment = { __typename: 'Message', id: string, creatorI
 
 export type MessagesQueryVariables = Exact<{
   id: Scalars['ID'];
-  next?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
+  next?: InputMaybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -562,7 +563,7 @@ export type MessageAddedSubscriptionVariables = Exact<{
 export type MessageAddedSubscription = { messageAdded: { __typename: 'Message', id: string, creatorId: string, createdAt: any, text?: string | null | undefined, type: MessageType, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } };
 
 export type NotificationsQueryVariables = Exact<{
-  next?: Maybe<Scalars['String']>;
+  next?: InputMaybe<Scalars['String']>;
   limit: Scalars['Int'];
 }>;
 
@@ -749,9 +750,9 @@ export type SessionQueryVariables = Exact<{
 export type SessionQuery = { session?: { __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } } | null | undefined };
 
 export type SessionsQueryVariables = Exact<{
-  creatorId?: Maybe<Scalars['String']>;
-  following?: Maybe<Scalars['Boolean']>;
-  next?: Maybe<Scalars['String']>;
+  creatorId?: InputMaybe<Scalars['String']>;
+  following?: InputMaybe<Scalars['Boolean']>;
+  next?: InputMaybe<Scalars['String']>;
   limit: Scalars['Int'];
 }>;
 
@@ -768,8 +769,8 @@ export type SessionsOnMapQueryVariables = Exact<{
 export type SessionsOnMapQuery = { sessionsOnMap: Array<{ __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } }> };
 
 export type SessionCurrentLiveQueryVariables = Exact<{
-  creatorId?: Maybe<Scalars['ID']>;
-  mine?: Maybe<Scalars['Boolean']>;
+  creatorId?: InputMaybe<Scalars['ID']>;
+  mine?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
@@ -777,8 +778,8 @@ export type SessionCurrentLiveQuery = { sessionCurrentLive?: { __typename: 'Sess
 
 export type SessionTracksQueryVariables = Exact<{
   id: Scalars['ID'];
-  from?: Maybe<Scalars['Int']>;
-  to?: Maybe<Scalars['Int']>;
+  from?: InputMaybe<Scalars['Int']>;
+  to?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -786,7 +787,7 @@ export type SessionTracksQuery = { sessionTracks: Array<{ __typename: 'Track', i
 
 export type SessionCreateMutationVariables = Exact<{
   text: Scalars['String'];
-  location?: Maybe<LocationInput>;
+  location?: InputMaybe<LocationInput>;
   tracks: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
@@ -795,8 +796,8 @@ export type SessionCreateMutation = { sessionCreate: { __typename: 'Session', id
 
 export type SessionUpdateMutationVariables = Exact<{
   id: Scalars['ID'];
-  text?: Maybe<Scalars['String']>;
-  location?: Maybe<LocationInput>;
+  text?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<LocationInput>;
 }>;
 
 
@@ -899,8 +900,8 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 export type MeQuery = { me?: { __typename: 'Me', oauthId: string, platform: PlatformName, accessToken?: string | null | undefined, user: { __typename: 'User', id: string, username: string, bio?: string | null | undefined, profilePicture?: string | null | undefined } } | null | undefined };
 
 export type UserQueryVariables = Exact<{
-  username?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
+  username?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
 }>;
 
 
@@ -942,7 +943,7 @@ export type UserUnfollowMutationVariables = Exact<{
 export type UserUnfollowMutation = { userUnfollow: boolean };
 
 export type MeUpdateMutationVariables = Exact<{
-  username?: Maybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
 }>;
 
 

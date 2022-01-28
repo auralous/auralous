@@ -1,5 +1,5 @@
 import { scrollTo } from "@/styles/animation";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import type {
   LayoutChangeEvent,
   ListRenderItem,
@@ -90,8 +90,6 @@ export default function SortableFlatList<ItemT>({
     if (activeIndex === -1) return null;
     else return getCellMeasurement(activeIndex);
   }, [getCellMeasurement, activeIndex]);
-
-  const panRef = useRef<PanGestureHandler>(null);
 
   const scrollRef = useAnimatedRef<ScrollView>();
 
@@ -262,11 +260,7 @@ export default function SortableFlatList<ItemT>({
         sortableRenderItem: renderItemProp,
       }}
     >
-      <PanGestureHandler
-        ref={panRef}
-        onGestureEvent={eventHandler}
-        maxPointers={1}
-      >
+      <PanGestureHandler onGestureEvent={eventHandler} maxPointers={1}>
         <Animated.View style={style} onLayout={onContainerLayout}>
           {activeIndex !== -1 && data?.[activeIndex] && (
             <ClonedItem
