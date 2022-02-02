@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import type { FlatListProps, ListRenderItemInfo } from "react-native";
+import type { AnimatedStyleProp } from "react-native-reanimated";
 
 export type PartialListRenderItemInfo<ItemT> = Omit<
   ListRenderItemInfo<ItemT>,
@@ -11,6 +12,8 @@ export type PartialListRenderItemInfo<ItemT> = Omit<
 export type SortableListRenderItemInfo<ItemT> =
   PartialListRenderItemInfo<ItemT> & {
     drag(): void;
+    isDragging: boolean;
+    animStyle: AnimatedStyleProp<any>;
   };
 
 export type SortableListRenderItem<ItemT> = (

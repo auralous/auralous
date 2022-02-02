@@ -82,9 +82,11 @@ const DraggableQueueItem = memo<{
         // FIXME: This is misleading if track is not found
         fetching={!dataTrack?.track}
         drag={params.drag}
+        animStyle={params.animStyle}
         checked={!!selected[params.item.uid]}
         onToggle={onToggle}
         uid={params.item.uid}
+        dragging={params.isDragging}
         onPress={onPress}
       />
     );

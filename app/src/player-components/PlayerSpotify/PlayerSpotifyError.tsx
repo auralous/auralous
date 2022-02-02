@@ -21,12 +21,10 @@ const PlayerSpotifyError: FC<{
     <Dialog.Dialog visible>
       <Dialog.Title>{t("player.spotify.error_initialize_player")}</Dialog.Title>
       <Dialog.Content>
-        <Dialog.ContentText>
-          {t("player.spotify.error_initialize_player_help")}
-        </Dialog.ContentText>
-        <Spacer y={2} />
+        <Dialog.ContentText>{error.message}</Dialog.ContentText>
+        <Spacer y={4} />
         <Dialog.ContentText size="xs" color="textTertiary">
-          {error.message}
+          {t("player.spotify.error_initialize_player_help")}
         </Dialog.ContentText>
       </Dialog.Content>
       <Dialog.Footer>

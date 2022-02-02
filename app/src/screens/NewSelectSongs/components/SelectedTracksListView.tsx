@@ -121,6 +121,7 @@ const SelectedQueueTrackItem = memo<{
       <QueueTrackItem
         checked={!!checked[params.item]}
         drag={params.drag}
+        animStyle={params.animStyle}
         onToggle={onToggle}
         track={dataTrack?.track || null}
         fetching={fetchingTrack}

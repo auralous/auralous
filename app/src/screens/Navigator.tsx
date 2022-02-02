@@ -89,6 +89,11 @@ const headerLeft = (props: HeaderBackButtonProps) => {
   return <HeaderLeft {...props} />;
 };
 
+const blankHeaderTitle = {
+  headerTitle: () => null,
+  headerTransparent: true,
+};
+
 const Navigator: FC = () => {
   const { t } = useTranslation();
   return (
@@ -123,8 +128,7 @@ const Navigator: FC = () => {
               component={FeedScreen}
               options={{
                 title: t("feed.title"),
-                headerTitle: "",
-                headerTransparent: true,
+                ...blankHeaderTitle,
               }}
             />
             <Tab.Screen
@@ -186,8 +190,7 @@ const Navigator: FC = () => {
           contentStyle: {
             paddingBottom: PLAYER_BAR_HEIGHT,
           },
-          headerTitle: "",
-          headerTransparent: true,
+          ...blankHeaderTitle,
         }}
       />
       <Stack.Screen
@@ -218,8 +221,7 @@ const Navigator: FC = () => {
           contentStyle: {
             paddingBottom: PLAYER_BAR_HEIGHT,
           },
-          headerTitle: "",
-          headerTransparent: true,
+          ...blankHeaderTitle,
         }}
       />
       <Stack.Screen
@@ -230,8 +232,7 @@ const Navigator: FC = () => {
           contentStyle: {
             paddingBottom: PLAYER_BAR_HEIGHT,
           },
-          headerTitle: "",
-          headerTransparent: true,
+          ...blankHeaderTitle,
         }}
       />
       <Stack.Screen

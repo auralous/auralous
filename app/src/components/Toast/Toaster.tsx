@@ -92,6 +92,7 @@ export const Toaster: FC = () => {
   const rootStyle = useAnimatedStyle(
     () => ({
       bottom: (animValue.value - 1) * 100 + "%",
+      marginBottom: 4,
     }),
     []
   );

@@ -1,9 +1,9 @@
 import { useCallback, useContext, useMemo } from "react";
-import Animated, {
+import type { ViewStyle } from "react-native";
+import {
   useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
-  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import { SortableContext } from "./SortableContext";
@@ -15,21 +15,19 @@ function SortableItem<ItemT>({
   info: PartialListRenderItemInfo<ItemT>;
 }) {
   const {
-    activeIndexAnim,
     spacerIndexAnim,
     drag: setDragging,
     hoverOffset,
-    hasMoved,
     scrollOffset,
-    getCellMeasurement,
-    activeCellSizeValue,
+    getCachableItemLayout,
+    activeLayoutAnim,
     horizontal,
     sortableRenderItem,
   } = useContext(SortableContext);
 
   const cellMeasurement = useMemo(
-    () => getCellMeasurement(info.index),
-    [getCellMeasurement, info.index]
+    () => getCachableItemLayout(info.index),
+    [getCachableItemLayout, info.index]
   );
 
   // Distance between active cell and edge of scroll view
@@ -44,23 +42,29 @@ function SortableItem<ItemT>({
   const cellIndex = useDerivedValue(() => info.index, [info.index]);
 
   const isActiveCell = useDerivedValue(() => {
-    return cellIndex.value === activeIndexAnim.value;
+    if (!activeLayoutAnim.value) return false;
+    return cellIndex.value === activeLayoutAnim.value.index;
   });
 
   useAnimatedReaction(
     () => {
       // Do not calculate before moving and if is active cell
-      if (!hasMoved.value || isActiveCell.value) return -1;
-      // Can't measure active cellSize
-      if (!activeCellSizeValue) return -1;
+      if (isActiveCell.value) return -1;
+      // Can't measure active cellSize or not currently dragging
+      if (!activeLayoutAnim.value) return -1;
+
+      const activeIndexVal = activeLayoutAnim.value.index;
+
       const cellOffsetValue = cellMeasurement.offset;
       const cellSizeValue = cellMeasurement.length;
+
       // Distance between hovering cell and edge of scroll view
       const hoverOffsetValue = hoverOffset.value + scrollOffset.value;
-      const hoverPlusActiveSize = hoverOffsetValue + activeCellSizeValue;
+      const hoverPlusActiveSize =
+        hoverOffsetValue + activeLayoutAnim.value.length;
 
-      const isAfterActive = cellIndex.value > activeIndexAnim.value;
-      const isBeforeActive = cellIndex.value < activeIndexAnim.value;
+      const isAfterActive = cellIndex.value > activeIndexVal;
+      const isBeforeActive = cellIndex.value < activeIndexVal;
 
       const offsetPlusHalfSize = cellOffsetValue + cellSizeValue / 2;
       const offsetPlusSize = cellOffsetValue + cellSizeValue;
@@ -107,50 +111,44 @@ function SortableItem<ItemT>({
         spacerIndexAnim.value = desiredSpacerAnim;
       }
     },
-    [activeCellSizeValue, cellMeasurement]
+    [cellMeasurement]
   );
 
-  const translateValue = useSharedValue(0);
-
-  useAnimatedReaction(
-    () => {
-      if (isActiveCell.value) return null;
-      if (!activeCellSizeValue) return null;
-      const isAfterActive = cellIndex.value > activeIndexAnim.value;
-      const shouldTranslate = isAfterActive
-        ? cellIndex.value <= spacerIndexAnim.value
-        : cellIndex.value >= spacerIndexAnim.value;
-      return shouldTranslate
-        ? activeCellSizeValue * (isAfterActive ? -1 : 1)
-        : 0;
-    },
-    (isActiveCellValue) => {
-      if (typeof isActiveCellValue === "number")
-        translateValue.value = withTiming(isActiveCellValue);
-    },
-    [activeCellSizeValue]
-  );
+  const translateValue = useDerivedValue(() => {
+    if (isActiveCell.value) return 0;
+    if (!activeLayoutAnim.value) return 0;
+    const isAfterActive = cellIndex.value > activeLayoutAnim.value.index;
+    const shouldTranslate = isAfterActive
+      ? cellIndex.value <= spacerIndexAnim.value
+      : cellIndex.value >= spacerIndexAnim.value;
+    return shouldTranslate
+      ? activeLayoutAnim.value.length * (isAfterActive ? -1 : 1)
+      : 0;
+  });
 
   const drag = useCallback(() => {
     setDragging(info.index);
   }, [info.index, setDragging]);
 
   const style = useAnimatedStyle(() => {
-    return Object.assign(horizontal ? { height: "100%" } : { width: "100%" }, {
+    return {
       transform: [
-        horizontal
-          ? { translateX: translateValue.value }
-          : { translateY: translateValue.value },
-      ],
-      opacity: isActiveCell.value && hasMoved.value ? 0 : 1,
-    });
+        {
+          [horizontal ? "translateX" : "translateY"]: withTiming(
+            translateValue.value
+          ),
+        },
+      ] as unknown as ViewStyle["transform"],
+      opacity: isActiveCell.value ? 0 : 1,
+    };
   }, [horizontal]);
 
-  return (
-    <Animated.View style={style}>
-      {sortableRenderItem({ ...info, drag })}
-    </Animated.View>
-  );
+  return sortableRenderItem({
+    ...info,
+    drag,
+    isDragging: false,
+    animStyle: style,
+  });
 }
 
 export default SortableItem;

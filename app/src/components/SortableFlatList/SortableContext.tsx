@@ -5,14 +5,12 @@ import type { GetItemLayoutResult, SortableListRenderItem } from "./types";
 
 export const SortableContext = createContext(
   {} as {
-    activeCellSizeValue: number | undefined;
+    activeLayoutAnim: Animated.SharedValue<GetItemLayoutResult | null>;
     scrollOffset: Animated.SharedValue<number>;
-    activeIndexAnim: Animated.SharedValue<number>;
     spacerIndexAnim: Animated.SharedValue<number>;
     hoverOffset: Animated.SharedValue<number>;
-    hasMoved: Animated.SharedValue<boolean>;
     drag(index: number): void;
-    getCellMeasurement(index: number): GetItemLayoutResult;
+    getCachableItemLayout(index: number): GetItemLayoutResult;
     horizontal?: FlatListProps<unknown>["horizontal"];
     sortableRenderItem: SortableListRenderItem<any>;
   }

@@ -155,8 +155,8 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
             style={styles.item}
             key={item.text}
             onPress={() => {
-              item.onPress?.();
               onDismiss();
+              item.onPress?.();
             }}
           >
             {item.icon}

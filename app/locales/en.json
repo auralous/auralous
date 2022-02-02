@@ -133,7 +133,7 @@
     "playing_from": "Playing from $t({{entity}}.title)",
     "spotify": {
       "error_initialize_player": "Could not load Spotify Player",
-      "error_initialize_player_help": "Make sure the Spotify app is installed and you did not cancel (press outside) while the loading dialog is visible."
+      "error_initialize_player_help": "Make sure the Spotify app is installed and you did not press outside while the loading dialog is visible."
     },
     "error": {
       "no_cross_track": "This song is not available on {{platform}}"

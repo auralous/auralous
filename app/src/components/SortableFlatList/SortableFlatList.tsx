@@ -15,7 +15,6 @@ import Animated, {
   useAnimatedGestureHandler,
   useAnimatedReaction,
   useAnimatedRef,
-  useDerivedValue,
   useSharedValue,
   useWorkletCallback,
 } from "react-native-reanimated";
@@ -36,6 +35,7 @@ const MemoizedSortableItem = memo(
 
 const autoscrollSpeed = 10;
 const autoscrollThreshold = 30;
+const activationDistance = 0;
 const SCROLL_POSITION_TOLERANCE = 2;
 
 export default function SortableFlatList<ItemT>({
@@ -50,14 +50,14 @@ export default function SortableFlatList<ItemT>({
   horizontal,
   ...props
 }: DraggableListProps<ItemT>) {
-  const getCellMeasurement = useMemo(() => {
-    const measurementCache = new Map<number, GetItemLayoutResult>();
+  const getCachableItemLayout = useMemo(() => {
+    const c = new Map<number, GetItemLayoutResult>();
     return (index: number) => {
-      if (measurementCache.has(index)) {
-        return measurementCache.get(index) as GetItemLayoutResult;
+      if (c.has(index)) {
+        return c.get(index) as GetItemLayoutResult;
       }
       const measured = getItemLayout(data as ItemT[] | null | undefined, index);
-      measurementCache.set(index, measured);
+      c.set(index, measured);
       return measured;
     };
   }, [getItemLayout, data]);
@@ -71,25 +71,11 @@ export default function SortableFlatList<ItemT>({
     [containerSize, horizontal]
   );
 
-  const touchAbsolute = useSharedValue(0); // Finger position on screen, relative to container (not scroll view)
-
-  const touchInset = useSharedValue(0); // Distance from touch to the edge of cell
-
-  const hasMoved = useSharedValue(false);
-
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  const activeIndexAnim = useSharedValue(-1); // Index of hovering cell
+  const activeLayoutAnim = useSharedValue<GetItemLayoutResult | null>(null); // measurement of hovering cell
+
   const spacerIndexAnim = useSharedValue(-1); // Index of hovered-over cell
-
-  const isHovering = useDerivedValue(() => {
-    return activeIndexAnim.value > -1;
-  }, []);
-
-  const activeCellMeasurement = useMemo(() => {
-    if (activeIndex === -1) return null;
-    else return getCellMeasurement(activeIndex);
-  }, [getCellMeasurement, activeIndex]);
 
   const scrollRef = useAnimatedRef<ScrollView>();
 
@@ -113,20 +99,8 @@ export default function SortableFlatList<ItemT>({
     [onScrollProp, scrollOffset, horizontal]
   );
 
-  // Prevent user scrolling while dragging
-  const [scrollDisabled, setScrollDisabled] = useState(false);
-  useAnimatedReaction(
-    () => activeIndexAnim.value,
-    (activeIndexAnimValue) => {
-      runOnJS(setScrollDisabled)(activeIndexAnimValue !== -1);
-    },
-    []
-  );
-
-  // Distance between hovering cell and container
-  const hoverOffset = useDerivedValue(() => {
-    return touchAbsolute.value - touchInset.value;
-  }, []);
+  const initialHoverOffset = useSharedValue(0);
+  const hoverOffset = useSharedValue(0);
 
   // AutoScroll
   useAnimatedReaction(
@@ -136,7 +110,7 @@ export default function SortableFlatList<ItemT>({
         scrollOffsetValue: scrollOffset.value,
         containerSizeValue: containerSize.value,
         scrollContentSizeValue: scrollContentSize.value,
-        // autoScrollTargetOffsetValue: autoScrollTargetOffset.value,
+        activeLayoutAnimValue: activeLayoutAnim.value,
       };
     },
     ({
@@ -144,15 +118,14 @@ export default function SortableFlatList<ItemT>({
       scrollOffsetValue,
       containerSizeValue,
       scrollContentSizeValue,
-      // autoScrollTargetOffsetValue,
+      activeLayoutAnimValue,
     }) => {
-      if (!hasMoved.value || !activeCellMeasurement) return;
-      // if (autoScrollTargetOffsetValue !== -1) return;
+      if (!activeLayoutAnimValue) return;
 
       let scrollDelta = 0;
 
       const hoverOffsetEndValue =
-        hoverOffsetValue + activeCellMeasurement.length;
+        hoverOffsetValue + activeLayoutAnimValue.length;
 
       if (hoverOffsetValue <= autoscrollThreshold) {
         // Should scroll up
@@ -184,25 +157,35 @@ export default function SortableFlatList<ItemT>({
         return;
       scrollTo(scrollRef, 0, calculatedTargetOffset, false);
     },
-    [activeCellMeasurement]
+    []
   );
 
   const drag = useCallback(
     (index: number) => {
-      setActiveIndex(index);
+      const activeLayout = (activeLayoutAnim.value =
+        getCachableItemLayout(index));
       spacerIndexAnim.value = index;
-      activeIndexAnim.value = index;
+
+      // set the initial hover offset
+      initialHoverOffset.value = hoverOffset.value =
+        activeLayout.offset - scrollOffset.value;
+
+      setActiveIndex(index);
     },
-    [spacerIndexAnim, activeIndexAnim]
+    [
+      spacerIndexAnim,
+      activeLayoutAnim,
+      initialHoverOffset,
+      hoverOffset,
+      scrollOffset,
+      getCachableItemLayout,
+    ]
   );
 
   const clearAnimState = useWorkletCallback(() => {
     runOnJS(setActiveIndex)(-1);
-    hasMoved.value = false;
-    touchAbsolute.value = -1;
-    activeIndexAnim.value = -1;
+    activeLayoutAnim.value = null;
     spacerIndexAnim.value = -1;
-    touchInset.value = 0;
   }, []);
 
   useEffect(clearAnimState, [data, clearAnimState]);
@@ -210,24 +193,17 @@ export default function SortableFlatList<ItemT>({
   const eventHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>(
     {
       onActive: (event) => {
-        const eventPos = horizontal ? event.x : event.y;
-        if (!isHovering.value) return;
-        if (!activeCellMeasurement) return;
-        if (hasMoved.value === false) {
-          // We cannot use onStart because it is fired before activeIndex is set
-          // so we workaround by depending on hasMoved
-          touchInset.value =
-            eventPos - (activeCellMeasurement.offset - scrollOffset.value); // Distance from touch to the edge of active cell
-          hasMoved.value = true;
-        }
-        touchAbsolute.value = eventPos;
+        if (!activeLayoutAnim.value) return;
+        hoverOffset.value =
+          initialHoverOffset.value +
+          (horizontal ? event.translationX : event.translationY);
       },
       // BEGAN ------> ACTIVE ------> END
       onEnd: () => {
-        if (!hasMoved.value) return;
-        const from = activeIndexAnim.value;
+        if (!activeLayoutAnim.value) return;
+        const from = activeLayoutAnim.value.index;
         const to = spacerIndexAnim.value;
-        if (from !== -1 && to !== -1) {
+        if (from !== -1 && to !== -1 && from !== to) {
           runOnJS(onDragEnd)(from, to);
         }
       },
@@ -238,7 +214,7 @@ export default function SortableFlatList<ItemT>({
       // BEGAN ------> ANY ------> FINISHED
       onFinish: clearAnimState,
     },
-    [onDragEnd, clearAnimState, activeCellMeasurement, horizontal]
+    [onDragEnd, clearAnimState, horizontal]
   );
 
   const renderItem: ListRenderItem<ItemT> = useCallback((info) => {
@@ -249,18 +225,21 @@ export default function SortableFlatList<ItemT>({
     <SortableContext.Provider
       value={{
         drag,
-        activeCellSizeValue: activeCellMeasurement?.length,
-        activeIndexAnim,
+        activeLayoutAnim,
         spacerIndexAnim,
         hoverOffset,
         scrollOffset,
-        hasMoved,
-        getCellMeasurement,
+        getCachableItemLayout,
         horizontal,
         sortableRenderItem: renderItemProp,
       }}
     >
-      <PanGestureHandler onGestureEvent={eventHandler} maxPointers={1}>
+      <PanGestureHandler
+        onGestureEvent={eventHandler}
+        maxPointers={1}
+        activeOffsetX={activationDistance}
+        activeOffsetY={activationDistance}
+      >
         <Animated.View style={style} onLayout={onContainerLayout}>
           {activeIndex !== -1 && data?.[activeIndex] && (
             <ClonedItem
@@ -282,7 +261,6 @@ export default function SortableFlatList<ItemT>({
             onContentSizeChange={onContentSizeChange}
             style={styles.list}
             horizontal={horizontal}
-            scrollEnabled={!scrollDisabled}
           />
         </Animated.View>
       </PanGestureHandler>
