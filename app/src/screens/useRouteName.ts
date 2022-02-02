@@ -3,7 +3,7 @@ import { RouteName } from "./types";
 
 export const useRouteNames = () => {
   const topRoute = useNavigationState((state) => {
-    if (!state) return { name: RouteName.Feed, state: undefined };
+    if (!state) return { name: RouteName.Explore, state: undefined };
     return state.routes[state.index || 0];
   });
   if (topRoute.state?.routes)

@@ -25,7 +25,6 @@ export const linking: LinkingOptions<ParamList> = {
         // @ts-ignore
         screens: {
           [RouteName.Explore]: "",
-          [RouteName.Feed]: "feed",
           [RouteName.Map]: "map",
         },
       },
@@ -44,7 +43,6 @@ export const linking: LinkingOptions<ParamList> = {
   },
 };
 
-const FeedScreen = lazy(() => import("./Feed"));
 const ExploreScreen = lazy(() => import("./Explore"));
 const ExploreRecommendationScreen = lazy(
   () => import("./ExploreRecommendation")
@@ -121,14 +119,6 @@ const Navigator: FC = () => {
                 tabBarStyle: {
                   marginTop: PLAYER_BAR_HEIGHT,
                 },
-              }}
-            />
-            <Tab.Screen
-              name={RouteName.Feed}
-              component={FeedScreen}
-              options={{
-                title: t("feed.title"),
-                ...blankHeaderTitle,
               }}
             />
             <Tab.Screen

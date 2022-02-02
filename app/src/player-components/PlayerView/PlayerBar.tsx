@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
 });
 
 const hiddenRoutes = [
-  RouteName.Feed,
   RouteName.NewFinal,
   RouteName.NewQuickShare,
   RouteName.NewSelectSongs,
