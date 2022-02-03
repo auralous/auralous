@@ -15,7 +15,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
 };
 
@@ -300,6 +299,7 @@ export type Query = {
   sessionTracks: Array<Track>;
   sessions: Array<Session>;
   sessionsOnMap: Array<Session>;
+  sessionsSearch: Array<Session>;
   track?: Maybe<Track>;
   tracks: Array<Maybe<Track>>;
   user?: Maybe<User>;
@@ -408,6 +408,11 @@ export type QuerySessionsOnMapArgs = {
   lat: Scalars['Float'];
   lng: Scalars['Float'];
   radius: Scalars['Float'];
+};
+
+
+export type QuerySessionsSearchArgs = {
+  query: Scalars['String'];
 };
 
 
@@ -760,6 +765,13 @@ export type SessionsQueryVariables = Exact<{
 
 export type SessionsQuery = { sessions: Array<{ __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } }> };
 
+export type SessionsSearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type SessionsSearchQuery = { sessionsSearch: Array<{ __typename: 'Session', id: string, text: string, image?: string | null | undefined, createdAt: any, isLive: boolean, creatorId: string, collaboratorIds: Array<string>, onMap?: boolean | null | undefined, trackTotal: number, creator: { __typename: 'User', id: string, username: string, profilePicture?: string | null | undefined } }> };
+
 export type SessionsOnMapQueryVariables = Exact<{
   lng: Scalars['Float'];
   lat: Scalars['Float'];
@@ -1108,6 +1120,11 @@ export const SessionsDocument = {"kind":"Document","definitions":[{"kind":"Opera
 export function useSessionsQuery(options: Omit<Urql.UseQueryArgs<SessionsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SessionsQuery>({ query: SessionsDocument, ...options });
 };
+export const SessionsSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionsSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionsSearch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
+
+export function useSessionsSearchQuery(options: Omit<Urql.UseQueryArgs<SessionsSearchQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<SessionsSearchQuery>({ query: SessionsSearchDocument, ...options });
+};
 export const SessionsOnMapDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionsOnMap"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lng"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"lat"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"radius"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionsOnMap"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"lng"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lng"}}},{"kind":"Argument","name":{"kind":"Name","value":"lat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"lat"}}},{"kind":"Argument","name":{"kind":"Name","value":"radius"},"value":{"kind":"Variable","name":{"kind":"Name","value":"radius"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SessionParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SessionParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Session"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"isLive"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"collaboratorIds"}},{"kind":"Field","name":{"kind":"Name","value":"creator"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}},{"kind":"Field","name":{"kind":"Name","value":"onMap"}},{"kind":"Field","name":{"kind":"Name","value":"trackTotal"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionsOnMapQuery(options: Omit<Urql.UseQueryArgs<SessionsOnMapQueryVariables>, 'query'> = {}) {
@@ -1262,34 +1279,35 @@ export type GraphCacheKeysConfig = {
 
 export type GraphCacheResolvers = {
   Query?: {
+    crossTracks?: GraphCacheResolver<WithTypename<Query>, QueryCrossTracksArgs, WithTypename<CrossTracks> | string>,
+    me?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, WithTypename<Me> | string>,
     messages?: GraphCacheResolver<WithTypename<Query>, QueryMessagesArgs, Array<WithTypename<Message> | string>>,
+    myPlaylists?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
     notifications?: GraphCacheResolver<WithTypename<Query>, QueryNotificationsArgs, Array<WithTypename<NotificationFollow> | WithTypename<NotificationNewSession> | string>>,
     nowPlaying?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingArgs, WithTypename<NowPlaying> | string>,
     nowPlayingReactions?: GraphCacheResolver<WithTypename<Query>, QueryNowPlayingReactionsArgs, Array<WithTypename<NowPlayingReactionItem> | string>>,
     playlist?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistArgs, WithTypename<Playlist> | string>,
-    myPlaylists?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
     playlistTracks?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistTracksArgs, Array<WithTypename<Track> | string>>,
     playlistsFriends?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<Playlist> | string>>,
     playlistsSearch?: GraphCacheResolver<WithTypename<Query>, QueryPlaylistsSearchArgs, Array<WithTypename<Playlist> | string>>,
+    recommendationContent?: GraphCacheResolver<WithTypename<Query>, QueryRecommendationContentArgs, Array<WithTypename<Playlist> | string>>,
     recommendationSection?: GraphCacheResolver<WithTypename<Query>, QueryRecommendationSectionArgs, WithTypename<RecommendationSection> | string>,
     recommendationSections?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, Array<WithTypename<RecommendationSection> | string>>,
-    recommendationContent?: GraphCacheResolver<WithTypename<Query>, QueryRecommendationContentArgs, Array<WithTypename<Playlist> | string>>,
+    searchTrack?: GraphCacheResolver<WithTypename<Query>, QuerySearchTrackArgs, Array<WithTypename<Track> | string>>,
     session?: GraphCacheResolver<WithTypename<Query>, QuerySessionArgs, WithTypename<Session> | string>,
+    sessionCurrentLive?: GraphCacheResolver<WithTypename<Query>, QuerySessionCurrentLiveArgs, WithTypename<SessionCurrentLive> | string>,
     sessionInviteLink?: GraphCacheResolver<WithTypename<Query>, QuerySessionInviteLinkArgs, Scalars['String'] | string>,
     sessionListeners?: GraphCacheResolver<WithTypename<Query>, QuerySessionListenersArgs, Array<Scalars['String'] | string>>,
-    sessionCurrentLive?: GraphCacheResolver<WithTypename<Query>, QuerySessionCurrentLiveArgs, WithTypename<SessionCurrentLive> | string>,
+    sessionTracks?: GraphCacheResolver<WithTypename<Query>, QuerySessionTracksArgs, Array<WithTypename<Track> | string>>,
     sessions?: GraphCacheResolver<WithTypename<Query>, QuerySessionsArgs, Array<WithTypename<Session> | string>>,
     sessionsOnMap?: GraphCacheResolver<WithTypename<Query>, QuerySessionsOnMapArgs, Array<WithTypename<Session> | string>>,
-    sessionTracks?: GraphCacheResolver<WithTypename<Query>, QuerySessionTracksArgs, Array<WithTypename<Track> | string>>,
+    sessionsSearch?: GraphCacheResolver<WithTypename<Query>, QuerySessionsSearchArgs, Array<WithTypename<Session> | string>>,
     track?: GraphCacheResolver<WithTypename<Query>, QueryTrackArgs, WithTypename<Track> | string>,
     tracks?: GraphCacheResolver<WithTypename<Query>, QueryTracksArgs, Array<WithTypename<Track> | string>>,
-    crossTracks?: GraphCacheResolver<WithTypename<Query>, QueryCrossTracksArgs, WithTypename<CrossTracks> | string>,
-    searchTrack?: GraphCacheResolver<WithTypename<Query>, QuerySearchTrackArgs, Array<WithTypename<Track> | string>>,
-    me?: GraphCacheResolver<WithTypename<Query>, Record<string, never>, WithTypename<Me> | string>,
     user?: GraphCacheResolver<WithTypename<Query>, QueryUserArgs, WithTypename<User> | string>,
-    userStat?: GraphCacheResolver<WithTypename<Query>, QueryUserStatArgs, WithTypename<UserStat> | string>,
     userFollowers?: GraphCacheResolver<WithTypename<Query>, QueryUserFollowersArgs, Array<Scalars['String'] | string>>,
-    userFollowings?: GraphCacheResolver<WithTypename<Query>, QueryUserFollowingsArgs, Array<Scalars['String'] | string>>
+    userFollowings?: GraphCacheResolver<WithTypename<Query>, QueryUserFollowingsArgs, Array<Scalars['String'] | string>>,
+    userStat?: GraphCacheResolver<WithTypename<Query>, QueryUserStatArgs, WithTypename<UserStat> | string>
   },
   Artist?: {
     id?: GraphCacheResolver<WithTypename<Artist>, Record<string, never>, Scalars['ID'] | string>,
@@ -1408,60 +1426,60 @@ export type GraphCacheResolvers = {
 };
 
 export type GraphCacheOptimisticUpdaters = {
+  me?: GraphCacheOptimisticMutationResolver<MutationMeArgs, Maybe<WithTypename<User>>>,
+  meDelete?: GraphCacheOptimisticMutationResolver<Record<string, never>, Scalars['Boolean']>,
   messageAdd?: GraphCacheOptimisticMutationResolver<MutationMessageAddArgs, Scalars['Boolean']>,
   notificationsMarkRead?: GraphCacheOptimisticMutationResolver<MutationNotificationsMarkReadArgs, Scalars['Int']>,
+  nowPlayingPlayUid?: GraphCacheOptimisticMutationResolver<MutationNowPlayingPlayUidArgs, Maybe<Scalars['Boolean']>>,
   nowPlayingReact?: GraphCacheOptimisticMutationResolver<MutationNowPlayingReactArgs, Maybe<Scalars['Boolean']>>,
   nowPlayingSkip?: GraphCacheOptimisticMutationResolver<MutationNowPlayingSkipArgs, Maybe<Scalars['Boolean']>>,
-  nowPlayingPlayUid?: GraphCacheOptimisticMutationResolver<MutationNowPlayingPlayUidArgs, Maybe<Scalars['Boolean']>>,
   playlistAddTracks?: GraphCacheOptimisticMutationResolver<MutationPlaylistAddTracksArgs, Scalars['Boolean']>,
   playlistCreate?: GraphCacheOptimisticMutationResolver<MutationPlaylistCreateArgs, WithTypename<Playlist>>,
   queueAdd?: GraphCacheOptimisticMutationResolver<MutationQueueAddArgs, Scalars['Boolean']>,
   queueRemove?: GraphCacheOptimisticMutationResolver<MutationQueueRemoveArgs, Scalars['Boolean']>,
   queueReorder?: GraphCacheOptimisticMutationResolver<MutationQueueReorderArgs, Scalars['Boolean']>,
   queueToTop?: GraphCacheOptimisticMutationResolver<MutationQueueToTopArgs, Scalars['Boolean']>,
+  sessionCollabAddFromToken?: GraphCacheOptimisticMutationResolver<MutationSessionCollabAddFromTokenArgs, Scalars['Boolean']>,
   sessionCreate?: GraphCacheOptimisticMutationResolver<MutationSessionCreateArgs, WithTypename<Session>>,
-  sessionUpdate?: GraphCacheOptimisticMutationResolver<MutationSessionUpdateArgs, WithTypename<Session>>,
   sessionDelete?: GraphCacheOptimisticMutationResolver<MutationSessionDeleteArgs, Scalars['ID']>,
   sessionEnd?: GraphCacheOptimisticMutationResolver<MutationSessionEndArgs, WithTypename<Session>>,
   sessionPing?: GraphCacheOptimisticMutationResolver<MutationSessionPingArgs, Scalars['Boolean']>,
-  sessionCollabAddFromToken?: GraphCacheOptimisticMutationResolver<MutationSessionCollabAddFromTokenArgs, Scalars['Boolean']>,
-  me?: GraphCacheOptimisticMutationResolver<MutationMeArgs, Maybe<WithTypename<User>>>,
+  sessionUpdate?: GraphCacheOptimisticMutationResolver<MutationSessionUpdateArgs, WithTypename<Session>>,
   userFollow?: GraphCacheOptimisticMutationResolver<MutationUserFollowArgs, Scalars['Boolean']>,
-  userUnfollow?: GraphCacheOptimisticMutationResolver<MutationUserUnfollowArgs, Scalars['Boolean']>,
-  meDelete?: GraphCacheOptimisticMutationResolver<Record<string, never>, Scalars['Boolean']>
+  userUnfollow?: GraphCacheOptimisticMutationResolver<MutationUserUnfollowArgs, Scalars['Boolean']>
 };
 
 export type GraphCacheUpdaters = {
   Mutation?: {
+    me?: GraphCacheUpdateResolver<{ me: Maybe<WithTypename<User>> }, MutationMeArgs>,
+    meDelete?: GraphCacheUpdateResolver<{ meDelete: Scalars['Boolean'] }, Record<string, never>>,
     messageAdd?: GraphCacheUpdateResolver<{ messageAdd: Scalars['Boolean'] }, MutationMessageAddArgs>,
     notificationsMarkRead?: GraphCacheUpdateResolver<{ notificationsMarkRead: Scalars['Int'] }, MutationNotificationsMarkReadArgs>,
+    nowPlayingPlayUid?: GraphCacheUpdateResolver<{ nowPlayingPlayUid: Maybe<Scalars['Boolean']> }, MutationNowPlayingPlayUidArgs>,
     nowPlayingReact?: GraphCacheUpdateResolver<{ nowPlayingReact: Maybe<Scalars['Boolean']> }, MutationNowPlayingReactArgs>,
     nowPlayingSkip?: GraphCacheUpdateResolver<{ nowPlayingSkip: Maybe<Scalars['Boolean']> }, MutationNowPlayingSkipArgs>,
-    nowPlayingPlayUid?: GraphCacheUpdateResolver<{ nowPlayingPlayUid: Maybe<Scalars['Boolean']> }, MutationNowPlayingPlayUidArgs>,
     playlistAddTracks?: GraphCacheUpdateResolver<{ playlistAddTracks: Scalars['Boolean'] }, MutationPlaylistAddTracksArgs>,
     playlistCreate?: GraphCacheUpdateResolver<{ playlistCreate: WithTypename<Playlist> }, MutationPlaylistCreateArgs>,
     queueAdd?: GraphCacheUpdateResolver<{ queueAdd: Scalars['Boolean'] }, MutationQueueAddArgs>,
     queueRemove?: GraphCacheUpdateResolver<{ queueRemove: Scalars['Boolean'] }, MutationQueueRemoveArgs>,
     queueReorder?: GraphCacheUpdateResolver<{ queueReorder: Scalars['Boolean'] }, MutationQueueReorderArgs>,
     queueToTop?: GraphCacheUpdateResolver<{ queueToTop: Scalars['Boolean'] }, MutationQueueToTopArgs>,
+    sessionCollabAddFromToken?: GraphCacheUpdateResolver<{ sessionCollabAddFromToken: Scalars['Boolean'] }, MutationSessionCollabAddFromTokenArgs>,
     sessionCreate?: GraphCacheUpdateResolver<{ sessionCreate: WithTypename<Session> }, MutationSessionCreateArgs>,
-    sessionUpdate?: GraphCacheUpdateResolver<{ sessionUpdate: WithTypename<Session> }, MutationSessionUpdateArgs>,
     sessionDelete?: GraphCacheUpdateResolver<{ sessionDelete: Scalars['ID'] }, MutationSessionDeleteArgs>,
     sessionEnd?: GraphCacheUpdateResolver<{ sessionEnd: WithTypename<Session> }, MutationSessionEndArgs>,
     sessionPing?: GraphCacheUpdateResolver<{ sessionPing: Scalars['Boolean'] }, MutationSessionPingArgs>,
-    sessionCollabAddFromToken?: GraphCacheUpdateResolver<{ sessionCollabAddFromToken: Scalars['Boolean'] }, MutationSessionCollabAddFromTokenArgs>,
-    me?: GraphCacheUpdateResolver<{ me: Maybe<WithTypename<User>> }, MutationMeArgs>,
+    sessionUpdate?: GraphCacheUpdateResolver<{ sessionUpdate: WithTypename<Session> }, MutationSessionUpdateArgs>,
     userFollow?: GraphCacheUpdateResolver<{ userFollow: Scalars['Boolean'] }, MutationUserFollowArgs>,
-    userUnfollow?: GraphCacheUpdateResolver<{ userUnfollow: Scalars['Boolean'] }, MutationUserUnfollowArgs>,
-    meDelete?: GraphCacheUpdateResolver<{ meDelete: Scalars['Boolean'] }, Record<string, never>>
+    userUnfollow?: GraphCacheUpdateResolver<{ userUnfollow: Scalars['Boolean'] }, MutationUserUnfollowArgs>
   },
   Subscription?: {
     messageAdded?: GraphCacheUpdateResolver<{ messageAdded: WithTypename<Message> }, SubscriptionMessageAddedArgs>,
     notificationAdded?: GraphCacheUpdateResolver<{ notificationAdded: WithTypename<NotificationFollow> | WithTypename<NotificationNewSession> }, Record<string, never>>,
-    nowPlayingUpdated?: GraphCacheUpdateResolver<{ nowPlayingUpdated: Maybe<WithTypename<NowPlaying>> }, SubscriptionNowPlayingUpdatedArgs>,
     nowPlayingReactionsUpdated?: GraphCacheUpdateResolver<{ nowPlayingReactionsUpdated: Array<WithTypename<NowPlayingReactionItem>> }, SubscriptionNowPlayingReactionsUpdatedArgs>,
-    sessionUpdated?: GraphCacheUpdateResolver<{ sessionUpdated: WithTypename<Session> }, SubscriptionSessionUpdatedArgs>,
-    sessionListenersUpdated?: GraphCacheUpdateResolver<{ sessionListenersUpdated: Array<Scalars['String']> }, SubscriptionSessionListenersUpdatedArgs>
+    nowPlayingUpdated?: GraphCacheUpdateResolver<{ nowPlayingUpdated: Maybe<WithTypename<NowPlaying>> }, SubscriptionNowPlayingUpdatedArgs>,
+    sessionListenersUpdated?: GraphCacheUpdateResolver<{ sessionListenersUpdated: Array<Scalars['String']> }, SubscriptionSessionListenersUpdatedArgs>,
+    sessionUpdated?: GraphCacheUpdateResolver<{ sessionUpdated: WithTypename<Session> }, SubscriptionSessionUpdatedArgs>
   },
 };
 

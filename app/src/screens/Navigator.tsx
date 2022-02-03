@@ -28,6 +28,7 @@ export const linking: LinkingOptions<ParamList> = {
           [RouteName.Map]: "map",
         },
       },
+      [RouteName.Search]: "search",
       [RouteName.Sessions]: "sessions",
       [RouteName.ExploreRecommendation]: "explore/:id",
       [RouteName.SignIn]: "sign-in",
@@ -63,6 +64,7 @@ const NewQuickShareScreen = lazy(() => import("./NewQuickShare"));
 const NewFinalScreen = lazy(() => import("./NewFinal"));
 const SettingsScreen = lazy(() => import("./Settings"));
 const NotificationsScreen = lazy(() => import("./Notifications"));
+const SearchScreen = lazy(() => import("./Search"));
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -142,6 +144,16 @@ const Navigator: FC = () => {
           </Tab.Navigator>
         )}
       </Stack.Screen>
+      <Stack.Screen
+        name={RouteName.Search}
+        component={SearchScreen}
+        options={{
+          title: t("search.title"),
+          contentStyle: {
+            paddingBottom: PLAYER_BAR_HEIGHT,
+          },
+        }}
+      />
       <Stack.Screen
         name={RouteName.ExploreRecommendation}
         component={ExploreRecommendationScreen}

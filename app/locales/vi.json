@@ -20,6 +20,10 @@
       "description": "Âm nhạc biên soạn bởi người nghe nhạc như bạn"
     }
   },
+  "search": {
+    "title": "Tìm kiếm",
+    "placeholder": "Tìm kiếm playlist và phiên"
+  },
   "map": {
     "title": "Bản đồ",
     "title_branded": "Bản đồ Auralous",

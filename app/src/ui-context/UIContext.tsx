@@ -4,7 +4,8 @@ import {
   useContextSelector,
 } from "@fluentui/react-context-selector";
 import type { Dispatch, FC, ReactNode } from "react";
-import { useReducer } from "react";
+import { useMemo, useReducer } from "react";
+import { use6432Layout } from "./layout";
 
 interface UIState {
   newSession: { visible: boolean };
@@ -38,6 +39,9 @@ interface UIState {
 export interface UIContextValue {
   ui: UIState;
   uiDispatch: Dispatch<Action<keyof UIState>>;
+  layout: {
+    column6432: number;
+  };
 }
 
 type Action<T extends keyof UIState> = {
@@ -68,9 +72,14 @@ const UIContext = createContext({ ui: uiInitialValues } as UIContextValue);
 
 export const UIContextProvider: FC = ({ children }) => {
   const [ui, uiDispatch] = useReducer(reducer, uiInitialValues);
+  const column6432 = use6432Layout();
+  const layout = useMemo<UIContextValue["layout"]>(
+    () => ({ column6432 }),
+    [column6432]
+  );
 
   return (
-    <UIContext.Provider value={{ ui, uiDispatch }}>
+    <UIContext.Provider value={{ ui, uiDispatch, layout }}>
       {children}
     </UIContext.Provider>
   );
@@ -82,3 +91,6 @@ export const useUiDispatch = () =>
 
 const uiSelector = (state: UIContextValue) => state.ui;
 export const useUi = () => useContextSelector(UIContext, uiSelector);
+
+const layoutSelector = (state: UIContextValue) => state.layout;
+export const useUiLayout = () => useContextSelector(UIContext, layoutSelector);

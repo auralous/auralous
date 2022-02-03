@@ -1,4 +1,5 @@
 import { LoadingScreen } from "@/components/Loading";
+import { Spacer } from "@/components/Spacer";
 import { Size } from "@/styles/spacing";
 import { useRecommendationSectionsQuery } from "@auralous/api";
 import type { FC } from "react";
@@ -7,6 +8,7 @@ import { StyleSheet, View } from "react-native";
 import ExploreSection from "./ExploreSection";
 import RecentSessions from "./RecentSessions";
 import RecommendationSection from "./RecommendationSection";
+import SearchSection from "./SearchSection";
 
 const styles = StyleSheet.create({
   content: {
@@ -21,6 +23,8 @@ const ExploreScreenContent: FC = () => {
   if (fetching) return <LoadingScreen />;
   return (
     <View style={styles.content}>
+      <SearchSection />
+      <Spacer y={8} />
       <ExploreSection
         title={t("explore.recent_sessions.title")}
         description={t("explore.recent_sessions.description")}

@@ -2,7 +2,9 @@ import { useContainerStyle } from "@/components/Container";
 import { PlaylistItem } from "@/components/Playlist";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
-import { LayoutSize, Size } from "@/styles/spacing";
+import { useFlatlist6432Layout } from "@/styles/flatlist";
+import { Size } from "@/styles/spacing";
+import { useUiLayout } from "@/ui-context/UIContext";
 import type { Playlist } from "@auralous/api";
 import {
   useRecommendationContentQuery,
@@ -11,14 +13,9 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useLayoutEffect, useMemo } from "react";
+import { useLayoutEffect } from "react";
 import type { ListRenderItem } from "react-native";
-import {
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  useWindowDimensions,
-} from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
   item: {
@@ -32,9 +29,10 @@ const styles = StyleSheet.create({
 
 const RecommendationItem: FC<{ playlist: Playlist }> = ({ playlist }) => {
   const navigation = useNavigation();
+  const uiNumColumn = useUiLayout().column6432;
   return (
     <TouchableOpacity
-      style={styles.item}
+      style={[styles.item, { maxWidth: (1 / uiNumColumn) * 100 + "%" }]}
       onPress={() =>
         navigation.navigate(RouteName.Playlist, { id: playlist.id })
       }
@@ -68,31 +66,16 @@ const ExploreRecommendationScreen: FC<
     }
   }, [navigation, dataSection?.recommendationSection?.title]);
 
-  const [{ data }] = useRecommendationContentQuery({
+  const [{ data: dataQuery }] = useRecommendationContentQuery({
     variables: {
       id,
       limit: 50,
     },
   });
 
-  const windowWidth = useWindowDimensions().width;
-  const numColumns =
-    windowWidth >= 1366
-      ? 6
-      : windowWidth >= LayoutSize.lg
-      ? 4
-      : windowWidth >= LayoutSize.md
-      ? 3
-      : 2;
-
-  const listData = useMemo(() => {
-    if (!data?.recommendationContent) return undefined;
-    // If the # of items is odd, the last items will have full widths due to flex: 1
-    // we manually cut them off
-    const len = data.recommendationContent.length;
-    const maxlen = len - (len % numColumns);
-    return data.recommendationContent.slice(0, maxlen);
-  }, [data, numColumns]);
+  const { data, numColumns } = useFlatlist6432Layout(
+    dataQuery?.recommendationContent
+  );
 
   const containerStyle = useContainerStyle();
 
@@ -100,7 +83,7 @@ const ExploreRecommendationScreen: FC<
     <FlatList
       key={numColumns}
       renderItem={renderItem}
-      data={listData}
+      data={data}
       style={styles.root}
       contentContainerStyle={containerStyle}
       numColumns={numColumns}

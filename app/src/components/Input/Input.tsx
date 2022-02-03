@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
   input: {
     color: Colors.text,
     flex: 1,
-    padding: 0,
+    paddingHorizontal: Size[4],
+    paddingVertical: 0,
   },
   root: {
     alignContent: "center",
@@ -41,7 +42,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.control,
     flexDirection: "row",
     height: Size[10],
-    paddingHorizontal: Size[4],
   },
   rootDefault: {
     borderRadius: 9999,

@@ -20,6 +20,10 @@
       "description": "Music curated by listeners like you"
     }
   },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search playlists and sessions"
+  },
   "map": {
     "title": "Map",
     "title_branded": "Auralous Map",
