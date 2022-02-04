@@ -27,8 +27,8 @@
     "clean": "yarn workspaces run clean"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.10.0",
-    "@typescript-eslint/parser": "^5.10.0",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
     "concurrently": "^7.0.0",
     "eslint": "7",
     "eslint-config-prettier": "^8.3.0",
