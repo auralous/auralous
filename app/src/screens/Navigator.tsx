@@ -1,6 +1,7 @@
 import { IconChevronLeft } from "@/assets";
 import { Button } from "@/components/Button";
 import BottomTabs from "@/components/Layout/BottomTabs";
+import { NullComponent } from "@/components/misc";
 import { PLAYER_BAR_HEIGHT } from "@/player-components/PlayerView/PlayerBar";
 import { Font, fontPropsFn } from "@/styles/fonts";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -90,7 +91,7 @@ const headerLeft = (props: HeaderBackButtonProps) => {
 };
 
 const blankHeaderTitle = {
-  headerTitle: () => null,
+  headerTitle: NullComponent,
   headerTransparent: true,
 };
 

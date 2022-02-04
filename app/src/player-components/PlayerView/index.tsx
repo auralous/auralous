@@ -3,6 +3,7 @@ import { Button } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Header } from "@/components/Header";
 import { LoadingScreen } from "@/components/Loading";
+import { NullComponent } from "@/components/misc";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import {
@@ -154,7 +155,6 @@ const BackgroundComponent: FC<BottomSheetBackgroundProps> = ({
   style,
   pointerEvents,
 }) => <PlayerViewBackground style={style} pointerEvents={pointerEvents} />;
-const handleComponent = () => null;
 
 const PlayerView: FC = () => {
   const navigation = useNavigation();
@@ -187,7 +187,7 @@ const PlayerView: FC = () => {
     <>
       <BottomSheetModal
         ref={bottomSheetRef}
-        handleComponent={handleComponent}
+        handleComponent={NullComponent}
         backgroundComponent={BackgroundComponent}
         snapPoints={snapPoints}
         stackBehavior="push"

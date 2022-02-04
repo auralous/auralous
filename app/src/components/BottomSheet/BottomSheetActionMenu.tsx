@@ -4,8 +4,7 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
-import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import type { FC, ReactNode } from "react";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,7 +15,8 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { useDerivedValue } from "react-native-reanimated";
+import { BottomSheetModalBackdrop } from ".";
+import { NullComponent } from "../misc";
 
 export interface BottomSheetActionMenuProps {
   visible: boolean;
@@ -35,20 +35,13 @@ export interface BottomSheetActionMenuItem {
 
 const styles = StyleSheet.create({
   bs: {
-    marginHorizontal: Size[4],
+    marginHorizontal: "auto",
   },
   bsBackground: {
     backgroundColor: Colors.backgroundSecondary,
   },
-  bsLand: {
-    marginHorizontal: "auto",
-    maxWidth: LayoutSize.md - Size[8],
-  },
   cancel: {
     height: Size[10],
-  },
-  handleIndicator: {
-    backgroundColor: Colors.textSecondary,
   },
   header: {
     flexDirection: "row",
@@ -74,15 +67,6 @@ const styles = StyleSheet.create({
     padding: Size[4],
   },
 });
-
-const BackdropComponent: FC<BottomSheetBackdropProps> = (props) => {
-  const animatedIndex = useDerivedValue(
-    () => props.animatedIndex.value + 1,
-    []
-  );
-  return <BottomSheetBackdrop {...props} animatedIndex={animatedIndex} />;
-};
-const handleComponent = () => null;
 
 const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
   visible,
@@ -113,20 +97,22 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
     [items.length]
   );
 
-  const isLandscape = useWindowDimensions().width > LayoutSize.md;
+  const windowWidth = useWindowDimensions().width;
 
   return (
     <BottomSheetModal
       ref={ref}
-      handleIndicatorStyle={styles.handleIndicator}
       backgroundStyle={styles.bsBackground}
-      backdropComponent={BackdropComponent}
+      backdropComponent={BottomSheetModalBackdrop}
       handleHeight={0}
-      handleComponent={handleComponent}
+      handleComponent={NullComponent}
       snapPoints={snapPoints}
       stackBehavior="push"
       onDismiss={onDismiss}
-      style={isLandscape ? styles.bsLand : styles.bs}
+      style={[
+        styles.bs,
+        { maxWidth: Math.min(LayoutSize.md, windowWidth) - Size[8] },
+      ]}
       detached
       bottomInset={Size[4]}
     >
