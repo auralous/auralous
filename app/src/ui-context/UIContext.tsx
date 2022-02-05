@@ -37,8 +37,7 @@ interface UIState {
 }
 
 export interface UIContextValue {
-  ui: UIState;
-  uiDispatch: Dispatch<Action<keyof UIState>>;
+  ui: [UIState, Dispatch<Action<keyof UIState>>];
   layout: {
     column6432: number;
   };
@@ -68,10 +67,10 @@ const uiInitialValues: UIState = {
   share: { visible: false },
 };
 
-const UIContext = createContext({ ui: uiInitialValues } as UIContextValue);
+const UIContext = createContext({} as UIContextValue);
 
 export const UIContextProvider: FC = ({ children }) => {
-  const [ui, uiDispatch] = useReducer(reducer, uiInitialValues);
+  const [uiState, uiDispatch] = useReducer(reducer, uiInitialValues);
   const column6432 = use6432Layout();
   const layout = useMemo<UIContextValue["layout"]>(
     () => ({ column6432 }),
@@ -79,17 +78,17 @@ export const UIContextProvider: FC = ({ children }) => {
   );
 
   return (
-    <UIContext.Provider value={{ ui, uiDispatch, layout }}>
+    <UIContext.Provider value={{ ui: [uiState, uiDispatch], layout }}>
       {children}
     </UIContext.Provider>
   );
 };
 
-const uiDispatchSelector = (state: UIContextValue) => state.uiDispatch;
+const uiDispatchSelector = (state: UIContextValue) => state.ui[1];
 export const useUiDispatch = () =>
   useContextSelector(UIContext, uiDispatchSelector);
 
-const uiSelector = (state: UIContextValue) => state.ui;
+const uiSelector = (state: UIContextValue) => state.ui[0];
 export const useUi = () => useContextSelector(UIContext, uiSelector);
 
 const layoutSelector = (state: UIContextValue) => state.layout;

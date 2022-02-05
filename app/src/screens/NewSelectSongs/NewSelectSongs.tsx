@@ -7,7 +7,7 @@ import BottomSheet, {
   BottomSheetFooter,
 } from "@gorhom/bottom-sheet";
 import type { Dispatch, FC, SetStateAction } from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   SelectedTracksListFooter,
@@ -55,8 +55,6 @@ const NewSelectSongs: FC<{
     [setSelectedTracks]
   );
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
   const renderFooter = useCallback(
     (props) => (
       <BottomSheetFooter {...props} style={styles.sheetBottom}>
@@ -85,7 +83,6 @@ const NewSelectSongs: FC<{
       />
       <SelectedTracksListProvider expanded={expanded}>
         <BottomSheet
-          ref={bottomSheetRef}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           style={styles.sheet}

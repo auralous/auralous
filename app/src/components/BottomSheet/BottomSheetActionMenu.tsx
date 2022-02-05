@@ -15,8 +15,8 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { BottomSheetModalBackdrop } from ".";
 import { NullComponent } from "../misc";
+import BottomSheetModalBackdrop from "./BottomSheetModalBackdrop";
 
 export interface BottomSheetActionMenuProps {
   visible: boolean;

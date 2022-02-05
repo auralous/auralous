@@ -18,7 +18,7 @@ import type { ToastValue } from "./types";
 const styles = StyleSheet.create({
   content: {
     alignItems: "center",
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: "#252144",
     borderRadius: 9999,
     elevation: 12,
     flexDirection: "row",
@@ -74,6 +74,7 @@ export const Toaster: FC = () => {
         commit();
       }
     };
+    emitter.off("toast"); // ckear out other listeners
     emitter.on("toast", onToast);
     return () => emitter.off("toast", onToast);
   }, [animValue, toast]);

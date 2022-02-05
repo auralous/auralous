@@ -1,281 +1,83 @@
-import {
-  IconChevronLeft,
-  IconChevronRight,
-  IconPlay,
-  IconSkipBack,
-  IconSkipForward,
-} from "@/assets";
+import { IconPause, IconPlay, IconSkipBack, IconSkipForward } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
 import type { PagerViewMethods } from "@/components/PagerView";
 import { PagerView } from "@/components/PagerView";
 import { Spacer } from "@/components/Spacer";
-import { AnimatedAudioBar } from "@/components/Track/AnimatedAudioBar";
 import { Text } from "@/components/Typography";
 import player, {
   usePlaybackCurrentContext,
   usePlaybackCurrentControl,
   usePlaybackProvidedTrackId,
 } from "@/player";
+import PlayerViewMeta from "@/player-components/PlayerView/PlayerViewMeta";
+import PlayerViewProgress from "@/player-components/PlayerView/PlayerViewProgress";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
-import { LayoutSize, Size } from "@/styles/spacing";
+import { Size } from "@/styles/spacing";
 import type { Session } from "@auralous/api";
 import { useNowPlayingQuery, useTrackQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
-  background: {
-    opacity: 0.6,
-    zIndex: -1,
-    ...StyleSheet.absoluteFillObject,
+  backPrev: {
+    alignItems: "center",
+    height: Size[10],
+    justifyContent: "center",
+    width: Size[10],
   },
-  buttonPlay: {
-    height: Size[16],
-    width: Size[16],
+  control: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingHorizontal: Size[1],
+    paddingVertical: Size[2],
   },
-  buttonSkip: {
-    height: Size[12],
-    width: Size[12],
-  },
-  content: {
-    flex: 1,
+  creator: {
+    alignItems: "center",
+    flexDirection: "row",
+    height: Size[14],
+    paddingHorizontal: Size[4],
   },
   empty: {
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
   },
-  isPlaying: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  landscapeBtn: {
-    position: "absolute",
-    top: "50%",
-    transform: [
-      {
-        translateY: -Size[10] / 2,
-      },
-    ],
-    zIndex: 1,
-  },
-  landscapeBtnLeft: {
-    left: Size[2],
-  },
-  landscapeBtnRight: {
-    right: Size[2],
-  },
-  meta: {
-    alignItems: "center",
-    flexDirection: "row",
-    paddingHorizontal: Size[4],
-    paddingVertical: Size[1],
-  },
-  metaText: {
-    flex: 1,
-    marginLeft: Size[2],
-  },
-  nowPlaying: {
-    backgroundColor: "rgba(0,0,0,.5)",
-    borderRadius: 8,
-    flexDirection: "row",
-    height: Size[12],
-    marginHorizontal: Size[4],
-    marginVertical: Size[1],
-    paddingHorizontal: Size[2],
-  },
-  nowPlayingText: {
-    flex: 1,
-    justifyContent: "center",
-  },
   page: {
-    backgroundColor: Colors.black,
+    flex: 1,
+  },
+  pageContainer: {
     height: "100%",
-    justifyContent: "space-between",
+    paddingHorizontal: Size[6],
+    paddingVertical: Size[2],
     width: "100%",
   },
   pager: {
     flex: 1,
   },
-  pauseScreen: {
-    ...StyleSheet.absoluteFillObject,
+  playPause: {
     alignItems: "center",
-    flexDirection: "row",
+    backgroundColor: Colors.textTertiary,
+    borderRadius: 9999,
+    height: Size[16],
     justifyContent: "center",
-  },
-  pauseScreenBackdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,.8)",
+    width: Size[16],
   },
   root: {
+    backgroundColor: Colors.background,
     flex: 1,
+    paddingTop: Size[2],
+  },
+  sButton: {
+    padding: Size[4],
   },
 });
-
-const SessionPagerNowPlaying: FC<{ trackId?: string; fetching?: boolean }> = ({
-  trackId,
-}) => {
-  const [{ data: dataTrack }] = useTrackQuery({
-    variables: { id: trackId || "" },
-    pause: !trackId,
-  });
-
-  return (
-    <View style={styles.nowPlaying}>
-      <View style={styles.isPlaying}>
-        <AnimatedAudioBar />
-      </View>
-      <Spacer x={2} />
-      <View style={styles.nowPlayingText}>
-        <Text bold numberOfLines={1}>
-          {dataTrack?.track?.title}
-        </Text>
-        <Spacer y={2} />
-        <Text numberOfLines={1} color="textSecondary">
-          {dataTrack?.track?.artists.map((artist) => artist.name).join(", ")}
-        </Text>
-      </View>
-    </View>
-  );
-};
-
-const SessionPagerMeta: FC<{ session: Session }> = ({ session }) => {
-  const { t } = useTranslation();
-  const navigation = useNavigation();
-  return (
-    <View style={styles.meta}>
-      <Avatar
-        size={12}
-        username={session.creator.username}
-        href={session.creator.profilePicture}
-      />
-      <View style={styles.metaText}>
-        <Pressable
-          onPress={() =>
-            navigation.navigate(RouteName.User, {
-              username: session.creator.username,
-            })
-          }
-        >
-          <Text size="lg" bold>
-            {session.creator.username}
-          </Text>
-        </Pressable>
-        <Spacer y={2} />
-        <Pressable
-          onPress={() =>
-            navigation.navigate(RouteName.Session, {
-              id: session.id,
-            })
-          }
-        >
-          <Text>{session.text}</Text>
-        </Pressable>
-      </View>
-      <Button
-        onPress={() =>
-          navigation.navigate(RouteName.Session, { id: session.id })
-        }
-      >
-        {t("session.go_to_session")}
-      </Button>
-    </View>
-  );
-};
-
-const onPlay = () => player.play();
-const onPause = () => player.pause();
-const onSkipForward = () => player.skipForward();
-const onSkipBackward = () => player.skipBackward();
-
-const SessionPagerBg: FC<{ session: Session }> = ({ session }) => {
-  return session.image ? (
-    <Image source={{ uri: session.image }} style={styles.background} />
-  ) : null;
-};
-
-const SessionPagerControl: FC<{ session: Session }> = ({ session }) => {
-  const { t } = useTranslation();
-  const { isPlaying } = usePlaybackCurrentControl();
-
-  const animValue = useSharedValue(0);
-
-  useEffect(() => {
-    if (isPlaying) animValue.value = withTiming(0);
-    else animValue.value = withTiming(1);
-  }, [isPlaying, animValue]);
-
-  const pauseScreenStyle = useAnimatedStyle(
-    () => ({
-      opacity: animValue.value,
-    }),
-    []
-  );
-
-  return (
-    <>
-      <Pressable
-        accessibilityLabel={t("player.pause")}
-        style={StyleSheet.absoluteFill}
-        onPress={onPause}
-      />
-      <Animated.View
-        style={[styles.pauseScreen, pauseScreenStyle]}
-        focusable={!isPlaying}
-        importantForAccessibility={isPlaying ? "no-hide-descendants" : "auto"}
-        accessibilityElementsHidden={isPlaying}
-        pointerEvents={isPlaying ? "none" : "auto"}
-      >
-        {session.image && (
-          <Image
-            source={{ uri: session.image }}
-            style={StyleSheet.absoluteFill}
-            blurRadius={8}
-          />
-        )}
-        <Pressable onPress={onPlay} style={styles.pauseScreenBackdrop} />
-        <Button
-          onPress={onSkipBackward}
-          icon={<IconSkipBack />}
-          accessibilityLabel={t("player.skip_backward")}
-          style={styles.buttonSkip}
-        />
-        <Spacer x={4} />
-        <Button
-          variant="filled"
-          onPress={onPlay}
-          icon={<IconPlay fill={Colors.background} />}
-          accessibilityLabel={t("player.play")}
-          style={styles.buttonPlay}
-        />
-        <Spacer x={4} />
-        <Button
-          onPress={onSkipForward}
-          icon={<IconSkipForward />}
-          accessibilityLabel={t("player.skip_forward")}
-          style={styles.buttonSkip}
-        />
-      </Animated.View>
-    </>
-  );
-};
 
 const useCurrentTrack = (session: Session) => {
   const [{ data: dataNowPlaying }] = useNowPlayingQuery({
@@ -298,18 +100,109 @@ const useCurrentTrack = (session: Session) => {
   return undefined;
 };
 
+const SessionPagerButton: FC<{
+  session: Session;
+}> = ({ session }) => {
+  const { t } = useTranslation();
+  const navigation = useNavigation();
+  return (
+    <View style={styles.sButton}>
+      <Button
+        variant="primary"
+        onPress={() =>
+          navigation.navigate(RouteName.Session, { id: session.id })
+        }
+      >
+        {t("session.go_to_session")}
+      </Button>
+    </View>
+  );
+};
+
+const SessionPagerCreator: FC<{
+  session: Session;
+}> = ({ session }) => {
+  return (
+    <View style={styles.creator}>
+      <Avatar
+        size={10}
+        username={session.creator.username}
+        href={session.creator.profilePicture}
+      />
+      <Spacer x={2} />
+      <View>
+        <Text bold>{session.creator.username}</Text>
+        <Spacer y={2} />
+        <Text>{session.text}</Text>
+      </View>
+    </View>
+  );
+};
+
+const SessionPagerControl: FC<{
+  onSkipBackward(): void;
+  onSkipForward(): void;
+}> = ({ onSkipBackward, onSkipForward }) => {
+  const { t } = useTranslation();
+  const control = usePlaybackCurrentControl();
+  const togglePlay = useCallback(
+    () => (control.isPlaying ? player.pause() : player.play()),
+    [control.isPlaying]
+  );
+
+  return (
+    <View style={styles.control}>
+      <TouchableOpacity
+        style={styles.backPrev}
+        accessibilityLabel={t("player.skip_backward")}
+        onPress={onSkipBackward}
+      >
+        <IconSkipBack width={Size[8]} height={Size[8]} fill={Colors.text} />
+      </TouchableOpacity>
+      <Spacer x={8} />
+      <View>
+        <TouchableOpacity
+          onPress={togglePlay}
+          style={styles.playPause}
+          accessibilityLabel={
+            control.isPlaying ? t("player.pause") : t("player.play")
+          }
+        >
+          {control.isPlaying ? (
+            <IconPause width={Size[10]} height={Size[10]} fill={Colors.text} />
+          ) : (
+            <IconPlay width={Size[10]} height={Size[10]} fill={Colors.text} />
+          )}
+        </TouchableOpacity>
+      </View>
+      <Spacer x={8} />
+      <TouchableOpacity
+        style={styles.backPrev}
+        accessibilityLabel={t("player.skip_forward")}
+        onPress={onSkipForward}
+      >
+        <IconSkipForward width={Size[8]} height={Size[8]} fill={Colors.text} />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 const SessionPagerItem: FC<{
   session: Session;
 }> = ({ session }) => {
   const currentTrackId = useCurrentTrack(session);
+  const [{ data, fetching }] = useTrackQuery({
+    variables: { id: currentTrackId || "" },
+    pause: !currentTrackId,
+  });
+  const track = currentTrackId ? data?.track : null;
 
   return (
-    <View collapsable={false} style={styles.page}>
-      <SessionPagerBg session={session} />
-      <SessionPagerControl session={session} />
-      <View style={styles.content} pointerEvents="none" />
-      <SessionPagerMeta session={session} />
-      <SessionPagerNowPlaying trackId={currentTrackId || undefined} />
+    <View style={styles.pageContainer}>
+      <View collapsable={false} style={styles.page}>
+        <PlayerViewMeta track={track || null} fetching={fetching} />
+        <PlayerViewProgress track={track} player={player} isLive />
+      </View>
     </View>
   );
 };
@@ -323,9 +216,6 @@ const SessionPager: FC<{
   const ref = useRef<PagerViewMethods>(null);
 
   const [currentPage, setCurrentPage] = useState(0);
-
-  const windowWidth = useWindowDimensions().width;
-  const isLandscape = windowWidth >= LayoutSize.md;
 
   const onPageSelected = useCallback(
     (page: number) => {
@@ -346,34 +236,27 @@ const SessionPager: FC<{
 
   return (
     <View style={styles.root}>
-      {isLandscape && (
-        <>
-          <Button
-            accessibilityLabel={t("common.navigation.go_back")}
-            style={[styles.landscapeBtn, styles.landscapeBtnLeft]}
-            icon={<IconChevronLeft />}
-            onPress={() => ref.current?.setPage(currentPage - 1)}
-            disabled={currentPage <= 0}
-          />
-          <Button
-            accessibilityLabel={t("common.navigation.go_forward")}
-            style={[styles.landscapeBtn, styles.landscapeBtnRight]}
-            icon={<IconChevronRight />}
-            onPress={() => ref.current?.setPage(currentPage + 1)}
-            disabled={currentPage >= sessions.length - 1}
-          />
-        </>
-      )}
+      <SessionPagerCreator session={sessions[currentPage]} />
       <PagerView
         ref={ref}
         style={styles.pager}
-        orientation={isLandscape ? "horizontal" : "vertical"}
+        orientation="horizontal"
         onSelected={onPageSelected}
       >
         {sessions.map((session) => (
           <SessionPagerItem key={session.id} session={session} />
         ))}
       </PagerView>
+      <SessionPagerControl
+        onSkipBackward={() =>
+          currentPage > 0 && ref.current?.setPage(currentPage - 1)
+        }
+        onSkipForward={() =>
+          currentPage < sessions.length - 1 &&
+          ref.current?.setPage(currentPage + 1)
+        }
+      />
+      <SessionPagerButton session={sessions[currentPage]} />
     </View>
   );
 };

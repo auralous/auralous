@@ -22,6 +22,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { Toaster } from "../Toast";
 
 const styles = StyleSheet.create({
   backdrop: {
@@ -146,6 +147,7 @@ const DialogRoot: FC<BottomSheetDialogProps> = ({
         )}
         {children}
       </Animated.View>
+      <Toaster />
     </Modal>
   );
 };

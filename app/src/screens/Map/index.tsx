@@ -22,12 +22,19 @@ const styles = StyleSheet.create({
     right: Size[4],
     top: Size[4],
   },
+  modal: {
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,.5)",
+    flex: 1,
+  },
   root: {
     flex: 1,
   },
   wrapper: {
     backgroundColor: "rgba(0,0,0,.5)",
-    flex: 1,
+    height: "100%",
+    maxWidth: 640,
+    width: "100%",
   },
 });
 
@@ -82,14 +89,16 @@ const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = () => {
         visible={isFocused && sessions.length > 0}
         onDismiss={onClose}
       >
-        <View style={styles.wrapper}>
-          <Button
-            accessibilityLabel={t("common.navigation.close")}
-            style={styles.closeBtn}
-            icon={<IconX />}
-            onPress={onClose}
-          />
-          <SessionPager sessions={sessions} onSelected={onSelected} />
+        <View style={styles.modal}>
+          <View style={styles.wrapper}>
+            <SessionPager sessions={sessions} onSelected={onSelected} />
+            <Button
+              accessibilityLabel={t("common.navigation.close")}
+              style={styles.closeBtn}
+              icon={<IconX />}
+              onPress={onClose}
+            />
+          </View>
         </View>
       </SlideModal>
     </View>
