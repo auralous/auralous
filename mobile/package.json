@@ -29,7 +29,7 @@
     "@react-native-mapbox-gl/maps": "^8.5.0",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",
-    "@react-navigation/native-stack": "^6.4.1",
+    "@react-navigation/native-stack": "^6.5.0",
     "react": "17.0.2",
     "react-native": "0.67.2",
     "react-native-config": "^1.4.5",
@@ -40,7 +40,7 @@
     "react-native-localize": "^2.1.9",
     "react-native-pager-view": "^5.4.9",
     "react-native-permissions": "^3.2.0",
-    "react-native-reanimated": "^2.3.1",
+    "react-native-reanimated": "^2.4.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.2",
     "react-native-svg": "^12.1.1",
@@ -48,8 +48,8 @@
     "react-native-webview": "^11.17.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.0",
-    "@babel/runtime": "^7.17.0",
+    "@babel/core": "^7.17.2",
+    "@babel/runtime": "^7.17.2",
     "@types/react": "^17.0.39",
     "@types/react-native": "^0.66.15",
     "metro-react-native-babel-preset": "^0.67.0",
