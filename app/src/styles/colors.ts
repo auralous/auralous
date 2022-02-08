@@ -23,12 +23,4 @@ export const Colors = {
   googleLabel: "rgba(0, 0, 0, 0.5)",
 };
 
-export const GradientColors = {
-  rainbow: {
-    text: "#ffffff",
-    colors: ["#1FF7FD", "#B33BF6", "#FF844C", "#FF844B"],
-    locations: [0.1, 0.5, 0.8, 1],
-  },
-};
-
 export type ThemeColorKey = keyof typeof Colors;

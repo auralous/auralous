@@ -1,4 +1,4 @@
-import { IconChevronDown, IconMoreHorizontal, IconPlayListAdd } from "@/assets";
+import { IconChevronDown } from "@/assets";
 import { Button } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Header } from "@/components/Header";
@@ -6,16 +6,9 @@ import { LoadingScreen } from "@/components/Loading";
 import { NullComponent } from "@/components/misc";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import {
-  usePlaybackContextMeta,
-  usePlaybackCurrentContext,
-  usePlaybackTrackId,
-} from "@/player";
+import { usePlaybackContextMeta, usePlaybackCurrentContext } from "@/player";
 import { RouteName } from "@/screens/types";
-import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
-import { useTrackQuery } from "@auralous/api";
 import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
@@ -72,42 +65,6 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
     }
   }, [contextMeta, navigation]);
 
-  const trackId = usePlaybackTrackId();
-  const [{ data }] = useTrackQuery({
-    variables: { id: trackId || "" },
-    pause: !trackId,
-  });
-  const track = trackId ? data?.track : null;
-
-  const uiDispatch = useUiDispatch();
-
-  const presentMenu = useCallback(() => {
-    if (!track) return;
-    uiDispatch({
-      type: "contextMenu",
-      value: {
-        visible: true,
-        title: track.title,
-        subtitle: track.artists.map((artist) => artist.name).join(", "),
-        image: track.image || undefined,
-        items: [
-          {
-            icon: <IconPlayListAdd color={Colors.textSecondary} />,
-            text: t("playlist.add_to_playlist.title"),
-            onPress: () =>
-              uiDispatch({
-                type: "addToPlaylist",
-                value: {
-                  visible: true,
-                  trackId: track.id,
-                },
-              }),
-          },
-        ],
-      },
-    });
-  }, [t, track, uiDispatch]);
-
   return (
     <>
       <Header
@@ -135,14 +92,6 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
             onPress={onDismiss}
             icon={<IconChevronDown />}
             accessibilityLabel={t("common.navigation.go_back")}
-          />
-        }
-        right={
-          <Button
-            variant="text"
-            icon={<IconMoreHorizontal />}
-            onPress={presentMenu}
-            accessibilityLabel={t("common.navigation.open_menu")}
           />
         }
       />

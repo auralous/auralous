@@ -10,7 +10,7 @@ import player, {
   usePlaybackTrackId,
 } from "@/player";
 import { RouteName } from "@/screens/types";
-import { useRouteNames } from "@/screens/useRouteName";
+import { useIsRouteWithNavbar, useRouteNames } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import { useAnimatedBgColors } from "@/styles/utils";
@@ -109,7 +109,7 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
 
   const routeNames = useRouteNames();
   const routeName = routeNames[routeNames.length - 1];
-  const hasTabBars = routeNames[0] === RouteName.Main;
+  const hasTabBars = useIsRouteWithNavbar();
 
   const hidden = hiddenRoutes.includes(routeName);
 

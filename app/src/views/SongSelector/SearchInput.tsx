@@ -8,6 +8,12 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
+  btn: {
+    alignItems: "center",
+    height: Size[10],
+    justifyContent: "center",
+    width: Size[10],
+  },
   root: {
     paddingHorizontal: Size[8],
     paddingVertical: Size[2],
@@ -34,11 +40,11 @@ const SearchInput: FC<{
         ref={ref}
         endIcon={
           value.trim().length > 0 ? (
-            <TouchableOpacity onPress={resetSearch}>
+            <TouchableOpacity style={styles.btn} onPress={resetSearch}>
               <IconX width={20} height={20} />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={onHandleSubmit}>
+            <TouchableOpacity style={styles.btn} onPress={onHandleSubmit}>
               <IconSearch width={20} height={20} />
             </TouchableOpacity>
           )

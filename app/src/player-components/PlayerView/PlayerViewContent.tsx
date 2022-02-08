@@ -1,6 +1,5 @@
 // Chat
 import { IconChevronDown, IconList, IconMessageSquare } from "@/assets";
-import { Button } from "@/components/Button";
 import {
   SlideModal,
   useBackHandlerDismiss,
@@ -31,7 +30,11 @@ import MusicView from "./MusicView";
 // common
 const sheetStyles = StyleSheet.create({
   btn: {
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    alignItems: "center",
+    borderRadius: 9999,
+    height: Size[10],
+    justifyContent: "center",
+    width: Size[10],
   },
   content: {
     flex: 1,
@@ -93,13 +96,13 @@ const ChatButtonAndSheet: FC = () => {
 
   return (
     <>
-      <Button
+      <TouchableOpacity
         accessibilityLabel={t("chat.title")}
         onPress={present}
-        icon={<IconMessageSquare />}
-        variant="text"
         style={sheetStyles.btn}
-      />
+      >
+        <IconMessageSquare />
+      </TouchableOpacity>
       <SlideModal visible={visible} onDismiss={dismiss}>
         <GHChatSheet onClose={dismiss} />
       </SlideModal>
@@ -144,13 +147,13 @@ const QueueButtonAndSheet = () => {
 
   return (
     <>
-      <Button
+      <TouchableOpacity
         accessibilityLabel={t("queue.up_next")}
         onPress={present}
-        icon={<IconList />}
-        variant="text"
         style={sheetStyles.btn}
-      />
+      >
+        <IconList />
+      </TouchableOpacity>
       <SlideModal visible={visible} onDismiss={dismiss}>
         <GHQueueSheet
           currentTrack={currentTrack}

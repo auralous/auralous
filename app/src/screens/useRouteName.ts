@@ -13,3 +13,15 @@ export const useRouteNames = () => {
     ];
   return [topRoute.name];
 };
+
+const routeWithNavbar = [
+  RouteName.Main,
+  RouteName.Explore,
+  RouteName.Map,
+  RouteName.Notifications,
+];
+export const useIsRouteWithNavbar = () => {
+  const routeNames = useRouteNames();
+  const routeName = routeNames[routeNames.length - 1];
+  return routeWithNavbar.includes(routeName as RouteName);
+};

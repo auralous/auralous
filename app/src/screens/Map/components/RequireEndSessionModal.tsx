@@ -3,10 +3,10 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   buttons: {
@@ -15,9 +15,10 @@ const styles = StyleSheet.create({
   },
   root: {
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,.8)",
-    flex: 1,
+    backgroundColor: "rgba(0,0,0,.5)",
     justifyContent: "center",
+    zIndex: 10,
+    ...StyleSheet.absoluteFillObject,
   },
 });
 
@@ -28,9 +29,9 @@ export const RequireEndSessionModal: FC<{
   const { t } = useTranslation();
 
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
+  if (!visible) return null;
   return (
-    <Modal visible={visible && isFocused} transparent statusBarTranslucent>
+    <View style={styles.root}>
       <View style={styles.root}>
         <Text bold>{t("session_edit.live.end_current_to_continue")}</Text>
         <View style={styles.buttons}>
@@ -55,6 +56,6 @@ export const RequireEndSessionModal: FC<{
           </Button>
         </View>
       </View>
-    </Modal>
+    </View>
   );
 };

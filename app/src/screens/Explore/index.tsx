@@ -1,4 +1,4 @@
-import { IconPlusSquare } from "@/assets";
+import { IconHeadphones } from "@/assets";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import type { ParamList, RouteName } from "@/screens/types";
@@ -13,6 +13,7 @@ import ExploreScreenContent from "./components/index";
 
 const styles = StyleSheet.create({
   add: {
+    height: Size[8],
     paddingHorizontal: Size[2],
   },
   root: {
@@ -29,14 +30,16 @@ const HeaderRight: FC = () => {
 
   return (
     <Button
-      variant="text"
-      icon={<IconPlusSquare />}
-      accessibilityLabel={t("new.title")}
+      variant="primary"
       onPress={() =>
         uiDispatch({ type: "newSession", value: { visible: true } })
       }
       style={styles.add}
-    />
+      accessibilityLabel={t("new.title")}
+      icon={<IconHeadphones width={20} height={20} />}
+    >
+      {t("common.action.create")}
+    </Button>
   );
 };
 

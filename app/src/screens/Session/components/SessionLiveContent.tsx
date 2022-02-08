@@ -1,5 +1,5 @@
 import { IconUser } from "@/assets";
-import { Button, GradientButton } from "@/components/Button";
+import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
@@ -108,7 +108,8 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
         }
         buttons={
           <>
-            <GradientButton
+            <Button
+              variant="primary"
               disabled={
                 playbackCurrentContext?.type === "session" &&
                 playbackCurrentContext.id === session.id
@@ -116,7 +117,7 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
               onPress={joinLive}
             >
               {t("session.join_live")}
-            </GradientButton>
+            </Button>
             <Spacer x={2} />
             <View>
               <Button onPress={viewCollabs}>{t("collab.title")}</Button>

@@ -3,18 +3,12 @@ import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
-import { LayoutSize, Size } from "@/styles/spacing";
+import { Size } from "@/styles/spacing";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import type { FC, ReactNode } from "react";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { NullComponent } from "../misc";
 import BottomSheetModalBackdrop from "./BottomSheetModalBackdrop";
 
@@ -35,7 +29,7 @@ export interface BottomSheetActionMenuItem {
 
 const styles = StyleSheet.create({
   bs: {
-    marginHorizontal: "auto",
+    marginHorizontal: Size[4],
   },
   bsBackground: {
     backgroundColor: Colors.backgroundSecondary,
@@ -97,8 +91,6 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
     [items.length]
   );
 
-  const windowWidth = useWindowDimensions().width;
-
   return (
     <BottomSheetModal
       ref={ref}
@@ -109,10 +101,7 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
       snapPoints={snapPoints}
       stackBehavior="push"
       onDismiss={onDismiss}
-      style={[
-        styles.bs,
-        { maxWidth: Math.min(LayoutSize.md, windowWidth) - Size[8] },
-      ]}
+      style={styles.bs}
       detached
       bottomInset={Size[4]}
     >

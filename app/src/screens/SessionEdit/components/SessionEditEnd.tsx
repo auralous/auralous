@@ -44,12 +44,12 @@ export const SessionEditEnd: FC<{ session: Session }> = ({ session }) => {
   }, [routeShowEndModal, present]);
 
   const onEnd = useCallback(async () => {
+    dismiss();
     const result = await sessionEnd({
       id: session.id,
     });
     if (!result.error) {
       toast.success(t("session_edit.live.end_ok"));
-      dismiss();
     }
   }, [t, sessionEnd, session.id, dismiss]);
 

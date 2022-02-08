@@ -1,21 +1,20 @@
 import { Button } from "@/components/Button";
+import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
 import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
-import { Colors, GradientColors } from "@/styles/colors";
+import { Colors } from "@/styles/colors";
 import { Font, fontPropsFn } from "@/styles/fonts";
 import { Size } from "@/styles/spacing";
 import { useSessionCreateMutation } from "@auralous/api";
-import { useFocusEffect } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  BackHandler,
   StyleSheet,
   Text as RNText,
   View,
@@ -75,17 +74,7 @@ const NewFinalScreen: FC<
     }
   }, [route, createSession, navigation]);
 
-  useFocusEffect(
-    useCallback(() => {
-      const onBackPress = () => {
-        // Prevent going back while creating session
-        return fetching;
-      };
-      BackHandler.addEventListener("hardwareBackPress", onBackPress);
-      return () =>
-        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
-    }, [fetching])
-  );
+  useBackHandlerDismiss(fetching);
 
   const [sec, setSec] = useState(4);
   useEffect(() => {
@@ -99,8 +88,7 @@ const NewFinalScreen: FC<
 
   return (
     <LinearGradient
-      colors={GradientColors.rainbow.colors}
-      locations={GradientColors.rainbow.locations}
+      colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,.5)"]}
       start={{ x: 1, y: 1 }}
       end={{ x: 0, y: 0 }}
       style={StyleSheet.absoluteFill}

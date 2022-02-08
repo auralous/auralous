@@ -63,11 +63,10 @@ export const Button: FC<ButtonProps> = (props) => {
   }, [variant, disabled]);
 
   const textColor = useMemo(() => {
-    if (disabled) return Colors.text;
     if (variant === "primary") return Colors.primaryText;
     if (variant === "filled") return Colors.backgroundSecondary;
     return Colors.text;
-  }, [variant, disabled]);
+  }, [variant]);
 
   return (
     <AnimatedPressable
@@ -79,7 +78,7 @@ export const Button: FC<ButtonProps> = (props) => {
         styles.base,
         animatedStyles,
         // eslint-disable-next-line react-native/no-inline-styles
-        disabled && { opacity: 0.5 },
+        disabled && { opacity: 0.4 },
         props.style,
       ]}
     >

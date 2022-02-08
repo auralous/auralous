@@ -13,8 +13,8 @@ import type { FC } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { RequireEndSessionModal } from "../_commonContent/RequireEndSessionModal";
 import MapController from "./components/MapController";
+import { RequireEndSessionModal } from "./components/RequireEndSessionModal";
 
 const styles = StyleSheet.create({
   closeBtn: {

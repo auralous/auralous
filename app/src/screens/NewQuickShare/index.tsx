@@ -1,4 +1,5 @@
 import { useContainerStyle } from "@/components/Container";
+import { useBackHandlerDismiss } from "@/components/Dialog";
 import { LoadingScreen } from "@/components/Loading";
 import { shuffle } from "@/player";
 import type { ParamList } from "@/screens/types";
@@ -24,7 +25,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import PlaylistsSection from "./components/PlaylistsSection";
 import RecommendationPlaylistsSection from "./components/RecommendationSection";
 
@@ -60,12 +61,7 @@ const NewQuickShareScreen: FC<
 
   const client = useClient();
 
-  useEffect(() => {
-    if (!fetching) return;
-    const onBack = () => true;
-    BackHandler.addEventListener("hardwareBackPress", onBack);
-    return () => BackHandler.removeEventListener("hardwareBackPress", onBack);
-  }, [fetching]);
+  useBackHandlerDismiss(fetching);
 
   const onSelectPlaylist = useCallback(
     async (playlist: Playlist, fromRoute?: boolean) => {

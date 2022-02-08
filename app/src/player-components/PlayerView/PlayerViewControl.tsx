@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
   },
   playPause: {
     alignItems: "center",
-    backgroundColor: Colors.textTertiary,
     borderRadius: 9999,
     height: Size[16],
     justifyContent: "center",
