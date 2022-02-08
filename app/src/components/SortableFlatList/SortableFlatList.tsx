@@ -1,11 +1,9 @@
-import { scrollTo } from "@/styles/animation";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
   LayoutChangeEvent,
   ListRenderItem,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  ScrollView,
 } from "react-native";
 import { StyleSheet } from "react-native";
 import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
@@ -14,7 +12,6 @@ import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
   useAnimatedReaction,
-  useAnimatedRef,
   useSharedValue,
   useWorkletCallback,
 } from "react-native-reanimated";
@@ -29,21 +26,19 @@ const MemoizedSortableItem = memo(
   SortableItem,
   (prevProps, nextProps) =>
     prevProps.info.index === nextProps.info.index &&
-    prevProps.info.item === prevProps.info.item &&
-    prevProps.info.separators === prevProps.info.separators
+    prevProps.info.item === nextProps.info.item &&
+    prevProps.info.separators === nextProps.info.separators
 );
 
-const autoscrollSpeed = 10;
+const autoscrollSpeed = 40;
 const autoscrollThreshold = 30;
 const activationDistance = 0;
-const SCROLL_POSITION_TOLERANCE = 2;
 
 export default function SortableFlatList<ItemT>({
   renderItem: renderItemProp,
   onDragEnd,
   onScroll: onScrollProp,
   onContentSizeChange: onContentSizeChangeProp,
-  keyExtractor,
   getItemLayout,
   style,
   data,
@@ -77,7 +72,7 @@ export default function SortableFlatList<ItemT>({
 
   const spacerIndexAnim = useSharedValue(-1); // Index of hovered-over cell
 
-  const scrollRef = useAnimatedRef<ScrollView>();
+  const scrollRef = useRef<FlatList>(null);
 
   const scrollOffset = useSharedValue(0);
 
@@ -93,8 +88,8 @@ export default function SortableFlatList<ItemT>({
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       onScrollProp?.(event);
-      scrollOffset.value =
-        event.nativeEvent.contentOffset[horizontal ? "x" : "y"];
+      const offset = event.nativeEvent.contentOffset[horizontal ? "x" : "y"];
+      scrollOffset.value = offset;
     },
     [onScrollProp, scrollOffset, horizontal]
   );
@@ -103,6 +98,7 @@ export default function SortableFlatList<ItemT>({
   const hoverOffset = useSharedValue(0);
 
   // AutoScroll
+  const autoscrollingAnim = useSharedValue(false);
   useAnimatedReaction(
     () => {
       return {
@@ -150,12 +146,15 @@ export default function SortableFlatList<ItemT>({
         scrollContentSizeValue - containerSizeValue
       );
 
-      if (
-        Math.abs(calculatedTargetOffset - scrollOffsetValue) <
-        SCROLL_POSITION_TOLERANCE
-      )
-        return;
-      scrollTo(scrollRef, 0, calculatedTargetOffset, false);
+      if (autoscrollingAnim.value) return;
+      autoscrollingAnim.value = true;
+      scrollRef.current?.scrollToOffset({
+        offset: calculatedTargetOffset,
+        animated: true,
+      });
+      setTimeout(() => {
+        autoscrollingAnim.value = false;
+      }, Math.abs(calculatedTargetOffset - scrollOffsetValue) / 2);
     },
     []
   );
@@ -241,20 +240,19 @@ export default function SortableFlatList<ItemT>({
         activeOffsetY={activationDistance}
       >
         <Animated.View style={style} onLayout={onContainerLayout}>
-          {activeIndex !== -1 && data?.[activeIndex] && (
+          {activeIndex !== -1 && !!data ? (
             <ClonedItem
               info={{
                 index: activeIndex,
                 item: data[activeIndex],
               }}
             />
-          )}
+          ) : null}
           <FlatList
             {...props}
             // @ts-ignore
             ref={scrollRef}
             data={data}
-            keyExtractor={keyExtractor}
             getItemLayout={getItemLayout}
             renderItem={renderItem}
             onScroll={onScroll}

@@ -121,9 +121,11 @@ function SortableItem<ItemT>({
     const shouldTranslate = isAfterActive
       ? cellIndex.value <= spacerIndexAnim.value
       : cellIndex.value >= spacerIndexAnim.value;
-    return shouldTranslate
-      ? activeLayoutAnim.value.length * (isAfterActive ? -1 : 1)
-      : 0;
+    return withTiming(
+      shouldTranslate
+        ? activeLayoutAnim.value.length * (isAfterActive ? -1 : 1)
+        : 0
+    );
   });
 
   const drag = useCallback(() => {
@@ -134,9 +136,7 @@ function SortableItem<ItemT>({
     return {
       transform: [
         {
-          [horizontal ? "translateX" : "translateY"]: withTiming(
-            translateValue.value
-          ),
+          [horizontal ? "translateX" : "translateY"]: translateValue.value,
         },
       ] as unknown as ViewStyle["transform"],
       opacity: isActiveCell.value ? 0 : 1,
