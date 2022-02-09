@@ -59,7 +59,10 @@ module.exports = async (env, argv) => {
               presets: [
                 [
                   "module:metro-react-native-babel-preset",
-                  { useTransformReactJSXExperimental: true, disableImportExportTransform: true },
+                  {
+                    useTransformReactJSXExperimental: true,
+                    disableImportExportTransform: true,
+                  },
                 ],
               ],
               plugins: [
@@ -112,7 +115,9 @@ module.exports = async (env, argv) => {
         "react-native": "react-native-web",
         "react-native-linear-gradient": "react-native-web-linear-gradient",
         "react-native-reanimated": getDependencyDir("react-native-reanimated"),
-        "react-native-gesture-handler": getDependencyDir("react-native-gesture-handler"),
+        "react-native-gesture-handler": getDependencyDir(
+          "react-native-gesture-handler"
+        ),
         "@react-native-async-storage/async-storage": getDependencyDir(
           "@react-native-async-storage/async-storage"
         ),
@@ -134,8 +139,5 @@ module.exports = async (env, argv) => {
       }),
       isProductionEnv && process.env.ANALYZE && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
-    optimization: {
-      minimize: false
-    }
   });
 };
