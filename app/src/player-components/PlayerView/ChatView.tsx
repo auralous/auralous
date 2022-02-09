@@ -1,5 +1,4 @@
 import { IconArrowRight, IconLogIn } from "@/assets";
-import { Avatar } from "@/components/Avatar";
 import { Button } from "@/components/Button";
 import type { InputRef } from "@/components/Input";
 import { Input } from "@/components/Input";
@@ -35,7 +34,6 @@ const styles = StyleSheet.create({
   content: {
     borderRadius: 50,
     flex: 1,
-    paddingHorizontal: Size[4],
     paddingVertical: Size[2],
   },
   contentSpecial: {
@@ -58,13 +56,21 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: Size[1],
   },
+  listContent: {
+    paddingHorizontal: Size[4],
+  },
   listItem: {
     alignItems: "flex-start",
     flexDirection: "row",
-    marginBottom: Size[4],
+    marginBottom: Size[3],
   },
   root: {
     flex: 1,
+  },
+  textHead: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
 });
 
@@ -78,7 +84,7 @@ const ChatItemJoin: FC<{
       <View style={styles.icon}>
         <IconLogIn width={18} height={18} />
       </View>
-      <Spacer x={2} />
+      <Spacer x={1} />
       <View style={[styles.content, styles.contentSpecial]}>
         <Text color="textSecondary">
           {t("chat.join", { username: message.creator.username })}
@@ -93,18 +99,13 @@ const ChatItemText: FC<{
 }> = ({ message }) => {
   return (
     <View style={styles.listItem}>
-      <Avatar
-        size={8}
-        username={message.creator.username}
-        href={message.creator.profilePicture}
-      />
       <View style={styles.content}>
-        <Text>
+        <View style={styles.textHead}>
           <Text bold>{message.creator.username}</Text>
-          <Spacer x={2} />
-          <Text color="text" lineGapScale={1}>
-            {message.text}
-          </Text>
+        </View>
+        <Spacer y={2} />
+        <Text color="text" lineGapScale={1}>
+          {message.text}
         </Text>
       </View>
     </View>
@@ -186,6 +187,7 @@ const ChatList: FC<{ id: string }> = ({ id }) => {
     <FlatList
       ref={ref}
       style={styles.list}
+      contentContainerStyle={styles.listContent}
       renderItem={renderItem}
       data={displayingMessages}
       onScroll={onScroll}

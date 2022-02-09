@@ -1,8 +1,8 @@
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
+import { stylesMeta } from "@/screens/common/itemScreen.style";
 import { RouteName } from "@/screens/types";
-import { stylesMeta } from "@/screens/_commonContent";
 import type { Session } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC, ReactNode } from "react";

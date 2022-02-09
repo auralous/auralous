@@ -95,6 +95,7 @@ const SessionNonLiveContent: FC<{
 }> = ({ session, onQuickShare }) => {
   const { t } = useTranslation();
 
+  // FIXME: This causes setState in render
   const [{ data, fetching }] = useSessionTracksQuery({
     variables: { id: session.id },
   });

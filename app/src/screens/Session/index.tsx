@@ -125,7 +125,7 @@ const SessionScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.Session>
 > = ({ route, navigation }) => {
   const { t } = useTranslation();
-
+  // FIXME: This causes setState in render
   const [{ data, fetching }] = useSessionQuery({
     variables: {
       id: route.params.id,

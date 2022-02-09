@@ -1,4 +1,5 @@
 import { Button } from "@/components/Button";
+import { Size } from "@/styles/spacing";
 import { useUiDispatch } from "@/ui-context";
 import {
   useMeQuery,
@@ -46,11 +47,14 @@ export const UserFollowButton: FC<{ id: string }> = ({ id }) => {
     [me, followUser, onUnauthenticated, id]
   );
 
+  if (me?.user.id === id) return null;
+
   return (
     <Button
       variant={followed ? undefined : "primary"}
       onPress={followed ? onUnfollow : onFollow}
-      disabled={fetchingFollow || fetchingUnfollow || me?.user.id === id}
+      disabled={fetchingFollow || fetchingUnfollow}
+      style={{ height: Size[8] }}
     >
       {followed ? t("user.unfollow") : t("user.follow")}
     </Button>

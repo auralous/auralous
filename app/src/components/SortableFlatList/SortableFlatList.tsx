@@ -152,7 +152,7 @@ export default function SortableFlatList<ItemT>({
         offset: calculatedTargetOffset,
         animated: true,
       });
-      setTimeout(() => {
+      runOnJS(setTimeout)(() => {
         autoscrollingAnim.value = false;
       }, Math.abs(calculatedTargetOffset - scrollOffsetValue) / 2);
     },

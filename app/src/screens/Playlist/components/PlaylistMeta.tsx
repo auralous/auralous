@@ -3,7 +3,7 @@ import { Button } from "@/components/Button";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
 import player from "@/player";
-import { stylesMeta } from "@/screens/_commonContent";
+import { stylesMeta } from "@/screens/common/itemScreen.style";
 import type { Playlist } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";
