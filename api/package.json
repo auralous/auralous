@@ -15,10 +15,10 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "yarn codegen && yarn build:dts && yarn build:babel",
-    "build:babel": "babel src -d dist --extensions \".ts\"",
+    "build": "yarn codegen && yarn build:dts && yarn build:js",
+    "build:js": "babel src -d dist --extensions \".ts\"",
     "build:dts": "tsc",
-    "build:watch": "concurrently \"yarn codegen --watch\" \"yarn build:dts --watch\" \"yarn build:babel -w\"",
+    "build:watch": "concurrently \"yarn codegen --watch\" \"yarn build:dts -w\" \"yarn build:js -w\"",
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "codegen": "graphql-codegen",
     "test": "echo \"Error: no test specified\" && exit 1"
