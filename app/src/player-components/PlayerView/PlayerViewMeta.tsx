@@ -5,11 +5,7 @@ import ytLogoMonoDark from "@/assets/images/yt_logo_mono_dark.png";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
-import {
-  usePlaybackAuthentication,
-  usePlaybackError,
-  usePlaybackProvidedTrackId,
-} from "@/player";
+import { usePlaybackError, usePlaybackProvidedTrackId } from "@/player";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { useUiDispatch } from "@/ui-context";
@@ -60,7 +56,6 @@ interface PlayerViewMetaProps {
 
 const ErrorNoCrossTrack = () => {
   const { t } = useTranslation();
-  const playbackAuthentication = usePlaybackAuthentication();
 
   const playbackProvidedTrackId = usePlaybackProvidedTrackId();
 
@@ -71,11 +66,7 @@ const ErrorNoCrossTrack = () => {
   return (
     <View>
       <Text align="center" color="textSecondary">
-        {t("player.error.no_cross_track", {
-          platform: t(
-            `music_platform.${playbackAuthentication.playingPlatform}.name`
-          ),
-        })}
+        {t("player.error.unplayable")}
       </Text>
       <Spacer y={4} />
       <Text align="center">
@@ -123,6 +114,8 @@ const MetaButton: FC<{ track: Track | null | undefined }> = ({ track }) => {
 };
 
 const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
+  const { t } = useTranslation();
+
   const providerLogoImageSource = useMemo(
     () => ({
       [PlatformName.Spotify]: spotifyLogoRGBWhite,
@@ -134,13 +127,16 @@ const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
   const playbackError = usePlaybackError();
 
   if (playbackError) {
-    if (playbackError === "no_cross_track") {
-      return (
-        <View style={styles.error}>
+    return (
+      <View style={styles.error}>
+        {playbackError === "no_cross_track" ? (
           <ErrorNoCrossTrack />
-        </View>
-      );
-    }
+        ) : (
+          // @ts-ignore
+          <Text>{t(`player.error.${playbackError}`)}</Text>
+        )}
+      </View>
+    );
   }
 
   return (

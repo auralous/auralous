@@ -140,6 +140,7 @@
       "error_initialize_player_help": "Make sure the Spotify app is installed and you did not press outside while the loading dialog is visible."
     },
     "error": {
+      "unplayable": "Cannot play this song",
       "no_cross_track": "This song is not available on {{platform}}"
     }
   },

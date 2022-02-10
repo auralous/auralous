@@ -3,10 +3,11 @@ import imageDefaultTrack from "@/assets/images/default_track.jpg";
 import { BOTTOM_TABS_HEIGHT } from "@/components/Layout/BottomTabs";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
-import { TextMarquee } from "@/components/Typography";
+import { Text, TextMarquee } from "@/components/Typography";
 import player, {
   usePlaybackColor,
   usePlaybackCurrentControl,
+  usePlaybackError,
   usePlaybackTrackId,
 } from "@/player";
 import { RouteName } from "@/screens/types";
@@ -128,6 +129,8 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
     return { bottom: withTiming(BOTTOM_TABS_HEIGHT) };
   }, [hasTabBars, isLandscape]);
 
+  const playbackError = usePlaybackError();
+
   return (
     <Animated.View
       pointerEvents={hidden ? "none" : "auto"}
@@ -146,39 +149,57 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
             accessibilityLabel={track?.title}
           />
           <View style={styles.meta}>
-            {fetching ? (
-              <SkeletonBlock width={27} height={2} />
+            {playbackError ? (
+              <>
+                <Text italic numberOfLines={1}>
+                  {t("player.error.unplayable")}
+                </Text>
+                <Spacer y={2} />
+                <Text italic color="textSecondary" size="sm" numberOfLines={1}>
+                  {t(`player.error.${playbackError}`)}
+                </Text>
+              </>
             ) : (
-              <View style={styles.title}>
-                {track?.platform && (
-                  <IconByPlatformName
-                    platformName={track.platform}
-                    width={Size[3]}
-                    height={Size[3]}
-                    noColor
-                  />
+              <>
+                {fetching ? (
+                  <SkeletonBlock width={27} height={2} />
+                ) : (
+                  <View style={styles.title}>
+                    {track?.platform && (
+                      <IconByPlatformName
+                        platformName={track.platform}
+                        width={Size[3]}
+                        height={Size[3]}
+                        noColor
+                      />
+                    )}
+                    <Spacer x={1} />
+                    <TextMarquee
+                      containerStyle={styles.titleText}
+                      bold
+                      size="sm"
+                      duration={15000}
+                    >
+                      {track?.title}
+                    </TextMarquee>
+                  </View>
                 )}
-                <Spacer x={1} />
-                <TextMarquee
-                  containerStyle={styles.titleText}
-                  bold
-                  size="sm"
-                  duration={15000}
-                >
-                  {track?.title}
-                </TextMarquee>
-              </View>
+                <Spacer y={2} />
+                <View>
+                  {fetching ? (
+                    <SkeletonBlock width={24} height={2} />
+                  ) : (
+                    <TextMarquee
+                      color="textSecondary"
+                      size="sm"
+                      duration={15000}
+                    >
+                      {track?.artists.map((artist) => artist.name).join(", ")}
+                    </TextMarquee>
+                  )}
+                </View>
+              </>
             )}
-            <Spacer y={2} />
-            <View>
-              {fetching ? (
-                <SkeletonBlock width={24} height={2} />
-              ) : (
-                <TextMarquee color="textSecondary" size="sm" duration={15000}>
-                  {track?.artists.map((artist) => artist.name).join(", ")}
-                </TextMarquee>
-              )}
-            </View>
           </View>
         </Pressable>
         <View>

@@ -140,6 +140,7 @@
       "error_initialize_player_help": "Hãy kiểm tra rằng ứng dụng Spotify đã được cài đặt và bạn không nhấn ra ngoài khi hộp thoại đang tải được hiển thị."
     },
     "error": {
+      "unplayable": "Cannot play this song",
       "no_cross_track": "Bài hát này không có sẵn trên {{platform}}"
     }
   },

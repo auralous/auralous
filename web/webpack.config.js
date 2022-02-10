@@ -106,7 +106,7 @@ module.exports = async (env, argv) => {
           exclude: /@babel(?:\/|\\{1,2})runtime/,
           enforce: "pre",
           use: ["source-map-loader"],
-        },
+        }
       ],
     },
     resolve: {
