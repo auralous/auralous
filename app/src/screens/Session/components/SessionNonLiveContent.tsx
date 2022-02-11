@@ -52,9 +52,8 @@ const SessionTrackItem = memo<{
   const onPress = useCallback(
     () =>
       player.playContext({
-        id: sessionId,
+        id: ["session", sessionId],
         initialIndex: index,
-        type: "session",
         shuffle: false,
       }),
     [sessionId, index]
@@ -65,8 +64,8 @@ const SessionTrackItem = memo<{
 
   const isCurrentTrack = useMemo(
     () =>
-      playbackCurrentContext?.type === "session" &&
-      playbackCurrentContext.id === sessionId &&
+      playbackCurrentContext?.id?.[0] === "session" &&
+      playbackCurrentContext.id[1] === sessionId &&
       queuePlayingUid === uidForIndexedTrack(index, track.id),
     [queuePlayingUid, playbackCurrentContext, track.id, index, sessionId]
   );
@@ -103,8 +102,7 @@ const SessionNonLiveContent: FC<{
   const shufflePlay = useCallback(
     () =>
       player.playContext({
-        id: session.id,
-        type: "session",
+        id: ["session", session.id],
         shuffle: true,
       }),
     [session]

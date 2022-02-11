@@ -58,9 +58,9 @@ const MapScreen: FC<NativeStackScreenProps<ParamList, RouteName.Map>> = () => {
     (index: number) => {
       pageInteracted.current = true;
       player.playContext({
-        id: sessions[index].id,
+        id: ["session", sessions[index].id],
+        isLive: sessions[index].isLive,
         shuffle: false,
-        type: "session",
       });
     },
     [sessions]

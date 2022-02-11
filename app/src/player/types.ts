@@ -10,16 +10,12 @@ export interface PlaybackContextMeta {
   type: "session" | "playlist";
 }
 
-/**
- * ContextUri has the form of {<type>,<id>}, defining
- * what the player will be playing.
- * ex. `{type:"session", id: "foo"}`, `{type:"playlist", id: "bar"}`
- */
 export interface PlaybackCurrentContext {
-  id: string;
-  type: PlaybackContextMeta["type"];
+  id?: [type: PlaybackContextMeta["type"], entityId: string];
   shuffle: boolean;
+  isLive?: boolean;
   initialIndex?: number;
+  initialTracks?: string[];
 }
 
 export interface PlaybackContextProvided {
@@ -35,6 +31,6 @@ export interface PlaybackState extends PlaybackContextProvided {
   color: string;
   playingPlatform: PlatformName | null;
   accessToken: string | null;
-  error?: "no_cross_track" | null;
+  error?: string | null;
   providedTrackId: string | null;
 }

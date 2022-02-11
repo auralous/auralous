@@ -62,8 +62,8 @@ const NewFinalScreen: FC<
       navigation.goBack();
     } else if (result.data?.sessionCreate) {
       player.playContext({
-        type: "session",
-        id: result.data.sessionCreate.id,
+        id: ["session", result.data.sessionCreate.id],
+        isLive: true,
         shuffle: false,
       });
       navigation.popToTop();

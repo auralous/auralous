@@ -4,15 +4,16 @@ import type { PlaybackContextMeta, PlaybackCurrentContext } from "../types";
 export const usePlaybackContextMeta = (
   playbackCurrentContext: PlaybackCurrentContext | null
 ): PlaybackContextMeta | null => {
-  const isSession = playbackCurrentContext?.type === "session";
-  const isPlaylist = playbackCurrentContext?.type === "playlist";
+  const isSession = playbackCurrentContext?.id?.[0] === "session";
+  const isPlaylist = playbackCurrentContext?.id?.[0] === "playlist";
+  const entityId = playbackCurrentContext?.id?.[1];
 
   const [{ data: dataSession }] = useSessionQuery({
-    variables: { id: playbackCurrentContext?.id || "" },
+    variables: { id: entityId || "" },
     pause: !isSession,
   });
   const [{ data: dataPlaylist }] = usePlaylistQuery({
-    variables: { id: playbackCurrentContext?.id || "" },
+    variables: { id: entityId || "" },
     pause: !isPlaylist,
   });
 
@@ -20,7 +21,7 @@ export const usePlaybackContextMeta = (
 
   if (isSession)
     return {
-      id: playbackCurrentContext.id,
+      id: entityId!,
       contextDescription: dataSession?.session?.text || "",
       contextCollaborators: dataSession?.session?.collaboratorIds,
       contextOwner: dataSession?.session?.creatorId,
@@ -31,7 +32,7 @@ export const usePlaybackContextMeta = (
 
   if (isPlaylist)
     return {
-      id: playbackCurrentContext.id,
+      id: entityId!,
       contextDescription: dataPlaylist?.playlist?.name || "",
       imageUrl: dataPlaylist?.playlist?.image,
       isLive: false,

@@ -73,7 +73,7 @@ const QueueTrackItem: FC<
       </View>
       <TouchableOpacity
         style={styles.track}
-        onLongPress={onTrackItemPressed}
+        onPress={onTrackItemPressed}
         activeOpacity={onPress ? 0.2 : 1}
       >
         <TrackItem isPlaying={isPlaying} track={track} fetching={fetching} />

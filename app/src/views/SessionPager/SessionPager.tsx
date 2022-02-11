@@ -92,8 +92,8 @@ const useCurrentTrack = (session: Session) => {
     return dataNowPlaying?.nowPlaying?.current.trackId;
   }
   if (
-    playbackCurrentContext?.type === "session" &&
-    playbackCurrentContext.id === session.id
+    playbackCurrentContext?.id?.[0] === "session" &&
+    playbackCurrentContext.id[1] === session.id
   ) {
     return currentTrackId;
   }

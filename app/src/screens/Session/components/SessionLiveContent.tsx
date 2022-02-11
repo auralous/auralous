@@ -63,8 +63,8 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
 
   const joinLive = useCallback(() => {
     player.playContext({
-      id: session.id,
-      type: "session",
+      id: ["session", session.id],
+      isLive: true,
       shuffle: false,
     });
   }, [session]);
@@ -111,8 +111,8 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
             <Button
               variant="primary"
               disabled={
-                playbackCurrentContext?.type === "session" &&
-                playbackCurrentContext.id === session.id
+                playbackCurrentContext?.id?.[0] === "session" &&
+                playbackCurrentContext.id[1] === session.id
               }
               onPress={joinLive}
             >

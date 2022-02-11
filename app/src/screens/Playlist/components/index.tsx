@@ -39,9 +39,8 @@ const PlaylistTrackItem = memo<{
   const onPress = useCallback(
     () =>
       player.playContext({
-        id: playlistId,
+        id: ["playlist", playlistId],
         initialIndex: index,
-        type: "playlist",
         shuffle: false,
       }),
     [playlistId, index]
@@ -52,8 +51,8 @@ const PlaylistTrackItem = memo<{
 
   const isCurrentTrack = useMemo(
     () =>
-      playbackCurrentContext?.type === "playlist" &&
-      playbackCurrentContext.id === playlistId &&
+      playbackCurrentContext?.id?.[0] === "playlist" &&
+      playbackCurrentContext.id[1] === playlistId &&
       queuePlayingUid === uidForIndexedTrack(index, track.id),
     [queuePlayingUid, playbackCurrentContext, track.id, index, playlistId]
   );

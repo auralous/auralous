@@ -53,8 +53,7 @@ const SessionInviteScreen: FC<
 
   const playAndNavigate = useCallback(() => {
     player.playContext({
-      id: route.params.id,
-      type: "session",
+      id: ["session", route.params.id],
       shuffle: false,
     });
     navigation.replace(RouteName.Session, { id: route.params.id });

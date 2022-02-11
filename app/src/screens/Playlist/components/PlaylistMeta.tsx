@@ -19,8 +19,7 @@ const PlaylistMeta: FC<{
   const shufflePlay = useCallback(
     () =>
       player.playContext({
-        id: playlist.id,
-        type: "playlist",
+        id: ["playlist", playlist.id],
         shuffle: true,
       }),
     [playlist]

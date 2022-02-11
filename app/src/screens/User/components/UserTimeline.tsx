@@ -22,9 +22,8 @@ export const UserTimeline: FC<{
   const onSessionCardPlay = useCallback(
     (sessionId: string, index: number) =>
       player.playContext({
-        id: sessionId,
+        id: ["session", sessionId],
         initialIndex: index,
-        type: "session",
         shuffle: false,
       }),
     []

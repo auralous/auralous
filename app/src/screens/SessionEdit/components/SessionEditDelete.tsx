@@ -38,8 +38,8 @@ export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
     if (!result.error) {
       toast.success(t("session_edit.delete.delete_ok"));
       if (
-        playbackCurrentContext?.type === "session" &&
-        playbackCurrentContext.id === sessionId
+        playbackCurrentContext?.id?.[0] === "session" &&
+        playbackCurrentContext.id[1] === sessionId
       ) {
         player.playContext(null);
       }
