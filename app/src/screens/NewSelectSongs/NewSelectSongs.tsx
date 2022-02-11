@@ -15,6 +15,9 @@ import {
   SelectedTracksListView,
 } from "./components/SelectedTracksListView";
 
+// topBar + footer heights + handleHeight
+const snapPoints = [Size[10] + Size[12] + 24, "95%"];
+
 const styles = StyleSheet.create({
   content: {
     flex: 1,
@@ -27,14 +30,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundSecondary,
     paddingBottom: Size[2],
   },
+  ssWrapper: {
+    flex: 1,
+    paddingBottom: snapPoints[0],
+    paddingHorizontal: Size[4],
+  },
 });
 
 const backdropComponent = (props: BottomSheetBackdropProps) => (
   <BottomSheetBackdrop {...props} pressBehavior="none" enableTouchThrough />
 );
-
-// topBar + footer heights + handleHeight
-const snapPoints = [Size[10] + Size[12] + 24, "95%"];
 
 const NewSelectSongs: FC<{
   selectedTracks: string[];
@@ -76,11 +81,13 @@ const NewSelectSongs: FC<{
 
   return (
     <>
-      <SongSelector
-        selectedTracks={selectedTracks}
-        addTracks={addTracks}
-        removeTracks={removeTracks}
-      />
+      <View style={styles.ssWrapper}>
+        <SongSelector
+          selectedTracks={selectedTracks}
+          addTracks={addTracks}
+          removeTracks={removeTracks}
+        />
+      </View>
       <SelectedTracksListProvider expanded={expanded}>
         <BottomSheet
           snapPoints={snapPoints}

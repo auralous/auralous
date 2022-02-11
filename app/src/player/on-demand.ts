@@ -7,11 +7,10 @@ import type {
   Track,
 } from "@auralous/api";
 import { PlaylistTracksDocument, SessionTracksDocument } from "@auralous/api";
-import { shuffle } from ".";
 import type Player from "./Player";
 import type { PlaybackHandle } from "./Player";
 import type { PlaybackCurrentContext } from "./types";
-import { reorder } from "./utils";
+import { reorder, shuffle } from "./utils";
 
 export function registerOnDemand(
   player: Player,
@@ -71,21 +70,17 @@ export function registerOnDemand(
       setQueue(queue.filter((item) => !uids.includes(item.uid)));
     },
     queueReorder(from: number, to: number) {
-      setQueue(
-        reorder([...queue], from + playingIndex + 1, to + playingIndex + 1)
-      );
+      setQueue(reorder(queue, from + playingIndex + 1, to + playingIndex + 1));
     },
     queueToTop(uids) {
       const toTopItems: QueueItem[] = [];
-      const afterQueueItems = [...queue]
-        .slice(playingIndex + 1)
-        .filter((item) => {
-          if (uids.includes(item.uid)) {
-            toTopItems.push(item);
-            return false;
-          }
-          return true;
-        });
+      const afterQueueItems = queue.slice(playingIndex + 1).filter((item) => {
+        if (uids.includes(item.uid)) {
+          toTopItems.push(item);
+          return false;
+        }
+        return true;
+      });
       setQueue([
         ...queue.slice(0, playingIndex + 1),
         ...toTopItems,
@@ -121,9 +116,8 @@ export function registerOnDemand(
 
   let fetchTracksStale = false;
   if (initialTracks) {
-    playbackHandle.queueAdd(
-      isShuffle ? shuffle([...initialTracks]) : [...initialTracks]
-    );
+    const cloned = [...initialTracks];
+    playbackHandle.queueAdd(isShuffle ? shuffle(cloned) : cloned);
   } else if (combinedId) {
     const setByTracks = (tracks: Track[]) => {
       if (fetchTracksStale) return;

@@ -37,9 +37,9 @@
     "@babel/cli": "^7.17.0",
     "@babel/core": "^7.17.2",
     "@babel/preset-typescript": "^7.16.7",
-    "@graphql-codegen/cli": "^2.5.0",
+    "@graphql-codegen/cli": "^2.6.1",
     "@graphql-codegen/typescript": "^2.4.3",
-    "@graphql-codegen/typescript-operations": "^2.2.4",
+    "@graphql-codegen/typescript-operations": "^2.3.0",
     "@graphql-codegen/typescript-urql": "^3.5.1",
     "@graphql-codegen/typescript-urql-graphcache": "^2.2.4"
   },

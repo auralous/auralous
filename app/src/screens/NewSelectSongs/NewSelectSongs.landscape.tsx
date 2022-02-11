@@ -14,6 +14,7 @@ import {
 const styles = StyleSheet.create({
   column: {
     flex: 1,
+    paddingRight: Size[3],
   },
   root: {
     flex: 1,

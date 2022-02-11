@@ -26,8 +26,12 @@ const PlayerProviderInner: FC<{
    * - the track enqueued (next items)
    * - underlying fetching state
    */
-  const [playbackState, setPlaybackState] =
-    useState<PlaybackContextProvided | null>(null);
+  const [playbackState, setPlaybackState] = useState<PlaybackContextProvided>({
+    fetching: false,
+    nextItems: [],
+    queuePlayingUid: null,
+    trackId: null,
+  });
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -65,9 +69,6 @@ const PlayerProviderInner: FC<{
     if (playingPlatform) player.setPlatform(playingPlatform);
   }, [playingPlatform]);
 
-  // Combine fetching states
-  const fetching = false;
-
   const color = useTrackColor(playingTrackId);
 
   // live session specific
@@ -86,15 +87,12 @@ const PlayerProviderInner: FC<{
       value={{
         playbackCurrentContext,
         playingTrackId,
-        trackId: playbackState?.trackId || null,
-        nextItems: playbackState?.nextItems || [],
         color,
-        fetching,
         isPlaying,
         playingPlatform,
         accessToken: me?.accessToken || null,
-        queuePlayingUid: playbackState?.queuePlayingUid || null,
         error: error?.message || null,
+        ...playbackState,
       }}
     >
       {children}

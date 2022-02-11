@@ -38,6 +38,12 @@ module.exports = async (env, argv) => {
     devtool: isProductionEnv ? "source-map" : "eval-source-map",
     devServer: {
       port: 3000,
+      client: {
+        overlay: {
+          errors: true,
+          warnings: false,
+        }
+      }
     },
     module: {
       rules: [

@@ -26,15 +26,15 @@
     "react-i18next": "^11.15.4",
     "react-native-capsize": "^0.2.2",
     "react-native-youtube-iframe": "^2.2.2",
-    "swiper": "^8.0.3"
+    "swiper": "^8.0.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.0",
     "@babel/core": "^7.17.2",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
-    "react-native-spotify-remote": "^0.3.11-3",
-    "@react-native-async-storage/async-storage": "^1.15.17",
+    "react-native-spotify-remote": "^0.3.11-5",
+    "@react-native-async-storage/async-storage": "^1.16.1",
     "@react-native-mapbox-gl/maps": "^8.5.0",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",
@@ -60,8 +60,8 @@
     "react-native-svg": "^12.1.1"
   },
   "peerDependencies": {
-    "react-native-spotify-remote": "^0.3.11-3",
-    "@react-native-async-storage/async-storage": "^1.15.17",
+    "react-native-spotify-remote": "^0.3.11-5",
+    "@react-native-async-storage/async-storage": "^1.16.1",
     "@react-native-mapbox-gl/maps": "^8.5.0",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",

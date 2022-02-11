@@ -30,7 +30,7 @@ const MemoizedSortableItem = memo(
     prevProps.info.separators === nextProps.info.separators
 );
 
-const autoscrollSpeed = 40;
+const autoscrollSpeed = 80;
 const autoscrollThreshold = 30;
 const activationDistance = 0;
 
@@ -97,8 +97,17 @@ export default function SortableFlatList<ItemT>({
   const initialHoverOffset = useSharedValue(0);
   const hoverOffset = useSharedValue(0);
 
+  const doAutoScroll = useMemo(() => {
+    let throttled = false;
+    return (offset: number) => {
+      if (throttled) return;
+      throttled = true;
+      setTimeout(() => (throttled = false), 100);
+      scrollRef.current?.scrollToOffset({ animated: true, offset });
+    };
+  }, []);
+
   // AutoScroll
-  const autoscrollingAnim = useSharedValue(false);
   useAnimatedReaction(
     () => {
       return {
@@ -146,17 +155,9 @@ export default function SortableFlatList<ItemT>({
         scrollContentSizeValue - containerSizeValue
       );
 
-      if (autoscrollingAnim.value) return;
-      autoscrollingAnim.value = true;
-      scrollRef.current?.scrollToOffset({
-        offset: calculatedTargetOffset,
-        animated: true,
-      });
-      runOnJS(setTimeout)(() => {
-        autoscrollingAnim.value = false;
-      }, Math.abs(calculatedTargetOffset - scrollOffsetValue) / 2);
+      runOnJS(doAutoScroll)(calculatedTargetOffset);
     },
-    []
+    [doAutoScroll]
   );
 
   const drag = useCallback(
