@@ -9,7 +9,7 @@ import { Text } from "@/components/Typography";
 import player, {
   usePlaybackCurrentContext,
   usePlaybackCurrentControl,
-  usePlaybackProvidedTrackId,
+  usePlaybackTrackId,
 } from "@/player";
 import PlayerViewMeta from "@/player-components/PlayerView/PlayerViewMeta";
 import PlayerViewProgress from "@/player-components/PlayerView/PlayerViewProgress";
@@ -87,7 +87,7 @@ const useCurrentTrack = (session: Session) => {
     pause: !session.isLive,
   });
   const playbackCurrentContext = usePlaybackCurrentContext();
-  const currentTrackId = usePlaybackProvidedTrackId();
+  const currentTrackId = usePlaybackTrackId();
   if (session.isLive) {
     return dataNowPlaying?.nowPlaying?.current.trackId;
   }

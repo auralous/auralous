@@ -5,7 +5,7 @@ import ytLogoMonoDark from "@/assets/images/yt_logo_mono_dark.png";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
-import { usePlaybackError, usePlaybackProvidedTrackId } from "@/player";
+import { usePlaybackError, usePlaybackTrackId } from "@/player";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { useUiDispatch } from "@/ui-context";
@@ -57,10 +57,10 @@ interface PlayerViewMetaProps {
 const ErrorNoCrossTrack = () => {
   const { t } = useTranslation();
 
-  const playbackProvidedTrackId = usePlaybackProvidedTrackId();
+  const trackId = usePlaybackTrackId();
 
   const [{ data }] = useTrackQuery({
-    variables: { id: playbackProvidedTrackId as string },
+    variables: { id: trackId as string },
   });
 
   return (
