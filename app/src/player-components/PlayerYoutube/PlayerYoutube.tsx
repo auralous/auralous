@@ -16,9 +16,7 @@ const YT_PLAYER_VARS = {
 const PlayerYoutube: FC = () => {
   const youtubeRef = useRef<YoutubeIframeRef>(null);
   const isPlayingRef = useRef<boolean>(false);
-  const [videoId, setVideoId] = useState<string | null>(
-    player.playingExternalId
-  );
+  const [videoId, setVideoId] = useState<string | null>(null);
   const [volume, setVolume] = useState(100);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -47,6 +45,7 @@ const PlayerYoutube: FC = () => {
       pause: () => setIsPlaying(false),
       playByExternalId: (externalId: string | null) => {
         setVideoId(externalId);
+        setIsPlaying(true);
         player.emit("played_external", externalId);
       },
       setVolume: (p) => setVolume(p * 100),

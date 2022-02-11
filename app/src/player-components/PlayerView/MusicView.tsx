@@ -2,7 +2,7 @@ import player, {
   usePlaybackContextMeta,
   usePlaybackCurrentContext,
   usePlaybackCurrentControl,
-  usePlaybackTrackId,
+  usePlaybackPlayingTrackId,
 } from "@/player";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 const MusicView: FC = () => {
-  const trackId = usePlaybackTrackId();
+  const trackId = usePlaybackPlayingTrackId();
   const [{ data, fetching }] = useTrackQuery({
     variables: { id: trackId || "" },
     pause: !trackId,

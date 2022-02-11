@@ -32,5 +32,5 @@ export interface PlaybackState extends PlaybackContextProvided {
   playingPlatform: PlatformName | null;
   accessToken: string | null;
   error?: string | null;
-  providedTrackId: string | null;
+  playingTrackId: string | null;
 }

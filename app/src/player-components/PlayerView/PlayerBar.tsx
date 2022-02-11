@@ -8,7 +8,7 @@ import player, {
   usePlaybackColor,
   usePlaybackCurrentControl,
   usePlaybackError,
-  usePlaybackTrackId,
+  usePlaybackPlayingTrackId,
 } from "@/player";
 import { RouteName } from "@/screens/types";
 import { useIsRouteWithNavbar, useRouteNames } from "@/screens/useRouteName";
@@ -92,7 +92,7 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
   const { t } = useTranslation();
 
   const { isPlaying } = usePlaybackCurrentControl();
-  const trackId = usePlaybackTrackId();
+  const trackId = usePlaybackPlayingTrackId();
 
   const [{ data, fetching }] = useTrackQuery({
     variables: { id: trackId || "" },
