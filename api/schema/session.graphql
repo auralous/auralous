@@ -89,7 +89,9 @@ mutation sessionEnd($id: ID!) {
 }
 
 query sessionListeners($id: ID!) {
-  sessionListeners(id: $id)
+  sessionListeners(id: $id) {
+    ...UserPublicParts
+  }
 }
 
 mutation sessionPing($id: ID!) {
@@ -103,7 +105,9 @@ subscription sessionUpdated($id: ID!) {
 }
 
 subscription sessionListenersUpdated($id: ID!) {
-  sessionListenersUpdated(id: $id)
+  sessionListenersUpdated(id: $id) {
+    ...UserPublicParts
+  }
 }
 
 query sessionInviteLink($id: ID!) {

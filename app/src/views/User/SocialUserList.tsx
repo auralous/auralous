@@ -3,8 +3,7 @@ import { Spacer } from "@/components/Spacer";
 import { UserListItem } from "@/components/User";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
-import type { Maybe } from "@auralous/api";
-import { useUserQuery } from "@auralous/api";
+import type { Maybe, User } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -13,7 +12,7 @@ import { FlatList, Pressable, StyleSheet, View } from "react-native";
 import { UserFollowButton } from "./UserFollowButton";
 
 interface SocialUserListProps {
-  userIds: Maybe<string[]>;
+  users: Maybe<User[]>;
   fetching?: boolean;
 }
 
@@ -27,31 +26,27 @@ const styles = StyleSheet.create({
   },
 });
 
-const UserItem: FC<{ id: string }> = ({ id }) => {
-  const [{ data, fetching }] = useUserQuery({ variables: { id } });
-
+const UserItem: FC<{ user: User }> = ({ user }) => {
   const navigation = useNavigation();
 
   const onPress = useCallback(
-    () =>
-      data?.user &&
-      navigation.navigate(RouteName.User, { username: data.user.username }),
-    [navigation, data?.user]
+    () => navigation.navigate(RouteName.User, { username: user.username }),
+    [navigation, user]
   );
 
   return (
     <View style={styles.itemRoot}>
       <Pressable onPress={onPress} style={styles.itemInfo}>
-        <UserListItem user={data?.user || null} fetching={fetching} />
+        <UserListItem user={user} />
       </Pressable>
-      <UserFollowButton id={id} />
+      <UserFollowButton id={user.id} />
     </View>
   );
 };
 
 const itemHeight = Size[10] + Size[2];
-const renderItem: ListRenderItem<string> = ({ item }) => (
-  <UserItem key={item} id={item} />
+const renderItem: ListRenderItem<User> = ({ item }) => (
+  <UserItem key={item.id} user={item} />
 );
 const getItemLayout = (data: unknown, index: number) => ({
   length: itemHeight,
@@ -61,14 +56,14 @@ const getItemLayout = (data: unknown, index: number) => ({
 const ItemSeparatorComponent = () => <Spacer y={2} />;
 
 export const SocialUserList: FC<SocialUserListProps> = ({
-  userIds,
+  users,
   fetching,
 }) => {
   return (
     <FlatList
       ListEmptyComponent={fetching ? <LoadingScreen /> : null}
       ItemSeparatorComponent={ItemSeparatorComponent}
-      data={userIds || []}
+      data={users || []}
       renderItem={renderItem}
       getItemLayout={getItemLayout}
       initialNumToRender={0}

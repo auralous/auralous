@@ -295,7 +295,7 @@ export type Query = {
   session?: Maybe<Session>;
   sessionCurrentLive?: Maybe<SessionCurrentLive>;
   sessionInviteLink: Scalars['String'];
-  sessionListeners?: Maybe<Array<Scalars['String']>>;
+  sessionListeners?: Maybe<Array<User>>;
   sessionTracks: Array<Track>;
   sessions: Array<Session>;
   sessionsOnMap: Array<Session>;
@@ -306,6 +306,7 @@ export type Query = {
   userFollowers: Array<Scalars['String']>;
   userFollowings: Array<Scalars['String']>;
   userStat?: Maybe<UserStat>;
+  users: Array<Maybe<User>>;
 };
 
 
@@ -446,6 +447,11 @@ export type QueryUserStatArgs = {
   id: Scalars['ID'];
 };
 
+
+export type QueryUsersArgs = {
+  ids: Array<Scalars['ID']>;
+};
+
 export type QueueItem = {
   __typename: 'QueueItem';
   creatorId: Scalars['String'];
@@ -486,7 +492,7 @@ export type Subscription = {
   notificationAdded: Notification;
   nowPlayingReactionsUpdated: Array<NowPlayingReactionItem>;
   nowPlayingUpdated?: Maybe<NowPlaying>;
-  sessionListenersUpdated: Array<Scalars['String']>;
+  sessionListenersUpdated: Array<User>;
   sessionUpdated: Session;
 };
 
@@ -835,7 +841,7 @@ export type SessionListenersQueryVariables = Exact<{
 }>;
 
 
-export type SessionListenersQuery = { sessionListeners?: Array<string> | null };
+export type SessionListenersQuery = { sessionListeners?: Array<{ __typename: 'User', id: string, username: string, bio?: string | null, profilePicture?: string | null }> | null };
 
 export type SessionPingMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -856,7 +862,7 @@ export type SessionListenersUpdatedSubscriptionVariables = Exact<{
 }>;
 
 
-export type SessionListenersUpdatedSubscription = { sessionListenersUpdated: Array<string> };
+export type SessionListenersUpdatedSubscription = { sessionListenersUpdated: Array<{ __typename: 'User', id: string, username: string, bio?: string | null, profilePicture?: string | null }> };
 
 export type SessionInviteLinkQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -919,6 +925,13 @@ export type UserQueryVariables = Exact<{
 
 
 export type UserQuery = { user?: { __typename: 'User', id: string, username: string, bio?: string | null, profilePicture?: string | null } | null };
+
+export type UsersQueryVariables = Exact<{
+  ids: Array<Scalars['ID']> | Scalars['ID'];
+}>;
+
+
+export type UsersQuery = { users: Array<{ __typename: 'User', id: string, username: string, bio?: string | null, profilePicture?: string | null } | null> };
 
 export type UserStatQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1160,7 +1173,7 @@ export const SessionEndDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export function useSessionEndMutation() {
   return Urql.useMutation<SessionEndMutation, SessionEndMutationVariables>(SessionEndDocument);
 };
-export const SessionListenersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionListeners"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionListeners"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const SessionListenersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"sessionListeners"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionListeners"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionListenersQuery(options: Omit<Urql.UseQueryArgs<SessionListenersQueryVariables>, 'query'>) {
   return Urql.useQuery<SessionListenersQuery>({ query: SessionListenersDocument, ...options });
@@ -1175,7 +1188,7 @@ export const SessionUpdatedDocument = {"kind":"Document","definitions":[{"kind":
 export function useSessionUpdatedSubscription<TData = SessionUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<SessionUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SessionUpdatedSubscription, TData>) {
   return Urql.useSubscription<SessionUpdatedSubscription, TData, SessionUpdatedSubscriptionVariables>({ query: SessionUpdatedDocument, ...options }, handler);
 };
-export const SessionListenersUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"sessionListenersUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionListenersUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode;
+export const SessionListenersUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"sessionListenersUpdated"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sessionListenersUpdated"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
 
 export function useSessionListenersUpdatedSubscription<TData = SessionListenersUpdatedSubscription>(options: Omit<Urql.UseSubscriptionArgs<SessionListenersUpdatedSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SessionListenersUpdatedSubscription, TData>) {
   return Urql.useSubscription<SessionListenersUpdatedSubscription, TData, SessionListenersUpdatedSubscriptionVariables>({ query: SessionListenersUpdatedDocument, ...options }, handler);
@@ -1219,6 +1232,11 @@ export const UserDocument = {"kind":"Document","definitions":[{"kind":"Operation
 
 export function useUserQuery(options?: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
   return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
+};
+export const UsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"users"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ids"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ids"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ids"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserPublicParts"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserPublicParts"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"bio"}},{"kind":"Field","name":{"kind":"Name","value":"profilePicture"}}]}}]} as unknown as DocumentNode;
+
+export function useUsersQuery(options: Omit<Urql.UseQueryArgs<UsersQueryVariables>, 'query'>) {
+  return Urql.useQuery<UsersQuery>({ query: UsersDocument, ...options });
 };
 export const UserStatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"userStat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userStat"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"followerCount"}},{"kind":"Field","name":{"kind":"Name","value":"followingCount"}}]}}]}}]} as unknown as DocumentNode;
 
@@ -1297,7 +1315,7 @@ export type GraphCacheResolvers = {
     session?: GraphCacheResolver<WithTypename<Query>, QuerySessionArgs, WithTypename<Session> | string>,
     sessionCurrentLive?: GraphCacheResolver<WithTypename<Query>, QuerySessionCurrentLiveArgs, WithTypename<SessionCurrentLive> | string>,
     sessionInviteLink?: GraphCacheResolver<WithTypename<Query>, QuerySessionInviteLinkArgs, Scalars['String'] | string>,
-    sessionListeners?: GraphCacheResolver<WithTypename<Query>, QuerySessionListenersArgs, Array<Scalars['String'] | string>>,
+    sessionListeners?: GraphCacheResolver<WithTypename<Query>, QuerySessionListenersArgs, Array<WithTypename<User> | string>>,
     sessionTracks?: GraphCacheResolver<WithTypename<Query>, QuerySessionTracksArgs, Array<WithTypename<Track> | string>>,
     sessions?: GraphCacheResolver<WithTypename<Query>, QuerySessionsArgs, Array<WithTypename<Session> | string>>,
     sessionsOnMap?: GraphCacheResolver<WithTypename<Query>, QuerySessionsOnMapArgs, Array<WithTypename<Session> | string>>,
@@ -1307,7 +1325,8 @@ export type GraphCacheResolvers = {
     user?: GraphCacheResolver<WithTypename<Query>, QueryUserArgs, WithTypename<User> | string>,
     userFollowers?: GraphCacheResolver<WithTypename<Query>, QueryUserFollowersArgs, Array<Scalars['String'] | string>>,
     userFollowings?: GraphCacheResolver<WithTypename<Query>, QueryUserFollowingsArgs, Array<Scalars['String'] | string>>,
-    userStat?: GraphCacheResolver<WithTypename<Query>, QueryUserStatArgs, WithTypename<UserStat> | string>
+    userStat?: GraphCacheResolver<WithTypename<Query>, QueryUserStatArgs, WithTypename<UserStat> | string>,
+    users?: GraphCacheResolver<WithTypename<Query>, QueryUsersArgs, Array<WithTypename<User> | string>>
   },
   Artist?: {
     id?: GraphCacheResolver<WithTypename<Artist>, Record<string, never>, Scalars['ID'] | string>,
@@ -1478,7 +1497,7 @@ export type GraphCacheUpdaters = {
     notificationAdded?: GraphCacheUpdateResolver<{ notificationAdded: WithTypename<NotificationFollow> | WithTypename<NotificationNewSession> }, Record<string, never>>,
     nowPlayingReactionsUpdated?: GraphCacheUpdateResolver<{ nowPlayingReactionsUpdated: Array<WithTypename<NowPlayingReactionItem>> }, SubscriptionNowPlayingReactionsUpdatedArgs>,
     nowPlayingUpdated?: GraphCacheUpdateResolver<{ nowPlayingUpdated: Maybe<WithTypename<NowPlaying>> }, SubscriptionNowPlayingUpdatedArgs>,
-    sessionListenersUpdated?: GraphCacheUpdateResolver<{ sessionListenersUpdated: Array<Scalars['String']> }, SubscriptionSessionListenersUpdatedArgs>,
+    sessionListenersUpdated?: GraphCacheUpdateResolver<{ sessionListenersUpdated: Array<WithTypename<User>> }, SubscriptionSessionListenersUpdatedArgs>,
     sessionUpdated?: GraphCacheUpdateResolver<{ sessionUpdated: WithTypename<Session> }, SubscriptionSessionUpdatedArgs>
   },
 };

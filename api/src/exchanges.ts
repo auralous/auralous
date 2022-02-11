@@ -186,9 +186,8 @@ const cacheExchangeFn = () =>
                 query: SessionListenersDocument,
                 variables: { id: args.id },
               },
-              () => ({
-                sessionListeners: result.sessionListenersUpdated,
-              })
+              // @ts-ignore
+              () => ({ sessionListeners: result.sessionListenersUpdated })
             );
           }
         },

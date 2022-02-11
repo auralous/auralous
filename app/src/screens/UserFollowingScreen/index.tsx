@@ -1,8 +1,13 @@
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import type { ParamList, RouteName } from "@/screens/types";
+import { isTruthy } from "@/utils/utils";
 import { SocialUserList } from "@/views/User";
-import { useUserFollowingsQuery, useUserQuery } from "@auralous/api";
+import {
+  useUserFollowingsQuery,
+  useUserQuery,
+  useUsersQuery,
+} from "@auralous/api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
@@ -17,23 +22,30 @@ const UserFollowingScreen: FC<
   const username = route.params.username;
   const [{ data: dataUser, fetching }] = useUserQuery({
     variables: { username },
-    pause: !username,
   });
-  const user = dataUser?.user;
 
   const [{ data, fetching: fetchingList }] = useUserFollowingsQuery({
-    variables: { id: user?.id || "" },
-    pause: !user,
+    variables: { id: dataUser?.user?.id || "" },
+    pause: !dataUser?.user,
   });
+
+  const [{ data: dataUsers, fetching: fetchingUsers }] = useUsersQuery({
+    variables: {
+      ids: data?.userFollowings || [],
+    },
+    pause: !data?.userFollowings.length,
+  });
+
+  const users = dataUsers?.users?.filter(isTruthy);
 
   return (
     <View style={styles.root}>
       {fetching ? (
         <LoadingScreen />
-      ) : user ? (
+      ) : dataUser?.user ? (
         <SocialUserList
-          userIds={data?.userFollowings || null}
-          fetching={fetchingList}
+          users={users || null}
+          fetching={fetchingList || fetchingUsers}
         />
       ) : (
         <NotFoundScreen />

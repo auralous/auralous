@@ -22,6 +22,12 @@ query user($username: String, $id: ID) {
   }
 }
 
+query users($ids: [ID!]!) {
+  users(ids: $ids) {
+    ...UserPublicParts
+  }
+}
+
 query userStat($id: ID!) {
   userStat(id: $id) {
     id

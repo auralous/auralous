@@ -36,7 +36,7 @@ const SessionListenersScreen: FC<
       {fetching ? (
         <LoadingScreen />
       ) : data?.sessionListeners ? (
-        <SocialUserList userIds={data?.sessionListeners || null} />
+        <SocialUserList users={data?.sessionListeners || null} />
       ) : (
         <NotFoundScreen />
       )}

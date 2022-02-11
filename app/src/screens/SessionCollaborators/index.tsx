@@ -4,11 +4,14 @@ import { NotFoundScreen } from "@/components/NotFound";
 import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import { useUiDispatch } from "@/ui-context";
+import { isTruthy } from "@/utils/utils";
 import { SocialUserList } from "@/views/User";
+import type { Session } from "@auralous/api";
 import {
   useMeQuery,
   useSessionInviteLinkQuery,
   useSessionQuery,
+  useUsersQuery,
 } from "@auralous/api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
@@ -23,27 +26,20 @@ const styles = StyleSheet.create({
   root: { flex: 1, paddingTop: Size[2] },
 });
 
-const SessionCollaboratorsScreen: FC<
-  NativeStackScreenProps<ParamList, RouteName.Session>
-> = ({ route }) => {
+const SessionInviteButton: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
-
-  const [{ data: dataSession, fetching }] = useSessionQuery({
-    variables: { id: route.params.id },
-  });
-
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
   const shouldShowInviteButton = Boolean(
-    dataSession?.session &&
-      me &&
-      dataSession.session.collaboratorIds.includes(me.user.id)
+    me && session.collaboratorIds.includes(me.user.id)
   );
 
-  const [{ data: dataSessionInviteLink }] = useSessionInviteLinkQuery({
-    variables: { id: route.params.id },
-    pause: !shouldShowInviteButton,
-  });
+  const [{ data: dataSessionInviteLink, fetching }] = useSessionInviteLinkQuery(
+    {
+      variables: { id: session.id },
+      pause: !shouldShowInviteButton,
+    }
+  );
 
   const uiDispatch = useUiDispatch();
 
@@ -52,32 +48,50 @@ const SessionCollaboratorsScreen: FC<
       type: "share",
       value: {
         visible: true,
-        title: t("session_invite.title", { name: dataSession?.session?.text }),
+        title: t("session_invite.title", { name: session.text }),
         url: dataSessionInviteLink?.sessionInviteLink,
       },
     });
-  }, [
-    t,
-    uiDispatch,
-    dataSession?.session?.text,
-    dataSessionInviteLink?.sessionInviteLink,
-  ]);
+  }, [t, uiDispatch, session.text, dataSessionInviteLink?.sessionInviteLink]);
+
+  if (!shouldShowInviteButton) return null;
+
+  return (
+    <View style={styles.invite}>
+      <Button variant="primary" onPress={onInvitePress} disabled={fetching}>
+        {t("share.invite_friends")}
+      </Button>
+    </View>
+  );
+};
+
+const SessionCollaboratorsScreen: FC<
+  NativeStackScreenProps<ParamList, RouteName.Session>
+> = ({ route }) => {
+  const [{ data: dataSession, fetching }] = useSessionQuery({
+    variables: { id: route.params.id },
+  });
+
+  const [{ data: dataUsers, fetching: fetchingUsers }] = useUsersQuery({
+    variables: {
+      ids: dataSession?.session?.collaboratorIds || [],
+    },
+    pause: !dataSession?.session?.collaboratorIds.length,
+  });
+
+  const users = dataUsers?.users?.filter(isTruthy);
 
   return (
     <View style={styles.root}>
-      {fetching ? (
+      {fetching || fetchingUsers ? (
         <LoadingScreen />
       ) : dataSession?.session ? (
-        <SocialUserList userIds={dataSession.session.collaboratorIds} />
+        <>
+          <SocialUserList users={users || null} />
+          <SessionInviteButton session={dataSession.session} />
+        </>
       ) : (
         <NotFoundScreen />
-      )}
-      {shouldShowInviteButton && dataSessionInviteLink && (
-        <View style={styles.invite}>
-          <Button variant="primary" onPress={onInvitePress}>
-            {t("share.invite_friends")}
-          </Button>
-        </View>
       )}
     </View>
   );
