@@ -1,7 +1,17 @@
+import type {
+  Client,
+  CrossTracksQuery,
+  CrossTracksQueryVariables,
+  PlatformName,
+} from "@auralous/api";
+import { CrossTracksDocument } from "@auralous/api";
 import mitt from "mitt";
-import type { PlaybackCurrentContext } from "./types";
+import { pipe, subscribe } from "wonka";
+import { registerLivePlayback } from "./live";
+import { registerOnDemand } from "./on-demand";
+import type { PlaybackContextProvided, PlaybackCurrentContext } from "./types";
 
-interface PlayerHandle {
+export interface PlayerHandle {
   play: () => void;
   seek: (ms: number) => void;
   isPlaying: () => boolean;
@@ -10,7 +20,7 @@ interface PlayerHandle {
   setVolume: (percentage: number) => void;
 }
 
-interface PlaybackHandle {
+export interface PlaybackHandle {
   skipForward(): void;
   skipBackward(): void;
   queueToTop(uids: string[]): void;
@@ -21,7 +31,6 @@ interface PlaybackHandle {
 }
 
 type EventsType = {
-  context: null | PlaybackCurrentContext;
   play?: void; // Dispatch play
   pause?: void; // Dispatch pause
   playing?: void; // Has played
@@ -30,28 +39,52 @@ type EventsType = {
   ended?: void; // Has ended
   time: number; // On playback time (ms)
   played_external: string | null; // new external id played
+  playback_state: PlaybackContextProvided;
+  error: Error | null;
+  playing_track_id: null | string; // track that is playing, not neccessarily the actual track id
 };
 
 class Player {
+  public gqlClient!: Client;
+
   private ee = mitt<EventsType>();
   private playerFn: PlayerHandle | null = null;
   private playbackFn: PlaybackHandle | null = null;
 
-  playingExternalId: string | null = null;
-  __wasPlaying = false;
+  private __wasPlaying = false;
+
+  super() {
+    // When the player is pausing the music
+    // there is a chance there is a nowPlaying update
+    // causing sudden continue without user intention
+    // we pause right away if this happens
+    const pauseIfWasNotPlaying = () => {
+      if (!this.__wasPlaying) this.pause();
+    };
+    this.on("seeked", pauseIfWasNotPlaying);
+    this.on("played_external", pauseIfWasNotPlaying);
+  }
 
   on = this.ee.on.bind(this.ee);
   off = this.ee.off.bind(this.ee);
   emit = this.ee.emit.bind(this.ee);
 
+  /**
+   * Third party player register
+   */
   registerPlayer(registerHandle: PlayerHandle) {
     this.playerFn = registerHandle;
-    if (this.playingExternalId !== undefined) {
-      registerHandle.playByExternalId(this.playingExternalId);
+    if (this.trackId) {
+      // upon register, start playing if something was playing
+      this.setTrackId(this.trackId);
     }
   }
 
-  registerPlaybackHandle(registerHandle: PlaybackHandle) {
+  unregisterPlayer() {
+    this.playerFn = null;
+  }
+
+  registerPlayback(registerHandle: PlaybackHandle) {
     this.playbackFn = registerHandle;
   }
 
@@ -59,25 +92,16 @@ class Player {
     this.playbackFn = null;
   }
 
-  playByExternalId(externalId: string | null) {
-    this.playerFn?.playByExternalId(externalId);
-    this.playingExternalId = externalId;
+  get isPlaying() {
+    return this.playerFn?.isPlaying();
   }
 
-  unregisterPlayer() {
-    this.playerFn = null;
-  }
-
-  playContext(currentContextSelector: PlaybackCurrentContext | null) {
-    this.emit("context", currentContextSelector);
-  }
+  /**
+   * Playback Control
+   */
 
   seek(ms: number) {
     this.playerFn?.seek(ms);
-  }
-
-  get isPlaying() {
-    return this.playerFn?.isPlaying();
   }
 
   play() {
@@ -107,6 +131,7 @@ class Player {
   queueToTop(uids: string[]) {
     this.playbackFn?.queueToTop(uids);
   }
+
   queuePlayUid(uid: string) {
     this.playbackFn?.queuePlayUid(uid);
   }
@@ -120,6 +145,78 @@ class Player {
   }
   queueAdd(trackIds: string[]) {
     this.playbackFn?.queueAdd(trackIds);
+  }
+
+  /**
+   * State control
+   */
+
+  private userPlatform: PlatformName | undefined;
+  setPlatform(nextPlatform: PlatformName) {
+    if (nextPlatform === this.userPlatform) return;
+    this.userPlatform = nextPlatform;
+    if (this.trackId) this.setTrackId(this.trackId); // to fetch new track based on platform
+  }
+
+  private registerUnsubscribe: (() => void) | undefined;
+  commitContext(currentContext: PlaybackCurrentContext | null) {
+    this.__wasPlaying = !!currentContext; // if a commit happens, player must want playing
+    this.registerUnsubscribe?.();
+    if (currentContext) {
+      if (currentContext.isLive) {
+        this.registerUnsubscribe = registerLivePlayback(this, currentContext);
+      } else {
+        this.registerUnsubscribe = registerOnDemand(this, currentContext);
+      }
+    }
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  playContext(currentContextSelector: PlaybackCurrentContext | null) {
+    /* TOBE IMPLEMENTED */
+  }
+
+  private trackId: string | null = null;
+
+  private commitPlayTrackId(trackId: string | null) {
+    this.emit("playing_track_id", trackId);
+    if (!this.playerFn) return;
+    this.playerFn.playByExternalId(trackId ? trackId.split(":")[1] : null);
+  }
+
+  private crossTrackUnsubscribe: (() => void) | undefined;
+  setTrackId(trackId: string | null) {
+    const userPlatform = this.userPlatform;
+    this.trackId = trackId;
+    this.crossTrackUnsubscribe?.();
+    if (!userPlatform) return; // dont start playing without userPlatform
+    if (!trackId) {
+      this.commitPlayTrackId(null);
+      return;
+    }
+    const [trackPlatform] = trackId.split(":");
+    if (trackPlatform !== this.userPlatform) {
+      // need to fetch a compatible track on another platform
+      this.crossTrackUnsubscribe = pipe(
+        this.gqlClient.query<CrossTracksQuery, CrossTracksQueryVariables>(
+          CrossTracksDocument,
+          { id: trackId }
+        ),
+        subscribe((result) => {
+          this.crossTrackUnsubscribe!();
+          const preferredExternalTrackId =
+            result.data?.crossTracks?.[userPlatform];
+          if (preferredExternalTrackId) {
+            this.commitPlayTrackId(
+              `${this.userPlatform}:${preferredExternalTrackId}`
+            );
+          } else {
+            // TODO: emit error
+          }
+        })
+      ).unsubscribe;
+    } else {
+      this.commitPlayTrackId(trackId);
+    }
   }
 }
 
