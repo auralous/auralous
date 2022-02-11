@@ -126,6 +126,9 @@
   "session_listeners": {
     "title": "Listeners"
   },
+  "track": {
+    "title": "Song"
+  },
   "player": {
     "title": "Player",
     "pause": "Pause",

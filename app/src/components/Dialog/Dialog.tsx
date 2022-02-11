@@ -136,7 +136,7 @@ const DialogRoot: FC<BottomSheetDialogProps> = ({
           contentStyle,
         ]}
       >
-        {isLargeScreen && onDismiss && (
+        {onDismiss && (
           <Pressable
             style={styles.closeBtn}
             accessibilityLabel={t("common.navigation.close")}

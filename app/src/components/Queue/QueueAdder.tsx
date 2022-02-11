@@ -1,8 +1,7 @@
 import { Button } from "@/components/Button";
-import { SlideModal } from "@/components/Dialog";
 import { Header } from "@/components/Header";
 import { Colors } from "@/styles/colors";
-import { Size } from "@/styles/spacing";
+import { LayoutSize, Size } from "@/styles/spacing";
 import { SongSelector } from "@/views/SongSelector";
 import type { QueueItem } from "@auralous/api";
 import type { FC } from "react";
@@ -10,6 +9,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { FadeModal } from "../Dialog";
 
 interface QueueAdderProps {
   visible: boolean;
@@ -23,11 +23,20 @@ const styles = StyleSheet.create({
   button: {
     marginTop: Size[2],
   },
+  container: {
+    backgroundColor: Colors.backgroundSecondary,
+    borderRadius: 16,
+    height: "100%",
+    marginHorizontal: "auto",
+    maxWidth: LayoutSize.lg,
+    padding: Size[4],
+    width: "100%",
+  },
   content: {
     flex: 1,
   },
   root: {
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: "rgba(0,0,0,.4)",
     flex: 1,
     padding: Size[4],
   },
@@ -47,25 +56,27 @@ const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
 
   return (
     <SafeAreaView style={styles.root}>
-      <Header title={t("queue.add_songs")} />
-      <View style={styles.content}>
-        <SongSelector
-          addTracks={onAddTracks}
-          removeTracks={onRemoveTracks}
-          selectedTracks={selectedTracks}
-        />
+      <View style={styles.container}>
+        <Header title={t("queue.add_songs")} />
+        <View style={styles.content}>
+          <SongSelector
+            addTracks={onAddTracks}
+            removeTracks={onRemoveTracks}
+            selectedTracks={selectedTracks}
+          />
+        </View>
+        <Button onPress={onClose} style={styles.button} variant="primary">
+          {t("common.action.done")}
+        </Button>
       </View>
-      <Button onPress={onClose} style={styles.button} variant="primary">
-        {t("common.action.done")}
-      </Button>
     </SafeAreaView>
   );
 };
 
 export const QueueAdder: FC<QueueAdderProps> = (props) => {
   return (
-    <SlideModal visible={props.visible} onDismiss={props.onClose}>
+    <FadeModal visible={props.visible} onDismiss={props.onClose}>
       <QueueAdderContent {...props} />
-    </SlideModal>
+    </FadeModal>
   );
 };

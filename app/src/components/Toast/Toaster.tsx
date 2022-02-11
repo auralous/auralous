@@ -2,7 +2,7 @@ import { IconCheck, IconX } from "@/assets";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
-import { Size } from "@/styles/spacing";
+import { LayoutSize, Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import { AccessibilityInfo, Platform, StyleSheet, View } from "react-native";
@@ -23,14 +23,8 @@ const styles = StyleSheet.create({
     elevation: 12,
     flexDirection: "row",
     height: Size[12],
+    maxWidth: LayoutSize.md,
     paddingHorizontal: Size[4],
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
   },
   error: { backgroundColor: Colors.danger },
   icon: {
@@ -41,6 +35,7 @@ const styles = StyleSheet.create({
     width: Size[6],
   },
   root: {
+    alignItems: "center",
     bottom: 0,
     padding: Size[2],
     position: "absolute",

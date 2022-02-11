@@ -1,6 +1,4 @@
-import { IconChevronLeft } from "@/assets";
 import { Button } from "@/components/Button";
-import { Header } from "@/components/Header";
 import type { InputRef } from "@/components/Input";
 import { Input } from "@/components/Input";
 import { LoadingScreen } from "@/components/Loading";
@@ -18,13 +16,9 @@ import {
 import type { FC } from "react";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    paddingHorizontal: Size[4],
-  },
   create: {
     flex: 1,
     justifyContent: "center",
@@ -37,6 +31,9 @@ const styles = StyleSheet.create({
     marginBottom: Size[4],
   },
   root: {
+    flex: 1,
+  },
+  scroll: {
     flex: 1,
   },
 });
@@ -134,7 +131,7 @@ const AddToExisted: FC<AddToPlaylistProps & { showIsCreate(): void }> = ({
   );
 
   return (
-    <>
+    <ScrollView style={styles.scroll}>
       <Button style={styles.playlist} onPress={showIsCreate}>
         {t("playlist.add_to_playlist.create_playlist.title")}
       </Button>
@@ -152,45 +149,30 @@ const AddToExisted: FC<AddToPlaylistProps & { showIsCreate(): void }> = ({
           </TouchableOpacity>
         ))
       )}
-    </>
+    </ScrollView>
   );
 };
 
 export const AddToPlaylist: FC<AddToPlaylistProps> = ({ track, onDismiss }) => {
-  const { t } = useTranslation();
-
   const [isCreate, setIsCreate] = useState(false);
   const showIsCreate = useCallback(() => setIsCreate(true), []);
   const hideIsCreate = useCallback(() => setIsCreate(false), []);
 
   return (
     <View style={styles.root}>
-      <Header
-        left={
-          <Button
-            variant="text"
-            accessibilityLabel={t("common.naviation.go_back")}
-            icon={<IconChevronLeft />}
-            onPress={onDismiss}
-          />
-        }
-        title={t("playlist.add_to_playlist.title")}
-      />
-      <View style={styles.content}>
-        {isCreate ? (
-          <CreatePlaylist
-            onDismiss={onDismiss}
-            track={track}
-            hideIsCreate={hideIsCreate}
-          />
-        ) : (
-          <AddToExisted
-            onDismiss={onDismiss}
-            track={track}
-            showIsCreate={showIsCreate}
-          />
-        )}
-      </View>
+      {isCreate ? (
+        <CreatePlaylist
+          onDismiss={onDismiss}
+          track={track}
+          hideIsCreate={hideIsCreate}
+        />
+      ) : (
+        <AddToExisted
+          onDismiss={onDismiss}
+          track={track}
+          showIsCreate={showIsCreate}
+        />
+      )}
     </View>
   );
 };

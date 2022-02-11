@@ -3,7 +3,6 @@ import { SessionItem } from "@/components/Session";
 import { Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { useFlatlist6432Layout } from "@/styles/flatlist";
-import { Size } from "@/styles/spacing";
 import { useUiLayout } from "@/ui-context/UIContext";
 import type { Session } from "@auralous/api";
 import { useSessionsSearchQuery } from "@auralous/api";
@@ -11,18 +10,9 @@ import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-
-const styles = StyleSheet.create({
-  item: {
-    flex: 1,
-    padding: Size[2],
-  },
-  root: {
-    flex: 1,
-  },
-});
+import { styles } from "./ItemsSearch.styles";
 
 const SearchItem: FC<{ session: Session }> = ({ session }) => {
   const navigation = useNavigation();

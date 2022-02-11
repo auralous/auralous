@@ -1,3 +1,3 @@
 export * from "./Dialog";
-export { SlideModal } from "./Modal";
+export { FadeModal, SlideModal } from "./Modal";
 export { useBackHandlerDismiss } from "./useBackHandlerDismiss";

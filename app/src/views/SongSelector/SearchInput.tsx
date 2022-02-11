@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     width: Size[10],
   },
   root: {
-    paddingHorizontal: Size[8],
     paddingVertical: Size[2],
   },
 });

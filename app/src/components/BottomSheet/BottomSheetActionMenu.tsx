@@ -3,12 +3,18 @@ import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
-import { Size } from "@/styles/spacing";
+import { LayoutSize, Size } from "@/styles/spacing";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import type { FC, ReactNode } from "react";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { NullComponent } from "../misc";
 import BottomSheetModalBackdrop from "./BottomSheetModalBackdrop";
 
@@ -33,6 +39,10 @@ const styles = StyleSheet.create({
   },
   bsBackground: {
     backgroundColor: Colors.backgroundSecondary,
+  },
+  bsLarge: {
+    marginHorizontal: "auto",
+    maxWidth: LayoutSize.md,
   },
   cancel: {
     height: Size[10],
@@ -91,6 +101,8 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
     [items.length]
   );
 
+  const windowWidth = useWindowDimensions().width;
+
   return (
     <BottomSheetModal
       ref={ref}
@@ -101,7 +113,7 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
       snapPoints={snapPoints}
       stackBehavior="push"
       onDismiss={onDismiss}
-      style={styles.bs}
+      style={windowWidth > LayoutSize.md ? styles.bsLarge : styles.bs}
       detached
       bottomInset={Size[4]}
     >

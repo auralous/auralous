@@ -126,6 +126,9 @@
   "session_listeners": {
     "title": "Người nghe"
   },
+  "track": {
+    "title": "Bài hát"
+  },
   "player": {
     "title": "Trình phát",
     "pause": "Tạm dừng",

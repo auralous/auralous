@@ -1,41 +1,49 @@
+import { Tab, TabList, TabPanel, Tabs } from "@/components/Tab";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import type { SongSelectorState } from "./Context";
 import { SongSelectorContext } from "./Context";
 import SearchInput from "./SearchInput";
 import SelectByPlaylists from "./SelectByPlaylists";
 import SelectBySongs from "./SelectBySongs";
-import Tabs from "./Tabs";
 
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    padding: Size[3],
     paddingBottom: 0,
+  },
+  tabList: {
+    justifyContent: "center",
+    paddingVertical: Size[2],
   },
 });
 
 export const SongSelector: FC<SongSelectorState> = (props) => {
-  const [tab, setTab] = useState<"songs" | "playlists">("songs");
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    setSearch("");
-  }, [tab]);
 
   return (
     <SongSelectorContext.Provider value={props}>
-      <Tabs tab={tab} setTab={setTab} />
       <SearchInput value={search} onSubmit={setSearch} />
-      <View style={styles.content}>
-        {tab === "songs" ? (
-          <SelectBySongs search={search} />
-        ) : (
-          <SelectByPlaylists search={search} />
-        )}
-      </View>
+      <Tabs onChange={() => setSearch("")}>
+        <TabList style={styles.tabList}>
+          <Tab>{t("select_songs.songs.title")}</Tab>
+          <Tab>{t("select_songs.playlists.title")}</Tab>
+        </TabList>
+        <TabPanel>
+          <View style={styles.content}>
+            <SelectBySongs search={search} />
+          </View>
+        </TabPanel>
+        <TabPanel>
+          <View style={styles.content}>
+            <SelectByPlaylists search={search} />
+          </View>
+        </TabPanel>
+      </Tabs>
     </SongSelectorContext.Provider>
   );
 };
