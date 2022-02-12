@@ -195,6 +195,7 @@ const ChatList: FC<{ id: string }> = ({ id }) => {
       onContentSizeChange={onContentSizeChange}
       onResponderEnd={() => (prevScrollY.current = -1)}
       onEndReached={() => (scrollShouldFollow.current = true)}
+      onEndReachedThreshold={20}
     />
   );
 };

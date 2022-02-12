@@ -17,7 +17,12 @@ import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import type { ListRenderItem } from "react-native";
-import { FlatList, StyleSheet, TouchableHighlight } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  TouchableHighlight,
+} from "react-native";
 
 const NotificationItem: FC<{
   notification: NotificationFollow | NotificationNewSession;
@@ -98,6 +103,7 @@ export const NotificationsScreenContent = () => {
       style={styles.root}
       contentContainerStyle={containerStyle}
       onEndReached={onEndReached}
+      onEndReachedThreshold={Dimensions.get("window").height / 5}
       ListEmptyComponent={fetching ? <LoadingScreen /> : null}
       data={data?.notifications || []}
       renderItem={renderItem}

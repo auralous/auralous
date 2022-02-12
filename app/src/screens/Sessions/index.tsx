@@ -12,7 +12,12 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import type { ListRenderItem } from "react-native";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
 const styles = StyleSheet.create({
   item: {
@@ -72,6 +77,7 @@ const SessionsScreen: FC<
       contentContainerStyle={containerStyle}
       numColumns={numColumns}
       onEndReached={loadMore}
+      onEndReachedThreshold={Dimensions.get("window").height / 5}
     />
   );
 };
