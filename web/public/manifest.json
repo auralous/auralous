@@ -2,6 +2,7 @@
   "short_name": "Auralous",
   "name": "Auralous: Listen Together",
   "description": "Play & listen to music in sync with friends",
+  "categories": ["music"],
   "icons": [
     {
       "src": "/icons/android-chrome-192x192.png",
@@ -15,7 +16,7 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
+  "display": "fullscreen",
   "theme_color": "#FF2E54",
-  "background_color": "#000000"
+  "background_color": "#111422"
 }

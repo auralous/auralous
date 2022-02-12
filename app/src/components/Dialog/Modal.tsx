@@ -1,6 +1,6 @@
+import { Toaster } from "@/components/Toast";
 import type { FC } from "react";
 import { Modal } from "react-native";
-import { Toaster } from "../Toast";
 
 interface ModalProps {
   visible: boolean;

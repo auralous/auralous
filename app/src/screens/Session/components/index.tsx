@@ -5,11 +5,10 @@ import SessionNonLiveContent from "./SessionNonLiveContent";
 
 export const SessionScreenContent: FC<{
   session: Session;
-  onQuickShare(session: Session): void;
-}> = ({ session, onQuickShare }) => {
+}> = ({ session }) => {
   return session.isLive ? (
     <SessionLiveContent session={session} />
   ) : (
-    <SessionNonLiveContent session={session} onQuickShare={onQuickShare} />
+    <SessionNonLiveContent session={session} />
   );
 };

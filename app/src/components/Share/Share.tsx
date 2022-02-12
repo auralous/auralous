@@ -1,11 +1,11 @@
 import { IconFacebook, IconReddit, IconShare2, IconTwitter } from "@/assets";
 import { Dialog } from "@/components/Dialog";
+import { toast } from "@/components/Toast";
 import { Config } from "@/config";
 import { Colors } from "@/styles/colors";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking, Share as RNShare } from "react-native";
-import { toast } from "../Toast";
 
 interface ShareProps {
   visible: boolean;

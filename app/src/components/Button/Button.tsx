@@ -88,8 +88,8 @@ export const Button: FC<ButtonProps> = (props) => {
         bold
         {...textProps}
         style={[
-          StyleSheet.compose(styles.text, textProps?.style),
           !textProps?.color && { color: textColor },
+          StyleSheet.compose(styles.text, textProps?.style),
         ]}
       >
         {children}

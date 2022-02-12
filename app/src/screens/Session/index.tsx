@@ -23,7 +23,7 @@ import type {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useCallback, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -147,29 +147,13 @@ const SessionScreen: FC<
     });
   }, [navigation, me, data, t, uiDispatch]);
 
-  const onQuickShare = useCallback(
-    (session: Session) => {
-      navigation.navigate(RouteName.NewQuickShare, {
-        session: {
-          ...session,
-          // erase createdAt since Date object breaks navigation
-          createdAt: null,
-        },
-      });
-    },
-    [navigation]
-  );
-
   return (
     <SafeAreaView style={styles.root}>
       {fetching ? (
         <LoadingScreen />
       ) : data?.session ? (
         <>
-          <SessionScreenContent
-            session={data.session}
-            onQuickShare={onQuickShare}
-          />
+          <SessionScreenContent session={data.session} />
           {route.params.isNew && <SessionNewPrompts session={data.session} />}
         </>
       ) : (

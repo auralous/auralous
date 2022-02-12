@@ -4,14 +4,14 @@ import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import player, {
   uidForIndexedTrack,
-  usePlaybackCurrentContext,
+  useIsCurrentPlaybackContext,
   usePlaybackQueuePlayingId,
 } from "@/player";
 import { Size } from "@/styles/spacing";
 import type { Playlist, Track } from "@auralous/api";
 import { usePlaylistTracksQuery } from "@auralous/api";
 import type { FC } from "react";
-import { createContext, memo, useCallback, useContext, useMemo } from "react";
+import { createContext, memo, useCallback, useContext } from "react";
 import type { ListRenderItem } from "react-native";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import PlaylistMeta from "./PlaylistMeta";
@@ -46,16 +46,16 @@ const PlaylistTrackItem = memo<{
     [playlistId, index]
   );
 
-  const playbackCurrentContext = usePlaybackCurrentContext();
   const queuePlayingUid = usePlaybackQueuePlayingId();
 
-  const isCurrentTrack = useMemo(
-    () =>
-      playbackCurrentContext?.id?.[0] === "playlist" &&
-      playbackCurrentContext.id[1] === playlistId &&
-      queuePlayingUid === uidForIndexedTrack(index, track.id),
-    [queuePlayingUid, playbackCurrentContext, track.id, index, playlistId]
+  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+    "playlist",
+    playlistId
   );
+
+  const isCurrentTrack =
+    isCurrentPlaybackContext &&
+    queuePlayingUid === uidForIndexedTrack(index, track.id);
 
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>

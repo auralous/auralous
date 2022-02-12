@@ -1,9 +1,9 @@
+import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useContext } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { Text } from "../Typography";
 import TabsContext from "./Context";
 
 const styles = StyleSheet.create({

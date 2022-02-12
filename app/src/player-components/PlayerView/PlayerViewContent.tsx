@@ -10,8 +10,7 @@ import { Spacer } from "@/components/Spacer";
 import { Heading } from "@/components/Typography";
 import type { PlaybackState } from "@/player";
 import {
-  usePlaybackContextMeta,
-  usePlaybackCurrentContext,
+  useCurrentContextMeta,
   usePlaybackNextItems,
   usePlaybackTrackId,
 } from "@/player";
@@ -77,7 +76,7 @@ const ChatSheet: FC<{
   onClose(): void;
 }> = ({ onClose }) => {
   const { t } = useTranslation();
-  const contextMeta = usePlaybackContextMeta(usePlaybackCurrentContext());
+  const contextMeta = useCurrentContextMeta();
   return (
     <SafeAreaView style={sheetStyles.root}>
       <SheetTitle onClose={onClose} title={t("chat.title")} />

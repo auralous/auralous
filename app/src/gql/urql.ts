@@ -3,16 +3,10 @@ import { Config } from "@/config";
 import i18n from "@/i18n";
 import { createClient, setupExchanges, STORAGE_KEY_AUTH } from "@auralous/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// @ts-ignore
-import sha256 from "hash.js/lib/hash/sha/256";
 import { Platform } from "react-native";
+import sha256 from "./sha256";
 
-const generateHash =
-  Platform.OS !== "web"
-    ? async (query: string) => {
-        return sha256().update(query).digest("hex");
-      }
-    : undefined;
+const generateHash = Platform.OS !== "web" ? sha256 : undefined;
 
 export const createUrqlClient = () => {
   return createClient({

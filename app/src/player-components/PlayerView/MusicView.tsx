@@ -1,6 +1,5 @@
 import player, {
-  usePlaybackContextMeta,
-  usePlaybackCurrentContext,
+  useCurrentContextMeta,
   usePlaybackCurrentControl,
   usePlaybackPlayingTrackId,
 } from "@/player";
@@ -26,7 +25,7 @@ const MusicView: FC = () => {
   const track = trackId ? data?.track : null;
 
   const currentControl = usePlaybackCurrentControl();
-  const contextMeta = usePlaybackContextMeta(usePlaybackCurrentContext());
+  const contextMeta = useCurrentContextMeta();
 
   return (
     <View style={styles.root}>

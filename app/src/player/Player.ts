@@ -60,6 +60,7 @@ class Player {
     // we pause right away if this happens
     const pauseIfWasNotPlaying = () => {
       if (!this.__wasPlaying) this.pause();
+      else this.play();
     };
     this.on("seeked", pauseIfWasNotPlaying);
     this.on("played_external", pauseIfWasNotPlaying);

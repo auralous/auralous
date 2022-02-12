@@ -10,7 +10,7 @@ import { PlaylistTracksDocument, SessionTracksDocument } from "@auralous/api";
 import type Player from "./Player";
 import type { PlaybackHandle } from "./Player";
 import type { PlaybackCurrentContext } from "./types";
-import { reorder, shuffle } from "./utils";
+import { reorder, shuffle, uidForIndexedTrack } from "./utils";
 
 export function registerOnDemand(
   player: Player,
@@ -58,8 +58,8 @@ export function registerOnDemand(
     queueAdd(trackIds) {
       setQueue([
         ...queue,
-        ...trackIds.map((trackId) => ({
-          uid: Math.random().toString(36).substring(2, 6), // random id
+        ...trackIds.map((trackId, index) => ({
+          uid: uidForIndexedTrack(queue.length + index, trackId),
           trackId,
           creatorId: "",
           __typename: "QueueItem" as const,

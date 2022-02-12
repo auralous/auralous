@@ -61,16 +61,19 @@ const NewFinalScreen: FC<
     if (result.error) {
       navigation.goBack();
     } else if (result.data?.sessionCreate) {
+      const id = result.data.sessionCreate.id;
       player.playContext({
-        id: ["session", result.data.sessionCreate.id],
+        id: ["session", id],
         isLive: true,
         shuffle: false,
       });
       navigation.popToTop();
-      navigation.navigate(RouteName.Session, {
-        id: result.data.sessionCreate.id,
-        isNew: true,
-      });
+      setTimeout(() => {
+        navigation.navigate(RouteName.Session, {
+          id,
+          isNew: true,
+        });
+      }, 0);
     }
   }, [route, createSession, navigation]);
 

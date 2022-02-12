@@ -1,5 +1,6 @@
 import { Button } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
+import { NullComponent } from "@/components/misc";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
@@ -15,7 +16,6 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { NullComponent } from "../misc";
 import BottomSheetModalBackdrop from "./BottomSheetModalBackdrop";
 
 export interface BottomSheetActionMenuProps {

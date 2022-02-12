@@ -1,8 +1,7 @@
 import QueueContent from "@/components/Queue/QueueContent";
 import { Text } from "@/components/Typography";
 import {
-  usePlaybackContextMeta,
-  usePlaybackCurrentContext,
+  useCurrentContextMeta,
   usePlaybackNextItems,
   usePlaybackTrackId,
 } from "@/player";
@@ -55,8 +54,7 @@ const QueueSidebar: FC = () => {
 
 const ChatSidebar: FC = () => {
   const { t } = useTranslation();
-  const currentContext = usePlaybackCurrentContext();
-  const contextMeta = usePlaybackContextMeta(currentContext);
+  const contextMeta = useCurrentContextMeta();
 
   return contextMeta?.isLive ? (
     <ChatView contextMeta={contextMeta} />

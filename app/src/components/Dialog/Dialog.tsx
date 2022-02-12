@@ -1,6 +1,7 @@
 import { IconX } from "@/assets";
 import type { ButtonProps } from "@/components/Button";
 import { Button } from "@/components/Button";
+import { Toaster } from "@/components/Toast";
 import { Text } from "@/components/Typography";
 import { AnimationEasings } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
@@ -22,7 +23,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Toaster } from "../Toast";
 
 const styles = StyleSheet.create({
   backdrop: {

@@ -7,7 +7,7 @@ import { PagerView } from "@/components/PagerView";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import player, {
-  usePlaybackCurrentContext,
+  useIsCurrentPlaybackContext,
   usePlaybackCurrentControl,
   usePlaybackTrackId,
 } from "@/player";
@@ -86,15 +86,17 @@ const useCurrentTrack = (session: Session) => {
     },
     pause: !session.isLive,
   });
-  const playbackCurrentContext = usePlaybackCurrentContext();
   const currentTrackId = usePlaybackTrackId();
+
+  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+    "session",
+    session.id
+  );
+
   if (session.isLive) {
     return dataNowPlaying?.nowPlaying?.current.trackId;
   }
-  if (
-    playbackCurrentContext?.id?.[0] === "session" &&
-    playbackCurrentContext.id[1] === session.id
-  ) {
+  if (isCurrentPlaybackContext) {
     return currentTrackId;
   }
   return undefined;

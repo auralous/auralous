@@ -6,7 +6,7 @@ import { LoadingScreen } from "@/components/Loading";
 import { NullComponent } from "@/components/misc";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { usePlaybackContextMeta, usePlaybackCurrentContext } from "@/player";
+import { useCurrentContextMeta } from "@/player";
 import { RouteName } from "@/screens/types";
 import { LayoutSize, Size } from "@/styles/spacing";
 import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
@@ -53,8 +53,7 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
 
   const navigation = useNavigation();
 
-  const currentContext = usePlaybackCurrentContext();
-  const contextMeta = usePlaybackContextMeta(currentContext);
+  const contextMeta = useCurrentContextMeta();
 
   const onHeaderTitlePress = useCallback(() => {
     if (!contextMeta) return;

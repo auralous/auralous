@@ -6,14 +6,16 @@ import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
 import player, {
   uidForIndexedTrack,
-  usePlaybackCurrentContext,
+  useIsCurrentPlaybackContext,
   usePlaybackQueuePlayingId,
 } from "@/player";
+import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import type { Session, Track } from "@auralous/api";
 import { useSessionTracksQuery } from "@auralous/api";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { createContext, memo, useCallback, useContext, useMemo } from "react";
+import { createContext, memo, useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
@@ -59,16 +61,16 @@ const SessionTrackItem = memo<{
     [sessionId, index]
   );
 
-  const playbackCurrentContext = usePlaybackCurrentContext();
   const queuePlayingUid = usePlaybackQueuePlayingId();
 
-  const isCurrentTrack = useMemo(
-    () =>
-      playbackCurrentContext?.id?.[0] === "session" &&
-      playbackCurrentContext.id[1] === sessionId &&
-      queuePlayingUid === uidForIndexedTrack(index, track.id),
-    [queuePlayingUid, playbackCurrentContext, track.id, index, sessionId]
+  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+    "session",
+    sessionId
   );
+
+  const isCurrentTrack =
+    isCurrentPlaybackContext &&
+    queuePlayingUid === uidForIndexedTrack(index, track.id);
 
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>
@@ -88,16 +90,8 @@ const getItemLayout = (data: unknown, index: number) => ({
 });
 const ItemSeparatorComponent = () => <Spacer y={2} />;
 
-const SessionNonLiveContent: FC<{
-  session: Session;
-  onQuickShare(session: Session): void;
-}> = ({ session, onQuickShare }) => {
+const SessionNovLiveButtons: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
-
-  // FIXME: This causes setState in render
-  const [{ data, fetching }] = useSessionTracksQuery({
-    variables: { id: session.id },
-  });
 
   const shufflePlay = useCallback(
     () =>
@@ -108,10 +102,40 @@ const SessionNonLiveContent: FC<{
     [session]
   );
 
+  const navigation = useNavigation();
   const quickShare = useCallback(
-    () => onQuickShare(session),
-    [onQuickShare, session]
+    (session: Session) => {
+      navigation.navigate(RouteName.NewQuickShare, {
+        session: {
+          ...session,
+          // erase createdAt since Date object breaks navigation
+          createdAt: null,
+        },
+      });
+    },
+    [navigation]
   );
+
+  return (
+    <>
+      <Button onPress={shufflePlay}>{t("player.shuffle_play")}</Button>
+      <Spacer x={2} />
+      <Button onPress={() => quickShare(session)} variant="primary">
+        {t("new.quick_share.title")}
+      </Button>
+    </>
+  );
+};
+
+const SessionNonLiveContent: FC<{
+  session: Session;
+}> = ({ session }) => {
+  const { t } = useTranslation();
+
+  // FIXME: This causes setState in render
+  const [{ data, fetching }] = useSessionTracksQuery({
+    variables: { id: session.id },
+  });
 
   const containerStyle = useContainerStyle();
 
@@ -129,17 +153,7 @@ const SessionNonLiveContent: FC<{
                 </Text>
               </View>
             }
-            buttons={
-              <>
-                <Button onPress={shufflePlay}>
-                  {t("player.shuffle_play")}
-                </Button>
-                <Spacer x={2} />
-                <Button onPress={quickShare} variant="primary">
-                  {t("new.quick_share.title")}
-                </Button>
-              </>
-            }
+            buttons={<SessionNovLiveButtons session={session} />}
           />
         }
         ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}

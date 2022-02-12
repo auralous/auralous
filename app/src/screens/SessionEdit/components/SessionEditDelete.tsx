@@ -1,7 +1,7 @@
 import { Button } from "@/components/Button";
 import { Dialog, useDialog } from "@/components/Dialog";
 import { toast } from "@/components/Toast";
-import player, { usePlaybackCurrentContext } from "@/player";
+import player, { useIsCurrentPlaybackContext } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import type { Session } from "@auralous/api";
@@ -22,30 +22,31 @@ const styles = StyleSheet.create({
 export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
 
+  const sessionId = session.id;
+
   const [{ fetching }, sessionDelete] = useSessionDeleteMutation();
 
   const [visible, present, dismiss] = useDialog();
 
   const navigation = useNavigation();
 
-  const playbackCurrentContext = usePlaybackCurrentContext();
+  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+    "session",
+    sessionId
+  );
 
   const onEnd = useCallback(async () => {
-    const sessionId = session.id;
     const result = await sessionDelete({
       id: sessionId,
     });
     if (!result.error) {
       toast.success(t("session_edit.delete.delete_ok"));
-      if (
-        playbackCurrentContext?.id?.[0] === "session" &&
-        playbackCurrentContext.id[1] === sessionId
-      ) {
+      if (isCurrentPlaybackContext) {
         player.playContext(null);
       }
       navigation.navigate(RouteName.Explore, undefined);
     }
-  }, [t, sessionDelete, session.id, navigation, playbackCurrentContext]);
+  }, [t, sessionDelete, sessionId, navigation, isCurrentPlaybackContext]);
 
   return (
     <View style={styles.root}>

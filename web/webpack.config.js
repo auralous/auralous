@@ -62,18 +62,11 @@ module.exports = async (env, argv) => {
           use: {
             loader: "babel-loader",
             options: {
-              presets: [
-                [
-                  "module:metro-react-native-babel-preset",
-                  {
-                    useTransformReactJSXExperimental: true,
-                    disableImportExportTransform: true,
-                  },
-                ],
-              ],
+              presets: [],
               plugins: [
                 "react-native-web",
                 "react-native-reanimated/plugin",
+                "@babel/plugin-transform-arrow-functions", // <- react-native-reanimated/plugin crashes without this
                 ["@babel/plugin-transform-react-jsx", { runtime: "automatic" }],
                 ["@babel/plugin-proposal-class-properties", { loose: true }],
               ],

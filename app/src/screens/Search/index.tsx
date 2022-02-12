@@ -5,13 +5,13 @@ import type { InputRef } from "@/components/Input";
 import { Input } from "@/components/Input";
 import { Spacer } from "@/components/Spacer";
 import { Tab, TabList, TabPanel, Tabs } from "@/components/Tab";
+import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import type { ParamList, RouteName } from "../types";
 import PlaylistsSearch from "./components/PlaylistsSearch";
 import SessionsSearch from "./components/SessionsSearch";
 import TracksSearch from "./components/TracksSearch";
@@ -34,10 +34,6 @@ const SearchScreen: FC<NativeStackScreenProps<ParamList, RouteName.Search>> = ({
   route,
   navigation,
 }) => {
-  const [tab, setTab] = useState<"playlists" | "sessions" | "tracks">(
-    "playlists"
-  );
-
   const currentQuery = route.params.query;
 
   const { t } = useTranslation();

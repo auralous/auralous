@@ -4,12 +4,13 @@ import { Container } from "@/components/Container";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
-import player, { usePlaybackCurrentContext } from "@/player";
+import player, { useIsCurrentPlaybackContext } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { Session } from "@auralous/api";
 import {
+  useMeQuery,
   useNowPlayingQuery,
   useSessionListenersQuery,
   useSessionListenersUpdatedSubscription,
@@ -43,11 +44,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
-  const playbackCurrentContext = usePlaybackCurrentContext();
-
+const SessionLiveListenersTag: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
-
   // FIXME: create more lightweight queries like useSessionListenersCount()
   const [{ data: dataSessionListeners }] = useSessionListenersQuery({
     variables: {
@@ -61,24 +59,27 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
     },
   });
 
-  const joinLive = useCallback(() => {
-    player.playContext({
-      id: ["session", session.id],
-      isLive: true,
-      shuffle: false,
-    });
-  }, [session]);
-
   const navigation = useNavigation();
-
-  const viewCollabs = useCallback(() => {
-    navigation.navigate(RouteName.SessionCollaborators, { id: session.id });
-  }, [navigation, session.id]);
-
   const viewListeners = useCallback(() => {
     navigation.navigate(RouteName.SessionListeners, { id: session.id });
   }, [navigation, session.id]);
 
+  return (
+    <Pressable style={styles.tag} onPress={viewListeners}>
+      <Text bold size="sm" style={styles.textLive}>
+        {t("common.status.live")}{" "}
+      </Text>
+      <Text size="sm">
+        {t("session.title")} •{" "}
+        {dataSessionListeners?.sessionListeners?.length || 0}
+      </Text>
+      <IconUser color={Colors.primaryText} width={12} height={12} />
+    </Pressable>
+  );
+};
+
+const SessionLiveTrack: FC<{ session: Session }> = ({ session }) => {
+  const { t } = useTranslation();
   const [{ data: dataNowPlaying, fetching: fetchingNowPlaying }] =
     useNowPlayingQuery({
       variables: { id: session.id },
@@ -91,53 +92,89 @@ const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
   const track = dataNowPlaying?.nowPlaying ? dataTrack?.track : null;
 
   return (
+    <View style={styles.content}>
+      <Text bold>{t("now_playing.title")}</Text>
+      <Spacer y={2} />
+      <View style={styles.track}>
+        {track && (
+          <TrackItem
+            isPlaying
+            track={track || null}
+            fetching={fetchingTrack || fetchingNowPlaying}
+          />
+        )}
+      </View>
+    </View>
+  );
+};
+
+const SessionLiveButton: FC<{ session: Session }> = ({ session }) => {
+  const { t } = useTranslation();
+
+  const navigation = useNavigation();
+
+  const joinLive = useCallback(() => {
+    player.playContext({
+      id: ["session", session.id],
+      isLive: true,
+      shuffle: false,
+    });
+  }, [session]);
+  const viewCollabs = useCallback(() => {
+    navigation.navigate(RouteName.SessionCollaborators, { id: session.id });
+  }, [navigation, session.id]);
+
+  const endSession = useCallback(() => {
+    navigation.navigate(RouteName.SessionEdit, {
+      id: session.id,
+      showEndModal: true,
+    });
+  }, [navigation, session]);
+
+  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+    "session",
+    session.id
+  );
+
+  const [{ data: dataMe }] = useMeQuery();
+  const isCreator = dataMe?.me?.user.id === session.creatorId;
+
+  return (
+    <>
+      {isCurrentPlaybackContext && isCreator ? (
+        <Button
+          onPress={endSession}
+          variant="text"
+          textProps={{ style: { color: Colors.primary } }}
+        >
+          {t("session_edit.live.end")}
+        </Button>
+      ) : (
+        <Button
+          variant="primary"
+          disabled={isCurrentPlaybackContext}
+          onPress={joinLive}
+        >
+          {t("session.join_live")}
+        </Button>
+      )}
+      <Spacer x={2} />
+      <View>
+        <Button onPress={viewCollabs}>{t("collab.title")}</Button>
+      </View>
+    </>
+  );
+};
+
+const SessionLiveContent: FC<{ session: Session }> = ({ session }) => {
+  return (
     <Container>
       <SessionMeta
         session={session}
-        tag={
-          <Pressable style={styles.tag} onPress={viewListeners}>
-            <Text bold size="sm" style={styles.textLive}>
-              {t("common.status.live")}{" "}
-            </Text>
-            <Text size="sm">
-              {t("session.title")} •{" "}
-              {dataSessionListeners?.sessionListeners?.length || 0}
-            </Text>
-            <IconUser color={Colors.primaryText} width={12} height={12} />
-          </Pressable>
-        }
-        buttons={
-          <>
-            <Button
-              variant="primary"
-              disabled={
-                playbackCurrentContext?.id?.[0] === "session" &&
-                playbackCurrentContext.id[1] === session.id
-              }
-              onPress={joinLive}
-            >
-              {t("session.join_live")}
-            </Button>
-            <Spacer x={2} />
-            <View>
-              <Button onPress={viewCollabs}>{t("collab.title")}</Button>
-            </View>
-          </>
-        }
+        tag={<SessionLiveListenersTag session={session} />}
+        buttons={<SessionLiveButton session={session} />}
       />
-      <View style={styles.content}>
-        <Text bold>{t("now_playing.title")}</Text>
-        <Spacer y={2} />
-        <View style={styles.track}>
-          {track && (
-            <TrackItem
-              isPlaying
-              track={track || null}
-              fetching={fetchingTrack || fetchingNowPlaying}
-            />
-          )}
-        </View>
-      </View>
+      <SessionLiveTrack session={session} />
     </Container>
   );
 };

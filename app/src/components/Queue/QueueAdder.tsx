@@ -1,4 +1,5 @@
 import { Button } from "@/components/Button";
+import { FadeModal } from "@/components/Dialog";
 import { Header } from "@/components/Header";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
@@ -9,7 +10,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FadeModal } from "../Dialog";
 
 interface QueueAdderProps {
   visible: boolean;

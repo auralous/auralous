@@ -28,8 +28,12 @@ export const StopLiveIntention: FC = () => {
       id: stopLiveOnPlay.intention.sessionId,
     });
     if (!result.error) {
-      if (stopLiveOnPlay.intention.nextPlaybackContext) {
-        player.playContext(stopLiveOnPlay.intention.nextPlaybackContext);
+      const nextPlaybackContext = stopLiveOnPlay.intention.nextPlaybackContext;
+      if (nextPlaybackContext) {
+        // timeout to prevent conflict with the action of stopping playback context
+        setTimeout(() => {
+          player.playContext(nextPlaybackContext);
+        }, 1000);
       }
       onDismiss();
     }
