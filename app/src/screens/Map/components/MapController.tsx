@@ -59,8 +59,7 @@ const MapController: FC<{
         client.query<SessionsOnMapQuery, SessionsOnMapQueryVariables>(
           SessionsOnMapDocument,
           {
-            lng: lng,
-            lat: lat,
+            location: { lng, lat },
             radius: metersPerPixel(lat, zoom) * radiusPx,
           },
           { requestPolicy: "cache-and-network" }

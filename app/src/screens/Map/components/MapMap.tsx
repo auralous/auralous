@@ -36,7 +36,14 @@ export const MapMap: FC<MapMapProps> = ({ query, lngLat }) => {
       style={styles.root}
       styleURL={MAPBOX_STYLE_URL}
     >
-      <MapboxGL.Camera />
+      <MapboxGL.Camera
+        defaultSettings={{
+          bounds: {
+            sw: [-117, -80],
+            ne: [174, 79],
+          },
+        }}
+      />
       {lngLat && (
         <MapboxGL.MarkerView id="marker" coordinate={lngLat} draggable={false}>
           <MapMapMarker lngLat={lngLat} />

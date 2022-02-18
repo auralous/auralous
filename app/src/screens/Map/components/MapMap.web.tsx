@@ -22,6 +22,10 @@ export const MapMap: FC<MapMapProps> = ({ lngLat, query }) => {
       mapInst = map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: MAPBOX_STYLE_URL,
+        bounds: [
+          [-117, -80],
+          [174, 79],
+        ],
       });
       const nav = new mapboxgl.NavigationControl({
         showCompass: false,

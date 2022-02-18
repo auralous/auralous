@@ -43,8 +43,8 @@ query sessionsSearch($query: String!) {
   }
 }
 
-query sessionsOnMap($lng: Float!, $lat: Float!, $radius: Float!) {
-  sessionsOnMap(lng: $lng, lat: $lat, radius: $radius) {
+query sessionsOnMap($location: LocationInput!, $radius: Float!) {
+  sessionsOnMap(location: $location, radius: $radius) {
     ...SessionParts
   }
 }
