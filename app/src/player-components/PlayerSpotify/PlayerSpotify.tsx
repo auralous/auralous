@@ -90,6 +90,12 @@ const PlayerSpotify: FC = () => {
 
     let state: SpotifyPlayerState | undefined;
 
+    const playByExternalId = async (externalId: string | null) => {
+      if (!externalId) return SpotifyRemote.pause();
+      await SpotifyRemote.playUri(`spotify:track:${externalId}`);
+      player.emit("played_external", externalId);
+    };
+
     const onStateChange = (v: SpotifyPlayerState) => {
       if (v.isPaused !== state?.isPaused) {
         if (v.isPaused) player.emit("paused");
@@ -102,10 +108,10 @@ const PlayerSpotify: FC = () => {
       // since the SDK does not provide a way
       // to do so
       if (
-        state &&
-        v.isPaused &&
+        state?.track &&
         v.playbackPosition === 0 &&
-        state?.isPaused === false
+        state?.isPaused === false &&
+        v.isPaused
       ) {
         player.emit("ended");
       }
@@ -116,6 +122,14 @@ const PlayerSpotify: FC = () => {
     SpotifyRemote.on("playerStateChanged", onStateChange);
 
     const onContextChange = (v: SpotifyPlayerContext) => {
+      const externalTrackId = v.uri.split(":")[2];
+      const expectedExternalTrackId =
+        player.getCurrentPlayback().externalTrackId;
+      if (externalTrackId !== expectedExternalTrackId) {
+        // mismatch track id
+        playByExternalId(expectedExternalTrackId);
+        return;
+      }
       player.emit("played_external", v.uri.split(":")[2]);
     };
 
@@ -143,11 +157,7 @@ const PlayerSpotify: FC = () => {
           () => undefined
         ),
       pause: () => SpotifyRemote.pause(),
-      playByExternalId: async (externalId: string | null) => {
-        if (!externalId) return SpotifyRemote.pause();
-        await SpotifyRemote.playUri(`spotify:track:${externalId}`);
-        player.emit("played_external", externalId);
-      },
+      playByExternalId,
       setVolume: (p) => {
         // Remote SDK does not support setting volume so we rely on Web API
         return fetch(

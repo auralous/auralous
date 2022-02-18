@@ -177,11 +177,21 @@ class Player {
   }
 
   private trackId: string | null = null;
+  private externalTrackId: string | null = null;
+
+  getCurrentPlayback() {
+    return {
+      trackId: this.trackId,
+      externalTrackId: this.externalTrackId,
+      platform: this.userPlatform,
+    };
+  }
 
   private commitPlayTrackId(trackId: string | null) {
     this.emit("playing_track_id", trackId);
     if (!this.playerFn) return;
-    this.playerFn.playByExternalId(trackId ? trackId.split(":")[1] : null);
+    this.externalTrackId = trackId ? trackId.split(":")[1] : null;
+    this.playerFn.playByExternalId(this.externalTrackId);
   }
 
   private crossTrackUnsubscribe: (() => void) | undefined;

@@ -21,7 +21,9 @@ const PlayerSpotify: FC = () => {
     });
 
     let spotifyState: Spotify.PlaybackState | null = null;
-
+    let playByExternalId:
+      | undefined
+      | ((externalId: string | null) => Promise<void>) = undefined;
     const onReady: Spotify.PlaybackInstanceListener = ({ device_id }) => {
       player.registerPlayer({
         play: () => spotifyPlayer.resume(),
@@ -31,7 +33,9 @@ const PlayerSpotify: FC = () => {
             () => undefined
           ),
         pause: () => spotifyPlayer.pause(),
-        playByExternalId: async (externalId: string | null) => {
+        playByExternalId: (playByExternalId = async (
+          externalId: string | null
+        ) => {
           if (!externalId) {
             player.emit("played_external", null);
             return spotifyPlayer.pause();
@@ -47,7 +51,7 @@ const PlayerSpotify: FC = () => {
               },
             }
           );
-        },
+        }),
         setVolume: (p) => spotifyPlayer.setVolume(p),
         // It is impossible to determine spotify without a promise so we rely on previous state
         isPlaying: () => !!spotifyState?.paused,
@@ -62,6 +66,14 @@ const PlayerSpotify: FC = () => {
         state.track_window.current_track.id !==
         spotifyState?.track_window.current_track.id
       ) {
+        const expectedExternalTrackId =
+          player.getCurrentPlayback().externalTrackId;
+        if (state.track_window.current_track.id !== expectedExternalTrackId) {
+          // mismatch track id
+          playByExternalId?.(expectedExternalTrackId);
+          return;
+        }
+
         player.emit("played_external", state.track_window.current_track.id);
       }
 
