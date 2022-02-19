@@ -1,6 +1,7 @@
 import player from "@/player";
 import type { FC } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { AppState, Platform } from "react-native";
 import type { YoutubeIframeRef } from "react-native-youtube-iframe";
 import YoutubePlayer from "react-native-youtube-iframe";
 import PlayerYoutubeContainer, {
@@ -37,6 +38,19 @@ const PlayerYoutube: FC = () => {
   useEffect(() => {
     if (!videoId) setIsReady(false);
   }, [videoId]);
+
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      return AppState.addEventListener("change", (state) => {
+        if (state !== "active") {
+          setIsPlaying(false);
+        } else {
+          // @ts-ignore: using internals
+          setIsPlaying(player.__wasPlaying);
+        }
+      }).remove;
+    }
+  }, []);
 
   useEffect(() => {
     player.registerPlayer({
