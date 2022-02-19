@@ -18,6 +18,16 @@ const spotifyConfig: ApiConfig = {
   redirectURL: `auralous://sign-in/spotify/callback`,
 };
 
+const isCorrectTrack = (
+  v: SpotifyPlayerContext,
+  expectedExternalTrackId: string | null
+) => {
+  // FIXME: need to handle case of alternative track (like web version)
+  if (expectedExternalTrackId && !v) return false;
+  const externalTrackId = v.uri.split(":")[2];
+  return externalTrackId === expectedExternalTrackId;
+};
+
 const initialize = async (
   onSuccess: () => void,
   onError: (error: Error) => void
@@ -122,10 +132,9 @@ const PlayerSpotify: FC = () => {
     SpotifyRemote.on("playerStateChanged", onStateChange);
 
     const onContextChange = (v: SpotifyPlayerContext) => {
-      const externalTrackId = v.uri.split(":")[2];
       const expectedExternalTrackId =
         player.getCurrentPlayback().externalTrackId;
-      if (externalTrackId !== expectedExternalTrackId) {
+      if (!isCorrectTrack(v, expectedExternalTrackId)) {
         // mismatch track id
         playByExternalId(expectedExternalTrackId);
         return;

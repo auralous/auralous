@@ -4,6 +4,16 @@ import type { FC } from "react";
 import { useEffect, useState } from "react";
 import PlayerSpotifyError from "./PlayerSpotifyError";
 
+const isCorrectTrack = (
+  currentTrack: Spotify.Track | undefined | null,
+  expectedExternalTrackId: string | null
+) => {
+  if (expectedExternalTrackId && !currentTrack) return false;
+  // @ts-ignore: sometimes spotify play an alternative track (due to eg region-lock)
+  if (currentTrack.linked_from.id === expectedExternalTrackId) return true;
+  return currentTrack?.id === expectedExternalTrackId;
+};
+
 /// <reference path="spotify-web-playback-sdk" />
 const PlayerSpotify: FC = () => {
   const [error, setError] = useState<Spotify.Error | null>(null);
@@ -68,7 +78,12 @@ const PlayerSpotify: FC = () => {
       ) {
         const expectedExternalTrackId =
           player.getCurrentPlayback().externalTrackId;
-        if (state.track_window.current_track.id !== expectedExternalTrackId) {
+        if (
+          !isCorrectTrack(
+            state.track_window.current_track,
+            expectedExternalTrackId
+          )
+        ) {
           // mismatch track id
           playByExternalId?.(expectedExternalTrackId);
           return;
