@@ -90,6 +90,7 @@ const PlayerSpotify: FC = () => {
         }
 
         player.emit("played_external", state.track_window.current_track.id);
+        player.emit("play");
       }
 
       if (state.paused !== spotifyState?.paused) {

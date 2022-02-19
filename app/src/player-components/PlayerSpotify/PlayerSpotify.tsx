@@ -104,6 +104,7 @@ const PlayerSpotify: FC = () => {
       if (!externalId) return SpotifyRemote.pause();
       await SpotifyRemote.playUri(`spotify:track:${externalId}`);
       player.emit("played_external", externalId);
+      player.emit("play");
     };
 
     const onStateChange = (v: SpotifyPlayerState) => {
