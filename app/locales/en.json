@@ -74,15 +74,16 @@
     "my_playlists": "My Playlists",
     "x_song": "{{count}} song",
     "x_song_plural": "{{count}} songs",
-    "view_all_x_songs": "See all {{ count }} songs",
-    "add_to_playlist": {
-      "title": "Add to playlist",
-      "create_playlist": {
-        "title": "New Playlist",
-        "name_prompt": "Give your playlist a name."
-      },
-      "added_to_playlist": "Added to {{ playlist }}."
-    }
+    "view_all_x_songs": "See all {{ count }} songs"
+  },
+  "playlist_adder": {
+    "title": "Add to playlist",
+    "create_playlist": {
+      "title": "New Playlist",
+      "name_prompt": "Give your playlist a name."
+    },
+    "added_to_playlist": "Added to {{ playlist }}.",
+    "auth_prompt": "Add favorite songs to your playlists"
   },
   "session": {
     "title": "Session",
@@ -144,7 +145,7 @@
     },
     "error": {
       "unplayable": "Cannot play this song",
-      "no_cross_track": "This song is not available on {{platform}}"
+      "no_cross_track": "Cannot find the current song on your current music platform"
     }
   },
   "queue": {
@@ -270,6 +271,7 @@
   "notifications": {
     "title": "Notifications",
     "follow": "<0>{{ username }}</0> has started following you",
-    "new_session": "<0>{{ username }}</0> started a session <1>{{ session }}</1>"
+    "new_session": "<0>{{ username }}</0> started a session <1>{{ session }}</1>",
+    "auth_prompt": "Stay up to date with your friends' activities"
   }
 }

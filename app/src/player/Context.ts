@@ -48,6 +48,9 @@ export const playbackAuthenticationSelector = (value: PlaybackState) => ({
 export const usePlaybackAuthentication = () =>
   useContextSelector(PlaybackContext, playbackAuthenticationSelector);
 
-const playbackErrorSelector = (value: PlaybackState) => value.error;
-export const usePlaybackError = () =>
-  useContextSelector(PlaybackContext, playbackErrorSelector);
+const playbackStatusSelector = (value: PlaybackState) => ({
+  error: value.error,
+  fetching: value.fetching,
+});
+export const usePlaybackStatus = () =>
+  useContextSelector(PlaybackContext, playbackStatusSelector);

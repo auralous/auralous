@@ -26,11 +26,10 @@ export function registerOnDemand(
   let queue: QueueItem[] = [];
   let playingIndex = initialIndex || 0;
 
-  function emitState() {
+  function updateState() {
     const nextItems = queue.slice(playingIndex + 1);
     const currItem = queue[playingIndex];
-    player.emit("playback_state", {
-      fetching: false,
+    player.setPlaybackState({
       nextItems,
       trackId: currItem.trackId,
       queuePlayingUid: currItem.uid,
@@ -42,15 +41,14 @@ export function registerOnDemand(
       throw new Error("registerOnDemand: invalid index");
     }
     playingIndex = index;
-    player.setTrackId(queue[playingIndex].trackId);
-    emitState();
+    updateState();
   }
 
   function setQueue(newQueue: QueueItem[]) {
     const shouldPlay = queue[playingIndex]?.uid !== newQueue[playingIndex].uid;
     queue = newQueue;
     if (shouldPlay) playByIndex(playingIndex);
-    else emitState();
+    else updateState();
   }
 
   // setup

@@ -27,15 +27,14 @@ const PlayerProviderInner: FC<{
    * - underlying fetching state
    */
   const [playbackState, setPlaybackState] = useState<PlaybackContextProvided>({
-    fetching: false,
     nextItems: [],
     queuePlayingUid: null,
     trackId: null,
   });
 
   const [isPlaying, setIsPlaying] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const onPlay = () => setIsPlaying(true);
@@ -44,17 +43,17 @@ const PlayerProviderInner: FC<{
     player.on("pause", onPause); // Optimistic update
     player.on("playing", onPlay);
     player.on("paused", onPause);
-    player.on("error", setError);
     player.on("playing_track_id", setPlayingTrackId);
     player.on("playback_state", setPlaybackState);
+    player.on("loading", setLoading);
     return () => {
       player.off("play", onPlay);
       player.off("pause", onPause);
       player.off("playing", onPlay);
       player.off("paused", onPause);
-      player.off("error", setError);
       player.off("playing_track_id", setPlayingTrackId);
       player.off("playback_state", setPlaybackState);
+      player.off("loading", setLoading);
     };
   }, []);
 
@@ -82,6 +81,12 @@ const PlayerProviderInner: FC<{
     return () => clearInterval(pingInterval);
   }, [playbackCurrentContext, me, sessionPing]);
 
+  const error = useMemo<string | null>(() => {
+    if (loading) return null;
+    if (playbackState.trackId && !playingTrackId) return "no_cross_track";
+    return null;
+  }, [loading, playbackState, playingTrackId]);
+
   return (
     <PlaybackContext.Provider
       value={{
@@ -91,8 +96,9 @@ const PlayerProviderInner: FC<{
         isPlaying,
         playingPlatform,
         accessToken: me?.accessToken || null,
-        error: error?.message || null,
+        error: error || null,
         ...playbackState,
+        fetching: loading,
       }}
     >
       {children}

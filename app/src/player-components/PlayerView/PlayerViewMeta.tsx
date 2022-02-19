@@ -5,12 +5,12 @@ import ytLogoMonoDark from "@/assets/images/yt_logo_mono_dark.png";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
-import { usePlaybackError, usePlaybackTrackId } from "@/player";
+import { usePlaybackStatus } from "@/player";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { useUiDispatch } from "@/ui-context";
 import type { Maybe, Track } from "@auralous/api";
-import { PlatformName, useTrackQuery } from "@auralous/api";
+import { PlatformName } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -41,6 +41,11 @@ const styles = StyleSheet.create({
   },
   nameAndArtist: {
     flex: 1,
+    marginRight: Size[2],
+  },
+  nameWrapper: {
+    alignItems: "center",
+    flexDirection: "row",
   },
   platformLogo: {
     height: Size[6],
@@ -53,29 +58,6 @@ interface PlayerViewMetaProps {
   track: Maybe<Track>;
   fetching?: boolean;
 }
-
-const ErrorNoCrossTrack = () => {
-  const { t } = useTranslation();
-
-  const trackId = usePlaybackTrackId();
-
-  const [{ data }] = useTrackQuery({
-    variables: { id: trackId as string },
-  });
-
-  return (
-    <View>
-      <Text align="center" color="textSecondary">
-        {t("player.error.unplayable")}
-      </Text>
-      <Spacer y={4} />
-      <Text align="center">
-        {data?.track?.title} -{" "}
-        {data?.track?.artists.map((artist) => artist.name).join(", ")}
-      </Text>
-    </View>
-  );
-};
 
 const MetaButton: FC<{ track: Track | null | undefined }> = ({ track }) => {
   const { t } = useTranslation();
@@ -92,7 +74,7 @@ const MetaButton: FC<{ track: Track | null | undefined }> = ({ track }) => {
         items: [
           {
             icon: <IconPlayListAdd color={Colors.textSecondary} />,
-            text: t("playlist.add_to_playlist.title"),
+            text: t("playlist_adder.title"),
             onPress: () =>
               uiDispatch({
                 type: "addToPlaylist",
@@ -124,17 +106,12 @@ const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
     []
   );
 
-  const playbackError = usePlaybackError();
+  const playbackError = usePlaybackStatus().error;
 
   if (playbackError) {
     return (
       <View style={styles.error}>
-        {playbackError === "no_cross_track" ? (
-          <ErrorNoCrossTrack />
-        ) : (
-          // @ts-ignore
-          <Text>{t(`player.error.${playbackError}`)}</Text>
-        )}
+        <Text align="center">{t(`player.error.${playbackError}`)}</Text>
       </View>
     );
   }
@@ -159,13 +136,15 @@ const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
       </View>
       <View style={styles.header}>
         <View style={styles.nameAndArtist}>
-          {fetching ? (
-            <SkeletonBlock width={27} height={3} />
-          ) : (
-            <TextMarquee size="xl" bold duration={10000}>
-              {track?.title}
-            </TextMarquee>
-          )}
+          <View style={styles.nameWrapper}>
+            {fetching ? (
+              <SkeletonBlock width={27} height={3} />
+            ) : (
+              <TextMarquee size="xl" bold duration={10000}>
+                {track?.title}
+              </TextMarquee>
+            )}
+          </View>
           <Spacer y={3} />
           {fetching ? (
             <SkeletonBlock width={24} height={3} />

@@ -15,3 +15,22 @@ export function isTouchDevice() {
     return true;
   return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 }
+
+export function conditionalPromiseResolve<T>(
+  promise: Promise<T>,
+  check: () => boolean,
+  {
+    onThen,
+    onCatch,
+    onFinally,
+  }: {
+    onThen: (value: T) => any;
+    onCatch?: (reason: any) => PromiseLike<never>;
+    onFinally?: () => void;
+  }
+) {
+  promise
+    .then((value) => check() && onThen(value))
+    .catch(onCatch ? (value) => check() && onCatch(value) : undefined)
+    .finally(onFinally ? () => check() && onFinally() : undefined);
+}

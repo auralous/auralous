@@ -7,8 +7,8 @@ import { Text, TextMarquee } from "@/components/Typography";
 import player, {
   usePlaybackColor,
   usePlaybackCurrentControl,
-  usePlaybackError,
   usePlaybackPlayingTrackId,
+  usePlaybackStatus,
 } from "@/player";
 import { RouteName } from "@/screens/types";
 import { useIsRouteWithNavbar, useRouteNames } from "@/screens/useRouteName";
@@ -94,7 +94,7 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
   const { isPlaying } = usePlaybackCurrentControl();
   const trackId = usePlaybackPlayingTrackId();
 
-  const [{ data, fetching }] = useTrackQuery({
+  const [{ data, fetching: fetchingTrack }] = useTrackQuery({
     variables: { id: trackId || "" },
     pause: !trackId,
   });
@@ -129,7 +129,10 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
     return { bottom: withTiming(BOTTOM_TABS_HEIGHT) };
   }, [hasTabBars, isLandscape]);
 
-  const playbackError = usePlaybackError();
+  const { error: playbackError, fetching: playbackFetching } =
+    usePlaybackStatus();
+
+  const fetching = fetchingTrack || playbackFetching;
 
   return (
     <Animated.View

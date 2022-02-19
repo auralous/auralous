@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { LoadingScreen } from "@/components/Loading";
 import { NullComponent } from "@/components/misc";
 import { Spacer } from "@/components/Spacer";
+import { Toaster } from "@/components/Toast";
 import { Text } from "@/components/Typography";
 import { useCurrentContextMeta } from "@/player";
 import { RouteName } from "@/screens/types";
@@ -152,6 +153,7 @@ const PlayerView: FC = () => {
             )}
           </Suspense>
         </SafeAreaView>
+        <Toaster />
       </BottomSheetModal>
       <PlayerBar onPress={present} />
     </>

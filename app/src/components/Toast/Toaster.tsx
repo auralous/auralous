@@ -18,11 +18,10 @@ import type { ToastValue } from "./types";
 const styles = StyleSheet.create({
   content: {
     alignItems: "center",
-    backgroundColor: "#252144",
+    backgroundColor: "#dfdfdf",
     borderRadius: 9999,
-    elevation: 12,
     flexDirection: "row",
-    height: Size[12],
+    height: Size[10],
     maxWidth: LayoutSize.md,
     paddingHorizontal: Size[4],
   },
@@ -37,12 +36,13 @@ const styles = StyleSheet.create({
   root: {
     alignItems: "center",
     bottom: 0,
-    padding: Size[2],
+    marginBottom: 12,
+    paddingHorizontal: Size[2],
     position: "absolute",
     width: "100%",
   },
   success: { backgroundColor: Colors.success },
-  text: { flex: 1 },
+  text: { color: "#282828", flex: 1 },
 });
 
 export const Toaster: FC = () => {
@@ -81,14 +81,13 @@ export const Toaster: FC = () => {
         if (!isFinished) return;
         runOnJS(setToast)(null);
       });
-    }, 3500);
+    }, 20000);
     return () => clearTimeout(to);
   }, [toast, animValue]);
 
   const rootStyle = useAnimatedStyle(
     () => ({
       bottom: (animValue.value - 1) * 100 + "%",
-      marginBottom: 4,
     }),
     []
   );
@@ -104,19 +103,11 @@ export const Toaster: FC = () => {
           <>
             {toast.type === "success" ? (
               <View style={[styles.icon, styles.success]}>
-                <IconCheck
-                  color={Colors.backgroundSecondary}
-                  width={Size[4]}
-                  height={Size[4]}
-                />
+                <IconCheck color="white" width={Size[4]} height={Size[4]} />
               </View>
             ) : (
               <View style={[styles.icon, styles.error]}>
-                <IconX
-                  color={Colors.backgroundSecondary}
-                  width={Size[4]}
-                  height={Size[4]}
-                />
+                <IconX color="white" width={Size[4]} height={Size[4]} />
               </View>
             )}
           </>

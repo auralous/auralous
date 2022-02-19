@@ -46,20 +46,13 @@ export function registerLivePlayback(
   const client = player.gqlClient;
   let nowPlaying: NowPlaying | undefined;
 
-  let lastPlayingUid: string | undefined;
-
   function updateNowPlaying(nextNowPlaying: NowPlaying) {
     nowPlaying = nextNowPlaying;
-    player.emit("playback_state", {
-      fetching: false,
+    player.setPlaybackState({
       nextItems: nowPlaying.next,
       queuePlayingUid: nowPlaying.current.uid,
       trackId: nowPlaying.current.trackId,
     });
-    if (lastPlayingUid !== nowPlaying.current.uid) {
-      player.setTrackId(nowPlaying.current.trackId);
-      lastPlayingUid = nowPlaying.current.uid;
-    }
   }
 
   const { unsubscribe: unsubscribeQueryNP } = pipe(

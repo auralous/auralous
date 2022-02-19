@@ -1,3 +1,4 @@
+import { conditionalPromiseResolve } from "@/utils/utils";
 import type {
   Client,
   CrossTracksQuery,
@@ -6,10 +7,11 @@ import type {
 } from "@auralous/api";
 import { CrossTracksDocument } from "@auralous/api";
 import mitt from "mitt";
-import { pipe, subscribe } from "wonka";
 import { registerLivePlayback } from "./live";
 import { registerOnDemand } from "./on-demand";
 import type { PlaybackContextProvided, PlaybackCurrentContext } from "./types";
+
+export type LoadingStateValue = "cross_track";
 
 export interface PlayerHandle {
   play: () => void;
@@ -40,8 +42,8 @@ type EventsType = {
   time: number; // On playback time (ms)
   played_external: string | null; // new external id played
   playback_state: PlaybackContextProvided;
-  error: Error | null;
   playing_track_id: null | string; // track that is playing, not neccessarily the actual track id
+  loading: boolean;
 };
 
 class Player {
@@ -75,10 +77,8 @@ class Player {
    */
   registerPlayer(registerHandle: PlayerHandle) {
     this.playerFn = registerHandle;
-    if (this.trackId) {
-      // upon register, start playing if something was playing
-      this.setTrackId(this.trackId);
-    }
+    // upon register, start playing if something was playing
+    this.setTrackId(this.trackId);
   }
 
   unregisterPlayer() {
@@ -156,12 +156,12 @@ class Player {
   setPlatform(nextPlatform: PlatformName) {
     if (nextPlatform === this.userPlatform) return;
     this.userPlatform = nextPlatform;
-    if (this.trackId) this.setTrackId(this.trackId); // to fetch new track based on platform
+    this.setTrackId(this.trackId); // to fetch new track based on platform
   }
 
   private registerUnsubscribe: (() => void) | undefined;
   commitContext(currentContext: PlaybackCurrentContext | null) {
-    this.__wasPlaying = !!currentContext; // if a commit happens, player must want playing
+    this.__wasPlaying = !!currentContext; // if a commit happens, user must want playing
     this.registerUnsubscribe?.();
     if (currentContext) {
       if (currentContext.isLive) {
@@ -176,57 +176,97 @@ class Player {
     /* TOBE IMPLEMENTED */
   }
 
+  private loadingState = new Set<LoadingStateValue>();
+  setLoading(id: LoadingStateValue, loading: boolean) {
+    if (loading) this.loadingState.add(id);
+    else this.loadingState.delete(id);
+    this.emit("loading", Boolean(this.loadingState.size));
+  }
+
   private trackId: string | null = null;
   private externalTrackId: string | null = null;
+  private playingTrackId: string | null = null;
 
   getCurrentPlayback() {
     return {
       trackId: this.trackId,
+      playingTrackId: this.playingTrackId,
       externalTrackId: this.externalTrackId,
       platform: this.userPlatform,
     };
   }
 
-  private commitPlayTrackId(trackId: string | null) {
+  private commitPlayingTrackId(trackId: string | null) {
     this.emit("playing_track_id", trackId);
     if (!this.playerFn) return;
     this.externalTrackId = trackId ? trackId.split(":")[1] : null;
     this.playerFn.playByExternalId(this.externalTrackId);
   }
 
-  private crossTrackUnsubscribe: (() => void) | undefined;
-  setTrackId(trackId: string | null) {
+  private playbackState: PlaybackContextProvided = {
+    nextItems: [],
+    queuePlayingUid: null,
+    trackId: null,
+  };
+
+  setPlaybackState(state: PlaybackContextProvided) {
+    this.playbackState = { ...state };
+    this.emit("playback_state", state);
+    if (state.trackId !== this.trackId) {
+      this.setTrackId(state.trackId);
+    }
+  }
+
+  private setTrackId(trackId: string | null) {
+    // cleanup previous state
+    this.setLoading("cross_track", false);
+
+    // process
     const userPlatform = this.userPlatform;
     this.trackId = trackId;
-    this.crossTrackUnsubscribe?.();
+
     if (!userPlatform) return; // dont start playing without userPlatform
     if (!trackId) {
-      this.commitPlayTrackId(null);
+      this.commitPlayingTrackId(null);
       return;
     }
     const [trackPlatform] = trackId.split(":");
     if (trackPlatform !== this.userPlatform) {
+      // temporarily stop external player playback
+      this.commitPlayingTrackId(null);
+
       // need to fetch a compatible track on another platform
-      this.crossTrackUnsubscribe = pipe(
-        this.gqlClient.query<CrossTracksQuery, CrossTracksQueryVariables>(
-          CrossTracksDocument,
-          { id: trackId }
-        ),
-        subscribe((result) => {
-          this.crossTrackUnsubscribe!();
-          const preferredExternalTrackId =
-            result.data?.crossTracks?.[userPlatform];
-          if (preferredExternalTrackId) {
-            this.commitPlayTrackId(
-              `${this.userPlatform}:${preferredExternalTrackId}`
-            );
-          } else {
-            // TODO: emit error
-          }
-        })
-      ).unsubscribe;
+
+      const variables = { id: trackId };
+      this.setLoading("cross_track", true);
+      conditionalPromiseResolve(
+        this.gqlClient
+          .query<CrossTracksQuery, CrossTracksQueryVariables>(
+            CrossTracksDocument,
+            variables
+          )
+          .toPromise(),
+        () => variables.id === this.trackId,
+        {
+          onThen: ({ data }) => {
+            // another call to setTrackId happens before request finished
+            if (variables.id !== this.trackId) return;
+            const preferredExternalTrackId = data?.crossTracks?.[userPlatform];
+            if (preferredExternalTrackId) {
+              this.commitPlayingTrackId(
+                `${this.userPlatform}:${preferredExternalTrackId}`
+              );
+            } else {
+              // TODO: emit error
+            }
+          },
+          onFinally: () => {
+            this.setLoading("cross_track", false);
+          },
+        }
+      );
     } else {
-      this.commitPlayTrackId(trackId);
+      this.commitPlayingTrackId(trackId);
     }
   }
 }

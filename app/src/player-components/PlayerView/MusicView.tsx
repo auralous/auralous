@@ -2,6 +2,7 @@ import player, {
   useCurrentContextMeta,
   usePlaybackCurrentControl,
   usePlaybackPlayingTrackId,
+  usePlaybackStatus,
 } from "@/player";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
@@ -27,9 +28,14 @@ const MusicView: FC = () => {
   const currentControl = usePlaybackCurrentControl();
   const contextMeta = useCurrentContextMeta();
 
+  const playbackFetching = usePlaybackStatus().fetching;
+
   return (
     <View style={styles.root}>
-      <PlayerViewMeta track={track || null} fetching={fetching} />
+      <PlayerViewMeta
+        track={track || null}
+        fetching={fetching || playbackFetching}
+      />
       <PlayerViewProgress
         track={track}
         player={player}

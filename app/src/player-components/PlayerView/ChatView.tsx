@@ -6,7 +6,7 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import type { PlaybackContextMeta } from "@/player";
 import { Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { AuthPrompt } from "@/views/AuthPrompt";
 import type { Message } from "@auralous/api";
 import {
   MessageType,
@@ -26,11 +26,6 @@ import type {
 import { FlatList, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
-  auth: {
-    flex: 1,
-    justifyContent: "center",
-    padding: Size[6],
-  },
   content: {
     borderRadius: 50,
     flex: 1,
@@ -240,12 +235,6 @@ const ChatView: FC<{
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
-  const uiDispatch = useUiDispatch();
-  const onUnauthenticated = useCallback(
-    () => uiDispatch({ type: "signIn", value: { visible: true } }),
-    [uiDispatch]
-  );
-
   if (!contextMeta?.id) return null;
 
   if (!contextMeta.isLive)
@@ -255,16 +244,7 @@ const ChatView: FC<{
       </Text>
     );
 
-  if (!me)
-    return (
-      <View style={styles.auth}>
-        <Text align="center">{t("chat.auth_prompt")}</Text>
-        <Spacer y={4} />
-        <Button variant="primary" onPress={onUnauthenticated}>
-          {t("sign_in.title")}
-        </Button>
-      </View>
-    );
+  if (!me) return <AuthPrompt prompt={t("playlist_adder.auth_prompt")} />;
 
   return (
     <View style={styles.root}>

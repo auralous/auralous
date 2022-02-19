@@ -33,7 +33,7 @@ export const AddToPlaylistModal: FC = () => {
 
   return (
     <Dialog.Dialog visible={ui.addToPlaylist.visible} onDismiss={onDismiss}>
-      <Dialog.Title>{t("playlist.add_to_playlist.title")}</Dialog.Title>
+      <Dialog.Title>{t("playlist_adder.title")}</Dialog.Title>
       <Dialog.Content>
         <View style={styles.content}>
           {data?.track ? (

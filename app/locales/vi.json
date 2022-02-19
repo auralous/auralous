@@ -74,15 +74,16 @@
     "my_playlists": "Playlist của bạn",
     "x_song": "{{count}} bài hát",
     "x_song_plural": "{{count}} bài hát",
-    "view_all_x_songs": "Xem tất cả {{ count }} bài hát",
-    "add_to_playlist": {
-      "title": "Thêm vào playlist",
-      "create_playlist": {
-        "title": "Playlist mới",
-        "name_prompt": "Đặt tên cho playlist của bạn."
-      },
-      "added_to_playlist": "Đã thêm vào {{ playlist }}."
-    }
+    "view_all_x_songs": "Xem tất cả {{ count }} bài hát"
+  },
+  "playlist_adder": {
+    "title": "Thêm vào playlist",
+    "create_playlist": {
+      "title": "Playlist mới",
+      "name_prompt": "Đặt tên cho playlist của bạn."
+    },
+    "added_to_playlist": "Đã thêm vào {{ playlist }}.",
+    "auth_prompt": "Thêm những bài hát yêu thích vào playlist của bạn"
   },
   "session": {
     "title": "Phiên",
@@ -144,7 +145,7 @@
     },
     "error": {
       "unplayable": "Cannot play this song",
-      "no_cross_track": "Bài hát này không có sẵn trên {{platform}}"
+      "no_cross_track": "Bài hát này không có sẵn trên nền tảng của bạn"
     }
   },
   "queue": {
@@ -270,6 +271,7 @@
   "notifications": {
     "title": "Thông báo",
     "follow": "<0>{{ username }}</0> bắt đầu theo dõi bạn",
-    "new_session": "<0>{{ username }}</0> bắt đầu một phiên mới <1>{{ session }}</1>"
+    "new_session": "<0>{{ username }}</0> bắt đầu một phiên mới <1>{{ session }}</1>",
+    "auth_prompt": "Nắm bắt sự kiện của bạn bè"
   }
 }

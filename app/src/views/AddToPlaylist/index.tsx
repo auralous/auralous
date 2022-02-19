@@ -9,6 +9,7 @@ import { Heading } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
 import type { Playlist, Track } from "@auralous/api";
 import {
+  useMeQuery,
   useMyPlaylistsQuery,
   usePlaylistAddTracksMutation,
   usePlaylistCreateMutation,
@@ -17,6 +18,7 @@ import type { FC } from "react";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { AuthPrompt } from "../AuthPrompt";
 
 const styles = StyleSheet.create({
   create: {
@@ -62,7 +64,7 @@ const CreatePlaylist: FC<AddToPlaylistProps & { hideIsCreate(): void }> = ({
     });
     if (!result.error) {
       toast.success(
-        t("playlist.add_to_playlist.added_to_playlist", {
+        t("playlist_adder.added_to_playlist", {
           playlist: name,
         })
       );
@@ -73,7 +75,7 @@ const CreatePlaylist: FC<AddToPlaylistProps & { hideIsCreate(): void }> = ({
   return (
     <View style={styles.create}>
       <Heading level={6} align="center">
-        {t("playlist.add_to_playlist.create_playlist.name_prompt")}
+        {t("playlist_adder.create_playlist.name_prompt")}
       </Heading>
       <Spacer y={6} />
       <Input ref={inputRef} variant="underline" />
@@ -120,7 +122,7 @@ const AddToExisted: FC<AddToPlaylistProps & { showIsCreate(): void }> = ({
       });
       if (!result.error) {
         toast.success(
-          t("playlist.add_to_playlist.added_to_playlist", {
+          t("playlist_adder.added_to_playlist", {
             playlist: playlist.name,
           })
         );
@@ -133,7 +135,7 @@ const AddToExisted: FC<AddToPlaylistProps & { showIsCreate(): void }> = ({
   return (
     <ScrollView style={styles.scroll}>
       <Button style={styles.playlist} onPress={showIsCreate}>
-        {t("playlist.add_to_playlist.create_playlist.title")}
+        {t("playlist_adder.create_playlist.title")}
       </Button>
       {fetching ? (
         <LoadingScreen />
@@ -157,6 +159,11 @@ export const AddToPlaylist: FC<AddToPlaylistProps> = ({ track, onDismiss }) => {
   const [isCreate, setIsCreate] = useState(false);
   const showIsCreate = useCallback(() => setIsCreate(true), []);
   const hideIsCreate = useCallback(() => setIsCreate(false), []);
+
+  const { t } = useTranslation();
+  const [{ data: dataMe }] = useMeQuery();
+  if (!dataMe?.me)
+    return <AuthPrompt prompt={t("playlist_adder.auth_prompt")} />;
 
   return (
     <View style={styles.root}>
