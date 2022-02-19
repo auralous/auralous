@@ -236,7 +236,8 @@
       "publish": "Publish",
       "no_thanks": "No, thanks",
       "later": "Later",
-      "done": "Done"
+      "done": "Done",
+      "dismiss": "Dismiss"
     },
     "prompt": {
       "action_not_revertable": "This action cannot be undone."

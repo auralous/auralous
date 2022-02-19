@@ -4,8 +4,15 @@ import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
-import { AccessibilityInfo, Platform, StyleSheet, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  AccessibilityInfo,
+  Platform,
+  Pressable,
+  StyleSheet,
+  View,
+} from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -46,6 +53,8 @@ const styles = StyleSheet.create({
 });
 
 export const Toaster: FC = () => {
+  const { t } = useTranslation();
+
   const [toast, setToast] = useState<ToastValue | null>(null);
   const animValue = useSharedValue(0);
 
@@ -74,16 +83,18 @@ export const Toaster: FC = () => {
     return () => emitter.off("toast", onToast);
   }, [animValue, toast]);
 
+  const close = useCallback(() => {
+    animValue.value = withTiming(0, undefined, (isFinished) => {
+      if (!isFinished) return;
+      runOnJS(setToast)(null);
+    });
+  }, [animValue]);
+
   useEffect(() => {
     if (!toast) return;
-    const to = setTimeout(() => {
-      animValue.value = withTiming(0, undefined, (isFinished) => {
-        if (!isFinished) return;
-        runOnJS(setToast)(null);
-      });
-    }, 20000);
+    const to = setTimeout(close, 6000);
     return () => clearTimeout(to);
-  }, [toast, animValue]);
+  }, [toast, close]);
 
   const rootStyle = useAnimatedStyle(
     () => ({
@@ -98,7 +109,7 @@ export const Toaster: FC = () => {
       style={[styles.root, rootStyle]}
       accessibilityLiveRegion="polite"
     >
-      <View style={styles.content}>
+      <Pressable style={styles.content} onPress={close}>
         {toast.type && (
           <>
             {toast.type === "success" ? (
@@ -117,7 +128,7 @@ export const Toaster: FC = () => {
           {toast.message}
         </Text>
         <Spacer x={3} />
-      </View>
+      </Pressable>
     </Animated.View>
   );
 };

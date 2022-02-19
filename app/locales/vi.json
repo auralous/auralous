@@ -236,7 +236,8 @@
       "publish": "Đăng tải",
       "no_thanks": "Không, cảm ơn",
       "later": "Để sau",
-      "done": "Xong"
+      "done": "Xong",
+      "dismiss": "Bỏ qua"
     },
     "prompt": {
       "action_not_revertable": "Hành động này sẽ không thể  hoàn tác được"
