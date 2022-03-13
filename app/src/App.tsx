@@ -6,6 +6,10 @@ import {
 import type { FC } from "react";
 import { Suspense } from "react";
 import { StatusBar, StyleSheet } from "react-native";
+import {
+  gestureHandlerRootHOC,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Layout } from "./components/Layout";
 import { LoadingScreen } from "./components/Loading";
@@ -69,4 +73,4 @@ const App: FC = () => {
   );
 };
 
-export default App;
+export default gestureHandlerRootHOC(App);

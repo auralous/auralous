@@ -8,18 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AuralousTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AuralousTests.m */; };
+		048A58266FE9246266073A78 /* libPods-Auralous-AuralousTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E26E3EE7741BF6D4730BA2D /* libPods-Auralous-AuralousTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		CED5D2E240862385CCD7C613 /* libPods-Auralous-AuralousTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B5E520812BE7AC062C962A /* libPods-Auralous-AuralousTests.a */; };
-		EDFF86BB34F0D74BE0446172 /* libPods-Auralous.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BD2D4F986838457D63908AA /* libPods-Auralous.a */; };
-		96B6C7414A0D4DAEA9D9BC13 /* NotoSansDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF8CEAE713534EB5933F24E8 /* NotoSansDisplay-Bold.ttf */; };
-		9124D5DAA1714E9FBE0BBF66 /* NotoSansDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 448A575AEA4B46E6913E3995 /* NotoSansDisplay-BoldItalic.ttf */; };
-		B83CE1D33216495DAC212985 /* NotoSansDisplay-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD7F25051456407087E7EB79 /* NotoSansDisplay-Italic.ttf */; };
-		F53723480E0F4E948178750D /* NotoSansDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5A26F49CF6242AA8EF87472 /* NotoSansDisplay-Medium.ttf */; };
-		00BA782C144F4AFCA64784EE /* NotoSansDisplay-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B2BBCB871D54DB590EB4CFD /* NotoSansDisplay-MediumItalic.ttf */; };
-		D32D1809D3F34119BC915F8F /* NotoSansDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E70B0AB3C4C74B448582DCF8 /* NotoSansDisplay-Regular.ttf */; };
+		83FEF472C7F3A3A9CA508E2A /* libPods-Auralous.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF848C3884B4EB17A0BAB016 /* libPods-Auralous.a */; };
+		0C3218B218EA4AC3BB47E105 /* NotoSansDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77FB6FA7D9154250B9DC9B1B /* NotoSansDisplay-Bold.ttf */; };
+		6CC63A24F6934C1281E8F075 /* NotoSansDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A738B67D7814785AD8F3DD9 /* NotoSansDisplay-BoldItalic.ttf */; };
+		46232BC6DEDF440BAD20762C /* NotoSansDisplay-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D16668125393463F93496877 /* NotoSansDisplay-Italic.ttf */; };
+		64959E577E914957B9BBFD40 /* NotoSansDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D79F13E8256494A9F04BF82 /* NotoSansDisplay-Medium.ttf */; };
+		A1AE2032BC02431FBA216C89 /* NotoSansDisplay-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F3AE807E3DC41FD81B31881 /* NotoSansDisplay-MediumItalic.ttf */; };
+		EAB96BC2328E4D6CB6ACAFC3 /* NotoSansDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091500148D144BF7BE80EEF6 /* NotoSansDisplay-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,26 +36,26 @@
 		00E356EE1AD99517003FC87E /* AuralousTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuralousTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* AuralousTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuralousTests.m; sourceTree = "<group>"; };
-		07B5E520812BE7AC062C962A /* libPods-Auralous-AuralousTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auralous-AuralousTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* Auralous.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Auralous.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Auralous/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Auralous/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Auralous/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Auralous/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Auralous/main.m; sourceTree = "<group>"; };
-		29A87B01F483BC8B4574840A /* Pods-Auralous.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auralous.debug.xcconfig"; path = "Target Support Files/Pods-Auralous/Pods-Auralous.debug.xcconfig"; sourceTree = "<group>"; };
-		2BD2D4F986838457D63908AA /* libPods-Auralous.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auralous.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21C5BA99192EB288DDD7C608 /* Pods-Auralous.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auralous.debug.xcconfig"; path = "Target Support Files/Pods-Auralous/Pods-Auralous.debug.xcconfig"; sourceTree = "<group>"; };
+		50EE55E9644128B0D73D4E6C /* Pods-Auralous-AuralousTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auralous-AuralousTests.debug.xcconfig"; path = "Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests.debug.xcconfig"; sourceTree = "<group>"; };
+		679AA93A98FBF9D03F836B1F /* Pods-Auralous.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auralous.release.xcconfig"; path = "Target Support Files/Pods-Auralous/Pods-Auralous.release.xcconfig"; sourceTree = "<group>"; };
+		6BD601B2DF1E5C633D0272B0 /* Pods-Auralous-AuralousTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auralous-AuralousTests.release.xcconfig"; path = "Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests.release.xcconfig"; sourceTree = "<group>"; };
+		6E26E3EE7741BF6D4730BA2D /* libPods-Auralous-AuralousTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auralous-AuralousTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Auralous/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		C78A5F001A42B3F694FDB643 /* Pods-Auralous-AuralousTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auralous-AuralousTests.debug.xcconfig"; path = "Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests.debug.xcconfig"; sourceTree = "<group>"; };
-		EB254679FA23B18C885CDDDD /* Pods-Auralous-AuralousTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auralous-AuralousTests.release.xcconfig"; path = "Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests.release.xcconfig"; sourceTree = "<group>"; };
+		CF848C3884B4EB17A0BAB016 /* libPods-Auralous.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Auralous.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		EF215046929D3E61DF7A9DAC /* Pods-Auralous.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Auralous.release.xcconfig"; path = "Target Support Files/Pods-Auralous/Pods-Auralous.release.xcconfig"; sourceTree = "<group>"; };
-		EF8CEAE713534EB5933F24E8 /* NotoSansDisplay-Bold.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-Bold.ttf"; path = "../src/assets/fonts/NotoSansDisplay-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		448A575AEA4B46E6913E3995 /* NotoSansDisplay-BoldItalic.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-BoldItalic.ttf"; path = "../src/assets/fonts/NotoSansDisplay-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FD7F25051456407087E7EB79 /* NotoSansDisplay-Italic.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-Italic.ttf"; path = "../src/assets/fonts/NotoSansDisplay-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E5A26F49CF6242AA8EF87472 /* NotoSansDisplay-Medium.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-Medium.ttf"; path = "../src/assets/fonts/NotoSansDisplay-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2B2BBCB871D54DB590EB4CFD /* NotoSansDisplay-MediumItalic.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-MediumItalic.ttf"; path = "../src/assets/fonts/NotoSansDisplay-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E70B0AB3C4C74B448582DCF8 /* NotoSansDisplay-Regular.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-Regular.ttf"; path = "../src/assets/fonts/NotoSansDisplay-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		77FB6FA7D9154250B9DC9B1B /* NotoSansDisplay-Bold.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-Bold.ttf"; path = "../src/assets/fonts/NotoSansDisplay-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1A738B67D7814785AD8F3DD9 /* NotoSansDisplay-BoldItalic.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-BoldItalic.ttf"; path = "../src/assets/fonts/NotoSansDisplay-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D16668125393463F93496877 /* NotoSansDisplay-Italic.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-Italic.ttf"; path = "../src/assets/fonts/NotoSansDisplay-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3D79F13E8256494A9F04BF82 /* NotoSansDisplay-Medium.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-Medium.ttf"; path = "../src/assets/fonts/NotoSansDisplay-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6F3AE807E3DC41FD81B31881 /* NotoSansDisplay-MediumItalic.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-MediumItalic.ttf"; path = "../src/assets/fonts/NotoSansDisplay-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		091500148D144BF7BE80EEF6 /* NotoSansDisplay-Regular.ttf */ = {isa = PBXFileReference; name = "NotoSansDisplay-Regular.ttf"; path = "../src/assets/fonts/NotoSansDisplay-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CED5D2E240862385CCD7C613 /* libPods-Auralous-AuralousTests.a in Frameworks */,
+				048A58266FE9246266073A78 /* libPods-Auralous-AuralousTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDFF86BB34F0D74BE0446172 /* libPods-Auralous.a in Frameworks */,
+				83FEF472C7F3A3A9CA508E2A /* libPods-Auralous.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,10 +112,22 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				2BD2D4F986838457D63908AA /* libPods-Auralous.a */,
-				07B5E520812BE7AC062C962A /* libPods-Auralous-AuralousTests.a */,
+				CF848C3884B4EB17A0BAB016 /* libPods-Auralous.a */,
+				6E26E3EE7741BF6D4730BA2D /* libPods-Auralous-AuralousTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2DBC02B5314106D4FD25D9D1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				21C5BA99192EB288DDD7C608 /* Pods-Auralous.debug.xcconfig */,
+				679AA93A98FBF9D03F836B1F /* Pods-Auralous.release.xcconfig */,
+				50EE55E9644128B0D73D4E6C /* Pods-Auralous-AuralousTests.debug.xcconfig */,
+				6BD601B2DF1E5C633D0272B0 /* Pods-Auralous-AuralousTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -133,8 +145,8 @@
 				00E356EF1AD99517003FC87E /* AuralousTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				AD59FE128C11EAE8EBF9813F /* Pods */,
-				E59C30372677430C9FAAC6BF /* Resources */,
+				2DBC02B5314106D4FD25D9D1 /* Pods */,
+				5ECE812F87B44D8A9D7B3A15 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -150,27 +162,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AD59FE128C11EAE8EBF9813F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				29A87B01F483BC8B4574840A /* Pods-Auralous.debug.xcconfig */,
-				EF215046929D3E61DF7A9DAC /* Pods-Auralous.release.xcconfig */,
-				C78A5F001A42B3F694FDB643 /* Pods-Auralous-AuralousTests.debug.xcconfig */,
-				EB254679FA23B18C885CDDDD /* Pods-Auralous-AuralousTests.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		E59C30372677430C9FAAC6BF /* Resources */ = {
+		5ECE812F87B44D8A9D7B3A15 /* Resources */ = {
 			isa = "PBXGroup";
 			children = (
-				EF8CEAE713534EB5933F24E8 /* NotoSansDisplay-Bold.ttf */,
-				448A575AEA4B46E6913E3995 /* NotoSansDisplay-BoldItalic.ttf */,
-				FD7F25051456407087E7EB79 /* NotoSansDisplay-Italic.ttf */,
-				E5A26F49CF6242AA8EF87472 /* NotoSansDisplay-Medium.ttf */,
-				2B2BBCB871D54DB590EB4CFD /* NotoSansDisplay-MediumItalic.ttf */,
-				E70B0AB3C4C74B448582DCF8 /* NotoSansDisplay-Regular.ttf */,
+				77FB6FA7D9154250B9DC9B1B /* NotoSansDisplay-Bold.ttf */,
+				1A738B67D7814785AD8F3DD9 /* NotoSansDisplay-BoldItalic.ttf */,
+				D16668125393463F93496877 /* NotoSansDisplay-Italic.ttf */,
+				3D79F13E8256494A9F04BF82 /* NotoSansDisplay-Medium.ttf */,
+				6F3AE807E3DC41FD81B31881 /* NotoSansDisplay-MediumItalic.ttf */,
+				091500148D144BF7BE80EEF6 /* NotoSansDisplay-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -183,12 +183,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "AuralousTests" */;
 			buildPhases = (
-				BD0ECBE309816D4618C2EDC8 /* [CP] Check Pods Manifest.lock */,
+				CFDF19CD526ACDA849D962DB /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				98E94DAF0CA630772E75628C /* [CP] Embed Pods Frameworks */,
-				64CB8B13CE2BC41CD700939A /* [CP] Copy Pods Resources */,
+				5543B7DF039E1D7447949C97 /* [CP] Embed Pods Frameworks */,
+				95435992F677B52E41C469B7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,14 +204,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Auralous" */;
 			buildPhases = (
-				D74C9A91184D45852CB535C0 /* [CP] Check Pods Manifest.lock */,
+				127475581DAF868DC7A86EF3 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				E4661260B2F8995764FA3223 /* [CP] Embed Pods Frameworks */,
-				589CD817700AC23390FB1CF7 /* [CP] Copy Pods Resources */,
+				B09242573632DBAF260EB434 /* [CP] Embed Pods Frameworks */,
+				B563FD72BFB7AEF4D5A1701B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -272,12 +272,12 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				96B6C7414A0D4DAEA9D9BC13 /* NotoSansDisplay-Bold.ttf in Resources */,
-				9124D5DAA1714E9FBE0BBF66 /* NotoSansDisplay-BoldItalic.ttf in Resources */,
-				B83CE1D33216495DAC212985 /* NotoSansDisplay-Italic.ttf in Resources */,
-				F53723480E0F4E948178750D /* NotoSansDisplay-Medium.ttf in Resources */,
-				00BA782C144F4AFCA64784EE /* NotoSansDisplay-MediumItalic.ttf in Resources */,
-				D32D1809D3F34119BC915F8F /* NotoSansDisplay-Regular.ttf in Resources */,
+				0C3218B218EA4AC3BB47E105 /* NotoSansDisplay-Bold.ttf in Resources */,
+				6CC63A24F6934C1281E8F075 /* NotoSansDisplay-BoldItalic.ttf in Resources */,
+				46232BC6DEDF440BAD20762C /* NotoSansDisplay-Italic.ttf in Resources */,
+				64959E577E914957B9BBFD40 /* NotoSansDisplay-Medium.ttf in Resources */,
+				A1AE2032BC02431FBA216C89 /* NotoSansDisplay-MediumItalic.ttf in Resources */,
+				EAB96BC2328E4D6CB6ACAFC3 /* NotoSansDisplay-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,80 +298,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		589CD817700AC23390FB1CF7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Auralous/Pods-Auralous-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Auralous/Pods-Auralous-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Auralous/Pods-Auralous-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		64CB8B13CE2BC41CD700939A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		98E94DAF0CA630772E75628C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BD0ECBE309816D4618C2EDC8 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Auralous-AuralousTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D74C9A91184D45852CB535C0 /* [CP] Check Pods Manifest.lock */ = {
+		127475581DAF868DC7A86EF3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -393,7 +320,41 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E4661260B2F8995764FA3223 /* [CP] Embed Pods Frameworks */ = {
+		5543B7DF039E1D7447949C97 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95435992F677B52E41C469B7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Auralous-AuralousTests/Pods-Auralous-AuralousTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B09242573632DBAF260EB434 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -408,6 +369,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Auralous/Pods-Auralous-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B563FD72BFB7AEF4D5A1701B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Auralous/Pods-Auralous-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Auralous/Pods-Auralous-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Auralous/Pods-Auralous-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CFDF19CD526ACDA849D962DB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Auralous-AuralousTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -462,7 +462,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C78A5F001A42B3F694FDB643 /* Pods-Auralous-AuralousTests.debug.xcconfig */;
+			baseConfigurationReference = 50EE55E9644128B0D73D4E6C /* Pods-Auralous-AuralousTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -489,7 +489,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB254679FA23B18C885CDDDD /* Pods-Auralous-AuralousTests.release.xcconfig */;
+			baseConfigurationReference = 6BD601B2DF1E5C633D0272B0 /* Pods-Auralous-AuralousTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -513,7 +513,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29A87B01F483BC8B4574840A /* Pods-Auralous.debug.xcconfig */;
+			baseConfigurationReference = 21C5BA99192EB288DDD7C608 /* Pods-Auralous.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -539,7 +539,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF215046929D3E61DF7A9DAC /* Pods-Auralous.release.xcconfig */;
+			baseConfigurationReference = 679AA93A98FBF9D03F836B1F /* Pods-Auralous.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

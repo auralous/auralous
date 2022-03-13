@@ -30,18 +30,18 @@
     "@urql/exchange-graphcache": "^4.3.6",
     "@urql/exchange-persisted-fetch": "^1.3.4",
     "graphql": "^16.3.0",
-    "graphql-ws": "^5.5.5",
-    "urql": "^2.1.3"
+    "graphql-ws": "^5.6.2",
+    "urql": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.0",
-    "@babel/core": "^7.17.2",
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
     "@babel/preset-typescript": "^7.16.7",
-    "@graphql-codegen/cli": "^2.6.1",
-    "@graphql-codegen/typescript": "^2.4.3",
-    "@graphql-codegen/typescript-operations": "^2.3.0",
-    "@graphql-codegen/typescript-urql": "^3.5.1",
-    "@graphql-codegen/typescript-urql-graphcache": "^2.2.4"
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript": "^2.4.7",
+    "@graphql-codegen/typescript-operations": "^2.3.4",
+    "@graphql-codegen/typescript-urql": "^3.5.5",
+    "@graphql-codegen/typescript-urql-graphcache": "^2.2.8"
   },
   "peerDependencies": {}
 }
