@@ -58,7 +58,8 @@ export function registerLivePlayback(
   const { unsubscribe: unsubscribeQueryNP } = pipe(
     client.query<NowPlayingQuery, NowPlayingQueryVariables>(
       NowPlayingDocument,
-      { id }
+      { id },
+      { requestPolicy: "cache-and-network" }
     ),
     subscribe((result) => {
       if (result.data?.nowPlaying) {
@@ -151,6 +152,24 @@ export function registerLivePlayback(
   // when the playback starts playing again
   // sync to the current nowPlaying position
   player.on("play", onPlay);
+
+  function onEnded() {
+    // we dont really care about the result of this call,
+    // it is just to force revalidation of the now playing query
+
+    client
+      .query<NowPlayingQuery, NowPlayingQueryVariables>(
+        NowPlayingDocument,
+        { id },
+        { requestPolicy: "cache-and-network" }
+      )
+      .toPromise()
+      .catch();
+  }
+  // we want to refetch to check if nowPlaying has been updated
+  // although we already are notified in ws, it is possible that
+  // the ws is disconnected on the cache is miss
+  player.on("ended", onEnded);
 
   // session-specific
   // check when session goes offline
