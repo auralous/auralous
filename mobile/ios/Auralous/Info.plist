@@ -69,7 +69,5 @@
 			</array>
 		</dict>
 	</array>
-	<key>MGLMapboxAccessToken</key>
-	<string>PASTE_YOUR_MAPBOX_ACCESS_TOKEN</string>
 </dict>
 </plist>

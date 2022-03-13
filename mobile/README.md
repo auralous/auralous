@@ -11,7 +11,6 @@ API_URI=https://api.auralous.com
 WEBSOCKET_URI=wss://api.auralous.com
 APP_URI=https://app.auralous.com
 SPOTIFY_CLIENT_ID=spotify_client_id
-MAPBOX_ACCESS_TOKEN=PASTE_YOUR_MAPBOX_ACCESS_TOKEN
 FACEBOOK_APP_ID=
 ```
 
@@ -23,13 +22,6 @@ You will need a [Spotify Developer](https://developer.spotify.com/) to work with
 2. Fill in the Android Package Name (`com.hoangvvo.auralous`) and SHA1 Fingerprint (`keytool -list -v -alias androiddebugkey -keystore ./android/app/debug.keystore`) and iOS Bundle ID.
 
 Spotify application should also be installed on the development device.
-
-### Mapbox
-
-You will need a [Mapbox](https://www.mapbox.com/) to work on the Map Screen.
-
-1. Follow the setup: https://docs.mapbox.com/android/maps/guides/install/ and https://docs.mapbox.com/ios/maps/guides/install/
-2. Make sure the following have been replaced: `PASTE_YOUR_MAPBOX_DOWNLOAD_TOKEN`, `PASTE_YOUR_MAPBOX_ACCESS_TOKEN` (Hint: Use Editor _Find and Replace_)
 
 ## Workflows
 

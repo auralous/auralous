@@ -40,5 +40,6 @@ target 'Auralous' do
     $RNMBGL.pre_install(installer)
   end
 
-  $ReactNativeMapboxGLIOSVersion = '~> 6.3.0'
+  $RNMBGL_Use_SPM = true
+  $RNMGL_USE_MAPLIBRE = true
 end

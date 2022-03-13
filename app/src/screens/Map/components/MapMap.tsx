@@ -1,4 +1,3 @@
-import { Config } from "@/config";
 import { MAPBOX_STYLE_URL } from "@/utils/constants";
 import type { MapViewProps } from "@react-native-mapbox-gl/maps";
 import MapboxGL from "@react-native-mapbox-gl/maps";
@@ -8,8 +7,7 @@ import { StyleSheet } from "react-native";
 import { MapMapMarker } from "./MapMapMarker";
 import type { MapMapProps } from "./types";
 
-MapboxGL.setAccessToken(Config.MAPBOX_ACCESS_TOKEN);
-MapboxGL.setTelemetryEnabled(false);
+MapboxGL.setAccessToken("noop");
 
 const styles = StyleSheet.create({
   root: {

@@ -15,7 +15,6 @@ const envNames = [
   "API_URI",
   "WEBSOCKET_URI",
   "SPOTIFY_CLIENT_ID",
-  "MAPBOX_ACCESS_TOKEN",
   "FACEBOOK_APP_ID",
 ];
 
@@ -134,7 +133,7 @@ module.exports = async (env, argv) => {
     plugins: [
       new webpack.DefinePlugin({
         __DEV__: process.env.NODE_ENV === "production",
-        process: { env: { ...dotEnvEnv } },
+        process: { env: { ...dotEnvEnv, JEST_WORKER_ID: "''" } },
       }),
       isProductionEnv && process.env.ANALYZE && new BundleAnalyzerPlugin(),
     ].filter(Boolean),
