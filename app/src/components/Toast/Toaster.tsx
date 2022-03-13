@@ -5,7 +5,6 @@ import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   AccessibilityInfo,
   Platform,
@@ -53,8 +52,6 @@ const styles = StyleSheet.create({
 });
 
 export const Toaster: FC = () => {
-  const { t } = useTranslation();
-
   const [toast, setToast] = useState<ToastValue | null>(null);
   const animValue = useSharedValue(0);
 

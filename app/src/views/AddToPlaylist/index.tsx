@@ -121,11 +121,14 @@ const AddToExisted: FC<AddToPlaylistProps & { showIsCreate(): void }> = ({
         trackIds: [track.id],
       });
       if (!result.error) {
-        toast.success(
-          t("playlist_adder.added_to_playlist", {
-            playlist: playlist.name,
-          })
-        );
+        setTimeout(() => {
+          // show after the modal is closed
+          toast.success(
+            t("playlist_adder.added_to_playlist", {
+              playlist: playlist.name,
+            })
+          );
+        }, 1000);
         onDismiss();
       }
     },
