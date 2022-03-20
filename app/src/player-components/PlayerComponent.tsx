@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import PlayerSpotify from "./PlayerSpotify";
 import PlayerYoutube from "./PlayerYoutube";
 
-const PlayerComponent: FC = ({ children }) => {
+const PlayerComponent: FC = () => {
   const { playingPlatform } = usePlaybackAuthentication();
   const [loaded, setLoaded] = useState(false);
 
@@ -20,12 +20,7 @@ const PlayerComponent: FC = ({ children }) => {
     return PlayerSpotify;
   }, [playingPlatform, loaded]);
 
-  return (
-    <>
-      {DynamicPlayer && <DynamicPlayer />}
-      {children}
-    </>
-  );
+  return DynamicPlayer ? <DynamicPlayer /> : null;
 };
 
 export default PlayerComponent;

@@ -9,6 +9,7 @@ import { Toaster } from "@/components/Toast";
 import { Text } from "@/components/Typography";
 import { useCurrentContextMeta } from "@/player";
 import { RouteName } from "@/screens/types";
+import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import type { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -36,6 +37,10 @@ const PlayerViewContent = lazy(() => import("./PlayerViewContent"));
 const PlayerViewContentLand = lazy(() => import("./PlayerViewContent.land"));
 
 const styles = StyleSheet.create({
+  header: {
+    borderBottomColor: Colors.border,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
   headerTitle: {
     paddingVertical: Size[1],
   },
@@ -66,36 +71,33 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
   }, [contextMeta, navigation]);
 
   return (
-    <>
-      <Header
-        title={
-          contextMeta ? (
-            <TouchableOpacity
-              style={styles.headerTitle}
-              onPress={onHeaderTitlePress}
-            >
-              <Text size="xs" style={styles.playingFromText} align="center">
-                {t("player.playing_from", { entity: contextMeta.type })}
-              </Text>
-              <Spacer y={2} />
-              <Text size="sm" bold align="center">
-                {contextMeta.contextDescription}
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            ""
-          )
-        }
-        left={
-          <Button
-            variant="text"
-            onPress={onDismiss}
-            icon={<IconChevronDown />}
-            accessibilityLabel={t("common.navigation.go_back")}
-          />
-        }
-      />
-    </>
+    <Header
+      title={
+        contextMeta ? (
+          <TouchableOpacity
+            style={styles.headerTitle}
+            onPress={onHeaderTitlePress}
+          >
+            <Text size="xs" style={styles.playingFromText} align="center">
+              {t("player.playing_from", { entity: contextMeta.type })}
+            </Text>
+            <Spacer y={2} />
+            <Text size="sm" bold align="center">
+              {contextMeta.contextDescription}
+            </Text>
+          </TouchableOpacity>
+        ) : null
+      }
+      left={
+        <Button
+          variant="text"
+          onPress={onDismiss}
+          icon={<IconChevronDown />}
+          accessibilityLabel={t("common.navigation.go_back")}
+        />
+      }
+      style={styles.header}
+    />
   );
 };
 

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Size[1],
   },
   listContent: {
-    paddingHorizontal: Size[4],
+    paddingHorizontal: Size[2],
   },
   listItem: {
     alignItems: "flex-start",
@@ -216,6 +216,7 @@ const ChatInput: FC<{ id: string }> = ({ id }) => {
         accessibilityLabel={t("chat.input_label")}
         placeholder={t("chat.input_label")}
         style={styles.input}
+        blurOnSubmit={false}
       />
       <Button
         accessibilityLabel={t("chat.send_message")}
@@ -236,13 +237,6 @@ const ChatView: FC<{
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
   if (!contextMeta?.id) return null;
-
-  if (!contextMeta.isLive)
-    return (
-      <Text align="center" bold color="textSecondary">
-        {t("chat.not_live")}
-      </Text>
-    );
 
   if (!me) return <AuthPrompt prompt={t("playlist_adder.auth_prompt")} />;
 

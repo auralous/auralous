@@ -21,7 +21,9 @@ const styles = StyleSheet.create({
     height: 0,
   },
   root: {
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: Colors.background,
+    borderTopColor: Colors.border,
+    borderTopWidth: StyleSheet.hairlineWidth,
     flexDirection: "row",
     height: BOTTOM_TABS_HEIGHT,
     overflow: "hidden",
@@ -29,9 +31,14 @@ const styles = StyleSheet.create({
   },
   tab: {
     alignItems: "center",
+    borderBottomWidth: 4,
+    borderColor: "transparent",
     display: "flex",
     flex: 1,
     justifyContent: "center",
+  },
+  tabFocused: {
+    borderColor: Colors.primary,
   },
 });
 
@@ -44,7 +51,7 @@ const Tab: FC<{
   return (
     <RNLink
       to={{ screen: name }}
-      style={styles.tab}
+      style={[styles.tab, isFocused && styles.tabFocused]}
       accessibilityLabel={children}
     >
       <Icon color={isFocused ? Colors.text : Colors.textTertiary} />

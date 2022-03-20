@@ -91,7 +91,6 @@
     "go_to_session": "Go to session",
     "text": "What's on your mind",
     "session_of_name": "{{ name }}'s session",
-    "creator": "Session creator",
     "artists_preview": "{{ artistNames }}, and more"
   },
   "session_invite": {

@@ -1,13 +1,11 @@
 // Chat
-import { IconChevronDown, IconList, IconMessageSquare } from "@/assets";
+import { IconList, IconMessageSquare, IconX } from "@/assets";
 import {
   SlideModal,
   useBackHandlerDismiss,
   useDialog,
 } from "@/components/Dialog";
 import QueueContent from "@/components/Queue/QueueContent";
-import { Spacer } from "@/components/Spacer";
-import { Heading } from "@/components/Typography";
 import type { PlaybackState } from "@/player";
 import {
   useCurrentContextMeta,
@@ -16,8 +14,9 @@ import {
 } from "@/player";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
+import { useUiDispatch } from "@/ui-context";
 import type { Track } from "@auralous/api";
-import { useTrackQuery } from "@auralous/api";
+import { useMeQuery, useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -39,9 +38,8 @@ const sheetStyles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    alignItems: "stretch",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     marginBottom: Size[4],
   },
   root: {
@@ -51,20 +49,15 @@ const sheetStyles = StyleSheet.create({
   },
 });
 
-const SheetTitle: FC<{ title: string; onClose(): void }> = ({
-  onClose,
-  title,
-}) => {
+const SheetTitle: FC<{ title: string; onClose(): void }> = ({ onClose }) => {
   const { t } = useTranslation();
   return (
     <View style={sheetStyles.header}>
-      <Heading level={3}>{title}</Heading>
-      <Spacer x={1} />
       <TouchableOpacity
         accessibilityLabel={t("common.navigation.go_back")}
         onPress={onClose}
       >
-        <IconChevronDown width={Size[10]} height={Size[10]} />
+        <IconX width={Size[8]} height={Size[8]} />
       </TouchableOpacity>
     </View>
   );
@@ -93,11 +86,18 @@ const ChatButtonAndSheet: FC = () => {
   const { t } = useTranslation();
   const [visible, present, dismiss] = useDialog();
 
+  const [{ data: dataMe }] = useMeQuery();
+  const uiDispatch = useUiDispatch();
+
   return (
     <>
       <TouchableOpacity
         accessibilityLabel={t("chat.title")}
-        onPress={present}
+        onPress={
+          dataMe?.me
+            ? present
+            : () => uiDispatch({ type: "signIn", value: { visible: true } })
+        }
         style={sheetStyles.btn}
       >
         <IconMessageSquare />

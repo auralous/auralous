@@ -47,14 +47,14 @@ const styles = StyleSheet.create({
     padding: Size[6],
   },
   containerLand: {
-    borderRadius: Size[3],
+    borderRadius: Size[2],
     margin: "auto",
     maxWidth: "100%",
     width: LayoutSize.md,
   },
   containerPor: {
-    borderTopLeftRadius: Size[8],
-    borderTopRightRadius: Size[8],
+    borderTopLeftRadius: Size[4],
+    borderTopRightRadius: Size[4],
     marginTop: "auto",
     width: "100%",
   },

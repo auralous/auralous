@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { styles } from "./ItemsSearch.styles";
 
@@ -54,9 +54,11 @@ const PlaylistsSearch: FC<{ query: string }> = ({ query }) => {
         fetching ? (
           <LoadingScreen />
         ) : (
-          <Text color="textSecondary" align="center">
-            {t("common.result.search_empty")}
-          </Text>
+          <View>
+            <Text color="textSecondary" align="center">
+              {t("common.result.search_empty")}
+            </Text>
+          </View>
         )
       }
     />

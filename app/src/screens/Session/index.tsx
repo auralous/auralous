@@ -3,7 +3,6 @@ import {
   IconHeadphones,
   IconMoreVertical,
   IconShare2,
-  IconUser,
   IconX,
 } from "@/assets";
 import { Button } from "@/components/Button";
@@ -76,15 +75,6 @@ const HeaderRight: FC<{
                   onPress() {
                     navigation.navigate(RouteName.SessionListeners, {
                       id: session.id,
-                    });
-                  },
-                },
-                {
-                  icon: <IconUser stroke={Colors.textSecondary} />,
-                  text: t("session.creator"),
-                  onPress() {
-                    navigation.navigate(RouteName.User, {
-                      username: session.creator.username,
                     });
                   },
                 },

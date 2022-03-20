@@ -11,8 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { HeaderBackButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import type { ComponentProps, ComponentType, FC } from "react";
-import { Suspense } from "react";
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform } from "react-native";
 import SignInScreen from "./SignIn";
@@ -122,7 +121,6 @@ const Navigator: FC = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShadowVisible: false,
         // @ts-ignore
         headerTitleStyle,
         headerLeft,

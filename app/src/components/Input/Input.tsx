@@ -27,6 +27,7 @@ interface InputProps {
   onSubmit?: (text: string) => void;
   style?: StyleProp<ViewStyle>;
   variant?: "underline";
+  blurOnSubmit?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -39,16 +40,16 @@ const styles = StyleSheet.create({
   root: {
     alignContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.control,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
     flexDirection: "row",
     height: Size[10],
   },
   rootDefault: {
-    borderRadius: 9999,
+    borderRadius: Size[1],
   },
   rootUnderline: {
     backgroundColor: "transparent",
-    borderBottomColor: Colors.control,
+    borderBottomColor: "rgba(255, 255, 255, 0.1)",
     borderBottomWidth: 1.5,
   },
 });
@@ -73,6 +74,7 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
     onSubmit,
     style,
     variant,
+    blurOnSubmit,
   },
   ref
 ) {
@@ -134,6 +136,7 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
         onFocus={onFocused}
         onBlur={onBlur}
         underlineColorAndroid="rgba(0,0,0,0)"
+        blurOnSubmit={blurOnSubmit}
       />
       {endIcon}
     </View>

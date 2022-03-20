@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
   section: {
     borderColor: Colors.border,
-    borderRadius: Size[4],
+    borderRadius: Size[1],
     borderWidth: StyleSheet.hairlineWidth,
     padding: Size[4],
   },

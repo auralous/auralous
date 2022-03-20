@@ -32,6 +32,7 @@ const SearchSection: FC = () => {
             accessibilityLabel={t("search.title")}
             icon={<IconSearch />}
             onPress={onSubmit}
+            variant="text"
           />
         }
       />

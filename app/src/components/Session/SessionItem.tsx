@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   overlay: { backgroundColor: "rgba(0,0,0,.5)", flex: 1, padding: Size[4] },
   root: {
     backgroundColor: Colors.backgroundSecondary,
-    borderRadius: Size[2],
+    borderRadius: Size[1],
     height: 0,
     overflow: "hidden",
     paddingBottom: "156.25%",

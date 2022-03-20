@@ -21,14 +21,15 @@ import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
-    borderRadius: 5,
+    borderColor: "transparent",
+    borderLeftWidth: 4,
     display: "flex",
     flexDirection: "row",
     paddingHorizontal: Size[4],
     paddingVertical: Size[2],
   },
   buttonActive: {
-    backgroundColor: "rgba(255, 255, 255, .1)",
+    borderColor: Colors.primary,
   },
   logo: {
     padding: Size[8],
@@ -78,7 +79,7 @@ const SidebarButtonProfile: FC = () => {
       >
         <IconLogIn />
         <Spacer x={3} />
-        <Text>{t("sign_in.title")}</Text>
+        <Text selectable={false}>{t("sign_in.title")}</Text>
       </Pressable>
     );
   return (

@@ -34,12 +34,13 @@ const SessionMeta: FC<{
       </View>
       <View style={stylesMeta.meta}>
         <View style={stylesMeta.tag}>{tag}</View>
-        <Heading level={4} align="center" numberOfLines={1}>
+        <Spacer y={1} />
+        <Heading level={5} align="center" numberOfLines={1}>
           {session.text}
         </Heading>
-        <Spacer y={3} />
+        <Spacer y={2} />
         <Pressable onPress={gotoCreator}>
-          <Text color="textSecondary" align="center" numberOfLines={1}>
+          <Text align="center">
             {session.collaboratorIds.length > 1
               ? t("collab.name_and_x_others", {
                   name: session.creator.username,

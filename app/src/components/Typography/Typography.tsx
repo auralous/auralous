@@ -28,6 +28,7 @@ export interface TextProps {
   size?: keyof typeof sizes;
   numberOfLines?: number;
   lineGapScale?: number;
+  selectable?: boolean;
 }
 
 export const useStyle = (props: TextProps & { level?: number }) => {
@@ -66,10 +67,16 @@ export const useStyle = (props: TextProps & { level?: number }) => {
   ]);
 };
 
-export const Text: FC<TextProps> = ({ children, numberOfLines, ...props }) => {
+export const Text: FC<TextProps> = ({
+  children,
+  numberOfLines,
+  selectable,
+  ...props
+}) => {
   const style = useStyle(props);
   return (
     <RNText
+      selectable={selectable}
       numberOfLines={numberOfLines}
       style={StyleSheet.compose(style, props.style)}
     >

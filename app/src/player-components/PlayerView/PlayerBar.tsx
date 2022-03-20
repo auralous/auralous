@@ -5,7 +5,6 @@ import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
 import player, {
-  usePlaybackColor,
   usePlaybackCurrentControl,
   usePlaybackPlayingTrackId,
   usePlaybackStatus,
@@ -14,7 +13,6 @@ import { RouteName } from "@/screens/types";
 import { useIsRouteWithNavbar, useRouteNames } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
-import { useAnimatedBgColors } from "@/styles/utils";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -35,7 +33,6 @@ import Animated, {
 export const PLAYER_BAR_HEIGHT = Size[14];
 
 const styles = StyleSheet.create({
-  bg: { opacity: 0.5 },
   button: {
     alignItems: "center",
     height: PLAYER_BAR_HEIGHT,
@@ -43,15 +40,22 @@ const styles = StyleSheet.create({
     width: PLAYER_BAR_HEIGHT,
   },
   content: {
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: Colors.background,
     borderTopColor: Colors.border,
     borderTopWidth: StyleSheet.hairlineWidth,
     flexDirection: "row",
     height: PLAYER_BAR_HEIGHT,
+    paddingHorizontal: Size[2],
     width: "100%",
   },
   image: {
+    borderRadius: 4,
+    flex: 1,
+    resizeMode: "cover",
+  },
+  imageWrap: {
     height: PLAYER_BAR_HEIGHT,
+    padding: Size[1.5],
     resizeMode: "cover",
     width: PLAYER_BAR_HEIGHT,
   },
@@ -106,7 +110,7 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
     [isPlaying]
   );
 
-  const animatedBgStyle = useAnimatedBgColors(usePlaybackColor());
+  // const animatedBgStyle = useAnimatedBgColors(usePlaybackColor());
 
   const routeNames = useRouteNames();
   const routeName = routeNames[routeNames.length - 1];
@@ -140,17 +144,19 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
       style={[styles.root, animRootStyle]}
     >
       <Animated.View style={[styles.content, animContentStyle]}>
-        <Animated.View
+        {/* <Animated.View
           pointerEvents="none"
           style={[styles.bg, StyleSheet.absoluteFill, animatedBgStyle]}
-        />
+        /> */}
         <Pressable style={styles.viewExpandTrigger} onPress={onPress}>
-          <Image
-            style={styles.image}
-            source={track?.image ? { uri: track?.image } : imageDefaultTrack}
-            defaultSource={imageDefaultTrack}
-            accessibilityLabel={track?.title}
-          />
+          <View style={styles.imageWrap}>
+            <Image
+              style={styles.image}
+              source={track?.image ? { uri: track?.image } : imageDefaultTrack}
+              defaultSource={imageDefaultTrack}
+              accessibilityLabel={track?.title}
+            />
+          </View>
           <View style={styles.meta}>
             {playbackError ? (
               <>

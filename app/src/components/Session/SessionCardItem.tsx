@@ -1,7 +1,11 @@
-import { IconPlay } from "@/assets";
+import { IconPause, IconPlay } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { RNLink, Text } from "@/components/Typography";
+import player, {
+  useIsCurrentPlaybackContext,
+  usePlaybackCurrentControl,
+} from "@/player";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
@@ -34,7 +38,7 @@ const styles = StyleSheet.create({
   },
   main: {
     backgroundColor: Colors.backgroundSecondary,
-    borderRadius: Size[2],
+    borderRadius: Size[1],
     flexDirection: "row",
     height: Size[27],
     overflow: "hidden",
@@ -98,6 +102,19 @@ const SessionCardItem: FC<SessionCardItemProps> = ({
     ].filter(isTruthy);
   }, [dataSessionTracks]);
 
+  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+    "session",
+    session.id
+  );
+  const playerIsPlaying = usePlaybackCurrentControl().isPlaying;
+  const onPlayPress = () => {
+    if (isCurrentPlaybackContext) {
+      if (playerIsPlaying) player.pause();
+      else player.play();
+    }
+    onPlay(session.id, 0);
+  };
+
   return (
     <View style={styles.root}>
       <Pressable onPress={gotoSession} style={styles.head}>
@@ -124,11 +141,12 @@ const SessionCardItem: FC<SessionCardItemProps> = ({
           {session.image && (
             <Image source={{ uri: session.image }} style={styles.bg} />
           )}
-          <TouchableOpacity
-            style={styles.mainPlayButton}
-            onPress={() => onPlay(session.id, 0)}
-          >
-            <IconPlay stroke="#ffffff" fill="#ffffff" />
+          <TouchableOpacity style={styles.mainPlayButton} onPress={onPlayPress}>
+            {isCurrentPlaybackContext && playerIsPlaying ? (
+              <IconPause stroke="#ffffff" fill="#ffffff" />
+            ) : (
+              <IconPlay stroke="#ffffff" fill="#ffffff" />
+            )}
           </TouchableOpacity>
         </View>
         <View style={styles.mainContent}>

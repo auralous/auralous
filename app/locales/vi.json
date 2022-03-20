@@ -91,7 +91,6 @@
     "go_to_session": "Đi đến Phiên nghe",
     "text": "Bạn đang nghĩ gì thế",
     "session_of_name": "Phiên của {{ name }}",
-    "creator": "Người tạo phiên",
     "artists_preview": "{{ artistNames }}, và nhiều hơn nữa"
   },
   "session_invite": {

@@ -13,7 +13,7 @@ interface PlaylistItemProps {
 
 const styles = StyleSheet.create({
   image: {
-    borderRadius: Size[2],
+    borderRadius: Size[1],
     marginBottom: Size[1],
     overflow: "hidden",
     paddingBottom: "100%",

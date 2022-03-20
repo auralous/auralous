@@ -4,12 +4,9 @@ import { useAnimPressedProps } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
 import type { FC } from "react";
 import { useMemo } from "react";
-import type { ColorValue, ViewStyle } from "react-native";
+import type { ViewStyle } from "react-native";
 import { Pressable, StyleSheet } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useStyles } from "./styles";
 import type { BaseButtonProps } from "./types";
 
@@ -38,27 +35,24 @@ export const Button: FC<ButtonProps> = (props) => {
     if (variant === "text") {
       return {
         backgroundColor: "transparent",
-        opacity: withTiming(pressed.value && !disabled ? 0.7 : 1),
+        opacity: pressed.value && !disabled ? 0.7 : 1,
       };
     }
     if (variant === "primary") {
       return {
-        backgroundColor: withTiming(
-          pressed.value && !disabled ? Colors.primaryDark : Colors.primary
-        ) as unknown as ColorValue,
+        backgroundColor:
+          pressed.value && !disabled ? Colors.primaryDark : Colors.primary,
       };
     }
     if (variant === "filled") {
       return {
-        backgroundColor: withTiming(
-          pressed.value && !disabled ? Colors.textSecondary : Colors.text
-        ) as unknown as ColorValue,
+        backgroundColor:
+          pressed.value && !disabled ? Colors.textSecondary : Colors.text,
       };
     }
     return {
-      backgroundColor: withTiming(
-        pressed.value && !disabled ? Colors.controlDark : Colors.control
-      ) as unknown as ColorValue,
+      backgroundColor:
+        pressed.value && !disabled ? Colors.controlDark : Colors.control,
     };
   }, [variant, disabled]);
 
@@ -85,6 +79,7 @@ export const Button: FC<ButtonProps> = (props) => {
       {icon}
       {!!(icon && children) && <Spacer x={1} />}
       <Text
+        selectable={false}
         bold
         {...textProps}
         style={[

@@ -63,6 +63,7 @@ const SearchScreen: FC<NativeStackScreenProps<ParamList, RouteName.Search>> = ({
                 accessibilityLabel={t("search.title")}
                 icon={<IconSearch />}
                 onPress={onSubmit}
+                variant="text"
               />
             }
           />

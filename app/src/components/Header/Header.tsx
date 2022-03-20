@@ -1,6 +1,7 @@
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
 import type { FC, ReactNode } from "react";
+import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, View } from "react-native";
 
 interface HeaderProps {
@@ -8,6 +9,7 @@ interface HeaderProps {
   left?: React.ReactNode;
   right?: React.ReactNode;
   translucent?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const styles = StyleSheet.create({
@@ -30,9 +32,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header: FC<HeaderProps> = ({ title, left, right }) => {
+const Header: FC<HeaderProps> = ({ title, left, right, style }) => {
   return (
-    <View style={styles.root}>
+    // @ts-ignore
+    <View style={StyleSheet.compose(styles.root, style)}>
       <View style={styles.button}>{left}</View>
       <View style={styles.title}>
         {typeof title === "string" ? (

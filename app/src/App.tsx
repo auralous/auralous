@@ -4,15 +4,10 @@ import {
   useNavigationContainerRef,
 } from "@react-navigation/native";
 import type { FC } from "react";
-import { Suspense } from "react";
 import { StatusBar, StyleSheet } from "react-native";
-import {
-  gestureHandlerRootHOC,
-  GestureHandlerRootView,
-} from "react-native-gesture-handler";
+import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Layout } from "./components/Layout";
-import { LoadingScreen } from "./components/Loading";
 import { RootModalsComponents } from "./components/RootModals";
 import { Toaster } from "./components/Toast";
 import { ApiProvider } from "./gql/context";
@@ -54,12 +49,11 @@ const App: FC = () => {
               linking={linking}
             >
               <BottomSheetModalProvider>
-                <PlayerComponent>
-                  <Layout>
-                    <Navigator />
-                  </Layout>
-                  <PlayerView />
-                </PlayerComponent>
+                <PlayerComponent />
+                <Layout>
+                  <Navigator />
+                </Layout>
+                <PlayerView />
                 <RootModalsComponents />
               </BottomSheetModalProvider>
             </NavigationContainer>

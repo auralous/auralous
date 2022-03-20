@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: Colors.backgroundSecondary,
-    borderRadius: 16,
+    borderRadius: Size[2],
     height: "100%",
     marginHorizontal: "auto",
     maxWidth: LayoutSize.lg,
