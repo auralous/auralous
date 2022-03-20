@@ -1,6 +1,7 @@
 import { IconChevronLeft } from "@/assets";
 import { Button } from "@/components/Button";
 import BottomTabs from "@/components/Layout/BottomTabs";
+import { LoadingScreen } from "@/components/Loading";
 import { NullComponent } from "@/components/misc";
 import { PLAYER_BAR_HEIGHT } from "@/player-components/PlayerView/PlayerBar";
 import { Font, fontPropsFn } from "@/styles/fonts";
@@ -9,7 +10,8 @@ import type { LinkingOptions } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { HeaderBackButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
-import type { FC } from "react";
+import type { ComponentProps, ComponentType, FC } from "react";
+import { Suspense } from "react";
 import { lazy } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform } from "react-native";
@@ -50,27 +52,42 @@ export const linking: LinkingOptions<ParamList> = {
   },
 };
 
-const ExploreScreen = lazy(() => import("./Explore"));
-const ExploreRecommendationScreen = lazy(
+const wrappedLazy = <T extends ComponentType<any>>(
+  factory: () => Promise<{ default: T }>
+) => {
+  const Component = lazy(factory);
+  return function WrappedLazyComponent(props: ComponentProps<T>) {
+    return (
+      <Suspense fallback={<LoadingScreen />}>
+        <Component {...props} />
+      </Suspense>
+    );
+  };
+};
+
+const ExploreScreen = wrappedLazy(() => import("./Explore"));
+const ExploreRecommendationScreen = wrappedLazy(
   () => import("./ExploreRecommendation")
 );
-const SessionsScreen = lazy(() => import("./Sessions"));
-const MapScreen = lazy(() => import("./Map"));
-const UserScreen = lazy(() => import("./User"));
-const UserFollowersScreen = lazy(() => import("./UserFollowersScreen"));
-const UserFollowingScreen = lazy(() => import("./UserFollowingScreen"));
-const PlaylistScreen = lazy(() => import("./Playlist"));
-const SessionScreen = lazy(() => import("./Session"));
-const SessionCollaboratorsScreen = lazy(() => import("./SessionCollaborators"));
-const SessionInviteScreen = lazy(() => import("./SessionInvite"));
-const SessionEditScreen = lazy(() => import("./SessionEdit"));
-const SessionListenersScreen = lazy(() => import("./SessionListeners"));
-const NewSelectSongsScreen = lazy(() => import("./NewSelectSongs"));
-const NewQuickShareScreen = lazy(() => import("./NewQuickShare"));
-const NewFinalScreen = lazy(() => import("./NewFinal"));
-const SettingsScreen = lazy(() => import("./Settings"));
-const NotificationsScreen = lazy(() => import("./Notifications"));
-const SearchScreen = lazy(() => import("./Search"));
+const SessionsScreen = wrappedLazy(() => import("./Sessions"));
+const MapScreen = wrappedLazy(() => import("./Map"));
+const UserScreen = wrappedLazy(() => import("./User"));
+const UserFollowersScreen = wrappedLazy(() => import("./UserFollowersScreen"));
+const UserFollowingScreen = wrappedLazy(() => import("./UserFollowingScreen"));
+const PlaylistScreen = wrappedLazy(() => import("./Playlist"));
+const SessionScreen = wrappedLazy(() => import("./Session"));
+const SessionCollaboratorsScreen = wrappedLazy(
+  () => import("./SessionCollaborators")
+);
+const SessionInviteScreen = wrappedLazy(() => import("./SessionInvite"));
+const SessionEditScreen = wrappedLazy(() => import("./SessionEdit"));
+const SessionListenersScreen = wrappedLazy(() => import("./SessionListeners"));
+const NewSelectSongsScreen = wrappedLazy(() => import("./NewSelectSongs"));
+const NewQuickShareScreen = wrappedLazy(() => import("./NewQuickShare"));
+const NewFinalScreen = wrappedLazy(() => import("./NewFinal"));
+const SettingsScreen = wrappedLazy(() => import("./Settings"));
+const NotificationsScreen = wrappedLazy(() => import("./Notifications"));
+const SearchScreen = wrappedLazy(() => import("./Search"));
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

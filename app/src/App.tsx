@@ -56,9 +56,7 @@ const App: FC = () => {
               <BottomSheetModalProvider>
                 <PlayerComponent>
                   <Layout>
-                    <Suspense fallback={<LoadingScreen />}>
-                      <Navigator />
-                    </Suspense>
+                    <Navigator />
                   </Layout>
                   <PlayerView />
                 </PlayerComponent>
