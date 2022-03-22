@@ -79,7 +79,7 @@ const SidebarButtonProfile: FC = () => {
       >
         <IconLogIn />
         <Spacer x={3} />
-        <Text selectable={false}>{t("sign_in.title")}</Text>
+        <Text>{t("sign_in.title")}</Text>
       </Pressable>
     );
   return (

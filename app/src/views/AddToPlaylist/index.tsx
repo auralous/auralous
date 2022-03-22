@@ -15,9 +15,15 @@ import {
   usePlaylistCreateMutation,
 } from "@auralous/api";
 import type { FC } from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { AuthPrompt } from "../AuthPrompt";
 
 const styles = StyleSheet.create({
@@ -72,13 +78,28 @@ const CreatePlaylist: FC<AddToPlaylistProps & { hideIsCreate(): void }> = ({
     }
   }, [onDismiss, playlistCreate, t, track.id, track.title]);
 
+  const [keyboardPadding, setKeyboardPadding] = useState(0);
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      setKeyboardPadding(e.endCoordinates.height);
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardPadding(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
   return (
-    <View style={styles.create}>
+    <View style={[styles.create, { paddingBottom: keyboardPadding }]}>
       <Heading level={6} align="center">
         {t("playlist_adder.create_playlist.name_prompt")}
       </Heading>
       <Spacer y={6} />
-      <Input ref={inputRef} variant="underline" />
+      <Input autoFocus ref={inputRef} variant="underline" />
       <Spacer y={6} />
       <View style={styles.createButtons}>
         <Button

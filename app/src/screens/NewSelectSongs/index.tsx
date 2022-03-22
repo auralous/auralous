@@ -1,5 +1,5 @@
 import { Button } from "@/components/Button";
-import { SlideModal, useDialog } from "@/components/Dialog";
+import { FadeModal, useDialog } from "@/components/Dialog";
 import type { InputRef } from "@/components/Input";
 import { Input } from "@/components/Input";
 import { Spacer } from "@/components/Spacer";
@@ -12,7 +12,12 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import NewSelectSongs from "./NewSelectSongs";
 import NewSelectSongsLandscape from "./NewSelectSongs.landscape";
 
@@ -21,7 +26,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,.9)",
     flex: 1,
     justifyContent: "center",
-    padding: Size[8],
+    paddingHorizontal: Size[8],
   },
   root: {
     flex: 1,
@@ -69,8 +74,8 @@ const NewSelectSongsScreen: FC<
           presentFinal={presentFinal}
         />
       )}
-      <SlideModal visible={visibleFinal} onDismiss={dismissFinal}>
-        <View style={styles.create}>
+      <FadeModal visible={visibleFinal} onDismiss={dismissFinal}>
+        <KeyboardAvoidingView behavior="padding" style={styles.create}>
           <Text align="center" bold>
             {t("session.text")}
           </Text>
@@ -80,6 +85,7 @@ const NewSelectSongsScreen: FC<
             accessibilityLabel={t("session.text")}
             placeholder={defaultSessionText}
             variant="underline"
+            autoFocus
           />
           <Spacer y={4} />
           <Button variant="primary" onPress={onSubmit}>
@@ -89,8 +95,8 @@ const NewSelectSongsScreen: FC<
           <Button variant="text" onPress={dismissFinal}>
             {t("common.action.cancel")}
           </Button>
-        </View>
-      </SlideModal>
+        </KeyboardAvoidingView>
+      </FadeModal>
     </View>
   );
 };

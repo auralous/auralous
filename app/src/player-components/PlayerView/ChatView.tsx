@@ -16,14 +16,14 @@ import {
   useMessagesQuery,
 } from "@auralous/api";
 import type { FC } from "react";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   ListRenderItem,
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from "react-native";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, Keyboard, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   content: {
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
     marginBottom: Size[3],
   },
   root: {
-    flex: 1,
+    height: "100%",
+    width: "100%",
   },
   textHead: {
     alignItems: "center",
@@ -208,8 +209,23 @@ const ChatInput: FC<{ id: string }> = ({ id }) => {
     addMessage({ id, text: trimMsg }).then(() => inputRef.current?.clear());
   }, [fetching, id, addMessage]);
 
+  const [keyboardPadding, setKeyboardPadding] = useState(0);
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      setKeyboardPadding(e.endCoordinates.height);
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardPadding(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, { paddingBottom: keyboardPadding }]}>
       <Input
         ref={inputRef}
         onSubmit={onSend}

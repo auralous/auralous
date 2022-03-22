@@ -9,25 +9,26 @@ import {
 } from "react";
 import type {
   NativeSyntheticEvent,
-  ReturnKeyTypeOptions,
   StyleProp,
+  TextInputProps,
   TextInputSubmitEditingEventData,
   ViewStyle,
 } from "react-native";
 import { StyleSheet, TextInput, View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 
-interface InputProps {
+interface InputProps
+  extends Pick<
+    TextInputProps,
+    "blurOnSubmit" | "autoFocus" | "returnKeyType" | "placeholder"
+  > {
   endIcon?: React.ReactNode;
   startIcon?: React.ReactNode;
   defaultValue?: string;
-  placeholder?: string;
-  returnKeyType?: ReturnKeyTypeOptions;
   accessibilityLabel?: string;
   onSubmit?: (text: string) => void;
   style?: StyleProp<ViewStyle>;
   variant?: "underline";
-  blurOnSubmit?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -75,6 +76,7 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
     style,
     variant,
     blurOnSubmit,
+    autoFocus,
   },
   ref
 ) {
@@ -124,6 +126,7 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
     >
       {startIcon}
       <TextInput
+        autoFocus={autoFocus}
         ref={internalRef}
         accessibilityLabel={accessibilityLabel}
         placeholderTextColor={Colors.textTertiary}

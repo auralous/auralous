@@ -8,7 +8,7 @@ import type { QueueItem } from "@auralous/api";
 import type { FC } from "react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface QueueAdderProps {
@@ -56,7 +56,7 @@ const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
 
   return (
     <SafeAreaView style={styles.root}>
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="height" style={styles.container}>
         <Header title={t("queue.add_songs")} />
         <View style={styles.content}>
           <SongSelector
@@ -68,7 +68,7 @@ const QueueAdderContent: FC<Omit<QueueAdderProps, "visible">> = ({
         <Button onPress={onClose} style={styles.button} variant="primary">
           {t("common.action.done")}
         </Button>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
