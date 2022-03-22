@@ -30,7 +30,10 @@ Website: [auralous.com](https://auralous.com)
 
 #### `yarn dev`
 
-Start the file watcher to build common components for the project for uses in both `web` and `mobile`.
+Start the file watcher to build types and codegen for the project for uses in both `web` and `mobile`. You only need run it for two purposes:
+
+- type checking during development
+- run codegen when schema changes
 
 #### `yarn lint`
 

@@ -4,10 +4,9 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "build": "yarn build:dts && yarn build:js",
-    "build:js": "babel src -d dist --source-maps --extensions \".ts,.tsx\" --copy-files",
+    "build": "yarn build:dts",
     "build:dts": "tsc --build",
-    "build:watch": "concurrently \"yarn build:dts --watch --preserveWatchOutput\" \"yarn build:js -w\"",
+    "build:watch": "yarn build:dts --watch --preserveWatchOutput",
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "postinstall": "patch-package",
     "gen-svg": "node scripts/gen-svg-exports",
