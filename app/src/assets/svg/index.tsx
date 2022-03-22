@@ -1,2 +1,2 @@
 export { IconByPlatformName } from "./PlatformIcon";
-export * from "./svgs";
+export * from "./svgs.gen";

@@ -4,11 +4,11 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "build": "yarn build:dts",
+    "build": "yarn gen-svg && yarn build:dts",
     "build:dts": "tsc --build",
-    "build:watch": "yarn build:dts --watch --preserveWatchOutput",
+    "build:watch": "yarn gen-svg && yarn build:dts --watch --preserveWatchOutput",
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
-    "postinstall": "patch-package",
+    "postinstall": "patch-package && yarn gen-svg",
     "gen-svg": "node scripts/gen-svg-exports",
     "install-peers": "node scripts/install-peers"
   },

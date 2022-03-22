@@ -6,7 +6,6 @@ const files = fs
   .readdirSync("./src/assets/svg")
   .filter((filename) => filename.endsWith(".svg"));
 
-let fileExport = ``;
 let fileSvg = `// @ts-nocheck
 import { wrapIcon } from "./wrapIcon";\n`;
 
@@ -16,16 +15,11 @@ for (const file of files) {
     .split("-")
     .map((str) => str.charAt(0).toUpperCase() + str.slice(1))
     .join("");
-  fileExport += `export { default as ${ImportName} } from "./${file}";\n`;
-  fileSvg += `import { ${ImportName} } from "./exports";
+  fileSvg += `import { default as ${ImportName} } from "./${file}";
 export const Icon${ImportName} = wrapIcon(${ImportName});`;
 }
 
 fs.writeFileSync(
-  "./src/assets/svg/exports.ts",
-  prettier.format(fileExport, { parser: "typescript" })
-);
-fs.writeFileSync(
-  "./src/assets/svg/svgs.ts",
+  "./src/assets/svg/svgs.gen.ts",
   prettier.format(fileSvg, { parser: "typescript" })
 );
