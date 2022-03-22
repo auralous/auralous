@@ -41,8 +41,8 @@ module.exports = async (env, argv) => {
         overlay: {
           errors: true,
           warnings: false,
-        }
-      }
+        },
+      },
     },
     module: {
       rules: [
@@ -104,7 +104,7 @@ module.exports = async (env, argv) => {
           exclude: /@babel(?:\/|\\{1,2})runtime/,
           enforce: "pre",
           use: ["source-map-loader"],
-        }
+        },
       ],
     },
     resolve: {

@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { getDefaultConfig } = require("metro-config");
 const path = require("path");
+const getWorkspaces = require("get-yarn-workspaces");
 const exclusionList = require("metro-config/src/defaults/exclusionList");
 
 const pkgDir = require("pkg-dir");
 
 const rootDir = path.resolve(__dirname, "..");
 const currDir = __dirname;
-const packageDirs = [
-  path.resolve(currDir, "..", "api"),
-  path.resolve(currDir, "..", "app"),
-];
+const packageDirs = getWorkspaces(rootDir).filter((dir) => {
+  return dir !== currDir && dir !== path.join(rootDir, "web");
+});
 
 const buildModuleLists = () => {
   const blockList = [];
