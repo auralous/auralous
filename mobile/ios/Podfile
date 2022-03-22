@@ -31,15 +31,10 @@ target 'Auralous' do
   use_flipper!()
 
   post_install do |installer|
-    $RNMBGL.post_install(installer)
     react_native_post_install(installer)
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 
   pre_install do |installer|
-    $RNMBGL.pre_install(installer)
   end
-
-  $RNMBGL_Use_SPM = true
-  $RNMGL_USE_MAPLIBRE = true
 end

@@ -1,10 +1,4 @@
-import {
-  IconActivity,
-  IconLogIn,
-  IconLogo,
-  IconMapPin,
-  IconSearch,
-} from "@/assets";
+import { IconActivity, IconLogIn, IconLogo, IconSearch } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { RNLink, Text } from "@/components/Typography";
@@ -106,10 +100,6 @@ const Sidebar: FC = () => {
       </View>
       <SidebarButton name={RouteName.Explore} icon={<IconSearch />}>
         {t("explore.title")}
-      </SidebarButton>
-      <Spacer y={2} />
-      <SidebarButton name={RouteName.Map} icon={<IconMapPin />}>
-        {t("map.title")}
       </SidebarButton>
       <Spacer y={2} />
       <SidebarButton name={RouteName.Notifications} icon={<IconActivity />}>

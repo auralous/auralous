@@ -89,7 +89,6 @@ const hiddenRoutes = [
   RouteName.NewFinal,
   RouteName.NewQuickShare,
   RouteName.NewSelectSongs,
-  RouteName.Map,
 ] as string[];
 
 const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {

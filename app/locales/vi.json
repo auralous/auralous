@@ -24,13 +24,6 @@
     "title": "Tìm kiếm",
     "placeholder": "Tìm kiếm playlist và phiên"
   },
-  "map": {
-    "title": "Bản đồ",
-    "title_branded": "Bản đồ Auralous",
-    "description": "Khám phá âm nhạc quanh bạn",
-    "open_map": "Mở bản đồ",
-    "no_sessions_found": "Không tìm thấy phiên"
-  },
   "new": {
     "title": "Tạo phiên nghe",
     "select_songs": {

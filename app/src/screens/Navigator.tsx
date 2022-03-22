@@ -27,7 +27,6 @@ export const linking: LinkingOptions<ParamList> = {
         // @ts-ignore
         screens: {
           [RouteName.Explore]: "",
-          [RouteName.Map]: "map",
           [RouteName.Notifications]: "notifications",
         },
       },
@@ -69,7 +68,6 @@ const ExploreRecommendationScreen = wrappedLazy(
   () => import("./ExploreRecommendation")
 );
 const SessionsScreen = wrappedLazy(() => import("./Sessions"));
-const MapScreen = wrappedLazy(() => import("./Map"));
 const UserScreen = wrappedLazy(() => import("./User"));
 const UserFollowersScreen = wrappedLazy(() => import("./UserFollowersScreen"));
 const UserFollowingScreen = wrappedLazy(() => import("./UserFollowingScreen"));
@@ -142,14 +140,6 @@ const Navigator: FC = () => {
                 tabBarStyle: {
                   marginTop: PLAYER_BAR_HEIGHT,
                 },
-              }}
-            />
-            <Tab.Screen
-              name={RouteName.Map}
-              component={MapScreen}
-              options={{
-                headerShown: false,
-                title: t("map.title"),
               }}
             />
             <Tab.Screen

@@ -24,13 +24,6 @@
     "title": "Search",
     "placeholder": "Search playlists and sessions"
   },
-  "map": {
-    "title": "Map",
-    "title_branded": "Auralous Map",
-    "description": "Discover music around you",
-    "open_map": "Open Map",
-    "no_sessions_found": "No sessions found"
-  },
   "new": {
     "title": "Create Session",
     "select_songs": {

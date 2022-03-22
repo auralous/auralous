@@ -3,7 +3,6 @@ import type { ParamListBase } from "@react-navigation/native";
 
 export enum RouteName {
   Main = "main",
-  Map = "map",
   Explore = "explore",
   ExploreRecommendation = "explore/recommendation",
   Search = "search",

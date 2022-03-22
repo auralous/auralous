@@ -17,7 +17,6 @@ export const useRouteNames = () => {
 const routeWithNavbar = [
   RouteName.Main,
   RouteName.Explore,
-  RouteName.Map,
   RouteName.Notifications,
 ];
 export const useIsRouteWithNavbar = () => {
