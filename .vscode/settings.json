@@ -1,10 +1,8 @@
 {
   "files.exclude": {
-    "**/.git": true,
-    "**/@auralous/**": true,
+    "**/node_modules/**": true,
     "**/*.gen.*": true,
     "**/yarn*": true,
-    "web/.next/**": true,
-    "**/package-lock.json": true
+    "**/dist/**": true,
   }
 }
