@@ -10,7 +10,7 @@
     "build:dts": "tsc",
     "build:watch": "concurrently \"yarn build:dts --watch --preserveWatchOutput\" \"yarn build:js -w\"",
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
-    "postinstall": "patch-package",
+    "postinstall": "yarn install-peers && patch-package",
     "gen-svg": "node scripts/gen-svg-exports",
     "install-peers": "node scripts/install-peers"
   },
@@ -23,7 +23,6 @@
     "mitt": "^3.0.0",
     "react-i18next": "^11.15.7",
     "react-native-capsize": "^0.2.2",
-    "react-native-sha256": "^1.4.7",
     "react-native-youtube-iframe": "^2.2.2"
   },
   "devDependencies": {
@@ -31,28 +30,11 @@
     "@babel/core": "^7.17.5",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
-    "@react-native-async-storage/async-storage": "^1.16.1",
-    "@react-navigation/bottom-tabs": "^6.2.0",
-    "@react-navigation/native": "^6.0.8",
-    "@react-navigation/native-stack": "^6.5.0",
     "@types/react": "^17.0.40",
     "@types/react-native": "^0.67.2",
     "@types/spotify-web-playback-sdk": "^0.1.12",
     "@types/youtube": "^0.0.46",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "react": "^17.0.2",
-    "react-native": "^0.67.3",
-    "react-native-config": "^1.4.5",
-    "react-native-geolocation-service": "^5.3.0-beta.4",
-    "react-native-gesture-handler": "^2.3.1",
-    "react-native-linear-gradient": "^2.5.6",
-    "react-native-localize": "^2.2.0",
-    "react-native-permissions": "^3.3.1",
-    "react-native-reanimated": "^2.4.1",
-    "react-native-safe-area-context": "^4.1.2",
-    "react-native-screen": "^1.0.1",
-    "react-native-spotify-remote": "^0.3.11-5",
-    "react-native-svg": "^12.3.0"
+    "babel-plugin-module-resolver": "^4.1.0"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "^1.16.1",
@@ -60,7 +42,7 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "react": "^17.0.2",
-    "react-native": "^0.67.3",
+    "react-native": "^0.67.4",
     "react-native-config": "^1.4.5",
     "react-native-geolocation-service": "^5.3.0-beta.4",
     "react-native-gesture-handler": "^2.3.1",
@@ -69,9 +51,10 @@
     "react-native-permissions": "^3.3.1",
     "react-native-reanimated": "^2.4.1",
     "react-native-safe-area-context": "^4.1.2",
-    "react-native-screen": "^1.0.1",
+    "react-native-screens": "^3.13.1",
     "react-native-sha256": "^1.4.7",
     "react-native-spotify-remote": "^0.3.11-5",
-    "react-native-svg": "^12.3.0"
+    "react-native-svg": "^12.3.0",
+    "react-native-webview": "^11.17.2"
   }
 }

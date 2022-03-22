@@ -1,69 +1,52 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { getDefaultConfig } = require("metro-config");
 const path = require("path");
-const packageJson = require("./package.json");
-const appPackageJson = require("../app/package.json");
 const exclusionList = require("metro-config/src/defaults/exclusionList");
 
 const pkgDir = require("pkg-dir");
 
-const appDir = path.resolve(__dirname, "..", "app");
-const otherDirs = [path.resolve(__dirname, "..", "api")];
+const rootDir = path.resolve(__dirname, "..");
+const currDir = __dirname;
+const packageDirs = [
+  path.resolve(currDir, "..", "api"),
+  path.resolve(currDir, "..", "app"),
+];
 
-const buildExtraNodeModules = () => {
+const buildModuleLists = () => {
+  const blockList = [];
   const extraNodeModules = {};
-  // force the dependency to be resolved using the version inside app/node_modules
-
-  const allDependencies = [
-    ...new Set([
-      ...Object.keys(packageJson.dependencies),
-      ...Object.keys(appPackageJson.dependencies),
-    ]),
-  ];
-
-  for (const dependencyName of allDependencies) {
-    if (dependencyName.startsWith("@auralous")) continue;
-
-    const depDir = require.resolve(dependencyName, {
-      paths: [__dirname, appDir, path.resolve(__dirname, "..")],
-    });
-
-    extraNodeModules[dependencyName] = pkgDir.sync(depDir);
-  }
-  return extraNodeModules;
-};
-
-const buildBlocklist = () => {
-  const list = [];
-  // for every other package, loop through each of their peerDependencies and exclude it
-  for (const dir of [...otherDirs, appDir]) {
-    const packageName = dir.substring(dir.lastIndexOf("/") + 1); // get the package name
-
-    const otherPackageJson = require(path.join(dir, "package.json"));
-
-    for (const dependencyName in otherPackageJson.peerDependencies) {
-      list.push(
-        new RegExp(
-          `${packageName}[/\\\\]node_modules[/\\\\]${dependencyName}[/\\\\].*`
-        )
-      );
+  // loop through each package dir
+  for (const dir of packageDirs) {
+    const dirPackageJson = require(path.join(dir, "package.json"));
+    for (const depName in dirPackageJson.peerDependencies) {
+      // force metro to not resolve this version
+      // and instead the one in "extraNodeModules"
+      blockList.push(new RegExp(`${dir}/node_modules/${depName}/.*`));
+      // since the above module would not be found if resolved as it,
+      // we need to tell it to look for the version that the current package use
+      // we use require.resolve to look for two places (current node_modules or root node_module)
+      const resolvedDepFile = require.resolve(depName, {
+        paths: [currDir, rootDir],
+      });
+      // resolvedDepFile is not neccessary the package parent dir of that dep (might be the index.js file, so we use pkgDir to find the, well, package dir)
+      extraNodeModules[depName] = pkgDir.sync(resolvedDepFile);
     }
   }
-  return list;
+  return {
+    blockList,
+    extraNodeModules,
+  };
 };
 
 module.exports = (async () => {
   const {
     resolver: { sourceExts, assetExts },
   } = await getDefaultConfig();
-  const extraNodeModules = buildExtraNodeModules();
-  const blockList = buildBlocklist();
+
+  const { blockList, extraNodeModules } = buildModuleLists();
+
   return {
-    watchFolders: [
-      path.resolve(__dirname, "..", "node_modules"),
-      appDir,
-      ...otherDirs,
-    ],
+    watchFolders: [path.resolve(rootDir, "node_modules"), ...packageDirs],
     transformer: {
       experimentalImportSupport: true,
       babelTransformerPath: require.resolve("react-native-svg-transformer"),
