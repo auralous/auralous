@@ -1,5 +1,5 @@
-schema: ../../auralous-api/src/graphql/*/*.graphql
-# schema: https://api.auralous.com/graphql
+#schema: ../../auralous-api/src/graphql/*/*.graphql
+schema: https://api.auralous.com/graphql
 documents: "./schema/*.graphql"
 generates:
   ./src/gql.gen.ts:
