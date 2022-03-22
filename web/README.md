@@ -22,8 +22,6 @@ You will need a [Spotify Developer](https://developer.spotify.com/) to work with
 
 ## Workflows
 
-Make sure you have run `yarn dev` from the parent directory.
-
 ### `yarn dev`
 
 Start [webpack-dev-server](https://github.com/webpack/webpack-dev-server) for development.

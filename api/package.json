@@ -12,13 +12,12 @@
     "directory": "api"
   },
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "yarn codegen && yarn build:dts && yarn build:js",
-    "build:js": "babel src -d dist --extensions \".ts\"",
+    "build": "yarn codegen && yarn build:dts",
     "build:dts": "tsc",
-    "build:watch": "concurrently \"yarn codegen --watch\" \"yarn build:dts -w\" \"yarn build:js -w\"",
+    "build:watch": "yarn codegen --watch",
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "codegen": "graphql-codegen",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -34,14 +33,13 @@
     "urql": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.5",
-    "@babel/preset-typescript": "^7.16.7",
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "^2.4.7",
     "@graphql-codegen/typescript-operations": "^2.3.4",
     "@graphql-codegen/typescript-urql": "^3.5.5",
     "@graphql-codegen/typescript-urql-graphcache": "^2.2.8"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "react": "^17.0.2"
+  }
 }

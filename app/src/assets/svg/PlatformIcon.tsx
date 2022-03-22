@@ -2,7 +2,7 @@ import { Colors } from "@/styles/colors";
 import { PlatformName } from "@auralous/api";
 import type { FC } from "react";
 import type { SvgProps } from "react-native-svg";
-import { IconSpotify, IconYoutube } from "./svgs";
+import { IconSpotify, IconYoutube } from "./svgs.gen";
 
 export const IconByPlatformName: FC<
   { platformName: PlatformName; noColor?: boolean } & SvgProps

@@ -1,5 +1,6 @@
 {
   "presets": [
+    "@babel/preset-typescript",
     [
       "@babel/preset-env",
       {
@@ -9,5 +10,16 @@
     ],
     ["@babel/preset-react", { "runtime": "automatic" }]
   ],
-  "plugins": ["react-native-web", "react-native-reanimated/plugin"]
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@": "../app/src"
+        }
+      }
+    ],
+    "react-native-web",
+    "react-native-reanimated/plugin"
+  ]
 }

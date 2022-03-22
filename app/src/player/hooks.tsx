@@ -4,8 +4,7 @@ import type {
   SessionQuery,
   SessionQueryVariables,
 } from "@auralous/api";
-import { PlaylistDocument, SessionDocument } from "@auralous/api";
-import { useQuery } from "urql";
+import { PlaylistDocument, SessionDocument, useQuery } from "@auralous/api";
 import { usePlaybackCurrentContext } from "./Context";
 import type { PlaybackContextMeta } from "./types";
 

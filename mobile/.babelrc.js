@@ -6,6 +6,14 @@ module.exports = {
     ],
   ],
   plugins: [
+    [
+      "module-resolver",
+      {
+        alias: {
+          "@": "../app/src",
+        },
+      },
+    ],
     "react-native-reanimated/plugin",
     [
       "@babel/plugin-transform-react-jsx",

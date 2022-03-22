@@ -25,8 +25,6 @@ Spotify application should also be installed on the development device.
 
 ## Workflows
 
-Make sure you have run `yarn dev` from the parent directory.
-
 ### `yarn start`
 
 Start [Metro](https://facebook.github.io/metro/) Bundler. This should be run in a separate terminal.
