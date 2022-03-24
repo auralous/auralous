@@ -204,7 +204,7 @@ export default function SortableFlatList<ItemT>({
         const from = activeLayoutAnim.value.index;
         const to = spacerIndexAnim.value;
         if (from !== -1 && to !== -1 && from !== to) {
-          runOnJS(onDragEnd)(from, to);
+          requestAnimationFrame(() => runOnJS(onDragEnd)(from, to));
         }
       },
       // BEGAN ------> FAILED
@@ -260,6 +260,7 @@ export default function SortableFlatList<ItemT>({
             onContentSizeChange={onContentSizeChange}
             style={styles.list}
             horizontal={horizontal}
+            showsVerticalScrollIndicator={false}
           />
         </Animated.View>
       </PanGestureHandler>

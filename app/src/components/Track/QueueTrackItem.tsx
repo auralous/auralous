@@ -4,7 +4,8 @@ import { Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useMemo } from "react";
 import type { ViewStyle } from "react-native";
-import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import type { AnimatedStyleProp } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 import type { TrackItemProps } from "./TrackItem";
@@ -12,7 +13,6 @@ import TrackItem from "./TrackItem";
 
 const styles = StyleSheet.create({
   check: {
-    height: Size[12],
     justifyContent: "center",
   },
   drag: {
@@ -69,7 +69,7 @@ const QueueTrackItem: FC<
       style={[styles.root, animStyle, dragging && styles.dragging]}
     >
       <View style={styles.check}>
-        <Checkbox checked={checked} onValueChange={onToggle} />
+        <Checkbox size={Size[12]} checked={checked} onValueChange={onToggle} />
       </View>
       <TouchableOpacity
         style={styles.track}
@@ -78,9 +78,9 @@ const QueueTrackItem: FC<
       >
         <TrackItem isPlaying={isPlaying} track={track} fetching={fetching} />
       </TouchableOpacity>
-      <Pressable onPressIn={drag} style={styles.drag}>
+      <TouchableWithoutFeedback onPressIn={drag} style={styles.drag}>
         <IconMenu />
-      </Pressable>
+      </TouchableWithoutFeedback>
     </Animated.View>
   );
 };

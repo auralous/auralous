@@ -1,7 +1,6 @@
 import { IconCheck } from "@/assets";
 import { useAnimPressedProps } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
-import { Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { useCallback } from "react";
 import type { ViewStyle } from "react-native";
@@ -16,6 +15,7 @@ interface CheckboxProps {
   disabled?: boolean;
   onValueChange(checked: boolean): void;
   accessibilityLabel?: string;
+  size: number;
 }
 
 const styles = StyleSheet.create({
@@ -42,16 +42,20 @@ const Checkbox: FC<CheckboxProps> = ({
   disabled,
   onValueChange,
   accessibilityLabel,
+  size,
 }) => {
   const [pressed, pressedProps] = useAnimPressedProps();
 
-  const stylesRoot = useAnimatedStyle<ViewStyle>(() => ({
-    width: Size[10],
-    height: Size[10],
-    justifyContent: "center",
-    alignItems: "center",
-    transform: [{ scale: withTiming(pressed.value ? 0.8 : 1) }],
-  }));
+  const stylesRoot = useAnimatedStyle<ViewStyle>(
+    () => ({
+      width: size,
+      height: size,
+      justifyContent: "center",
+      alignItems: "center",
+      transform: [{ scale: withTiming(pressed.value ? 0.8 : 1) }],
+    }),
+    [size]
+  );
 
   const onPress = useCallback(
     () => onValueChange(!checked),

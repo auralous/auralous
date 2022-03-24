@@ -12,17 +12,16 @@ import { Colors } from "@/styles/colors";
 import { Font, fontPropsFn } from "@/styles/fonts";
 import { Size } from "@/styles/spacing";
 import { identityFn } from "@/utils/utils";
+import type { SettabbleRef } from "@/views/SettableContext";
+import {
+  SettableProvider,
+  useSettableContext,
+  useSettableHas,
+  useSettableNotEmpty,
+} from "@/views/SettableContext";
 import { useTrackQuery } from "@auralous/api";
 import type { Dispatch, FC, SetStateAction } from "react";
-import {
-  createContext,
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -62,37 +61,27 @@ const styles = StyleSheet.create({
   },
 });
 
-const CheckedContext = createContext(
-  {} as {
-    setChecked: Dispatch<SetStateAction<Record<string, boolean | undefined>>>;
-    checked: Record<string, undefined | boolean>;
-  }
-);
-
-export const SelectedTracksListProvider: FC<{ expanded: boolean }> = ({
-  children,
-  expanded,
-}) => {
-  const [checked, setChecked] = useState<Record<string, undefined | boolean>>(
-    {}
-  );
+export const SelectedTracksListProvider: FC<{
+  expanded: boolean;
+  invalidator: any;
+}> = ({ children, expanded, invalidator }) => {
+  const ref = useRef<SettabbleRef>(null);
 
   useEffect(() => {
+    if (!ref.current) return;
     if (!expanded) {
-      setChecked({});
+      ref.current.set.clear();
+      ref.current.emitter.emit("change");
     }
   }, [expanded]);
 
-  return (
-    <CheckedContext.Provider
-      value={{
-        checked,
-        setChecked,
-      }}
-    >
-      {children}
-    </CheckedContext.Provider>
-  );
+  useEffect(() => {
+    if (!ref.current) return;
+    ref.current.set.clear();
+    ref.current.emitter.emit("change");
+  }, [invalidator]);
+
+  return <SettableProvider ref={ref}>{children}</SettableProvider>;
 };
 
 const SelectedQueueTrackItem = memo<{
@@ -106,20 +95,21 @@ const SelectedQueueTrackItem = memo<{
       requestPolicy: "cache-only",
     });
 
-    const { setChecked, checked } = useContext(CheckedContext);
+    const checked = useSettableHas(params.item);
+    const ctx = useSettableContext();
 
-    const onToggle = useCallback(
-      () =>
-        setChecked((checked) => ({
-          ...checked,
-          [params.item]: !checked[params.item],
-        })),
-      [setChecked, params.item]
-    );
+    const onToggle = useCallback(() => {
+      if (ctx.set.has(params.item)) {
+        ctx.set.delete(params.item);
+      } else {
+        ctx.set.add(params.item);
+      }
+      ctx.emitter.emit("change");
+    }, [ctx, params.item]);
 
     return (
       <QueueTrackItem
-        checked={!!checked[params.item]}
+        checked={checked}
         drag={params.drag}
         animStyle={params.animStyle}
         dragging={params.isDragging}
@@ -204,45 +194,28 @@ export const SelectedTracksListFooter: FC<{
 }> = ({ selectedTracks, setSelectedTracks, onFinish }) => {
   const { t } = useTranslation();
 
-  const { checked, setChecked } = useContext(CheckedContext);
+  const ctx = useSettableContext();
 
-  const hasChecked = useMemo(
-    () => Object.values(checked).includes(true),
-    [checked]
-  );
+  const hasChecked = useSettableNotEmpty();
 
   const removeChecked = useCallback(() => {
-    const checkedClone = { ...checked };
-
-    const removingUids = Object.keys(checked).filter((checkedKey) => {
-      if (checked[checkedKey]) {
-        delete checkedClone[checkedKey];
-        return true;
-      }
-      return false;
-    });
-
-    setChecked(checkedClone);
+    const removingUids = Array.from(ctx.set);
     setSelectedTracks((prev) => prev.filter((t) => !removingUids.includes(t)));
-  }, [setSelectedTracks, setChecked, checked]);
+    // reset state after bottom action
+    ctx.set.clear();
+    ctx.emitter.emit("change");
+  }, [setSelectedTracks, ctx]);
 
   const moveToTopChecked = useCallback(() => {
-    const checkedClone = { ...checked };
-
-    const toTopUids = Object.keys(checked).filter((checkedKey) => {
-      if (checked[checkedKey]) {
-        delete checkedClone[checkedKey];
-        return true;
-      }
-      return false;
-    });
-
-    setChecked(checkedClone);
+    const toTopUids = Array.from(ctx.set);
     setSelectedTracks((prev) => [
-      ...toTopUids,
+      ...prev.filter((t) => toTopUids.includes(t)),
       ...prev.filter((t) => !toTopUids.includes(t)),
     ]);
-  }, [setSelectedTracks, setChecked, checked]);
+    // reset state after bottom action
+    ctx.set.clear();
+    ctx.emitter.emit("change");
+  }, [setSelectedTracks, ctx]);
 
   return (
     <View style={styles.footer}>

@@ -58,7 +58,7 @@ const NewSelectSongsLandscape: FC<{
       </View>
       <View style={styles.seperator} />
       <View style={styles.column}>
-        <SelectedTracksListProvider expanded>
+        <SelectedTracksListProvider invalidator={selectedTracks} expanded>
           <SelectedTracksListView
             selectedTracks={selectedTracks}
             setSelectedTracks={setSelectedTracks}

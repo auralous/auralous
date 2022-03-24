@@ -88,7 +88,10 @@ const NewSelectSongs: FC<{
           removeTracks={removeTracks}
         />
       </View>
-      <SelectedTracksListProvider expanded={expanded}>
+      <SelectedTracksListProvider
+        invalidator={selectedTracks}
+        expanded={expanded}
+      >
         <BottomSheet
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
