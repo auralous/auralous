@@ -5,13 +5,13 @@ import {
   useBackHandlerDismiss,
   useDialog,
 } from "@/components/Dialog";
-import QueueContent from "@/components/Queue/QueueContent";
 import { useCurrentPlaybackMeta } from "@/player";
 import { usePlaybackStateQueueContext } from "@/player/Context";
 import type { PlaybackStateQueue } from "@/player/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
+import QueueContent from "@/views/Queue/QueueContent";
 import type { Track } from "@auralous/api";
 import { useMeQuery, useTrackQuery } from "@auralous/api";
 import type { FC } from "react";

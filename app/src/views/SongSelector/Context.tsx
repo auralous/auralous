@@ -1,29 +1,19 @@
-import { createContext, useContext, useMemo } from "react";
+import type { Emitter } from "mitt";
+import { createContext, useContext } from "react";
 
-export type SongSelectorState =
-  | {
-      selectedTracks: string[];
-    }
-  | {
-      selectedTracks: string[];
-      addTracks(trackIds: string[]): void;
-      removeTracks(trackIds: string[]): void;
-    };
-
-export const SongSelectorContext = createContext({} as SongSelectorState);
-
-export const useSelectedTracks = () =>
-  useContext(SongSelectorContext).selectedTracks;
-
-export const useUpdateTracks = () => {
-  const ctx = useContext(SongSelectorContext);
-  return useMemo(() => {
-    return "addTracks" in ctx
-      ? {
-          addTracks: ctx.addTracks,
-          removeTracks: ctx.removeTracks,
-        }
-      : undefined;
-    // @ts-ignore
-  }, [ctx.addTracks, ctx.removeTracks]);
+export type SongSelectorState = {
+  selectedTracks: string[];
+  addTracks(trackIds: string[]): void;
+  removeTracks(trackIds: string[]): void;
 };
+
+export interface SongSelectorRef {
+  emitter: Emitter<any>;
+  has(trackId: string): boolean;
+  add: (trackIds: string[]) => void;
+  remove: (trackIds: string[]) => void;
+}
+
+export const SongSelectorContext = createContext({} as SongSelectorRef);
+
+export const useSongSelectorContext = () => useContext(SongSelectorContext);

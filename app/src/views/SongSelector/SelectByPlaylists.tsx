@@ -9,10 +9,10 @@ import {
   usePlaylistTracksQuery,
 } from "@auralous/api";
 import type { FC } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { useSelectedTracks, useUpdateTracks } from "./Context";
+import { useSongSelectorContext } from "./Context";
 import SelectablePlaylistList from "./SelectablePlaylistList";
 import SelectableTrackList from "./SelectableTrackList";
 
@@ -87,19 +87,15 @@ const PlaylistTrackList: FC<{ playlist: Playlist; close(): void }> = ({
     { data: { playlistTracks } = { playlistTracks: undefined }, fetching },
   ] = usePlaylistTracksQuery({ variables: { id: playlist.id } });
 
-  const selectedTracks = useSelectedTracks();
+  const songSelectorRef = useSongSelectorContext();
 
-  const updateTracksActions = useUpdateTracks();
-  const addAllTracks = useMemo(
-    () =>
-      (playlistTracks || [])
-        .filter((playlistTrack) => !selectedTracks.includes(playlistTrack.id))
-        .map((playlistTrack) => playlistTrack.id),
-    [selectedTracks, playlistTracks]
-  );
   const onAddAll = useCallback(() => {
-    updateTracksActions?.addTracks(addAllTracks);
-  }, [addAllTracks, updateTracksActions]);
+    songSelectorRef.add(
+      (playlistTracks || [])
+        .map((playlistTrack) => playlistTrack.id)
+        .filter((trackId) => !songSelectorRef.has(trackId))
+    );
+  }, [playlistTracks, songSelectorRef]);
 
   return (
     <>
@@ -112,12 +108,7 @@ const PlaylistTrackList: FC<{ playlist: Playlist; close(): void }> = ({
         </TouchableOpacity>
       </View>
       <View style={styles.tracks}>
-        <Button
-          variant="text"
-          textProps={{ size: "sm" }}
-          onPress={onAddAll}
-          disabled={addAllTracks.length === 0}
-        >
+        <Button variant="text" textProps={{ size: "sm" }} onPress={onAddAll}>
           {t("select_songs.playlists.add_all_songs")}
         </Button>
         <SelectableTrackList data={playlistTracks || []} fetching={fetching} />

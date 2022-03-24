@@ -5,10 +5,10 @@ import { TrackItem } from "@/components/Track";
 import { Size } from "@/styles/spacing";
 import type { Track } from "@auralous/api";
 import type { FC } from "react";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type { ListRenderItem } from "react-native";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
-import { useSelectedTracks, useUpdateTracks } from "./Context";
+import { useSongSelectorContext } from "./Context";
 import SearchEmpty from "./SearchEmpty";
 
 const itemPadding = Size[1];
@@ -33,31 +33,33 @@ const styles = StyleSheet.create({
 });
 
 const SelectableTrackListItem: FC<{ track: Track }> = ({ track }) => {
-  const selectedTracks = useSelectedTracks();
-  const updateTracksActions = useUpdateTracks();
+  const songSelectorRef = useSongSelectorContext();
 
-  const selected = useMemo(
-    () => selectedTracks.indexOf(track.id) > -1,
-    [track, selectedTracks]
-  );
+  const [selected, setSelected] = useState(() => songSelectorRef.has(track.id));
+
+  useEffect(() => {
+    const onChange = () => setSelected(songSelectorRef.has(track.id));
+    songSelectorRef.emitter.on("change", onChange);
+    return () => songSelectorRef.emitter.off("change", onChange);
+  }, [track.id, songSelectorRef]);
 
   const toggleAdd = useCallback(() => {
     const trackIds = [track.id];
-    return !selected
-      ? updateTracksActions?.addTracks(trackIds)
-      : updateTracksActions?.removeTracks(trackIds);
-  }, [selected, updateTracksActions, track.id]);
+    if (selected) {
+      songSelectorRef.remove(trackIds);
+    } else {
+      songSelectorRef.add(trackIds);
+    }
+  }, [selected, songSelectorRef, track.id]);
 
   return (
     <View style={styles.item}>
       <View style={styles.itemContent}>
         <TrackItem track={track} />
       </View>
-      {updateTracksActions && (
-        <TouchableOpacity onPress={toggleAdd} style={styles.button}>
-          {selected ? <IconCheck /> : <IconPlus />}
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={toggleAdd} style={styles.button}>
+        {selected ? <IconCheck /> : <IconPlus />}
+      </TouchableOpacity>
     </View>
   );
 };
@@ -83,7 +85,7 @@ const SelectableTrackList: FC<{
 }> = ({ fetching, data }) => {
   return (
     <FlatList
-      ListEmptyComponent={fetching ? <LoadingScreen /> : <SearchEmpty />}
+      ListEmptyComponent={fetching ? LoadingScreen : SearchEmpty}
       ItemSeparatorComponent={ItemSeparatorComponent}
       data={data || []}
       renderItem={renderItem}

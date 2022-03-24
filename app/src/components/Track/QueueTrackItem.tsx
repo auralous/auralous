@@ -12,7 +12,6 @@ import TrackItem from "./TrackItem";
 
 const styles = StyleSheet.create({
   check: {
-    height: Size[12],
     justifyContent: "center",
   },
   drag: {
@@ -69,7 +68,7 @@ const QueueTrackItem: FC<
       style={[styles.root, animStyle, dragging && styles.dragging]}
     >
       <View style={styles.check}>
-        <Checkbox checked={checked} onValueChange={onToggle} />
+        <Checkbox size={Size[12]} checked={checked} onValueChange={onToggle} />
       </View>
       <TouchableOpacity
         style={styles.track}

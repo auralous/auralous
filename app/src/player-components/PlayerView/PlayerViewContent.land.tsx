@@ -1,9 +1,9 @@
-import QueueContent from "@/components/Queue/QueueContent";
 import { Text } from "@/components/Typography";
 import { useCurrentPlaybackMeta } from "@/player";
 import { usePlaybackStateQueueContext } from "@/player/Context";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
+import QueueContent from "@/views/Queue/QueueContent";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
