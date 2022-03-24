@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { execSync } = require("child_process");
-const { writeFileSync, readFileSync } = require("fs");
+const { readFileSync } = require("fs");
 const path = require("path");
 
 const pkgJsonPath = path.join(__dirname, "..", "package.json");
@@ -19,8 +19,3 @@ for (const [packageName, packageVer] of Object.entries(
 
 console.log(cmd);
 execSync(cmd);
-
-// override packagejson so dev deps are not added
-writeFileSync(pkgJsonPath, packageJsonTxt, {
-  encoding: "UTF-8",
-});
