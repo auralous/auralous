@@ -1,4 +1,5 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { FC } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import type {
   LayoutChangeEvent,
   ListRenderItem,
@@ -15,7 +16,6 @@ import Animated, {
   useSharedValue,
   useWorkletCallback,
 } from "react-native-reanimated";
-import ClonedItem from "./ClonedItem";
 import { SortableContext } from "./SortableContext";
 import SortableItem from "./SortableItem";
 import type { DraggableListProps, GetItemLayoutResult } from "./types";
@@ -34,6 +34,7 @@ const autoscrollSpeed = 80;
 const autoscrollThreshold = 30;
 const activationDistance = 0;
 
+const CellRendererComponent: FC = ({ children }) => <>{children}</>;
 export default function SortableFlatList<ItemT>({
   renderItem: renderItemProp,
   onDragEnd,
@@ -65,8 +66,6 @@ export default function SortableFlatList<ItemT>({
     },
     [containerSize, horizontal]
   );
-
-  const [activeIndex, setActiveIndex] = useState(-1);
 
   const activeLayoutAnim = useSharedValue<GetItemLayoutResult | null>(null); // measurement of hovering cell
 
@@ -169,8 +168,6 @@ export default function SortableFlatList<ItemT>({
       // set the initial hover offset
       initialHoverOffset.value = hoverOffset.value =
         activeLayout.offset - scrollOffset.value;
-
-      setActiveIndex(index);
     },
     [
       spacerIndexAnim,
@@ -183,7 +180,6 @@ export default function SortableFlatList<ItemT>({
   );
 
   const clearAnimState = useWorkletCallback(() => {
-    runOnJS(setActiveIndex)(-1);
     activeLayoutAnim.value = null;
     spacerIndexAnim.value = -1;
   }, []);
@@ -241,17 +237,8 @@ export default function SortableFlatList<ItemT>({
         activeOffsetY={activationDistance}
       >
         <Animated.View style={style} onLayout={onContainerLayout}>
-          {activeIndex !== -1 && !!data ? (
-            <ClonedItem
-              info={{
-                index: activeIndex,
-                item: data[activeIndex],
-              }}
-            />
-          ) : null}
           <FlatList
             {...props}
-            // @ts-ignore
             ref={scrollRef}
             data={data}
             getItemLayout={getItemLayout}
@@ -260,6 +247,7 @@ export default function SortableFlatList<ItemT>({
             onContentSizeChange={onContentSizeChange}
             style={styles.list}
             horizontal={horizontal}
+            CellRendererComponent={CellRendererComponent}
           />
         </Animated.View>
       </PanGestureHandler>

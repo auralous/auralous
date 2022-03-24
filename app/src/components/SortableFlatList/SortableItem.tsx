@@ -115,7 +115,9 @@ function SortableItem<ItemT>({
   );
 
   const translateValue = useDerivedValue(() => {
-    if (isActiveCell.value) return 0;
+    if (isActiveCell.value) {
+      return hoverOffset.value - (cellMeasurement.offset - scrollOffset.value);
+    }
     if (!activeLayoutAnim.value) return 0;
     const isAfterActive = cellIndex.value > activeLayoutAnim.value.index;
     const shouldTranslate = isAfterActive
@@ -139,7 +141,7 @@ function SortableItem<ItemT>({
           [horizontal ? "translateX" : "translateY"]: translateValue.value,
         },
       ] as unknown as ViewStyle["transform"],
-      opacity: isActiveCell.value ? 0 : 1,
+      zIndex: isActiveCell.value ? 10 : 0,
     };
   }, [horizontal]);
 
