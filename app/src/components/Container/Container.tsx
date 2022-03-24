@@ -1,6 +1,5 @@
 import { LayoutSize, Size } from "@/styles/spacing";
 import type { FC } from "react";
-import { memo } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, useWindowDimensions, View } from "react-native";
 
@@ -41,4 +40,4 @@ export const useContainerStyle = () => {
   return paddingStyle;
 };
 
-export const Container = memo(ContainerImpl);
+export const Container = ContainerImpl;

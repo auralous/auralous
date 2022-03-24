@@ -34,7 +34,6 @@ const SessionMeta: FC<{
       </View>
       <View style={stylesMeta.meta}>
         <View style={stylesMeta.tag}>{tag}</View>
-        <Spacer y={1} />
         <Heading level={5} align="center" numberOfLines={1}>
           {session.text}
         </Heading>

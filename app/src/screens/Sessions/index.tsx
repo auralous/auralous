@@ -10,7 +10,7 @@ import { useSessionsQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
-import { useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import type { ListRenderItem } from "react-native";
 import {
   Dimensions,
@@ -29,18 +29,22 @@ const styles = StyleSheet.create({
   },
 });
 
-const RecommendationItem: FC<{ session: Session }> = ({ session }) => {
-  const navigation = useNavigation();
-  const uiNumColumn = useUILayout().column6432;
-  return (
-    <TouchableOpacity
-      style={[styles.item, { maxWidth: (1 / uiNumColumn) * 100 + "%" }]}
-      onPress={() => navigation.navigate(RouteName.Session, { id: session.id })}
-    >
-      <SessionItem session={session} />
-    </TouchableOpacity>
-  );
-};
+const RecommendationItem = memo<{ session: Session }>(
+  function RecommendationItem({ session }) {
+    const navigation = useNavigation();
+    const uiNumColumn = useUILayout().column6432;
+    return (
+      <TouchableOpacity
+        style={[styles.item, { maxWidth: (1 / uiNumColumn) * 100 + "%" }]}
+        onPress={() =>
+          navigation.navigate(RouteName.Session, { id: session.id })
+        }
+      >
+        <SessionItem session={session} />
+      </TouchableOpacity>
+    );
+  }
+);
 
 const renderItem: ListRenderItem<Session> = ({ item }) => (
   <RecommendationItem session={item} key={item.id} />

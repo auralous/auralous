@@ -8,13 +8,16 @@ import type { Playlist } from "@auralous/api";
 import { usePlaylistsSearchQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
 import { TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { styles } from "./ItemsSearch.styles";
 
-const SearchItem: FC<{ playlist: Playlist }> = ({ playlist }) => {
+const SearchItem = memo<{ playlist: Playlist }>(function SearchItem({
+  playlist,
+}) {
   const navigation = useNavigation();
   const uiNumColumn = useUILayout().column6432;
   return (
@@ -27,7 +30,7 @@ const SearchItem: FC<{ playlist: Playlist }> = ({ playlist }) => {
       <PlaylistItem playlist={playlist} />
     </TouchableOpacity>
   );
-};
+});
 
 const renderItem: ListRenderItem<Playlist> = ({ item }) => (
   <SearchItem playlist={item} key={item.id} />

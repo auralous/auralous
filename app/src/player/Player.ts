@@ -14,6 +14,7 @@ import type {
   PlaybackStateQueue,
   PlaybackStateSource,
 } from "./types";
+import { externalTrackIdFromTrackId } from "./utils";
 
 export type LoadingStateValue = "cross_track";
 
@@ -46,6 +47,9 @@ type EventsType = {
   time: number; // On playback time (ms)
   played_external: string | null; // new external id played
   loading: boolean;
+
+  "state-source": PlaybackStateSource;
+  "state-queue": PlaybackStateQueue;
 };
 
 class Player {
@@ -55,15 +59,13 @@ class Player {
   private playerFn: PlayerHandle | null = null;
   private playbackFn: PlaybackHandle | null = null;
 
-  private __wasPlaying = false;
-
   super() {
     // When the player is pausing the music
     // there is a chance there is a nowPlaying update
     // causing sudden continue without user intention
     // we pause right away if this happens
     const pauseIfWasNotPlaying = () => {
-      if (!this.__wasPlaying) this.pause();
+      if (!this.state.isPlaying) this.pause();
       else this.play();
     };
     this.on("seeked", pauseIfWasNotPlaying);
@@ -80,7 +82,7 @@ class Player {
   registerPlayer(registerHandle: PlayerHandle) {
     this.playerFn = registerHandle;
     // upon register, start playing if something was playing
-    this.setTrackId(this.trackId);
+    this.setTrackId(this.state.trackId);
   }
 
   unregisterPlayer() {
@@ -109,13 +111,13 @@ class Player {
 
   play() {
     this.emit("play");
-    this.__wasPlaying = true;
+    this.state.isPlaying = true;
     this.playerFn?.play();
   }
 
   pause() {
     this.emit("pause");
-    this.__wasPlaying = false;
+    this.state.isPlaying = false;
     this.playerFn?.pause();
   }
 
@@ -153,17 +155,40 @@ class Player {
   /**
    * State control
    */
+  private state: {
+    queue: PlaybackStateQueue;
+    source: PlaybackStateSource;
+    trackId: string | null;
+    loadings: Set<LoadingStateValue>;
+    playingPlatform: PlatformName | undefined;
+    isPlaying: boolean;
+  } = {
+    queue: {
+      item: null,
+      nextItems: [],
+    },
+    source: {
+      trackId: null,
+    },
+    trackId: null,
+    loadings: new Set<LoadingStateValue>(),
+    playingPlatform: undefined,
+    isPlaying: false,
+  };
 
-  private userPlatform: PlatformName | undefined;
+  getState() {
+    return this.state;
+  }
+
   setPlatform(nextPlatform: PlatformName) {
-    if (nextPlatform === this.userPlatform) return;
-    this.userPlatform = nextPlatform;
-    this.setTrackId(this.trackId); // to fetch new track based on platform
+    if (nextPlatform === this.state.playingPlatform) return;
+    this.state.playingPlatform = nextPlatform;
+    this.setTrackId(this.state.trackId); // to fetch new track based on platform
   }
 
   private registerUnsubscribe: (() => void) | undefined;
   commitContext(selection: PlaybackSelection | null) {
-    this.__wasPlaying = !!selection; // if a commit happens, user must want playing
+    this.state.isPlaying = !!selection; // if a commit happens, user must want playing
     this.registerUnsubscribe?.();
     if (selection) {
       if (selection.isLive) {
@@ -178,40 +203,28 @@ class Player {
     /* TOBE IMPLEMENTED */
   }
 
-  private loadingState = new Set<LoadingStateValue>();
-  setLoading(id: LoadingStateValue, loading: boolean) {
-    if (loading) this.loadingState.add(id);
-    else this.loadingState.delete(id);
-    this.emit("loading", Boolean(this.loadingState.size));
+  private setLoading(id: LoadingStateValue, loading: boolean) {
+    if (loading) this.state.loadings.add(id);
+    else this.state.loadings.delete(id);
+    this.emit("loading", Boolean(this.state.loadings.size));
   }
 
-  private trackId: string | null = null;
-  private externalTrackId: string | null = null;
-  private playingTrackId: string | null = null;
-
-  getCurrentPlayback() {
-    return {
-      trackId: this.trackId,
-      playingTrackId: this.playingTrackId,
-      externalTrackId: this.externalTrackId,
-      platform: this.userPlatform,
-    };
-  }
-
-  public setReactPlaybackStateSource?: (source: PlaybackStateSource) => void;
   private commitPlayingTrackId(trackId: string | null) {
-    this.setReactPlaybackStateSource?.({ trackId });
+    this.state.source = { trackId };
+    this.emit("state-source", this.state.source);
 
     if (!this.playerFn) return;
 
-    this.externalTrackId = trackId ? trackId.split(":")[1] : null;
-    this.playerFn.playByExternalId(this.externalTrackId);
+    this.playerFn.playByExternalId(
+      trackId ? externalTrackIdFromTrackId(trackId) : null
+    );
   }
 
-  public setReactPlaybackStateQueue?: (state: PlaybackStateQueue) => void;
   setStateQueue(state: PlaybackStateQueue) {
-    this.setReactPlaybackStateQueue?.(state);
-    if (state.item?.trackId !== this.trackId) {
+    this.state.queue = state;
+    this.emit("state-queue", this.state.queue);
+
+    if (state.item?.trackId !== this.state.trackId) {
       this.setTrackId(state.item?.trackId || null);
     }
   }
@@ -221,16 +234,16 @@ class Player {
     this.setLoading("cross_track", false);
 
     // process
-    const userPlatform = this.userPlatform;
-    this.trackId = trackId;
+    const playingPlatform = this.state.playingPlatform;
+    this.state.trackId = trackId;
 
-    if (!userPlatform) return; // dont start playing without userPlatform
+    if (!playingPlatform) return; // dont start playing without userPlatform
     if (!trackId) {
       this.commitPlayingTrackId(null);
       return;
     }
     const [trackPlatform] = trackId.split(":");
-    if (trackPlatform !== this.userPlatform) {
+    if (trackPlatform !== playingPlatform) {
       // temporarily stop external player playback
       this.commitPlayingTrackId(null);
 
@@ -245,15 +258,16 @@ class Player {
             variables
           )
           .toPromise(),
-        () => variables.id === this.trackId,
+        () => variables.id === this.state.trackId,
         {
           onThen: ({ data }) => {
             // another call to setTrackId happens before request finished
-            if (variables.id !== this.trackId) return;
-            const preferredExternalTrackId = data?.crossTracks?.[userPlatform];
+            if (variables.id !== this.state.trackId) return;
+            const preferredExternalTrackId =
+              data?.crossTracks?.[playingPlatform];
             if (preferredExternalTrackId) {
               this.commitPlayingTrackId(
-                `${this.userPlatform}:${preferredExternalTrackId}`
+                `${playingPlatform}:${preferredExternalTrackId}`
               );
             } else {
               // TODO: emit error

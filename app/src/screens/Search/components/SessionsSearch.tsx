@@ -8,13 +8,14 @@ import type { Session } from "@auralous/api";
 import { useSessionsSearchQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { styles } from "./ItemsSearch.styles";
 
-const SearchItem: FC<{ session: Session }> = ({ session }) => {
+const SearchItem = memo<{ session: Session }>(function SearchItem({ session }) {
   const navigation = useNavigation();
   const uiNumColumn = useUILayout().column6432;
   return (
@@ -25,7 +26,7 @@ const SearchItem: FC<{ session: Session }> = ({ session }) => {
       <SessionItem session={session} />
     </TouchableOpacity>
   );
-};
+});
 
 const renderItem: ListRenderItem<Session> = ({ item }) => (
   <SearchItem session={item} key={item.id} />

@@ -2,16 +2,16 @@ import { useContainerStyle } from "@/components/Container";
 import { LoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
+import type { PlaybackStateQueue } from "@/player";
 import player, {
   uidForIndexedTrack,
   useIsCurrentPlaybackSelection,
-  usePlaybackStateQueueContext,
 } from "@/player";
 import { Size } from "@/styles/spacing";
 import type { Playlist, Track } from "@auralous/api";
 import { usePlaylistTracksQuery } from "@auralous/api";
 import type { FC } from "react";
-import { createContext, memo, useCallback, useContext } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import type { ListRenderItem } from "react-native";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import PlaylistMeta from "./PlaylistMeta";
@@ -29,13 +29,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const PlaylistIdContext = createContext("");
-
 const PlaylistTrackItem = memo<{
   track: Track;
   index: number;
-}>(function PlaylistTrackItem({ track, index }) {
-  const playlistId = useContext(PlaylistIdContext);
+  playlistId: string;
+  isCurrentSelection: boolean;
+}>(function PlaylistTrackItem({
+  track,
+  index,
+  playlistId,
+  isCurrentSelection,
+}) {
   const onPress = useCallback(
     () =>
       player.playContext({
@@ -46,16 +50,28 @@ const PlaylistTrackItem = memo<{
     [playlistId, index]
   );
 
-  const currentItem = usePlaybackStateQueueContext().item;
-
-  const isCurrentSelection = useIsCurrentPlaybackSelection(
-    "playlist",
-    playlistId
+  const uid = useMemo(
+    () => uidForIndexedTrack(index, track.id),
+    [index, track.id]
   );
 
-  const isCurrentTrack =
-    isCurrentSelection &&
-    currentItem?.uid === uidForIndexedTrack(index, track.id);
+  const [isCurrentUid, setIsCurrentUid] = useState(false);
+  useEffect(() => {
+    if (!isCurrentSelection) {
+      setIsCurrentUid(false);
+      return;
+    }
+
+    setIsCurrentUid(player.getState().queue.item?.uid === uid);
+
+    const onStateQueue = (stateQueue: PlaybackStateQueue) => {
+      setIsCurrentUid(stateQueue.item?.uid === uid);
+    };
+    player.on("state-queue", onStateQueue);
+    return () => player.off("state-queue", onStateQueue);
+  }, [uid, isCurrentSelection]);
+
+  const isCurrentTrack = isCurrentSelection && isCurrentUid;
 
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>
@@ -64,9 +80,6 @@ const PlaylistTrackItem = memo<{
   );
 });
 
-const renderItem: ListRenderItem<Track> = ({ item, index }) => {
-  return <PlaylistTrackItem key={index} track={item} index={index} />;
-};
 const itemHeight = Size[12] + 2 * Size[1] + Size[2];
 const getItemLayout = (data: unknown, index: number) => ({
   length: itemHeight,
@@ -87,24 +100,43 @@ export const PlaylistScreenContent: FC<{
 
   const containerStyle = useContainerStyle();
 
+  const isCurrentSelection = useIsCurrentPlaybackSelection(
+    "playlist",
+    playlist.id
+  );
+  const renderItem = useCallback<ListRenderItem<Track>>(
+    ({ item, index }) => {
+      return (
+        <PlaylistTrackItem
+          key={index}
+          playlistId={playlist.id}
+          isCurrentSelection={isCurrentSelection}
+          track={item}
+          index={index}
+        />
+      );
+    },
+    [playlist.id, isCurrentSelection]
+  );
+
+  const ListHeaderComponent = useMemo(
+    () => <PlaylistMeta onQuickShare={onQuickShare} playlist={playlist} />,
+    [playlist, onQuickShare]
+  );
   return (
     <View style={styles.root}>
-      <PlaylistIdContext.Provider value={playlist.id}>
-        <FlatList
-          ListHeaderComponent={
-            <PlaylistMeta onQuickShare={onQuickShare} playlist={playlist} />
-          }
-          ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
-          ItemSeparatorComponent={ItemSeparatorComponent}
-          contentContainerStyle={containerStyle}
-          data={data?.playlistTracks || []}
-          renderItem={renderItem}
-          getItemLayout={getItemLayout}
-          initialNumToRender={0}
-          removeClippedSubviews
-          windowSize={10}
-        />
-      </PlaylistIdContext.Provider>
+      <FlatList
+        ListHeaderComponent={ListHeaderComponent}
+        ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        contentContainerStyle={containerStyle}
+        data={data?.playlistTracks || []}
+        renderItem={renderItem}
+        getItemLayout={getItemLayout}
+        initialNumToRender={0}
+        removeClippedSubviews
+        windowSize={10}
+      />
     </View>
   );
 };

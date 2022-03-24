@@ -48,8 +48,8 @@ const PlayerProviderInner: FC<{
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    player.setReactPlaybackStateQueue = setPlaybackStateQueue;
-    player.setReactPlaybackStateSource = setPlaybackStateSource;
+    player.on("state-queue", setPlaybackStateQueue);
+    player.on("state-source", setPlaybackStateSource);
 
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
@@ -59,6 +59,9 @@ const PlayerProviderInner: FC<{
     player.on("paused", onPause);
     player.on("loading", setLoading);
     return () => {
+      player.off("state-queue", setPlaybackStateQueue);
+      player.off("state-source", setPlaybackStateSource);
+
       player.off("play", onPlay);
       player.off("pause", onPause);
       player.off("playing", onPlay);

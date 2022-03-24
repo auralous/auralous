@@ -60,3 +60,7 @@ export const usePreloadedTrackQueries = (ids: string[]) => {
   });
   return fetching;
 };
+
+export const externalTrackIdFromTrackId = (trackId: string) => {
+  return trackId.split(":")[1];
+};

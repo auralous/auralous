@@ -1,20 +1,16 @@
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import { useAnimPressedProps } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
 import type { FC } from "react";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { ViewStyle } from "react-native";
 import { Pressable, StyleSheet } from "react-native";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useStyles } from "./styles";
 import type { BaseButtonProps } from "./types";
 
 export interface ButtonProps extends BaseButtonProps {
   variant?: "primary" | "filled" | "text";
 }
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const Button: FC<ButtonProps> = (props) => {
   const {
@@ -29,32 +25,34 @@ export const Button: FC<ButtonProps> = (props) => {
 
   const styles = useStyles(props);
 
-  const [pressed, pressedProps] = useAnimPressedProps();
+  const [pressed, setPressed] = useState(false);
+  const onPressIn = useCallback(() => setPressed(true), []);
+  const onPressOut = useCallback(() => setPressed(false), []);
 
-  const animatedStyles = useAnimatedStyle<ViewStyle>(() => {
+  const animatedStyles = useMemo<ViewStyle>(() => {
     if (variant === "text") {
       return {
         backgroundColor: "transparent",
-        opacity: pressed.value && !disabled ? 0.7 : 1,
+        opacity: pressed && !disabled ? 0.7 : 1,
       };
     }
     if (variant === "primary") {
       return {
         backgroundColor:
-          pressed.value && !disabled ? Colors.primaryDark : Colors.primary,
+          pressed && !disabled ? Colors.primaryDark : Colors.primary,
       };
     }
     if (variant === "filled") {
       return {
         backgroundColor:
-          pressed.value && !disabled ? Colors.textSecondary : Colors.text,
+          pressed && !disabled ? Colors.textSecondary : Colors.text,
       };
     }
     return {
       backgroundColor:
-        pressed.value && !disabled ? Colors.controlDark : Colors.control,
+        pressed && !disabled ? Colors.controlDark : Colors.control,
     };
-  }, [variant, disabled]);
+  }, [pressed, variant, disabled]);
 
   const textColor = useMemo(() => {
     if (variant === "primary") return Colors.primaryText;
@@ -63,11 +61,12 @@ export const Button: FC<ButtonProps> = (props) => {
   }, [variant]);
 
   return (
-    <AnimatedPressable
+    <Pressable
       accessibilityLabel={accessibilityLabel}
       onPress={onPress}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
       disabled={disabled}
-      {...pressedProps}
       style={[
         styles.base,
         animatedStyles,
@@ -89,6 +88,6 @@ export const Button: FC<ButtonProps> = (props) => {
       >
         {children}
       </Text>
-    </AnimatedPressable>
+    </Pressable>
   );
 };

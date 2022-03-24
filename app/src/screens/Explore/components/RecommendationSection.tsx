@@ -7,27 +7,27 @@ import type { Playlist } from "@auralous/api";
 import { useRecommendationContentQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
+import { memo } from "react";
 import type { ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native";
 import ExploreSection from "./ExploreSection";
 import scrollStyles from "./ScrollView.styles";
 
-const RecommendationItem: FC<{ playlist: Playlist; style: ViewStyle }> = ({
-  playlist,
-  style,
-}) => {
-  const navigation = useNavigation();
-  return (
-    <TouchableOpacity
-      style={style}
-      onPress={() =>
-        navigation.navigate(RouteName.Playlist, { id: playlist.id })
-      }
-    >
-      <PlaylistItem playlist={playlist} />
-    </TouchableOpacity>
-  );
-};
+const RecommendationItem = memo<{ playlist: Playlist; style: ViewStyle }>(
+  function RecommendationItem({ playlist, style }) {
+    const navigation = useNavigation();
+    return (
+      <TouchableOpacity
+        style={style}
+        onPress={() =>
+          navigation.navigate(RouteName.Playlist, { id: playlist.id })
+        }
+      >
+        <PlaylistItem playlist={playlist} />
+      </TouchableOpacity>
+    );
+  }
+);
 
 const renderItem: HorizontalListProps<Playlist>["renderItem"] = (info) => (
   <RecommendationItem

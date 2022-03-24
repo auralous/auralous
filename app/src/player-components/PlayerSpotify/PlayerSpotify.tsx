@@ -1,8 +1,8 @@
 import { Config } from "@/config";
 import player from "@/player";
-import { usePlaybackStateAuthContext } from "@/player/Context";
+import { externalTrackIdFromTrackId } from "@/player/utils";
 import type { FC } from "react";
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type {
   ApiConfig,
   PlayerContext as SpotifyPlayerContext,
@@ -57,7 +57,7 @@ const connectWithAccessToken = async (
   }
 };
 
-const PlayerSpotify: FC = () => {
+const PlayerSpotify: FC<{ accessToken: string | null }> = ({ accessToken }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -72,8 +72,6 @@ const PlayerSpotify: FC = () => {
       SpotifyRemote.removeListener("remoteDisconnected", onRemoteDisconnected);
     };
   }, []);
-
-  const { accessToken } = usePlaybackStateAuthContext();
 
   const doInitialize = useCallback(
     () => initialize(() => setIsInitialized(true), setError),
@@ -134,8 +132,10 @@ const PlayerSpotify: FC = () => {
     SpotifyRemote.on("playerStateChanged", onStateChange);
 
     const onContextChange = (v: SpotifyPlayerContext) => {
-      const expectedExternalTrackId =
-        player.getCurrentPlayback().externalTrackId;
+      const currentTrackId = player.getState().source.trackId;
+      const expectedExternalTrackId = currentTrackId
+        ? externalTrackIdFromTrackId(currentTrackId)
+        : null;
       if (!isCorrectTrack(v, expectedExternalTrackId)) {
         // mismatch track id
         playByExternalId(expectedExternalTrackId);
@@ -209,4 +209,4 @@ const PlayerSpotify: FC = () => {
   return null;
 };
 
-export default PlayerSpotify;
+export default memo(PlayerSpotify);

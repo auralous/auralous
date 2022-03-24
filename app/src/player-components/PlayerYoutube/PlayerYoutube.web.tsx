@@ -1,7 +1,7 @@
 import player from "@/player";
 import { injectScript } from "@/utils/scripts";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import PlayerYoutubeContainer from "./PlayerYoutubeContainer";
 
@@ -107,4 +107,4 @@ const PlayerYoutube: FC = () => {
   );
 };
 
-export default PlayerYoutube;
+export default memo(PlayerYoutube);

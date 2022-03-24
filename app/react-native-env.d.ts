@@ -9,3 +9,9 @@ declare module "*.png" {
   const image: ImageURISource;
   export default image;
 }
+
+declare module "*.gif" {
+  import type { ImageURISource } from "react-native";
+  const image: ImageURISource;
+  export default image;
+}

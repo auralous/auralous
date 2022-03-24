@@ -1,6 +1,6 @@
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
-import { memo, useMemo } from "react";
+import { useMemo } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, View } from "react-native";
 
@@ -29,4 +29,4 @@ const Spacer: FC<SpacerProps> = ({ x, y, style }) => {
   );
 };
 
-export default memo(Spacer);
+export default Spacer;

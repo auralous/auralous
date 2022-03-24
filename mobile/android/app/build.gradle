@@ -223,6 +223,9 @@ dependencies {
     }
 
     implementation project(':react-native-events')
+
+    // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.5.0'
 }
 
 // Run this once to be able to run the application with BUCK

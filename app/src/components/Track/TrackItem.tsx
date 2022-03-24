@@ -1,5 +1,6 @@
 import { IconByPlatformName } from "@/assets";
 import imageDefaultTrack from "@/assets/images/default_track.jpg";
+import imageIconPlaying from "@/assets/images/icon-playing.gif";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
@@ -7,9 +8,8 @@ import { Size } from "@/styles/spacing";
 import { msToHMS } from "@/utils/ms";
 import type { Maybe, Track } from "@auralous/api";
 import type { FC } from "react";
-import { memo, useMemo } from "react";
+import { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { AnimatedAudioBar } from "./AnimatedAudioBar";
 
 export interface TrackItemProps {
   track: Maybe<Track>;
@@ -27,6 +27,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, .5)",
     justifyContent: "center",
+    padding: Size[4],
+  },
+  isPlayingIcon: {
+    height: "100%",
+    width: "100%",
   },
   meta: {
     flex: 1,
@@ -69,7 +74,7 @@ const TrackItem: FC<TrackItemProps> = ({ track, isPlaying, fetching }) => {
         )}
         {isPlaying && (
           <View style={styles.isPlaying}>
-            <AnimatedAudioBar />
+            <Image source={imageIconPlaying} style={styles.isPlayingIcon} />
           </View>
         )}
       </View>
@@ -106,4 +111,4 @@ const TrackItem: FC<TrackItemProps> = ({ track, isPlaying, fetching }) => {
   );
 };
 
-export default memo(TrackItem);
+export default TrackItem;

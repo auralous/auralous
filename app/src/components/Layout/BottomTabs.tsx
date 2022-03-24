@@ -8,7 +8,7 @@ import { LayoutSize } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import type { FC, NamedExoticComponent } from "react";
+import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import type { ViewStyle } from "react-native";
 import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 });
 
 const Tab: FC<{
-  Icon: NamedExoticComponent<SvgProps>;
+  Icon: FC<SvgProps>;
   name: RouteName;
   children: string;
   isFocused: boolean;

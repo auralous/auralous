@@ -4,10 +4,10 @@ import { LoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
+import type { PlaybackStateQueue } from "@/player";
 import player, {
   uidForIndexedTrack,
   useIsCurrentPlaybackSelection,
-  usePlaybackStateQueueContext,
 } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
@@ -15,7 +15,7 @@ import type { Session, Track } from "@auralous/api";
 import { useSessionTracksQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { createContext, memo, useCallback, useContext } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
@@ -44,13 +44,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const SessionIdContext = createContext("");
-
 const SessionTrackItem = memo<{
+  sessionId: string;
   track: Track;
   index: number;
-}>(function SessionTrackItem({ track, index }) {
-  const sessionId = useContext(SessionIdContext);
+  isCurrentSelection: boolean;
+}>(function SessionTrackItem({ sessionId, track, index, isCurrentSelection }) {
   const onPress = useCallback(
     () =>
       player.playContext({
@@ -61,18 +60,28 @@ const SessionTrackItem = memo<{
     [sessionId, index]
   );
 
-  const currentItem = usePlaybackStateQueueContext().item;
-
-  const isCurrentSelection = useIsCurrentPlaybackSelection(
-    "session",
-    sessionId
+  const uid = useMemo(
+    () => uidForIndexedTrack(index, track.id),
+    [index, track.id]
   );
 
-  console.log(isCurrentSelection);
+  const [isCurrentUid, setIsCurrentUid] = useState(false);
+  useEffect(() => {
+    if (!isCurrentSelection) {
+      setIsCurrentUid(false);
+      return;
+    }
 
-  const isCurrentTrack =
-    isCurrentSelection &&
-    currentItem?.uid === uidForIndexedTrack(index, track.id);
+    setIsCurrentUid(player.getState().queue.item?.uid === uid);
+
+    const onStateQueue = (stateQueue: PlaybackStateQueue) => {
+      setIsCurrentUid(stateQueue.item?.uid === uid);
+    };
+    player.on("state-queue", onStateQueue);
+    return () => player.off("state-queue", onStateQueue);
+  }, [uid, isCurrentSelection]);
+
+  const isCurrentTrack = isCurrentSelection && isCurrentUid;
 
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>
@@ -81,9 +90,6 @@ const SessionTrackItem = memo<{
   );
 });
 
-const renderItem: ListRenderItem<Track> = ({ item, index }) => (
-  <SessionTrackItem key={index} track={item} index={index} />
-);
 const itemHeight = Size[12] + 2 * Size[1] + Size[2];
 const getItemLayout = (data: unknown, index: number) => ({
   length: itemHeight,
@@ -141,35 +147,54 @@ const SessionNonLiveContent: FC<{
 
   const containerStyle = useContainerStyle();
 
-  return (
-    <SessionIdContext.Provider value={session.id}>
-      <FlatList
-        ListHeaderComponent={
-          <SessionMeta
-            session={session}
-            tag={
-              <View style={styles.tag}>
-                <Text size="sm" style={styles.tagText}>
-                  {t("session.title")} •{" "}
-                  {t("playlist.x_song", { count: session.trackTotal })}
-                </Text>
-              </View>
-            }
-            buttons={<SessionNovLiveButtons session={session} />}
-          />
-        }
-        ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
-        ItemSeparatorComponent={ItemSeparatorComponent}
-        style={styles.root}
-        contentContainerStyle={containerStyle}
-        data={data?.sessionTracks || []}
-        renderItem={renderItem}
-        getItemLayout={getItemLayout}
-        initialNumToRender={0}
-        removeClippedSubviews
-        windowSize={10}
+  const isCurrentSelection = useIsCurrentPlaybackSelection(
+    "session",
+    session.id
+  );
+  const renderItem = useCallback<ListRenderItem<Track>>(
+    ({ item, index }) => (
+      <SessionTrackItem
+        key={index}
+        sessionId={session.id}
+        track={item}
+        index={index}
+        isCurrentSelection={isCurrentSelection}
       />
-    </SessionIdContext.Provider>
+    ),
+    [session.id, isCurrentSelection]
+  );
+
+  const ListHeadComponent = useMemo(
+    () => (
+      <SessionMeta
+        session={session}
+        tag={
+          <View style={styles.tag}>
+            <Text size="sm" style={styles.tagText}>
+              {t("session.title")} •{" "}
+              {t("playlist.x_song", { count: session.trackTotal })}
+            </Text>
+          </View>
+        }
+        buttons={<SessionNovLiveButtons session={session} />}
+      />
+    ),
+    [session, t]
+  );
+  return (
+    <FlatList
+      ListHeaderComponent={ListHeadComponent}
+      ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
+      ItemSeparatorComponent={ItemSeparatorComponent}
+      style={styles.root}
+      contentContainerStyle={containerStyle}
+      data={data?.sessionTracks || []}
+      renderItem={renderItem}
+      getItemLayout={getItemLayout}
+      initialNumToRender={0}
+      removeClippedSubviews
+      windowSize={10}
+    />
   );
 };
 

@@ -64,17 +64,17 @@ const DraggableQueueItem = memo<{
   function DraggableQueueItem({ params }) {
     const onPress = useCallback((uid: string) => player.queuePlayUid(uid), []);
 
-    const [{ data: dataTrack }] = useTrackQuery({
-      variables: { id: params.item.trackId },
-      requestPolicy: "cache-only", // we rely on data from usePreloadedTrackQueries
-    });
-
     const { toggleSelected, selected } = useContext(QueueContext);
 
     const onToggle = useCallback(
       () => toggleSelected(params.item.uid),
       [params.item.uid, toggleSelected]
     );
+
+    const [{ data: dataTrack }] = useTrackQuery({
+      variables: { id: params.item.trackId },
+      requestPolicy: "cache-only", // we rely on data from usePreloadedTrackQueries
+    });
 
     return (
       <QueueTrackItem

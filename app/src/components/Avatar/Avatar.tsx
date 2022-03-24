@@ -2,7 +2,6 @@ import imageDefaultUser from "@/assets/images/default_user.jpg";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
-import { memo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 interface AvatarProps {
@@ -36,4 +35,4 @@ const Avatar: FC<AvatarProps> = ({ href, username, size }) => {
   );
 };
 
-export default memo(Avatar);
+export default Avatar;

@@ -1,8 +1,8 @@
 import player from "@/player";
-import { usePlaybackStateAuthContext } from "@/player/Context";
+import { externalTrackIdFromTrackId } from "@/player/utils";
 import { injectScript } from "@/utils/scripts";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import PlayerSpotifyError from "./PlayerSpotifyError";
 
 const isCorrectTrack = (
@@ -16,11 +16,9 @@ const isCorrectTrack = (
 };
 
 /// <reference path="spotify-web-playback-sdk" />
-const PlayerSpotify: FC = () => {
+const PlayerSpotify: FC<{ accessToken: string | null }> = ({ accessToken }) => {
   const [error, setError] = useState<Spotify.Error | null>(null);
   const [loaded, setLoaded] = useState(false);
-
-  const { accessToken } = usePlaybackStateAuthContext();
 
   useEffect(() => {
     if (!loaded || !accessToken) return;
@@ -77,8 +75,10 @@ const PlayerSpotify: FC = () => {
         state.track_window.current_track.id !==
         spotifyState?.track_window.current_track.id
       ) {
-        const expectedExternalTrackId =
-          player.getCurrentPlayback().externalTrackId;
+        const currentTrackId = player.getState().source.trackId;
+        const expectedExternalTrackId = currentTrackId
+          ? externalTrackIdFromTrackId(currentTrackId)
+          : null;
         if (
           !isCorrectTrack(
             state.track_window.current_track,
@@ -181,4 +181,4 @@ const PlayerSpotify: FC = () => {
   return null;
 };
 
-export default PlayerSpotify;
+export default memo(PlayerSpotify);

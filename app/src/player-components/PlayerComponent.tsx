@@ -9,7 +9,7 @@ import PlayerSpotify from "./PlayerSpotify";
 import PlayerYoutube from "./PlayerYoutube";
 
 const PlayerComponent: FC = () => {
-  const { playingPlatform } = usePlaybackStateAuthContext();
+  const { playingPlatform, accessToken } = usePlaybackStateAuthContext();
   const [loaded, setLoaded] = useState(false);
 
   const trackId = usePlaybackStateSourceContext().trackId;
@@ -23,7 +23,7 @@ const PlayerComponent: FC = () => {
     return PlayerSpotify;
   }, [playingPlatform, loaded]);
 
-  return DynamicPlayer ? <DynamicPlayer /> : null;
+  return DynamicPlayer ? <DynamicPlayer accessToken={accessToken} /> : null;
 };
 
 export default PlayerComponent;

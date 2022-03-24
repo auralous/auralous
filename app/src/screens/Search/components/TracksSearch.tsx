@@ -7,19 +7,20 @@ import { Size } from "@/styles/spacing";
 import type { Track } from "@auralous/api";
 import { useSearchTrackQuery } from "@auralous/api";
 import type { FC } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { styles } from "./ItemsSearch.styles";
 
-const SearchItem: FC<{ track: Track }> = ({ track }) => {
+const SearchItem = memo<{ track: Track }>(function SearchItem({ track }) {
   return (
     <TouchableOpacity style={{ padding: Size[1] }}>
       <TrackItem track={track} />
     </TouchableOpacity>
   );
-};
+});
 
 const renderItem: ListRenderItem<Track> = ({ item }) => (
   <SearchItem track={item} key={item.id} />

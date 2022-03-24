@@ -7,30 +7,42 @@ import type { Session } from "@auralous/api";
 import { useSessionsQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
+import type { ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native";
 import scrollStyles from "./ScrollView.styles";
 
-const RecentSessions: FC = () => {
-  const navigation = useNavigation();
+const TouchableSessionItem = memo<{ session: Session; style: ViewStyle }>(
+  function TouchableSessionItem({ session, style }) {
+    const navigation = useNavigation();
+    return (
+      <TouchableOpacity
+        key={session.id}
+        style={style}
+        onPress={() =>
+          navigation.navigate(RouteName.Session, { id: session.id })
+        }
+      >
+        <SessionItem session={session} />
+      </TouchableOpacity>
+    );
+  }
+);
 
+const RecentSessions: FC = () => {
   const [{ data, fetching }] = useSessionsQuery({
     variables: { limit: 10 },
   });
 
   const renderItem = useCallback<HorizontalListProps<Session>["renderItem"]>(
     (info) => (
-      <TouchableOpacity
+      <TouchableSessionItem
         key={info.item.id}
+        session={info.item}
         style={info.style}
-        onPress={() =>
-          navigation.navigate(RouteName.Session, { id: info.item.id })
-        }
-      >
-        <SessionItem session={info.item} />
-      </TouchableOpacity>
+      />
     ),
-    [navigation]
+    []
   );
 
   return (

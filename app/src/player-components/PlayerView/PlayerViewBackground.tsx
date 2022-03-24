@@ -1,6 +1,5 @@
 import { Colors } from "@/styles/colors";
 import type { FC } from "react";
-import { memo } from "react";
 import type { StyleProp, ViewProps, ViewStyle } from "react-native";
 import { StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -35,4 +34,4 @@ const PlayerViewBackground: FC<{
   );
 };
 
-export default memo(PlayerViewBackground);
+export default PlayerViewBackground;

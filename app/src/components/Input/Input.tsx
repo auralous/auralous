@@ -15,7 +15,6 @@ import type {
   ViewStyle,
 } from "react-native";
 import { StyleSheet, TextInput, View } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
 
 interface InputProps
   extends Pick<
@@ -84,11 +83,6 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
 
   const [value, setValue] = useState<string>(defaultValue);
 
-  const isFocused = useSharedValue(false);
-
-  const onFocused = useCallback(() => (isFocused.value = true), [isFocused]);
-  const onBlur = useCallback(() => (isFocused.value = false), [isFocused]);
-
   const onSubmitEditing = useCallback(
     (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
       onSubmit?.(e.nativeEvent.text);
@@ -136,8 +130,6 @@ const Input = forwardRef<InputRef, InputProps>(function Input(
         style={styles.input}
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmitEditing}
-        onFocus={onFocused}
-        onBlur={onBlur}
         underlineColorAndroid="rgba(0,0,0,0)"
         blurOnSubmit={blurOnSubmit}
       />

@@ -16,7 +16,7 @@ import {
   useMessagesQuery,
 } from "@auralous/api";
 import type { FC } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   ListRenderItem,
@@ -70,11 +70,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const ChatItemJoin: FC<{
+const ChatItemJoin = memo<{
   message: Message;
-}> = ({ message }) => {
+}>(function ChatItemJoin({ message }) {
   const { t } = useTranslation();
-
   return (
     <View style={styles.listItem}>
       <View style={styles.icon}>
@@ -88,11 +87,11 @@ const ChatItemJoin: FC<{
       </View>
     </View>
   );
-};
+});
 
-const ChatItemText: FC<{
-  message: Message;
-}> = ({ message }) => {
+const ChatItemText = memo<{ message: Message }>(function ChatItemText({
+  message,
+}) {
   return (
     <View style={styles.listItem}>
       <View style={styles.content}>
@@ -106,7 +105,7 @@ const ChatItemText: FC<{
       </View>
     </View>
   );
-};
+});
 
 const renderItem: ListRenderItem<Message> = ({ item: message }) => {
   if (message.type === MessageType.Join)

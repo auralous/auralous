@@ -1,6 +1,6 @@
 import player from "@/player";
 import type { FC } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { AppState, Platform } from "react-native";
 import type { YoutubeIframeRef } from "react-native-youtube-iframe";
 import YoutubePlayer from "react-native-youtube-iframe";
@@ -113,4 +113,4 @@ const PlayerYoutube: FC = () => {
   );
 };
 
-export default PlayerYoutube;
+export default memo(PlayerYoutube);

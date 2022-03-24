@@ -14,6 +14,7 @@ export const stylesMeta = StyleSheet.create({
     width: Size[40],
   },
   meta: {
+    alignItems: "center",
     paddingVertical: Size[2],
     width: "100%",
   },

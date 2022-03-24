@@ -7,7 +7,7 @@ import { Size } from "@/styles/spacing";
 import { formatTime } from "@/utils/ms";
 import type { Session } from "@auralous/api";
 import type { FC } from "react";
-import { memo, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, StyleSheet, View } from "react-native";
 
@@ -107,4 +107,4 @@ const SessionItem: FC<SessionItemProps> = ({ session }) => {
   );
 };
 
-export default memo(SessionItem);
+export default SessionItem;
