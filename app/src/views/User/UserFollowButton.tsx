@@ -1,6 +1,6 @@
 import { Button } from "@/components/Button";
 import { Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import {
   useMeQuery,
   useUserFollowingsQuery,
@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 export const UserFollowButton: FC<{ id: string }> = ({ id }) => {
   const { t } = useTranslation();
 
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
   const onUnauthenticated = useCallback(
     () => uiDispatch({ type: "signIn", value: { visible: true } }),
     [uiDispatch]

@@ -1,56 +1,43 @@
-import {
-  createContext,
-  useContextSelector,
-} from "@fluentui/react-context-selector";
-import type { PlaybackState } from "./types";
+import { createContext, useContext } from "react";
+import type {
+  PlaybackSelection,
+  PlaybackStateAuth,
+  PlaybackStateControl,
+  PlaybackStateQueue,
+  PlaybackStateSource,
+  PlaybackStateStatus,
+} from "./types";
 
-export const PlaybackContext = createContext({} as PlaybackState);
+export const PlaybackStateQueueContext = createContext(
+  {} as PlaybackStateQueue
+);
+export const usePlaybackStateQueueContext = () =>
+  useContext(PlaybackStateQueueContext);
 
-export const usePlaybackState = () =>
-  useContextSelector(PlaybackContext, (value) => value);
+export const PlaybackStateControlContext = createContext(
+  {} as PlaybackStateControl
+);
+export const usePlaybackStateControlContext = () =>
+  useContext(PlaybackStateControlContext);
 
-const nextItemsSelector = (value: PlaybackState) => value.nextItems;
-export const usePlaybackNextItems = () =>
-  useContextSelector(PlaybackContext, nextItemsSelector);
+export const PlaybackStateSourceContext = createContext(
+  {} as PlaybackStateSource
+);
+export const usePlaybackStateSourceContext = () =>
+  useContext(PlaybackStateSourceContext);
 
-const playbackCurrentContextSelector = (value: PlaybackState) =>
-  value.playbackCurrentContext;
-export const usePlaybackCurrentContext = () =>
-  useContextSelector(PlaybackContext, playbackCurrentContextSelector);
+export const PlaybackStateAuthContext = createContext({} as PlaybackStateAuth);
+export const usePlaybackStateAuthContext = () =>
+  useContext(PlaybackStateAuthContext);
 
-const playbackCurrentControlSelector = (value: PlaybackState) => ({
-  isPlaying: value.isPlaying,
-});
-export const usePlaybackCurrentControl = () =>
-  useContextSelector(PlaybackContext, playbackCurrentControlSelector);
+export const PlaybackStateStatusContext = createContext(
+  {} as PlaybackStateStatus
+);
+export const usePlaybackStateStatusContext = () =>
+  useContext(PlaybackStateStatusContext);
 
-const trackIdSelector = (value: PlaybackState) => value.trackId;
-export const usePlaybackTrackId = () =>
-  useContextSelector(PlaybackContext, trackIdSelector);
-
-const playingTrackIdSelector = (value: PlaybackState) => value.playingTrackId;
-export const usePlaybackPlayingTrackId = () =>
-  useContextSelector(PlaybackContext, playingTrackIdSelector);
-
-const queuePlayingUidSelector = (value: PlaybackState) => value.queuePlayingUid;
-export const usePlaybackQueuePlayingId = () =>
-  useContextSelector(PlaybackContext, queuePlayingUidSelector);
-
-const playbackColorSelector = (value: PlaybackState) => value.color;
-export const usePlaybackColor = () =>
-  useContextSelector(PlaybackContext, playbackColorSelector);
-
-export const playbackAuthenticationSelector = (value: PlaybackState) => ({
-  playingPlatform: value.playingPlatform,
-  accessToken: value.accessToken,
-});
-
-export const usePlaybackAuthentication = () =>
-  useContextSelector(PlaybackContext, playbackAuthenticationSelector);
-
-const playbackStatusSelector = (value: PlaybackState) => ({
-  error: value.error,
-  fetching: value.fetching,
-});
-export const usePlaybackStatus = () =>
-  useContextSelector(PlaybackContext, playbackStatusSelector);
+export const PlaybackSelectionContext = createContext<PlaybackSelection | null>(
+  null
+);
+export const usePlaybackSelectionContext = () =>
+  useContext(PlaybackSelectionContext);

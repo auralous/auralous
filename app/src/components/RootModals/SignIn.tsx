@@ -7,7 +7,7 @@ import { useAuthActions } from "@/gql/context";
 import type { ThemeColorKey } from "@/styles/colors";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
-import { useUi, useUiDispatch } from "@/ui-context";
+import { useUI, useUIDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
@@ -104,8 +104,8 @@ const ContinueButton: FC<{
 export const SignInModal: FC = () => {
   const { t } = useTranslation();
 
-  const ui = useUi();
-  const uiDispatch = useUiDispatch();
+  const ui = useUI();
+  const uiDispatch = useUIDispatch();
 
   const onDismiss = useCallback(
     () =>

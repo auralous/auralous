@@ -4,8 +4,8 @@ import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import player, {
   uidForIndexedTrack,
-  useIsCurrentPlaybackContext,
-  usePlaybackQueuePlayingId,
+  useIsCurrentPlaybackSelection,
+  usePlaybackStateQueueContext,
 } from "@/player";
 import { Size } from "@/styles/spacing";
 import type { Playlist, Track } from "@auralous/api";
@@ -46,16 +46,16 @@ const PlaylistTrackItem = memo<{
     [playlistId, index]
   );
 
-  const queuePlayingUid = usePlaybackQueuePlayingId();
+  const currentItem = usePlaybackStateQueueContext().item;
 
-  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+  const isCurrentSelection = useIsCurrentPlaybackSelection(
     "playlist",
     playlistId
   );
 
   const isCurrentTrack =
-    isCurrentPlaybackContext &&
-    queuePlayingUid === uidForIndexedTrack(index, track.id);
+    isCurrentSelection &&
+    currentItem?.uid === uidForIndexedTrack(index, track.id);
 
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>

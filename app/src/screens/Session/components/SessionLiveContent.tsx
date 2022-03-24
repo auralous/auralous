@@ -4,7 +4,7 @@ import { Container } from "@/components/Container";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
-import player, { useIsCurrentPlaybackContext } from "@/player";
+import player, { useIsCurrentPlaybackSelection } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
@@ -131,7 +131,7 @@ const SessionLiveButton: FC<{ session: Session }> = ({ session }) => {
     });
   }, [navigation, session]);
 
-  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+  const isCurrentSelection = useIsCurrentPlaybackSelection(
     "session",
     session.id
   );
@@ -141,7 +141,7 @@ const SessionLiveButton: FC<{ session: Session }> = ({ session }) => {
 
   return (
     <>
-      {isCurrentPlaybackContext && isCreator ? (
+      {isCurrentSelection && isCreator ? (
         <Button
           onPress={endSession}
           variant="text"
@@ -152,7 +152,7 @@ const SessionLiveButton: FC<{ session: Session }> = ({ session }) => {
       ) : (
         <Button
           variant="primary"
-          disabled={isCurrentPlaybackContext}
+          disabled={isCurrentSelection}
           onPress={joinLive}
         >
           {t("session.join_live")}

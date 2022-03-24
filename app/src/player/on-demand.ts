@@ -9,30 +9,27 @@ import type {
 import { PlaylistTracksDocument, SessionTracksDocument } from "@auralous/api";
 import type Player from "./Player";
 import type { PlaybackHandle } from "./Player";
-import type { PlaybackCurrentContext } from "./types";
+import type { PlaybackSelection } from "./types";
 import { reorder, shuffle, uidForIndexedTrack } from "./utils";
 
 export function registerOnDemand(
   player: Player,
-  playbackContext: PlaybackCurrentContext
-) {
-  const {
+  {
     id: combinedId,
     initialTracks,
     initialIndex,
     shuffle: isShuffle,
-  } = playbackContext;
-
+  }: PlaybackSelection
+) {
   let queue: QueueItem[] = [];
   let playingIndex = initialIndex || 0;
 
   function updateState() {
     const nextItems = queue.slice(playingIndex + 1);
     const currItem = queue[playingIndex];
-    player.setPlaybackState({
+    player.setStateQueue({
       nextItems,
-      trackId: currItem.trackId,
-      queuePlayingUid: currItem.uid,
+      item: currItem,
     });
   }
 

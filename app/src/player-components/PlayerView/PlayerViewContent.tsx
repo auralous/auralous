@@ -6,15 +6,12 @@ import {
   useDialog,
 } from "@/components/Dialog";
 import QueueContent from "@/components/Queue/QueueContent";
-import type { PlaybackState } from "@/player";
-import {
-  useCurrentContextMeta,
-  usePlaybackNextItems,
-  usePlaybackTrackId,
-} from "@/player";
+import { useCurrentPlaybackMeta } from "@/player";
+import { usePlaybackStateQueueContext } from "@/player/Context";
+import type { PlaybackStateQueue } from "@/player/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import type { Track } from "@auralous/api";
 import { useMeQuery, useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
@@ -69,12 +66,12 @@ const ChatSheet: FC<{
   onClose(): void;
 }> = ({ onClose }) => {
   const { t } = useTranslation();
-  const contextMeta = useCurrentContextMeta();
+  const currentMeta = useCurrentPlaybackMeta();
   return (
     <SafeAreaView style={sheetStyles.root}>
       <SheetTitle onClose={onClose} title={t("chat.title")} />
       <View style={sheetStyles.content}>
-        <ChatView contextMeta={contextMeta} />
+        <ChatView currentMeta={currentMeta} />
       </View>
     </SafeAreaView>
   );
@@ -87,7 +84,7 @@ const ChatButtonAndSheet: FC = () => {
   const [visible, present, dismiss] = useDialog();
 
   const [{ data: dataMe }] = useMeQuery();
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
 
   return (
     <>
@@ -112,7 +109,7 @@ const ChatButtonAndSheet: FC = () => {
 // queue
 
 const QueueSheet: FC<{
-  nextItems: PlaybackState["nextItems"];
+  nextItems: PlaybackStateQueue["nextItems"];
   currentTrack: Track | null;
   onClose(): void;
 }> = ({ onClose, nextItems, currentTrack }) => {
@@ -136,12 +133,11 @@ const QueueButtonAndSheet = () => {
   const { t } = useTranslation();
   const [visible, present, dismiss] = useDialog();
 
-  const nextItems = usePlaybackNextItems();
-  const trackId = usePlaybackTrackId();
+  const { nextItems, item } = usePlaybackStateQueueContext();
   const currentTrack =
     useTrackQuery({
-      variables: { id: trackId as string },
-      pause: !trackId,
+      variables: { id: item?.trackId as string },
+      pause: !item?.trackId,
     })[0].data?.track || null;
 
   return (

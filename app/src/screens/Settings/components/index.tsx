@@ -4,7 +4,7 @@ import { Spacer } from "@/components/Spacer";
 import { Heading } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -34,7 +34,7 @@ export const SettingsScreenContent: FC<{
   const { t } = useTranslation();
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
   const gotoSignIn = useCallback(() => {
     uiDispatch({ type: "signIn", value: { visible: true } });
   }, [uiDispatch]);

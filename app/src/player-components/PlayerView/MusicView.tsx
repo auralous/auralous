@@ -1,9 +1,9 @@
-import player, {
-  useCurrentContextMeta,
-  usePlaybackCurrentControl,
-  usePlaybackPlayingTrackId,
-  usePlaybackStatus,
-} from "@/player";
+import player, { useCurrentPlaybackMeta } from "@/player";
+import {
+  usePlaybackStateControlContext,
+  usePlaybackStateSourceContext,
+  usePlaybackStateStatusContext,
+} from "@/player/Context";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
@@ -18,17 +18,17 @@ const styles = StyleSheet.create({
 });
 
 const MusicView: FC = () => {
-  const trackId = usePlaybackPlayingTrackId();
+  const trackId = usePlaybackStateSourceContext().trackId;
   const [{ data, fetching }] = useTrackQuery({
     variables: { id: trackId || "" },
     pause: !trackId,
   });
   const track = trackId ? data?.track : null;
 
-  const currentControl = usePlaybackCurrentControl();
-  const contextMeta = useCurrentContextMeta();
+  const playbackControl = usePlaybackStateControlContext();
+  const currentMeta = useCurrentPlaybackMeta();
 
-  const playbackFetching = usePlaybackStatus().fetching;
+  const playbackFetching = usePlaybackStateStatusContext().fetching;
 
   return (
     <View style={styles.root}>
@@ -39,11 +39,11 @@ const MusicView: FC = () => {
       <PlayerViewProgress
         track={track}
         player={player}
-        isLive={!!contextMeta?.isLive}
+        isLive={!!currentMeta?.isLive}
       />
       <PlayerViewControl
         trackId={trackId}
-        control={currentControl}
+        control={playbackControl}
         player={player}
       />
     </View>

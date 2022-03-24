@@ -1,8 +1,8 @@
-import { useUiLayout } from "@/ui-context/UIContext";
+import { useUILayout } from "@/ui-context/UIContext";
 import { useMemo } from "react";
 
 export function useFlatlist6432Layout<T>(items: T[] | undefined) {
-  const numColumns = useUiLayout().column6432;
+  const numColumns = useUILayout().column6432;
   const data = useMemo(() => {
     if (!items) return undefined;
     // If the # of items is odd, the last items will have full widths due to flex: 1

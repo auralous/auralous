@@ -5,10 +5,10 @@ import ytLogoMonoDark from "@/assets/images/yt_logo_mono_dark.png";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
-import { usePlaybackStatus } from "@/player";
+import { usePlaybackStateStatusContext } from "@/player/Context";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import type { Maybe, Track } from "@auralous/api";
 import { PlatformName } from "@auralous/api";
 import type { FC } from "react";
@@ -61,7 +61,7 @@ interface PlayerViewMetaProps {
 
 const MetaButton: FC<{ track: Track | null | undefined }> = ({ track }) => {
   const { t } = useTranslation();
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
   const present = useCallback(() => {
     if (!track) return;
     uiDispatch({
@@ -106,7 +106,7 @@ const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
     []
   );
 
-  const playbackError = usePlaybackStatus().error;
+  const playbackError = usePlaybackStateStatusContext().error;
 
   if (playbackError) {
     return (

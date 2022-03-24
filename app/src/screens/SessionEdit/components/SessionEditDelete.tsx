@@ -1,7 +1,7 @@
 import { Button } from "@/components/Button";
 import { Dialog, useDialog } from "@/components/Dialog";
 import { toast } from "@/components/Toast";
-import player, { useIsCurrentPlaybackContext } from "@/player";
+import player, { useIsCurrentPlaybackSelection } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import type { Session } from "@auralous/api";
@@ -30,7 +30,7 @@ export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
 
   const navigation = useNavigation();
 
-  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+  const isCurrentSelection = useIsCurrentPlaybackSelection(
     "session",
     sessionId
   );
@@ -41,12 +41,12 @@ export const SessionEditDelete: FC<{ session: Session }> = ({ session }) => {
     });
     if (!result.error) {
       toast.success(t("session_edit.delete.delete_ok"));
-      if (isCurrentPlaybackContext) {
+      if (isCurrentSelection) {
         player.playContext(null);
       }
       navigation.navigate(RouteName.Explore, undefined);
     }
-  }, [t, sessionDelete, sessionId, navigation, isCurrentPlaybackContext]);
+  }, [t, sessionDelete, sessionId, navigation, isCurrentSelection]);
 
   return (
     <View style={styles.root}>

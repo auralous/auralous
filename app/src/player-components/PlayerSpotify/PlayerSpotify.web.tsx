@@ -1,4 +1,5 @@
-import player, { usePlaybackAuthentication } from "@/player";
+import player from "@/player";
+import { usePlaybackStateAuthContext } from "@/player/Context";
 import { injectScript } from "@/utils/scripts";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ const PlayerSpotify: FC = () => {
   const [error, setError] = useState<Spotify.Error | null>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const { accessToken } = usePlaybackAuthentication();
+  const { accessToken } = usePlaybackStateAuthContext();
 
   useEffect(() => {
     if (!loaded || !accessToken) return;

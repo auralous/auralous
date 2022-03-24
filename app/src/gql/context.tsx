@@ -1,12 +1,8 @@
 import player from "@/player";
 import { Provider, STORAGE_KEY_AUTH } from "@auralous/api";
-import {
-  createContext,
-  useContextSelector,
-} from "@fluentui/react-context-selector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { FC } from "react";
-import { useCallback, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { createUrqlClient } from "./urql";
 
 interface ApiState {
@@ -21,26 +17,28 @@ export const ApiProvider: FC = ({ children }) => {
   useEffect(() => {
     player.gqlClient = client;
   }, [client]);
-  const signIn: ApiState["signIn"] = useCallback(async (token) => {
-    await AsyncStorage.setItem(STORAGE_KEY_AUTH, token);
-    setClient(createUrqlClient());
-  }, []);
-  const signOut: ApiState["signOut"] = useCallback(async () => {
-    await AsyncStorage.removeItem(STORAGE_KEY_AUTH);
-    setClient(createUrqlClient());
-  }, []);
+
+  const authAction = useMemo<ApiState>(
+    () => ({
+      async signIn(token) {
+        await AsyncStorage.setItem(STORAGE_KEY_AUTH, token);
+        setClient(createUrqlClient());
+      },
+      async signOut() {
+        await AsyncStorage.removeItem(STORAGE_KEY_AUTH);
+        setClient(createUrqlClient());
+      },
+    }),
+    []
+  );
+
   return (
-    <ApiContext.Provider value={{ signIn, signOut }}>
+    <ApiContext.Provider value={authAction}>
       <Provider value={client}>{children}</Provider>
     </ApiContext.Provider>
   );
 };
 
-const authActionsSelector = (v: ApiState) => ({
-  signIn: v.signIn,
-  signOut: v.signOut,
-});
-
 export function useAuthActions() {
-  return useContextSelector(ApiContext, authActionsSelector);
+  return useContext(ApiContext);
 }

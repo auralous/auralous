@@ -1,10 +1,7 @@
 import QueueContent from "@/components/Queue/QueueContent";
 import { Text } from "@/components/Typography";
-import {
-  useCurrentContextMeta,
-  usePlaybackNextItems,
-  usePlaybackTrackId,
-} from "@/player";
+import { useCurrentPlaybackMeta } from "@/player";
+import { usePlaybackStateQueueContext } from "@/player/Context";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import { useTrackQuery } from "@auralous/api";
@@ -40,12 +37,11 @@ const styles = StyleSheet.create({
 });
 
 const QueueSidebar: FC = () => {
-  const nextItems = usePlaybackNextItems();
-  const trackId = usePlaybackTrackId();
+  const { nextItems, item } = usePlaybackStateQueueContext();
   const currentTrack =
     useTrackQuery({
-      variables: { id: trackId as string },
-      pause: !trackId,
+      variables: { id: item?.trackId as string },
+      pause: !item?.trackId,
     })[0].data?.track || null;
 
   return <QueueContent currentTrack={currentTrack} nextItems={nextItems} />;
@@ -53,10 +49,10 @@ const QueueSidebar: FC = () => {
 
 const ChatSidebar: FC = () => {
   const { t } = useTranslation();
-  const contextMeta = useCurrentContextMeta();
+  const currentMeta = useCurrentPlaybackMeta();
 
-  return contextMeta?.isLive ? (
-    <ChatView contextMeta={contextMeta} />
+  return currentMeta?.isLive ? (
+    <ChatView currentMeta={currentMeta} />
   ) : (
     <View style={styles.noChat}>
       <Text align="center" bold color="textSecondary">

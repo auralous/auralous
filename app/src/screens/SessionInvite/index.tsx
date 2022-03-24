@@ -9,7 +9,7 @@ import player from "@/player";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import {
   useMeQuery,
   useSessionCollabAddFromTokenMutation,
@@ -32,7 +32,7 @@ const SessionInviteScreen: FC<
 > = ({ navigation, route }) => {
   const { t } = useTranslation();
 
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 

@@ -5,7 +5,7 @@ import { RNLink } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { LayoutSize } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import type { FC, NamedExoticComponent } from "react";
@@ -62,7 +62,7 @@ const Tab: FC<{
 const TabProfile: FC = () => {
   const { t } = useTranslation();
   const [{ data }] = useMeQuery();
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
   if (!data?.me) {
     return (
       <Pressable

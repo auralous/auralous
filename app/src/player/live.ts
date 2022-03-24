@@ -36,11 +36,11 @@ import {
 import { pipe, subscribe } from "wonka";
 import type Player from "./Player";
 import type { PlaybackHandle } from "./Player";
-import type { PlaybackCurrentContext } from "./types";
+import type { PlaybackSelection } from "./types";
 
 export function registerLivePlayback(
   player: Player,
-  { id: combinedId }: PlaybackCurrentContext
+  { id: combinedId }: PlaybackSelection
 ) {
   const id = combinedId![1];
   const client = player.gqlClient;
@@ -48,10 +48,13 @@ export function registerLivePlayback(
 
   function updateNowPlaying(nextNowPlaying: NowPlaying) {
     nowPlaying = nextNowPlaying;
-    player.setPlaybackState({
+    player.setStateQueue({
       nextItems: nowPlaying.next,
-      queuePlayingUid: nowPlaying.current.uid,
-      trackId: nowPlaying.current.trackId,
+      item: {
+        ...nowPlaying.current,
+        // FIXME: omit this type
+        __typename: "QueueItem",
+      },
     });
   }
 

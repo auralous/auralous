@@ -3,7 +3,7 @@ import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import { isTruthy } from "@/utils/utils";
 import { SocialUserList } from "@/views/User";
 import type { Session } from "@auralous/api";
@@ -41,7 +41,7 @@ const SessionInviteButton: FC<{ session: Session }> = ({ session }) => {
     }
   );
 
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
 
   const onInvitePress = useCallback(() => {
     uiDispatch({

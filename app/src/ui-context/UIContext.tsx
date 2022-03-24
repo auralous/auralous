@@ -1,10 +1,6 @@
-import type { PlaybackCurrentContext } from "@/player";
-import {
-  createContext,
-  useContextSelector,
-} from "@fluentui/react-context-selector";
+import type { PlaybackSelection } from "@/player";
 import type { Dispatch, FC, ReactNode } from "react";
-import { useMemo, useReducer } from "react";
+import { createContext, useContext, useMemo, useReducer } from "react";
 import { use6432Layout } from "./layout";
 
 interface UIState {
@@ -26,7 +22,7 @@ interface UIState {
     visible: boolean;
     intention: {
       sessionId: string;
-      nextPlaybackContext: PlaybackCurrentContext | undefined;
+      nextPlaybackSelection: PlaybackSelection | undefined;
     } | null;
   };
   share: {
@@ -36,11 +32,8 @@ interface UIState {
   };
 }
 
-export interface UIContextValue {
-  ui: [UIState, Dispatch<Action<keyof UIState>>];
-  layout: {
-    column6432: number;
-  };
+export interface UILayoutValue {
+  column6432: number;
 }
 
 type Action<T extends keyof UIState> = {
@@ -67,29 +60,26 @@ const uiInitialValues: UIState = {
   share: { visible: false },
 };
 
-const UIContext = createContext({} as UIContextValue);
+const UIContext = createContext(
+  undefined as unknown as [UIState, Dispatch<Action<keyof UIState>>]
+);
+const UILayoutContext = createContext({} as UILayoutValue);
 
 export const UIContextProvider: FC = ({ children }) => {
-  const [uiState, uiDispatch] = useReducer(reducer, uiInitialValues);
+  const uiReducer = useReducer(reducer, uiInitialValues);
   const column6432 = use6432Layout();
-  const layout = useMemo<UIContextValue["layout"]>(
-    () => ({ column6432 }),
-    [column6432]
-  );
+  const layout = useMemo<UILayoutValue>(() => ({ column6432 }), [column6432]);
 
   return (
-    <UIContext.Provider value={{ ui: [uiState, uiDispatch], layout }}>
-      {children}
+    <UIContext.Provider value={uiReducer}>
+      <UILayoutContext.Provider value={layout}>
+        {children}
+      </UILayoutContext.Provider>
     </UIContext.Provider>
   );
 };
 
-const uiDispatchSelector = (state: UIContextValue) => state.ui[1];
-export const useUiDispatch = () =>
-  useContextSelector(UIContext, uiDispatchSelector);
+export const useUIDispatch = () => useContext(UIContext)[1];
+export const useUI = () => useContext(UIContext)[0];
 
-const uiSelector = (state: UIContextValue) => state.ui[0];
-export const useUi = () => useContextSelector(UIContext, uiSelector);
-
-const layoutSelector = (state: UIContextValue) => state.layout;
-export const useUiLayout = () => useContextSelector(UIContext, layoutSelector);
+export const useUILayout = () => useContext(UILayoutContext);

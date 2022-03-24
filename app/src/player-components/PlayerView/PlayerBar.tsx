@@ -4,11 +4,12 @@ import { BOTTOM_TABS_HEIGHT } from "@/components/Layout/BottomTabs";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
-import player, {
-  usePlaybackCurrentControl,
-  usePlaybackPlayingTrackId,
-  usePlaybackStatus,
-} from "@/player";
+import player from "@/player";
+import {
+  usePlaybackStateControlContext,
+  usePlaybackStateSourceContext,
+  usePlaybackStateStatusContext,
+} from "@/player/Context";
 import { RouteName } from "@/screens/types";
 import { useIsRouteWithNavbar, useRouteNames } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";
@@ -94,8 +95,8 @@ const hiddenRoutes = [
 const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
   const { t } = useTranslation();
 
-  const { isPlaying } = usePlaybackCurrentControl();
-  const trackId = usePlaybackPlayingTrackId();
+  const { isPlaying } = usePlaybackStateControlContext();
+  const trackId = usePlaybackStateSourceContext().trackId;
 
   const [{ data, fetching: fetchingTrack }] = useTrackQuery({
     variables: { id: trackId || "" },
@@ -108,8 +109,6 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
     () => (isPlaying ? player.pause() : player.play()),
     [isPlaying]
   );
-
-  // const animatedBgStyle = useAnimatedBgColors(usePlaybackColor());
 
   const routeNames = useRouteNames();
   const routeName = routeNames[routeNames.length - 1];
@@ -133,7 +132,7 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
   }, [hasTabBars, isLandscape]);
 
   const { error: playbackError, fetching: playbackFetching } =
-    usePlaybackStatus();
+    usePlaybackStateStatusContext();
 
   const fetching = fetchingTrack || playbackFetching;
 

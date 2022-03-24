@@ -6,7 +6,7 @@ import { RouteName } from "@/screens/types";
 import { useRouteNames } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
 import type { FC, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
@@ -64,7 +64,7 @@ const SidebarButton: FC<{ icon: ReactNode; name: RouteName }> = ({
 const SidebarButtonProfile: FC = () => {
   const { t } = useTranslation();
   const [{ data }] = useMeQuery();
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
   if (!data?.me)
     return (
       <Pressable

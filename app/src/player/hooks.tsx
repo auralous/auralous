@@ -5,14 +5,14 @@ import type {
   SessionQueryVariables,
 } from "@auralous/api";
 import { PlaylistDocument, SessionDocument, useQuery } from "@auralous/api";
-import { usePlaybackCurrentContext } from "./Context";
-import type { PlaybackContextMeta } from "./types";
+import { usePlaybackSelectionContext } from "./Context";
+import type { PlaybackCurrentMeta } from "./types";
 
-export function useCurrentContextMeta(): PlaybackContextMeta | null {
-  const currentContext = usePlaybackCurrentContext();
-  const isSession = currentContext?.id?.[0] === "session";
-  const isPlaylist = currentContext?.id?.[0] === "playlist";
-  const entityId = currentContext?.id?.[1];
+export function useCurrentPlaybackMeta(): PlaybackCurrentMeta | null {
+  const playbackSelection = usePlaybackSelectionContext();
+  const isSession = playbackSelection?.id?.[0] === "session";
+  const isPlaylist = playbackSelection?.id?.[0] === "playlist";
+  const entityId = playbackSelection?.id?.[1];
 
   const [{ data }] = useQuery<
     SessionQuery | PlaylistQuery,
@@ -48,14 +48,14 @@ export function useCurrentContextMeta(): PlaybackContextMeta | null {
   return null;
 }
 
-export function useIsCurrentPlaybackContext(
-  type: PlaybackContextMeta["type"],
+export function useIsCurrentPlaybackSelection(
+  type: PlaybackCurrentMeta["type"],
   entityId: string
 ) {
-  const currentContext = usePlaybackCurrentContext();
+  const playbackSelection = usePlaybackSelectionContext();
   return (
-    !!currentContext?.id &&
-    currentContext.id[0] === type &&
-    currentContext.id[1] === entityId
+    !!playbackSelection?.id &&
+    playbackSelection.id[0] === type &&
+    playbackSelection.id[1] === entityId
   );
 }

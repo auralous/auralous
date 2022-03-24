@@ -6,8 +6,8 @@ import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
 import player, {
   uidForIndexedTrack,
-  useIsCurrentPlaybackContext,
-  usePlaybackQueuePlayingId,
+  useIsCurrentPlaybackSelection,
+  usePlaybackStateQueueContext,
 } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
@@ -61,16 +61,18 @@ const SessionTrackItem = memo<{
     [sessionId, index]
   );
 
-  const queuePlayingUid = usePlaybackQueuePlayingId();
+  const currentItem = usePlaybackStateQueueContext().item;
 
-  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+  const isCurrentSelection = useIsCurrentPlaybackSelection(
     "session",
     sessionId
   );
 
+  console.log(isCurrentSelection);
+
   const isCurrentTrack =
-    isCurrentPlaybackContext &&
-    queuePlayingUid === uidForIndexedTrack(index, track.id);
+    isCurrentSelection &&
+    currentItem?.uid === uidForIndexedTrack(index, track.id);
 
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>

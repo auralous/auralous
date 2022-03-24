@@ -1,5 +1,6 @@
 import { Config } from "@/config";
-import player, { usePlaybackAuthentication } from "@/player";
+import player from "@/player";
+import { usePlaybackStateAuthContext } from "@/player/Context";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type {
@@ -72,7 +73,7 @@ const PlayerSpotify: FC = () => {
     };
   }, []);
 
-  const { accessToken } = usePlaybackAuthentication();
+  const { accessToken } = usePlaybackStateAuthContext();
 
   const doInitialize = useCallback(
     () => initialize(() => setIsInitialized(true), setError),

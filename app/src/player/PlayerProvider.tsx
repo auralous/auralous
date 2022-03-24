@@ -1,8 +1,6 @@
-import type { PlaybackCurrentContext } from "@/player";
-import { useTrackColor } from "@/player-components/PlayerView/useTrackColor";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import {
   PlatformName,
   useClient,
@@ -13,46 +11,58 @@ import {
 import type { NavigationContainerRefWithCurrent } from "@react-navigation/native";
 import type { FC } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { PlaybackContext } from "./Context";
+import {
+  PlaybackSelectionContext,
+  PlaybackStateAuthContext,
+  PlaybackStateControlContext,
+  PlaybackStateQueueContext,
+  PlaybackStateSourceContext,
+  PlaybackStateStatusContext,
+} from "./Context";
 import { player } from "./playerSingleton";
-import type { PlaybackContextProvided } from "./types";
+import type {
+  PlaybackSelection,
+  PlaybackStateAuth,
+  PlaybackStateControl,
+  PlaybackStateQueue,
+  PlaybackStateSource,
+} from "./types";
 
 const PlayerProviderInner: FC<{
-  playbackCurrentContext: PlaybackCurrentContext | null;
-}> = ({ children, playbackCurrentContext }) => {
+  playbackSelection: PlaybackSelection | null;
+}> = ({ children, playbackSelection }) => {
   /**
    * This state determines:
    * - the track that should be played
    * - the track enqueued (next items)
-   * - underlying fetching state
    */
-  const [playbackState, setPlaybackState] = useState<PlaybackContextProvided>({
-    nextItems: [],
-    queuePlayingUid: null,
-    trackId: null,
-  });
+  const [playbackStateQueue, setPlaybackStateQueue] =
+    useState<PlaybackStateQueue>({
+      nextItems: [],
+      item: null,
+    });
+  const [playbackStateSource, setPlaybackStateSource] =
+    useState<PlaybackStateSource>({ trackId: null });
 
   const [isPlaying, setIsPlaying] = useState(false);
-  const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    player.setReactPlaybackStateQueue = setPlaybackStateQueue;
+    player.setReactPlaybackStateSource = setPlaybackStateSource;
+
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
     player.on("play", onPlay); // Optimistic update
     player.on("pause", onPause); // Optimistic update
     player.on("playing", onPlay);
     player.on("paused", onPause);
-    player.on("playing_track_id", setPlayingTrackId);
-    player.on("playback_state", setPlaybackState);
     player.on("loading", setLoading);
     return () => {
       player.off("play", onPlay);
       player.off("pause", onPause);
       player.off("playing", onPlay);
       player.off("paused", onPause);
-      player.off("playing_track_id", setPlayingTrackId);
-      player.off("playback_state", setPlaybackState);
       player.off("loading", setLoading);
     };
   }, []);
@@ -68,41 +78,55 @@ const PlayerProviderInner: FC<{
     if (playingPlatform) player.setPlatform(playingPlatform);
   }, [playingPlatform]);
 
-  const color = useTrackColor(playingTrackId);
+  const playbackAuth = useMemo<PlaybackStateAuth>(
+    () => ({
+      accessToken: me?.accessToken || null,
+      playingPlatform,
+    }),
+    [playingPlatform, me?.accessToken]
+  );
 
   // live session specific
   const [, sessionPing] = useSessionPingMutation();
   useEffect(() => {
     if (!me) return;
-    if (!playbackCurrentContext?.isLive) return;
+    if (!playbackSelection?.isLive) return;
     const pingInterval = setInterval(() => {
-      sessionPing({ id: playbackCurrentContext.id![1] });
+      sessionPing({ id: playbackSelection.id![1] });
     }, 30 * 1000);
     return () => clearInterval(pingInterval);
-  }, [playbackCurrentContext, me, sessionPing]);
+  }, [playbackSelection, me, sessionPing]);
 
   const error = useMemo<string | null>(() => {
     if (loading) return null;
-    if (playbackState.trackId && !playingTrackId) return "no_cross_track";
+    if (playbackStateQueue.item?.trackId && !playbackStateSource.trackId)
+      return "no_cross_track";
     return null;
-  }, [loading, playbackState, playingTrackId]);
+  }, [loading, playbackStateQueue.item, playbackStateSource]);
+
+  const status = useMemo(() => {
+    return { fetching: loading, error };
+  }, [loading, error]);
+
+  const playbackStateControl = useMemo<PlaybackStateControl>(
+    () => ({ isPlaying }),
+    [isPlaying]
+  );
 
   return (
-    <PlaybackContext.Provider
-      value={{
-        playbackCurrentContext,
-        playingTrackId,
-        color,
-        isPlaying,
-        playingPlatform,
-        accessToken: me?.accessToken || null,
-        error: error || null,
-        ...playbackState,
-        fetching: loading,
-      }}
-    >
-      {children}
-    </PlaybackContext.Provider>
+    <PlaybackSelectionContext.Provider value={playbackSelection}>
+      <PlaybackStateQueueContext.Provider value={playbackStateQueue}>
+        <PlaybackStateControlContext.Provider value={playbackStateControl}>
+          <PlaybackStateSourceContext.Provider value={playbackStateSource}>
+            <PlaybackStateAuthContext.Provider value={playbackAuth}>
+              <PlaybackStateStatusContext.Provider value={status}>
+                {children}
+              </PlaybackStateStatusContext.Provider>
+            </PlaybackStateAuthContext.Provider>
+          </PlaybackStateSourceContext.Provider>
+        </PlaybackStateControlContext.Provider>
+      </PlaybackStateQueueContext.Provider>
+    </PlaybackSelectionContext.Provider>
   );
 };
 
@@ -110,15 +134,14 @@ export const PlayerProvider: FC<{
   navigationRef: NavigationContainerRefWithCurrent<ParamList>;
 }> = ({ children, navigationRef }) => {
   const client = useClient();
-
-  const [playbackCurrentContext, setPlaybackCurrentContext] =
-    useState<PlaybackCurrentContext | null>(null);
+  const [playbackSelection, setPlaybackSelection] =
+    useState<PlaybackSelection | null>(null);
 
   useEffect(() => {
-    player.commitContext(playbackCurrentContext);
-  }, [playbackCurrentContext]);
+    player.commitContext(playbackSelection);
+  }, [playbackSelection]);
 
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
 
   const [{ data: dataSessionCurrentLive }, refetchSessionCurrentLive] =
     useSessionCurrentLiveQuery({
@@ -138,7 +161,7 @@ export const PlayerProvider: FC<{
     liveCheckedUserId.current = me.user.id;
     const sessionId = dataSessionCurrentLive?.sessionCurrentLive?.sessionId;
     if (!sessionId) return undefined;
-    setPlaybackCurrentContext({
+    setPlaybackSelection({
       id: ["session", sessionId],
       shuffle: false,
       isLive: true,
@@ -147,9 +170,7 @@ export const PlayerProvider: FC<{
   }, [dataSessionCurrentLive?.sessionCurrentLive, me, navigationRef]);
 
   useEffect(() => {
-    player.playContext = async (
-      currentContext: PlaybackCurrentContext | null
-    ) => {
+    player.playContext = async (currentContext: PlaybackSelection | null) => {
       if (currentContext) {
         if (
           dataSessionCurrentLive?.sessionCurrentLive &&
@@ -163,18 +184,18 @@ export const PlayerProvider: FC<{
               visible: true,
               intention: {
                 sessionId: dataSessionCurrentLive.sessionCurrentLive.sessionId,
-                nextPlaybackContext: currentContext,
+                nextPlaybackSelection: currentContext,
               },
             },
           });
         }
       }
-      setPlaybackCurrentContext(currentContext);
+      setPlaybackSelection(currentContext);
     };
   }, [client, uiDispatch, dataSessionCurrentLive]);
 
   return (
-    <PlayerProviderInner playbackCurrentContext={playbackCurrentContext}>
+    <PlayerProviderInner playbackSelection={playbackSelection}>
       {children}
     </PlayerProviderInner>
   );

@@ -1,6 +1,6 @@
 import { Dialog } from "@/components/Dialog";
 import player from "@/player";
-import { useUi, useUiDispatch } from "@/ui-context";
+import { useUI, useUIDispatch } from "@/ui-context";
 import { useSessionEndMutation } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next";
 export const StopLiveIntention: FC = () => {
   const { t } = useTranslation();
 
-  const { stopLiveOnPlay } = useUi();
-  const uiDispatch = useUiDispatch();
+  const { stopLiveOnPlay } = useUI();
+  const uiDispatch = useUIDispatch();
 
   const onDismiss = useCallback(
     () => uiDispatch({ type: "stopLiveOnPlay", value: { visible: false } }),
@@ -28,11 +28,12 @@ export const StopLiveIntention: FC = () => {
       id: stopLiveOnPlay.intention.sessionId,
     });
     if (!result.error) {
-      const nextPlaybackContext = stopLiveOnPlay.intention.nextPlaybackContext;
-      if (nextPlaybackContext) {
+      const nextPlaybackSelection =
+        stopLiveOnPlay.intention.nextPlaybackSelection;
+      if (nextPlaybackSelection) {
         // timeout to prevent conflict with the action of stopping playback context
         setTimeout(() => {
-          player.playContext(nextPlaybackContext);
+          player.playContext(nextPlaybackSelection);
         }, 1000);
       }
       onDismiss();

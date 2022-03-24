@@ -1,7 +1,4 @@
-import {
-  createContext,
-  useContextSelector,
-} from "@fluentui/react-context-selector";
+import { createContext, useContext, useMemo } from "react";
 
 export type SongSelectorState =
   | {
@@ -15,16 +12,18 @@ export type SongSelectorState =
 
 export const SongSelectorContext = createContext({} as SongSelectorState);
 
-const selectedTracksSelector = (v: SongSelectorState) => v.selectedTracks;
 export const useSelectedTracks = () =>
-  useContextSelector(SongSelectorContext, selectedTracksSelector);
+  useContext(SongSelectorContext).selectedTracks;
 
-const updateTracksSelector = (v: SongSelectorState) =>
-  "addTracks" in v
-    ? {
-        addTracks: v.addTracks,
-        removeTracks: v.removeTracks,
-      }
-    : undefined;
-export const useUpdateTracks = () =>
-  useContextSelector(SongSelectorContext, updateTracksSelector);
+export const useUpdateTracks = () => {
+  const ctx = useContext(SongSelectorContext);
+  return useMemo(() => {
+    return "addTracks" in ctx
+      ? {
+          addTracks: ctx.addTracks,
+          removeTracks: ctx.removeTracks,
+        }
+      : undefined;
+    // @ts-ignore
+  }, [ctx.addTracks, ctx.removeTracks]);
+};

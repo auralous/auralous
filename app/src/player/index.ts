@@ -1,5 +1,5 @@
 export * from "./Context";
-export { useCurrentContextMeta, useIsCurrentPlaybackContext } from "./hooks";
+export { useCurrentPlaybackMeta, useIsCurrentPlaybackSelection } from "./hooks";
 export type { default as Player } from "./Player";
 export { PlayerProvider } from "./PlayerProvider";
 export { player as default } from "./playerSingleton";

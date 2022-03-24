@@ -1,6 +1,6 @@
 import { Dialog } from "@/components/Dialog";
 import { LoadingScreen } from "@/components/Loading";
-import { useUi, useUiDispatch } from "@/ui-context";
+import { useUI, useUIDispatch } from "@/ui-context";
 import { AddToPlaylist } from "@/views/AddToPlaylist";
 import { useTrackQuery } from "@auralous/api";
 import type { FC } from "react";
@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
 });
 
 export const AddToPlaylistModal: FC = () => {
-  const ui = useUi();
-  const uiDispatch = useUiDispatch();
+  const ui = useUI();
+  const uiDispatch = useUIDispatch();
 
   const { t } = useTranslation();
 

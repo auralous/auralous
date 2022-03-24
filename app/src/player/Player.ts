@@ -9,7 +9,11 @@ import { CrossTracksDocument } from "@auralous/api";
 import mitt from "mitt";
 import { registerLivePlayback } from "./live";
 import { registerOnDemand } from "./on-demand";
-import type { PlaybackContextProvided, PlaybackCurrentContext } from "./types";
+import type {
+  PlaybackSelection,
+  PlaybackStateQueue,
+  PlaybackStateSource,
+} from "./types";
 
 export type LoadingStateValue = "cross_track";
 
@@ -41,8 +45,6 @@ type EventsType = {
   ended?: void; // Has ended
   time: number; // On playback time (ms)
   played_external: string | null; // new external id played
-  playback_state: PlaybackContextProvided;
-  playing_track_id: null | string; // track that is playing, not neccessarily the actual track id
   loading: boolean;
 };
 
@@ -160,19 +162,19 @@ class Player {
   }
 
   private registerUnsubscribe: (() => void) | undefined;
-  commitContext(currentContext: PlaybackCurrentContext | null) {
-    this.__wasPlaying = !!currentContext; // if a commit happens, user must want playing
+  commitContext(selection: PlaybackSelection | null) {
+    this.__wasPlaying = !!selection; // if a commit happens, user must want playing
     this.registerUnsubscribe?.();
-    if (currentContext) {
-      if (currentContext.isLive) {
-        this.registerUnsubscribe = registerLivePlayback(this, currentContext);
+    if (selection) {
+      if (selection.isLive) {
+        this.registerUnsubscribe = registerLivePlayback(this, selection);
       } else {
-        this.registerUnsubscribe = registerOnDemand(this, currentContext);
+        this.registerUnsubscribe = registerOnDemand(this, selection);
       }
     }
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  playContext(currentContextSelector: PlaybackCurrentContext | null) {
+  playContext(currentContextSelector: PlaybackSelection | null) {
     /* TOBE IMPLEMENTED */
   }
 
@@ -196,24 +198,21 @@ class Player {
     };
   }
 
+  public setReactPlaybackStateSource?: (source: PlaybackStateSource) => void;
   private commitPlayingTrackId(trackId: string | null) {
-    this.emit("playing_track_id", trackId);
+    this.setReactPlaybackStateSource?.({ trackId });
+
     if (!this.playerFn) return;
+
     this.externalTrackId = trackId ? trackId.split(":")[1] : null;
     this.playerFn.playByExternalId(this.externalTrackId);
   }
 
-  private playbackState: PlaybackContextProvided = {
-    nextItems: [],
-    queuePlayingUid: null,
-    trackId: null,
-  };
-
-  setPlaybackState(state: PlaybackContextProvided) {
-    this.playbackState = { ...state };
-    this.emit("playback_state", state);
-    if (state.trackId !== this.trackId) {
-      this.setTrackId(state.trackId);
+  public setReactPlaybackStateQueue?: (state: PlaybackStateQueue) => void;
+  setStateQueue(state: PlaybackStateQueue) {
+    this.setReactPlaybackStateQueue?.(state);
+    if (state.item?.trackId !== this.trackId) {
+      this.setTrackId(state.item?.trackId || null);
     }
   }
 

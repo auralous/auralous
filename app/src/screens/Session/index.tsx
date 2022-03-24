@@ -13,7 +13,7 @@ import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { ConstantSize } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import { isTruthy } from "@/utils/utils";
 import type { Session } from "@auralous/api";
 import { useMeQuery, useSessionQuery } from "@auralous/api";
@@ -39,7 +39,7 @@ const HeaderRight: FC<{
 }> = ({ session, navigation }) => {
   const { t } = useTranslation();
 
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
@@ -125,7 +125,7 @@ const SessionScreen: FC<
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
 
   useLayoutEffect(() => {
     const session = data?.session;

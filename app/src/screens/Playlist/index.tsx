@@ -7,7 +7,7 @@ import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { ConstantSize } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import type { Playlist } from "@auralous/api";
 import { usePlaylistQuery } from "@auralous/api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 const HeaderRight: FC<{ playlist?: Playlist | null }> = ({ playlist }) => {
   const { t } = useTranslation();
 
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
 
   return (
     <Button

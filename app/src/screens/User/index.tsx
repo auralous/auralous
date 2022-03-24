@@ -6,7 +6,7 @@ import { Config } from "@/config";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import { isTruthy } from "@/utils/utils";
 import type { User } from "@auralous/api";
 import { useMeQuery, useUserQuery } from "@auralous/api";
@@ -31,7 +31,7 @@ const HeaderRight: FC<{
 }> = ({ navigation, user }) => {
   const { t } = useTranslation();
 
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 

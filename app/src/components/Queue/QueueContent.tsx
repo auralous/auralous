@@ -7,7 +7,7 @@ import { SortableFlatList } from "@/components/SortableFlatList";
 import { Spacer } from "@/components/Spacer";
 import { QueueTrackItem, TrackItem } from "@/components/Track";
 import { Heading, Text } from "@/components/Typography";
-import type { PlaybackState } from "@/player";
+import type { PlaybackStateQueue } from "@/player";
 import player, { usePreloadedTrackQueries } from "@/player";
 import { Colors } from "@/styles/colors";
 import { Font, fontPropsFn } from "@/styles/fonts";
@@ -119,7 +119,7 @@ const getItemLayout = (data: unknown, index: number) => ({
 });
 
 const QueueContent: FC<{
-  nextItems: PlaybackState["nextItems"];
+  nextItems: PlaybackStateQueue["nextItems"];
   currentTrack: Track | null;
 }> = ({ nextItems, currentTrack }) => {
   const { t } = useTranslation();

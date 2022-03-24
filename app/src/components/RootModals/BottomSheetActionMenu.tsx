@@ -1,11 +1,11 @@
 import { BottomSheetActionMenu } from "@/components/BottomSheet";
-import { useUi, useUiDispatch } from "@/ui-context";
+import { useUI, useUIDispatch } from "@/ui-context";
 import type { FC } from "react";
 import { useCallback } from "react";
 
 export const BottomSheetActionMenuModal: FC = () => {
-  const { contextMenu } = useUi();
-  const uiDispatch = useUiDispatch();
+  const { contextMenu } = useUI();
+  const uiDispatch = useUIDispatch();
   const onDismiss = useCallback(
     () =>
       uiDispatch({ type: "contextMenu", value: { visible: false, items: [] } }),

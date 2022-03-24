@@ -1,11 +1,11 @@
 import { Share } from "@/components/Share";
-import { useUi, useUiDispatch } from "@/ui-context";
+import { useUI, useUIDispatch } from "@/ui-context";
 import type { FC } from "react";
 import { useCallback } from "react";
 
 export const ShareModal: FC = () => {
-  const { share } = useUi();
-  const uiDispatch = useUiDispatch();
+  const { share } = useUI();
+  const uiDispatch = useUIDispatch();
 
   const onDismiss = useCallback(
     () => uiDispatch({ type: "share", value: { visible: false } }),

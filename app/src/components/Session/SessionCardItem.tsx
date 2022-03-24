@@ -3,8 +3,8 @@ import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { RNLink, Text } from "@/components/Typography";
 import player, {
-  useIsCurrentPlaybackContext,
-  usePlaybackCurrentControl,
+  useIsCurrentPlaybackSelection,
+  usePlaybackStateControlContext,
 } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
@@ -102,13 +102,13 @@ const SessionCardItem: FC<SessionCardItemProps> = ({
     ].filter(isTruthy);
   }, [dataSessionTracks]);
 
-  const isCurrentPlaybackContext = useIsCurrentPlaybackContext(
+  const isCurrentSelection = useIsCurrentPlaybackSelection(
     "session",
     session.id
   );
-  const playerIsPlaying = usePlaybackCurrentControl().isPlaying;
+  const { isPlaying: playerIsPlaying } = usePlaybackStateControlContext();
   const onPlayPress = () => {
-    if (isCurrentPlaybackContext) {
+    if (isCurrentSelection) {
       if (playerIsPlaying) player.pause();
       else player.play();
     }
@@ -142,7 +142,7 @@ const SessionCardItem: FC<SessionCardItemProps> = ({
             <Image source={{ uri: session.image }} style={styles.bg} />
           )}
           <TouchableOpacity style={styles.mainPlayButton} onPress={onPlayPress}>
-            {isCurrentPlaybackContext && playerIsPlaying ? (
+            {isCurrentSelection && playerIsPlaying ? (
               <IconPause stroke="#ffffff" fill="#ffffff" />
             ) : (
               <IconPlay stroke="#ffffff" fill="#ffffff" />

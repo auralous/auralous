@@ -7,7 +7,7 @@ import { NullComponent } from "@/components/misc";
 import { Spacer } from "@/components/Spacer";
 import { Toaster } from "@/components/Toast";
 import { Text } from "@/components/Typography";
-import { useCurrentContextMeta } from "@/player";
+import { useCurrentPlaybackMeta } from "@/player";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
@@ -59,31 +59,31 @@ const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
 
   const navigation = useNavigation();
 
-  const contextMeta = useCurrentContextMeta();
+  const currentMeta = useCurrentPlaybackMeta();
 
   const onHeaderTitlePress = useCallback(() => {
-    if (!contextMeta) return;
-    if (contextMeta.type === "session") {
-      navigation.navigate(RouteName.Session, { id: contextMeta.id });
-    } else if (contextMeta.type === "playlist") {
-      navigation.navigate(RouteName.Playlist, { id: contextMeta.id });
+    if (!currentMeta) return;
+    if (currentMeta.type === "session") {
+      navigation.navigate(RouteName.Session, { id: currentMeta.id });
+    } else if (currentMeta.type === "playlist") {
+      navigation.navigate(RouteName.Playlist, { id: currentMeta.id });
     }
-  }, [contextMeta, navigation]);
+  }, [currentMeta, navigation]);
 
   return (
     <Header
       title={
-        contextMeta ? (
+        currentMeta ? (
           <TouchableOpacity
             style={styles.headerTitle}
             onPress={onHeaderTitlePress}
           >
             <Text size="xs" style={styles.playingFromText} align="center">
-              {t("player.playing_from", { entity: contextMeta.type })}
+              {t("player.playing_from", { entity: currentMeta.type })}
             </Text>
             <Spacer y={2} />
             <Text size="sm" bold align="center">
-              {contextMeta.contextDescription}
+              {currentMeta.contextDescription}
             </Text>
           </TouchableOpacity>
         ) : null

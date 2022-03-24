@@ -1,4 +1,7 @@
-import { usePlaybackAuthentication, usePlaybackTrackId } from "@/player";
+import {
+  usePlaybackStateAuthContext,
+  usePlaybackStateSourceContext,
+} from "@/player/Context";
 import { PlatformName } from "@auralous/api";
 import type { FC } from "react";
 import { useEffect, useMemo, useState } from "react";
@@ -6,10 +9,10 @@ import PlayerSpotify from "./PlayerSpotify";
 import PlayerYoutube from "./PlayerYoutube";
 
 const PlayerComponent: FC = () => {
-  const { playingPlatform } = usePlaybackAuthentication();
+  const { playingPlatform } = usePlaybackStateAuthContext();
   const [loaded, setLoaded] = useState(false);
 
-  const trackId = usePlaybackTrackId();
+  const trackId = usePlaybackStateSourceContext().trackId;
   useEffect(() => {
     if (trackId) setLoaded(true);
   }, [trackId]);

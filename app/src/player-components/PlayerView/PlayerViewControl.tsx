@@ -1,6 +1,6 @@
 import { IconPause, IconPlay, IconSkipBack, IconSkipForward } from "@/assets";
 import { Spacer } from "@/components/Spacer";
-import type { PlaybackState, Player } from "@/player";
+import type { PlaybackStateControl, Player } from "@/player";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 });
 
 const PlayerViewControl: FC<{
-  control: Pick<PlaybackState, "isPlaying">;
+  control: PlaybackStateControl;
   trackId: string | null;
   player: Player;
 }> = ({ trackId, control, player }) => {

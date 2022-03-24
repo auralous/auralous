@@ -3,7 +3,7 @@ import { PlaylistItem } from "@/components/Playlist";
 import { Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { useFlatlist6432Layout } from "@/styles/flatlist";
-import { useUiLayout } from "@/ui-context/UIContext";
+import { useUILayout } from "@/ui-context/UIContext";
 import type { Playlist } from "@auralous/api";
 import { usePlaylistsSearchQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
@@ -16,7 +16,7 @@ import { styles } from "./ItemsSearch.styles";
 
 const SearchItem: FC<{ playlist: Playlist }> = ({ playlist }) => {
   const navigation = useNavigation();
-  const uiNumColumn = useUiLayout().column6432;
+  const uiNumColumn = useUILayout().column6432;
   return (
     <TouchableOpacity
       style={[styles.item, { maxWidth: (1 / uiNumColumn) * 100 + "%" }]}

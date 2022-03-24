@@ -1,7 +1,7 @@
 import { IconPlayListAdd, IconZap } from "@/assets";
 import { BottomSheetActionMenu } from "@/components/BottomSheet";
 import { RouteName } from "@/screens/types";
-import { useUi, useUiDispatch } from "@/ui-context";
+import { useUI, useUIDispatch } from "@/ui-context";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
@@ -9,8 +9,8 @@ import { useTranslation } from "react-i18next";
 
 export const CreateSessionModal: FC = () => {
   const { t } = useTranslation();
-  const ui = useUi();
-  const uiDispatch = useUiDispatch();
+  const ui = useUI();
+  const uiDispatch = useUIDispatch();
   const onDismiss = useCallback(
     () => uiDispatch({ type: "newSession", value: { visible: false } }),
     [uiDispatch]

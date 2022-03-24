@@ -4,7 +4,7 @@ import type { InputRef } from "@/components/Input";
 import { Input } from "@/components/Input";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
-import type { PlaybackContextMeta } from "@/player";
+import type { PlaybackCurrentMeta } from "@/player";
 import { Size } from "@/styles/spacing";
 import { AuthPrompt } from "@/views/AuthPrompt";
 import type { Message } from "@auralous/api";
@@ -246,20 +246,20 @@ const ChatInput: FC<{ id: string }> = ({ id }) => {
 };
 
 const ChatView: FC<{
-  contextMeta: PlaybackContextMeta | null;
-}> = ({ contextMeta }) => {
+  currentMeta: PlaybackCurrentMeta | null;
+}> = ({ currentMeta }) => {
   const { t } = useTranslation();
 
   const [{ data: { me } = { me: undefined } }] = useMeQuery();
 
-  if (!contextMeta?.id) return null;
+  if (!currentMeta?.id) return null;
 
   if (!me) return <AuthPrompt prompt={t("playlist_adder.auth_prompt")} />;
 
   return (
     <View style={styles.root}>
-      <ChatList id={contextMeta.id} />
-      <ChatInput id={contextMeta.id} />
+      <ChatList id={currentMeta.id} />
+      <ChatInput id={currentMeta.id} />
     </View>
   );
 };

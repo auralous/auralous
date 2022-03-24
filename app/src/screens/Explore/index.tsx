@@ -3,7 +3,7 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import type { ParamList, RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
-import { useUiDispatch } from "@/ui-context";
+import { useUIDispatch } from "@/ui-context";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import type { FC } from "react";
 import { useLayoutEffect } from "react";
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
 const HeaderRight: FC = () => {
   const { t } = useTranslation();
-  const uiDispatch = useUiDispatch();
+  const uiDispatch = useUIDispatch();
 
   return (
     <Button
