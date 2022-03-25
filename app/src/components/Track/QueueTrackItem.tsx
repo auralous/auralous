@@ -50,15 +50,14 @@ const QueueTrackItem: FC<
   QueueTrackItemProps & { animStyle?: AnimatedStyleProp<ViewStyle> }
 > = ({
   uid,
-  track,
-  fetching,
+
   drag,
   checked,
   onToggle,
   onPress,
-  isPlaying,
   animStyle,
   dragging,
+  ...props
 }) => {
   const onTrackItemPressed = useMemo(() => {
     if (!onPress || !uid) return undefined;
@@ -76,7 +75,7 @@ const QueueTrackItem: FC<
         onPress={onTrackItemPressed}
         activeOpacity={onPress ? 0.2 : 1}
       >
-        <TrackItem isPlaying={isPlaying} track={track} fetching={fetching} />
+        <TrackItem {...props} />
       </TouchableOpacity>
       <TouchableWithoutFeedback onPressIn={drag} style={styles.drag}>
         <IconMenu />

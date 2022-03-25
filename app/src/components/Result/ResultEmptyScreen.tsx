@@ -1,7 +1,7 @@
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
 import { StyleSheet, View } from "react-native";
-import LoadingBlock from "./LoadingBlock";
+import EmptyBlock from "./EmptyBlock";
 
 const styles = StyleSheet.create({
   root: {
@@ -13,12 +13,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const LoadingScreen: FC = () => {
+const ResultEmptyScreen: FC = () => {
   return (
     <View style={styles.root}>
-      <LoadingBlock />
+      <EmptyBlock />
     </View>
   );
 };
 
-export default LoadingScreen;
+export default ResultEmptyScreen;

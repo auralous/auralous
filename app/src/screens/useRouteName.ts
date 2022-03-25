@@ -10,18 +10,19 @@ export const useRouteNames = () => {
     return [
       topRoute.name,
       topRoute.state.routes[topRoute.state.index || 0].name,
-    ];
-  return [topRoute.name];
+    ] as RouteName[];
+  return [topRoute.name] as RouteName[];
 };
 
-const routeWithNavbar = [
-  RouteName.Main,
-  RouteName.Explore,
-  RouteName.Notifications,
-  RouteName.Feed,
+const fullscreenRoutes = [
+  RouteName.NewFinal,
+  RouteName.NewQuickShare,
+  RouteName.NewSelectSongs,
 ];
-export const useIsRouteWithNavbar = () => {
+
+export const useIsFullscreenRoute = () => {
   const routeNames = useRouteNames();
   const routeName = routeNames[routeNames.length - 1];
-  return routeWithNavbar.includes(routeName as RouteName);
+
+  return fullscreenRoutes.includes(routeName);
 };

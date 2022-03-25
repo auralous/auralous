@@ -12,19 +12,19 @@ import player, { reorder, usePreloadedTrackQueries } from "@/player";
 import { Colors } from "@/styles/colors";
 import { Font, fontPropsFn } from "@/styles/fonts";
 import { Size } from "@/styles/spacing";
+import type { SettabbleRef } from "@/views/SettableContext";
+import {
+  SettableProvider,
+  useSettableContext,
+  useSettableHas,
+  useSettableNotEmpty,
+} from "@/views/SettableContext";
 import type { QueueItem, Track } from "@auralous/api";
 import { useTrackQuery } from "@auralous/api";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import type { SettabbleRef } from "../SettableContext";
-import {
-  SettableProvider,
-  useSettableContext,
-  useSettableHas,
-  useSettableNotEmpty,
-} from "../SettableContext";
 import { QueueAdder } from "./QueueAdder";
 
 const styles = StyleSheet.create({
@@ -88,6 +88,7 @@ const DraggableQueueItem = memo<{
         uid={params.item.uid}
         dragging={params.isDragging}
         onPress={onPress}
+        hideImage
       />
     );
   },

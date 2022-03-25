@@ -117,6 +117,7 @@ const SelectedQueueTrackItem = memo<{
         track={dataTrack?.track || null}
         fetching={fetchingTrack}
         uid={params.item} // not uid but not important
+        hideImage
       />
     );
   },

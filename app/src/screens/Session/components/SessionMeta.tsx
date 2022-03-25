@@ -24,7 +24,7 @@ const SessionMeta: FC<{
   }, [navigation, session.creator.username]);
 
   return (
-    <View style={stylesMeta.root}>
+    <View style={stylesMeta.header}>
       <View style={stylesMeta.image}>
         <Avatar
           size={40}
@@ -37,7 +37,7 @@ const SessionMeta: FC<{
         <Heading level={5} align="center" numberOfLines={1}>
           {session.text}
         </Heading>
-        <Spacer y={2} />
+        <Spacer y={3} />
         <Pressable onPress={gotoCreator}>
           <Text align="center">
             {session.collaboratorIds.length > 1

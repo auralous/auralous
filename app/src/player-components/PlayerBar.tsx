@@ -11,7 +11,7 @@ import {
   usePlaybackStateStatusContext,
 } from "@/player/Context";
 import { RouteName } from "@/screens/types";
-import { useIsRouteWithNavbar, useRouteNames } from "@/screens/useRouteName";
+import { useIsFullscreenRoute } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import { useTrackQuery } from "@auralous/api";
@@ -26,10 +26,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 export const PLAYER_BAR_HEIGHT = Size[14];
 
@@ -110,38 +107,26 @@ const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
     [isPlaying]
   );
 
-  const routeNames = useRouteNames();
-  const routeName = routeNames[routeNames.length - 1];
-  const hasTabBars = useIsRouteWithNavbar();
-
-  const hidden = hiddenRoutes.includes(routeName);
+  const hidden = useIsFullscreenRoute();
 
   const windowWidth = useWindowDimensions().width;
   const isLandscape = windowWidth >= LayoutSize.md;
 
-  const animContentStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateY: withTiming((hidden ? 1 : 0) * PLAYER_BAR_HEIGHT) },
-      ],
-    };
-  }, [hidden]);
   const animRootStyle = useAnimatedStyle(() => {
-    if (!hasTabBars || isLandscape) return { bottom: withTiming(0) };
-    return { bottom: withTiming(BOTTOM_TABS_HEIGHT) };
-  }, [hasTabBars, isLandscape]);
+    if (isLandscape) return { bottom: 0 };
+    return { bottom: BOTTOM_TABS_HEIGHT };
+  }, [isLandscape]);
 
   const { error: playbackError, fetching: playbackFetching } =
     usePlaybackStateStatusContext();
 
   const fetching = fetchingTrack || playbackFetching;
 
+  if (hidden) return null;
+
   return (
-    <Animated.View
-      pointerEvents={hidden ? "none" : "auto"}
-      style={[styles.root, animRootStyle]}
-    >
-      <Animated.View style={[styles.content, animContentStyle]}>
+    <Animated.View style={[styles.root, animRootStyle]}>
+      <Animated.View style={styles.content}>
         {/* <Animated.View
           pointerEvents="none"
           style={[styles.bg, StyleSheet.absoluteFill, animatedBgStyle]}

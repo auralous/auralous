@@ -4,6 +4,7 @@ import {
   NotificationFollowItem,
   NotificationNewSessionItem,
 } from "@/components/Notification";
+import { ResultEmptyScreen } from "@/components/Result";
 import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
@@ -104,7 +105,7 @@ export const NotificationsScreenContent = () => {
       contentContainerStyle={containerStyle}
       onEndReached={onEndReached}
       onEndReachedThreshold={Dimensions.get("window").height / 5}
-      ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+      ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
       data={data?.notifications || []}
       renderItem={renderItem}
       getItemLayout={getItemLayout}

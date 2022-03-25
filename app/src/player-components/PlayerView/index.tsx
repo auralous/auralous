@@ -30,7 +30,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import PlayerBar from "./PlayerBar";
+import PlayerBar from "../PlayerBar";
 import PlayerViewBackground from "./PlayerViewBackground";
 
 const PlayerViewContent = lazy(() => import("./PlayerViewContent"));
@@ -107,6 +107,7 @@ const BackgroundComponent: FC<BottomSheetBackgroundProps> = ({
   pointerEvents,
 }) => <PlayerViewBackground style={style} pointerEvents={pointerEvents} />;
 
+const suspenseFallback = <LoadingScreen />;
 const PlayerView: FC = () => {
   const navigation = useNavigation();
 
@@ -147,7 +148,7 @@ const PlayerView: FC = () => {
       >
         <SafeAreaView style={styles.root}>
           <PlayerViewHeader onDismiss={dismiss} />
-          <Suspense fallback={<LoadingScreen />}>
+          <Suspense fallback={suspenseFallback}>
             {windowWidth >= LayoutSize.lg ? (
               <PlayerViewContentLand />
             ) : (

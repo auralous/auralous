@@ -140,7 +140,7 @@ const SessionScreen: FC<
   return (
     <SafeAreaView style={styles.root}>
       {fetching ? (
-        <LoadingScreen />
+        LoadingScreen
       ) : data?.session ? (
         <>
           <SessionScreenContent session={data.session} />

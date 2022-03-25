@@ -151,7 +151,7 @@ function HorizontalList<ItemT>({
       <FlatList
         {...props}
         ref={ref}
-        style={styles.list}
+        style={[styles.list, { minHeight: itemStyle.width }]}
         horizontal
         renderItem={renderItemsFL}
         ItemSeparatorComponent={ItemSeparatorComponent}

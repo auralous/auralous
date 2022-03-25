@@ -217,7 +217,8 @@
       "search": "Search"
     },
     "result": {
-      "search_empty": "Cannot not find anything here. Let's try something different!"
+      "search_empty": "Cannot not find any results.",
+      "empty": "Nothing here."
     },
     "input": {
       "max_x_characters": "Max {{max}} characters"

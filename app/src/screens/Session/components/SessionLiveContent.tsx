@@ -91,18 +91,16 @@ const SessionLiveTrack: FC<{ session: Session }> = ({ session }) => {
 
   const track = dataNowPlaying?.nowPlaying ? dataTrack?.track : null;
 
+  const fetching = fetchingTrack || fetchingNowPlaying;
+
   return (
     <View style={styles.content}>
       <Text bold>{t("now_playing.title")}</Text>
       <Spacer y={2} />
       <View style={styles.track}>
-        {track && (
-          <TrackItem
-            isPlaying
-            track={track || null}
-            fetching={fetchingTrack || fetchingNowPlaying}
-          />
-        )}
+        {track || fetching ? (
+          <TrackItem isPlaying track={track || null} fetching={fetching} />
+        ) : null}
       </View>
     </View>
   );

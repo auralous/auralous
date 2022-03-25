@@ -6,6 +6,7 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import type { PlaybackCurrentMeta } from "@/player";
 import { Size } from "@/styles/spacing";
+import { useTimeDiffFormatter } from "@/ui-context";
 import { AuthPrompt } from "@/views/AuthPrompt";
 import type { Message } from "@auralous/api";
 import {
@@ -67,6 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
+    marginBottom: Size[3],
   },
 });
 
@@ -92,14 +94,19 @@ const ChatItemJoin = memo<{
 const ChatItemText = memo<{ message: Message }>(function ChatItemText({
   message,
 }) {
+  const tdf = useTimeDiffFormatter();
+  const timeDiffText = useMemo(() => tdf(message.createdAt), [tdf, message]);
   return (
     <View style={styles.listItem}>
       <View style={styles.content}>
         <View style={styles.textHead}>
           <Text bold>{message.creator.username}</Text>
+          <Spacer x={2} />
+          <Text size="sm" color="textTertiary">
+            {timeDiffText}
+          </Text>
         </View>
-        <Spacer y={2} />
-        <Text color="text" lineGapScale={1}>
+        <Text color="textSecondary" lineGapScale={1}>
           {message.text}
         </Text>
       </View>

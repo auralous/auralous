@@ -1,9 +1,7 @@
 import { IconChevronLeft } from "@/assets";
 import { Button } from "@/components/Button";
-import BottomTabs from "@/components/Layout/BottomTabs";
 import { LoadingScreen } from "@/components/Loading";
 import { NullComponent } from "@/components/misc";
-import { PLAYER_BAR_HEIGHT } from "@/player-components/PlayerView/PlayerBar";
 import { Font, fontPropsFn } from "@/styles/fonts";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import type { LinkingOptions } from "@react-navigation/native";
@@ -50,14 +48,14 @@ export const linking: LinkingOptions<ParamList> = {
     },
   },
 };
-
+const suspenseFallback = <LoadingScreen />;
 const wrappedLazy = <T extends ComponentType<any>>(
   factory: () => Promise<{ default: T }>
 ) => {
   const Component = lazy(factory);
   return function WrappedLazyComponent(props: ComponentProps<T>) {
     return (
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense fallback={suspenseFallback}>
         <Component {...props} />
       </Suspense>
     );
@@ -93,15 +91,11 @@ const Tab = createBottomTabNavigator();
 
 const headerTitleStyle = { ...fontPropsFn(Font.NotoSans, "bold") };
 
-const HeaderLeft: FC<HeaderBackButtonProps> = ({ canGoBack }) => {
+const HeaderLeft: FC<HeaderBackButtonProps> = () => {
   const navigation = useNavigation();
   return (
     <Button
-      onPress={
-        canGoBack
-          ? navigation.goBack
-          : () => navigation.navigate(RouteName.Main)
-      }
+      onPress={navigation.goBack}
       variant="text"
       icon={<IconChevronLeft />}
     />
@@ -132,16 +126,13 @@ const Navigator: FC = () => {
             screenOptions={{
               headerTitleStyle,
             }}
-            tabBar={(props) => <BottomTabs {...props} />}
+            tabBar={NullComponent}
           >
             <Tab.Screen
               name={RouteName.Explore}
               component={ExploreScreen}
               options={{
                 title: t("explore.title"),
-                tabBarStyle: {
-                  marginTop: PLAYER_BAR_HEIGHT,
-                },
               }}
             />
             <Tab.Screen
@@ -149,9 +140,6 @@ const Navigator: FC = () => {
               component={FeedScreen}
               options={{
                 title: t("feed.title"),
-                tabBarStyle: {
-                  marginTop: PLAYER_BAR_HEIGHT,
-                },
               }}
             />
             <Tab.Screen
@@ -159,9 +147,6 @@ const Navigator: FC = () => {
               component={NotificationsScreen}
               options={{
                 title: t("notifications.title"),
-                tabBarStyle: {
-                  marginTop: PLAYER_BAR_HEIGHT,
-                },
               }}
             />
           </Tab.Navigator>
@@ -172,9 +157,6 @@ const Navigator: FC = () => {
         component={SearchScreen}
         options={{
           title: t("search.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       <Stack.Screen
@@ -182,9 +164,6 @@ const Navigator: FC = () => {
         component={ExploreRecommendationScreen}
         options={{
           title: t("explore.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       <Stack.Screen
@@ -192,9 +171,6 @@ const Navigator: FC = () => {
         component={SessionsScreen}
         options={{
           title: t("explore.recent_sessions.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       <Stack.Screen
@@ -202,9 +178,6 @@ const Navigator: FC = () => {
         component={SettingsScreen}
         options={{
           title: t("settings.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       <Stack.Screen
@@ -212,9 +185,7 @@ const Navigator: FC = () => {
         component={UserScreen}
         options={{
           title: t("user.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
+          headerTitle: NullComponent,
         }}
       />
       <Stack.Screen
@@ -222,9 +193,6 @@ const Navigator: FC = () => {
         component={UserFollowersScreen}
         options={{
           title: t("user.followers"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       <Stack.Screen
@@ -232,9 +200,6 @@ const Navigator: FC = () => {
         component={UserFollowingScreen}
         options={{
           title: t("user.following"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       <Stack.Screen
@@ -242,9 +207,6 @@ const Navigator: FC = () => {
         component={PlaylistScreen}
         options={{
           title: t("playlist.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
           ...blankHeaderTitle,
         }}
       />
@@ -253,9 +215,6 @@ const Navigator: FC = () => {
         component={SessionScreen}
         options={{
           title: t("session.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
           ...blankHeaderTitle,
         }}
       />
@@ -264,9 +223,6 @@ const Navigator: FC = () => {
         component={SessionEditScreen}
         options={{
           title: t("session_edit.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       <Stack.Screen
@@ -274,9 +230,6 @@ const Navigator: FC = () => {
         component={SessionListenersScreen}
         options={{
           title: t("session_listeners.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       <Stack.Screen
@@ -284,9 +237,6 @@ const Navigator: FC = () => {
         component={SessionCollaboratorsScreen}
         options={{
           title: t("collab.title"),
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       <Stack.Screen
@@ -294,9 +244,6 @@ const Navigator: FC = () => {
         component={SessionInviteScreen}
         options={{
           title: "",
-          contentStyle: {
-            paddingBottom: PLAYER_BAR_HEIGHT,
-          },
         }}
       />
       {Platform.OS !== "web" && (

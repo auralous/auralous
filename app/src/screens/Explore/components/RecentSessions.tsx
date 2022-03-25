@@ -1,6 +1,7 @@
 import type { HorizontalListProps } from "@/components/ContentList";
 import { HorizontalList } from "@/components/ContentList";
 import { LoadingScreen } from "@/components/Loading";
+import { ResultEmptyScreen } from "@/components/Result";
 import { SessionItem } from "@/components/Session";
 import { RouteName } from "@/screens/types";
 import type { Session } from "@auralous/api";
@@ -49,7 +50,7 @@ const RecentSessions: FC = () => {
     <HorizontalList
       style={scrollStyles.scroll}
       contentContainerStyle={scrollStyles.scrollContent}
-      ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+      ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
       data={data?.sessions}
       renderItem={renderItem}
     />

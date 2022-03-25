@@ -4,7 +4,7 @@ import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { useFlatlist6432Layout } from "@/styles/flatlist";
 import { Size } from "@/styles/spacing";
-import { useUILayout } from "@/ui-context/UIContext";
+import { use6432Layout } from "@/ui-context";
 import type { Session } from "@auralous/api";
 import { useSessionsQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 const RecommendationItem = memo<{ session: Session }>(
   function RecommendationItem({ session }) {
     const navigation = useNavigation();
-    const uiNumColumn = useUILayout().column6432;
+    const uiNumColumn = use6432Layout();
     return (
       <TouchableOpacity
         style={[styles.item, { maxWidth: (1 / uiNumColumn) * 100 + "%" }]}

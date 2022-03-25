@@ -217,7 +217,8 @@
       "search": "Tìm kiếm"
     },
     "result": {
-      "search_empty": "Không tìm thấy kết quả. Thử lại nào!"
+      "search_empty": "Không tìm thấy kết quả.",
+      "empty": "Không có gì tại đây."
     },
     "input": {
       "max_x_characters": "Tối đa {{max}} kí tự"

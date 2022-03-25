@@ -1,4 +1,5 @@
 import { LoadingScreen } from "@/components/Loading";
+import { ResultEmptyScreen } from "@/components/Result";
 import { Spacer } from "@/components/Spacer";
 import { UserListItem } from "@/components/User";
 import { RouteName } from "@/screens/types";
@@ -61,7 +62,7 @@ export const SocialUserList: FC<SocialUserListProps> = ({
 }) => {
   return (
     <FlatList
-      ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+      ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
       ItemSeparatorComponent={ItemSeparatorComponent}
       data={users || []}
       renderItem={renderItem}

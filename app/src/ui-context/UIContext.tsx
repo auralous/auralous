@@ -1,7 +1,6 @@
 import type { PlaybackSelection } from "@/player";
 import type { Dispatch, FC, ReactNode } from "react";
-import { createContext, useContext, useMemo, useReducer } from "react";
-import { use6432Layout } from "./layout";
+import { createContext, useContext, useReducer } from "react";
 import { TimeDiffFormatterProvider } from "./TimeDiffFormatter";
 
 interface UIState {
@@ -64,23 +63,15 @@ const uiInitialValues: UIState = {
 const UIContext = createContext(
   undefined as unknown as [UIState, Dispatch<Action<keyof UIState>>]
 );
-const UILayoutContext = createContext({} as UILayoutValue);
-
 export const UIContextProvider: FC = ({ children }) => {
   const uiReducer = useReducer(reducer, uiInitialValues);
-  const column6432 = use6432Layout();
-  const layout = useMemo<UILayoutValue>(() => ({ column6432 }), [column6432]);
 
   return (
     <UIContext.Provider value={uiReducer}>
-      <UILayoutContext.Provider value={layout}>
-        <TimeDiffFormatterProvider>{children}</TimeDiffFormatterProvider>
-      </UILayoutContext.Provider>
+      <TimeDiffFormatterProvider>{children}</TimeDiffFormatterProvider>
     </UIContext.Provider>
   );
 };
 
 export const useUIDispatch = () => useContext(UIContext)[1];
 export const useUI = () => useContext(UIContext)[0];
-
-export const useUILayout = () => useContext(UILayoutContext);

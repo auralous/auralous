@@ -1,5 +1,6 @@
 import { LoadingScreen } from "@/components/Loading";
 import { PlaylistListItem } from "@/components/Playlist";
+import { ResultEmptyScreen } from "@/components/Result";
 import { Spacer } from "@/components/Spacer";
 import { Size } from "@/styles/spacing";
 import type { Playlist } from "@auralous/api";
@@ -7,7 +8,6 @@ import type { FC } from "react";
 import { useCallback } from "react";
 import type { ListRenderItem } from "react-native";
 import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
-import SearchEmpty from "./SearchEmpty";
 
 interface SelectablePlaylistListProps {
   fetching: boolean;
@@ -51,7 +51,7 @@ const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
 
   return (
     <FlatList
-      ListEmptyComponent={fetching ? <LoadingScreen /> : <SearchEmpty />}
+      ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
       ItemSeparatorComponent={ItemSeparatorComponent}
       data={playlists}
       renderItem={renderItem}

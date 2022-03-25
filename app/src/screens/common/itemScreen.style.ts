@@ -8,6 +8,13 @@ export const stylesMeta = StyleSheet.create({
     justifyContent: "center",
     padding: Size[1],
   },
+  header: {
+    alignItems: "center",
+    height: 328,
+    paddingBottom: Size[3],
+    paddingHorizontal: Size[6],
+    paddingTop: 0,
+  },
   image: {
     height: Size[40],
     marginBottom: 10,
@@ -15,15 +22,9 @@ export const stylesMeta = StyleSheet.create({
   },
   meta: {
     alignItems: "center",
-    paddingVertical: Size[2],
+    paddingBottom: Size[4],
+    paddingTop: Size[2],
     width: "100%",
-  },
-  root: {
-    alignItems: "center",
-    height: 320,
-    paddingBottom: Size[3],
-    paddingHorizontal: Size[6],
-    paddingTop: 0,
   },
   tag: {
     flexDirection: "row",

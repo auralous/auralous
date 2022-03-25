@@ -7,6 +7,7 @@ import { Spacer } from "@/components/Spacer";
 import { toast } from "@/components/Toast";
 import { Heading } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
+import { AuthPrompt } from "@/views/AuthPrompt";
 import type { Playlist, Track } from "@auralous/api";
 import {
   useMeQuery,
@@ -24,7 +25,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { AuthPrompt } from "../AuthPrompt";
 
 const styles = StyleSheet.create({
   create: {

@@ -1,6 +1,7 @@
 import { Button } from "@/components/Button";
 import { useContainerStyle } from "@/components/Container";
 import { LoadingScreen } from "@/components/Loading";
+import { ResultEmptyScreen } from "@/components/Result";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
@@ -184,7 +185,7 @@ const SessionNonLiveContent: FC<{
   return (
     <FlatList
       ListHeaderComponent={ListHeadComponent}
-      ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
+      ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
       ItemSeparatorComponent={ItemSeparatorComponent}
       style={styles.root}
       contentContainerStyle={containerStyle}

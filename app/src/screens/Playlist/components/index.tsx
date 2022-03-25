@@ -1,5 +1,6 @@
 import { useContainerStyle } from "@/components/Container";
 import { LoadingScreen } from "@/components/Loading";
+import { ResultEmptyScreen } from "@/components/Result";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import type { PlaybackStateQueue } from "@/player";
@@ -127,7 +128,7 @@ export const PlaylistScreenContent: FC<{
     <View style={styles.root}>
       <FlatList
         ListHeaderComponent={ListHeaderComponent}
-        ListEmptyComponent={fetching ? <LoadingScreen /> : undefined}
+        ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
         ItemSeparatorComponent={ItemSeparatorComponent}
         contentContainerStyle={containerStyle}
         data={data?.playlistTracks || []}

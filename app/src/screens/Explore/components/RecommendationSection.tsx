@@ -2,6 +2,7 @@ import type { HorizontalListProps } from "@/components/ContentList";
 import { HorizontalList } from "@/components/ContentList";
 import { LoadingScreen } from "@/components/Loading";
 import { PlaylistItem } from "@/components/Playlist";
+import { ResultEmptyScreen } from "@/components/Result";
 import { RouteName } from "@/screens/types";
 import type { Playlist } from "@auralous/api";
 import { useRecommendationContentQuery } from "@auralous/api";
@@ -60,7 +61,7 @@ const RecommendationSection: FC<{
         contentContainerStyle={scrollStyles.scrollContent}
         data={data?.recommendationContent}
         renderItem={renderItem}
-        ListEmptyComponent={fetching ? <LoadingScreen /> : null}
+        ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
       />
     </ExploreSection>
   );

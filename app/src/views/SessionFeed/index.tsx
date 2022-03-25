@@ -1,4 +1,5 @@
 import { LoadingScreen } from "@/components/Loading";
+import { ResultEmptyScreen } from "@/components/Result";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { Session, SessionsQueryVariables } from "@auralous/api";
@@ -71,7 +72,7 @@ export const SessionFeed: FC<
       style={styles.root}
       renderItem={renderItem}
       getItemLayout={getItemLayout}
-      ListEmptyComponent={fetching ? LoadingScreen : null}
+      ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
       ItemSeparatorComponent={ItemSeparatorComponent}
       data={data?.sessions}
       onEndReached={loadMore}

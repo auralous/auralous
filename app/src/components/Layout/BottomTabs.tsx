@@ -1,25 +1,22 @@
-import { IconActivity, IconLogIn, IconSearch, IconZap } from "@/assets";
+import { IconLogIn } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { RNLink } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
+import { useRouteNames } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";
-import { LayoutSize } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
-import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import type { FC } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { ViewStyle } from "react-native";
-import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
+import { mainRoutes } from "./mainRoutes";
 
 export const BOTTOM_TABS_HEIGHT = 48;
 
 const styles = StyleSheet.create({
-  hidden: {
-    height: 0,
-  },
   root: {
     backgroundColor: Colors.background,
     borderTopColor: Colors.border,
@@ -50,7 +47,7 @@ const Tab: FC<{
 }> = ({ Icon, name, isFocused, children }) => {
   return (
     <RNLink
-      to={{ screen: name }}
+      to={{ screen: RouteName.Main, params: { screen: name } }}
       style={[styles.tab, isFocused && styles.tabFocused]}
       accessibilityLabel={children}
     >
@@ -88,42 +85,32 @@ const TabProfile: FC = () => {
   );
 };
 
-const BottomTabs: FC<BottomTabBarProps> = ({ state, descriptors }) => {
+const mainRouteNames = mainRoutes.map((mr) => mr.name);
+const BottomTabs: FC = () => {
   const { t } = useTranslation();
-  const windowWidth = useWindowDimensions().width;
-  const isLandscape = windowWidth >= LayoutSize.md;
+
+  const routeNames = useRouteNames();
+  const routeName = routeNames[routeNames.length - 1];
+
+  const [lastRouteName, setLastRouteName] = useState(RouteName.Explore);
+  useEffect(() => {
+    if (mainRouteNames.includes(routeName)) setLastRouteName(routeName);
+  }, [routeName]);
+
   return (
-    <View
-      style={[
-        styles.root,
-        descriptors[state.routes[state.index].key].options
-          .tabBarStyle as ViewStyle,
-        isLandscape && styles.hidden,
-      ]}
-      {...(isLandscape && {
-        accessibilityElementsHidden: true,
-        importantForAccessibility: "no-hide-descendants",
-      })}
-    >
-      <Tab
-        name={RouteName.Explore}
-        Icon={IconSearch}
-        isFocused={state.index === 0}
-      >
-        {t("explore.title")}
-      </Tab>
-      <Spacer y={2} />
-      <Tab name={RouteName.Feed} Icon={IconZap} isFocused={state.index === 1}>
-        {t("feed.title")}
-      </Tab>
-      <Spacer y={2} />
-      <Tab
-        name={RouteName.Notifications}
-        Icon={IconActivity}
-        isFocused={state.index === 2}
-      >
-        {t("notifications.title")}
-      </Tab>
+    <View style={styles.root}>
+      {mainRoutes.map((mainRoute) => (
+        <Fragment key={mainRoute.name}>
+          <Tab
+            name={mainRoute.name}
+            Icon={mainRoute.Icon}
+            isFocused={lastRouteName === mainRoute.name}
+          >
+            {t(mainRoute.tTitle)}
+          </Tab>
+          <Spacer y={2} />
+        </Fragment>
+      ))}
       <Spacer y={2} />
       <TabProfile />
     </View>

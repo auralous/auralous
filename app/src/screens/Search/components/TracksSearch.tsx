@@ -1,14 +1,13 @@
 import { LoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
-import { Text } from "@/components/Typography";
 import { useFlatlist6432Layout } from "@/styles/flatlist";
 import { Size } from "@/styles/spacing";
+import SearchEmpty from "@/views/SongSelector/SearchEmpty";
 import type { Track } from "@auralous/api";
 import { useSearchTrackQuery } from "@auralous/api";
 import type { FC } from "react";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
@@ -28,7 +27,6 @@ const renderItem: ListRenderItem<Track> = ({ item }) => (
 
 const ItemSeparatorComponent = () => <Spacer y={2} />;
 const TracksSearch: FC<{ query: string }> = ({ query }) => {
-  const { t } = useTranslation();
   const [{ data: dataQuery, fetching }] = useSearchTrackQuery({
     variables: { query },
   });
@@ -41,15 +39,7 @@ const TracksSearch: FC<{ query: string }> = ({ query }) => {
       renderItem={renderItem}
       data={data}
       style={styles.root}
-      ListEmptyComponent={
-        fetching ? (
-          <LoadingScreen />
-        ) : (
-          <Text color="textSecondary" align="center">
-            {t("common.result.search_empty")}
-          </Text>
-        )
-      }
+      ListEmptyComponent={fetching ? LoadingScreen : SearchEmpty}
       ItemSeparatorComponent={ItemSeparatorComponent}
     />
   );

@@ -15,6 +15,7 @@ export interface TrackItemProps {
   track: Maybe<Track>;
   fetching?: boolean;
   isPlaying?: boolean;
+  hideImage?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -52,7 +53,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const TrackItem: FC<TrackItemProps> = ({ track, isPlaying, fetching }) => {
+const TrackItem: FC<TrackItemProps> = ({
+  track,
+  isPlaying,
+  fetching,
+  hideImage,
+}) => {
   const durationStr = useMemo(() => {
     if (!track) return "";
     const [sec, min] = msToHMS(track.duration, true);
@@ -61,23 +67,25 @@ const TrackItem: FC<TrackItemProps> = ({ track, isPlaying, fetching }) => {
 
   return (
     <View style={styles.root}>
-      <View>
-        {fetching ? (
-          <SkeletonBlock width={12} height={12} />
-        ) : (
-          <Image
-            style={styles.image}
-            source={track?.image ? { uri: track?.image } : imageDefaultTrack}
-            defaultSource={imageDefaultTrack}
-            accessibilityLabel={track?.title}
-          />
-        )}
-        {isPlaying && (
-          <View style={styles.isPlaying}>
-            <Image source={imageIconPlaying} style={styles.isPlayingIcon} />
-          </View>
-        )}
-      </View>
+      {hideImage ? null : (
+        <View>
+          {fetching ? (
+            <SkeletonBlock width={12} height={12} />
+          ) : (
+            <Image
+              style={styles.image}
+              source={track?.image ? { uri: track?.image } : imageDefaultTrack}
+              defaultSource={imageDefaultTrack}
+              accessibilityLabel={track?.title}
+            />
+          )}
+          {isPlaying && (
+            <View style={styles.isPlaying}>
+              <Image source={imageIconPlaying} style={styles.isPlayingIcon} />
+            </View>
+          )}
+        </View>
+      )}
       <View style={styles.meta}>
         {fetching ? (
           <SkeletonBlock width={36} height={4} />

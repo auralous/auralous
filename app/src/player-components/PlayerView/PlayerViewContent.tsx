@@ -5,6 +5,7 @@ import {
   useBackHandlerDismiss,
   useDialog,
 } from "@/components/Dialog";
+import { Text } from "@/components/Typography";
 import { useCurrentPlaybackMeta } from "@/player";
 import { usePlaybackStateQueueContext } from "@/player/Context";
 import type { PlaybackStateQueue } from "@/player/types";
@@ -71,7 +72,13 @@ const ChatSheet: FC<{
     <SafeAreaView style={sheetStyles.root}>
       <SheetTitle onClose={onClose} title={t("chat.title")} />
       <View style={sheetStyles.content}>
-        <ChatView currentMeta={currentMeta} />
+        {currentMeta?.isLive ? (
+          <ChatView currentMeta={currentMeta} />
+        ) : (
+          <Text align="center" bold color="textSecondary">
+            {t("chat.not_live")}
+          </Text>
+        )}
       </View>
     </SafeAreaView>
   );

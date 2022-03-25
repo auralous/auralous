@@ -30,7 +30,7 @@ const PlaylistMeta: FC<{
   }, [playlist, onQuickShare]);
 
   return (
-    <View style={stylesMeta.root}>
+    <View style={stylesMeta.header}>
       <Image
         source={playlist.image ? { uri: playlist.image } : imageDefaultPlaylist}
         defaultSource={imageDefaultPlaylist}
