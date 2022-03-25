@@ -52,6 +52,8 @@ const renderItem: ListRenderItem<Session> = ({ item }) => (
 
 const LIMIT = 20;
 
+const onEndReachedThreshold = Dimensions.get("window").height / 5;
+
 const SessionsScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.Sessions>
 > = () => {
@@ -81,7 +83,7 @@ const SessionsScreen: FC<
       contentContainerStyle={containerStyle}
       numColumns={numColumns}
       onEndReached={loadMore}
-      onEndReachedThreshold={Dimensions.get("window").height / 5}
+      onEndReachedThreshold={onEndReachedThreshold}
     />
   );
 };

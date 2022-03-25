@@ -6,6 +6,7 @@ export enum RouteName {
   Explore = "explore",
   ExploreRecommendation = "explore/recommendation",
   Search = "search",
+  Feed = "feed",
   Sessions = "sessions",
   SignIn = "sign-in",
   User = "user",
@@ -29,6 +30,9 @@ export interface ParamList extends ParamListBase {
   [RouteName.Explore]: undefined;
   [RouteName.Search]: {
     query: string;
+  };
+  [RouteName.Feed]?: {
+    feed: string;
   };
   [RouteName.ExploreRecommendation]: {
     id: string;

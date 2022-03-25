@@ -1,4 +1,10 @@
-import { IconActivity, IconLogIn, IconLogo, IconSearch } from "@/assets";
+import {
+  IconActivity,
+  IconLogIn,
+  IconLogo,
+  IconSearch,
+  IconZap,
+} from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { RNLink, Text } from "@/components/Typography";
@@ -100,6 +106,10 @@ const Sidebar: FC = () => {
       </View>
       <SidebarButton name={RouteName.Explore} icon={<IconSearch />}>
         {t("explore.title")}
+      </SidebarButton>
+      <Spacer y={2} />
+      <SidebarButton name={RouteName.Feed} icon={<IconZap />}>
+        {t("feed.title")}
       </SidebarButton>
       <Spacer y={2} />
       <SidebarButton name={RouteName.Notifications} icon={<IconActivity />}>

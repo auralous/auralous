@@ -2,7 +2,7 @@ import imageDefaultUser from "@/assets/images/default_user.jpg";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
-import { formatTime } from "@/utils/ms";
+import { useTimeDiffFormatter } from "@/ui-context";
 import type {
   Notification,
   NotificationFollow,
@@ -39,14 +39,11 @@ const styles = StyleSheet.create({
 const NotificationTimeDiff: FC<{ notification: Notification }> = ({
   notification,
 }) => {
-  const { t } = useTranslation();
-  const timeDiffText = useMemo(() => {
-    const diff = Date.now() - notification.createdAt.getTime();
-    if (diff < 60 * 1000) {
-      return t("common.time.just_now");
-    }
-    return t("common.time.ago", { time: formatTime(t, diff) });
-  }, [t, notification.createdAt]);
+  const tdf = useTimeDiffFormatter();
+  const timeDiffText = useMemo(
+    () => tdf(notification.createdAt),
+    [tdf, notification.createdAt]
+  );
   return (
     <Text style={styles.timeDiff} color="textSecondary" size="sm">
       {timeDiffText}

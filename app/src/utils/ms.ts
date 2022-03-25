@@ -1,4 +1,4 @@
-import type { TFunction } from "react-i18next";
+import { t } from "i18next";
 
 const SEC = 1e3,
   MIN = SEC * 60,
@@ -6,7 +6,7 @@ const SEC = 1e3,
   DAY = HOUR * 24,
   YEAR = DAY * 365.25;
 
-export function formatTime(t: TFunction, num: number) {
+export function formatTime(num: number) {
   if (num < SEC) return num + " ms";
   if (num < MIN)
     return t("common.time.x_second", { count: Math.round(num / SEC) });

@@ -18,6 +18,7 @@ const routeWithNavbar = [
   RouteName.Main,
   RouteName.Explore,
   RouteName.Notifications,
+  RouteName.Feed,
 ];
 export const useIsRouteWithNavbar = () => {
   const routeNames = useRouteNames();

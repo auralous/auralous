@@ -4,7 +4,7 @@ import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import { formatTime } from "@/utils/ms";
+import { useTimeDiffFormatter } from "@/ui-context";
 import type { Session } from "@auralous/api";
 import type { FC } from "react";
 import { useMemo } from "react";
@@ -56,16 +56,14 @@ const styles = StyleSheet.create({
 
 const SessionItem: FC<SessionItemProps> = ({ session }) => {
   const { t } = useTranslation();
-
-  const dateStr = useMemo(() => {
-    if (!session) return "";
-    if (session.isLive) return t("common.status.live").toUpperCase();
-    const diff = Date.now() - session.createdAt.getTime();
-    if (diff < 60 * 1000) {
-      return t("common.time.just_now");
-    }
-    return t("common.time.ago", { time: formatTime(t, diff) });
-  }, [session, t]);
+  const tdf = useTimeDiffFormatter();
+  const timeDiffText = useMemo(
+    () =>
+      session.isLive
+        ? t("common.status.live").toUpperCase()
+        : tdf(session.createdAt),
+    [tdf, t, session]
+  );
 
   return (
     <View style={styles.root}>
@@ -98,7 +96,7 @@ const SessionItem: FC<SessionItemProps> = ({ session }) => {
                 session.isLive && { backgroundColor: Colors.primary },
               ]}
             >
-              <Text size="xs">{dateStr}</Text>
+              <Text size="xs">{timeDiffText}</Text>
             </View>
           </View>
         </View>

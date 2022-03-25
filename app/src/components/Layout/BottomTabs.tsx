@@ -1,4 +1,4 @@
-import { IconActivity, IconLogIn, IconSearch } from "@/assets";
+import { IconActivity, IconLogIn, IconSearch, IconZap } from "@/assets";
 import { Avatar } from "@/components/Avatar";
 import { Spacer } from "@/components/Spacer";
 import { RNLink } from "@/components/Typography";
@@ -113,10 +113,14 @@ const BottomTabs: FC<BottomTabBarProps> = ({ state, descriptors }) => {
         {t("explore.title")}
       </Tab>
       <Spacer y={2} />
+      <Tab name={RouteName.Feed} Icon={IconZap} isFocused={state.index === 1}>
+        {t("feed.title")}
+      </Tab>
+      <Spacer y={2} />
       <Tab
         name={RouteName.Notifications}
         Icon={IconActivity}
-        isFocused={state.index === 1}
+        isFocused={state.index === 2}
       >
         {t("notifications.title")}
       </Tab>

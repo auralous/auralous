@@ -1,10 +1,4 @@
 {
-  "feed": {
-    "title": "Feed",
-    "feed_empty": "No sessions found at the moment",
-    "for_you": "For you",
-    "following": "Following"
-  },
   "explore": {
     "title": "Explore",
     "friends_playlists": {
@@ -23,6 +17,17 @@
   "search": {
     "title": "Search",
     "placeholder": "Search playlists and sessions"
+  },
+  "feed": {
+    "title": "Feed",
+    "following": {
+      "title": "Following",
+      "description": "The latest sessions from people you follow"
+    },
+    "near": {
+      "title": "Near You",
+      "description": "The music being listened around you"
+    }
   },
   "new": {
     "title": "Create Session",
@@ -59,8 +64,7 @@
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": "Followers",
-    "following": "Following",
-    "share_a_session": "<0>{{ username }}</0> hosts a session"
+    "following": "Following"
   },
   "playlist": {
     "title": "Playlist",
@@ -83,8 +87,7 @@
     "join_live": "Join LIVE",
     "go_to_session": "Go to session",
     "text": "What's on your mind",
-    "session_of_name": "{{ name }}'s session",
-    "artists_preview": "{{ artistNames }}, and more"
+    "session_of_name": "{{ name }}'s session"
   },
   "session_invite": {
     "title": "You are invited to collaborate in \"{{ name }}\"",

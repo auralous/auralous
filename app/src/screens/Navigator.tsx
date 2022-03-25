@@ -27,6 +27,7 @@ export const linking: LinkingOptions<ParamList> = {
         // @ts-ignore
         screens: {
           [RouteName.Explore]: "",
+          [RouteName.Feed]: "feed",
           [RouteName.Notifications]: "notifications",
         },
       },
@@ -85,6 +86,7 @@ const NewFinalScreen = wrappedLazy(() => import("./NewFinal"));
 const SettingsScreen = wrappedLazy(() => import("./Settings"));
 const NotificationsScreen = wrappedLazy(() => import("./Notifications"));
 const SearchScreen = wrappedLazy(() => import("./Search"));
+const FeedScreen = wrappedLazy(() => import("./Feed"));
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -137,6 +139,16 @@ const Navigator: FC = () => {
               component={ExploreScreen}
               options={{
                 title: t("explore.title"),
+                tabBarStyle: {
+                  marginTop: PLAYER_BAR_HEIGHT,
+                },
+              }}
+            />
+            <Tab.Screen
+              name={RouteName.Feed}
+              component={FeedScreen}
+              options={{
+                title: t("feed.title"),
                 tabBarStyle: {
                   marginTop: PLAYER_BAR_HEIGHT,
                 },
@@ -203,7 +215,6 @@ const Navigator: FC = () => {
           contentStyle: {
             paddingBottom: PLAYER_BAR_HEIGHT,
           },
-          ...blankHeaderTitle,
         }}
       />
       <Stack.Screen

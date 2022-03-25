@@ -2,6 +2,7 @@ import type { PlaybackSelection } from "@/player";
 import type { Dispatch, FC, ReactNode } from "react";
 import { createContext, useContext, useMemo, useReducer } from "react";
 import { use6432Layout } from "./layout";
+import { TimeDiffFormatterProvider } from "./TimeDiffFormatter";
 
 interface UIState {
   newSession: { visible: boolean };
@@ -73,7 +74,7 @@ export const UIContextProvider: FC = ({ children }) => {
   return (
     <UIContext.Provider value={uiReducer}>
       <UILayoutContext.Provider value={layout}>
-        {children}
+        <TimeDiffFormatterProvider>{children}</TimeDiffFormatterProvider>
       </UILayoutContext.Provider>
     </UIContext.Provider>
   );
