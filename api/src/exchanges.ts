@@ -225,14 +225,15 @@ export const setupExchanges = ({
   getToken,
   generateHash,
 }: SetupExchangesOptions) => {
-  if (!wsClient) {
-    wsClient = createWSClient({
-      async url() {
-        const accessToken = await getToken();
-        return `${websocketUri}/graphql-ws?access_token=${accessToken}`;
-      },
-    });
+  if (wsClient) {
+    wsClient.dispose();
   }
+  wsClient = createWSClient({
+    async url() {
+      const accessToken = await getToken();
+      return `${websocketUri}/graphql-ws?access_token=${accessToken}`;
+    },
+  });
   return [
     ...(process.env.NODE_ENV !== "production" ? [devtoolsExchange] : []),
     dedupExchange,

@@ -5,7 +5,7 @@ import type {
   CrossTracksQueryVariables,
   PlatformName,
 } from "@auralous/api";
-import { CrossTracksDocument } from "@auralous/api";
+import { CrossTracksDocument, MeDocument } from "@auralous/api";
 import mitt from "mitt";
 import { registerLivePlayback } from "./live";
 import { registerOnDemand } from "./on-demand";
@@ -150,6 +150,19 @@ class Player {
   }
   queueAdd(trackIds: string[]) {
     this.playbackFn?.queueAdd(trackIds);
+  }
+
+  /**
+   * 3rd party auth
+   */
+  retryAuth() {
+    return this.gqlClient
+      .query(MeDocument, undefined, { requestPolicy: "cache-and-network" }) /// query to force new access token
+      .toPromise()
+      .then(({ data, error }) => {
+        if (!data) return Promise.reject(new Error("authentication error"));
+        if (error?.graphQLErrors) return Promise.reject(error.graphQLErrors[0]);
+      });
   }
 
   /**

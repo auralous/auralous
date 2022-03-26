@@ -127,7 +127,10 @@ const PlayerSpotify: FC<{ accessToken: string | null }> = ({ accessToken }) => {
 
     spotifyPlayer.addListener("player_state_changed", onStateChange);
 
-    spotifyPlayer.addListener("authentication_error", setError);
+    const onAuthenticationError = () => {
+      player.retryAuth().catch(setError);
+    };
+    spotifyPlayer.addListener("authentication_error", onAuthenticationError);
     spotifyPlayer.addListener("initialization_error", setError);
     spotifyPlayer.addListener("account_error", setError);
     spotifyPlayer.addListener("playback_error", (e) => console.error(e));
