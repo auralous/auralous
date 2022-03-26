@@ -1,6 +1,5 @@
 import { IconCheck, IconPlus } from "@/assets";
 import { LoadingScreen } from "@/components/Loading";
-import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Size } from "@/styles/spacing";
 import type { Track } from "@auralous/api";
@@ -11,7 +10,7 @@ import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSongSelectorContext } from "./Context";
 import SearchEmpty from "./SearchEmpty";
 
-const itemPadding = Size[1];
+const paddingVertical = Size[1.5];
 
 const styles = StyleSheet.create({
   button: {
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     flexDirection: "row",
-    padding: itemPadding,
+    paddingVertical,
   },
   itemContent: {
     flex: 1,
@@ -66,7 +65,7 @@ const SelectableTrackListItem: FC<{ track: Track }> = ({ track }) => {
 
 const MemoSelectableTrackListItem = memo(SelectableTrackListItem);
 
-const itemHeight = Size[12] + 2 * itemPadding + Size[2];
+const itemHeight = Size[12] + 2 * paddingVertical;
 const getItemLayout = (data: unknown, index: number) => ({
   length: itemHeight,
   offset: itemHeight * index,
@@ -77,7 +76,6 @@ const renderItem: ListRenderItem<Track> = ({ item, index }) => {
     <MemoSelectableTrackListItem key={`${index}${item.id}`} track={item} />
   );
 };
-const ItemSeparatorComponent = () => <Spacer y={2} />;
 
 const SelectableTrackList: FC<{
   fetching: boolean;
@@ -86,7 +84,6 @@ const SelectableTrackList: FC<{
   return (
     <FlatList
       ListEmptyComponent={fetching ? LoadingScreen : SearchEmpty}
-      ItemSeparatorComponent={ItemSeparatorComponent}
       data={data || []}
       renderItem={renderItem}
       getItemLayout={getItemLayout}

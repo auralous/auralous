@@ -1,7 +1,6 @@
 import { useContainerStyle } from "@/components/Container";
 import { LoadingScreen } from "@/components/Loading";
 import { ResultEmptyScreen } from "@/components/Result";
-import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import type { PlaybackStateQueue } from "@/player";
 import player, {
@@ -17,12 +16,13 @@ import type { ListRenderItem } from "react-native";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import PlaylistMeta from "./PlaylistMeta";
 
+const paddingVertical = Size[1.5];
 const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: Size[3],
-    paddingVertical: Size[1],
+    paddingVertical,
     width: "100%",
   },
   root: {
@@ -81,13 +81,12 @@ const PlaylistTrackItem = memo<{
   );
 });
 
-const itemHeight = Size[12] + 2 * Size[1] + Size[2];
+const itemHeight = Size[12] + 2 * paddingVertical;
 const getItemLayout = (data: unknown, index: number) => ({
   length: itemHeight,
   offset: itemHeight * index,
   index,
 });
-const ItemSeparatorComponent = () => <Spacer y={2} />;
 
 export const PlaylistScreenContent: FC<{
   playlist: Playlist;
@@ -129,7 +128,6 @@ export const PlaylistScreenContent: FC<{
       <FlatList
         ListHeaderComponent={ListHeaderComponent}
         ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
-        ItemSeparatorComponent={ItemSeparatorComponent}
         contentContainerStyle={containerStyle}
         data={data?.playlistTracks || []}
         renderItem={renderItem}

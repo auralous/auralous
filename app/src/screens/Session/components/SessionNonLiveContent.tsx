@@ -22,12 +22,14 @@ import type { ListRenderItem } from "react-native";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import SessionMeta from "./SessionMeta";
 
+const paddingVertical = Size[1.5];
+
 const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: Size[3],
-    paddingVertical: Size[1],
+    paddingVertical,
   },
   root: {
     flex: 1,
@@ -91,13 +93,12 @@ const SessionTrackItem = memo<{
   );
 });
 
-const itemHeight = Size[12] + 2 * Size[1] + Size[2];
+const itemHeight = Size[12] + 2 * paddingVertical;
 const getItemLayout = (data: unknown, index: number) => ({
   length: itemHeight,
   offset: itemHeight * index,
   index,
 });
-const ItemSeparatorComponent = () => <Spacer y={2} />;
 
 const SessionNovLiveButtons: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
@@ -186,7 +187,6 @@ const SessionNonLiveContent: FC<{
     <FlatList
       ListHeaderComponent={ListHeadComponent}
       ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
-      ItemSeparatorComponent={ItemSeparatorComponent}
       style={styles.root}
       contentContainerStyle={containerStyle}
       data={data?.sessionTracks || []}

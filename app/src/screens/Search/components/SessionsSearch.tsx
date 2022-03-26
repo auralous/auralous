@@ -44,6 +44,7 @@ const SessionsSearch: FC<{ query: string }> = ({ query }) => {
       renderItem={renderItem}
       data={data}
       style={styles.root}
+      contentContainerStyle={styles.horPad}
       numColumns={numColumns}
       ListEmptyComponent={fetching ? LoadingScreen : SearchEmpty}
     />

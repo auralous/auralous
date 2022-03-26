@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   root: {
     alignItems: "center",
     flexDirection: "row",
-    padding: Size[1],
     width: "100%",
   },
   track: {
@@ -44,19 +43,20 @@ interface QueueTrackItemProps extends TrackItemProps {
   onToggle(checked: boolean): void;
   onPress?(uid: string): void;
   dragging: boolean;
+  style?: ViewStyle;
 }
 
 const QueueTrackItem: FC<
   QueueTrackItemProps & { animStyle?: AnimatedStyleProp<ViewStyle> }
 > = ({
   uid,
-
   drag,
   checked,
   onToggle,
   onPress,
   animStyle,
   dragging,
+  style,
   ...props
 }) => {
   const onTrackItemPressed = useMemo(() => {
@@ -65,7 +65,7 @@ const QueueTrackItem: FC<
   }, [onPress, uid]);
   return (
     <Animated.View
-      style={[styles.root, animStyle, dragging && styles.dragging]}
+      style={[styles.root, style, animStyle, dragging && styles.dragging]}
     >
       <View style={styles.check}>
         <Checkbox size={Size[12]} checked={checked} onValueChange={onToggle} />

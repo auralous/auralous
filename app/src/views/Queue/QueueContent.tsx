@@ -27,9 +27,13 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { QueueAdder } from "./QueueAdder";
 
+const paddingVertical = Size[1.5];
 const styles = StyleSheet.create({
   footer: {
     height: Size[10],
+  },
+  item: {
+    paddingVertical,
   },
   list: { flex: 1 },
   np: {
@@ -78,6 +82,7 @@ const DraggableQueueItem = memo<{
 
     return (
       <QueueTrackItem
+        style={styles.item}
         track={dataTrack?.track || null}
         // FIXME: This is misleading if track is not found
         fetching={!dataTrack?.track}
@@ -100,12 +105,11 @@ const DraggableQueueItem = memo<{
   }
 );
 
-const itemHeight = Size[12] + Size[1] * 2 + Size[2];
+const itemHeight = Size[12] + 2 * paddingVertical;
 const renderItem: SortableListRenderItem<QueueItem> = (params) => (
   <DraggableQueueItem key={params.item.uid} params={params} />
 );
 const keyExtractor = (item: QueueItem) => item.uid;
-const ItemSeparatorComponent = () => <Spacer y={2} />;
 const getItemLayout = (data: unknown, index: number) => ({
   length: itemHeight,
   offset: itemHeight * index,
@@ -222,7 +226,6 @@ const QueueContent: FC<{
     return (
       <SortableFlatList
         style={styles.list}
-        ItemSeparatorComponent={ItemSeparatorComponent}
         data={items}
         renderItem={renderItem}
         onDragEnd={onDragEnd}

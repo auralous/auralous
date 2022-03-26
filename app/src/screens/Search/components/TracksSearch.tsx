@@ -1,5 +1,4 @@
 import { LoadingScreen } from "@/components/Loading";
-import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { useFlatlist6432Layout } from "@/styles/flatlist";
 import { Size } from "@/styles/spacing";
@@ -15,7 +14,7 @@ import { styles } from "./ItemsSearch.styles";
 
 const SearchItem = memo<{ track: Track }>(function SearchItem({ track }) {
   return (
-    <TouchableOpacity style={{ padding: Size[1] }}>
+    <TouchableOpacity style={styles.itemOneCol}>
       <TrackItem track={track} />
     </TouchableOpacity>
   );
@@ -25,7 +24,13 @@ const renderItem: ListRenderItem<Track> = ({ item }) => (
   <SearchItem track={item} key={item.id} />
 );
 
-const ItemSeparatorComponent = () => <Spacer y={2} />;
+const itemHeight = Size[12] + 2 * Size[2];
+const getItemLayout = (data: unknown, index: number) => ({
+  length: itemHeight,
+  offset: itemHeight * index,
+  index,
+});
+
 const TracksSearch: FC<{ query: string }> = ({ query }) => {
   const [{ data: dataQuery, fetching }] = useSearchTrackQuery({
     variables: { query },
@@ -39,8 +44,9 @@ const TracksSearch: FC<{ query: string }> = ({ query }) => {
       renderItem={renderItem}
       data={data}
       style={styles.root}
+      contentContainerStyle={styles.horPad}
       ListEmptyComponent={fetching ? LoadingScreen : SearchEmpty}
-      ItemSeparatorComponent={ItemSeparatorComponent}
+      getItemLayout={getItemLayout}
     />
   );
 };

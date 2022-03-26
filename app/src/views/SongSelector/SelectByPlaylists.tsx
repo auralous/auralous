@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     height: Size[8],
     justifyContent: "space-between",
     marginBottom: Size[1],
-    paddingHorizontal: Size[1],
   },
   tracks: {
     flex: 1,

@@ -1,6 +1,6 @@
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
-import { useMemo } from "react";
+import { useRef } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, View } from "react-native";
 
@@ -11,13 +11,10 @@ interface SpacerProps {
 }
 
 const Spacer: FC<SpacerProps> = ({ x, y, style }) => {
-  const spacer = useMemo(
-    () => ({
-      width: x ? Size[x] : 1,
-      height: y ? Size[y] : 1,
-    }),
-    [x, y]
-  );
+  const spacer = useRef({
+    width: x ? Size[x] : 1,
+    height: y ? Size[y] : 1,
+  }).current;
 
   return (
     <View

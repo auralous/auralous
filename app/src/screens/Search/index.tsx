@@ -12,6 +12,7 @@ import type { FC } from "react";
 import { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import { styles as itemStyles } from "./components/ItemsSearch.styles";
 import PlaylistsSearch from "./components/PlaylistsSearch";
 import SessionsSearch from "./components/SessionsSearch";
 import TracksSearch from "./components/TracksSearch";
@@ -22,7 +23,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: Size[6],
     paddingTop: Size[3],
   },
   root: {
@@ -54,22 +54,24 @@ const SearchScreen: FC<NativeStackScreenProps<ParamList, RouteName.Search>> = ({
     <View style={styles.root}>
       <Container style={styles.container}>
         <View style={styles.content}>
-          <Input
-            onSubmit={onSubmit}
-            ref={ref}
-            placeholder={t("search.placeholder")}
-            endIcon={
-              <Button
-                accessibilityLabel={t("search.title")}
-                icon={<IconSearch />}
-                onPress={onSubmit}
-                variant="text"
-              />
-            }
-          />
+          <View style={itemStyles.horPad}>
+            <Input
+              onSubmit={onSubmit}
+              ref={ref}
+              placeholder={t("search.placeholder")}
+              endIcon={
+                <Button
+                  accessibilityLabel={t("search.title")}
+                  icon={<IconSearch />}
+                  onPress={onSubmit}
+                  variant="text"
+                />
+              }
+            />
+          </View>
           <Spacer y={3} />
           <Tabs>
-            <TabList>
+            <TabList style={itemStyles.horPad}>
               <Tab>{t("playlist.title")}</Tab>
               <Tab>{t("session.title")}</Tab>
               <Tab>{t("track.title")}</Tab>

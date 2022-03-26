@@ -4,7 +4,6 @@ import type {
   SortableListRenderItemInfo,
 } from "@/components/SortableFlatList";
 import { SortableFlatList } from "@/components/SortableFlatList";
-import { Spacer } from "@/components/Spacer";
 import { QueueTrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
 import { reorder, shuffle } from "@/player";
@@ -25,12 +24,17 @@ import { memo, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
+const paddingVertical = Size[1.5];
+
 const styles = StyleSheet.create({
   footer: {
     height: Size[12],
     justifyContent: "center",
     paddingHorizontal: Size[3],
     width: "100%",
+  },
+  item: {
+    paddingVertical,
   },
   list: { flex: 1 },
   listView: {
@@ -109,6 +113,7 @@ const SelectedQueueTrackItem = memo<{
 
     return (
       <QueueTrackItem
+        style={styles.item}
         checked={checked}
         drag={params.drag}
         animStyle={params.animStyle}
@@ -129,19 +134,19 @@ const SelectedQueueTrackItem = memo<{
   }
 );
 
-const itemHeight = Size[12] + Size[1] * 2 + Size[2]; // height + 2 * padding + seperator
 const renderItem: SortableListRenderItem<string> = (params) => (
   <SelectedQueueTrackItem
     params={params}
     key={`${params.index}${params.item}`}
   />
 );
+
+const itemHeight = Size[12] + 2 * paddingVertical; // height + 2 * padding
 const getItemLayout = (data: unknown, index: number) => ({
   length: itemHeight,
   offset: itemHeight * index,
   index,
 });
-const ItemSeparatorComponent = () => <Spacer y={2} />;
 
 export const SelectedTracksListView: FC<{
   selectedTracks: string[];
@@ -174,7 +179,6 @@ export const SelectedTracksListView: FC<{
       </View>
       <SortableFlatList
         style={styles.list}
-        ItemSeparatorComponent={ItemSeparatorComponent}
         data={selectedTracks}
         renderItem={renderItem}
         onDragEnd={onDragEnd}

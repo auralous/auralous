@@ -1,7 +1,6 @@
 import { LoadingScreen } from "@/components/Loading";
 import { PlaylistListItem } from "@/components/Playlist";
 import { ResultEmptyScreen } from "@/components/Result";
-import { Spacer } from "@/components/Spacer";
 import { Size } from "@/styles/spacing";
 import type { Playlist } from "@auralous/api";
 import type { FC } from "react";
@@ -15,16 +14,13 @@ interface SelectablePlaylistListProps {
   onSelect(playlist: Playlist): void;
 }
 
-const itemPadding = Size[1];
+const paddingVertical = Size[1.5];
 
 const styles = StyleSheet.create({
-  item: {
-    padding: itemPadding,
-  },
+  item: { paddingVertical },
 });
 
-const itemHeight = Size[12] + 2 * Size[1] + Size[2];
-const ItemSeparatorComponent = () => <Spacer y={2} />;
+const itemHeight = Size[12] + 2 * paddingVertical;
 const getItemLayout = (data: unknown, index: number) => ({
   length: itemHeight,
   offset: itemHeight * index,
@@ -52,7 +48,6 @@ const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
   return (
     <FlatList
       ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
-      ItemSeparatorComponent={ItemSeparatorComponent}
       data={playlists}
       renderItem={renderItem}
       getItemLayout={getItemLayout}

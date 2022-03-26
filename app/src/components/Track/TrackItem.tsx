@@ -20,8 +20,10 @@ export interface TrackItemProps {
 
 const styles = StyleSheet.create({
   image: {
-    height: Size[12],
-    width: Size[12],
+    borderRadius: Size[1],
+    height: Size[1] * 11,
+    overflow: "hidden",
+    width: Size[1] * 11,
   },
   isPlaying: {
     ...StyleSheet.absoluteFillObject,
@@ -41,6 +43,7 @@ const styles = StyleSheet.create({
   root: {
     alignItems: "center",
     flexDirection: "row",
+    height: Size[12],
     justifyContent: "flex-start",
     width: "100%",
   },
@@ -68,12 +71,12 @@ const TrackItem: FC<TrackItemProps> = ({
   return (
     <View style={styles.root}>
       {hideImage ? null : (
-        <View>
+        <View style={styles.image}>
           {fetching ? (
-            <SkeletonBlock width={12} height={12} />
+            <SkeletonBlock style={StyleSheet.absoluteFill} />
           ) : (
             <Image
-              style={styles.image}
+              style={StyleSheet.absoluteFill}
               source={track?.image ? { uri: track?.image } : imageDefaultTrack}
               defaultSource={imageDefaultTrack}
               accessibilityLabel={track?.title}
