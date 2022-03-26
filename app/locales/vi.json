@@ -154,6 +154,11 @@
   "now_playing": {
     "title": "Đang phát"
   },
+  "now_playing_reaction": {
+    "title": "Bày tỏ cảm xúc",
+    "react_with": "Bày tỏ cảm xúc {{reaction}}",
+    "long_tap_to_view": "Nhấn giữ để xem danh sách bày tỏ cảm xúc"
+  },
   "music": {
     "title": "Nhạc"
   },

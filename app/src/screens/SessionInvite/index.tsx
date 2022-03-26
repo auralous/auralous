@@ -62,6 +62,7 @@ const SessionInviteScreen: FC<
   useEffect(() => {
     // If user is already a collaborator, redirect right away
     if (me && dataSession?.session?.collaboratorIds.includes(me.user.id)) {
+      if (me.user.id === dataSession.session.creator.id) return; // fix race condition because app trying to navigate creator too
       playAndNavigate();
     }
   }, [dataSession, playAndNavigate, me]);

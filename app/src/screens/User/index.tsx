@@ -1,19 +1,13 @@
-import { IconEdit, IconMoreVertical, IconShare2 } from "@/assets";
+import { IconMoreVertical } from "@/assets";
+import { ContextMenuValue } from "@/components/BottomSheet";
 import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
-import { Config } from "@/config";
-import type { ParamList } from "@/screens/types";
-import { RouteName } from "@/screens/types";
-import { Colors } from "@/styles/colors";
+import type { ParamList, RouteName } from "@/screens/types";
 import { useUIDispatch } from "@/ui-context";
-import { isTruthy } from "@/utils/utils";
 import type { User } from "@auralous/api";
-import { useMeQuery, useUserQuery } from "@auralous/api";
-import type {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from "@react-navigation/native-stack";
+import { useUserQuery } from "@auralous/api";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -26,16 +20,11 @@ const styles = StyleSheet.create({
 });
 
 const HeaderRight: FC<{
-  navigation: NativeStackNavigationProp<ParamList, RouteName.User>;
   user?: User | null;
-}> = ({ navigation, user }) => {
+}> = ({ user }) => {
   const { t } = useTranslation();
 
   const uiDispatch = useUIDispatch();
-
-  const [{ data: { me } = { me: undefined } }] = useMeQuery();
-
-  const isCurrentUser = user?.id === me?.user.id;
 
   return (
     <Button
@@ -46,34 +35,7 @@ const HeaderRight: FC<{
         user &&
         uiDispatch({
           type: "contextMenu",
-          value: {
-            visible: true,
-            title: user.username,
-            image: user.profilePicture || undefined,
-            items: [
-              isCurrentUser && {
-                icon: <IconEdit stroke={Colors.textSecondary} />,
-                text: t("settings.title"),
-                onPress() {
-                  navigation.navigate(RouteName.Settings);
-                },
-              },
-              {
-                icon: <IconShare2 stroke={Colors.textSecondary} />,
-                text: t("share.share"),
-                onPress() {
-                  uiDispatch({
-                    type: "share",
-                    value: {
-                      visible: true,
-                      title: user.username,
-                      url: `${Config.APP_URI}/u/${user.username}`,
-                    },
-                  });
-                },
-              },
-            ].filter(isTruthy),
-          },
+          value: ContextMenuValue.user(uiDispatch, user),
         })
       }
     />
@@ -95,7 +57,7 @@ const UserScreen: FC<NativeStackScreenProps<ParamList, RouteName.User>> = ({
     navigation.setOptions({
       ...(user && { title: user.username }),
       headerRight() {
-        return <HeaderRight navigation={navigation} user={user} />;
+        return <HeaderRight user={user} />;
       },
     });
   }, [data, navigation]);

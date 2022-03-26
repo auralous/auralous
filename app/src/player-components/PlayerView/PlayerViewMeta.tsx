@@ -1,17 +1,17 @@
-import { IconMoreHorizontal, IconPlayListAdd } from "@/assets";
+import { IconMoreHorizontal } from "@/assets";
 import imageDefaultTrack from "@/assets/images/default_track.jpg";
 import spotifyLogoRGBWhite from "@/assets/images/Spotify_Logo_RGB_White.png";
 import ytLogoMonoDark from "@/assets/images/yt_logo_mono_dark.png";
+import { ContextMenuValue } from "@/components/BottomSheet";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
 import { usePlaybackStateStatusContext } from "@/player/Context";
-import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
 import type { Maybe, Track } from "@auralous/api";
 import { PlatformName } from "@auralous/api";
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   moreBtn: {
     backgroundColor: "rgba(255,255,255,.2)",
     borderRadius: 9999,
+    height: Size[8],
     padding: Size[1],
   },
   nameAndArtist: {
@@ -57,37 +58,18 @@ const styles = StyleSheet.create({
 interface PlayerViewMetaProps {
   track: Maybe<Track>;
   fetching?: boolean;
+  extra?: ReactNode;
 }
 
 const MetaButton: FC<{ track: Track | null | undefined }> = ({ track }) => {
-  const { t } = useTranslation();
   const uiDispatch = useUIDispatch();
   const present = useCallback(() => {
     if (!track) return;
     uiDispatch({
       type: "contextMenu",
-      value: {
-        visible: true,
-        title: track.title,
-        subtitle: track.artists.map((artist) => artist.name).join(", "),
-        image: track.image || undefined,
-        items: [
-          {
-            icon: <IconPlayListAdd color={Colors.textSecondary} />,
-            text: t("playlist_adder.title"),
-            onPress: () =>
-              uiDispatch({
-                type: "addToPlaylist",
-                value: {
-                  visible: true,
-                  trackId: track.id,
-                },
-              }),
-          },
-        ],
-      },
+      value: ContextMenuValue.track(uiDispatch, track),
     });
-  }, [track, t, uiDispatch]);
+  }, [track, uiDispatch]);
   return (
     <TouchableOpacity onPress={present} style={styles.moreBtn}>
       <IconMoreHorizontal />
@@ -95,7 +77,11 @@ const MetaButton: FC<{ track: Track | null | undefined }> = ({ track }) => {
   );
 };
 
-const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
+const PlayerViewMeta: FC<PlayerViewMetaProps> = ({
+  track,
+  fetching,
+  extra,
+}) => {
   const { t } = useTranslation();
 
   const providerLogoImageSource = useMemo(
@@ -155,6 +141,7 @@ const PlayerViewMeta: FC<PlayerViewMetaProps> = ({ track, fetching }) => {
           )}
         </View>
         <MetaButton track={track} />
+        {extra}
       </View>
     </>
   );

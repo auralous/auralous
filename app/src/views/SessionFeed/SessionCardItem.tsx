@@ -1,24 +1,16 @@
-import {
-  IconHeadphones,
-  IconMoreVertical,
-  IconPause,
-  IconPlay,
-  IconShare2,
-} from "@/assets";
+import { IconMoreVertical, IconPause, IconPlay } from "@/assets";
 import imageDefaultPlaylist from "@/assets/images/default_playlist.jpg";
 import imageDefaultUser from "@/assets/images/default_user.jpg";
+import { ContextMenuValue } from "@/components/BottomSheet";
 import Spacer from "@/components/Spacer/Spacer";
 import { Text } from "@/components/Typography";
-import { Config } from "@/config";
 import player, {
   useIsCurrentPlaybackSelection,
   usePlaybackStateControlContext,
 } from "@/player";
-import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { useTimeDiffFormatter, useUIDispatch } from "@/ui-context";
-import { isTruthy } from "@/utils/utils";
 import type { Session } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
@@ -138,7 +130,6 @@ const SessionCardItemHeader: FC<{ session: Session }> = ({ session }) => {
 const SessionCardItemFooter: FC<{
   session: Session;
 }> = ({ session }) => {
-  const { t } = useTranslation();
   const navigation = useNavigation();
 
   const isCurrentSelection = useIsCurrentPlaybackSelection(
@@ -158,37 +149,7 @@ const SessionCardItemFooter: FC<{
   const onMore = () => {
     uiDispatch({
       type: "contextMenu",
-      value: {
-        visible: true,
-        title: session.text,
-        subtitle: session.creator.username,
-        image: session.image || undefined,
-        items: [
-          session.isLive && {
-            icon: <IconHeadphones stroke={Colors.textSecondary} />,
-            text: t("session_listeners.title"),
-            onPress() {
-              navigation.navigate(RouteName.SessionListeners, {
-                id: session.id,
-              });
-            },
-          },
-          {
-            icon: <IconShare2 stroke={Colors.textSecondary} />,
-            text: t("share.share"),
-            onPress() {
-              uiDispatch({
-                type: "share",
-                value: {
-                  visible: true,
-                  title: session.text,
-                  url: `${Config.APP_URI}/session/${session.id}`,
-                },
-              });
-            },
-          },
-        ].filter(isTruthy),
-      },
+      value: ContextMenuValue.session(uiDispatch, navigation, session, false),
     });
   };
 

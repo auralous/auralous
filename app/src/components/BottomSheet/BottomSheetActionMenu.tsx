@@ -9,6 +9,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import type { FC, ReactNode } from "react";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import type { ImageURISource } from "react-native";
 import {
   Image,
   StyleSheet,
@@ -21,7 +22,7 @@ import BottomSheetModalBackdrop from "./BottomSheetModalBackdrop";
 export interface BottomSheetActionMenuProps {
   visible: boolean;
   onDismiss(): void;
-  image?: string;
+  image?: string | ImageURISource;
   title: string;
   subtitle?: string;
   items: BottomSheetActionMenuItem[];
@@ -121,7 +122,10 @@ const BottomSheetActionMenu: FC<BottomSheetActionMenuProps> = ({
         <View style={styles.header}>
           {image && (
             <>
-              <Image source={{ uri: image }} style={styles.image} />
+              <Image
+                source={typeof image === "string" ? { uri: image } : image}
+                style={styles.image}
+              />
               <Spacer x={4} />
             </>
           )}

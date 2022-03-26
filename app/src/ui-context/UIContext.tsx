@@ -1,23 +1,15 @@
+import type { BottomSheetActionMenuProps } from "@/components/BottomSheet";
 import type { PlaybackSelection } from "@/player";
-import type { Dispatch, FC, ReactNode } from "react";
+import type { Dispatch, FC } from "react";
 import { createContext, useContext, useReducer } from "react";
+import type { Omit } from "react-native";
 import { TimeDiffFormatterProvider } from "./TimeDiffFormatter";
 
 interface UIState {
   newSession: { visible: boolean };
   addToPlaylist: { visible: boolean; trackId: null | string };
   signIn: { visible: boolean };
-  contextMenu: {
-    visible: boolean;
-    image?: string;
-    title: string;
-    subtitle?: string;
-    items: {
-      icon: ReactNode;
-      text: string;
-      onPress?(): void;
-    }[];
-  };
+  contextMenu: Omit<BottomSheetActionMenuProps, "onDismiss">;
   stopLiveOnPlay: {
     visible: boolean;
     intention: {

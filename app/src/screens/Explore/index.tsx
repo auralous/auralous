@@ -1,10 +1,13 @@
-import { IconHeadphones } from "@/assets";
+import { IconHeadphones, IconSettings } from "@/assets";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import type { ParamList, RouteName } from "@/screens/types";
+import { Spacer } from "@/components/Spacer";
+import type { ParamList } from "@/screens/types";
+import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,9 +15,12 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import ExploreScreenContent from "./components/index";
 
 const styles = StyleSheet.create({
-  add: {
+  headerBtn: {
     height: Size[8],
     paddingHorizontal: Size[2],
+  },
+  headerBtns: {
+    flexDirection: "row",
   },
   root: {
     flex: 1,
@@ -27,19 +33,28 @@ const styles = StyleSheet.create({
 const HeaderRight: FC = () => {
   const { t } = useTranslation();
   const uiDispatch = useUIDispatch();
-
+  const navigation = useNavigation();
   return (
-    <Button
-      variant="primary"
-      onPress={() =>
-        uiDispatch({ type: "newSession", value: { visible: true } })
-      }
-      style={styles.add}
-      accessibilityLabel={t("new.title")}
-      icon={<IconHeadphones width={20} height={20} />}
-    >
-      {t("common.action.create")}
-    </Button>
+    <View style={styles.headerBtns}>
+      <Button
+        onPress={() => navigation.navigate(RouteName.Settings)}
+        style={styles.headerBtn}
+        accessibilityLabel={t("settings.title")}
+        icon={<IconSettings width={20} height={20} />}
+      />
+      <Spacer x={2} />
+      <Button
+        variant="primary"
+        onPress={() =>
+          uiDispatch({ type: "newSession", value: { visible: true } })
+        }
+        style={styles.headerBtn}
+        accessibilityLabel={t("new.title")}
+        icon={<IconHeadphones width={20} height={20} />}
+      >
+        {t("common.action.create")}
+      </Button>
+    </View>
   );
 };
 

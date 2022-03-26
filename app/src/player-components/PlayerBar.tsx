@@ -10,7 +10,6 @@ import {
   usePlaybackStateSourceContext,
   usePlaybackStateStatusContext,
 } from "@/player/Context";
-import { RouteName } from "@/screens/types";
 import { useIsFullscreenRoute } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
@@ -48,8 +47,9 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 4,
-    flex: 1,
+    height: "100%",
     resizeMode: "cover",
+    width: "100%",
   },
   imageWrap: {
     height: PLAYER_BAR_HEIGHT,
@@ -82,12 +82,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-const hiddenRoutes = [
-  RouteName.NewFinal,
-  RouteName.NewQuickShare,
-  RouteName.NewSelectSongs,
-] as string[];
 
 const PlayerBar: FC<{ onPress(): void }> = ({ onPress }) => {
   const { t } = useTranslation();

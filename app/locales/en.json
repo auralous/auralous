@@ -154,6 +154,11 @@
   "now_playing": {
     "title": "Now Playing"
   },
+  "now_playing_reaction": {
+    "title": "Reactions",
+    "react_with": "React with {{reaction}}",
+    "long_tap_to_view": "Long tap to view reaction list."
+  },
   "music": {
     "title": "Music"
   },

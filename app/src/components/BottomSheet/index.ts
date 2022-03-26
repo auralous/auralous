@@ -4,3 +4,4 @@ export type {
   BottomSheetActionMenuProps,
 } from "./BottomSheetActionMenu";
 export { default as BottomSheetModalBackdrop } from "./BottomSheetModalBackdrop";
+export { ContextMenuValue } from "./value";

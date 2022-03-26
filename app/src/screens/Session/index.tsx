@@ -1,20 +1,11 @@
-import {
-  IconEdit,
-  IconHeadphones,
-  IconMoreVertical,
-  IconShare2,
-  IconX,
-} from "@/assets";
+import { IconMoreVertical } from "@/assets";
+import { ContextMenuValue } from "@/components/BottomSheet";
 import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
-import { Config } from "@/config";
-import type { ParamList } from "@/screens/types";
-import { RouteName } from "@/screens/types";
-import { Colors } from "@/styles/colors";
+import type { ParamList, RouteName } from "@/screens/types";
 import { ConstantSize } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
-import { isTruthy } from "@/utils/utils";
 import type { Session } from "@auralous/api";
 import { useMeQuery, useSessionQuery } from "@auralous/api";
 import type {
@@ -54,57 +45,12 @@ const HeaderRight: FC<{
         session &&
           uiDispatch({
             type: "contextMenu",
-            value: {
-              visible: true,
-              title: session.text,
-              subtitle: session.creator.username,
-              image: session.image || undefined,
-              items: [
-                isCreator && {
-                  icon: <IconEdit stroke={Colors.textSecondary} />,
-                  text: t("session_edit.title"),
-                  onPress() {
-                    navigation.navigate(RouteName.SessionEdit, {
-                      id: session.id,
-                    });
-                  },
-                },
-                session.isLive && {
-                  icon: <IconHeadphones stroke={Colors.textSecondary} />,
-                  text: t("session_listeners.title"),
-                  onPress() {
-                    navigation.navigate(RouteName.SessionListeners, {
-                      id: session.id,
-                    });
-                  },
-                },
-                {
-                  icon: <IconShare2 stroke={Colors.textSecondary} />,
-                  text: t("share.share"),
-                  onPress() {
-                    uiDispatch({
-                      type: "share",
-                      value: {
-                        visible: true,
-                        title: session.text,
-                        url: `${Config.APP_URI}/session/${session.id}`,
-                      },
-                    });
-                  },
-                },
-                isCreator &&
-                  session.isLive && {
-                    icon: <IconX stroke={Colors.textSecondary} />,
-                    text: t("session_edit.live.end"),
-                    onPress() {
-                      navigation.navigate(RouteName.SessionEdit, {
-                        id: session.id,
-                        showEndModal: true,
-                      });
-                    },
-                  },
-              ].filter(isTruthy),
-            },
+            value: ContextMenuValue.session(
+              uiDispatch,
+              navigation,
+              session,
+              isCreator
+            ),
           });
       }}
     />

@@ -9,7 +9,6 @@ import { Text } from "@/components/Typography";
 import { useCurrentPlaybackMeta } from "@/player";
 import { usePlaybackStateQueueContext } from "@/player/Context";
 import type { PlaybackStateQueue } from "@/player/types";
-import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
 import QueueContent from "@/views/Queue/QueueContent";
@@ -41,7 +40,7 @@ const sheetStyles = StyleSheet.create({
     marginBottom: Size[4],
   },
   root: {
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: "rgba(17, 20, 34, 0.95)",
     flex: 1,
     padding: Size[4],
   },
@@ -104,7 +103,7 @@ const ChatButtonAndSheet: FC = () => {
         }
         style={sheetStyles.btn}
       >
-        <IconMessageSquare />
+        <IconMessageSquare fill="#FFFFFF" />
       </TouchableOpacity>
       <SlideModal visible={visible} onDismiss={dismiss}>
         <GHChatSheet onClose={dismiss} />

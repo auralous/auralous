@@ -1,4 +1,4 @@
-import { IconActivity, IconSearch, IconZap } from "@/assets";
+import { IconBell, IconSearch, IconZap } from "@/assets";
 import { RouteName } from "@/screens/types";
 
 export const mainRoutes = [
@@ -14,7 +14,7 @@ export const mainRoutes = [
   },
   {
     name: RouteName.Notifications,
-    Icon: IconActivity,
+    Icon: IconBell,
     tTitle: "notifications.title",
   },
 ];

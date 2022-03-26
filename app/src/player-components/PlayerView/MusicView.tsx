@@ -10,6 +10,7 @@ import { StyleSheet, View } from "react-native";
 import PlayerViewControl from "./PlayerViewControl";
 import PlayerViewMeta from "./PlayerViewMeta";
 import PlayerViewProgress from "./PlayerViewProgress";
+import PlayerViewReaction from "./PlayerViewReaction";
 
 const styles = StyleSheet.create({
   root: {
@@ -35,6 +36,11 @@ const MusicView: FC = () => {
       <PlayerViewMeta
         track={track || null}
         fetching={fetching || playbackFetching}
+        extra={
+          currentMeta?.isLive ? (
+            <PlayerViewReaction id={currentMeta.id} />
+          ) : null
+        }
       />
       <PlayerViewProgress
         track={track}

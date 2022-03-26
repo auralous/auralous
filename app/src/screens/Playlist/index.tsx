@@ -1,11 +1,10 @@
-import { IconMoreVertical, IconShare2 } from "@/assets";
+import { IconMoreVertical } from "@/assets";
+import { ContextMenuValue } from "@/components/BottomSheet";
 import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
-import { Config } from "@/config";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
-import { Colors } from "@/styles/colors";
 import { ConstantSize } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
 import type { Playlist } from "@auralous/api";
@@ -36,28 +35,7 @@ const HeaderRight: FC<{ playlist?: Playlist | null }> = ({ playlist }) => {
         playlist &&
           uiDispatch({
             type: "contextMenu",
-            value: {
-              visible: true,
-              title: playlist.name,
-              subtitle: playlist.creatorName,
-              image: playlist.image || undefined,
-              items: [
-                {
-                  icon: <IconShare2 stroke={Colors.textSecondary} />,
-                  text: t("share.share"),
-                  onPress() {
-                    uiDispatch({
-                      type: "share",
-                      value: {
-                        visible: true,
-                        title: playlist.name,
-                        url: `${Config.APP_URI}/playlist/${playlist.id}`,
-                      },
-                    });
-                  },
-                },
-              ],
-            },
+            value: ContextMenuValue.playlist(uiDispatch, playlist),
           });
       }}
     />

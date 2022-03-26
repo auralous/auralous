@@ -43,6 +43,9 @@ query nowPlayingReactions($id: ID!) {
   nowPlayingReactions(id: $id) {
     reaction
     userId
+    user {
+      ...UserPublicParts
+    }
   }
 }
 
@@ -50,9 +53,12 @@ subscription nowPlayingReactionsUpdated($id: ID!) {
   nowPlayingReactionsUpdated(id: $id) {
     reaction
     userId
+    user {
+      ...UserPublicParts
+    }
   }
 }
 
-mutation nowPlayingReact($id: ID!, $reaction: NowPlayingReactionType!) {
+mutation nowPlayingReact($id: ID!, $reaction: String!) {
   nowPlayingReact(id: $id, reaction: $reaction)
 }
