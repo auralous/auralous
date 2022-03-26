@@ -227,7 +227,10 @@ export const setupExchanges = ({
 }: SetupExchangesOptions) => {
   if (!wsClient) {
     wsClient = createWSClient({
-      url: `${websocketUri}/graphql-ws`,
+      async url() {
+        const accessToken = await getToken();
+        return `${websocketUri}/graphql-ws?access_token=${accessToken}`;
+      },
     });
   }
   return [

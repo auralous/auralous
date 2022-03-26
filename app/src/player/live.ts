@@ -201,6 +201,7 @@ export function registerLivePlayback(
   return () => {
     clearTimeout(waitPlayTimeout);
     player.off("play", onPlay);
+    player.off("ended", onPlay);
     unsubscribeSession();
     unsubscribeSessionSubs();
     unsubscribeQueryNPSub();
