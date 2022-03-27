@@ -45,7 +45,7 @@ const UserItem: FC<{ user: User }> = ({ user }) => {
   );
 };
 
-const itemHeight = Size[10] + Size[2];
+const itemHeight = Size[10] + Size[4];
 const renderItem: ListRenderItem<User> = ({ item }) => (
   <UserItem key={item.id} user={item} />
 );
@@ -54,7 +54,7 @@ const getItemLayout = (data: unknown, index: number) => ({
   offset: itemHeight * index,
   index,
 });
-const ItemSeparatorComponent = () => <Spacer y={2} />;
+const ItemSeparatorComponent = () => <Spacer y={4} />;
 
 export const SocialUserList: FC<SocialUserListProps> = ({
   users,

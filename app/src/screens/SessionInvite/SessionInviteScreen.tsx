@@ -41,12 +41,12 @@ const SessionInviteScreen: FC<
   });
 
   useLayoutEffect(() => {
-    if (dataSession?.session) {
+    if (dataSession?.session?.text) {
       navigation.setOptions({
-        title: t("session_invite.title", { name: dataSession?.session?.text }),
+        title: t("session_invite.title", { name: dataSession.session.text }),
       });
     }
-  }, [t, dataSession, navigation]);
+  }, [t, dataSession?.session?.text, navigation]);
 
   const [{ data, fetching }, addCollab] =
     useSessionCollabAddFromTokenMutation();
@@ -55,6 +55,7 @@ const SessionInviteScreen: FC<
     player.playContext({
       id: ["session", route.params.id],
       shuffle: false,
+      isLive: true,
     });
     navigation.replace(RouteName.Session, { id: route.params.id });
   }, [navigation, route.params.id]);

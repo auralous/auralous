@@ -1,18 +1,13 @@
 import { IconHeadphones, IconSettings } from "@/assets";
 import { Button } from "@/components/Button";
-import { Container } from "@/components/Container";
 import { Spacer } from "@/components/Spacer";
-import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
-import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View } from "react-native";
-import ExploreScreenContent from "./components/index";
+import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   headerBtn: {
@@ -21,12 +16,6 @@ const styles = StyleSheet.create({
   },
   headerBtns: {
     flexDirection: "row",
-  },
-  root: {
-    flex: 1,
-  },
-  scroll: {
-    paddingVertical: Size[2],
   },
 });
 
@@ -58,29 +47,4 @@ const HeaderRight: FC = () => {
   );
 };
 
-const ExploreScreen: FC<BottomTabScreenProps<ParamList, RouteName.Explore>> = ({
-  navigation,
-}) => {
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRightContainerStyle: {
-        paddingHorizontal: Size[2],
-      },
-      headerRight() {
-        return <HeaderRight />;
-      },
-    });
-  }, [navigation]);
-
-  return (
-    <View style={styles.root}>
-      <ScrollView style={styles.scroll}>
-        <Container>
-          <ExploreScreenContent />
-        </Container>
-      </ScrollView>
-    </View>
-  );
-};
-
-export default ExploreScreen;
+export const headerRight = () => <HeaderRight />;

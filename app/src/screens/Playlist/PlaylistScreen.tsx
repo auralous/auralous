@@ -1,18 +1,13 @@
-import { IconMoreVertical } from "@/assets";
-import { ContextMenuValue } from "@/components/BottomSheet";
-import { Button } from "@/components/Button";
 import { LoadingScreen } from "@/components/Loading";
 import { NotFoundScreen } from "@/components/NotFound";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
 import { ConstantSize } from "@/styles/spacing";
-import { useUIDispatch } from "@/ui-context";
 import type { Playlist } from "@auralous/api";
 import { usePlaylistQuery } from "@auralous/api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useLayoutEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PlaylistScreenContent } from "./components";
@@ -21,33 +16,12 @@ const styles = StyleSheet.create({
   root: { flex: 1, paddingTop: ConstantSize.headerHeight },
 });
 
-const HeaderRight: FC<{ playlist?: Playlist | null }> = ({ playlist }) => {
-  const { t } = useTranslation();
-
-  const uiDispatch = useUIDispatch();
-
-  return (
-    <Button
-      variant="text"
-      icon={<IconMoreVertical width={21} height={21} />}
-      accessibilityLabel={t("common.navigation.open_menu")}
-      onPress={() => {
-        playlist &&
-          uiDispatch({
-            type: "contextMenu",
-            value: ContextMenuValue.playlist(uiDispatch, playlist),
-          });
-      }}
-    />
-  );
-};
-
 const PlaylistScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.Playlist>
 > = ({ route, navigation }) => {
   const [{ data, fetching }] = usePlaylistQuery({
     variables: {
-      id: decodeURIComponent(route.params.id), // "decode the ':' character"
+      id: route.params.id,
     },
   });
 
@@ -58,14 +32,9 @@ const PlaylistScreen: FC<
   );
 
   useLayoutEffect(() => {
-    const playlist = data?.playlist;
-    navigation.setOptions({
-      ...(playlist?.name && { title: playlist?.name }),
-      headerRight() {
-        return <HeaderRight playlist={playlist} />;
-      },
-    });
-  }, [navigation, data]);
+    if (data?.playlist?.name)
+      navigation.setOptions({ title: data.playlist.name });
+  }, [navigation, data?.playlist?.name]);
 
   return (
     <SafeAreaView style={styles.root}>
