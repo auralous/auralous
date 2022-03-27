@@ -43,7 +43,8 @@
     },
     "final": {
       "title": "Chuẩn bị lên sóng",
-      "subtitle": "Tụ tập bàn bè và nghe nhạc bên nhau nào."
+      "subtitle": "Tụ tập bàn bè và nghe nhạc bên nhau nào.",
+      "auth_prompt": "Chỉ còn một bước nữa thôi!"
     }
   },
   "select_songs": {
@@ -252,7 +253,8 @@
   "share": {
     "share": "Chia sẻ",
     "invite_friends": "Mời bạn bè",
-    "share_via_name": "Chia sẻ qua {{ name }}"
+    "share_via_name": "Chia sẻ qua {{ name }}",
+    "copied": "Đã sao chép vào clipboard"
   },
   "settings": {
     "title": "Cài đặt",

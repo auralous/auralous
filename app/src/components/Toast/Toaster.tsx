@@ -75,7 +75,7 @@ export const Toaster: FC = () => {
         commit();
       }
     };
-    emitter.off("toast"); // ckear out other listeners
+    // FIXME: MULTIPLE TOAST
     emitter.on("toast", onToast);
     return () => emitter.off("toast", onToast);
   }, [animValue, toast]);

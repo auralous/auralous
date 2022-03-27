@@ -1,5 +1,6 @@
 import { Button } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
+import { LoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
 import player from "@/player";
@@ -8,8 +9,13 @@ import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Font, fontPropsFn } from "@/styles/fonts";
 import { Size } from "@/styles/spacing";
-import { useSessionCreateMutation } from "@auralous/api";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AuthPrompt } from "@/views/AuthPrompt";
+import { useMeQuery, useSessionCreateMutation } from "@auralous/api";
+import type { RouteProp } from "@react-navigation/native";
+import type {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,6 +29,10 @@ import LinearGradient from "react-native-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const styles = StyleSheet.create({
+  authPrompt: {
+    flex: 1,
+    justifyContent: "center",
+  },
   loading: {
     ...StyleSheet.absoluteFillObject,
     alignItems: "center",
@@ -46,9 +56,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const NewFinalScreen: FC<
-  NativeStackScreenProps<ParamList, RouteName.NewFinal>
-> = ({ route, navigation }) => {
+const NewFinalScreenContent: FC<{
+  navigation: NativeStackNavigationProp<ParamList, RouteName.NewFinal>;
+  route: RouteProp<ParamList, RouteName.NewFinal>;
+}> = ({ navigation, route }) => {
   const { t } = useTranslation();
 
   const [{ fetching }, createSession] = useSessionCreateMutation();
@@ -119,6 +130,29 @@ const NewFinalScreen: FC<
       )}
     </LinearGradient>
   );
+};
+
+const NewFinalScreen: FC<
+  NativeStackScreenProps<ParamList, RouteName.NewFinal>
+> = ({ route, navigation }) => {
+  const { t } = useTranslation();
+
+  const [{ data, fetching }] = useMeQuery();
+  if (fetching) return <LoadingScreen />;
+
+  if (!data?.me)
+    return (
+      <View style={styles.authPrompt}>
+        <View>
+          <AuthPrompt prompt={t("new.final.auth_prompt")} />
+        </View>
+        <Button variant="text" onPress={navigation.goBack}>
+          {t("common.action.cancel")}
+        </Button>
+      </View>
+    );
+
+  return <NewFinalScreenContent route={route} navigation={navigation} />;
 };
 
 export default NewFinalScreen;

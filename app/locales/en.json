@@ -34,7 +34,7 @@
     "select_songs": {
       "title": "Select Songs",
       "num_selected": "{{count}} songs selected",
-      "finish_add": "Finished Adding Songs",
+      "finish_add": "Finish Adding Songs",
       "create_session": "Create Session",
       "shuffle": "Shuffle"
     },
@@ -43,7 +43,8 @@
     },
     "final": {
       "title": "Going LIVE",
-      "subtitle": "Gather your friends and listen together."
+      "subtitle": "Gather your friends and listen together.",
+      "auth_prompt": "You are just one step away!"
     }
   },
   "select_songs": {
@@ -252,7 +253,8 @@
   "share": {
     "share": "Share",
     "invite_friends": "Invite friends",
-    "share_via_name": "Share via {{ name }}"
+    "share_via_name": "Share via {{ name }}",
+    "copied": "Copied to clipboard"
   },
   "settings": {
     "title": "Settings",

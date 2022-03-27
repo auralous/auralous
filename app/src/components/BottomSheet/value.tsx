@@ -2,6 +2,7 @@ import {
   IconEdit,
   IconHeadphones,
   IconPlayListAdd,
+  IconSettings,
   IconShare2,
   IconX,
 } from "@/assets";
@@ -16,7 +17,7 @@ import type { Playlist, Session, Track, User } from "@auralous/api";
 import { t } from "i18next";
 
 export const ContextMenuValue = {
-  user(uiDispatch: any, u: User) {
+  user(uiDispatch: any, navigation: any, u: User, isCurrentUser?: boolean) {
     return {
       visible: true,
       title: u.username,
@@ -36,7 +37,14 @@ export const ContextMenuValue = {
             });
           },
         },
-      ],
+        isCurrentUser && {
+          icon: <IconSettings stroke={Colors.textSecondary} />,
+          text: t("settings.title"),
+          onPress() {
+            navigation.navigate(RouteName.Settings);
+          },
+        },
+      ].filter(isTruthy),
     };
   },
   playlist(uiDispatch: any, playlist: Playlist) {

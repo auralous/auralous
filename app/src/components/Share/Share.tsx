@@ -3,9 +3,12 @@ import { Dialog } from "@/components/Dialog";
 import { toast } from "@/components/Toast";
 import { Config } from "@/config";
 import { Colors } from "@/styles/colors";
+import { Size } from "@/styles/spacing";
+import Clipboard from "@react-native-clipboard/clipboard";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, Share as RNShare } from "react-native";
+import { Linking, Pressable, Share as RNShare, StyleSheet } from "react-native";
+import { Text } from "../Typography";
 
 interface ShareProps {
   visible: boolean;
@@ -14,11 +17,34 @@ interface ShareProps {
   onDismiss?(): void;
 }
 
+const styles = StyleSheet.create({
+  text: {
+    textAlign: "center",
+  },
+  textContainer: {
+    alignItems: "center",
+    borderColor: Colors.border,
+    borderRadius: Size[2],
+    borderWidth: 2,
+    justifyContent: "center",
+    padding: Size[4],
+  },
+});
+
 const Share: FC<ShareProps> = ({ visible, title = "", url, onDismiss }) => {
   const { t } = useTranslation();
+  const onCopy = () => {
+    Clipboard.setString(url || title);
+    toast.success(t("share.copied"));
+  };
   return (
     <Dialog.Dialog visible={visible} onDismiss={onDismiss}>
       <Dialog.Title>{title}</Dialog.Title>
+      <Dialog.Content>
+        <Pressable onPress={onCopy} style={styles.textContainer}>
+          <Text style={styles.text}>{url}</Text>
+        </Pressable>
+      </Dialog.Content>
       <Dialog.Footer>
         <Dialog.Button
           accessibilityLabel={t("share.share_via_name", { name: "Facebook" })}

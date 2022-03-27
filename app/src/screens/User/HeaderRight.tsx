@@ -3,14 +3,17 @@ import { ContextMenuValue } from "@/components/BottomSheet";
 import { Button } from "@/components/Button";
 import type { ParamList, RouteName } from "@/screens/types";
 import { useUIDispatch } from "@/ui-context";
-import { useUserQuery } from "@auralous/api";
+import { useMeQuery, useUserQuery } from "@auralous/api";
 import type { RouteProp } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 
 const HeaderRight: FC = () => {
   const { params } = useRoute<RouteProp<ParamList, RouteName.User>>();
+  const navigation = useNavigation();
+
+  const [{ data: dataMe }] = useMeQuery();
 
   const [{ data }] = useUserQuery({
     variables: { username: params.username },
@@ -29,7 +32,12 @@ const HeaderRight: FC = () => {
         data?.user &&
         uiDispatch({
           type: "contextMenu",
-          value: ContextMenuValue.user(uiDispatch, data.user),
+          value: ContextMenuValue.user(
+            uiDispatch,
+            navigation,
+            data.user,
+            data.user.id === dataMe?.me?.user.id
+          ),
         })
       }
     />
