@@ -1,7 +1,7 @@
 import { LoadingScreen } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Size } from "@/styles/spacing";
-import { useRecommendationSectionsQuery } from "@auralous/api";
+import { useMeQuery, useRecommendationSectionsQuery } from "@auralous/api";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -18,8 +18,9 @@ const styles = StyleSheet.create({
 });
 
 const ExplorePlaylistRecommendations: FC = () => {
+  const [{ data: dataMe }] = useMeQuery();
   const [{ data, fetching }] = useRecommendationSectionsQuery({
-    variables: { playlistLimit: 10 },
+    variables: { playlistLimit: 10, platform: dataMe?.me?.platform },
   });
   if (fetching) return <LoadingScreen />;
   return (

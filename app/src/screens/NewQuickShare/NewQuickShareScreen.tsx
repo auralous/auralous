@@ -17,6 +17,7 @@ import {
   PlaylistTracksDocument,
   SessionTracksDocument,
   useClient,
+  useMeQuery,
   useMyPlaylistsQuery,
   usePlaylistsFriendsQuery,
   useRecommendationSectionsQuery,
@@ -43,6 +44,8 @@ const styles = StyleSheet.create({
 const NewQuickShareScreen: FC<
   NativeStackScreenProps<ParamList, RouteName.NewQuickShare>
 > = ({ navigation, route }) => {
+  const [{ data: dataMe }] = useMeQuery();
+
   const { t } = useTranslation();
   const [fetching, setFetching] = useState(false);
 
@@ -120,7 +123,7 @@ const NewQuickShareScreen: FC<
   const [{ data: dataFriends }] = usePlaylistsFriendsQuery();
   const [{ data: dataMine }] = useMyPlaylistsQuery();
   const [{ data: dataRecommendations }] = useRecommendationSectionsQuery({
-    variables: { playlistLimit: 10 },
+    variables: { playlistLimit: 10, platform: dataMe?.me?.platform },
   });
 
   const containerStyle = useContainerStyle();

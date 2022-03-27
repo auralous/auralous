@@ -1,5 +1,5 @@
-query recommendationSections($playlistLimit: Int) {
-  recommendationSections(playlistLimit: $playlistLimit) {
+query recommendationSections($platform: PlatformName, $playlistLimit: Int) {
+  recommendationSections(platform: $platform, playlistLimit: $playlistLimit) {
     id
     title
     description
