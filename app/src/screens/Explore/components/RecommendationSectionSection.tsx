@@ -1,11 +1,9 @@
 import type { HorizontalListProps } from "@/components/ContentList";
 import { HorizontalList } from "@/components/ContentList";
-import { LoadingScreen } from "@/components/Loading";
 import { PlaylistItem } from "@/components/Playlist";
 import { ResultEmptyScreen } from "@/components/Result";
 import { RouteName } from "@/screens/types";
-import type { Playlist } from "@auralous/api";
-import { useRecommendationContentQuery } from "@auralous/api";
+import type { Playlist, RecommendationSection } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { memo } from "react";
@@ -38,33 +36,24 @@ const renderItem: HorizontalListProps<Playlist>["renderItem"] = (info) => (
   />
 );
 
-const RecommendationSection: FC<{
-  id: string;
-  title: string;
-  description?: string | null;
-}> = ({ id, title, description }) => {
-  const [{ data, fetching }] = useRecommendationContentQuery({
-    variables: {
-      id,
-      limit: 10,
-    },
-  });
-
+const RecommendationSectionSection: FC<{
+  recommendation: RecommendationSection;
+}> = ({ recommendation }) => {
   return (
     <ExploreSection
-      title={title}
-      description={description}
-      href={`/explore/${id}`}
+      title={recommendation.title}
+      description={recommendation.description}
+      href={`/explore/${recommendation.id}`}
     >
       <HorizontalList
         style={scrollStyles.scroll}
         contentContainerStyle={scrollStyles.scrollContent}
-        data={data?.recommendationContent}
+        data={recommendation.playlists}
         renderItem={renderItem}
-        ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
+        ListEmptyComponent={ResultEmptyScreen}
       />
     </ExploreSection>
   );
 };
 
-export default RecommendationSection;
+export default RecommendationSectionSection;

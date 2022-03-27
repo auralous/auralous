@@ -119,7 +119,9 @@ const NewQuickShareScreen: FC<
 
   const [{ data: dataFriends }] = usePlaylistsFriendsQuery();
   const [{ data: dataMine }] = useMyPlaylistsQuery();
-  const [{ data: dataRecommendations }] = useRecommendationSectionsQuery();
+  const [{ data: dataRecommendations }] = useRecommendationSectionsQuery({
+    variables: { playlistLimit: 10 },
+  });
 
   const containerStyle = useContainerStyle();
 

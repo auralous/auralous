@@ -1,21 +1,21 @@
-query recommendationSections {
-  recommendationSections {
+query recommendationSections($playlistLimit: Int) {
+  recommendationSections(playlistLimit: $playlistLimit) {
     id
     title
     description
+    playlists {
+      ...PlaylistParts
+    }
   }
 }
 
-query recommendationSection($id: ID!) {
-  recommendationSection(id: $id) {
+query recommendationSection($id: ID!, $playlistLimit: Int) {
+  recommendationSection(id: $id, playlistLimit: $playlistLimit) {
     id
     title
     description
-  }
-}
-
-query recommendationContent($id: ID!, $limit: Int!) {
-  recommendationContent(id: $id, limit: $limit) {
-    ...PlaylistParts
+    playlists {
+      ...PlaylistParts
+    }
   }
 }

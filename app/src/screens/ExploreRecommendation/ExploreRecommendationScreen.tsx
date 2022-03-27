@@ -6,10 +6,7 @@ import { useFlatlist6432Layout } from "@/styles/flatlist";
 import { Size } from "@/styles/spacing";
 import { use6432Layout } from "@/ui-context";
 import type { Playlist } from "@auralous/api";
-import {
-  useRecommendationContentQuery,
-  useRecommendationSectionQuery,
-} from "@auralous/api";
+import { useRecommendationSectionQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
@@ -57,7 +54,7 @@ const ExploreRecommendationScreen: FC<
   },
 }) => {
   const [{ data: dataSection }] = useRecommendationSectionQuery({
-    variables: { id },
+    variables: { id, playlistLimit: 50 },
   });
 
   useLayoutEffect(() => {
@@ -68,15 +65,8 @@ const ExploreRecommendationScreen: FC<
     }
   }, [navigation, dataSection?.recommendationSection?.title]);
 
-  const [{ data: dataQuery }] = useRecommendationContentQuery({
-    variables: {
-      id,
-      limit: 50,
-    },
-  });
-
   const { data, numColumns } = useFlatlist6432Layout(
-    dataQuery?.recommendationContent
+    dataSection?.recommendationSection?.playlists
   );
 
   const containerStyle = useContainerStyle();

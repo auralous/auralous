@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import ExploreSection from "./ExploreSection";
 import RecentSessions from "./RecentSessions";
-import RecommendationSection from "./RecommendationSection";
+import RecommendationSectionSection from "./RecommendationSectionSection";
 import SearchSection from "./SearchSection";
 
 const styles = StyleSheet.create({
@@ -17,10 +17,25 @@ const styles = StyleSheet.create({
   },
 });
 
+const ExplorePlaylistRecommendations: FC = () => {
+  const [{ data, fetching }] = useRecommendationSectionsQuery({
+    variables: { playlistLimit: 10 },
+  });
+  if (fetching) return <LoadingScreen />;
+  return (
+    <>
+      {data?.recommendationSections.map((recommendation) => (
+        <RecommendationSectionSection
+          key={recommendation.id}
+          recommendation={recommendation}
+        />
+      ))}
+    </>
+  );
+};
+
 const ExploreScreenContent: FC = () => {
   const { t } = useTranslation();
-  const [{ data, fetching }] = useRecommendationSectionsQuery();
-  if (fetching) return <LoadingScreen />;
   return (
     <View style={styles.content}>
       <SearchSection />
@@ -36,14 +51,7 @@ const ExploreScreenContent: FC = () => {
         title={t("explore.radio_stations.title")}
         description={t("explore.radio_stations.description")}
       ></ExploreSection>
-      {data?.recommendationSections.map((recommendation) => (
-        <RecommendationSection
-          key={recommendation.id}
-          id={recommendation.id}
-          title={recommendation.title}
-          description={recommendation.description}
-        />
-      ))}
+      <ExplorePlaylistRecommendations />
     </View>
   );
 };
