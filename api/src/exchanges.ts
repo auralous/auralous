@@ -44,13 +44,17 @@ const cacheExchangeFn = () =>
         messages: mongodbPagination(),
         sessions: mongodbPagination(),
         notifications: mongodbPagination(),
-        session: (parent, args) => ({ __typename: "Session", id: args.id }),
-        playlist: (parent, args) => ({ __typename: "Playlist", id: args.id }),
-        track: (parent, args) => ({ __typename: "Track", id: args.id }),
-        recommendationSection: (parent, args) => ({
-          __typename: "RecommendationSection",
-          id: args.id,
-        }),
+        session: (parent, args, cache) =>
+          cache.keyOfEntity({ __typename: "Session", id: args.id })!,
+        playlist: (parent, args, cache) =>
+          cache.keyOfEntity({ __typename: "Playlist", id: args.id })!,
+        track: (parent, args, cache) =>
+          cache.keyOfEntity({ __typename: "Track", id: args.id })!,
+        recommendationSection: (parent, args, cache) =>
+          cache.keyOfEntity({
+            __typename: "RecommendationSection",
+            id: args.id,
+          })!,
       },
       Message: {
         createdAt: (parent) => new Date(parent.createdAt),

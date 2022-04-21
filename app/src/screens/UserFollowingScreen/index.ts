@@ -8,7 +8,7 @@ const UserFollowingRouteConfig = {
   name: RouteName.UserFollowing,
   component: UserFollowingScreen,
   options: {
-    title: t("user.followers"),
+    title: t("user.following"),
   },
 };
 
