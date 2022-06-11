@@ -1,5 +1,5 @@
 {
-  "name": "@auralous/mobile",
+  "name": "auralous",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,49 +11,42 @@
     "test": "jest",
     "postinstall": "patch-package"
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "preset": "react-native"
-  },
   "dependencies": {
     "@auralous/app": "^0.0.0",
-    "@react-native-async-storage/async-storage": "^1.17.3",
-    "@react-native-clipboard/clipboard": "^1.8.5",
+    "@hoangvvo/react-native-spotify-remote": "^0.3.12-0",
+    "@react-native-async-storage/async-storage": "^1.17.6",
+    "@react-native-clipboard/clipboard": "^1.10.0",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/native": "^6.0.10",
-    "@react-navigation/native-stack": "^6.6.1",
-    "react": "^17.0.2",
-    "react-native": "0.67.4",
-    "react-native-config": "^1.4.5",
+    "@react-navigation/native-stack": "^6.6.2",
+    "postinstall-postinstall": "^2.1.0",
+    "react": "18.0.0",
+    "react-native": "0.69.0-rc.6",
+    "react-native-config": "^1.4.6",
     "react-native-geolocation-service": "^5.3.0-beta.4",
-    "react-native-gesture-handler": "^2.4.0",
+    "react-native-gesture-handler": "^2.4.2",
     "react-native-linear-gradient": "^2.5.6",
-    "react-native-localize": "^2.2.1",
+    "react-native-localize": "^2.2.2",
     "react-native-permissions": "^3.3.1",
-    "react-native-reanimated": "2.7.0",
-    "react-native-safe-area-context": "^4.2.4",
+    "react-native-reanimated": "^3.0.0-rc.0",
+    "react-native-safe-area-context": "^4.3.1",
     "react-native-screens": "^3.13.1",
     "react-native-sha256": "^1.4.7",
-    "@hoangvvo/react-native-spotify-remote": "0.3.12-0",
     "react-native-svg": "^12.3.0",
     "react-native-svg-transformer": "^1.0.0",
-    "react-native-webview": "^11.18.1"
+    "react-native-webview": "^11.22.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
-    "@babel/runtime": "^7.17.9",
-    "@types/react": "^17.0.44",
-    "@types/react-native": "^0.67.4",
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "babel-jest": "^26.6.3",
     "babel-plugin-module-resolver": "^4.1.0",
-    "metro-react-native-babel-preset": "^0.70.1",
-    "postinstall-postinstall": "^2.1.0",
-    "react-test-renderer": "^17.0.2"
+    "eslint": "^7.32.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.70.3",
+    "react-test-renderer": "18.0.0"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }
