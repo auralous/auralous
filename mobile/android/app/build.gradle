@@ -222,8 +222,6 @@ dependencies {
         implementation jscFlavor
     }
 
-    implementation project(':react-native-events')
-
     // For animated GIF support
     implementation 'com.facebook.fresco:animated-gif:2.5.0'
 }

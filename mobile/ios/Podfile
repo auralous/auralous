@@ -17,8 +17,6 @@ target 'Auralous' do
     # Pods for testing
   end
 
-	pod 'RNEventEmitter', :path => "../node_modules/react-native-events"
-
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
 

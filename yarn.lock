@@ -1572,6 +1572,11 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
+"@hoangvvo/react-native-spotify-remote@0.3.12-0":
+  version "0.3.12-0"
+  resolved "https://registry.yarnpkg.com/@hoangvvo/react-native-spotify-remote/-/react-native-spotify-remote-0.3.12-0.tgz#09df9e1245a47f3be2141b8f2afdfa1c009abf7f"
+  integrity sha512-893gaFVASOBBXgtsaeZgpkGpJ7e038f4rQShpvwTQLdj3cvxopUwtHud2+1/0UZ+GKZc81CfO3pZCQI4EVD3bQ==
+
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.5"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.9.5.tgz#2cbaf9a89460da24b5ca6531b8bbfc23e1df50c7"
@@ -4516,7 +4521,7 @@ eventemitter3@^4.0.0:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
 
-events@^3.0.0, events@^3.2.0:
+events@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
@@ -8065,13 +8070,6 @@ react-native-config@^1.4.5:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.4.5.tgz#6fe5895410b75e44fe4f4bf00caaf894a0981f3a"
   integrity sha512-5oiAsoW88SOYDg/0cleJ2vJDqv98FJUbFQYEnH4sdMtEn3AAT3lb7BkTGW8HO/t3Vk9VOruwxUUnO4tzuxzCsw==
 
-react-native-events@^1.0.21:
-  version "1.0.21"
-  resolved "https://registry.yarnpkg.com/react-native-events/-/react-native-events-1.0.21.tgz#d1fbe492a3321d09c630da5132dad10a5312b823"
-  integrity sha512-qBolATOf+xzUkYOlOK3I4Nm/l6Y5vtng8dAM9TPHy170NSKKpsgirAnaCO82+nEkniEanm+Nb/cP4pFVPQAeaQ==
-  dependencies:
-    events "^3.0.0"
-
 react-native-geolocation-service@^5.3.0-beta.4:
   version "5.3.0-beta.4"
   resolved "https://registry.yarnpkg.com/react-native-geolocation-service/-/react-native-geolocation-service-5.3.0-beta.4.tgz#8061396f734028b0ecbf8316a2cda9179df19210"
@@ -8142,13 +8140,6 @@ react-native-sha256@^1.4.7:
   version "1.4.7"
   resolved "https://registry.yarnpkg.com/react-native-sha256/-/react-native-sha256-1.4.7.tgz#cef05260a3a3a17cd70727170d0c187ef7cefb8c"
   integrity sha512-VcIjOBGvHG6V2OCgbGnEKOymcatYC7byf1aM6mmCoUDqOUFQrGIjnU9fUMWGoMERAljVqisvsG/M1GdfhilkFg==
-
-react-native-spotify-remote@^0.3.11-5:
-  version "0.3.11-5"
-  resolved "https://registry.yarnpkg.com/react-native-spotify-remote/-/react-native-spotify-remote-0.3.11-5.tgz#2638c7fecec28f8e7cc42b850cfc4271c84aa506"
-  integrity sha512-6i6ibtIJOX8BywxlSWmb3GKOVCL6kCASFdDtnvfdVz35BtL/IPdxCd/jk4/v1yqm3HU6EWjNyS1d91m/Yk0R+g==
-  dependencies:
-    react-native-events "^1.0.21"
 
 react-native-svg-transformer@^1.0.0:
   version "1.0.0"

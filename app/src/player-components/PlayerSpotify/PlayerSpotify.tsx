@@ -1,17 +1,17 @@
 import { Config } from "@/config";
 import player from "@/player";
 import { externalTrackIdFromTrackId } from "@/player/utils";
-import type { FC } from "react";
-import { memo, useCallback, useEffect, useState } from "react";
 import type {
   ApiConfig,
   PlayerContext as SpotifyPlayerContext,
   PlayerState as SpotifyPlayerState,
-} from "react-native-spotify-remote";
+} from "@hoangvvo/react-native-spotify-remote";
 import {
   auth as SpotifyAuth,
   remote as SpotifyRemote,
-} from "react-native-spotify-remote";
+} from "@hoangvvo/react-native-spotify-remote";
+import type { FC } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import PlayerSpotifyError from "./PlayerSpotifyError";
 
 const spotifyConfig: ApiConfig = {
@@ -129,7 +129,10 @@ const PlayerSpotify: FC<{ accessToken: string | null }> = ({ accessToken }) => {
       state = v;
     };
 
-    SpotifyRemote.on("playerStateChanged", onStateChange);
+    const playerStateChangedSub = SpotifyRemote.addListener(
+      "playerStateChanged",
+      onStateChange
+    );
 
     const onContextChange = (v: SpotifyPlayerContext) => {
       const currentTrackId = player.getState().source.trackId;
@@ -144,7 +147,10 @@ const PlayerSpotify: FC<{ accessToken: string | null }> = ({ accessToken }) => {
       player.emit("played_external", v.uri.split(":")[2]);
     };
 
-    SpotifyRemote.on("playerContextChanged", onContextChange);
+    const playerContextChangedSub = SpotifyRemote.addListener(
+      "playerContextChanged",
+      onContextChange
+    );
 
     // Spotify SDK does not support subscribing to position
     // so we need polling to retrieve it, we poll every 1 sec
@@ -185,8 +191,8 @@ const PlayerSpotify: FC<{ accessToken: string | null }> = ({ accessToken }) => {
     });
 
     return () => {
-      SpotifyRemote.off("playerStateChanged", onStateChange);
-      SpotifyRemote.off("playerContextChanged", onContextChange);
+      playerStateChangedSub.remove();
+      playerContextChangedSub.remove();
       clearInterval(durationInterval);
       player.unregisterPlayer();
     };
