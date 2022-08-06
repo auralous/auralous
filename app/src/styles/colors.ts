@@ -9,7 +9,7 @@ export const Colors = {
   primaryText: "#FFFFFF",
   control: "#222744",
   controlDark: "#1a1e32",
-  border: "rgba(255, 255, 255, 0.05)",
+  border: "rgba(255, 255, 255, 0.1)",
   white: "#FFFFFF",
   black: "#000000",
   none: "transparent",

@@ -41,6 +41,8 @@ const SessionInviteButton: FC<{ session: Session }> = ({ session }) => {
     }
   );
 
+  const sessionInviteLink = dataSessionInviteLink?.sessionInviteLink;
+
   const uiDispatch = useUIDispatch();
 
   const onInvitePress = useCallback(() => {
@@ -49,10 +51,10 @@ const SessionInviteButton: FC<{ session: Session }> = ({ session }) => {
       value: {
         visible: true,
         title: t("session_invite.title", { name: session.text }),
-        url: dataSessionInviteLink?.sessionInviteLink,
+        url: sessionInviteLink,
       },
     });
-  }, [t, uiDispatch, session.text, dataSessionInviteLink?.sessionInviteLink]);
+  }, [t, uiDispatch, session.text, sessionInviteLink]);
 
   if (!shouldShowInviteButton) return null;
 

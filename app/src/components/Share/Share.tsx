@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     borderRadius: Size[2],
     borderWidth: 2,
     justifyContent: "center",
+    overflow: "hidden",
     padding: Size[4],
   },
 });

@@ -178,7 +178,7 @@ const QueueContent: FC<{
 
   // This util is used to avoid loading each individual track
   // in <DraggableQueueItem /> by batching them while checking against cache
-  usePreloadedTrackQueries(
+  const fetchingPreload = usePreloadedTrackQueries(
     useMemo(() => items.map((item) => item.trackId), [items])
   );
 
@@ -225,6 +225,7 @@ const QueueContent: FC<{
   const sortableFlatlist = useMemo(() => {
     return (
       <SortableFlatList
+        key={`${fetchingPreload}`}
         style={styles.list}
         data={items}
         renderItem={renderItem}
@@ -236,7 +237,7 @@ const QueueContent: FC<{
         windowSize={10}
       />
     );
-  }, [items, onDragEnd]);
+  }, [items, onDragEnd, fetchingPreload]);
 
   return (
     <SettableProvider ref={settableRef}>
