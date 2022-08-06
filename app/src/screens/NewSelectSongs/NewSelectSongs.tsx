@@ -1,7 +1,10 @@
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { SongSelector } from "@/views/SongSelector";
-import type { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
+import type {
+  BottomSheetBackdropProps,
+  BottomSheetFooterProps,
+} from "@gorhom/bottom-sheet";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetFooter,
@@ -61,7 +64,7 @@ const NewSelectSongs: FC<{
   );
 
   const renderFooter = useCallback(
-    (props) => (
+    (props: BottomSheetFooterProps) => (
       <BottomSheetFooter {...props} style={styles.sheetBottom}>
         <SelectedTracksListFooter
           selectedTracks={selectedTracks}

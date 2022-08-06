@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To recommend your music session to people near you. Location information is never visible to others.</string>
+	<string>Your location will be used for others to discover music near them. The exact location is not available to anyone.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,15 +51,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>NotoSansDisplay-Bold.ttf</string>
-		<string>NotoSansDisplay-BoldItalic.ttf</string>
-		<string>NotoSansDisplay-Italic.ttf</string>
-		<string>NotoSansDisplay-Medium.ttf</string>
-		<string>NotoSansDisplay-MediumItalic.ttf</string>
-		<string>NotoSansDisplay-Regular.ttf</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -68,6 +59,15 @@
 				<string>auralous</string>
 			</array>
 		</dict>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NotoSansDisplay-Bold.ttf</string>
+		<string>NotoSansDisplay-BoldItalic.ttf</string>
+		<string>NotoSansDisplay-Italic.ttf</string>
+		<string>NotoSansDisplay-Medium.ttf</string>
+		<string>NotoSansDisplay-MediumItalic.ttf</string>
+		<string>NotoSansDisplay-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

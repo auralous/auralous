@@ -1,5 +1,5 @@
 import { Toaster } from "@/components/Toast";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { Modal } from "react-native";
 
 interface ModalProps {
@@ -7,7 +7,7 @@ interface ModalProps {
   onDismiss?(): void;
 }
 
-export const SlideModal: FC<ModalProps> = ({
+export const SlideModal: FC<PropsWithChildren<ModalProps>> = ({
   visible,
   onDismiss,
   children,
@@ -26,7 +26,11 @@ export const SlideModal: FC<ModalProps> = ({
   );
 };
 
-export const FadeModal: FC<ModalProps> = ({ visible, onDismiss, children }) => {
+export const FadeModal: FC<PropsWithChildren<ModalProps>> = ({
+  visible,
+  onDismiss,
+  children,
+}) => {
   return (
     <Modal
       animationType="fade"

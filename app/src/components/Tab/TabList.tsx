@@ -1,4 +1,4 @@
-import type { FC, ReactElement } from "react";
+import type { FC, PropsWithChildren, ReactElement } from "react";
 import { Children, cloneElement } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, View } from "react-native";
@@ -9,7 +9,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const TabList: FC<{ style?: StyleProp<ViewStyle> }> = ({ children, style }) => {
+const TabList: FC<PropsWithChildren<{ style?: StyleProp<ViewStyle> }>> = ({
+  children,
+  style,
+}) => {
   const arrayChildren = Children.toArray(children) as ReactElement[];
   return (
     <View style={[styles.tabs, style]} accessibilityRole="tablist">

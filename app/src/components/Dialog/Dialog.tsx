@@ -6,7 +6,7 @@ import { Text } from "@/components/Typography";
 import { AnimationEasings } from "@/styles/animation";
 import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
-import type { ComponentProps, FC } from "react";
+import type { ComponentProps, FC, PropsWithChildren } from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -72,7 +72,7 @@ interface BottomSheetDialogProps {
   onDismiss?(): void;
 }
 
-const DialogRoot: FC<BottomSheetDialogProps> = ({
+const DialogRoot: FC<PropsWithChildren<BottomSheetDialogProps>> = ({
   visible,
   children,
   onDismiss,
@@ -152,7 +152,7 @@ const DialogRoot: FC<BottomSheetDialogProps> = ({
   );
 };
 
-const DialogTitle: FC = ({ children }) => (
+const DialogTitle: FC<PropsWithChildren> = ({ children }) => (
   <View style={styles.titleContainer}>
     <Text size="xl" align="center">
       {children}
@@ -160,9 +160,11 @@ const DialogTitle: FC = ({ children }) => (
   </View>
 );
 
-const DialogContent: FC = ({ children }) => <View>{children}</View>;
+const DialogContent: FC<PropsWithChildren> = ({ children }) => (
+  <View>{children}</View>
+);
 
-const DialogContentText: FC<ComponentProps<typeof Text>> = ({
+const DialogContentText: FC<PropsWithChildren<ComponentProps<typeof Text>>> = ({
   children,
   ...props
 }) => (
@@ -171,7 +173,7 @@ const DialogContentText: FC<ComponentProps<typeof Text>> = ({
   </Text>
 );
 
-const DialogFooter: FC = ({ children }) => (
+const DialogFooter: FC<PropsWithChildren> = ({ children }) => (
   <View style={styles.footer}>{children}</View>
 );
 

@@ -1,5 +1,5 @@
 import { Size } from "@/styles/spacing";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
@@ -31,10 +31,9 @@ export const useYoutubeContainerSizes = () => {
   };
 };
 
-const PlayerYoutubeContainer: FC<{ style?: StyleProp<ViewStyle> }> = ({
-  children,
-  style,
-}) => {
+const PlayerYoutubeContainer: FC<
+  PropsWithChildren<{ style?: StyleProp<ViewStyle> }>
+> = ({ children, style }) => {
   const safeAreaInsets = useSafeAreaInsets();
   const windowDimensions = useWindowDimensions();
 

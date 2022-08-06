@@ -1,4 +1,4 @@
-import type { FC, ReactElement } from "react";
+import type { FC, PropsWithChildren, ReactElement } from "react";
 import { Children, cloneElement, useMemo, useState } from "react";
 import TabsContext from "./Context";
 import TabPanel from "./TabPanel";
@@ -8,7 +8,7 @@ interface TabsProps {
   onChange?: (index: number) => void;
 }
 
-const Tabs: FC<TabsProps> = ({ initialIndex, children }) => {
+const Tabs: FC<PropsWithChildren<TabsProps>> = ({ initialIndex, children }) => {
   const [index, setIndex] = useState(initialIndex || 0);
 
   const childrenNode = useMemo(() => {

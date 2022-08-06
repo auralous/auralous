@@ -1,7 +1,7 @@
 import { Text } from "@/components/Typography";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { useContext } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import TabsContext from "./Context";
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Tab: FC<{ index?: number; length?: number }> = ({
+const Tab: FC<PropsWithChildren<{ index?: number; length?: number }>> = ({
   index = 0,
   length = 0,
   children,

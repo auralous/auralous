@@ -19,7 +19,7 @@ import {
   useSettableNotEmpty,
 } from "@/views/SettableContext";
 import { useTrackQuery } from "@auralous/api";
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { Dispatch, FC, PropsWithChildren, SetStateAction } from "react";
 import { memo, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -65,10 +65,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export const SelectedTracksListProvider: FC<{
-  expanded: boolean;
-  invalidator: any;
-}> = ({ children, expanded, invalidator }) => {
+export const SelectedTracksListProvider: FC<
+  PropsWithChildren<{
+    expanded: boolean;
+    invalidator: any;
+  }>
+> = ({ children, expanded, invalidator }) => {
   const ref = useRef<SettabbleRef>(null);
 
   useEffect(() => {

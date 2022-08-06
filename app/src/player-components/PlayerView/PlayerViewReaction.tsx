@@ -16,7 +16,7 @@ import {
   useNowPlayingReactionsUpdatedSubscription,
   useNowPlayingReactMutation,
 } from "@auralous/api";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
@@ -113,10 +113,12 @@ const ReactionCalculationContext = createContext(
 );
 export const useReactionCalculation = () =>
   useContext(ReactionCalculationContext);
-const ReactionCalculationProvider: FC<{
-  id: string;
-  dataAll: NowPlayingReactionsQuery | undefined;
-}> = ({ dataAll, children }) => {
+const ReactionCalculationProvider: FC<
+  PropsWithChildren<{
+    id: string;
+    dataAll: NowPlayingReactionsQuery | undefined;
+  }>
+> = ({ dataAll, children }) => {
   const [{ data: dataMe }] = useMeQuery();
 
   const value = useMemo(

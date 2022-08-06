@@ -9,6 +9,7 @@ export const TextMarquee: FC<
     containerStyle?: StyleProp<ViewStyle>;
     duration: number;
     marqueeDelay?: number;
+    children: string;
   }
 > = ({ children, ...props }) => (
   <Text {...props} numberOfLines={1}>

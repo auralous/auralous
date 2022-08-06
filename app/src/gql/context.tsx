@@ -1,7 +1,7 @@
 import player from "@/player";
 import { Provider, STORAGE_KEY_AUTH } from "@auralous/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { createUrqlClient } from "./urql";
 
@@ -12,7 +12,7 @@ interface ApiState {
 
 const ApiContext = createContext({} as ApiState);
 
-export const ApiProvider: FC = ({ children }) => {
+export const ApiProvider: FC<PropsWithChildren> = ({ children }) => {
   const [client, setClient] = useState(createUrqlClient);
   useEffect(() => {
     player.gqlClient = client;

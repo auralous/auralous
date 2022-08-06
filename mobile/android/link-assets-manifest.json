@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/NotoSansDisplay-Bold.ttf",
+      "sha1": "0fff4441ec8aae6abceb9e0c668b634394f6ebd4"
+    },
+    {
+      "path": "src/assets/fonts/NotoSansDisplay-BoldItalic.ttf",
+      "sha1": "4f8415cc50a0e00c1ac671f6eac91166f502ad3f"
+    },
+    {
+      "path": "src/assets/fonts/NotoSansDisplay-Italic.ttf",
+      "sha1": "b7cccd60e3cb591fa9bf7a10bc7e668467856278"
+    },
+    {
+      "path": "src/assets/fonts/NotoSansDisplay-Medium.ttf",
+      "sha1": "403966684b0f7b484dad0bac8397a737ac6cc42d"
+    },
+    {
+      "path": "src/assets/fonts/NotoSansDisplay-MediumItalic.ttf",
+      "sha1": "00fabf5c28d545479f6794cd850b430a6550ed13"
+    },
+    {
+      "path": "src/assets/fonts/NotoSansDisplay-Regular.ttf",
+      "sha1": "66710fba545c46df1a206d7421d13a20f1970f7d"
+    }
+  ]
+}

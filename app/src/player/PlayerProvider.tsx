@@ -9,7 +9,7 @@ import {
   useSessionPingMutation,
 } from "@auralous/api";
 import type { NavigationContainerRefWithCurrent } from "@react-navigation/native";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   PlaybackSelectionContext,
@@ -28,9 +28,11 @@ import type {
   PlaybackStateSource,
 } from "./types";
 
-const PlayerProviderInner: FC<{
-  playbackSelection: PlaybackSelection | null;
-}> = ({ children, playbackSelection }) => {
+const PlayerProviderInner: FC<
+  PropsWithChildren<{
+    playbackSelection: PlaybackSelection | null;
+  }>
+> = ({ children, playbackSelection }) => {
   /**
    * This state determines:
    * - the track that should be played
@@ -133,9 +135,11 @@ const PlayerProviderInner: FC<{
   );
 };
 
-export const PlayerProvider: FC<{
-  navigationRef: NavigationContainerRefWithCurrent<ParamList>;
-}> = ({ children, navigationRef }) => {
+export const PlayerProvider: FC<
+  PropsWithChildren<{
+    navigationRef: NavigationContainerRefWithCurrent<ParamList>;
+  }>
+> = ({ children, navigationRef }) => {
   const client = useClient();
   const [playbackSelection, setPlaybackSelection] =
     useState<PlaybackSelection | null>(null);

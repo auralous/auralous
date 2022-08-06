@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { createContext, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -11,7 +11,9 @@ const SEC = 1e3,
   HOUR = MIN * 60,
   DAY = HOUR * 24;
 
-export const TimeDiffFormatterProvider: FC = ({ children }) => {
+export const TimeDiffFormatterProvider: FC<PropsWithChildren> = ({
+  children,
+}) => {
   const { i18n } = useTranslation();
 
   const fn = useMemo<TimeDiffFormatterFns>(() => {

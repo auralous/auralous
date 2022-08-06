@@ -69,7 +69,7 @@ const UserMeta: FC<{
 }> = ({ user }) => {
   const { t } = useTranslation();
 
-  const [{ data: { userStat } = { userStat: undefined } }] = useUserStatQuery({
+  const [{ data }] = useUserStatQuery({
     variables: { id: user.id },
     requestPolicy: "cache-and-network",
   });
@@ -107,12 +107,12 @@ const UserMeta: FC<{
         <Spacer y={2} />
         <View style={styles.stats}>
           <UserStat
-            value={userStat?.followerCount || 0}
+            value={data?.userStat?.followerCount || 0}
             name={t("user.followers")}
             onPress={gotoFollowers}
           />
           <UserStat
-            value={userStat?.followingCount || 0}
+            value={data?.userStat?.followingCount || 0}
             name={t("user.following")}
             onPress={gotoFollowing}
           />

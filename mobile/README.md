@@ -19,7 +19,7 @@ FACEBOOK_APP_ID=
 You will need a [Spotify Developer](https://developer.spotify.com/) to work with Spotify playback.
 
 1. Add `auralous://sign-in/spotify/callback` as a Redirect URI.
-2. Fill in the Android Package Name (`com.hoangvvo.auralous`) and SHA1 Fingerprint (dev: `keytool -list -v -alias androiddebugkey -keystore ./android/app/debug.keystore -storepass android`, prod: `keytool -list -v -alias upload -keystore ./android/app/upload-keystore.keystore`) and iOS Bundle ID.
+2. Fill in the Android Package Name (`com.auralous`) and SHA1 Fingerprint (dev: `keytool -list -v -alias androiddebugkey -keystore ./android/app/debug.keystore -storepass android`, prod: `keytool -list -v -alias upload -keystore ./android/app/upload-keystore.keystore`) and iOS Bundle ID.
 
 Spotify application should also be installed on the development device.
 

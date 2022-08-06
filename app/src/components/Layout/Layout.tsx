@@ -1,7 +1,7 @@
 import { PLAYER_BAR_HEIGHT } from "@/player-components/PlayerBar";
 import { useIsFullscreenRoute } from "@/screens/useRouteName";
 import { LayoutSize } from "@/styles/spacing";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import BottomTabs from "./BottomTabs";
 import Sidebar from "./Sidebar";
@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
 });
 
 const isLandscape = Dimensions.get("window").width >= LayoutSize.md;
-const Layout: FC = ({ children }) => {
+
+const Layout: FC<PropsWithChildren> = ({ children }) => {
   const isFsRoute = useIsFullscreenRoute();
   return (
     <View
