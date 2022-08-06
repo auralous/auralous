@@ -1,6 +1,6 @@
 import type { BottomSheetActionMenuProps } from "@/components/BottomSheet";
 import type { PlaybackSelection } from "@/player";
-import type { Dispatch, FC } from "react";
+import type { Dispatch, FC, PropsWithChildren } from "react";
 import { createContext, useContext, useReducer } from "react";
 import type { Omit } from "react-native";
 import { TimeDiffFormatterProvider } from "./TimeDiffFormatter";
@@ -55,7 +55,7 @@ const uiInitialValues: UIState = {
 const UIContext = createContext(
   undefined as unknown as [UIState, Dispatch<Action<keyof UIState>>]
 );
-export const UIContextProvider: FC = ({ children }) => {
+export const UIContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const uiReducer = useReducer(reducer, uiInitialValues);
 
   return (

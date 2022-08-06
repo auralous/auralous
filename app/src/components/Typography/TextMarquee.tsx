@@ -1,6 +1,6 @@
 import { scrollTo } from "@/styles/animation";
 import { Size } from "@/styles/spacing";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type {
   LayoutChangeEvent,
@@ -38,11 +38,13 @@ const styles = StyleSheet.create({
 });
 
 export const TextMarquee: FC<
-  Omit<TextProps, "numberOfLines"> & {
-    containerStyle?: StyleProp<ViewStyle>;
-    duration: number;
-    marqueeDelay?: number;
-  }
+  PropsWithChildren<
+    Omit<TextProps, "numberOfLines"> & {
+      containerStyle?: StyleProp<ViewStyle>;
+      duration: number;
+      marqueeDelay?: number;
+    }
+  >
 > = ({ children, duration, marqueeDelay = 0, containerStyle, ...props }) => {
   const style = useStyle(props);
   const [containerWidth, setContainerWidth] = useState(0);

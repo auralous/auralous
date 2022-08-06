@@ -1,7 +1,7 @@
 import { Spacer } from "@/components/Spacer";
 import { Heading, RNLink, Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ExploreSection: FC<SectionProps> = ({
+const ExploreSection: FC<PropsWithChildren<SectionProps>> = ({
   title,
   description,
   children,

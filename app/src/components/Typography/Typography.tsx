@@ -1,7 +1,7 @@
 import type { ThemeColorKey } from "@/styles/colors";
 import { Colors } from "@/styles/colors";
 import { Font, fontMetrics, fontPropsFn } from "@/styles/fonts";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { useCallback, useMemo } from "react";
 import type { StyleProp, TextStyle } from "react-native";
 import { Linking, Pressable, StyleSheet, Text as RNText } from "react-native";
@@ -67,7 +67,7 @@ export const useStyle = (props: TextProps & { level?: number }) => {
   ]);
 };
 
-export const Text: FC<TextProps> = ({
+export const Text: FC<PropsWithChildren<TextProps>> = ({
   children,
   numberOfLines,
   selectable,
@@ -91,7 +91,7 @@ interface TextLinkProps {
   href: string;
 }
 
-export const TextLink: FC<TextProps & TextLinkProps> = ({
+export const TextLink: FC<PropsWithChildren<TextProps & TextLinkProps>> = ({
   children,
   numberOfLines,
   href,
@@ -122,7 +122,7 @@ interface HeadingProps {
   level: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
-export const Heading: FC<TextProps & HeadingProps> = ({
+export const Heading: FC<TextProps & HeadingProps & { children: string }> = ({
   children,
   numberOfLines,
   ...props

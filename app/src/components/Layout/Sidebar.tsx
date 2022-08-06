@@ -14,7 +14,7 @@ import { Colors } from "@/styles/colors";
 import { LayoutSize, Size } from "@/styles/spacing";
 import { useUIDispatch } from "@/ui-context";
 import { useMeQuery } from "@auralous/api";
-import type { FC, ReactNode } from "react";
+import type { FC, PropsWithChildren, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 
@@ -42,11 +42,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const SidebarButton: FC<{ icon: ReactNode; name: RouteName }> = ({
-  children,
-  icon,
-  name,
-}) => {
+const SidebarButton: FC<
+  PropsWithChildren<{ icon: ReactNode; name: RouteName }>
+> = ({ children, icon, name }) => {
   const routeNames = useRouteNames();
   const routeName = routeNames[routeNames.length - 1];
 
