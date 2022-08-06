@@ -1,5 +1,6 @@
 import imageDefaultPlaylist from "@/assets/images/default_playlist.jpg";
 import { Button } from "@/components/Button";
+import { Image } from "@/components/Image";
 import { Spacer } from "@/components/Spacer";
 import { Heading, Text } from "@/components/Typography";
 import player from "@/player";
@@ -8,7 +9,7 @@ import type { Playlist } from "@auralous/api";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 
 const PlaylistMeta: FC<{
   playlist: Playlist;

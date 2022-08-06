@@ -1,11 +1,12 @@
 import { IconByPlatformName } from "@/assets";
 import imageDefaultPlaylist from "@/assets/images/default_playlist.jpg";
+import { Image } from "@/components/Image";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
 import type { Playlist } from "@auralous/api";
 import type { FC } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 interface PlaylistListItemProps {
   playlist: Playlist;

@@ -2,6 +2,7 @@ import { IconMoreVertical, IconPause, IconPlay } from "@/assets";
 import imageDefaultPlaylist from "@/assets/images/default_playlist.jpg";
 import imageDefaultUser from "@/assets/images/default_user.jpg";
 import { ContextMenuValue } from "@/components/BottomSheet";
+import { Image } from "@/components/Image";
 import Spacer from "@/components/Spacer/Spacer";
 import { Text } from "@/components/Typography";
 import player, {
@@ -16,13 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
   creator: {

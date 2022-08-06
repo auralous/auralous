@@ -1,5 +1,6 @@
 import { Button } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
+import { Image } from "@/components/Image";
 import { NullComponent } from "@/components/misc";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
@@ -11,7 +12,6 @@ import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import type { ImageURISource } from "react-native";
 import {
-  Image,
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,

@@ -3,6 +3,7 @@ import imageDefaultTrack from "@/assets/images/default_track.jpg";
 import spotifyLogoRGBWhite from "@/assets/images/Spotify_Logo_RGB_White.png";
 import ytLogoMonoDark from "@/assets/images/yt_logo_mono_dark.png";
 import { ContextMenuValue } from "@/components/BottomSheet";
+import { Image } from "@/components/Image";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text, TextMarquee } from "@/components/Typography";
@@ -14,7 +15,7 @@ import { PlatformName } from "@auralous/api";
 import type { FC, ReactNode } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, ImageBackground, StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({

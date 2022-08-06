@@ -1,5 +1,6 @@
 import imageDefaultUser from "@/assets/images/default_user.jpg";
 import { Dialog, useDialog } from "@/components/Dialog";
+import { Image } from "@/components/Image";
 import { ResultEmptyScreen } from "@/components/Result";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
@@ -20,7 +21,7 @@ import type { FC, PropsWithChildren } from "react";
 import { createContext, memo, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { ListRenderItem } from "react-native";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({

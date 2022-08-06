@@ -1,8 +1,9 @@
 import imageDefaultUser from "@/assets/images/default_user.jpg";
+import { Image } from "@/components/Image";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import type { FC } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 interface AvatarProps {
   href?: string | null;

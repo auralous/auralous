@@ -1,6 +1,7 @@
 import { IconByPlatformName } from "@/assets";
 import imageDefaultTrack from "@/assets/images/default_track.jpg";
 import imageIconPlaying from "@/assets/images/icon-playing.gif";
+import { Image } from "@/components/Image";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
 import { Text } from "@/components/Typography";
@@ -9,7 +10,7 @@ import { msToHMS } from "@/utils/ms";
 import type { Maybe, Track } from "@auralous/api";
 import type { FC } from "react";
 import { useMemo } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export interface TrackItemProps {
   track: Maybe<Track>;

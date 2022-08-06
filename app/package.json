@@ -16,6 +16,7 @@
   "dependencies": {
     "@auralous/api": "^0.0.0",
     "@gorhom/bottom-sheet": "^4.4.3",
+    "@th3rdwave/web-image": "^0.3.2",
     "i18next": "^21.8.16",
     "mitt": "^3.0.0",
     "react-i18next": "^11.18.3",

@@ -3013,6 +3013,11 @@
     "@svgr/plugin-jsx" "^6.3.1"
     "@svgr/plugin-svgo" "^6.3.1"
 
+"@th3rdwave/web-image@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@th3rdwave/web-image/-/web-image-0.3.2.tgz#627b268a2fcc4107a2729bdfe7b34da3762489f0"
+  integrity sha512-Lc0WkRF128OT5rD84TUD86CB8hxdumUat5dMoyHIOWFykYJgr/wYrxxnO5XzgtmjizoBQpCeAERIe4flsX/bYA==
+
 "@tootallnate/once@2":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"

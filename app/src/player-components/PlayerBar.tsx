@@ -1,5 +1,6 @@
 import { IconByPlatformName, IconPause, IconPlay } from "@/assets";
 import imageDefaultTrack from "@/assets/images/default_track.jpg";
+import { Image } from "@/components/Image";
 import { BOTTOM_TABS_HEIGHT } from "@/components/Layout/BottomTabs";
 import { SkeletonBlock } from "@/components/Loading";
 import { Spacer } from "@/components/Spacer";
@@ -18,7 +19,6 @@ import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  Image,
   Pressable,
   StyleSheet,
   TouchableOpacity,
