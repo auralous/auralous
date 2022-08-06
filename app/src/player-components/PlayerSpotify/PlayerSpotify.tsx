@@ -1,17 +1,17 @@
 import { Config } from "@/config";
 import player from "@/player";
 import { externalTrackIdFromTrackId } from "@/player/utils";
+import type { FC } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type {
   ApiConfig,
   PlayerContext as SpotifyPlayerContext,
   PlayerState as SpotifyPlayerState,
-} from "@hoangvvo/react-native-spotify-remote";
+} from "react-native-spotify-remote";
 import {
   auth as SpotifyAuth,
   remote as SpotifyRemote,
-} from "@hoangvvo/react-native-spotify-remote";
-import type { FC } from "react";
-import { memo, useCallback, useEffect, useState } from "react";
+} from "react-native-spotify-remote";
 import PlayerSpotifyError from "./PlayerSpotifyError";
 
 const spotifyConfig: ApiConfig = {

@@ -115,3 +115,5 @@ package-lock.json
 */yarn.lock
 
 *.gen.ts
+
+_mobile/
