@@ -1,3 +1,4 @@
+import { RNLink } from "@/components/Link";
 import { LoadingScreen } from "@/components/Loading";
 import { ResultEmptyScreen } from "@/components/Result";
 import { Spacer } from "@/components/Spacer";
@@ -5,11 +6,9 @@ import { UserListItem } from "@/components/User";
 import { RouteName } from "@/screens/types";
 import { Size } from "@/styles/spacing";
 import type { Maybe, User } from "@auralous/api";
-import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { useCallback } from "react";
 import type { ListRenderItem } from "react-native";
-import { FlatList, Pressable, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { UserFollowButton } from "./UserFollowButton";
 
 interface SocialUserListProps {
@@ -28,18 +27,14 @@ const styles = StyleSheet.create({
 });
 
 const UserItem: FC<{ user: User }> = ({ user }) => {
-  const navigation = useNavigation();
-
-  const onPress = useCallback(
-    () => navigation.navigate(RouteName.User, { username: user.username }),
-    [navigation, user]
-  );
-
   return (
     <View style={styles.itemRoot}>
-      <Pressable onPress={onPress} style={styles.itemInfo}>
+      <RNLink
+        to={{ screen: RouteName.User, params: { username: user.username } }}
+        style={styles.itemInfo}
+      >
         <UserListItem user={user} />
-      </Pressable>
+      </RNLink>
       <UserFollowButton id={user.id} />
     </View>
   );

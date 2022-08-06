@@ -1,4 +1,5 @@
 import { useContainerStyle } from "@/components/Container";
+import { RNLink } from "@/components/Link";
 import { SessionItem } from "@/components/Session";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
@@ -7,17 +8,11 @@ import { Size } from "@/styles/spacing";
 import { use6432Layout } from "@/ui-context";
 import type { Session } from "@auralous/api";
 import { useSessionsQuery } from "@auralous/api";
-import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { memo, useCallback, useState } from "react";
 import type { ListRenderItem } from "react-native";
-import {
-  Dimensions,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Dimensions, FlatList, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   item: {
@@ -31,17 +26,14 @@ const styles = StyleSheet.create({
 
 const RecommendationItem = memo<{ session: Session }>(
   function RecommendationItem({ session }) {
-    const navigation = useNavigation();
     const uiNumColumn = use6432Layout();
     return (
-      <TouchableOpacity
+      <RNLink
         style={[styles.item, { maxWidth: (1 / uiNumColumn) * 100 + "%" }]}
-        onPress={() =>
-          navigation.navigate(RouteName.Session, { id: session.id })
-        }
+        to={{ screen: RouteName.Session, params: { id: session.id } }}
       >
         <SessionItem session={session} />
-      </TouchableOpacity>
+      </RNLink>
     );
   }
 );

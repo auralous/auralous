@@ -1,6 +1,7 @@
 import { IconUser } from "@/assets";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
+import { RNLink } from "@/components/Link";
 import { Spacer } from "@/components/Spacer";
 import { TrackItem } from "@/components/Track";
 import { Text } from "@/components/Typography";
@@ -20,7 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import SessionMeta from "./SessionMeta";
 
 const styles = StyleSheet.create({
@@ -59,13 +60,11 @@ const SessionLiveListenersTag: FC<{ session: Session }> = ({ session }) => {
     },
   });
 
-  const navigation = useNavigation();
-  const viewListeners = useCallback(() => {
-    navigation.navigate(RouteName.SessionListeners, { id: session.id });
-  }, [navigation, session.id]);
-
   return (
-    <Pressable style={styles.tag} onPress={viewListeners}>
+    <RNLink
+      style={styles.tag}
+      to={{ screen: RouteName.SessionListeners, params: { id: session.id } }}
+    >
       <Text bold size="sm" style={styles.textLive}>
         {t("common.status.live")}{" "}
       </Text>
@@ -74,7 +73,7 @@ const SessionLiveListenersTag: FC<{ session: Session }> = ({ session }) => {
         {dataSessionListeners?.sessionListeners?.length || 0}
       </Text>
       <IconUser color={Colors.primaryText} width={12} height={12} />
-    </Pressable>
+    </RNLink>
   );
 };
 

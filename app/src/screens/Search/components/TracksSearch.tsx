@@ -1,5 +1,6 @@
 import { LoadingScreen } from "@/components/Loading";
 import { TrackItem } from "@/components/Track";
+import player from "@/player";
 import { useFlatlist6432Layout } from "@/styles/flatlist";
 import { Size } from "@/styles/spacing";
 import SearchEmpty from "@/views/SongSelector/SearchEmpty";
@@ -14,7 +15,15 @@ import { styles } from "./ItemsSearch.styles";
 
 const SearchItem = memo<{ track: Track }>(function SearchItem({ track }) {
   return (
-    <TouchableOpacity style={styles.itemOneCol}>
+    <TouchableOpacity
+      style={styles.itemOneCol}
+      onPress={() =>
+        player.playContext({
+          initialTracks: [track.id],
+          shuffle: false,
+        })
+      }
+    >
       <TrackItem track={track} />
     </TouchableOpacity>
   );

@@ -6,8 +6,9 @@ import {
   IconZap,
 } from "@/assets";
 import { Avatar } from "@/components/Avatar";
+import { RNLink } from "@/components/Link";
 import { Spacer } from "@/components/Spacer";
-import { RNLink, Text } from "@/components/Typography";
+import { Text } from "@/components/Typography";
 import { RouteName } from "@/screens/types";
 import { useRouteNames } from "@/screens/useRouteName";
 import { Colors } from "@/styles/colors";

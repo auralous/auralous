@@ -2,6 +2,7 @@ import { IconChevronDown } from "@/assets";
 import { Button } from "@/components/Button";
 import { useBackHandlerDismiss } from "@/components/Dialog";
 import { Header } from "@/components/Header";
+import { RNLink } from "@/components/Link";
 import { LoadingScreen } from "@/components/Loading";
 import { NullComponent } from "@/components/misc";
 import { Spacer } from "@/components/Spacer";
@@ -20,15 +21,12 @@ import {
   Suspense,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  useWindowDimensions,
-} from "react-native";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PlayerBar from "../PlayerBar";
 import PlayerViewBackground from "./PlayerViewBackground";
@@ -57,36 +55,40 @@ const styles = StyleSheet.create({
 const PlayerViewHeader: FC<{ onDismiss(): void }> = ({ onDismiss }) => {
   const { t } = useTranslation();
 
-  const navigation = useNavigation();
-
   const currentMeta = useCurrentPlaybackMeta();
 
-  const onHeaderTitlePress = useCallback(() => {
-    if (!currentMeta) return;
+  const to = useMemo(() => {
+    if (!currentMeta) return null;
     if (currentMeta.type === "session") {
-      navigation.navigate(RouteName.Session, { id: currentMeta.id });
+      return { screen: RouteName.Session, params: { id: currentMeta.id } };
     } else if (currentMeta.type === "playlist") {
-      navigation.navigate(RouteName.Playlist, { id: currentMeta.id });
+      return { screen: RouteName.Playlist, params: { id: currentMeta.id } };
     }
-  }, [currentMeta, navigation]);
+    return null;
+  }, [currentMeta]);
+
+  const innerElement = currentMeta ? (
+    <>
+      <Text size="xs" style={styles.playingFromText} align="center">
+        {t("player.playing_from", { entity: currentMeta.type })}
+      </Text>
+      <Spacer y={2} />
+      <Text size="sm" bold align="center">
+        {currentMeta.contextDescription}
+      </Text>
+    </>
+  ) : null;
 
   return (
     <Header
       title={
-        currentMeta ? (
-          <TouchableOpacity
-            style={styles.headerTitle}
-            onPress={onHeaderTitlePress}
-          >
-            <Text size="xs" style={styles.playingFromText} align="center">
-              {t("player.playing_from", { entity: currentMeta.type })}
-            </Text>
-            <Spacer y={2} />
-            <Text size="sm" bold align="center">
-              {currentMeta.contextDescription}
-            </Text>
-          </TouchableOpacity>
-        ) : null
+        to ? (
+          <RNLink style={styles.headerTitle} to={to}>
+            {innerElement}
+          </RNLink>
+        ) : (
+          <View style={styles.headerTitle}>{innerElement}</View>
+        )
       }
       left={
         <Button

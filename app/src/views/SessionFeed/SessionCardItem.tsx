@@ -3,21 +3,23 @@ import imageDefaultPlaylist from "@/assets/images/default_playlist.jpg";
 import imageDefaultUser from "@/assets/images/default_user.jpg";
 import { ContextMenuValue } from "@/components/BottomSheet";
 import { Image } from "@/components/Image";
+import { RNLink } from "@/components/Link";
 import Spacer from "@/components/Spacer/Spacer";
 import { Text } from "@/components/Typography";
 import player, {
   useIsCurrentPlaybackSelection,
   usePlaybackStateControlContext,
 } from "@/player";
+import { RouteName } from "@/screens/types";
 import { Colors } from "@/styles/colors";
 import { Size } from "@/styles/spacing";
 import { useTimeDiffFormatter, useUIDispatch } from "@/ui-context";
 import type { Session } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
 import type { FC } from "react";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
   creator: {
@@ -88,7 +90,10 @@ const SessionCardItemHeader: FC<{ session: Session }> = ({ session }) => {
   );
 
   return (
-    <View style={styles.header}>
+    <RNLink
+      style={styles.header}
+      to={{ screen: RouteName.Session, params: { id: session.id } }}
+    >
       <Image
         source={session.image ? { uri: session.image } : imageDefaultPlaylist}
         defaultSource={imageDefaultPlaylist}
@@ -118,7 +123,7 @@ const SessionCardItemHeader: FC<{ session: Session }> = ({ session }) => {
           <Text numberOfLines={1}>{session.creator.username}</Text>
         </View>
       </View>
-    </View>
+    </RNLink>
   );
 };
 
@@ -185,17 +190,11 @@ const SessionCardItemFooter: FC<{
 };
 
 const SessionCardItem: FC<SessionCardItemProps> = ({ session }) => {
-  const navigation = useNavigation();
-  const gotoSession = useCallback(
-    () => navigation.navigate("session", { id: session.id }),
-    [navigation, session.id]
-  );
-
   return (
-    <Pressable style={styles.root} onPress={gotoSession}>
+    <View style={styles.root}>
       <SessionCardItemHeader session={session} />
       <SessionCardItemFooter session={session} />
-    </Pressable>
+    </View>
   );
 };
 

@@ -1,5 +1,6 @@
+import { RNLink } from "@/components/Link";
 import { Spacer } from "@/components/Spacer";
-import { Heading, RNLink, Text } from "@/components/Typography";
+import { Heading, Text } from "@/components/Typography";
 import { Size } from "@/styles/spacing";
 import type { FC, PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";

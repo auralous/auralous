@@ -1,4 +1,5 @@
 import { useContainerStyle } from "@/components/Container";
+import { RNLink } from "@/components/Link";
 import { PlaylistItem } from "@/components/Playlist";
 import type { ParamList } from "@/screens/types";
 import { RouteName } from "@/screens/types";
@@ -7,12 +8,11 @@ import { Size } from "@/styles/spacing";
 import { use6432Layout } from "@/ui-context";
 import type { Playlist } from "@auralous/api";
 import { useRecommendationSectionQuery } from "@auralous/api";
-import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { FC } from "react";
 import { memo, useLayoutEffect } from "react";
 import type { ListRenderItem } from "react-native";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   item: {
@@ -26,17 +26,14 @@ const styles = StyleSheet.create({
 
 const RecommendationItem = memo<{ playlist: Playlist }>(
   function RecommendationItem({ playlist }) {
-    const navigation = useNavigation();
     const uiNumColumn = use6432Layout();
     return (
-      <TouchableOpacity
+      <RNLink
         style={[styles.item, { maxWidth: (1 / uiNumColumn) * 100 + "%" }]}
-        onPress={() =>
-          navigation.navigate(RouteName.Playlist, { id: playlist.id })
-        }
+        to={{ screen: RouteName.Playlist, params: { id: playlist.id } }}
       >
         <PlaylistItem playlist={playlist} />
-      </TouchableOpacity>
+      </RNLink>
     );
   }
 );
