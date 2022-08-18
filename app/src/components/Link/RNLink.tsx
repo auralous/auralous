@@ -1,12 +1,25 @@
 import { Link, useLinkProps } from "@react-navigation/native";
 import type { ComponentProps, FC } from "react";
-import { Platform, Pressable } from "react-native";
+import { Platform, Pressable, StyleSheet } from "react-native";
 
 const ReactNavigationLinkWeb: FC<ComponentProps<typeof Link>> = ({
   children,
   ...props
 }) => {
-  return <Link {...props}>{children}</Link>;
+  return (
+    <Link
+      {...props}
+      style={StyleSheet.compose(
+        {
+          display: "flex",
+          flexDirection: "column",
+        },
+        props.style
+      )}
+    >
+      {children}
+    </Link>
+  );
 };
 
 // Since styling in native does not work properly with Text
