@@ -3,10 +3,11 @@ import { LoadingScreen } from "@/components/Loading";
 import { TrackItem } from "@/components/Track";
 import { Size } from "@/styles/spacing";
 import type { Track } from "@auralous/api";
+import type { ListRenderItem } from "@shopify/flash-list";
+import { FlashList } from "@shopify/flash-list";
 import type { FC } from "react";
 import { memo, useCallback, useEffect, useState } from "react";
-import type { ListRenderItem } from "react-native";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSongSelectorContext } from "./Context";
 import SearchEmpty from "./SearchEmpty";
 
@@ -66,15 +67,8 @@ const SelectableTrackListItem: FC<{ track: Track }> = ({ track }) => {
 const MemoSelectableTrackListItem = memo(SelectableTrackListItem);
 
 const itemHeight = Size[12] + 2 * paddingVertical;
-const getItemLayout = (data: unknown, index: number) => ({
-  length: itemHeight,
-  offset: itemHeight * index,
-  index,
-});
-const renderItem: ListRenderItem<Track> = ({ item, index }) => {
-  return (
-    <MemoSelectableTrackListItem key={`${index}${item.id}`} track={item} />
-  );
+const renderItem: ListRenderItem<Track> = ({ item }) => {
+  return <MemoSelectableTrackListItem track={item} />;
 };
 
 const SelectableTrackList: FC<{
@@ -82,14 +76,11 @@ const SelectableTrackList: FC<{
   data: Track[];
 }> = ({ fetching, data }) => {
   return (
-    <FlatList
+    <FlashList
       ListEmptyComponent={fetching ? LoadingScreen : SearchEmpty}
       data={data || []}
       renderItem={renderItem}
-      getItemLayout={getItemLayout}
-      initialNumToRender={0}
-      removeClippedSubviews
-      windowSize={10}
+      estimatedItemSize={itemHeight}
     />
   );
 };

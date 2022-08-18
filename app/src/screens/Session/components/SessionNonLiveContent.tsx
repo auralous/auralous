@@ -15,11 +15,12 @@ import { Size } from "@/styles/spacing";
 import type { Session, Track } from "@auralous/api";
 import { useSessionTracksQuery } from "@auralous/api";
 import { useNavigation } from "@react-navigation/native";
+import type { ListRenderItem } from "@shopify/flash-list";
+import { FlashList } from "@shopify/flash-list";
 import type { FC } from "react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { ListRenderItem } from "react-native";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import SessionMeta from "./SessionMeta";
 
 const paddingVertical = Size[1.5];
@@ -30,9 +31,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: Size[3],
     paddingVertical,
-  },
-  root: {
-    flex: 1,
   },
   tag: {
     alignItems: "center",
@@ -94,11 +92,6 @@ const SessionTrackItem = memo<{
 });
 
 const itemHeight = Size[12] + 2 * paddingVertical;
-const getItemLayout = (data: unknown, index: number) => ({
-  length: itemHeight,
-  offset: itemHeight * index,
-  index,
-});
 
 const SessionNovLiveButtons: FC<{ session: Session }> = ({ session }) => {
   const { t } = useTranslation();
@@ -156,7 +149,6 @@ const SessionNonLiveContent: FC<{
   const renderItem = useCallback<ListRenderItem<Track>>(
     ({ item, index }) => (
       <SessionTrackItem
-        key={index}
         sessionId={session.id}
         track={item}
         index={index}
@@ -184,17 +176,13 @@ const SessionNonLiveContent: FC<{
     [session, t]
   );
   return (
-    <FlatList
+    <FlashList
       ListHeaderComponent={ListHeadComponent}
       ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
-      style={styles.root}
       contentContainerStyle={containerStyle}
       data={data?.sessionTracks || []}
       renderItem={renderItem}
-      getItemLayout={getItemLayout}
-      initialNumToRender={0}
-      removeClippedSubviews
-      windowSize={10}
+      estimatedItemSize={itemHeight}
     />
   );
 };

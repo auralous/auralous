@@ -10,10 +10,11 @@ import player, {
 import { Size } from "@/styles/spacing";
 import type { Playlist, Track } from "@auralous/api";
 import { usePlaylistTracksQuery } from "@auralous/api";
+import type { ListRenderItem } from "@shopify/flash-list";
+import { FlashList } from "@shopify/flash-list";
 import type { FC } from "react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import type { ListRenderItem } from "react-native";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import PlaylistMeta from "./PlaylistMeta";
 
 const paddingVertical = Size[1.5];
@@ -82,11 +83,6 @@ const PlaylistTrackItem = memo<{
 });
 
 const itemHeight = Size[12] + 2 * paddingVertical;
-const getItemLayout = (data: unknown, index: number) => ({
-  length: itemHeight,
-  offset: itemHeight * index,
-  index,
-});
 
 export const PlaylistScreenContent: FC<{
   playlist: Playlist;
@@ -108,7 +104,6 @@ export const PlaylistScreenContent: FC<{
     ({ item, index }) => {
       return (
         <PlaylistTrackItem
-          key={index}
           playlistId={playlist.id}
           isCurrentSelection={isCurrentSelection}
           track={item}
@@ -125,16 +120,14 @@ export const PlaylistScreenContent: FC<{
   );
   return (
     <View style={styles.root}>
-      <FlatList
+      <FlashList
         ListHeaderComponent={ListHeaderComponent}
         ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
         contentContainerStyle={containerStyle}
         data={data?.playlistTracks || []}
         renderItem={renderItem}
-        getItemLayout={getItemLayout}
-        initialNumToRender={0}
+        estimatedItemSize={itemHeight}
         removeClippedSubviews
-        windowSize={10}
       />
     </View>
   );

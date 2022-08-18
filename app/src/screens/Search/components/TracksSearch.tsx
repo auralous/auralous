@@ -6,11 +6,11 @@ import { Size } from "@/styles/spacing";
 import SearchEmpty from "@/views/SongSelector/SearchEmpty";
 import type { Track } from "@auralous/api";
 import { useSearchTrackQuery } from "@auralous/api";
+import type { ListRenderItem } from "@shopify/flash-list";
+import { FlashList } from "@shopify/flash-list";
 import type { FC } from "react";
 import { memo } from "react";
-import type { ListRenderItem } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { styles } from "./ItemsSearch.styles";
 
 const SearchItem = memo<{ track: Track }>(function SearchItem({ track }) {
@@ -30,15 +30,10 @@ const SearchItem = memo<{ track: Track }>(function SearchItem({ track }) {
 });
 
 const renderItem: ListRenderItem<Track> = ({ item }) => (
-  <SearchItem track={item} key={item.id} />
+  <SearchItem track={item} />
 );
 
 const itemHeight = Size[12] + 2 * Size[2];
-const getItemLayout = (data: unknown, index: number) => ({
-  length: itemHeight,
-  offset: itemHeight * index,
-  index,
-});
 
 const TracksSearch: FC<{ query: string }> = ({ query }) => {
   const [{ data: dataQuery, fetching }] = useSearchTrackQuery({
@@ -48,14 +43,12 @@ const TracksSearch: FC<{ query: string }> = ({ query }) => {
   const { data, numColumns } = useFlatlist6432Layout(dataQuery?.searchTrack);
 
   return (
-    <FlatList
+    <FlashList
       key={numColumns}
       renderItem={renderItem}
       data={data}
-      style={styles.root}
-      contentContainerStyle={styles.horPad}
       ListEmptyComponent={fetching ? LoadingScreen : SearchEmpty}
-      getItemLayout={getItemLayout}
+      estimatedItemSize={itemHeight}
     />
   );
 };

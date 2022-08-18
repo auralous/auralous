@@ -8,12 +8,12 @@ export const styles = StyleSheet.create({
   item: {
     flex: 1,
     padding: Size[2],
+    paddingHorizontal: Size[6],
   },
   itemOneCol: {
+    paddingHorizontal: Size[6],
     paddingVertical: Size[2],
     width: "100%",
   },
-  root: {
-    flex: 1,
-  },
+  root: { flex: 1 },
 });

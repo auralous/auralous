@@ -3,10 +3,11 @@ import { PlaylistListItem } from "@/components/Playlist";
 import { ResultEmptyScreen } from "@/components/Result";
 import { Size } from "@/styles/spacing";
 import type { Playlist } from "@auralous/api";
+import type { ListRenderItem } from "@shopify/flash-list";
+import { FlashList } from "@shopify/flash-list";
 import type { FC } from "react";
 import { useCallback } from "react";
-import type { ListRenderItem } from "react-native";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 interface SelectablePlaylistListProps {
   fetching: boolean;
@@ -21,11 +22,6 @@ const styles = StyleSheet.create({
 });
 
 const itemHeight = Size[12] + 2 * paddingVertical;
-const getItemLayout = (data: unknown, index: number) => ({
-  length: itemHeight,
-  offset: itemHeight * index,
-  index,
-});
 
 const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
   fetching,
@@ -34,11 +30,7 @@ const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
 }) => {
   const renderItem = useCallback<ListRenderItem<Playlist>>(
     ({ item }) => (
-      <TouchableOpacity
-        key={item.id}
-        style={styles.item}
-        onPress={() => onSelect(item)}
-      >
+      <TouchableOpacity style={styles.item} onPress={() => onSelect(item)}>
         <PlaylistListItem playlist={item} />
       </TouchableOpacity>
     ),
@@ -46,14 +38,11 @@ const SelectablePlaylistList: FC<SelectablePlaylistListProps> = ({
   );
 
   return (
-    <FlatList
+    <FlashList
       ListEmptyComponent={fetching ? LoadingScreen : ResultEmptyScreen}
       data={playlists}
       renderItem={renderItem}
-      getItemLayout={getItemLayout}
-      initialNumToRender={0}
-      removeClippedSubviews
-      windowSize={10}
+      estimatedItemSize={itemHeight}
     />
   );
 };
