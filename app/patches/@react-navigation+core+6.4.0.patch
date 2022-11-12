@@ -1,0 +1,70 @@
+diff --git a/node_modules/@react-navigation/core/lib/typescript/src/types.d.ts b/node_modules/@react-navigation/core/lib/typescript/src/types.d.ts
+index a116b25..e0c9343 100644
+--- a/node_modules/@react-navigation/core/lib/typescript/src/types.d.ts
++++ b/node_modules/@react-navigation/core/lib/typescript/src/types.d.ts
+@@ -142,13 +142,13 @@ declare type NavigationHelpersCommon<ParamList extends ParamListBase, State exte
+      * @param name Name of the route to navigate to.
+      * @param [params] Params object for the route.
+      */
+-    navigate<RouteName extends keyof ParamList>(...args: RouteName extends unknown ? undefined extends ParamList[RouteName] ? [screen: RouteName] | [screen: RouteName, params: ParamList[RouteName]] : [screen: RouteName, params: ParamList[RouteName]] : never): void;
++    navigate<RouteName extends keyof ParamList>(...args: undefined extends ParamList[RouteName] ? [screen: RouteName] | [screen: RouteName, params: ParamList[RouteName]] : [screen: RouteName, params: ParamList[RouteName]]): void;
+     /**
+      * Navigate to a route in current navigation tree.
+      *
+      * @param route Object with `key` or `name` for the route to navigate to, and a `params` object.
+      */
+-    navigate<RouteName extends keyof ParamList>(options: RouteName extends unknown ? {
++    navigate<RouteName extends keyof ParamList>(options: {
+         key: string;
+         params?: ParamList[RouteName];
+         merge?: boolean;
+@@ -157,7 +157,7 @@ declare type NavigationHelpersCommon<ParamList extends ParamListBase, State exte
+         key?: string;
+         params: ParamList[RouteName];
+         merge?: boolean;
+-    } : never): void;
++    }): void;
+     /**
+      * Reset the navigation state to the provided state.
+      *
+@@ -247,7 +247,7 @@ export declare type NavigationProp<ParamList extends {}, RouteName extends keyof
+      *
+      * @param params Params object for the current route.
+      */
+-    setParams(params: ParamList[RouteName] extends undefined ? undefined : Partial<ParamList[RouteName]>): void;
++    setParams(params: Partial<ParamList[RouteName]>): void;
+     /**
+      * Update the options for the route.
+      * The options object will be shallow merged with default options object.
+@@ -316,22 +316,18 @@ export declare type Descriptor<ScreenOptions extends {}, Navigation extends Navi
+ export declare type ScreenListeners<State extends NavigationState, EventMap extends EventMapBase> = Partial<{
+     [EventName in keyof (EventMap & EventMapCore<State>)]: EventListenerCallback<EventMap, EventName>;
+ }>;
+-declare type ScreenComponentType<ParamList extends ParamListBase, RouteName extends keyof ParamList> = React.ComponentType<{
+-    route: RouteProp<ParamList, RouteName>;
+-    navigation: any;
+-}> | React.ComponentType<{}>;
+ export declare type RouteConfigComponent<ParamList extends ParamListBase, RouteName extends keyof ParamList> = {
+     /**
+      * React component to render for this screen.
+      */
+-    component: ScreenComponentType<ParamList, RouteName>;
++    component: React.ComponentType<any>;
+     getComponent?: never;
+     children?: never;
+ } | {
+     /**
+      * Lazily get a React component to render for this screen.
+      */
+-    getComponent: () => ScreenComponentType<ParamList, RouteName>;
++    getComponent: () => React.ComponentType<any>;
+     component?: never;
+     children?: never;
+ } | {
+@@ -518,4 +514,5 @@ export declare type PathConfig<ParamList extends {}> = {
+ export declare type PathConfigMap<ParamList extends {}> = {
+     [RouteName in keyof ParamList]?: NonNullable<ParamList[RouteName]> extends NavigatorScreenParams<infer T, any> ? string | PathConfig<T> : string | Omit<PathConfig<{}>, 'screens' | 'initialRouteName'>;
+ };
+-export {};
++export { };
++

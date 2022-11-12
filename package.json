@@ -27,25 +27,25 @@
     "clean": "yarn workspaces run clean"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.20.0",
-    "@typescript-eslint/parser": "^5.20.0",
-    "concurrently": "^7.3.0",
-    "eslint": "^8.21.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "concurrently": "^7.5.0",
+    "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
     "get-yarn-workspaces": "^1.0.2",
     "pkg-dir": "^5.0.0",
     "prettier": "^2.7.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.4"
   },
   "dependencies": {
-    "patch-package": "^6.4.7",
+    "patch-package": "^6.5.0",
     "postinstall-postinstall": "^2.1.0"
   },
   "resolutions": {
-    "@types/react": "18"
+    "@types/react": "18.0.25"
   }
 }
