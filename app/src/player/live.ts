@@ -46,6 +46,9 @@ export function registerLivePlayback(
   const client = player.gqlClient;
   let nowPlaying: NowPlaying | undefined;
 
+  let waitPlayTimeout: ReturnType<typeof setTimeout>;
+  let queryNPTimer: ReturnType<typeof setTimeout>;
+
   function updateNowPlaying(nextNowPlaying: NowPlaying) {
     nowPlaying = nextNowPlaying;
     player.setStateQueue({
@@ -66,6 +69,7 @@ export function registerLivePlayback(
     ),
     subscribe((result) => {
       if (result.data?.nowPlaying) {
+        clearTimeout(queryNPTimer);
         updateNowPlaying(result.data.nowPlaying);
       }
     })
@@ -140,7 +144,6 @@ export function registerLivePlayback(
 
   player.registerPlayback(playbackHandle);
 
-  let waitPlayTimeout: ReturnType<typeof setTimeout>;
   function onPlay() {
     clearTimeout(waitPlayTimeout);
     if (!nowPlaying) return;
@@ -159,15 +162,17 @@ export function registerLivePlayback(
   function onEnded() {
     // we dont really care about the result of this call,
     // it is just to force revalidation of the now playing query
-
-    client
-      .query<NowPlayingQuery, NowPlayingQueryVariables>(
-        NowPlayingDocument,
-        { id },
-        { requestPolicy: "cache-and-network" }
-      )
-      .toPromise()
-      .catch();
+    clearTimeout(queryNPTimer);
+    queryNPTimer = setTimeout(() => {
+      client
+        .query<NowPlayingQuery, NowPlayingQueryVariables>(
+          NowPlayingDocument,
+          { id },
+          { requestPolicy: "cache-and-network" }
+        )
+        .toPromise()
+        .catch();
+    }, 1500);
   }
   // we want to refetch to check if nowPlaying has been updated
   // although we already are notified in ws, it is possible that
@@ -200,6 +205,7 @@ export function registerLivePlayback(
   // cleanup
   return () => {
     clearTimeout(waitPlayTimeout);
+    clearTimeout(queryNPTimer);
     player.off("play", onPlay);
     player.off("ended", onPlay);
     unsubscribeSession();
