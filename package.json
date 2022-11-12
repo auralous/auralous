@@ -46,6 +46,6 @@
     "postinstall-postinstall": "^2.1.0"
   },
   "resolutions": {
-    "@types/react": "18"
+    "@types/react": "18.0.25"
   }
 }
